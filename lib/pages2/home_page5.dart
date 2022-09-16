@@ -80,6 +80,7 @@ import 'package:esc_pos_utils_plus/esc_pos_utils.dart' as posUtils;
 import 'first_launch_page.dart';
 import 'notificationservice.dart';
 import 'transparent.dart';
+import 'package:countup/countup.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -3190,191 +3191,191 @@ class HomePageState extends State<HomePage>
                                                                       width: double.infinity,
                                                                       child: Stack(
                                                                         children: [
-                                                                           Padding(
-                                                                                    padding: const EdgeInsets.only(
-                                                                                        top: 67.0,
-                                                                                        left: 0.0,
-                                                                                        right: 0.0,
-                                                                                        bottom: 138),
-                                                                                    child: Container(
-                                                                                        child: ListView(
-                                                                                          padding: const EdgeInsets.only(
-                                                                                              top: 0.0,
-                                                                                              left: 0.0,
-                                                                                              right: 0.0,
-                                                                                              bottom: 0),
-                                                                                          children: [
-                                                                                            Stack(
+                                                                          Padding(
+                                                                            padding: const EdgeInsets.only(
+                                                                                top: 67.0,
+                                                                                left: 0.0,
+                                                                                right: 0.0,
+                                                                                bottom: 138),
+                                                                            child: Container(
+                                                                                child: ListView(
+                                                                                  padding: const EdgeInsets.only(
+                                                                                      top: 0.0,
+                                                                                      left: 0.0,
+                                                                                      right: 0.0,
+                                                                                      bottom: 0),
+                                                                                  children: [
+                                                                                    Stack(
+                                                                                      children: [
+                                                                                        Container(
+                                                                                          child: Padding(
+                                                                                            padding: const EdgeInsets.only(top: 20.0),
+                                                                                            child: Column(
                                                                                               children: [
-                                                                                                Container(
+                                                                                                GestureDetector(
+                                                                                                  onTap: () {
+                                                                                                    setState(() {
+                                                                                                      customerId = 'name^name';
+                                                                                                    });
+                                                                                                  },
                                                                                                   child: Padding(
-                                                                                                    padding: const EdgeInsets.only(top: 20.0),
-                                                                                                    child: Column(
+                                                                                                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                                                                                    child: Row(
                                                                                                       children: [
-                                                                                                        GestureDetector(
-                                                                                                          onTap: () {
-                                                                                                            setState(() {
-                                                                                                              customerId = 'name^name';
-                                                                                                            });
-                                                                                                          },
-                                                                                                          child: Padding(
-                                                                                                            padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                                                                                            child: Row(
-                                                                                                              children: [
-                                                                                                                SizedBox(width: 1),
-                                                                                                                Container(
-                                                                                                                  height: 58,
-                                                                                                                  width: 58,
-                                                                                                                  decoration: BoxDecoration(
-                                                                                                                      borderRadius:
-                                                                                                                      BorderRadius.circular(
-                                                                                                                          5.0),
-                                                                                                                      color: AppTheme.buttonColor2
-                                                                                                                  ),
-                                                                                                                  child: Icon(
-                                                                                                                    SmartKyat_POS.order,
-                                                                                                                    size: 25,
-                                                                                                                  ),
-                                                                                                                ),
-                                                                                                                SizedBox(width: 15),
-                                                                                                                Column(
-                                                                                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                                                                                  children: [
-                                                                                                                    Text(customerId.split('^')[1].toString() == 'name' ? textSetNoCust : customerId.split('^')[1] ,textScaleFactor: 1, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),),
-                                                                                                                    // Text(customerId.split('^')[1].toString() == 'name' ? 'Unknown' : address,
-                                                                                                                    //     style: TextStyle(
-                                                                                                                    //       fontSize: 14,
-                                                                                                                    //       color: Colors.grey
-                                                                                                                    //     )),
-                                                                                                                  ],
-                                                                                                                )
-                                                                                                              ],
-                                                                                                            ),
+                                                                                                        SizedBox(width: 1),
+                                                                                                        Container(
+                                                                                                          height: 58,
+                                                                                                          width: 58,
+                                                                                                          decoration: BoxDecoration(
+                                                                                                              borderRadius:
+                                                                                                              BorderRadius.circular(
+                                                                                                                  5.0),
+                                                                                                              color: AppTheme.buttonColor2
+                                                                                                          ),
+                                                                                                          child: Icon(
+                                                                                                            SmartKyat_POS.order,
+                                                                                                            size: 25,
                                                                                                           ),
                                                                                                         ),
-                                                                                                        SizedBox(height: 8,),
-                                                                                                        Padding(
-                                                                                                          padding: const EdgeInsets.only(left: 15.0),
-                                                                                                          child: Container(height: 12,
-                                                                                                            decoration: BoxDecoration(
-                                                                                                                border: Border(
-                                                                                                                  bottom:
-                                                                                                                  BorderSide(color: AppTheme.skBorderColor2, width: 0.5),
-                                                                                                                )),),
-                                                                                                        ),
-
+                                                                                                        SizedBox(width: 15),
+                                                                                                        Column(
+                                                                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                          children: [
+                                                                                                            Text(customerId.split('^')[1].toString() == 'name' ? textSetNoCust : customerId.split('^')[1] ,textScaleFactor: 1, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),),
+                                                                                                            // Text(customerId.split('^')[1].toString() == 'name' ? 'Unknown' : address,
+                                                                                                            //     style: TextStyle(
+                                                                                                            //       fontSize: 14,
+                                                                                                            //       color: Colors.grey
+                                                                                                            //     )),
+                                                                                                          ],
+                                                                                                        )
                                                                                                       ],
                                                                                                     ),
                                                                                                   ),
                                                                                                 ),
-                                                                                                customerId != 'name^name' ? Positioned(
-                                                                                                  top : 11,
-                                                                                                  right: MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 80,
-                                                                                                  child: GestureDetector(
-                                                                                                    onTap: () {
-                                                                                                      setState(() {
-                                                                                                        customerId = 'name^name';
-                                                                                                      });
-                                                                                                    },
-                                                                                                    child: Container(
-                                                                                                      // height: 20,
-                                                                                                      // width: 30,
-                                                                                                      alignment: Alignment.center,
-                                                                                                      decoration: BoxDecoration(
-                                                                                                          color: Color(0xffE9625E),
-                                                                                                          borderRadius:
-                                                                                                          BorderRadius.circular(
-                                                                                                              10.0),
-                                                                                                          border: Border.all(
-                                                                                                            color: Colors.white,
-                                                                                                            width: 2,
-                                                                                                          )),
-                                                                                                      child: Padding(
-                                                                                                        padding: const EdgeInsets.only(left: 5.0, right: 5.0, top: 1, bottom: 1),
-                                                                                                        child: Icon(
-                                                                                                          Icons.close_rounded,
-                                                                                                          size: 13,
-                                                                                                          color: Colors.white,
-                                                                                                        ),
-                                                                                                      ),
-                                                                                                    ),
-                                                                                                  ),
-                                                                                                ): Container(),
+                                                                                                SizedBox(height: 8,),
+                                                                                                Padding(
+                                                                                                  padding: const EdgeInsets.only(left: 15.0),
+                                                                                                  child: Container(height: 12,
+                                                                                                    decoration: BoxDecoration(
+                                                                                                        border: Border(
+                                                                                                          bottom:
+                                                                                                          BorderSide(color: AppTheme.skBorderColor2, width: 0.5),
+                                                                                                        )),),
+                                                                                                ),
+
                                                                                               ],
                                                                                             ),
-                                                                                            for (int i = 0; i < prodList.length; i++)
-                                                                                              prodInCartTab(prodList[i], i),
-                                                                                            Slidable(
-                                                                                              key: UniqueKey(),
-                                                                                              actionPane:
-                                                                                              SlidableDrawerActionPane(),
-                                                                                              actionExtentRatio:
-                                                                                              0.25,
-
-                                                                                              child: Container(
-                                                                                                color: Colors.white,
-                                                                                                child: Column(
-                                                                                                  children: [
-                                                                                                    discount != 0.0 ? Container(
-                                                                                                      child: isDiscount == 'percent' ?
-                                                                                                      ListTile(
-                                                                                                        title: Text(VDiscount, textScaleFactor: 1, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                                                                                        subtitle: Text('Percentage (' +  discountAmount.toString() + '%)', textScaleFactor: 1, style: TextStyle(
-                                                                                                            fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey
-                                                                                                        )),
-                                                                                                        trailing: Text('- $currencyUnit ' + (double.parse(TtlProdListPriceInit()) - double.parse(TtlProdListPrice())).toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), textScaleFactor: 1, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-
-                                                                                                      ) :  ListTile (
-                                                                                                        title: Text('Discount', textScaleFactor: 1,style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                                                                                        subtitle: Text('Amount applied',textScaleFactor: 1, style: TextStyle(
-                                                                                                            fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey
-                                                                                                        )),
-                                                                                                        trailing: Text('- $currencyUnit ' + discount.toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), textScaleFactor: 1, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                                                                                      ),
-                                                                                                    ) : Container(),
-                                                                                                  ],
+                                                                                          ),
+                                                                                        ),
+                                                                                        customerId != 'name^name' ? Positioned(
+                                                                                          top : 11,
+                                                                                          right: MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 80,
+                                                                                          child: GestureDetector(
+                                                                                            onTap: () {
+                                                                                              setState(() {
+                                                                                                customerId = 'name^name';
+                                                                                              });
+                                                                                            },
+                                                                                            child: Container(
+                                                                                              // height: 20,
+                                                                                              // width: 30,
+                                                                                              alignment: Alignment.center,
+                                                                                              decoration: BoxDecoration(
+                                                                                                  color: Color(0xffE9625E),
+                                                                                                  borderRadius:
+                                                                                                  BorderRadius.circular(
+                                                                                                      10.0),
+                                                                                                  border: Border.all(
+                                                                                                    color: Colors.white,
+                                                                                                    width: 2,
+                                                                                                  )),
+                                                                                              child: Padding(
+                                                                                                padding: const EdgeInsets.only(left: 5.0, right: 5.0, top: 1, bottom: 1),
+                                                                                                child: Icon(
+                                                                                                  Icons.close_rounded,
+                                                                                                  size: 13,
+                                                                                                  color: Colors.white,
                                                                                                 ),
                                                                                               ),
-                                                                                              dismissal:
-                                                                                              SlidableDismissal(
-                                                                                                child: SlidableDrawerDismissal(),
-                                                                                                onDismissed:
-                                                                                                    (actionType) {
-                                                                                                  // mystate(() {
-                                                                                                  //   discountAmount = 0.0;
-                                                                                                  //   discount = 0.0;
-                                                                                                  // });
-                                                                                                  setState(() {
-                                                                                                    discountAmount = 0.0;
-                                                                                                    discount = 0.0;
-                                                                                                  });
-                                                                                                },
-                                                                                              ),
-                                                                                              secondaryActions: <
-                                                                                                  Widget>[
-                                                                                                IconSlideAction(
-                                                                                                    caption: 'Delete',
-                                                                                                    color: Colors.red,
-                                                                                                    icon:
-                                                                                                    Icons.delete,
-                                                                                                    onTap: () {
-                                                                                                      setState(() {
-                                                                                                        discountAmount = 0.0;
-                                                                                                        discount =0.0;
-                                                                                                      });
-                                                                                                    }
-
-                                                                                                ),
-                                                                                              ],
                                                                                             ),
-
-
-                                                                                            // orderLoading?Text('Loading'):Text('')
-                                                                                          ],
-                                                                                        )
+                                                                                          ),
+                                                                                        ): Container(),
+                                                                                      ],
                                                                                     ),
-                                                                                  ),
+                                                                                    for (int i = 0; i < prodList.length; i++)
+                                                                                      prodInCartTab(prodList[i], i),
+                                                                                    Slidable(
+                                                                                      key: UniqueKey(),
+                                                                                      actionPane:
+                                                                                      SlidableDrawerActionPane(),
+                                                                                      actionExtentRatio:
+                                                                                      0.25,
+
+                                                                                      child: Container(
+                                                                                        color: Colors.white,
+                                                                                        child: Column(
+                                                                                          children: [
+                                                                                            discount != 0.0 ? Container(
+                                                                                              child: isDiscount == 'percent' ?
+                                                                                              ListTile(
+                                                                                                title: Text(VDiscount, textScaleFactor: 1, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                                                                subtitle: Text('Percentage (' +  discountAmount.toString() + '%)', textScaleFactor: 1, style: TextStyle(
+                                                                                                    fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey
+                                                                                                )),
+                                                                                                trailing: Text('- $currencyUnit ' + (double.parse(TtlProdListPriceInit()) - double.parse(TtlProdListPrice())).toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), textScaleFactor: 1, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+
+                                                                                              ) :  ListTile (
+                                                                                                title: Text('Discount', textScaleFactor: 1,style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                                                                subtitle: Text('Amount applied',textScaleFactor: 1, style: TextStyle(
+                                                                                                    fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey
+                                                                                                )),
+                                                                                                trailing: Text('- $currencyUnit ' + discount.toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), textScaleFactor: 1, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                                                              ),
+                                                                                            ) : Container(),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                      dismissal:
+                                                                                      SlidableDismissal(
+                                                                                        child: SlidableDrawerDismissal(),
+                                                                                        onDismissed:
+                                                                                            (actionType) {
+                                                                                          // mystate(() {
+                                                                                          //   discountAmount = 0.0;
+                                                                                          //   discount = 0.0;
+                                                                                          // });
+                                                                                          setState(() {
+                                                                                            discountAmount = 0.0;
+                                                                                            discount = 0.0;
+                                                                                          });
+                                                                                        },
+                                                                                      ),
+                                                                                      secondaryActions: <
+                                                                                          Widget>[
+                                                                                        IconSlideAction(
+                                                                                            caption: 'Delete',
+                                                                                            color: Colors.red,
+                                                                                            icon:
+                                                                                            Icons.delete,
+                                                                                            onTap: () {
+                                                                                              setState(() {
+                                                                                                discountAmount = 0.0;
+                                                                                                discount =0.0;
+                                                                                              });
+                                                                                            }
+
+                                                                                        ),
+                                                                                      ],
+                                                                                    ),
+
+
+                                                                                    // orderLoading?Text('Loading'):Text('')
+                                                                                  ],
+                                                                                )
+                                                                            ),
+                                                                          ),
                                                                           Container(
                                                                             height: 67,
                                                                             decoration: BoxDecoration(
@@ -4317,381 +4318,381 @@ class HomePageState extends State<HomePage>
                                                                                                     );
                                                                                                   } else {
 
-                                                                                                  discountAmount = discount;
-                                                                                                 // now = now.subtract(Duration(minutes: calHourFromTZ(now)));
-                                                                                                  //CollectionReference daily_order = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders');
-                                                                                                  int length = 0;
-                                                                                                  int totalOrders = 0;
-                                                                                                  int debts = 0;
-                                                                                                  bool reFilter = false;
-                                                                                                  bool deFilter = false;
-                                                                                                  String ttlPrice = '0';
-                                                                                                  double debtAmounts = 0;
-                                                                                                  debugPrint('order creating');
-                                                                                                  setState(() {
-                                                                                                    orderCreating = true;
-                                                                                                    disableTouch = true;
-                                                                                                  });
-
-                                                                                                  DocumentReference nonceRef = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('nonce_doc').collection('nonce_col').doc();
-                                                                                                  batch.set(nonceRef, {
-                                                                                                    'time': FieldValue.serverTimestamp(),
-                                                                                                  });
-
-                                                                                                  FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('ordsCnt')
-                                                                                                      .get().then((value) async {
-                                                                                                    length = int.parse(value.data()!['count'].toString());
-                                                                                                    debugPrint('lengthsss' + length.toString());
-                                                                                                    length = length + 1;
-
+                                                                                                    discountAmount = discount;
+                                                                                                    // now = now.subtract(Duration(minutes: calHourFromTZ(now)));
+                                                                                                    //CollectionReference daily_order = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('orders');
+                                                                                                    int length = 0;
+                                                                                                    int totalOrders = 0;
+                                                                                                    int debts = 0;
+                                                                                                    bool reFilter = false;
+                                                                                                    bool deFilter = false;
+                                                                                                    String ttlPrice = '0';
+                                                                                                    double debtAmounts = 0;
+                                                                                                    debugPrint('order creating');
                                                                                                     setState(() {
-                                                                                                      tabletOrders = length;
+                                                                                                      orderCreating = true;
+                                                                                                      disableTouch = true;
                                                                                                     });
 
-                                                                                                    debugPrint('CHECK POINT 0' + deviceIdNum.toString());
-                                                                                                    debugPrint('CHECK POINT 1');
+                                                                                                    DocumentReference nonceRef = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('nonce_doc').collection('nonce_col').doc();
+                                                                                                    batch.set(nonceRef, {
+                                                                                                      'time': FieldValue.serverTimestamp(),
+                                                                                                    });
 
-                                                                                                    batch = await updateOrderLength(batch);
-                                                                                                    ttlPrice = TtlProdListPrice();
-                                                                                                    subList = [];
-                                                                                                    DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('prodSaleData').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()));
+                                                                                                    FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('ordsCnt')
+                                                                                                        .get().then((value) async {
+                                                                                                      length = int.parse(value.data()!['count'].toString());
+                                                                                                      debugPrint('lengthsss' + length.toString());
+                                                                                                      length = length + 1;
 
-                                                                                                    DocumentReference prodsMonthly = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('prodMthData').doc(now.year.toString() + zeroToTen(now.month.toString()));
-
-                                                                                                    DocumentReference prodsYearly = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('prodYearData').doc(now.year.toString());
-
-                                                                                                    for (int k=0; k< prodList.length;  k++) {
-                                                                                                      //CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
-
-                                                                                                      subList.add(prodList[k].split('^')[0] + '^' + prodList[k].split('^')[6] + '^' + prodList[k].split('^')[7] + '^' + prodList[k].split('^')[4] +'^' + prodList[k].split('^')[2] + '^' + prodList[k].split('^')[3] +'^' + prodList[k].split('^')[1] + '^0^' + prodList[k].split('^')[8]);
-
-                                                                                                      // productsFire.doc(prodList[k].split('^')[0])
-                                                                                                      //     .get().then((val22) async {
-                                                                                                      //
-                                                                                                      // });
-
-                                                                                                      // List<String> subLink = [];
-                                                                                                      // List<String> subName = [];
-                                                                                                      // List<double> subStock = [];
-
-                                                                                                      // var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(prodList[k].split('^')[0])
-                                                                                                      //     .get();
-
-
-
-                                                                                                      // for(int i = 0; i < double.parse(data10 ? ["sub_exist"]) + 1; i++) {
-                                                                                                      //   subLink.add(data10 ? ['sub' + (i+1).toString() + '_link']);
-                                                                                                      //   subName.add(data10 ? ['sub' + (i+1).toString() + '_name']);
-                                                                                                      //   debugPrint('inStock' + (i+1).toString());
-                                                                                                      //   debugPrint(' CHECKING ' + (data10 ? ['mainSellUnit']).toString());
-                                                                                                      //   subStock.add(double.parse((data10 ? ['inStock' + (i+1).toString()]).toString()));
-                                                                                                      // }
-
-                                                                                                      // debugPrint(subStock.toString());
-                                                                                                      debugPrint('decStock ' + prodList[k].split('^')[0].toString() + ' ' + prodList[k].split('^')[3]);
-
-                                                                                                      if(prodList[k].split('^')[3] == 'unit_name') {
-                                                                                                        batch = await decStockFromInv(batch, prodList[k].split('^')[0], 'im', prodList[k].split('^')[4]);
-
-                                                                                                        batch.set(
-                                                                                                            prodsArr,
-                                                                                                            {
-                                                                                                              'date' : now,
-                                                                                                              'prods': {
-                                                                                                                prodList[k].split('^')[0].toString(): {
-                                                                                                                  'im': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
-                                                                                                                  'sm' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
-                                                                                                                  'bm' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString())),
-                                                                                                                }
-                                                                                                              }
-                                                                                                            },SetOptions(merge: true)
-                                                                                                        );
-
-                                                                                                        batch.set(
-                                                                                                            prodsMonthly,
-                                                                                                            {
-                                                                                                              'date' : now,
-                                                                                                              'prods': {
-                                                                                                                prodList[k].split('^')[0].toString(): {
-                                                                                                                  'im': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
-                                                                                                                  'sm' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
-                                                                                                                  'bm' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
-                                                                                                                }
-                                                                                                              }
-                                                                                                            },SetOptions(merge: true)
-                                                                                                        );
-
-                                                                                                        batch.set(
-                                                                                                            prodsYearly,
-                                                                                                            {
-                                                                                                              'date' : now,
-                                                                                                              'prods': {
-                                                                                                                prodList[k].split('^')[0].toString(): {
-                                                                                                                  'im': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
-                                                                                                                  'sm' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
-                                                                                                                  'bm' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
-
-                                                                                                                }
-                                                                                                              }
-                                                                                                            },SetOptions(merge: true)
-                                                                                                        );
-                                                                                                        debugPrint('decStock ' + prodList[k].split('^')[0].toString());
-                                                                                                        //decStockFromInv(str.split('^')[0], 'main', str.split('^')[4]);
-                                                                                                        //batch = await updateB2(batch, prodList[k].split('^')[0], double.parse(prodList[k].split('^')[4].toString()));
-                                                                                                        // if ( k == prodList.length-1) {
-                                                                                                        //   batch.commit();
-                                                                                                        // }
-                                                                                                        //debugPrint('batch complete');
-                                                                                                        // prodSaleData(str.split('^')[0], double.parse(str.split('^')[4].toString()));
-                                                                                                      }
-                                                                                                      else if(prodList[k].split('^')[3] == 'sub1_name') {
-                                                                                                        debugPrint('decStock1 ' + prodList[k].split('^')[9].toString());
-                                                                                                        batch = await sub1Execution(batch, prodList[k].split('^')[9], prodList[k].split('^')[10], prodList[k].split('^')[0], prodList[k].split('^')[4]);
-                                                                                                        batch.set(
-                                                                                                            prodsArr,
-                                                                                                            {
-                                                                                                              'date' : now,
-                                                                                                              'prods': {
-                                                                                                                prodList[k].split('^')[0].toString(): {
-                                                                                                                  'i1': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
-                                                                                                                  's1' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
-                                                                                                                  'b1' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
-
-                                                                                                                }
-                                                                                                              }
-                                                                                                            },SetOptions(merge: true)
-                                                                                                        );
-                                                                                                        batch.set(
-                                                                                                            prodsMonthly,
-                                                                                                            {
-                                                                                                              'date' : now,
-                                                                                                              'prods': {
-                                                                                                                prodList[k].split('^')[0].toString(): {
-                                                                                                                  'i1': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
-                                                                                                                  's1' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
-                                                                                                                  'b1' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
-
-                                                                                                                }
-                                                                                                              }
-                                                                                                            },SetOptions(merge: true)
-                                                                                                        );
-
-                                                                                                        batch.set(
-                                                                                                            prodsYearly,
-                                                                                                            {
-                                                                                                              'date' : now,
-                                                                                                              'prods': {
-                                                                                                                prodList[k].split('^')[0].toString(): {
-                                                                                                                  'i1': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
-                                                                                                                  's1' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
-                                                                                                                  'b1' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
-
-                                                                                                                }
-                                                                                                              }
-                                                                                                            },SetOptions(merge: true)
-                                                                                                        );
-                                                                                                        // productsFire.doc(prodList[k].split('^')[0]).update({
-                                                                                                        //   'sub1SellUnit' : FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
-                                                                                                        //});
-                                                                                                      }
-                                                                                                      else if(prodList[k].split('^')[3] == 'sub2_name') {
-                                                                                                        batch = await sub2Execution(batch, prodList[k].split('^')[9], prodList[k].split('^')[10], prodList[k].split('^')[0], prodList[k].split('^')[4]);
-                                                                                                        batch.set(
-                                                                                                            prodsArr,
-                                                                                                            {
-                                                                                                              'date' : now,
-                                                                                                              'prods': {
-                                                                                                                prodList[k].split('^')[0].toString(): {
-                                                                                                                  'i2': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
-                                                                                                                  's2' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
-                                                                                                                  'b2' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
-
-                                                                                                                }
-                                                                                                              }
-                                                                                                            },SetOptions(merge: true)
-                                                                                                        );
-                                                                                                        batch.set(
-                                                                                                            prodsMonthly,
-                                                                                                            {
-                                                                                                              'date' : now,
-                                                                                                              'prods': {
-                                                                                                                prodList[k].split('^')[0].toString(): {
-                                                                                                                  'i2': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
-                                                                                                                  's2' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
-                                                                                                                  'b2' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
-
-                                                                                                                }
-                                                                                                              }
-                                                                                                            },SetOptions(merge: true)
-                                                                                                        );
-
-                                                                                                        batch.set(
-                                                                                                            prodsYearly,
-                                                                                                            {
-                                                                                                              'date' : now,
-                                                                                                              'prods': {
-                                                                                                                prodList[k].split('^')[0].toString(): {
-                                                                                                                  'i2': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
-                                                                                                                  's2' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
-                                                                                                                  'b2' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
-
-                                                                                                                }
-                                                                                                              }
-                                                                                                            },SetOptions(merge: true)
-                                                                                                        );
-                                                                                                        // productsFire.doc(str.split('^')[0]).update({
-                                                                                                        //   'sub2SellUnit' : FieldValue.increment(double.parse(str.split('^')[4].toString())),
-                                                                                                        // });
-                                                                                                      }
-                                                                                                    }
-
-                                                                                                    if( debt.toString() != '0.0') {
-                                                                                                      debts = 1;
-                                                                                                      debtAmounts = debt;
-                                                                                                      deFilter = true;
-                                                                                                    } else {
-                                                                                                      debts = 0;
-                                                                                                      debtAmounts = 0;
-                                                                                                      deFilter = false;
-                                                                                                    }
-
-                                                                                                    debugPrint('subList ' + subList.toString());
-
-                                                                                                    totalOrders = totalOrders + 1;
-                                                                                                    //CusOrder(totalOrders, debts, debtAmounts);
-
-                                                                                                    batch = await updateCusOrder(batch, totalOrders, debts, debtAmounts);
-
-                                                                                                    DateTime ordCntDate = DateFormat("yyyy-MM-dd HH:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 12:00:00');
-                                                                                                    batch = await updateMonthlyData(batch, now.year.toString() + zeroToTen(now.month.toString()),  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'capital', ttlPrice.toString(), debtAmounts, TtlProdListBuyPrice().toString(), ordCntDate);
-                                                                                                    batch = await updateYearlyData(batch, now.year.toString(),  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'capital', ttlPrice.toString(), debtAmounts, TtlProdListBuyPrice().toString(), ordCntDate);
-
-
-                                                                                                    batch = await updateDetail(batch, now, length.toString(), subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, ttlPrice.toString(), customerId.split('^')[0].toString());
-                                                                                                    batch = await DatenotExist(batch, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + ttlPrice.toString() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, now, length.toString());
-
-                                                                                                    tabletPrice = ttlPrice.toString();
-
-                                                                                                    debugPrint('prodList--' + prodList.toString());
-                                                                                                    try {
-                                                                                                      batch.commit();
-                                                                                                      Future.delayed(const Duration(milliseconds: 2000), () {
-                                                                                                        if(searchGlobalKey.currentState != null) {
-                                                                                                          searchGlobalKey.currentState!.navigatorPop();
-                                                                                                        }
-                                                                                                        if(prodGlobalKey.currentState != null) {
-                                                                                                          prodGlobalKey.currentState!.navigatorPop();
-                                                                                                        }
-                                                                                                        List<String> subNameList = [];
-                                                                                                        int subNameListLength = 0;
-                                                                                                        for (String str in prodList) {
-                                                                                                          subNameListLength = subNameListLength + 1;
-                                                                                                          subNameList.add(str.split('^')[7]);
-                                                                                                          if(prodList.length == subNameListLength) {
-                                                                                                            debugPrint('fianlize : ' + subNameList.toString());
-                                                                                                            // final date = DateTime.now();
-                                                                                                            final date = now;
-                                                                                                            final dueDate = date.add(Duration(days: 7));
-                                                                                                            debugPrint('CUZMER CHECK ' + customerId.toString());
-                                                                                                            for(int i=0; i<prodList.length; i++) {
-                                                                                                              productSale.add(prodList[i].split('^')[6].toString() + '^' +subNameList[i].toString() + '^' + prodList[i].split('^')[2].toString() + '^' + prodList[i].split('^')[4].toString());
-                                                                                                            }
-                                                                                                            saleInfo = discountAmount.toString()  + '^' + disText.toString()  + '^' + debt.toString() + '^' + customerId.split('^')[1].toString();
-                                                                                                            final invoice = Invoice(
-                                                                                                              supplier: Supplier(
-                                                                                                                name: shopGloName,
-                                                                                                                address: shopGloAddress,
-                                                                                                                phone: shopGloPhone,
-                                                                                                                paymentInfo: '',
-                                                                                                              ),
-                                                                                                              customer: Customer(
-                                                                                                                name: customerId.split('^')[1] == 'name'? 'No customer' :customerId.split('^')[1],
-                                                                                                                address: '',
-                                                                                                              ),
-                                                                                                              info: InvoiceInfo(
-                                                                                                                  date: date,
-                                                                                                                  dueDate: dueDate,
-                                                                                                                  description: 'My description...',
-                                                                                                                  // number: '${DateTime.now().year}-9999',
-                                                                                                                  number: deviceIdNum.toString() + '-' + length.toString()
-                                                                                                              ),
-                                                                                                              items: [
-
-                                                                                                                for(int i=0; i<prodList.length; i++)
-                                                                                                                  InvoiceItem(
-                                                                                                                    description: prodList[i].split('^')[6],
-                                                                                                                    // date: prodList[i].split('^')[3] + '^' + subNameList[i].toString(),
-                                                                                                                    date: subNameList[i].toString(),
-                                                                                                                    quantity: double.parse(prodList[i].split('^')[4]),
-                                                                                                                    vat: discountAmount,
-                                                                                                                    debt: debt,
-                                                                                                                    type: disText,
-                                                                                                                    unitPrice: double.parse(prodList[i].split('^')[2]),
-                                                                                                                    currencyUnit: currencyUnit,
-                                                                                                                    totalPriceText: totalVPrice,
-                                                                                                                    paidText: VPaid,
-                                                                                                                    totalDebtText: VDebt,
-                                                                                                                    subTotalText: subVTotal,
-                                                                                                                    discountText: VDiscount,
-                                                                                                                  )
-
-                                                                                                              ],
-                                                                                                            );
-                                                                                                            //_controllerTablet.animateTo(0);
-
-                                                                                                            getPaperId().then((value) async {
-                                                                                                              debugPrint('VVAALLUUEE ' + value.toString());
-                                                                                                              pdfFile = await PdfInvoiceApi.generate(invoice, value);
-
-                                                                                                              Uint8List bytes = pdfFile!.readAsBytesSync();
-
-
-                                                                                                              Future.delayed(const Duration(milliseconds: 1000), () {
-                                                                                                                setState(() {
-                                                                                                                  pdfText = pdfFile!.path.toString();
-                                                                                                                  orderCreating = false;
-                                                                                                                  disableTouch = false;
-                                                                                                                });
-
-
-                                                                                                                //setting new design
-                                                                                                                setState(() {
-                                                                                                                  // mystate(()  {
-                                                                                                                  prodList = [];
-                                                                                                                  discount = 0.0;
-                                                                                                                  discountAmount =0.0;
-                                                                                                                  debt =0;
-                                                                                                                  refund =0;
-                                                                                                                  customerId = 'name^name';
-                                                                                                                  disText = '';
-                                                                                                                  isDiscount = '';
-                                                                                                                  // });
-                                                                                                                });
-                                                                                                                // _controller.animateTo(0);
-                                                                                                                // _controller.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
-
-                                                                                                                _textFieldControllerTablet.clear();
-                                                                                                                _controllerTablet.animateTo(0);
-                                                                                                                // Navigator.pop(context);
-                                                                                                                // sellDone = true;
-                                                                                                                //setting new design
-
-
-                                                                                                                // debugPrint('saleCartDrag ' + saleCartDrag.toString());
-                                                                                                                _controllerTablet.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
-                                                                                                              });
-                                                                                                            });
-                                                                                                          }
-                                                                                                        }
-                                                                                                      });
-                                                                                                    } catch(error) {
-                                                                                                      debugPrint('error while creating orders');
-                                                                                                      smartKyatFlash('An error occurred while creating order. Please try again later.', 'e');
                                                                                                       setState(() {
-                                                                                                        orderCreating = false;
-                                                                                                        disableTouch = false;
+                                                                                                        tabletOrders = length;
                                                                                                       });
-                                                                                                    }
+
+                                                                                                      debugPrint('CHECK POINT 0' + deviceIdNum.toString());
+                                                                                                      debugPrint('CHECK POINT 1');
+
+                                                                                                      batch = await updateOrderLength(batch);
+                                                                                                      ttlPrice = TtlProdListPrice();
+                                                                                                      subList = [];
+                                                                                                      DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('prodSaleData').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()));
+
+                                                                                                      DocumentReference prodsMonthly = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('prodMthData').doc(now.year.toString() + zeroToTen(now.month.toString()));
+
+                                                                                                      DocumentReference prodsYearly = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('prodYearData').doc(now.year.toString());
+
+                                                                                                      for (int k=0; k< prodList.length;  k++) {
+                                                                                                        //CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
+
+                                                                                                        subList.add(prodList[k].split('^')[0] + '^' + prodList[k].split('^')[6] + '^' + prodList[k].split('^')[7] + '^' + prodList[k].split('^')[4] +'^' + prodList[k].split('^')[2] + '^' + prodList[k].split('^')[3] +'^' + prodList[k].split('^')[1] + '^0^' + prodList[k].split('^')[8]);
+
+                                                                                                        // productsFire.doc(prodList[k].split('^')[0])
+                                                                                                        //     .get().then((val22) async {
+                                                                                                        //
+                                                                                                        // });
+
+                                                                                                        // List<String> subLink = [];
+                                                                                                        // List<String> subName = [];
+                                                                                                        // List<double> subStock = [];
+
+                                                                                                        // var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(prodList[k].split('^')[0])
+                                                                                                        //     .get();
+
+
+
+                                                                                                        // for(int i = 0; i < double.parse(data10 ? ["sub_exist"]) + 1; i++) {
+                                                                                                        //   subLink.add(data10 ? ['sub' + (i+1).toString() + '_link']);
+                                                                                                        //   subName.add(data10 ? ['sub' + (i+1).toString() + '_name']);
+                                                                                                        //   debugPrint('inStock' + (i+1).toString());
+                                                                                                        //   debugPrint(' CHECKING ' + (data10 ? ['mainSellUnit']).toString());
+                                                                                                        //   subStock.add(double.parse((data10 ? ['inStock' + (i+1).toString()]).toString()));
+                                                                                                        // }
+
+                                                                                                        // debugPrint(subStock.toString());
+                                                                                                        debugPrint('decStock ' + prodList[k].split('^')[0].toString() + ' ' + prodList[k].split('^')[3]);
+
+                                                                                                        if(prodList[k].split('^')[3] == 'unit_name') {
+                                                                                                          batch = await decStockFromInv(batch, prodList[k].split('^')[0], 'im', prodList[k].split('^')[4]);
+
+                                                                                                          batch.set(
+                                                                                                              prodsArr,
+                                                                                                              {
+                                                                                                                'date' : now,
+                                                                                                                'prods': {
+                                                                                                                  prodList[k].split('^')[0].toString(): {
+                                                                                                                    'im': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                                                    'sm' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                                                    'bm' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                                                  }
+                                                                                                                }
+                                                                                                              },SetOptions(merge: true)
+                                                                                                          );
+
+                                                                                                          batch.set(
+                                                                                                              prodsMonthly,
+                                                                                                              {
+                                                                                                                'date' : now,
+                                                                                                                'prods': {
+                                                                                                                  prodList[k].split('^')[0].toString(): {
+                                                                                                                    'im': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                                                    'sm' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                                                    'bm' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
+                                                                                                                  }
+                                                                                                                }
+                                                                                                              },SetOptions(merge: true)
+                                                                                                          );
+
+                                                                                                          batch.set(
+                                                                                                              prodsYearly,
+                                                                                                              {
+                                                                                                                'date' : now,
+                                                                                                                'prods': {
+                                                                                                                  prodList[k].split('^')[0].toString(): {
+                                                                                                                    'im': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                                                    'sm' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                                                    'bm' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
+
+                                                                                                                  }
+                                                                                                                }
+                                                                                                              },SetOptions(merge: true)
+                                                                                                          );
+                                                                                                          debugPrint('decStock ' + prodList[k].split('^')[0].toString());
+                                                                                                          //decStockFromInv(str.split('^')[0], 'main', str.split('^')[4]);
+                                                                                                          //batch = await updateB2(batch, prodList[k].split('^')[0], double.parse(prodList[k].split('^')[4].toString()));
+                                                                                                          // if ( k == prodList.length-1) {
+                                                                                                          //   batch.commit();
+                                                                                                          // }
+                                                                                                          //debugPrint('batch complete');
+                                                                                                          // prodSaleData(str.split('^')[0], double.parse(str.split('^')[4].toString()));
+                                                                                                        }
+                                                                                                        else if(prodList[k].split('^')[3] == 'sub1_name') {
+                                                                                                          debugPrint('decStock1 ' + prodList[k].split('^')[9].toString());
+                                                                                                          batch = await sub1Execution(batch, prodList[k].split('^')[9], prodList[k].split('^')[10], prodList[k].split('^')[0], prodList[k].split('^')[4]);
+                                                                                                          batch.set(
+                                                                                                              prodsArr,
+                                                                                                              {
+                                                                                                                'date' : now,
+                                                                                                                'prods': {
+                                                                                                                  prodList[k].split('^')[0].toString(): {
+                                                                                                                    'i1': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                                                    's1' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                                                    'b1' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
+
+                                                                                                                  }
+                                                                                                                }
+                                                                                                              },SetOptions(merge: true)
+                                                                                                          );
+                                                                                                          batch.set(
+                                                                                                              prodsMonthly,
+                                                                                                              {
+                                                                                                                'date' : now,
+                                                                                                                'prods': {
+                                                                                                                  prodList[k].split('^')[0].toString(): {
+                                                                                                                    'i1': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                                                    's1' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                                                    'b1' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
+
+                                                                                                                  }
+                                                                                                                }
+                                                                                                              },SetOptions(merge: true)
+                                                                                                          );
+
+                                                                                                          batch.set(
+                                                                                                              prodsYearly,
+                                                                                                              {
+                                                                                                                'date' : now,
+                                                                                                                'prods': {
+                                                                                                                  prodList[k].split('^')[0].toString(): {
+                                                                                                                    'i1': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                                                    's1' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                                                    'b1' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
+
+                                                                                                                  }
+                                                                                                                }
+                                                                                                              },SetOptions(merge: true)
+                                                                                                          );
+                                                                                                          // productsFire.doc(prodList[k].split('^')[0]).update({
+                                                                                                          //   'sub1SellUnit' : FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                                          //});
+                                                                                                        }
+                                                                                                        else if(prodList[k].split('^')[3] == 'sub2_name') {
+                                                                                                          batch = await sub2Execution(batch, prodList[k].split('^')[9], prodList[k].split('^')[10], prodList[k].split('^')[0], prodList[k].split('^')[4]);
+                                                                                                          batch.set(
+                                                                                                              prodsArr,
+                                                                                                              {
+                                                                                                                'date' : now,
+                                                                                                                'prods': {
+                                                                                                                  prodList[k].split('^')[0].toString(): {
+                                                                                                                    'i2': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                                                    's2' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                                                    'b2' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
+
+                                                                                                                  }
+                                                                                                                }
+                                                                                                              },SetOptions(merge: true)
+                                                                                                          );
+                                                                                                          batch.set(
+                                                                                                              prodsMonthly,
+                                                                                                              {
+                                                                                                                'date' : now,
+                                                                                                                'prods': {
+                                                                                                                  prodList[k].split('^')[0].toString(): {
+                                                                                                                    'i2': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                                                    's2' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                                                    'b2' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
+
+                                                                                                                  }
+                                                                                                                }
+                                                                                                              },SetOptions(merge: true)
+                                                                                                          );
+
+                                                                                                          batch.set(
+                                                                                                              prodsYearly,
+                                                                                                              {
+                                                                                                                'date' : now,
+                                                                                                                'prods': {
+                                                                                                                  prodList[k].split('^')[0].toString(): {
+                                                                                                                    'i2': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                                                    's2' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                                                    'b2' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
+
+                                                                                                                  }
+                                                                                                                }
+                                                                                                              },SetOptions(merge: true)
+                                                                                                          );
+                                                                                                          // productsFire.doc(str.split('^')[0]).update({
+                                                                                                          //   'sub2SellUnit' : FieldValue.increment(double.parse(str.split('^')[4].toString())),
+                                                                                                          // });
+                                                                                                        }
+                                                                                                      }
+
+                                                                                                      if( debt.toString() != '0.0') {
+                                                                                                        debts = 1;
+                                                                                                        debtAmounts = debt;
+                                                                                                        deFilter = true;
+                                                                                                      } else {
+                                                                                                        debts = 0;
+                                                                                                        debtAmounts = 0;
+                                                                                                        deFilter = false;
+                                                                                                      }
+
+                                                                                                      debugPrint('subList ' + subList.toString());
+
+                                                                                                      totalOrders = totalOrders + 1;
+                                                                                                      //CusOrder(totalOrders, debts, debtAmounts);
+
+                                                                                                      batch = await updateCusOrder(batch, totalOrders, debts, debtAmounts);
+
+                                                                                                      DateTime ordCntDate = DateFormat("yyyy-MM-dd HH:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 12:00:00');
+                                                                                                      batch = await updateMonthlyData(batch, now.year.toString() + zeroToTen(now.month.toString()),  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'capital', ttlPrice.toString(), debtAmounts, TtlProdListBuyPrice().toString(), ordCntDate);
+                                                                                                      batch = await updateYearlyData(batch, now.year.toString(),  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'capital', ttlPrice.toString(), debtAmounts, TtlProdListBuyPrice().toString(), ordCntDate);
+
+
+                                                                                                      batch = await updateDetail(batch, now, length.toString(), subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, ttlPrice.toString(), customerId.split('^')[0].toString());
+                                                                                                      batch = await DatenotExist(batch, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + ttlPrice.toString() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, now, length.toString());
+
+                                                                                                      tabletPrice = ttlPrice.toString();
+
+                                                                                                      debugPrint('prodList--' + prodList.toString());
+                                                                                                      try {
+                                                                                                        batch.commit();
+                                                                                                        Future.delayed(const Duration(milliseconds: 2000), () {
+                                                                                                          if(searchGlobalKey.currentState != null) {
+                                                                                                            searchGlobalKey.currentState!.navigatorPop();
+                                                                                                          }
+                                                                                                          if(prodGlobalKey.currentState != null) {
+                                                                                                            prodGlobalKey.currentState!.navigatorPop();
+                                                                                                          }
+                                                                                                          List<String> subNameList = [];
+                                                                                                          int subNameListLength = 0;
+                                                                                                          for (String str in prodList) {
+                                                                                                            subNameListLength = subNameListLength + 1;
+                                                                                                            subNameList.add(str.split('^')[7]);
+                                                                                                            if(prodList.length == subNameListLength) {
+                                                                                                              debugPrint('fianlize : ' + subNameList.toString());
+                                                                                                              // final date = DateTime.now();
+                                                                                                              final date = now;
+                                                                                                              final dueDate = date.add(Duration(days: 7));
+                                                                                                              debugPrint('CUZMER CHECK ' + customerId.toString());
+                                                                                                              for(int i=0; i<prodList.length; i++) {
+                                                                                                                productSale.add(prodList[i].split('^')[6].toString() + '^' +subNameList[i].toString() + '^' + prodList[i].split('^')[2].toString() + '^' + prodList[i].split('^')[4].toString());
+                                                                                                              }
+                                                                                                              saleInfo = discountAmount.toString()  + '^' + disText.toString()  + '^' + debt.toString() + '^' + customerId.split('^')[1].toString();
+                                                                                                              final invoice = Invoice(
+                                                                                                                supplier: Supplier(
+                                                                                                                  name: shopGloName,
+                                                                                                                  address: shopGloAddress,
+                                                                                                                  phone: shopGloPhone,
+                                                                                                                  paymentInfo: '',
+                                                                                                                ),
+                                                                                                                customer: Customer(
+                                                                                                                  name: customerId.split('^')[1] == 'name'? 'No customer' :customerId.split('^')[1],
+                                                                                                                  address: '',
+                                                                                                                ),
+                                                                                                                info: InvoiceInfo(
+                                                                                                                    date: date,
+                                                                                                                    dueDate: dueDate,
+                                                                                                                    description: 'My description...',
+                                                                                                                    // number: '${DateTime.now().year}-9999',
+                                                                                                                    number: deviceIdNum.toString() + '-' + length.toString()
+                                                                                                                ),
+                                                                                                                items: [
+
+                                                                                                                  for(int i=0; i<prodList.length; i++)
+                                                                                                                    InvoiceItem(
+                                                                                                                      description: prodList[i].split('^')[6],
+                                                                                                                      // date: prodList[i].split('^')[3] + '^' + subNameList[i].toString(),
+                                                                                                                      date: subNameList[i].toString(),
+                                                                                                                      quantity: double.parse(prodList[i].split('^')[4]),
+                                                                                                                      vat: discountAmount,
+                                                                                                                      debt: debt,
+                                                                                                                      type: disText,
+                                                                                                                      unitPrice: double.parse(prodList[i].split('^')[2]),
+                                                                                                                      currencyUnit: currencyUnit,
+                                                                                                                      totalPriceText: totalVPrice,
+                                                                                                                      paidText: VPaid,
+                                                                                                                      totalDebtText: VDebt,
+                                                                                                                      subTotalText: subVTotal,
+                                                                                                                      discountText: VDiscount,
+                                                                                                                    )
+
+                                                                                                                ],
+                                                                                                              );
+                                                                                                              //_controllerTablet.animateTo(0);
+
+                                                                                                              getPaperId().then((value) async {
+                                                                                                                debugPrint('VVAALLUUEE ' + value.toString());
+                                                                                                                pdfFile = await PdfInvoiceApi.generate(invoice, value);
+
+                                                                                                                Uint8List bytes = pdfFile!.readAsBytesSync();
+
+
+                                                                                                                Future.delayed(const Duration(milliseconds: 1000), () {
+                                                                                                                  setState(() {
+                                                                                                                    pdfText = pdfFile!.path.toString();
+                                                                                                                    orderCreating = false;
+                                                                                                                    disableTouch = false;
+                                                                                                                  });
+
+
+                                                                                                                  //setting new design
+                                                                                                                  setState(() {
+                                                                                                                    // mystate(()  {
+                                                                                                                    prodList = [];
+                                                                                                                    discount = 0.0;
+                                                                                                                    discountAmount =0.0;
+                                                                                                                    debt =0;
+                                                                                                                    refund =0;
+                                                                                                                    customerId = 'name^name';
+                                                                                                                    disText = '';
+                                                                                                                    isDiscount = '';
+                                                                                                                    // });
+                                                                                                                  });
+                                                                                                                  // _controller.animateTo(0);
+                                                                                                                  // _controller.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
+
+                                                                                                                  _textFieldControllerTablet.clear();
+                                                                                                                  _controllerTablet.animateTo(0);
+                                                                                                                  // Navigator.pop(context);
+                                                                                                                  // sellDone = true;
+                                                                                                                  //setting new design
+
+
+                                                                                                                  // debugPrint('saleCartDrag ' + saleCartDrag.toString());
+                                                                                                                  _controllerTablet.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
+                                                                                                                });
+                                                                                                              });
+                                                                                                            }
+                                                                                                          }
+                                                                                                        });
+                                                                                                      } catch(error) {
+                                                                                                        debugPrint('error while creating orders');
+                                                                                                        smartKyatFlash('An error occurred while creating order. Please try again later.', 'e');
+                                                                                                        setState(() {
+                                                                                                          orderCreating = false;
+                                                                                                          disableTouch = false;
+                                                                                                        });
+                                                                                                      }
 
 
 
@@ -4699,7 +4700,7 @@ class HomePageState extends State<HomePage>
 
 
 
-                                                                                                  });
+                                                                                                    });
                                                                                                   }
 
                                                                                                 },
@@ -6482,28 +6483,59 @@ class HomePageState extends State<HomePage>
                                                                                 left: 8.0,
                                                                                 right: 8.0,
                                                                                 bottom: 2.0),
-                                                                            child: double.parse(totalItems()) == 1? Container(
-                                                                              child:
-                                                                              Text(
-                                                                                totalItems() + ' item - ' + TtlProdListPrice() + ' $currencyUnit',
-                                                                                textScaleFactor: 1, textAlign: TextAlign.center,
-                                                                                style: TextStyle(
-                                                                                    fontSize: 18,
-                                                                                    fontWeight: FontWeight.w500,
-                                                                                    color: Colors.black),
-                                                                              ),
-                                                                            ) :
-                                                                            Container(
-                                                                              child:
-                                                                              Text(
-                                                                                totalItems() + ' items - ' + TtlProdListPrice() + ' $currencyUnit',
-                                                                                textScaleFactor: 1, textAlign: TextAlign.center,
-                                                                                style: TextStyle(
-                                                                                    fontSize: 18,
-                                                                                    fontWeight: FontWeight.w500,
-                                                                                    color: Colors.black),
-                                                                              ),
-                                                                            ),
+                                                                            child: Row(
+                                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                                                              children: [
+                                                                                Text(
+                                                                                  totalItems(),
+                                                                                  textScaleFactor: 1, textAlign: TextAlign.center,
+                                                                                  style: TextStyle(
+                                                                                      fontSize: 18,
+                                                                                      fontWeight: FontWeight.w500,
+                                                                                      color: Colors.black),
+                                                                                ),
+                                                                                Text(
+                                                                                  totalItems() == '1'? ' item - ': ' items - ',
+                                                                                  textScaleFactor: 1, textAlign: TextAlign.center,
+                                                                                  style: TextStyle(
+                                                                                      fontSize: 18,
+                                                                                      fontWeight: FontWeight.w500,
+                                                                                      color: Colors.black),
+                                                                                ),
+                                                                                animatedTtlPrice(),
+                                                                                Text(
+                                                                                  ' $currencyUnit',
+                                                                                  textScaleFactor: 1, textAlign: TextAlign.center,
+                                                                                  style: TextStyle(
+                                                                                      fontSize: 18,
+                                                                                      fontWeight: FontWeight.w500,
+                                                                                      color: Colors.black),
+                                                                                ),
+                                                                              ],
+                                                                            )
+                                                                            // child: double.parse(totalItems()) == 1? Container(
+                                                                            //   child:
+                                                                            //   Text(
+                                                                            //     totalItems() + ' item - ' + TtlProdListPrice() + ' $currencyUnit',
+                                                                            //     textScaleFactor: 1, textAlign: TextAlign.center,
+                                                                            //     style: TextStyle(
+                                                                            //         fontSize: 18,
+                                                                            //         fontWeight: FontWeight.w500,
+                                                                            //         color: Colors.black),
+                                                                            //   ),
+                                                                            // ) :
+                                                                            // Container(
+                                                                            //   child:
+                                                                            //   Text(
+                                                                            //     totalItems() + ' items - ' + TtlProdListPrice() + ' $currencyUnit',
+                                                                            //     textScaleFactor: 1, textAlign: TextAlign.center,
+                                                                            //     style: TextStyle(
+                                                                            //         fontSize: 18,
+                                                                            //         fontWeight: FontWeight.w500,
+                                                                            //         color: Colors.black),
+                                                                            //   ),
+                                                                            // ),
                                                                           ),
                                                                         ),
                                                                       ],
@@ -6577,9 +6609,9 @@ class HomePageState extends State<HomePage>
                                                                       //     smartKyatFlash('toe p: par p', 'w');
                                                                       //   }
                                                                       // });
-                                                                     // debugPrint('clicked tether' + calHourFromTZ(DateTime.now()).toString());
-                                                                    //  NotificationService().scheduleDailyTenNotification();
-                                                                    //  prodGlobalKey.currentState!.navigatorPop();
+                                                                      // debugPrint('clicked tether' + calHourFromTZ(DateTime.now()).toString());
+                                                                      //  NotificationService().scheduleDailyTenNotification();
+                                                                      //  prodGlobalKey.currentState!.navigatorPop();
 
                                                                       // FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('prodsArr')
                                                                       //     .get()
@@ -8983,181 +9015,181 @@ class HomePageState extends State<HomePage>
                                                   ),
                                                 ),
                                               ),
-                                             Padding(
-                                                        padding: EdgeInsets.only(
-                                                            top: 67.0,
-                                                            left: 0.0,
-                                                            right: 0.0,
-                                                            bottom: 138
-                                                        ),
-                                                        child: Container(
-                                                            child: ListView(
-                                                              children: [
-                                                                Stack(
-                                                                  children: [
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: 67.0,
+                                                    left: 0.0,
+                                                    right: 0.0,
+                                                    bottom: 138
+                                                ),
+                                                child: Container(
+                                                    child: ListView(
+                                                      children: [
+                                                        Stack(
+                                                          children: [
 
-                                                                    Padding(
-                                                                      padding: const EdgeInsets.only(top: 19.0),
-                                                                      child: Column(
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(top: 19.0),
+                                                              child: Column(
+                                                                children: [
+                                                                  GestureDetector(
+                                                                    onTap: () {
+                                                                      setState(() {
+                                                                        mystate(() {
+                                                                          customerId = 'name^name';
+                                                                        });
+                                                                      });
+                                                                    },
+                                                                    child: Padding(
+                                                                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                                                      child: Row(
                                                                         children: [
-                                                                          GestureDetector(
-                                                                            onTap: () {
-                                                                              setState(() {
-                                                                                mystate(() {
-                                                                                  customerId = 'name^name';
-                                                                                });
-                                                                              });
-                                                                            },
-                                                                            child: Padding(
-                                                                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                                                              child: Row(
-                                                                                children: [
-                                                                                  SizedBox(width: 1),
-                                                                                  Container(
-                                                                                    height: 58,
-                                                                                    width: 58,
-                                                                                    decoration: BoxDecoration(
-                                                                                        borderRadius:
-                                                                                        BorderRadius.circular(
-                                                                                            5.0),
-                                                                                        color: AppTheme.buttonColor2
-                                                                                    ),
-                                                                                    child: Icon(
-                                                                                      SmartKyat_POS.order,
-                                                                                      size: 25,
-                                                                                    ),
-                                                                                  ),
-                                                                                  SizedBox(width: 15),
-                                                                                  Column(
-                                                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                                                    children: [
-                                                                                      Text(customerId.split('^')[1].toString() == 'name' ? textSetNoCust : customerId.split('^')[1] , textScaleFactor: 1, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),),
-                                                                                      // Text(customerId.split('^')[1].toString() == 'name' ? 'Unknown' : address,
-                                                                                      //     style: TextStyle(
-                                                                                      //       fontSize: 14,
-                                                                                      //       color: Colors.grey
-                                                                                      //     )),
-                                                                                    ],
-                                                                                  )
-                                                                                ],
-                                                                              ),
+                                                                          SizedBox(width: 1),
+                                                                          Container(
+                                                                            height: 58,
+                                                                            width: 58,
+                                                                            decoration: BoxDecoration(
+                                                                                borderRadius:
+                                                                                BorderRadius.circular(
+                                                                                    5.0),
+                                                                                color: AppTheme.buttonColor2
+                                                                            ),
+                                                                            child: Icon(
+                                                                              SmartKyat_POS.order,
+                                                                              size: 25,
                                                                             ),
                                                                           ),
-                                                                          SizedBox(height: 8,),
-                                                                          Padding(
-                                                                            padding: const EdgeInsets.only(left: 15.0),
-                                                                            child: Container(height: 12,
-                                                                              decoration: BoxDecoration(
-                                                                                  border: Border(
-                                                                                    bottom:
-                                                                                    BorderSide(color: AppTheme.skBorderColor2, width: 0.5),
-                                                                                  )),),
-                                                                          ),
-
+                                                                          SizedBox(width: 15),
+                                                                          Column(
+                                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                                            children: [
+                                                                              Text(customerId.split('^')[1].toString() == 'name' ? textSetNoCust : customerId.split('^')[1] , textScaleFactor: 1, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),),
+                                                                              // Text(customerId.split('^')[1].toString() == 'name' ? 'Unknown' : address,
+                                                                              //     style: TextStyle(
+                                                                              //       fontSize: 14,
+                                                                              //       color: Colors.grey
+                                                                              //     )),
+                                                                            ],
+                                                                          )
                                                                         ],
                                                                       ),
                                                                     ),
-                                                                    customerId != 'name^name' ? Positioned(
-                                                                      top : 11,
-                                                                      right: MediaQuery.of(context).size.width - 80,
-                                                                      child: GestureDetector(
-                                                                        onTap: () {
-                                                                          setState(() {
-                                                                            mystate(() {
-                                                                              customerId = 'name^name';
-                                                                            });
-                                                                          });
-                                                                        },
-                                                                        child: Container(
-                                                                          // height: 20,
-                                                                          // width: 30,
-                                                                          alignment: Alignment.center,
-                                                                          decoration: BoxDecoration(
-                                                                              color: Color(0xffE9625E),
-                                                                              borderRadius:
-                                                                              BorderRadius.circular(
-                                                                                  10.0),
-                                                                              border: Border.all(
-                                                                                color: Colors.white,
-                                                                                width: 2,
-                                                                              )),
-                                                                          child: Padding(
-                                                                            padding: const EdgeInsets.only(left: 5.0, right: 5.0, top: 1, bottom: 1),
-                                                                            child: Icon(
-                                                                              Icons.close_rounded,
-                                                                              size: 13,
-                                                                              color: Colors.white,
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ): Container(),
-                                                                  ],
-                                                                ),
-                                                                for (int i = 0; i < prodList.length; i++)
-                                                                  prodInCart(prodList[i], i),
-                                                                Slidable(
-                                                                  key: UniqueKey(),
-                                                                  actionPane:
-                                                                  SlidableDrawerActionPane(),
-                                                                  actionExtentRatio:
-                                                                  0.25,
-                                                                  child: Container(
-                                                                    color: Colors.white,
-                                                                    child: Column(
-                                                                      children: [
-                                                                        discount != 0.0 ? Container(
-                                                                          child: isDiscount == 'percent' ?
-                                                                          ListTile(
-                                                                            title: Text(VDiscount,textScaleFactor: 1, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                                                            subtitle: Text('Percentage (' +  discountAmount.toString() + '%)', textScaleFactor: 1, style: TextStyle(
-                                                                                fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey
-                                                                            )),
-                                                                            trailing: Text('- $currencyUnit ' + (double.parse(TtlProdListPriceInit()) - double.parse(TtlProdListPrice())).toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),textScaleFactor: 1, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                                                          ) :  ListTile (
-                                                                            title: Text(VDiscount, textScaleFactor: 1,style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                                                            subtitle: Text('Amount applied',textScaleFactor: 1, style: TextStyle(
-                                                                                fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey
-                                                                            )),
-                                                                            trailing: Text('- $currencyUnit ' + discount.toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),textScaleFactor: 1, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                                                          ),
-                                                                        ) : Container(),
-                                                                      ],
+                                                                  ),
+                                                                  SizedBox(height: 8,),
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(left: 15.0),
+                                                                    child: Container(height: 12,
+                                                                      decoration: BoxDecoration(
+                                                                          border: Border(
+                                                                            bottom:
+                                                                            BorderSide(color: AppTheme.skBorderColor2, width: 0.5),
+                                                                          )),),
+                                                                  ),
+
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            customerId != 'name^name' ? Positioned(
+                                                              top : 11,
+                                                              right: MediaQuery.of(context).size.width - 80,
+                                                              child: GestureDetector(
+                                                                onTap: () {
+                                                                  setState(() {
+                                                                    mystate(() {
+                                                                      customerId = 'name^name';
+                                                                    });
+                                                                  });
+                                                                },
+                                                                child: Container(
+                                                                  // height: 20,
+                                                                  // width: 30,
+                                                                  alignment: Alignment.center,
+                                                                  decoration: BoxDecoration(
+                                                                      color: Color(0xffE9625E),
+                                                                      borderRadius:
+                                                                      BorderRadius.circular(
+                                                                          10.0),
+                                                                      border: Border.all(
+                                                                        color: Colors.white,
+                                                                        width: 2,
+                                                                      )),
+                                                                  child: Padding(
+                                                                    padding: const EdgeInsets.only(left: 5.0, right: 5.0, top: 1, bottom: 1),
+                                                                    child: Icon(
+                                                                      Icons.close_rounded,
+                                                                      size: 13,
+                                                                      color: Colors.white,
                                                                     ),
                                                                   ),
-                                                                  dismissal:
-                                                                  SlidableDismissal(
-                                                                    child: SlidableDrawerDismissal(),
-                                                                    onDismissed:
-                                                                        (actionType) {
-                                                                      mystate(() {
-                                                                        discountAmount = 0.0;
-                                                                        discount = 0.0;
-                                                                      });
-                                                                    },
-                                                                  ),
-                                                                  secondaryActions: <
-                                                                      Widget>[
-                                                                    IconSlideAction(
-                                                                      caption: 'Delete',
-                                                                      color: Colors.red,
-                                                                      icon:
-                                                                      Icons.delete,
-                                                                      onTap: () =>
-                                                                          mystate(() {
-                                                                            discountAmount = 0.0;
-                                                                            discount =0.0;
-                                                                          }),
-                                                                    ),
-                                                                  ],
                                                                 ),
-
-
-                                                                // orderLoading?Text('Loading'):Text('')
+                                                              ),
+                                                            ): Container(),
+                                                          ],
+                                                        ),
+                                                        for (int i = 0; i < prodList.length; i++)
+                                                          prodInCart(prodList[i], i),
+                                                        Slidable(
+                                                          key: UniqueKey(),
+                                                          actionPane:
+                                                          SlidableDrawerActionPane(),
+                                                          actionExtentRatio:
+                                                          0.25,
+                                                          child: Container(
+                                                            color: Colors.white,
+                                                            child: Column(
+                                                              children: [
+                                                                discount != 0.0 ? Container(
+                                                                  child: isDiscount == 'percent' ?
+                                                                  ListTile(
+                                                                    title: Text(VDiscount,textScaleFactor: 1, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                                    subtitle: Text('Percentage (' +  discountAmount.toString() + '%)', textScaleFactor: 1, style: TextStyle(
+                                                                        fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey
+                                                                    )),
+                                                                    trailing: Text('- $currencyUnit ' + (double.parse(TtlProdListPriceInit()) - double.parse(TtlProdListPrice())).toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),textScaleFactor: 1, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                                  ) :  ListTile (
+                                                                    title: Text(VDiscount, textScaleFactor: 1,style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                                    subtitle: Text('Amount applied',textScaleFactor: 1, style: TextStyle(
+                                                                        fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey
+                                                                    )),
+                                                                    trailing: Text('- $currencyUnit ' + discount.toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),textScaleFactor: 1, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                                  ),
+                                                                ) : Container(),
                                                               ],
-                                                            )),
-                                                      ),
+                                                            ),
+                                                          ),
+                                                          dismissal:
+                                                          SlidableDismissal(
+                                                            child: SlidableDrawerDismissal(),
+                                                            onDismissed:
+                                                                (actionType) {
+                                                              mystate(() {
+                                                                discountAmount = 0.0;
+                                                                discount = 0.0;
+                                                              });
+                                                            },
+                                                          ),
+                                                          secondaryActions: <
+                                                              Widget>[
+                                                            IconSlideAction(
+                                                              caption: 'Delete',
+                                                              color: Colors.red,
+                                                              icon:
+                                                              Icons.delete,
+                                                              onTap: () =>
+                                                                  mystate(() {
+                                                                    discountAmount = 0.0;
+                                                                    discount =0.0;
+                                                                  }),
+                                                            ),
+                                                          ],
+                                                        ),
+
+
+                                                        // orderLoading?Text('Loading'):Text('')
+                                                      ],
+                                                    )),
+                                              ),
                                               Align(
                                                 alignment: Alignment.bottomCenter,
                                                 child: Padding(
@@ -9702,445 +9734,445 @@ class HomePageState extends State<HomePage>
                                                                             context: context,
                                                                             title:  'Unsupported TimeZone!',
                                                                             message:
-                                                                           'Currently, only Myanmar TimeZone (UTC +6:30) is supported.',
+                                                                            'Currently, only Myanmar TimeZone (UTC +6:30) is supported.',
                                                                             okLabel: 'OK',
                                                                           );
                                                                         } else {
                                                                           discountAmount = discount;
-                                                                        //now = now.subtract(Duration(minutes: calHourFromTZ(now)));
-                                                                        int length = 0;
-                                                                        int totalOrders = 0;
-                                                                        int debts = 0;
-                                                                        String ttlPrice = '0';
-                                                                        bool reFilter = false;
-                                                                        bool deFilter = false;
-                                                                        double debtAmounts = 0 ;
-                                                                        mystate(() {
-                                                                          setState(() {
-                                                                            orderCreating = true;
-                                                                            disableTouch = true;
-                                                                            //    saleCartDrag = false;
+                                                                          //now = now.subtract(Duration(minutes: calHourFromTZ(now)));
+                                                                          int length = 0;
+                                                                          int totalOrders = 0;
+                                                                          int debts = 0;
+                                                                          String ttlPrice = '0';
+                                                                          bool reFilter = false;
+                                                                          bool deFilter = false;
+                                                                          double debtAmounts = 0 ;
+                                                                          mystate(() {
+                                                                            setState(() {
+                                                                              orderCreating = true;
+                                                                              disableTouch = true;
+                                                                              //    saleCartDrag = false;
+                                                                            });
                                                                           });
-                                                                        });
 
-                                                                        Navigator.of(context).push(
-                                                                            FadeRoute(page: Transparent(key: tranGlobalKey),)
-                                                                        );
+                                                                          Navigator.of(context).push(
+                                                                              FadeRoute(page: Transparent(key: tranGlobalKey),)
+                                                                          );
 
-                                                                        debugPrint('order creating');
+                                                                          debugPrint('order creating');
 
                                                                           DocumentReference nonceRef = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('nonce_doc').collection('nonce_col').doc();
                                                                           batch.set(nonceRef, {
                                                                             'time': FieldValue.serverTimestamp(),
                                                                           });
 
-                                                                        FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('ordsCnt')
-                                                                            .get().then((value) async {
-                                                                          length = int.parse(value.data()!['count'].toString());
-                                                                          debugPrint('lengthsss' + length.toString());
-                                                                          length = length + 1;
+                                                                          FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('ordsCnt')
+                                                                              .get().then((value) async {
+                                                                            length = int.parse(value.data()!['count'].toString());
+                                                                            debugPrint('lengthsss' + length.toString());
+                                                                            length = length + 1;
 
-                                                                          orderLength = length;
+                                                                            orderLength = length;
 
-                                                                          debugPrint('CHECK POINT 0' + deviceIdNum.toString());
-                                                                          debugPrint('CHECK POINT 1');
+                                                                            debugPrint('CHECK POINT 0' + deviceIdNum.toString());
+                                                                            debugPrint('CHECK POINT 1');
 
-                                                                          // batch = await updateOrderLength(batch);
+                                                                            // batch = await updateOrderLength(batch);
 
-                                                                          debugPrint('datacheck' + prodList.toString());
-                                                                          ttlPrice = TtlProdListPrice();
-                                                                          subList = [];
-                                                                          DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('prodSaleData').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()));
-                                                                          DocumentReference prodsMonthly = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('prodMthData').doc(now.year.toString() + zeroToTen(now.month.toString()));
-                                                                          DocumentReference prodsYearly = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('prodYearData').doc(now.year.toString());
+                                                                            debugPrint('datacheck' + prodList.toString());
+                                                                            ttlPrice = TtlProdListPrice();
+                                                                            subList = [];
+                                                                            DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('prodSaleData').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()));
+                                                                            DocumentReference prodsMonthly = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('prodMthData').doc(now.year.toString() + zeroToTen(now.month.toString()));
+                                                                            DocumentReference prodsYearly = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('prodYearData').doc(now.year.toString());
 
-                                                                          for (int k=0; k< prodList.length;  k++) {
-                                                                            //CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
+                                                                            for (int k=0; k< prodList.length;  k++) {
+                                                                              //CollectionReference productsFire = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products');
 
-                                                                            subList.add(prodList[k].split('^')[0] + '^' + prodList[k].split('^')[6] + '^' + prodList[k].split('^')[7] + '^' + prodList[k].split('^')[4] +'^' + prodList[k].split('^')[2] + '^' + prodList[k].split('^')[3] +'^' + prodList[k].split('^')[1] + '^0^' + prodList[k].split('^')[8]);
+                                                                              subList.add(prodList[k].split('^')[0] + '^' + prodList[k].split('^')[6] + '^' + prodList[k].split('^')[7] + '^' + prodList[k].split('^')[4] +'^' + prodList[k].split('^')[2] + '^' + prodList[k].split('^')[3] +'^' + prodList[k].split('^')[1] + '^0^' + prodList[k].split('^')[8]);
 
-                                                                            // productsFire.doc(prodList[k].split('^')[0])
-                                                                            //     .get().then((val22) async {
-                                                                            //
-                                                                            // });
-
-                                                                            // List<String> subLink = [];
-                                                                            // List<String> subName = [];
-                                                                            // List<double> subStock = [];
-
-                                                                            // var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(prodList[k].split('^')[0])
-                                                                            //     .get();
-
-
-
-                                                                            // for(int i = 0; i < double.parse(data10 ? ["sub_exist"]) + 1; i++) {
-                                                                            //   subLink.add(data10 ? ['sub' + (i+1).toString() + '_link']);
-                                                                            //   subName.add(data10 ? ['sub' + (i+1).toString() + '_name']);
-                                                                            //   debugPrint('inStock' + (i+1).toString());
-                                                                            //   debugPrint(' CHECKING ' + (data10 ? ['mainSellUnit']).toString());
-                                                                            //   subStock.add(double.parse((data10 ? ['inStock' + (i+1).toString()]).toString()));
-                                                                            // }
-
-                                                                            // debugPrint(subStock.toString());
-                                                                            debugPrint('decStock ' + prodList[k].split('^')[0].toString() + ' ' + prodList[k].split('^')[3]);
-
-                                                                            if(prodList[k].split('^')[3] == 'unit_name') {
-                                                                              batch = await decStockFromInv(batch, prodList[k].split('^')[0], 'im', prodList[k].split('^')[4]);
-
-                                                                              batch.set(
-                                                                                  prodsArr,
-                                                                                  {
-                                                                                    'date' : now,
-                                                                                    'prods': {
-                                                                                      prodList[k].split('^')[0].toString(): {
-                                                                                        'im': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
-                                                                                        'sm' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
-                                                                                        'bm' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString())),
-                                                                                      }
-                                                                                    }
-                                                                                  },SetOptions(merge: true)
-                                                                              );
-
-                                                                              batch.set(
-                                                                                  prodsMonthly,
-                                                                                  {
-                                                                                    'date' : now,
-                                                                                    'prods': {
-                                                                                      prodList[k].split('^')[0].toString(): {
-                                                                                        'im': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
-                                                                                        'sm' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
-                                                                                        'bm' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
-                                                                                      }
-                                                                                    }
-                                                                                  },SetOptions(merge: true)
-                                                                              );
-
-                                                                              batch.set(
-                                                                                  prodsYearly,
-                                                                                  {
-                                                                                    'date' : now,
-                                                                                    'prods': {
-                                                                                      prodList[k].split('^')[0].toString(): {
-                                                                                        'im': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
-                                                                                        'sm' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
-                                                                                        'bm' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
-
-                                                                                      }
-                                                                                    }
-                                                                                  },SetOptions(merge: true)
-                                                                              );
-                                                                              debugPrint('decStock ' + prodList[k].split('^')[0].toString());
-                                                                              //decStockFromInv(str.split('^')[0], 'main', str.split('^')[4]);
-                                                                              //batch = await updateB2(batch, prodList[k].split('^')[0], double.parse(prodList[k].split('^')[4].toString()));
-                                                                              // if ( k == prodList.length-1) {
-                                                                              //   batch.commit();
-                                                                              // }
-                                                                              //debugPrint('batch complete');
-                                                                              // prodSaleData(str.split('^')[0], double.parse(str.split('^')[4].toString()));
-                                                                            }
-                                                                            else if(prodList[k].split('^')[3] == 'sub1_name') {
-                                                                              debugPrint('decStock1 ' + prodList[k].split('^')[9].toString());
-                                                                              batch = await sub1Execution(batch, prodList[k].split('^')[9], prodList[k].split('^')[10], prodList[k].split('^')[0], prodList[k].split('^')[4]);
-                                                                              batch.set(
-                                                                                  prodsArr,
-                                                                                  {
-                                                                                    'date' : now,
-                                                                                    'prods': {
-                                                                                      prodList[k].split('^')[0].toString(): {
-                                                                                        'i1': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
-                                                                                        's1' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
-                                                                                        'b1' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
-
-                                                                                      }
-                                                                                    }
-                                                                                  },SetOptions(merge: true)
-                                                                              );
-                                                                              batch.set(
-                                                                                  prodsMonthly,
-                                                                                  {
-                                                                                    'date' : now,
-                                                                                    'prods': {
-                                                                                      prodList[k].split('^')[0].toString(): {
-                                                                                        'i1': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
-                                                                                        's1' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
-                                                                                        'b1' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
-
-                                                                                      }
-                                                                                    }
-                                                                                  },SetOptions(merge: true)
-                                                                              );
-
-                                                                              batch.set(
-                                                                                  prodsYearly,
-                                                                                  {
-                                                                                    'date' : now,
-                                                                                    'prods': {
-                                                                                      prodList[k].split('^')[0].toString(): {
-                                                                                        'i1': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
-                                                                                        's1' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
-                                                                                        'b1' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
-
-                                                                                      }
-                                                                                    }
-                                                                                  },SetOptions(merge: true)
-                                                                              );
-                                                                              // productsFire.doc(prodList[k].split('^')[0]).update({
-                                                                              //   'sub1SellUnit' : FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
-                                                                              //});
-                                                                            }
-                                                                            else if(prodList[k].split('^')[3] == 'sub2_name') {
-                                                                              batch = await sub2Execution(batch, prodList[k].split('^')[9], prodList[k].split('^')[10], prodList[k].split('^')[0], prodList[k].split('^')[4]);
-                                                                              batch.set(
-                                                                                  prodsArr,
-                                                                                  {
-                                                                                    'date' : now,
-                                                                                    'prods': {
-                                                                                      prodList[k].split('^')[0].toString(): {
-                                                                                        'i2': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
-                                                                                        's2' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
-                                                                                        'b2' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
-
-                                                                                      }
-                                                                                    }
-                                                                                  },SetOptions(merge: true)
-                                                                              );
-                                                                              batch.set(
-                                                                                  prodsMonthly,
-                                                                                  {
-                                                                                    'date' : now,
-                                                                                    'prods': {
-                                                                                      prodList[k].split('^')[0].toString(): {
-                                                                                        'i2': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
-                                                                                        's2' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
-                                                                                        'b2' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
-
-                                                                                      }
-                                                                                    }
-                                                                                  },SetOptions(merge: true)
-                                                                              );
-
-                                                                              batch.set(
-                                                                                  prodsYearly,
-                                                                                  {
-                                                                                    'date' : now,
-                                                                                    'prods': {
-                                                                                      prodList[k].split('^')[0].toString(): {
-                                                                                        'i2': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
-                                                                                        's2' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
-                                                                                        'b2' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
-
-                                                                                      }
-                                                                                    }
-                                                                                  },SetOptions(merge: true)
-                                                                              );
-                                                                              // productsFire.doc(str.split('^')[0]).update({
-                                                                              //   'sub2SellUnit' : FieldValue.increment(double.parse(str.split('^')[4].toString())),
+                                                                              // productsFire.doc(prodList[k].split('^')[0])
+                                                                              //     .get().then((val22) async {
+                                                                              //
                                                                               // });
+
+                                                                              // List<String> subLink = [];
+                                                                              // List<String> subName = [];
+                                                                              // List<double> subStock = [];
+
+                                                                              // var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(prodList[k].split('^')[0])
+                                                                              //     .get();
+
+
+
+                                                                              // for(int i = 0; i < double.parse(data10 ? ["sub_exist"]) + 1; i++) {
+                                                                              //   subLink.add(data10 ? ['sub' + (i+1).toString() + '_link']);
+                                                                              //   subName.add(data10 ? ['sub' + (i+1).toString() + '_name']);
+                                                                              //   debugPrint('inStock' + (i+1).toString());
+                                                                              //   debugPrint(' CHECKING ' + (data10 ? ['mainSellUnit']).toString());
+                                                                              //   subStock.add(double.parse((data10 ? ['inStock' + (i+1).toString()]).toString()));
+                                                                              // }
+
+                                                                              // debugPrint(subStock.toString());
+                                                                              debugPrint('decStock ' + prodList[k].split('^')[0].toString() + ' ' + prodList[k].split('^')[3]);
+
+                                                                              if(prodList[k].split('^')[3] == 'unit_name') {
+                                                                                batch = await decStockFromInv(batch, prodList[k].split('^')[0], 'im', prodList[k].split('^')[4]);
+
+                                                                                batch.set(
+                                                                                    prodsArr,
+                                                                                    {
+                                                                                      'date' : now,
+                                                                                      'prods': {
+                                                                                        prodList[k].split('^')[0].toString(): {
+                                                                                          'im': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                          'sm' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                          'bm' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                        }
+                                                                                      }
+                                                                                    },SetOptions(merge: true)
+                                                                                );
+
+                                                                                batch.set(
+                                                                                    prodsMonthly,
+                                                                                    {
+                                                                                      'date' : now,
+                                                                                      'prods': {
+                                                                                        prodList[k].split('^')[0].toString(): {
+                                                                                          'im': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                          'sm' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                          'bm' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
+                                                                                        }
+                                                                                      }
+                                                                                    },SetOptions(merge: true)
+                                                                                );
+
+                                                                                batch.set(
+                                                                                    prodsYearly,
+                                                                                    {
+                                                                                      'date' : now,
+                                                                                      'prods': {
+                                                                                        prodList[k].split('^')[0].toString(): {
+                                                                                          'im': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                          'sm' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                          'bm' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
+
+                                                                                        }
+                                                                                      }
+                                                                                    },SetOptions(merge: true)
+                                                                                );
+                                                                                debugPrint('decStock ' + prodList[k].split('^')[0].toString());
+                                                                                //decStockFromInv(str.split('^')[0], 'main', str.split('^')[4]);
+                                                                                //batch = await updateB2(batch, prodList[k].split('^')[0], double.parse(prodList[k].split('^')[4].toString()));
+                                                                                // if ( k == prodList.length-1) {
+                                                                                //   batch.commit();
+                                                                                // }
+                                                                                //debugPrint('batch complete');
+                                                                                // prodSaleData(str.split('^')[0], double.parse(str.split('^')[4].toString()));
+                                                                              }
+                                                                              else if(prodList[k].split('^')[3] == 'sub1_name') {
+                                                                                debugPrint('decStock1 ' + prodList[k].split('^')[9].toString());
+                                                                                batch = await sub1Execution(batch, prodList[k].split('^')[9], prodList[k].split('^')[10], prodList[k].split('^')[0], prodList[k].split('^')[4]);
+                                                                                batch.set(
+                                                                                    prodsArr,
+                                                                                    {
+                                                                                      'date' : now,
+                                                                                      'prods': {
+                                                                                        prodList[k].split('^')[0].toString(): {
+                                                                                          'i1': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                          's1' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                          'b1' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
+
+                                                                                        }
+                                                                                      }
+                                                                                    },SetOptions(merge: true)
+                                                                                );
+                                                                                batch.set(
+                                                                                    prodsMonthly,
+                                                                                    {
+                                                                                      'date' : now,
+                                                                                      'prods': {
+                                                                                        prodList[k].split('^')[0].toString(): {
+                                                                                          'i1': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                          's1' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                          'b1' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
+
+                                                                                        }
+                                                                                      }
+                                                                                    },SetOptions(merge: true)
+                                                                                );
+
+                                                                                batch.set(
+                                                                                    prodsYearly,
+                                                                                    {
+                                                                                      'date' : now,
+                                                                                      'prods': {
+                                                                                        prodList[k].split('^')[0].toString(): {
+                                                                                          'i1': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                          's1' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                          'b1' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
+
+                                                                                        }
+                                                                                      }
+                                                                                    },SetOptions(merge: true)
+                                                                                );
+                                                                                // productsFire.doc(prodList[k].split('^')[0]).update({
+                                                                                //   'sub1SellUnit' : FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                //});
+                                                                              }
+                                                                              else if(prodList[k].split('^')[3] == 'sub2_name') {
+                                                                                batch = await sub2Execution(batch, prodList[k].split('^')[9], prodList[k].split('^')[10], prodList[k].split('^')[0], prodList[k].split('^')[4]);
+                                                                                batch.set(
+                                                                                    prodsArr,
+                                                                                    {
+                                                                                      'date' : now,
+                                                                                      'prods': {
+                                                                                        prodList[k].split('^')[0].toString(): {
+                                                                                          'i2': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                          's2' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                          'b2' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
+
+                                                                                        }
+                                                                                      }
+                                                                                    },SetOptions(merge: true)
+                                                                                );
+                                                                                batch.set(
+                                                                                    prodsMonthly,
+                                                                                    {
+                                                                                      'date' : now,
+                                                                                      'prods': {
+                                                                                        prodList[k].split('^')[0].toString(): {
+                                                                                          'i2': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                          's2' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                          'b2' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
+
+                                                                                        }
+                                                                                      }
+                                                                                    },SetOptions(merge: true)
+                                                                                );
+
+                                                                                batch.set(
+                                                                                    prodsYearly,
+                                                                                    {
+                                                                                      'date' : now,
+                                                                                      'prods': {
+                                                                                        prodList[k].split('^')[0].toString(): {
+                                                                                          'i2': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                          's2' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                          'b2' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
+
+                                                                                        }
+                                                                                      }
+                                                                                    },SetOptions(merge: true)
+                                                                                );
+                                                                                // productsFire.doc(str.split('^')[0]).update({
+                                                                                //   'sub2SellUnit' : FieldValue.increment(double.parse(str.split('^')[4].toString())),
+                                                                                // });
+                                                                              }
                                                                             }
-                                                                          }
 
-                                                                          batch = await updateOrderLength(batch);
+                                                                            batch = await updateOrderLength(batch);
 
-                                                                          if( debt.toString() != '0.0') {
-                                                                            debts = 1;
-                                                                            debtAmounts = debt;
-                                                                            deFilter = true;
-                                                                          } else {
-                                                                            debts = 0;
-                                                                            debtAmounts = 0;
-                                                                            deFilter = false;
-                                                                          }
+                                                                            if( debt.toString() != '0.0') {
+                                                                              debts = 1;
+                                                                              debtAmounts = debt;
+                                                                              deFilter = true;
+                                                                            } else {
+                                                                              debts = 0;
+                                                                              debtAmounts = 0;
+                                                                              deFilter = false;
+                                                                            }
 
-                                                                          debugPrint('subList ' + subList.toString());
+                                                                            debugPrint('subList ' + subList.toString());
 
-                                                                          totalOrders = totalOrders + 1;
-                                                                          //CusOrder(totalOrders, debts, debtAmounts);
+                                                                            totalOrders = totalOrders + 1;
+                                                                            //CusOrder(totalOrders, debts, debtAmounts);
 
-                                                                          batch = await updateCusOrder(batch, totalOrders, debts, debtAmounts);
+                                                                            batch = await updateCusOrder(batch, totalOrders, debts, debtAmounts);
 
-                                                                          DateTime ordCntDate = DateFormat("yyyy-MM-dd HH:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 12:00:00');
-                                                                          //notworking
-                                                                          batch = await updateMonthlyData(batch, now.year.toString() + zeroToTen(now.month.toString()),  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'capital',ttlPrice.toString(), debtAmounts, TtlProdListBuyPrice().toString(), ordCntDate);
-                                                                          //notworking
-                                                                          batch = await updateYearlyData(batch, now.year.toString(),  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'capital', ttlPrice.toString(), debtAmounts, TtlProdListBuyPrice().toString(), ordCntDate);
+                                                                            DateTime ordCntDate = DateFormat("yyyy-MM-dd HH:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 12:00:00');
+                                                                            //notworking
+                                                                            batch = await updateMonthlyData(batch, now.year.toString() + zeroToTen(now.month.toString()),  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'capital',ttlPrice.toString(), debtAmounts, TtlProdListBuyPrice().toString(), ordCntDate);
+                                                                            //notworking
+                                                                            batch = await updateYearlyData(batch, now.year.toString(),  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'capital', ttlPrice.toString(), debtAmounts, TtlProdListBuyPrice().toString(), ordCntDate);
 
-                                                                          //notworking
-                                                                          batch = await updateDetail(batch, now, length.toString(), subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, ttlPrice.toString(), customerId.split('^')[0].toString());
-                                                                          batch = await DatenotExist(batch, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + ttlPrice.toString() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, now, length.toString());
-
-
-                                                                          // if (dateExist) {
-                                                                          //   //   String ttlProdListPriceFut = await TtlProdListPriceFut();
-                                                                          //   batch = await updateDateExist(batch,dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), length.toString());
-                                                                          //   batch = await updateDetail(batch,now, length.toString(), subList, dateId, reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, TtlProdListPrice().toString(), customerId.split('^')[0].toString());
-                                                                          //
-                                                                          //   //addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
-                                                                          //   //Detail(now, length.toString(), subList, dateId, reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
-                                                                          //   debugPrint('adddateexist added');
-                                                                          // }
-                                                                          // else {
-                                                                          //   // String ttlProdListPriceFut = await TtlProdListPriceFut();
-                                                                          //   batch = await updateDetail(batch, now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, TtlProdListPrice().toString(), customerId.split('^')[0].toString());
-                                                                          //   DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), now, length.toString());
-                                                                          //   //Detail(now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
-                                                                          //   debugPrint('adddateexist not');
-                                                                          // }
-                                                                          debugPrint('prodList--' + prodList.toString());
-                                                                          try {
-                                                                            batch.commit();
-                                                                            Future.delayed(const Duration(milliseconds: 2000), () {
-                                                                              if(searchGlobalKey.currentState != null) {
-                                                                                searchGlobalKey.currentState!.navigatorPop();
-                                                                              }
-                                                                              if(prodGlobalKey.currentState != null) {
-                                                                                prodGlobalKey.currentState!.navigatorPop();
-                                                                              }
-                                                                              List<String> subNameList = [];
-                                                                              int subNameListLength = 0;
-                                                                              for (String str in prodList) {
-                                                                                subNameListLength = subNameListLength + 1;
-                                                                                subNameList.add(str.split('^')[7]);
-                                                                                if(prodList.length == subNameListLength) {
-                                                                                  debugPrint('fianlize : ' + subNameList.toString());
-                                                                                  // final date = DateTime.now();
-                                                                                  final date = now;
-                                                                                  final dueDate = date.add(Duration(days: 7));
-                                                                                  debugPrint('CUZMER CHECK ' + customerId.toString());
-                                                                                  for(int i=0; i<prodList.length; i++) {
-                                                                                    productSale.add(prodList[i].split('^')[6].toString() + '^' +subNameList[i].toString() + '^' + prodList[i].split('^')[2].toString() + '^' + prodList[i].split('^')[4].toString());
-                                                                                  }
-                                                                                  saleInfo = discountAmount.toString()  + '^' + disText.toString()  + '^' + debt.toString() + '^' + customerId.split('^')[1].toString();
-                                                                                  final invoice = Invoice(
-                                                                                    supplier: Supplier(
-                                                                                      name: shopGloName,
-                                                                                      address: shopGloAddress,
-                                                                                      phone: shopGloPhone,
-                                                                                      paymentInfo: '',
-                                                                                    ),
-                                                                                    customer: Customer(
-                                                                                      name: customerId.split('^')[1] == 'name'? 'No customer' :customerId.split('^')[1],
-                                                                                      address: '',
-                                                                                    ),
-                                                                                    info: InvoiceInfo(
-                                                                                        date: date,
-                                                                                        dueDate: dueDate,
-                                                                                        description: 'My description...',
-                                                                                        // number: '${DateTime.now().year}-9999',
-                                                                                        number: deviceIdNum.toString() + '-' + length.toString()
-                                                                                    ),
-                                                                                    items: [
-
-                                                                                      for(int i=0; i<prodList.length; i++)
-                                                                                        InvoiceItem(
-                                                                                          description: prodList[i].split('^')[6],
-                                                                                          // date: prodList[i].split('^')[3] + '^' + subNameList[i].toString(),
-                                                                                          date: subNameList[i].toString(),
-                                                                                          quantity: double.parse(prodList[i].split('^')[4]),
-                                                                                          vat: discountAmount,
-                                                                                          debt: debt,
-                                                                                          type: disText,
-                                                                                          unitPrice: double.parse(prodList[i].split('^')[2]),
-                                                                                          currencyUnit: currencyUnit,
-                                                                                          totalPriceText: totalVPrice,
-                                                                                          paidText: VPaid,
-                                                                                          totalDebtText: VDebt,
-                                                                                          subTotalText: subVTotal,
-                                                                                          discountText: VDiscount,
-                                                                                        )
-
-                                                                                      // InvoiceItem(
-                                                                                      //   description: 'Water',
-                                                                                      //   date: DateTime.now(),
-                                                                                      //   quantity: 8,
-                                                                                      //   vat: 0.19,
-                                                                                      //   unitPrice: 0.99,
-                                                                                      // ),
-                                                                                      // InvoiceItem(
-                                                                                      //   description: 'Orange',
-                                                                                      //   date: DateTime.now(),
-                                                                                      //   quantity: 3,
-                                                                                      //   vat: 0.19,
-                                                                                      //   unitPrice: 2.99,
-                                                                                      // ),
-                                                                                      // InvoiceItem(
-                                                                                      //   description: 'Apple',
-                                                                                      //   date: DateTime.now(),
-                                                                                      //   quantity: 8,
-                                                                                      //   vat: 0.19,
-                                                                                      //   unitPrice: 3.99,
-                                                                                      // ),
-                                                                                      // InvoiceItem(
-                                                                                      //   description: 'Mango',
-                                                                                      //   date: DateTime.now(),
-                                                                                      //   quantity: 1,
-                                                                                      //   vat: 0.19,
-                                                                                      //   unitPrice: 1.59,
-                                                                                      // ),
-                                                                                      // InvoiceItem(
-                                                                                      //   description: 'Blue Berries',
-                                                                                      //   date: DateTime.now(),
-                                                                                      //   quantity: 5,
-                                                                                      //   vat: 0.19,
-                                                                                      //   unitPrice: 0.99,
-                                                                                      // ),
-                                                                                      // InvoiceItem(
-                                                                                      //   description: 'Black',
-                                                                                      //   date: DateTime.now(),
-                                                                                      //   quantity: 4,
-                                                                                      //   vat: 0.19,
-                                                                                      //   unitPrice: 1.29,
-                                                                                      // ),
-                                                                                    ],
-                                                                                  );
-                                                                                  sellDone = true;
-                                                                                  _controllerTablet.animateTo(0);
-
-                                                                                  getPaperId().then((value) async {
-                                                                                    debugPrint('VVAALLUUEE ' + value.toString());
-                                                                                    pdfFile = await PdfInvoiceApi.generate(invoice, value);
-
-                                                                                    Uint8List bytes = pdfFile!.readAsBytesSync();
+                                                                            //notworking
+                                                                            batch = await updateDetail(batch, now, length.toString(), subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, ttlPrice.toString(), customerId.split('^')[0].toString());
+                                                                            batch = await DatenotExist(batch, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + ttlPrice.toString() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, now, length.toString());
 
 
-                                                                                    Future.delayed(const Duration(milliseconds: 1000), () {
-                                                                                      setState(() {
-                                                                                        mystate(() {
-                                                                                          // setState(() {
-                                                                                          pdfText = pdfFile!.path.toString();
-                                                                                          // });
-
-                                                                                          orderCreating = false;
-                                                                                          disableTouch = false;
-                                                                                          // saleCartDrag = false;
-                                                                                        });
-                                                                                      });
-                                                                                      // debugPrint('saleCartDrag ' + saleCartDrag.toString());
-                                                                                      tranGlobalKey.currentState!.disLoading();
-                                                                                      _controller.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
-                                                                                    });
-                                                                                  });
+                                                                            // if (dateExist) {
+                                                                            //   //   String ttlProdListPriceFut = await TtlProdListPriceFut();
+                                                                            //   batch = await updateDateExist(batch,dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), length.toString());
+                                                                            //   batch = await updateDetail(batch,now, length.toString(), subList, dateId, reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, TtlProdListPrice().toString(), customerId.split('^')[0].toString());
+                                                                            //
+                                                                            //   //addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
+                                                                            //   //Detail(now, length.toString(), subList, dateId, reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
+                                                                            //   debugPrint('adddateexist added');
+                                                                            // }
+                                                                            // else {
+                                                                            //   // String ttlProdListPriceFut = await TtlProdListPriceFut();
+                                                                            //   batch = await updateDetail(batch, now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, TtlProdListPrice().toString(), customerId.split('^')[0].toString());
+                                                                            //   DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), now, length.toString());
+                                                                            //   //Detail(now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
+                                                                            //   debugPrint('adddateexist not');
+                                                                            // }
+                                                                            debugPrint('prodList--' + prodList.toString());
+                                                                            try {
+                                                                              batch.commit();
+                                                                              Future.delayed(const Duration(milliseconds: 2000), () {
+                                                                                if(searchGlobalKey.currentState != null) {
+                                                                                  searchGlobalKey.currentState!.navigatorPop();
                                                                                 }
-                                                                              }
-                                                                            });
-                                                                          } catch(error) {
-                                                                            debugPrint('error while creating orders');
-                                                                            smartKyatFlash('An error occurred while creating order. Please try again later.', 'e');
-                                                                            setState(() {
-                                                                              mystate(() {
-                                                                                orderCreating = false;
-                                                                                disableTouch = false;
-                                                                                // saleCartDrag = false;
+                                                                                if(prodGlobalKey.currentState != null) {
+                                                                                  prodGlobalKey.currentState!.navigatorPop();
+                                                                                }
+                                                                                List<String> subNameList = [];
+                                                                                int subNameListLength = 0;
+                                                                                for (String str in prodList) {
+                                                                                  subNameListLength = subNameListLength + 1;
+                                                                                  subNameList.add(str.split('^')[7]);
+                                                                                  if(prodList.length == subNameListLength) {
+                                                                                    debugPrint('fianlize : ' + subNameList.toString());
+                                                                                    // final date = DateTime.now();
+                                                                                    final date = now;
+                                                                                    final dueDate = date.add(Duration(days: 7));
+                                                                                    debugPrint('CUZMER CHECK ' + customerId.toString());
+                                                                                    for(int i=0; i<prodList.length; i++) {
+                                                                                      productSale.add(prodList[i].split('^')[6].toString() + '^' +subNameList[i].toString() + '^' + prodList[i].split('^')[2].toString() + '^' + prodList[i].split('^')[4].toString());
+                                                                                    }
+                                                                                    saleInfo = discountAmount.toString()  + '^' + disText.toString()  + '^' + debt.toString() + '^' + customerId.split('^')[1].toString();
+                                                                                    final invoice = Invoice(
+                                                                                      supplier: Supplier(
+                                                                                        name: shopGloName,
+                                                                                        address: shopGloAddress,
+                                                                                        phone: shopGloPhone,
+                                                                                        paymentInfo: '',
+                                                                                      ),
+                                                                                      customer: Customer(
+                                                                                        name: customerId.split('^')[1] == 'name'? 'No customer' :customerId.split('^')[1],
+                                                                                        address: '',
+                                                                                      ),
+                                                                                      info: InvoiceInfo(
+                                                                                          date: date,
+                                                                                          dueDate: dueDate,
+                                                                                          description: 'My description...',
+                                                                                          // number: '${DateTime.now().year}-9999',
+                                                                                          number: deviceIdNum.toString() + '-' + length.toString()
+                                                                                      ),
+                                                                                      items: [
+
+                                                                                        for(int i=0; i<prodList.length; i++)
+                                                                                          InvoiceItem(
+                                                                                            description: prodList[i].split('^')[6],
+                                                                                            // date: prodList[i].split('^')[3] + '^' + subNameList[i].toString(),
+                                                                                            date: subNameList[i].toString(),
+                                                                                            quantity: double.parse(prodList[i].split('^')[4]),
+                                                                                            vat: discountAmount,
+                                                                                            debt: debt,
+                                                                                            type: disText,
+                                                                                            unitPrice: double.parse(prodList[i].split('^')[2]),
+                                                                                            currencyUnit: currencyUnit,
+                                                                                            totalPriceText: totalVPrice,
+                                                                                            paidText: VPaid,
+                                                                                            totalDebtText: VDebt,
+                                                                                            subTotalText: subVTotal,
+                                                                                            discountText: VDiscount,
+                                                                                          )
+
+                                                                                        // InvoiceItem(
+                                                                                        //   description: 'Water',
+                                                                                        //   date: DateTime.now(),
+                                                                                        //   quantity: 8,
+                                                                                        //   vat: 0.19,
+                                                                                        //   unitPrice: 0.99,
+                                                                                        // ),
+                                                                                        // InvoiceItem(
+                                                                                        //   description: 'Orange',
+                                                                                        //   date: DateTime.now(),
+                                                                                        //   quantity: 3,
+                                                                                        //   vat: 0.19,
+                                                                                        //   unitPrice: 2.99,
+                                                                                        // ),
+                                                                                        // InvoiceItem(
+                                                                                        //   description: 'Apple',
+                                                                                        //   date: DateTime.now(),
+                                                                                        //   quantity: 8,
+                                                                                        //   vat: 0.19,
+                                                                                        //   unitPrice: 3.99,
+                                                                                        // ),
+                                                                                        // InvoiceItem(
+                                                                                        //   description: 'Mango',
+                                                                                        //   date: DateTime.now(),
+                                                                                        //   quantity: 1,
+                                                                                        //   vat: 0.19,
+                                                                                        //   unitPrice: 1.59,
+                                                                                        // ),
+                                                                                        // InvoiceItem(
+                                                                                        //   description: 'Blue Berries',
+                                                                                        //   date: DateTime.now(),
+                                                                                        //   quantity: 5,
+                                                                                        //   vat: 0.19,
+                                                                                        //   unitPrice: 0.99,
+                                                                                        // ),
+                                                                                        // InvoiceItem(
+                                                                                        //   description: 'Black',
+                                                                                        //   date: DateTime.now(),
+                                                                                        //   quantity: 4,
+                                                                                        //   vat: 0.19,
+                                                                                        //   unitPrice: 1.29,
+                                                                                        // ),
+                                                                                      ],
+                                                                                    );
+                                                                                    sellDone = true;
+                                                                                    _controllerTablet.animateTo(0);
+
+                                                                                    getPaperId().then((value) async {
+                                                                                      debugPrint('VVAALLUUEE ' + value.toString());
+                                                                                      pdfFile = await PdfInvoiceApi.generate(invoice, value);
+
+                                                                                      Uint8List bytes = pdfFile!.readAsBytesSync();
+
+
+                                                                                      Future.delayed(const Duration(milliseconds: 1000), () {
+                                                                                        setState(() {
+                                                                                          mystate(() {
+                                                                                            // setState(() {
+                                                                                            pdfText = pdfFile!.path.toString();
+                                                                                            // });
+
+                                                                                            orderCreating = false;
+                                                                                            disableTouch = false;
+                                                                                            // saleCartDrag = false;
+                                                                                          });
+                                                                                        });
+                                                                                        // debugPrint('saleCartDrag ' + saleCartDrag.toString());
+                                                                                        tranGlobalKey.currentState!.disLoading();
+                                                                                        _controller.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
+                                                                                      });
+                                                                                    });
+                                                                                  }
+                                                                                }
                                                                               });
-                                                                            });
-                                                                          }
+                                                                            } catch(error) {
+                                                                              debugPrint('error while creating orders');
+                                                                              smartKyatFlash('An error occurred while creating order. Please try again later.', 'e');
+                                                                              setState(() {
+                                                                                mystate(() {
+                                                                                  orderCreating = false;
+                                                                                  disableTouch = false;
+                                                                                  // saleCartDrag = false;
+                                                                                });
+                                                                              });
+                                                                            }
 
 
 
 
 
 
-                                                                        });
-                                                                      }
+                                                                          });
+                                                                        }
                                                                       },
                                                                       child: Container(
                                                                         width: (MediaQuery.of(context).size.width - 45)/2,
@@ -11943,7 +11975,6 @@ class HomePageState extends State<HomePage>
 
   TtlProdListPrice() {
     double total = 0;
-    debugPrint('prrodd ' + prodList.toString());
     for (String str in prodList) {
       total += double.parse(str.split('^')[2]) * double.parse(str.split('^')[4]);
       disPercent = (double.parse(total.toString()) *
@@ -11951,7 +11982,6 @@ class HomePageState extends State<HomePage>
     }
     if(isDiscount == 'percent'){
       discountAmount = discount;
-      debugPrint(discountAmount.toString());
       disText = '-p';
       total = (double.parse(total.toString()) -
           (double.parse(total.toString()) *
@@ -11970,6 +12000,25 @@ class HomePageState extends State<HomePage>
       disText = '';
     }
     return total.toString();
+  }
+
+  double ayinTtlPrice = 0;
+  animatedTtlPrice() {
+    double temp = ayinTtlPrice;
+    double total =  double.parse(TtlProdListPrice());
+    ayinTtlPrice = total;
+    return Countup(
+      begin: temp,
+      end: total,
+      curve: Curves.easeInOut,
+      duration: Duration(milliseconds: 500),
+      separator: ',',
+      style: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.w500,
+        color: Colors.black,
+      ),
+    );
   }
 
   // Future<String> TtlProdListPriceFut()  async {
