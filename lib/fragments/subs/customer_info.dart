@@ -273,36 +273,13 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                      ),
                                                    ),
                                                    onPressed: () async {
-                                                     // await widget._callback(
-                                                     //     widget.id.toString() +
-                                                     //         '^' + customerName);
-                                                     // smartKyatFlash(
-                                                     //     customerName.toString() +
-                                                     //         ' has been successfully added to the sale cart.',
-                                                     //     's');
-
-                                                     // // Get the position of the current widget when clicked, and pass in overlayEntry
-                                                     // OverlayEntry? _overlayEntry = OverlayEntry(builder: (_) {
-                                                     //   RenderBox? renderBox = context.findRenderObject() as RenderBox;
-                                                     //   var offset = renderBox!.localToGlobal(Offset.zero);
-                                                     //   return EasyCartAnimation(
-                                                     //     startPosition: offset,
-                                                     //     endPosition: _endOffset,
-                                                     //     height: 14,
-                                                     //     width: 14,
-                                                     //     color: Colors.blue,
-                                                     //     dxCurveAnimation: 250,
-                                                     //     dyCurveAnimation: 50,
-                                                     //     opacity: 0.5,
-                                                     //   );
-                                                     // });
-                                                     // // Show Overlay
-                                                     // Overlay.of(context)!.insert(_overlayEntry);
-                                                     // // wait for the animation to end
-                                                     // Future.delayed(Duration(milliseconds: 800), () {
-                                                     //   _overlayEntry!.remove();
-                                                     //   _overlayEntry = null;
-                                                     // });
+                                                     await widget._callback(
+                                                         widget.id.toString() +
+                                                             '^' + customerName);
+                                                     smartKyatFlash(
+                                                         customerName.toString() +
+                                                             ' has been successfully added to the sale cart.',
+                                                         's');
                                                    },
                                                    child: Container(
                                                      width: 100,

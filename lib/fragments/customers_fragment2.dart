@@ -951,6 +951,12 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                                               )),
                                                           child: Column(
                                                             children: [
+                                                              // Hero(
+                                                              //   tag: 'imageHero',
+                                                              //   child: Image.network(
+                                                              //     'https://picsum.photos/250?image=9',
+                                                              //   ),
+                                                              // ),
                                                               Padding(
                                                                 padding: const EdgeInsets
                                                                     .only(
