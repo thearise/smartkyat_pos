@@ -370,7 +370,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
 
     for(int i = 0; i < loadedState.documentSnapshots.length; i++) {
       Map<String, dynamic> data = loadedState.documentSnapshots[i].data() as Map<String, dynamic>;
-      debugPrint('inside loss loss ' + data.toString());
+     // debugPrint('inside loss loss ' + data.toString());
     }
 
 
@@ -405,7 +405,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
         SliverAppBar(
           elevation: 0,
           backgroundColor: Colors.white,
-
+           automaticallyImplyLeading: false,
           // Provide a standard title.
 
           // Allows the user to reveal the app bar if they begin scrolling
@@ -2187,7 +2187,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                   stream: prodSaleData,
                                   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                                     if(snapshot.hasData) {
-                                      debugPrint('snapshot len ' + snapshot.data!.docs.length.toString());
+                                      //debugPrint('snapshot len ' + snapshot.data!.docs.length.toString());
                                       if(cateScIndex == 0) {
                                         var prodsDoc;
                                         // Map<String, dynamic>
@@ -2197,7 +2197,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                           if(today.day == docDate.day) {
                                             prodsDoc = snapshot.data!.docs[i].data()! as Map<String, dynamic>;
                                           }
-                                          debugPrint('iphone ' + eachDoc['date'].toDate().toString());
+                                         // debugPrint('iphone ' + eachDoc['date'].toDate().toString());
                                         }
                                         if(prodsDoc != null) {
                                           var prods = prodsDoc['prods'];
@@ -2205,14 +2205,14 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
 
                                           for(int i = 0; i < prods.length; i++) {
                                             var eachMap = prods.entries.elementAt(i);
-                                            debugPrint('jisoo ' + prodsSc[eachMap.key].toString());
+                                           // debugPrint('jisoo ' + prodsSc[eachMap.key].toString());
                                             double sort = 0;
                                             double main = eachMap.value['im'] == null? 0: eachMap.value['im'];
                                             double sub1 = eachMap.value['i1'] == null? 0: eachMap.value['i1'];
                                             double sub2 = eachMap.value['i2'] == null? 0: eachMap.value['i2'];
 
-                                            debugPrint('setting 1 ' + prodsSc[eachMap.key].toString());
-                                            debugPrint('setting 2 ' + main.toString() + ' ' + sub1.toString() + ' ' + sub2.toString());
+                                        //    debugPrint('setting 1 ' + prodsSc[eachMap.key].toString());
+                                          //  debugPrint('setting 2 ' + main.toString() + ' ' + sub1.toString() + ' ' + sub2.toString());
                                             if(eachMap.value['im']!=0 && eachMap.value['im']!=null) {
                                               sort += eachMap.value['im'];
                                             }
@@ -2220,11 +2220,11 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                               sort += sub1/prodsSc[eachMap.key]['c1'];
                                             }
                                             if(prodsSc[eachMap.key]['c2'] != 0 && prodsSc[eachMap.key]['c1'] != 0 && eachMap.value['i2']!=null) {
-                                              debugPrint('going?');
+                                             // debugPrint('going?');
                                               sort += (sub2/prodsSc[eachMap.key]['c2'])/prodsSc[eachMap.key]['c1'];
                                             }
 
-                                            debugPrint('sorting ' + sort.toString());
+                                     //       debugPrint('sorting ' + sort.toString());
                                             var assign = {
                                               'name': prodsSc[eachMap.key]['na'],
                                               'main': main.toInt(),
@@ -2249,18 +2249,18 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                           Map<String, dynamic> eachDoc = snapshot.data!.docs[j].data()! as Map<String, dynamic>;
                                           DateTime docDate = eachDoc['date'].toDate();
                                           var prods = eachDoc['prods'];
-                                          debugPrint('eachDoc ' + prods.toString());
+                                          //debugPrint('eachDoc ' + prods.toString());
 
                                           for(int i = 0; i < prods.length; i++) {
                                             var eachMap = prods.entries.elementAt(i);
-                                            debugPrint('jisoo ' + prodsSc[eachMap.key].toString());
+                                            //debugPrint('jisoo ' + prodsSc[eachMap.key].toString());
                                             double sort = 0;
                                             double main = eachMap.value['im'] == null? 0: eachMap.value['im'];
                                             double sub1 = eachMap.value['i1'] == null? 0: eachMap.value['i1'];
                                             double sub2 = eachMap.value['i2'] == null? 0: eachMap.value['i2'];
 
-                                            debugPrint('setting 1 ' + prodsSc[eachMap.key].toString());
-                                            debugPrint('setting 2 ' + main.toString() + ' ' + sub1.toString() + ' ' + sub2.toString());
+                                           // debugPrint('setting 1 ' + prodsSc[eachMap.key].toString());
+                                           // debugPrint('setting 2 ' + main.toString() + ' ' + sub1.toString() + ' ' + sub2.toString());
                                             if(eachMap.value['im']!=0 && eachMap.value['im']!=null) {
                                               sort += eachMap.value['im'];
                                             }
@@ -2272,7 +2272,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                               sort += (sub2/prodsSc[eachMap.key]['c2'])/prodsSc[eachMap.key]['c1'];
                                             }
 
-                                            debugPrint('sorting ' + sort.toString());
+                                          //  debugPrint('sorting ' + sort.toString());
 
                                             var assign = {
                                               'name': prodsSc[eachMap.key]['na'],
@@ -2285,7 +2285,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                               's2na': prodsSc[eachMap.key]['n2']
                                             };
                                             if(prodsPrep.containsKey(eachMap.key)) {
-                                              debugPrint('prodsPrep ' + prodsPrep[eachMap.key].toString());
+                                            //  debugPrint('prodsPrep ' + prodsPrep[eachMap.key].toString());
                                               assign['main'] = assign['main'] + prodsPrep[eachMap.key]['main'];
                                               assign['sub1'] = assign['sub1'] + prodsPrep[eachMap.key]['sub1'];
                                               assign['sub2'] = assign['sub2'] + prodsPrep[eachMap.key]['sub2'];
@@ -2301,7 +2301,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
 
                                         }
 
-                                        debugPrint('iphone2 ' + prodsPrep.toString());
+                                     //   debugPrint('iphone2 ' + prodsPrep.toString());
                                         if(prodsPrep.length == 0) {
                                           return Container();
                                         }
@@ -4173,7 +4173,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
   int ayinProdLeng = 0;
   int sortType = 0;
   Widget prodsDataTable(prodsPrep) {
-    debugPrint('sorting filt ' + sortType.toString());
+   //debugPrint('sorting filt ' + sortType.toString());
     if(sortType==3) {
       prodsPrep = sortMapBySub2(prodsPrep);
     } else if(sortType==2) {
@@ -4181,7 +4181,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     } else if(sortType==1) {
       prodsPrep = sortMapByMain(prodsPrep);
     } else {
-      debugPrint('sorting bef ' + prodsPrep.toString());
+     // debugPrint('sorting bef ' + prodsPrep.toString());
       prodsPrep = sortMapByAvg(prodsPrep);
     }
     int length = prodsPrep.length;
@@ -4214,7 +4214,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     var prodsPrepMod = {};
     for(int i=int.parse(dropdownValue.split('-')[0]); i <= int.parse(dropdownValue.split('-')[1]); i++) {
       var eachMap = prodsPrep.entries.elementAt(i-1);
-      print('sps ' + eachMap.toString());
+    //  print('sps ' + eachMap.toString());
       prodsPrepMod.addAll({eachMap.key.toString(): eachMap.value});
     }
     String type = 'type';
