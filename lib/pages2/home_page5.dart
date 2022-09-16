@@ -80,6 +80,7 @@ import 'package:esc_pos_utils_plus/esc_pos_utils.dart' as posUtils;
 import 'first_launch_page.dart';
 import 'notificationservice.dart';
 import 'transparent.dart';
+import 'package:countup/countup.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -6482,28 +6483,59 @@ class HomePageState extends State<HomePage>
                                                                                 left: 8.0,
                                                                                 right: 8.0,
                                                                                 bottom: 2.0),
-                                                                            child: double.parse(totalItems()) == 1? Container(
-                                                                              child:
-                                                                              Text(
-                                                                                totalItems() + ' item - ' + TtlProdListPrice() + ' $currencyUnit',
-                                                                                textScaleFactor: 1, textAlign: TextAlign.center,
-                                                                                style: TextStyle(
-                                                                                    fontSize: 18,
-                                                                                    fontWeight: FontWeight.w500,
-                                                                                    color: Colors.black),
-                                                                              ),
-                                                                            ) :
-                                                                            Container(
-                                                                              child:
-                                                                              Text(
-                                                                                totalItems() + ' items - ' + TtlProdListPrice() + ' $currencyUnit',
-                                                                                textScaleFactor: 1, textAlign: TextAlign.center,
-                                                                                style: TextStyle(
-                                                                                    fontSize: 18,
-                                                                                    fontWeight: FontWeight.w500,
-                                                                                    color: Colors.black),
-                                                                              ),
-                                                                            ),
+                                                                            child: Row(
+                                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                                                              children: [
+                                                                                Text(
+                                                                                  totalItems(),
+                                                                                  textScaleFactor: 1, textAlign: TextAlign.center,
+                                                                                  style: TextStyle(
+                                                                                      fontSize: 18,
+                                                                                      fontWeight: FontWeight.w500,
+                                                                                      color: Colors.black),
+                                                                                ),
+                                                                                Text(
+                                                                                  totalItems() == '1'? ' item - ': ' items - ',
+                                                                                  textScaleFactor: 1, textAlign: TextAlign.center,
+                                                                                  style: TextStyle(
+                                                                                      fontSize: 18,
+                                                                                      fontWeight: FontWeight.w500,
+                                                                                      color: Colors.black),
+                                                                                ),
+                                                                                animatedTtlPrice(),
+                                                                                Text(
+                                                                                  ' $currencyUnit',
+                                                                                  textScaleFactor: 1, textAlign: TextAlign.center,
+                                                                                  style: TextStyle(
+                                                                                      fontSize: 18,
+                                                                                      fontWeight: FontWeight.w500,
+                                                                                      color: Colors.black),
+                                                                                ),
+                                                                              ],
+                                                                            )
+                                                                            // child: double.parse(totalItems()) == 1? Container(
+                                                                            //   child:
+                                                                            //   Text(
+                                                                            //     totalItems() + ' item - ' + TtlProdListPrice() + ' $currencyUnit',
+                                                                            //     textScaleFactor: 1, textAlign: TextAlign.center,
+                                                                            //     style: TextStyle(
+                                                                            //         fontSize: 18,
+                                                                            //         fontWeight: FontWeight.w500,
+                                                                            //         color: Colors.black),
+                                                                            //   ),
+                                                                            // ) :
+                                                                            // Container(
+                                                                            //   child:
+                                                                            //   Text(
+                                                                            //     totalItems() + ' items - ' + TtlProdListPrice() + ' $currencyUnit',
+                                                                            //     textScaleFactor: 1, textAlign: TextAlign.center,
+                                                                            //     style: TextStyle(
+                                                                            //         fontSize: 18,
+                                                                            //         fontWeight: FontWeight.w500,
+                                                                            //         color: Colors.black),
+                                                                            //   ),
+                                                                            // ),
                                                                           ),
                                                                         ),
                                                                       ],
@@ -11943,7 +11975,6 @@ class HomePageState extends State<HomePage>
 
   TtlProdListPrice() {
     double total = 0;
-    debugPrint('prrodd ' + prodList.toString());
     for (String str in prodList) {
       total += double.parse(str.split('^')[2]) * double.parse(str.split('^')[4]);
       disPercent = (double.parse(total.toString()) *
@@ -11951,7 +11982,6 @@ class HomePageState extends State<HomePage>
     }
     if(isDiscount == 'percent'){
       discountAmount = discount;
-      debugPrint(discountAmount.toString());
       disText = '-p';
       total = (double.parse(total.toString()) -
           (double.parse(total.toString()) *
@@ -11970,6 +12000,25 @@ class HomePageState extends State<HomePage>
       disText = '';
     }
     return total.toString();
+  }
+
+  double ayinTtlPrice = 0;
+  animatedTtlPrice() {
+    double temp = ayinTtlPrice;
+    double total =  double.parse(TtlProdListPrice());
+    ayinTtlPrice = total;
+    return Countup(
+      begin: temp,
+      end: total,
+      curve: Curves.easeInOut,
+      duration: Duration(milliseconds: 500),
+      separator: ',',
+      style: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.w500,
+        color: Colors.black,
+      ),
+    );
   }
 
   // Future<String> TtlProdListPriceFut()  async {
