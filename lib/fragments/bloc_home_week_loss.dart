@@ -420,14 +420,14 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
           // Make the initial height of the SliverAppBar larger than normal.
           expandedHeight: 20,
         ),
-        SliverAppBar(
-          // automaticallyImplyLeading: false,
-          title: Text('2'),
-          backgroundColor: Colors.white,
-          // floating: true,
-          pinned: true,
-          elevation: 1,
-        ),
+        // SliverAppBar(
+        //   // automaticallyImplyLeading: false,
+        //   title: Text('2'),
+        //   backgroundColor: Colors.white,
+        //   // floating: true,
+        //   pinned: true,
+        //   elevation: 1,
+        // ),
         // SliverAppBar(
         //   elevation: 0,
         //   backgroundColor: Colors.white,
@@ -485,12 +485,12 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                               //   ),
                               // ),
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 4.0),
                                 child: Row(
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        textSetTotalSales,textScaleFactor: 1,
+                                        'SALES IN-OUT SUMMARY',textScaleFactor: 1,
                                         style: TextStyle(
                                           height: 0.9,
                                           letterSpacing: 2,
@@ -499,78 +499,546 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                         ),
                                       ),
                                     ),
-                                    // Text(
-                                    //   titleTextBySlide(),
-                                    //   style: TextStyle( height: 0.9,
-                                    //     letterSpacing: 2,
-                                    //     fontWeight: FontWeight.bold,
-                                    //     fontSize: 14,color: Colors.grey,
-                                    //   ),
-                                    // )
                                   ],
                                 ),
                               ),
-                              SizedBox(height: 6,),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 0.0, bottom: 2.0),
-                                child: Container(
-                                  child: Row(
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 9, bottom: 14),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text(totalBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                        textScaleFactor: 1, textAlign: TextAlign.left,
-                                        style: GoogleFonts.lato(
-                                            textStyle: TextStyle(
-                                                letterSpacing: 1,
-                                                fontSize: 30,
-                                                fontWeight: FontWeight.w600,
-                                                color: Colors.black
-                                            )
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 12.0),
-                                        child: Text(' $currencyUnit', textScaleFactor: 1,
-                                          textAlign: TextAlign.left,
-                                          style: GoogleFonts.roboto(
-                                              textStyle: TextStyle(
-                                                  letterSpacing: 1,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Colors.black
-                                              )
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 3.0),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(5.0),
-                                            ),
-                                            color: percentBySale() == 1001 || percentBySale() == 1000 ? Colors.blue: percentBySale() < 0? AppTheme.badgeFgDanger: Colors.green,
-                                          ),
-                                          // width: 50,
-                                          height: 25,
-                                          child: Center(
-                                            child: Text(' ' + perTSalText(percentBySale()).toString() + ' ',
-                                              textScaleFactor: 1, textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Colors.white),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            totalBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                            textScaleFactor: 1, textAlign: TextAlign.left,
+                                            style: GoogleFonts.lato(
+                                                textStyle: TextStyle(
+                                                    letterSpacing: 1,
+                                                    fontSize: 26,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.black
+                                                )
                                             ),
                                           ),
-                                        ),
-                                      )
+                                          Padding(
+                                            padding: const EdgeInsets.only(left: 5.0, top: 13.0),
+                                            child: Text(
+                                              currencyUnit, textScaleFactor: 1,
+                                                textAlign: TextAlign.left,
+                                                style: GoogleFonts.roboto(
+                                                    textStyle: TextStyle(
+                                                        letterSpacing: 1,
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.w600,
+                                                        color: Colors.black
+                                                    )
+                                          ) ) ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'Net sales ' + '(',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                          percentBySale() == 1001 || percentBySale() == 1000 ?
+                                          Text('') :
+                                          Text(
+                                            percentBySale().abs().toString()+ '% ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                              color: percentBySale() == 1001 || percentBySale() == 1000 ? Colors.blue: percentBySale() < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                          ) ,
+                                          percentBySale() == 1001 || percentBySale() == 1000 ? Text(
+                                            'same as ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ) :  percentBySale() < 0?
+                                          Text(
+                                            'lower than ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ) :
+                                          Text(
+                                            'higher than ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                          Text(
+                                            yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                        ],
+                                      ),
                                     ],
                                   ),
                                 ),
                               ),
-                              SizedBox(height: 6,),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: BoxDecoration(
+                                      border: Border(
+                                          bottom: BorderSide(
+                                              color: Colors.grey
+                                                  .withOpacity(
+                                                  0.3),
+                                              width: 1.0)
+                                      )),
+                                ),
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 9, bottom: 14),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(
+                                            profitBySlide().toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                            textScaleFactor: 1, textAlign: TextAlign.left,
+                                            style: GoogleFonts.lato(
+                                                textStyle: TextStyle(
+                                                    letterSpacing: 1,
+                                                    fontSize: 26,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.black
+                                                )
+                                            ),
+                                          ),
+                                          Padding(
+                                              padding: const EdgeInsets.only(left: 5.0, top: 13.0),
+                                              child: Text(
+                                                  currencyUnit, textScaleFactor: 1,
+                                                  textAlign: TextAlign.left,
+                                                  style: GoogleFonts.roboto(
+                                                      textStyle: TextStyle(
+                                                          letterSpacing: 1,
+                                                          fontSize: 14,
+                                                          fontWeight: FontWeight.w600,
+                                                          color: Colors.black
+                                                      )
+                                                  ) ) ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'Avg profit ' + '(',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                          growthRateDayProfit(lastProfitBySlide(), profitBySlide()) == 1001 || growthRateDayProfit(lastProfitBySlide(), profitBySlide()) == 1000 ?
+                                          Text('') :
+                                          Text(
+                                            growthRateDayProfit(lastProfitBySlide(), profitBySlide()).abs().toString()+ '% ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                              fontSize: 13, height: 1.2,
+                                              fontWeight: FontWeight.w500,
+                                              color: growthRateDayProfit(lastProfitBySlide(), profitBySlide()) == 1001 || growthRateDayProfit(lastProfitBySlide(), profitBySlide()) == 1000 ? Colors.blue: growthRateDayProfit(lastProfitBySlide(), profitBySlide()) < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                          ) ,
+                                          growthRateDayProfit(lastProfitBySlide(), profitBySlide()) == 1001 || growthRateDayProfit(lastProfitBySlide(), profitBySlide()) == 1000 ? Text(
+                                            'same as ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ) :  growthRateDayProfit(lastProfitBySlide(), profitBySlide()) < 0?
+                                          Text(
+                                            'lower than ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ) :
+                                          Text(
+                                            'higher than ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                          Text(
+                                            yestWeekTitle().toString() + ')', strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: BoxDecoration(
+                                      border: Border(
+                                          bottom: BorderSide(
+                                              color: Colors.grey
+                                                  .withOpacity(
+                                                  0.3),
+                                              width: 1.0)
+                                      )),
+                                ),
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 9, bottom: 14),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(
+                                            totalEarnBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                            textScaleFactor: 1, textAlign: TextAlign.left,
+                                            style: GoogleFonts.lato(
+                                                textStyle: TextStyle(
+                                                    letterSpacing: 1,
+                                                    fontSize: 26,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.black
+                                                )
+                                            ),
+                                          ),
+                                          Padding(
+                                              padding: const EdgeInsets.only(left: 5.0, top: 13.0),
+                                              child: Text(
+                                                  currencyUnit, textScaleFactor: 1,
+                                                  textAlign: TextAlign.left,
+                                                  style: GoogleFonts.roboto(
+                                                      textStyle: TextStyle(
+                                                          letterSpacing: 1,
+                                                          fontSize: 14,
+                                                          fontWeight: FontWeight.w600,
+                                                          color: Colors.black
+                                                      )
+                                                  ) ) ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'Debt to income ' + '(',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                          percentByEarn() == 1001 || percentByEarn() == 1000 ?
+                                          Text('') :
+                                          Text(
+                                            percentByEarn().abs().toString()+ '% ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                              fontSize: 13, height: 1.2,
+                                              fontWeight: FontWeight.w500,
+                                              color: percentByEarn() == 1001 || percentByEarn() == 1000 ? Colors.blue: percentByEarn() < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                          ) ,
+                                          percentByEarn() == 1001 || percentByEarn() == 1000 ? Text(
+                                            'same as ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ) :  percentByEarn() < 0?
+                                          Text(
+                                            'lower than ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ) :
+                                          Text(
+                                            'higher than ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                          Text(
+                                            yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: BoxDecoration(
+                                      border: Border(
+                                          bottom: BorderSide(
+                                              color: Colors.grey
+                                                  .withOpacity(
+                                                  0.3),
+                                              width: 1.0)
+                                      )),
+                                ),
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 9, bottom: 14),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(
+                                            totalStockCostsBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                            textScaleFactor: 1, textAlign: TextAlign.left,
+                                            style: GoogleFonts.lato(
+                                                textStyle: TextStyle(
+                                                    letterSpacing: 1,
+                                                    fontSize: 26,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.black
+                                                )
+                                            ),
+                                          ),
+                                          Padding(
+                                              padding: const EdgeInsets.only(left: 5.0, top: 13.0),
+                                              child: Text(
+                                                  currencyUnit, textScaleFactor: 1,
+                                                  textAlign: TextAlign.left,
+                                                  style: GoogleFonts.roboto(
+                                                      textStyle: TextStyle(
+                                                          letterSpacing: 1,
+                                                          fontSize: 14,
+                                                          fontWeight: FontWeight.w600,
+                                                          color: Colors.black
+                                                      )
+                                                  ) ) ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'Unpaid amount ' + '(',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                          percentByUnpaid() == 1001 || percentByUnpaid() == 1000 ?
+                                          Text('') :
+                                          Text(
+                                            percentByUnpaid().abs().toString()+ '% ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                              fontSize: 13, height: 1.2,
+                                              fontWeight: FontWeight.w500,
+                                              color: percentByUnpaid() == 1001 || percentByUnpaid() == 1000 ? Colors.blue: percentByUnpaid() < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                          ) ,
+                                          percentByUnpaid() == 1001 || percentByUnpaid() == 1000 ? Text(
+                                            'same as ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ) :  percentByUnpaid() < 0?
+                                          Text(
+                                            'lower than ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ) :
+                                          Text(
+                                            'higher than ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                          Text(
+                                            yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                        bottom: BorderSide(
+                                            color: Colors.grey
+                                                .withOpacity(
+                                                0.3),
+                                            width: 1.0)
+                                    )),
+                              ),
+                              // Padding(
+                              //   padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 0.0, bottom: 2.0),
+                              //   child: Container(
+                              //     child: Row(
+                              //       children: [
+                              //         Text(totalBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                              //           textScaleFactor: 1, textAlign: TextAlign.left,
+                              //           style: GoogleFonts.lato(
+                              //               textStyle: TextStyle(
+                              //                   letterSpacing: 1,
+                              //                   fontSize: 30,
+                              //                   fontWeight: FontWeight.w600,
+                              //                   color: Colors.black
+                              //               )
+                              //           ),
+                              //         ),
+                              //         Padding(
+                              //           padding: const EdgeInsets.only(top: 12.0),
+                              //           child: Text(' $currencyUnit', textScaleFactor: 1,
+                              //             textAlign: TextAlign.left,
+                              //             style: GoogleFonts.roboto(
+                              //                 textStyle: TextStyle(
+                              //                     letterSpacing: 1,
+                              //                     fontSize: 16,
+                              //                     fontWeight: FontWeight.w600,
+                              //                     color: Colors.black
+                              //                 )
+                              //             ),
+                              //           ),
+                              //         ),
+                              //         Expanded(
+                              //           child: Container(),
+                              //         ),
+                              //         Padding(
+                              //           padding: const EdgeInsets.only(top: 3.0),
+                              //           child: Container(
+                              //             decoration: BoxDecoration(
+                              //               borderRadius: BorderRadius.all(
+                              //                 Radius.circular(5.0),
+                              //               ),
+                              //               color: percentBySale() == 1001 || percentBySale() == 1000 ? Colors.blue: percentBySale() < 0? AppTheme.badgeFgDanger: Colors.green,
+                              //             ),
+                              //             // width: 50,
+                              //             height: 25,
+                              //             child: Center(
+                              //               child: Text(' ' + perTSalText(percentBySale()).toString() + ' ',
+                              //                 textScaleFactor: 1, textAlign: TextAlign.center,
+                              //                 style: TextStyle(
+                              //                     fontSize: 15,
+                              //                     fontWeight: FontWeight.w600,
+                              //                     color: Colors.white),
+                              //               ),
+                              //             ),
+                              //           ),
+                              //         )
+                              //       ],
+                              //     ),
+                              //   ),
+                              // ),
+                              // SizedBox(height: 6,),
                               // Padding(
                               //   padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 0.0),
                               //   child: Row(
@@ -620,560 +1088,578 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                               //     ],
                               //   ),
                               // ),
-                              SizedBox(
-                                height: 8,
-                              ),
-                              Container(
-                                height: 100,
-                                child: ListView(
-
-                                  scrollDirection: Axis.horizontal,
+                              // SizedBox(
+                              //   height: 8,
+                              // ),
+                              // Container(
+                              //   height: 100,
+                              //   child: ListView(
+                              //
+                              //     scrollDirection: Axis.horizontal,
+                              //     children: [
+                              //       SizedBox(
+                              //         width: 15,
+                              //       ),
+                              //       Container(
+                              //         // width: 100,
+                              //         height: 108,
+                              //
+                              //         constraints: BoxConstraints(
+                              //             maxWidth: double.infinity, minWidth: 120),
+                              //         decoration: BoxDecoration(
+                              //             borderRadius: BorderRadius.circular(8),
+                              //             border: Border(
+                              //               bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //               top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //               left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //               right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //             ),
+                              //             color: AppTheme.lightBgColor
+                              //         ),
+                              //
+                              //         child: Padding(
+                              //           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+                              //           child: Stack(
+                              //             children: [
+                              //               Column(
+                              //                 mainAxisAlignment: MainAxisAlignment.start,
+                              //                 crossAxisAlignment: CrossAxisAlignment.start,
+                              //                 children: [
+                              //                   SizedBox(
+                              //                       height:26
+                              //                   ),
+                              //                   Padding(
+                              //                     padding: const EdgeInsets.only(right:30.0),
+                              //                     child: Text(totalStockCostsRBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                              //                       textScaleFactor: 1, textAlign: TextAlign.left,
+                              //                       style: GoogleFonts.lato(
+                              //                           textStyle: TextStyle(
+                              //                               letterSpacing: 1,
+                              //                               fontSize: 20,
+                              //                               fontWeight: FontWeight.w600,
+                              //                               color: Colors.black
+                              //                           )
+                              //                       ),
+                              //                     ),
+                              //                   ),
+                              //                 ],
+                              //               ),
+                              //               // Positioned(
+                              //               //     right: 0,
+                              //               //     top: 0,
+                              //               //     child: Text('?')
+                              //               // ),
+                              //               Text(textSetStockCosts, textScaleFactor: 1,
+                              //                 strutStyle: StrutStyle(
+                              //                     forceStrutHeight: true,
+                              //                     height: 1.2
+                              //                 ),
+                              //                 style: TextStyle(
+                              //                     fontSize: 13,
+                              //                     fontWeight: FontWeight.w500,
+                              //                     color: Colors.black.withOpacity(0.6)),
+                              //               ),
+                              //               Positioned(
+                              //                   right: 0,
+                              //                   bottom: 2,
+                              //                   child: Text(percentByCost().toString() == '1001' ? '-%' : percentByCost().toString() == '1000' ? '-%' : percentByCost().toString() + '%',
+                              //                     textScaleFactor: 1, style: TextStyle(
+                              //                       fontSize: 13,
+                              //                       fontWeight: FontWeight.w500,
+                              //                       color: percentByCost().toString() == '1001' || percentByCost().toString() == '1000'? Colors.blue : percentByCost() < 0? AppTheme.badgeFgDanger: Colors.green,
+                              //                       // color: Colors.blue
+                              //                     ),
+                              //                   )
+                              //               ),
+                              //               Positioned(
+                              //                 left: 0,
+                              //                 bottom: 2,
+                              //                 child: Text(currencyUnit, textScaleFactor: 1,
+                              //                   style: TextStyle(
+                              //                       fontSize: 13,
+                              //                       fontWeight: FontWeight.w500,
+                              //                       color: Colors.black.withOpacity(0.6)),
+                              //                 ),
+                              //               ),
+                              //
+                              //             ],
+                              //           ),
+                              //         ),
+                              //       ),
+                              //       SizedBox(
+                              //         width: 15,
+                              //       ),
+                              //
+                              //       Container(
+                              //         // width: 100,
+                              //         height: 108,
+                              //
+                              //         constraints: BoxConstraints(
+                              //             maxWidth: double.infinity, minWidth: 120),
+                              //         decoration: BoxDecoration(
+                              //             borderRadius: BorderRadius.circular(8),
+                              //             border: Border(
+                              //               bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //               top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //               left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //               right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //             ),
+                              //             color: AppTheme.lightBgColor
+                              //         ),
+                              //
+                              //         child: Padding(
+                              //           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+                              //           child: Stack(
+                              //             children: [
+                              //               Column(
+                              //                 mainAxisAlignment: MainAxisAlignment.start,
+                              //                 crossAxisAlignment: CrossAxisAlignment.start,
+                              //                 children: [
+                              //                   SizedBox(
+                              //                       height:26
+                              //                   ),
+                              //                   Padding(
+                              //                     padding: const EdgeInsets.only(right:30.0),
+                              //                     child: Text(totalStockCostsBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                              //                       textScaleFactor: 1, textAlign: TextAlign.left,
+                              //                       style: GoogleFonts.lato(
+                              //                           textStyle: TextStyle(
+                              //                               letterSpacing: 1,
+                              //                               fontSize: 20,
+                              //                               fontWeight: FontWeight.w600,
+                              //                               color: Colors.black
+                              //                           )
+                              //                       ),
+                              //                     ),
+                              //                   ),
+                              //                 ],
+                              //               ),
+                              //               // Positioned(
+                              //               //     right: 0,
+                              //               //     top: 0,
+                              //               //     child: Text('?')
+                              //               // ),
+                              //               Text(textSetUnpaid, textScaleFactor: 1,
+                              //                 strutStyle: StrutStyle(
+                              //                     forceStrutHeight: true,
+                              //                     height: 1.2
+                              //                 ),
+                              //                 style: TextStyle(
+                              //                     fontSize: 13, height: 1.2,
+                              //                     fontWeight: FontWeight.w500,
+                              //                     color: Colors.black.withOpacity(0.6)),
+                              //               ),
+                              //
+                              //               Positioned(
+                              //                   right: 0,
+                              //                   bottom: 2,
+                              //                   child: Text(percentByUnpaid().toString() == '1001' ? '-%' : percentByUnpaid().toString() == '1000' ? '-%' : percentByUnpaid().toString() + '%',
+                              //                     textScaleFactor: 1, style: TextStyle(
+                              //                       fontSize: 13,
+                              //                       fontWeight: FontWeight.w500,
+                              //                       color: percentByUnpaid().toString() == '1001' || percentByUnpaid().toString() == '1000' ? Colors.blue: percentByUnpaid() < 0? AppTheme.badgeFgDanger: Colors.green,
+                              //                       // color: Colors.blue
+                              //                     ),
+                              //                   )
+                              //               ),
+                              //               Positioned(
+                              //                 left: 0,
+                              //                 bottom: 2,
+                              //                 child: Text(currencyUnit, textScaleFactor: 1,
+                              //                   style: TextStyle(
+                              //                       fontSize: 13,
+                              //                       fontWeight: FontWeight.w500,
+                              //                       color: Colors.black.withOpacity(0.6)),
+                              //                 ),
+                              //               ),
+                              //
+                              //             ],
+                              //           ),
+                              //         ),
+                              //       ),
+                              //       SizedBox(
+                              //         width: 15,
+                              //       ),
+                              //
+                              //       Container(
+                              //         // width: 100,
+                              //         height: 108,
+                              //
+                              //         constraints: BoxConstraints(
+                              //             maxWidth: double.infinity, minWidth: 120),
+                              //         decoration: BoxDecoration(
+                              //             borderRadius: BorderRadius.circular(8),
+                              //             border: Border(
+                              //               bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //               top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //               left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //               right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //             ),
+                              //             color: AppTheme.lightBgColor
+                              //         ),
+                              //
+                              //         child: Padding(
+                              //           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+                              //           child: Stack(
+                              //             children: [
+                              //               Column(
+                              //                 mainAxisAlignment: MainAxisAlignment.start,
+                              //                 crossAxisAlignment: CrossAxisAlignment.start,
+                              //                 children: [
+                              //                   SizedBox(
+                              //                       height:26
+                              //                   ),
+                              //                   Padding(
+                              //                     padding: const EdgeInsets.only(right:30.0),
+                              //                     child: Text(totalRefundBySlide().toString(), textScaleFactor: 1,
+                              //                       textAlign: TextAlign.left,
+                              //                       style: GoogleFonts.lato(
+                              //                           textStyle: TextStyle(
+                              //                               letterSpacing: 1,
+                              //                               fontSize: 20,
+                              //                               fontWeight: FontWeight.w600,
+                              //                               color: Colors.black
+                              //                           )
+                              //                       ),
+                              //                     ),
+                              //                   ),
+                              //                 ],
+                              //               ),
+                              //               // Positioned(
+                              //               //     right: 0,
+                              //               //     top: 0,
+                              //               //     child: Text('?')
+                              //               // ),
+                              //               Text(textSetBuys, textScaleFactor: 1,
+                              //                 strutStyle: StrutStyle(
+                              //                     forceStrutHeight: true,
+                              //                     height: 1.2
+                              //                 ),
+                              //                 style: TextStyle(
+                              //                     fontSize: 13,
+                              //                     fontWeight: FontWeight.w500,
+                              //                     color: Colors.black.withOpacity(0.6)),
+                              //               ),
+                              //
+                              //               Positioned(
+                              //                   right: 0,
+                              //                   bottom: 2,
+                              //                   child: Text(percentByRefund().toString() == '1001' ? '-%' : percentByRefund().toString() == '1000' ? '-%' : percentByRefund().toString() + '%',
+                              //                     textScaleFactor: 1, style: TextStyle(
+                              //                       fontSize: 13,
+                              //                       fontWeight: FontWeight.w500,
+                              //                       color: percentByRefund() == 1001 || percentByRefund() == 1000 ? Colors.blue: percentByRefund() < 0? Colors.green: AppTheme.badgeFgDanger,
+                              //                       // color: Colors.blue
+                              //                     ),
+                              //                   )
+                              //               ),
+                              //               Positioned(
+                              //                 left: 0,
+                              //                 bottom: 2,
+                              //                 child: Text(currencyUnit, textScaleFactor: 1,
+                              //                   style: TextStyle(
+                              //                       fontSize: 13,
+                              //                       fontWeight: FontWeight.w500,
+                              //                       color: Colors.black.withOpacity(0.6)),
+                              //                 ),
+                              //               ),
+                              //
+                              //             ],
+                              //           ),
+                              //         ),
+                              //       ),
+                              //       SizedBox(
+                              //         width: 15,
+                              //       ),
+                              //       Container(
+                              //         // width: 100,
+                              //         height: 100,
+                              //         constraints: BoxConstraints(
+                              //             maxWidth: double.infinity, minWidth: 120),
+                              //         decoration: BoxDecoration(
+                              //             borderRadius: BorderRadius.circular(8),
+                              //             border: Border(
+                              //               bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //               top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //               left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //               right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //             ),
+                              //             color: AppTheme.lightBgColor
+                              //         ),
+                              //
+                              //         child: Padding(
+                              //           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+                              //           child: Stack(
+                              //             children: [
+                              //               Column(
+                              //                 mainAxisAlignment: MainAxisAlignment.start,
+                              //                 crossAxisAlignment: CrossAxisAlignment.start,
+                              //                 children: [
+                              //                   SizedBox(
+                              //                       height:26
+                              //                   ),
+                              //                   Padding(
+                              //                     padding: const EdgeInsets.only(right:30.0),
+                              //                     child: Text(totalLossBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), textScaleFactor: 1,
+                              //                       textAlign: TextAlign.left,
+                              //                       style: GoogleFonts.lato(
+                              //                           textStyle: TextStyle(
+                              //                               letterSpacing: 1,
+                              //                               fontSize: 20,
+                              //                               fontWeight: FontWeight.w600,
+                              //                               color: Colors.black
+                              //                           )
+                              //                       ),
+                              //                     ),
+                              //                   ),
+                              //                 ],
+                              //               ),
+                              //               // Positioned(
+                              //               //     right: 0,
+                              //               //     top: 0,
+                              //               //     child: Text('?')
+                              //               // ),
+                              //               Text(textSetLoss, textScaleFactor: 1,
+                              //                 strutStyle: StrutStyle(
+                              //                     forceStrutHeight: true,
+                              //                     height: 1.2
+                              //                 ),
+                              //                 style: TextStyle(
+                              //                     fontSize: 13,
+                              //                     fontWeight: FontWeight.w500,
+                              //                     color: Colors.black.withOpacity(0.6)),
+                              //               ),
+                              //               Positioned(
+                              //                   right: 0,
+                              //                   bottom: 2,
+                              //                   child: Text(percentByLoss().toString() == '1001' ? '-%' : percentByLoss().toString() == '1000' ? '-%' : percentByLoss().toString() + '%',
+                              //                     textScaleFactor: 1, style: TextStyle(
+                              //                       fontSize: 13,
+                              //                       fontWeight: FontWeight.w500,
+                              //                       color: percentByLoss() == 1001 || percentByLoss() == 1000 ? Colors.blue: percentByLoss() < 0? Colors.green: AppTheme.badgeFgDanger,
+                              //                       // color: Colors.blue
+                              //                     ),
+                              //                   )
+                              //               ),
+                              //               Positioned(
+                              //                 left: 0,
+                              //                 bottom: 2,
+                              //                 child: Text(currencyUnit, textScaleFactor: 1,
+                              //                   style: TextStyle(
+                              //                       fontSize: 13,
+                              //                       fontWeight: FontWeight.w500,
+                              //                       color: Colors.black.withOpacity(0.6)),
+                              //                 ),
+                              //               ),
+                              //             ],
+                              //           ),
+                              //         ),
+                              //       ),
+                              //       SizedBox(
+                              //         width: 15,
+                              //       ),
+                              //       Container(
+                              //         // width: 100,
+                              //         height: 100,
+                              //         constraints: BoxConstraints(
+                              //             maxWidth: double.infinity, minWidth: 120),
+                              //         decoration: BoxDecoration(
+                              //             borderRadius: BorderRadius.circular(8),
+                              //             border: Border(
+                              //               bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //               top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //               left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //               right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //             ),
+                              //             color: AppTheme.lightBgColor
+                              //         ),
+                              //
+                              //         child: Padding(
+                              //           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+                              //           child: Stack(
+                              //             children: [
+                              //               Column(
+                              //                 mainAxisAlignment: MainAxisAlignment.start,
+                              //                 crossAxisAlignment: CrossAxisAlignment.start,
+                              //                 children: [
+                              //                   SizedBox(
+                              //                       height:26
+                              //                   ),
+                              //                   Padding(
+                              //                     padding: const EdgeInsets.only(right:30.0),
+                              //                     child: Text(profitBySlide().toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), textScaleFactor: 1,
+                              //                       textAlign: TextAlign.left,
+                              //                       style: GoogleFonts.lato(
+                              //                           textStyle: TextStyle(
+                              //                               letterSpacing: 1,
+                              //                               fontSize: 20,
+                              //                               fontWeight: FontWeight.w600,
+                              //                               color: Colors.black
+                              //                           )
+                              //                       ),
+                              //                     ),
+                              //                   ),
+                              //                 ],
+                              //               ),
+                              //               // Positioned(
+                              //               //     right: 0,
+                              //               //     top: 0,
+                              //               //     child: Text('?')
+                              //               // ),
+                              //               Text(textSetProfit, textScaleFactor: 1,
+                              //                 strutStyle: StrutStyle(
+                              //                     forceStrutHeight: true,
+                              //                     height: 1.2
+                              //                 ),
+                              //                 style: TextStyle(
+                              //                     fontSize: 13,
+                              //                     fontWeight: FontWeight.w500,
+                              //                     color: Colors.black.withOpacity(0.6)),
+                              //               ),
+                              //               Positioned(
+                              //                   right: 0,
+                              //                   bottom: 2,
+                              //                   child: Text(growthRateDayProfit(lastProfitBySlide(), profitBySlide()).toString() == '1001' ? '-%' : growthRateDayProfit(lastProfitBySlide(), profitBySlide()).toString()  == '1000' ? '-%' : growthRateDayProfit(lastProfitBySlide(), profitBySlide()).toString()  + '%',
+                              //                     textScaleFactor: 1, style: TextStyle(
+                              //                       fontSize: 13,
+                              //                       fontWeight: FontWeight.w500,
+                              //                       color: growthRateDayProfit(lastProfitBySlide(), profitBySlide())  == 1001 || growthRateDayProfit(lastProfitBySlide(), profitBySlide()) == 1000 ? Colors.blue: growthRateDayProfit(lastProfitBySlide(), profitBySlide()) < 0? Colors.green: AppTheme.badgeFgDanger,
+                              //                       // color: Colors.blue
+                              //                     ),
+                              //                   )
+                              //               ),
+                              //               Positioned(
+                              //                 left: 0,
+                              //                 bottom: 2,
+                              //                 child: Text(currencyUnit, textScaleFactor: 1,
+                              //                   style: TextStyle(
+                              //                       fontSize: 13,
+                              //                       fontWeight: FontWeight.w500,
+                              //                       color: Colors.black.withOpacity(0.6)),
+                              //                 ),
+                              //               ),
+                              //             ],
+                              //           ),
+                              //         ),
+                              //       ),
+                              //       SizedBox(
+                              //         width: 15,
+                              //       ),
+                              //       _sliding == 0 ?
+                              //       Row(
+                              //         children: [
+                              //           Container(
+                              //             // width: 100,
+                              //             height: 100,
+                              //             constraints: BoxConstraints(
+                              //                 maxWidth: double.infinity, minWidth: 120),
+                              //             decoration: BoxDecoration(
+                              //                 borderRadius: BorderRadius.circular(8),
+                              //                 border: Border(
+                              //                   bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //                   top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //                   left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //                   right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //                 ),
+                              //                 color: AppTheme.lightBgColor
+                              //             ),
+                              //
+                              //             child: Padding(
+                              //               padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+                              //               child: Stack(
+                              //                 children: [
+                              //                   Column(
+                              //                     mainAxisAlignment: MainAxisAlignment.start,
+                              //                     crossAxisAlignment: CrossAxisAlignment.start,
+                              //                     children: [
+                              //                       SizedBox(
+                              //                           height:26
+                              //                       ),
+                              //                       Padding(
+                              //                         padding: const EdgeInsets.only(right:30.0),
+                              //                         child: Text(totalEarnBySlide(), textScaleFactor: 1,
+                              //                           textAlign: TextAlign.left,
+                              //                           style: GoogleFonts.lato(
+                              //                               textStyle: TextStyle(
+                              //                                   letterSpacing: 1,
+                              //                                   fontSize: 20,
+                              //                                   fontWeight: FontWeight.w600,
+                              //                                   color: Colors.black
+                              //                               )
+                              //                           ),
+                              //                         ),
+                              //                       ),
+                              //                     ],
+                              //                   ),
+                              //                   // Positioned(
+                              //                   //     right: 0,
+                              //                   //     top: 0,
+                              //                   //     child: Text('?')
+                              //                   // ),
+                              //                   Text(textSetEarn, textScaleFactor: 1,
+                              //                     strutStyle: StrutStyle(
+                              //                         forceStrutHeight: true,
+                              //                         height: 1.2
+                              //                     ),
+                              //                     style: TextStyle(
+                              //                         fontSize: 13,
+                              //                         fontWeight: FontWeight.w500,
+                              //                         color: Colors.black.withOpacity(0.6)),
+                              //                   ),
+                              //                   Positioned(
+                              //                       right: 0,
+                              //                       bottom: 2,
+                              //                       child: Text(percentByEarn().toString() == '1001' ? '-%' : percentByEarn().toString() == '1000' ? '-%' : percentByEarn().toString() + '%',
+                              //                         textScaleFactor: 1, style: TextStyle(
+                              //                           fontSize: 13,
+                              //                           fontWeight: FontWeight.w500,
+                              //                           color: percentByEarn() == 1001 || percentByEarn() == 1000 ? Colors.blue: percentByEarn() < 0? Colors.green: AppTheme.badgeFgDanger,
+                              //                           // color: Colors.blue
+                              //                         ),
+                              //                       )
+                              //                   ),
+                              //                   Positioned(
+                              //                     left: 0,
+                              //                     bottom: 2,
+                              //                     child: Text(currencyUnit, textScaleFactor: 1,
+                              //                       style: TextStyle(
+                              //                           fontSize: 13,
+                              //                           fontWeight: FontWeight.w500,
+                              //                           color: Colors.black.withOpacity(0.6)),
+                              //                     ),
+                              //                   ),
+                              //                 ],
+                              //               ),
+                              //             ),
+                              //           ),
+                              //           SizedBox(
+                              //             width: 15,
+                              //           ),
+                              //         ],
+                              //       ) : Container(),
+                              //     ],
+                              //   ),
+                              // ),
+                              // SizedBox(
+                              //     height: 15.0
+                              // ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 25.0 ,bottom: 25.0),
+                                child: Row(
                                   children: [
-                                    SizedBox(
-                                      width: 15,
-                                    ),
-                                    Container(
-                                      // width: 100,
-                                      height: 108,
-
-                                      constraints: BoxConstraints(
-                                          maxWidth: double.infinity, minWidth: 120),
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(8),
-                                          border: Border(
-                                            bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                            top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                            left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                            right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                          ),
-                                          color: AppTheme.lightBgColor
-                                      ),
-
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
-                                        child: Stack(
-                                          children: [
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                SizedBox(
-                                                    height:26
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.only(right:30.0),
-                                                  child: Text(totalStockCostsRBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                    textScaleFactor: 1, textAlign: TextAlign.left,
-                                                    style: GoogleFonts.lato(
-                                                        textStyle: TextStyle(
-                                                            letterSpacing: 1,
-                                                            fontSize: 20,
-                                                            fontWeight: FontWeight.w600,
-                                                            color: Colors.black
-                                                        )
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            // Positioned(
-                                            //     right: 0,
-                                            //     top: 0,
-                                            //     child: Text('?')
-                                            // ),
-                                            Text(textSetStockCosts, textScaleFactor: 1,
-                                              strutStyle: StrutStyle(
-                                                  forceStrutHeight: true,
-                                                  height: 1.2
-                                              ),
-                                              style: TextStyle(
-                                                  fontSize: 13,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.black.withOpacity(0.6)),
-                                            ),
-                                            Positioned(
-                                                right: 0,
-                                                bottom: 2,
-                                                child: Text(percentByCost().toString() == '1001' ? '-%' : percentByCost().toString() == '1000' ? '-%' : percentByCost().toString() + '%',
-                                                  textScaleFactor: 1, style: TextStyle(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: percentByCost().toString() == '1001' || percentByCost().toString() == '1000'? Colors.blue : percentByCost() < 0? AppTheme.badgeFgDanger: Colors.green,
-                                                    // color: Colors.blue
-                                                  ),
-                                                )
-                                            ),
-                                            Positioned(
-                                              left: 0,
-                                              bottom: 2,
-                                              child: Text(currencyUnit, textScaleFactor: 1,
-                                                style: TextStyle(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black.withOpacity(0.6)),
-                                              ),
-                                            ),
-
-                                          ],
+                                    Expanded(
+                                      child: Text(
+                                        'SALES SUMMARY CHARTS',textScaleFactor: 1,
+                                        style: TextStyle(
+                                          height: 0.9,
+                                          letterSpacing: 2,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14,color: Colors.black,
                                         ),
                                       ),
                                     ),
-                                    SizedBox(
-                                      width: 15,
-                                    ),
-
-                                    Container(
-                                      // width: 100,
-                                      height: 108,
-
-                                      constraints: BoxConstraints(
-                                          maxWidth: double.infinity, minWidth: 120),
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(8),
-                                          border: Border(
-                                            bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                            top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                            left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                            right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                          ),
-                                          color: AppTheme.lightBgColor
-                                      ),
-
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
-                                        child: Stack(
-                                          children: [
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                SizedBox(
-                                                    height:26
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.only(right:30.0),
-                                                  child: Text(totalStockCostsBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                    textScaleFactor: 1, textAlign: TextAlign.left,
-                                                    style: GoogleFonts.lato(
-                                                        textStyle: TextStyle(
-                                                            letterSpacing: 1,
-                                                            fontSize: 20,
-                                                            fontWeight: FontWeight.w600,
-                                                            color: Colors.black
-                                                        )
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            // Positioned(
-                                            //     right: 0,
-                                            //     top: 0,
-                                            //     child: Text('?')
-                                            // ),
-                                            Text(textSetUnpaid, textScaleFactor: 1,
-                                              strutStyle: StrutStyle(
-                                                  forceStrutHeight: true,
-                                                  height: 1.2
-                                              ),
-                                              style: TextStyle(
-                                                  fontSize: 13, height: 1.2,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.black.withOpacity(0.6)),
-                                            ),
-
-                                            Positioned(
-                                                right: 0,
-                                                bottom: 2,
-                                                child: Text(percentByUnpaid().toString() == '1001' ? '-%' : percentByUnpaid().toString() == '1000' ? '-%' : percentByUnpaid().toString() + '%',
-                                                  textScaleFactor: 1, style: TextStyle(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: percentByUnpaid().toString() == '1001' || percentByUnpaid().toString() == '1000' ? Colors.blue: percentByUnpaid() < 0? AppTheme.badgeFgDanger: Colors.green,
-                                                    // color: Colors.blue
-                                                  ),
-                                                )
-                                            ),
-                                            Positioned(
-                                              left: 0,
-                                              bottom: 2,
-                                              child: Text(currencyUnit, textScaleFactor: 1,
-                                                style: TextStyle(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black.withOpacity(0.6)),
-                                              ),
-                                            ),
-
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 15,
-                                    ),
-
-                                    Container(
-                                      // width: 100,
-                                      height: 108,
-
-                                      constraints: BoxConstraints(
-                                          maxWidth: double.infinity, minWidth: 120),
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(8),
-                                          border: Border(
-                                            bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                            top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                            left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                            right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                          ),
-                                          color: AppTheme.lightBgColor
-                                      ),
-
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
-                                        child: Stack(
-                                          children: [
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                SizedBox(
-                                                    height:26
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.only(right:30.0),
-                                                  child: Text(totalRefundBySlide().toString(), textScaleFactor: 1,
-                                                    textAlign: TextAlign.left,
-                                                    style: GoogleFonts.lato(
-                                                        textStyle: TextStyle(
-                                                            letterSpacing: 1,
-                                                            fontSize: 20,
-                                                            fontWeight: FontWeight.w600,
-                                                            color: Colors.black
-                                                        )
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            // Positioned(
-                                            //     right: 0,
-                                            //     top: 0,
-                                            //     child: Text('?')
-                                            // ),
-                                            Text(textSetBuys, textScaleFactor: 1,
-                                              strutStyle: StrutStyle(
-                                                  forceStrutHeight: true,
-                                                  height: 1.2
-                                              ),
-                                              style: TextStyle(
-                                                  fontSize: 13,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.black.withOpacity(0.6)),
-                                            ),
-
-                                            Positioned(
-                                                right: 0,
-                                                bottom: 2,
-                                                child: Text(percentByRefund().toString() == '1001' ? '-%' : percentByRefund().toString() == '1000' ? '-%' : percentByRefund().toString() + '%',
-                                                  textScaleFactor: 1, style: TextStyle(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: percentByRefund() == 1001 || percentByRefund() == 1000 ? Colors.blue: percentByRefund() < 0? Colors.green: AppTheme.badgeFgDanger,
-                                                    // color: Colors.blue
-                                                  ),
-                                                )
-                                            ),
-                                            Positioned(
-                                              left: 0,
-                                              bottom: 2,
-                                              child: Text(currencyUnit, textScaleFactor: 1,
-                                                style: TextStyle(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black.withOpacity(0.6)),
-                                              ),
-                                            ),
-
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 15,
-                                    ),
-                                    Container(
-                                      // width: 100,
-                                      height: 100,
-                                      constraints: BoxConstraints(
-                                          maxWidth: double.infinity, minWidth: 120),
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(8),
-                                          border: Border(
-                                            bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                            top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                            left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                            right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                          ),
-                                          color: AppTheme.lightBgColor
-                                      ),
-
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
-                                        child: Stack(
-                                          children: [
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                SizedBox(
-                                                    height:26
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.only(right:30.0),
-                                                  child: Text(totalLossBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), textScaleFactor: 1,
-                                                    textAlign: TextAlign.left,
-                                                    style: GoogleFonts.lato(
-                                                        textStyle: TextStyle(
-                                                            letterSpacing: 1,
-                                                            fontSize: 20,
-                                                            fontWeight: FontWeight.w600,
-                                                            color: Colors.black
-                                                        )
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            // Positioned(
-                                            //     right: 0,
-                                            //     top: 0,
-                                            //     child: Text('?')
-                                            // ),
-                                            Text(textSetLoss, textScaleFactor: 1,
-                                              strutStyle: StrutStyle(
-                                                  forceStrutHeight: true,
-                                                  height: 1.2
-                                              ),
-                                              style: TextStyle(
-                                                  fontSize: 13,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.black.withOpacity(0.6)),
-                                            ),
-                                            Positioned(
-                                                right: 0,
-                                                bottom: 2,
-                                                child: Text(percentByLoss().toString() == '1001' ? '-%' : percentByLoss().toString() == '1000' ? '-%' : percentByLoss().toString() + '%',
-                                                  textScaleFactor: 1, style: TextStyle(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: percentByLoss() == 1001 || percentByLoss() == 1000 ? Colors.blue: percentByLoss() < 0? Colors.green: AppTheme.badgeFgDanger,
-                                                    // color: Colors.blue
-                                                  ),
-                                                )
-                                            ),
-                                            Positioned(
-                                              left: 0,
-                                              bottom: 2,
-                                              child: Text(currencyUnit, textScaleFactor: 1,
-                                                style: TextStyle(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black.withOpacity(0.6)),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 15,
-                                    ),
-                                    Container(
-                                      // width: 100,
-                                      height: 100,
-                                      constraints: BoxConstraints(
-                                          maxWidth: double.infinity, minWidth: 120),
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(8),
-                                          border: Border(
-                                            bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                            top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                            left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                            right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                          ),
-                                          color: AppTheme.lightBgColor
-                                      ),
-
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
-                                        child: Stack(
-                                          children: [
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                SizedBox(
-                                                    height:26
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.only(right:30.0),
-                                                  child: Text(profitBySlide().toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), textScaleFactor: 1,
-                                                    textAlign: TextAlign.left,
-                                                    style: GoogleFonts.lato(
-                                                        textStyle: TextStyle(
-                                                            letterSpacing: 1,
-                                                            fontSize: 20,
-                                                            fontWeight: FontWeight.w600,
-                                                            color: Colors.black
-                                                        )
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            // Positioned(
-                                            //     right: 0,
-                                            //     top: 0,
-                                            //     child: Text('?')
-                                            // ),
-                                            Text(textSetProfit, textScaleFactor: 1,
-                                              strutStyle: StrutStyle(
-                                                  forceStrutHeight: true,
-                                                  height: 1.2
-                                              ),
-                                              style: TextStyle(
-                                                  fontSize: 13,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.black.withOpacity(0.6)),
-                                            ),
-                                            Positioned(
-                                                right: 0,
-                                                bottom: 2,
-                                                child: Text(growthRateDayProfit(lastProfitBySlide(), profitBySlide()).toString() == '1001' ? '-%' : growthRateDayProfit(lastProfitBySlide(), profitBySlide()).toString()  == '1000' ? '-%' : growthRateDayProfit(lastProfitBySlide(), profitBySlide()).toString()  + '%',
-                                                  textScaleFactor: 1, style: TextStyle(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: growthRateDayProfit(lastProfitBySlide(), profitBySlide())  == 1001 || growthRateDayProfit(lastProfitBySlide(), profitBySlide()) == 1000 ? Colors.blue: growthRateDayProfit(lastProfitBySlide(), profitBySlide()) < 0? Colors.green: AppTheme.badgeFgDanger,
-                                                    // color: Colors.blue
-                                                  ),
-                                                )
-                                            ),
-                                            Positioned(
-                                              left: 0,
-                                              bottom: 2,
-                                              child: Text(currencyUnit, textScaleFactor: 1,
-                                                style: TextStyle(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black.withOpacity(0.6)),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 15,
-                                    ),
-                                    _sliding == 0 ?
-                                    Row(
-                                      children: [
-                                        Container(
-                                          // width: 100,
-                                          height: 100,
-                                          constraints: BoxConstraints(
-                                              maxWidth: double.infinity, minWidth: 120),
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(8),
-                                              border: Border(
-                                                bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                                right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                              ),
-                                              color: AppTheme.lightBgColor
-                                          ),
-
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
-                                            child: Stack(
-                                              children: [
-                                                Column(
-                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    SizedBox(
-                                                        height:26
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(right:30.0),
-                                                      child: Text(totalEarnBySlide(), textScaleFactor: 1,
-                                                        textAlign: TextAlign.left,
-                                                        style: GoogleFonts.lato(
-                                                            textStyle: TextStyle(
-                                                                letterSpacing: 1,
-                                                                fontSize: 20,
-                                                                fontWeight: FontWeight.w600,
-                                                                color: Colors.black
-                                                            )
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                // Positioned(
-                                                //     right: 0,
-                                                //     top: 0,
-                                                //     child: Text('?')
-                                                // ),
-                                                Text(textSetEarn, textScaleFactor: 1,
-                                                  strutStyle: StrutStyle(
-                                                      forceStrutHeight: true,
-                                                      height: 1.2
-                                                  ),
-                                                  style: TextStyle(
-                                                      fontSize: 13,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: Colors.black.withOpacity(0.6)),
-                                                ),
-                                                Positioned(
-                                                    right: 0,
-                                                    bottom: 2,
-                                                    child: Text(percentByEarn().toString() == '1001' ? '-%' : percentByEarn().toString() == '1000' ? '-%' : percentByEarn().toString() + '%',
-                                                      textScaleFactor: 1, style: TextStyle(
-                                                        fontSize: 13,
-                                                        fontWeight: FontWeight.w500,
-                                                        color: percentByEarn() == 1001 || percentByEarn() == 1000 ? Colors.blue: percentByEarn() < 0? Colors.green: AppTheme.badgeFgDanger,
-                                                        // color: Colors.blue
-                                                      ),
-                                                    )
-                                                ),
-                                                Positioned(
-                                                  left: 0,
-                                                  bottom: 2,
-                                                  child: Text(currencyUnit, textScaleFactor: 1,
-                                                    style: TextStyle(
-                                                        fontSize: 13,
-                                                        fontWeight: FontWeight.w500,
-                                                        color: Colors.black.withOpacity(0.6)),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 15,
-                                        ),
-                                      ],
-                                    ) : Container(),
                                   ],
                                 ),
-                              ),
-                              SizedBox(
-                                  height: 15.0
                               ),
                               Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
@@ -1246,6 +1732,366 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                   //     color: AppTheme.skBorderColor
                                   // ),
                                 ],
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 9, bottom: 14),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(
+                                            totalStockCostsRBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                            textScaleFactor: 1, textAlign: TextAlign.left,
+                                            style: GoogleFonts.lato(
+                                                textStyle: TextStyle(
+                                                    letterSpacing: 1,
+                                                    fontSize: 26,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.black
+                                                )
+                                            ),
+                                          ),
+                                          Padding(
+                                              padding: const EdgeInsets.only(left: 5.0, top: 13.0),
+                                              child: Text(
+                                                  currencyUnit, textScaleFactor: 1,
+                                                  textAlign: TextAlign.left,
+                                                  style: GoogleFonts.roboto(
+                                                      textStyle: TextStyle(
+                                                          letterSpacing: 1,
+                                                          fontSize: 14,
+                                                          fontWeight: FontWeight.w600,
+                                                          color: Colors.black
+                                                      )
+                                                  ) ) ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'Stock costs ' + '(',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                          percentByCost() == 1001 || percentByCost() == 1000 ?
+                                          Text('') :
+                                          Text(
+                                            percentByCost().abs().toString()+ '% ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                              fontSize: 13, height: 1.2,
+                                              fontWeight: FontWeight.w500,
+                                              color: percentByCost() == 1001 || percentByCost() == 1000 ? Colors.blue: percentByCost() < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                          ) ,
+                                          percentByCost() == 1001 || percentByCost() == 1000 ? Text(
+                                            'same as ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ) :  percentByCost() < 0?
+                                          Text(
+                                            'lower than ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ) :
+                                          Text(
+                                            'higher than ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                          Text(
+                                            yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: BoxDecoration(
+                                      border: Border(
+                                          bottom: BorderSide(
+                                              color: Colors.grey
+                                                  .withOpacity(
+                                                  0.3),
+                                              width: 1.0)
+                                      )),
+                                ),
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 9, bottom: 14),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(
+                                            totalLossBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                            textScaleFactor: 1, textAlign: TextAlign.left,
+                                            style: GoogleFonts.lato(
+                                                textStyle: TextStyle(
+                                                    letterSpacing: 1,
+                                                    fontSize: 26,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.black
+                                                )
+                                            ),
+                                          ),
+                                          Padding(
+                                              padding: const EdgeInsets.only(left: 5.0, top: 13.0),
+                                              child: Text(
+                                                  currencyUnit, textScaleFactor: 1,
+                                                  textAlign: TextAlign.left,
+                                                  style: GoogleFonts.roboto(
+                                                      textStyle: TextStyle(
+                                                          letterSpacing: 1,
+                                                          fontSize: 14,
+                                                          fontWeight: FontWeight.w600,
+                                                          color: Colors.black
+                                                      )
+                                                  ) ) ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'Loss Amount ' + '(',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                          percentByLoss() == 1001 || percentByLoss() == 1000 ?
+                                          Text('') :
+                                          Text(
+                                            percentByLoss().abs().toString()+ '% ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                              fontSize: 13, height: 1.2,
+                                              fontWeight: FontWeight.w500,
+                                              color: percentByLoss() == 1001 || percentByLoss() == 1000 ? Colors.blue: percentByLoss() < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                          ) ,
+                                          percentByLoss() == 1001 || percentByLoss() == 1000 ? Text(
+                                            'same as ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ) :  percentByLoss() < 0?
+                                          Text(
+                                            'lower than ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ) :
+                                          Text(
+                                            'higher than ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                          Text(
+                                            yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: BoxDecoration(
+                                      border: Border(
+                                          bottom: BorderSide(
+                                              color: Colors.grey
+                                                  .withOpacity(
+                                                  0.3),
+                                              width: 1.0)
+                                      )),
+                                ),
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 9, bottom: 14),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(
+                                            totalRefundBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                            textScaleFactor: 1, textAlign: TextAlign.left,
+                                            style: GoogleFonts.lato(
+                                                textStyle: TextStyle(
+                                                    letterSpacing: 1,
+                                                    fontSize: 26,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.black
+                                                )
+                                            ),
+                                          ),
+                                          Padding(
+                                              padding: const EdgeInsets.only(left: 5.0, top: 13.0),
+                                              child: Text(
+                                                  currencyUnit, textScaleFactor: 1,
+                                                  textAlign: TextAlign.left,
+                                                  style: GoogleFonts.roboto(
+                                                      textStyle: TextStyle(
+                                                          letterSpacing: 1,
+                                                          fontSize: 14,
+                                                          fontWeight: FontWeight.w600,
+                                                          color: Colors.black
+                                                      )
+                                                  ) ) ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'Refund amount ' + '(',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                          percentByRefund() == 1001 || percentByRefund() == 1000 ?
+                                          Text('') :
+                                          Text(
+                                            percentByRefund().abs().toString()+ '% ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                              fontSize: 13, height: 1.2,
+                                              fontWeight: FontWeight.w500,
+                                              color: percentByRefund() == 1001 || percentByRefund() == 1000 ? Colors.blue: percentByRefund() < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                          ) ,
+                                          percentByRefund() == 1001 || percentByRefund() == 1000 ? Text(
+                                            'same as ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ) :  percentByRefund() < 0?
+                                          Text(
+                                            'lower than ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ) :
+                                          Text(
+                                            'higher than ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                          Text(
+                                            yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: BoxDecoration(
+                                      border: Border(
+                                          bottom: BorderSide(
+                                              color: Colors.grey
+                                                  .withOpacity(
+                                                  0.3),
+                                              width: 1.0)
+                                      )),
+                                ),
                               ),
                               // Padding(
                               //   padding: const EdgeInsets.only(top: 5.0, bottom: 20.0, left: 15.0, right: 15.0),
@@ -1529,224 +2375,224 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
   }
 
   headerAppBar() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 0.0, right: 15.0),
-      child: Container(
-        height: 32,
-        width: MediaQuery.of(context).size.width,
-        // color: Colors.yellow,
-        child: CupertinoSlidingSegmentedControl(
-            groupValue: segmentedControlGroupValue,
-            children: myTabs,
-            onValueChanged: (i) {
-              // setState(() {
-              //   segmentedControlGroupValue = i;
-              // });
-            }),
-
-      ),
-    );
     // return Padding(
-    //   padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 0.0),
+    //   padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 0.0, right: 15.0),
     //   child: Container(
     //     height: 32,
     //     width: MediaQuery.of(context).size.width,
     //     // color: Colors.yellow,
-    //     child: Row(
-    //       children: [
-    //         Row(
-    //           children: [
-    //             FlatButton(
-    //               padding: EdgeInsets.only(left: 10, right: 10),
-    //               color: AppTheme.secButtonColor,
-    //               shape: RoundedRectangleBorder(
-    //                 borderRadius: BorderRadius.circular(8.0),
-    //                 side: BorderSide(
-    //                   color: AppTheme.skBorderColor2,
-    //                 ),
-    //               ),
-    //               onPressed: () {
-    //                 // widget._callback();
-    //                 _showDatePicker(OneContext().context);
-    //               },
-    //               child: Container(
-    //                 child: Row(
-    //                   // mainAxisAlignment: Main,
-    //                   children: [
-    //                     Padding(
-    //                       padding: const EdgeInsets.only(right: 3.0),
-    //                       child: Icon(
-    //                         Icons.calendar_view_day_rounded,
-    //                         size: 18,
-    //                       ),
-    //                     ),
-    //                     Text(
-    //                       selectDaysCast(), textScaleFactor: 1,
-    //                       textAlign: TextAlign.center,
-    //                       style: TextStyle(
-    //                           fontSize: 14,
-    //                           fontWeight: FontWeight.w500,
-    //                           color: Colors.black),
-    //                     ),
-    //                   ],
-    //                 ),
-    //               ),
-    //             ),
-    //             SizedBox(width: 12),
-    //             Container(
-    //               color: Colors.grey.withOpacity(0.2),
-    //               width: 1.5,
-    //               height: 30,
-    //             )
-    //           ],
-    //         ),
-    //         Expanded(
-    //           child: ListView(
-    //             controller: cateScCtler,
-    //             scrollDirection: Axis.horizontal,
-    //             children: [
-    //               SizedBox(
-    //                 width: 4,
-    //               ),
-    //               Padding(
-    //                 padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-    //                 child: FlatButton(
-    //                   minWidth: 0,
-    //                   padding: EdgeInsets.only(left: 12, right: 12),
-    //                   color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
-    //                   shape: RoundedRectangleBorder(
-    //                     borderRadius: BorderRadius.circular(20.0),
-    //                     side: BorderSide(
-    //                       color: AppTheme.skBorderColor2,
-    //                     ),
-    //                   ),
-    //                   onPressed: () {
-    //                     _animateToIndex(0);
-    //                     setState(() {
-    //                       cateScIndex = 0;
-    //                       _sliding = 0;
-    //                     });
-    //                     widget._selectedIntVal(0);
-    //                   },
-    //                   child: Container(
-    //                     child: Text(
-    //                       textSetToday, textScaleFactor: 1,
-    //                       textAlign: TextAlign.center,
-    //                       style: TextStyle(
-    //                           fontSize: 14,
-    //                           fontWeight: FontWeight.w500,
-    //                           color: Colors.black),
-    //                     ),
-    //                   ),
-    //                 ),
-    //               ),
-    //               Padding(
-    //                 padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-    //                 child: FlatButton(
-    //                   minWidth: 0,
-    //                   padding: EdgeInsets.only(left: 12, right: 12),
-    //                   color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
-    //                   shape: RoundedRectangleBorder(
-    //                     borderRadius: BorderRadius.circular(20.0),
-    //                     side: BorderSide(
-    //                       color: AppTheme.skBorderColor2,
-    //                     ),
-    //                   ),
-    //                   onPressed: () {
-    //                     _animateToIndex(5.9);
-    //                     setState(() {
-    //                       cateScIndex = 1;
-    //                       _sliding = 1;
-    //                     });
-    //                     widget._selectedIntVal(1);
-    //                   },
-    //                   child: Container(
-    //                     child: Text(
-    //                       textSetLastWeek, textScaleFactor: 1,
-    //                       textAlign: TextAlign.center,
-    //                       style: TextStyle(
-    //                           fontSize: 14,
-    //                           fontWeight: FontWeight.w500,
-    //                           color: Colors.black),
-    //                     ),
-    //                   ),
-    //                 ),
-    //               ),
-    //               Padding(
-    //                 padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-    //                 child: FlatButton(
-    //                   minWidth: 0,
-    //                   padding: EdgeInsets.only(left: 12, right: 12),
-    //                   color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.white,
-    //                   shape: RoundedRectangleBorder(
-    //                     borderRadius: BorderRadius.circular(20.0),
-    //                     side: BorderSide(
-    //                       color: AppTheme.skBorderColor2,
-    //                     ),
-    //                   ),
-    //                   onPressed: () {
-    //                     _animateToIndex(15.5);
-    //                     setState(() {
-    //                       cateScIndex = 2;
-    //                       _sliding = 2;
-    //                     });
-    //                     widget._selectedIntVal(2);
-    //                   },
-    //                   child: Container(
-    //                     child: Text(
-    //                       textSetLastMonth, textScaleFactor: 1,
-    //                       textAlign: TextAlign.center,
-    //                       style: TextStyle(
-    //                           fontSize: 14,
-    //                           fontWeight: FontWeight.w500,
-    //                           color: Colors.black),
-    //                     ),
-    //                   ),
-    //                 ),
-    //               ),
-    //               Padding(
-    //                 padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-    //                 child: FlatButton(
-    //                   minWidth: 0,
-    //                   padding: EdgeInsets.only(left: 12, right: 12),
-    //                   color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,
-    //                   shape: RoundedRectangleBorder(
-    //                     borderRadius: BorderRadius.circular(20.0),
-    //                     side: BorderSide(
-    //                       color: AppTheme.skBorderColor2,
-    //                     ),
-    //                   ),
-    //                   onPressed: () {
-    //                     _animateToIndex(20);
-    //                     setState(() {
-    //                       cateScIndex = 3;
-    //                       _sliding = 3;
-    //                     });
-    //                     widget._selectedIntVal(3);
-    //                   },
-    //                   child: Container(
-    //                     child: Text(
-    //                       textSetLastYear, textScaleFactor: 1,
-    //                       textAlign: TextAlign.center,
-    //                       style: TextStyle(
-    //                           fontSize: 14,
-    //                           fontWeight: FontWeight.w500,
-    //                           color: Colors.black),
-    //                     ),
-    //                   ),
-    //                 ),
-    //               ),
-    //               SizedBox(
-    //                 width: 11,
-    //               )
-    //             ],
-    //           ),
-    //         )
-    //       ],
-    //     ),
+    //     child: CupertinoSlidingSegmentedControl(
+    //         groupValue: segmentedControlGroupValue,
+    //         children: myTabs,
+    //         onValueChanged: (i) {
+    //           // setState(() {
+    //           //   segmentedControlGroupValue = i;
+    //           // });
+    //         }),
     //
     //   ),
     // );
+    return Padding(
+      padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 0.0),
+      child: Container(
+        height: 32,
+        width: MediaQuery.of(context).size.width,
+        // color: Colors.yellow,
+        child: Row(
+          children: [
+            Row(
+              children: [
+                FlatButton(
+                  padding: EdgeInsets.only(left: 10, right: 10),
+                  color: AppTheme.secButtonColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                    side: BorderSide(
+                      color: AppTheme.skBorderColor2,
+                    ),
+                  ),
+                  onPressed: () {
+                    // widget._callback();
+                    _showDatePicker(OneContext().context);
+                  },
+                  child: Container(
+                    child: Row(
+                      // mainAxisAlignment: Main,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 3.0),
+                          child: Icon(
+                            Icons.calendar_view_day_rounded,
+                            size: 18,
+                          ),
+                        ),
+                        Text(
+                          selectDaysCast(), textScaleFactor: 1,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(width: 12),
+                Container(
+                  color: Colors.grey.withOpacity(0.2),
+                  width: 1.5,
+                  height: 30,
+                )
+              ],
+            ),
+            Expanded(
+              child: ListView(
+                controller: cateScCtler,
+                scrollDirection: Axis.horizontal,
+                children: [
+                  SizedBox(
+                    width: 4,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                    child: FlatButton(
+                      minWidth: 0,
+                      padding: EdgeInsets.only(left: 12, right: 12),
+                      color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                        side: BorderSide(
+                          color: AppTheme.skBorderColor2,
+                        ),
+                      ),
+                      onPressed: () {
+                        _animateToIndex(0);
+                        setState(() {
+                          cateScIndex = 0;
+                          _sliding = 0;
+                        });
+                        widget._selectedIntVal(0);
+                      },
+                      child: Container(
+                        child: Text(
+                          textSetToday, textScaleFactor: 1,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4.0, right: 6.0),
+                    child: FlatButton(
+                      minWidth: 0,
+                      padding: EdgeInsets.only(left: 12, right: 12),
+                      color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                        side: BorderSide(
+                          color: AppTheme.skBorderColor2,
+                        ),
+                      ),
+                      onPressed: () {
+                        _animateToIndex(5.9);
+                        setState(() {
+                          cateScIndex = 1;
+                          _sliding = 1;
+                        });
+                        widget._selectedIntVal(1);
+                      },
+                      child: Container(
+                        child: Text(
+                          textSetLastWeek, textScaleFactor: 1,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4.0, right: 6.0),
+                    child: FlatButton(
+                      minWidth: 0,
+                      padding: EdgeInsets.only(left: 12, right: 12),
+                      color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                        side: BorderSide(
+                          color: AppTheme.skBorderColor2,
+                        ),
+                      ),
+                      onPressed: () {
+                        _animateToIndex(15.5);
+                        setState(() {
+                          cateScIndex = 2;
+                          _sliding = 2;
+                        });
+                        widget._selectedIntVal(2);
+                      },
+                      child: Container(
+                        child: Text(
+                          textSetLastMonth, textScaleFactor: 1,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                    child: FlatButton(
+                      minWidth: 0,
+                      padding: EdgeInsets.only(left: 12, right: 12),
+                      color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                        side: BorderSide(
+                          color: AppTheme.skBorderColor2,
+                        ),
+                      ),
+                      onPressed: () {
+                        _animateToIndex(20);
+                        setState(() {
+                          cateScIndex = 3;
+                          _sliding = 3;
+                        });
+                        widget._selectedIntVal(3);
+                      },
+                      child: Container(
+                        child: Text(
+                          textSetLastYear, textScaleFactor: 1,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 11,
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
+
+      ),
+    );
   }
 
   headerAppBar2() {
@@ -2176,6 +3022,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     var percent = 0;
     if(_sliding == 0) {
       percent = growthRateDayLoss(ystLossTotal, todayLossTotal);
+
     } else percent = growthRateWeekLoss(lastWeekLoss, weekLossTotal);
     return percent;
   }
@@ -2186,6 +3033,13 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
       percent = growthRateDayEarn(ystEarnTotal, todayEarnTotal);
     } else percent = growthRateWeekEarn(lastWeekEarn, weekEarnTotal);
     return percent;
+  }
+
+  String yestWeekTitle() {
+    String title = '';
+    if(_sliding == 0) {
+      return title = 'yesterday';
+    } else  {return title = 'last week';}
   }
 
   String totalBySlide() {

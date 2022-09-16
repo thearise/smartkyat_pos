@@ -1887,94 +1887,94 @@ class HomeFragmentState extends State<HomeFragment>
                       ),
                     ),
                   ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 81.0),
-                      child: Container(
-                        height: MediaQuery.of(context).size.height -
-                            MediaQuery.of(context).padding.top -
-                            MediaQuery.of(context).padding.bottom -
-                            100,
-                        width: MediaQuery.of(context).size.width,
-                        color: Colors.Colors.white,
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 0.0, left: 0.0, right: 0.0),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 81.0),
+                        child: Container(
+                          height: MediaQuery.of(context).size.height -
+                              MediaQuery.of(context).padding.top -
+                              MediaQuery.of(context).padding.bottom -
+                              100,
+                          width: MediaQuery.of(context).size.width,
+                          color: Colors.Colors.white,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: 0.0, left: 0.0, right: 0.0),
 
-                          child: cateScIndex == 0 || cateScIndex == 1?
-                          BlocHomeWeek(
-                            isEnglish: widget.isEnglish,
-                            dateTime: today,
-                            key: valueKeyTog(),
-                            shopId: widget.shopId,
-                            query: ordersQuery(),
-                            itemBuilder: (context1, documentSnapshots, index) {
-                              Map<String, dynamic> data = documentSnapshots[index].data() as Map<String, dynamic>;
+                            child: cateScIndex == 0 || cateScIndex == 1?
+                            BlocHomeWeek(
+                              isEnglish: widget.isEnglish,
+                              dateTime: today,
+                              key: valueKeyTog(),
+                              shopId: widget.shopId,
+                              query: ordersQuery(),
+                              itemBuilder: (context1, documentSnapshots, index) {
+                                Map<String, dynamic> data = documentSnapshots[index].data() as Map<String, dynamic>;
 
-                              String item = zeroToTen(data['date'].toDate().year.toString()) + ' ' + zeroToTen(data['date'].toDate().month.toString()) + ' ' + zeroToTen(data['date'].toDate().day.toString()) + ' ' + zeroToTen(data['date'].toDate().hour.toString()) + ' ' + zeroToTen(data['date'].toDate().minute.toString());
-                              return Container(child: Padding(
-                                padding: const EdgeInsets.all(20.0),
-                                child: Text('items ' + item.toString()),
-                              ));
-                            },
-                            resetState: resetState,
-                            selectedIntVal: selectedIntVal,
-                            intValIni : cateScIndex,
-                            itemBuilderType:
-                            PaginateBuilderType.listView,
-                            isLive: true,
-                          ):
-                          cateScIndex == 3?
-                          BlocHomeYearImp.BlocHomeYear(
-                            isEnglish: widget.isEnglish,
-                            dateTime: today,
-                            key: valueKeyTog(),
-                            shopId: widget.shopId,
-                            query: ordersQueryYear(),
-                            itemBuilder: (context1, documentSnapshots, index) {
-                              Map<String, dynamic> data = documentSnapshots[index].data() as Map<String, dynamic>;
+                                String item = zeroToTen(data['date'].toDate().year.toString()) + ' ' + zeroToTen(data['date'].toDate().month.toString()) + ' ' + zeroToTen(data['date'].toDate().day.toString()) + ' ' + zeroToTen(data['date'].toDate().hour.toString()) + ' ' + zeroToTen(data['date'].toDate().minute.toString());
+                                return Container(child: Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: Text('items ' + item.toString()),
+                                ));
+                              },
+                              resetState: resetState,
+                              selectedIntVal: selectedIntVal,
+                              intValIni : cateScIndex,
+                              itemBuilderType:
+                              PaginateBuilderType.listView,
+                              isLive: true,
+                            ):
+                            cateScIndex == 3?
+                            BlocHomeYearImp.BlocHomeYear(
+                              isEnglish: widget.isEnglish,
+                              dateTime: today,
+                              key: valueKeyTog(),
+                              shopId: widget.shopId,
+                              query: ordersQueryYear(),
+                              itemBuilder: (context1, documentSnapshots, index) {
+                                Map<String, dynamic> data = documentSnapshots[index].data() as Map<String, dynamic>;
 
-                              String item = zeroToTen(data['date'].toDate().year.toString()) + ' ' + zeroToTen(data['date'].toDate().month.toString()) + ' ' + zeroToTen(data['date'].toDate().day.toString()) + ' ' + zeroToTen(data['date'].toDate().hour.toString()) + ' ' + zeroToTen(data['date'].toDate().minute.toString());
-                              return Container(child: Padding(
-                                padding: const EdgeInsets.all(20.0),
-                                child: Text('items ' + item.toString()),
-                              ));
-                            },
-                            resetState: resetState,
-                            selectedIntVal: selectedIntVal,
-                            intValIni : cateScIndex,
-                            itemBuilderType:
-                            BlocHomeYearImp.PaginateBuilderType.listView,
-                            isLive: true,
-                          ):
-                          BlocHomeMonthImp.BlocHomeMonth(
-                            dateTime: today,
-                            isEnglish: widget.isEnglish,
-                            key: valueKeyTog(),
-                            shopId: widget.shopId,
-                            query: ordersQueryMonth(),
-                            itemBuilder: (context1, documentSnapshots, index) {
-                              Map<String, dynamic> data = documentSnapshots[index].data() as Map<String, dynamic>;
+                                String item = zeroToTen(data['date'].toDate().year.toString()) + ' ' + zeroToTen(data['date'].toDate().month.toString()) + ' ' + zeroToTen(data['date'].toDate().day.toString()) + ' ' + zeroToTen(data['date'].toDate().hour.toString()) + ' ' + zeroToTen(data['date'].toDate().minute.toString());
+                                return Container(child: Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: Text('items ' + item.toString()),
+                                ));
+                              },
+                              resetState: resetState,
+                              selectedIntVal: selectedIntVal,
+                              intValIni : cateScIndex,
+                              itemBuilderType:
+                              BlocHomeYearImp.PaginateBuilderType.listView,
+                              isLive: true,
+                            ):
+                            BlocHomeMonthImp.BlocHomeMonth(
+                              dateTime: today,
+                              isEnglish: widget.isEnglish,
+                              key: valueKeyTog(),
+                              shopId: widget.shopId,
+                              query: ordersQueryMonth(),
+                              itemBuilder: (context1, documentSnapshots, index) {
+                                Map<String, dynamic> data = documentSnapshots[index].data() as Map<String, dynamic>;
 
-                              String item = zeroToTen(data['date'].toDate().year.toString()) + ' ' + zeroToTen(data['date'].toDate().month.toString()) + ' ' + zeroToTen(data['date'].toDate().day.toString()) + ' ' + zeroToTen(data['date'].toDate().hour.toString()) + ' ' + zeroToTen(data['date'].toDate().minute.toString());
-                              return Container(child: Padding(
-                                padding: const EdgeInsets.all(20.0),
-                                child: Text('items ' + item.toString()),
-                              ));
-                            },
-                            resetState: resetState,
-                            selectedIntVal: selectedIntVal,
-                            intValIni : cateScIndex,
-                            itemBuilderType:
-                            BlocHomeMonthImp.PaginateBuilderType.listView,
-                            isLive: true,
-                          )
-                          ,
+                                String item = zeroToTen(data['date'].toDate().year.toString()) + ' ' + zeroToTen(data['date'].toDate().month.toString()) + ' ' + zeroToTen(data['date'].toDate().day.toString()) + ' ' + zeroToTen(data['date'].toDate().hour.toString()) + ' ' + zeroToTen(data['date'].toDate().minute.toString());
+                                return Container(child: Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: Text('items ' + item.toString()),
+                                ));
+                              },
+                              resetState: resetState,
+                              selectedIntVal: selectedIntVal,
+                              intValIni : cateScIndex,
+                              itemBuilderType:
+                              BlocHomeMonthImp.PaginateBuilderType.listView,
+                              isLive: true,
+                            )
+                            ,
+                          ),
                         ),
                       ),
                     ),
-                  ),
                 ],
               ),
             ),
