@@ -164,7 +164,7 @@ class _WelcomeState extends State<Welcome>
                 // });
                 if(this.mounted) {
                   Navigator.of(context).popUntil((_) => true);
-                  Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
+                  Navigator.of(context).pushReplacement(FadeRoute(page: AddNewShop()));
                 }
 
 
