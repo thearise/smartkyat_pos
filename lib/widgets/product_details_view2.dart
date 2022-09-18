@@ -332,7 +332,7 @@ class ProductDetailsViewState2 extends State<ProductDetailsView2>  with
   late TabController _controller;
   int _sliding = 0;
 
-  String textSetAddtoCart = 'Add to\nsell cart';
+  String textSetAddtoCart = 'Add to\nsale cart';
   String textSetRefill =  'Refill to\ninventory';
   String textSetAddLoss = 'Add\nLoss item';
   String textSetEdit = 'EDIT';
@@ -442,7 +442,7 @@ class ProductDetailsViewState2 extends State<ProductDetailsView2>  with
     if(widget.isEnglish == true) {
       setState(() {
         isEnglish = true;
-        textSetAddtoCart = 'Add to\nsell cart';
+        textSetAddtoCart = 'Add to\nsale cart';
         textSetRefill =  'Refill to\ninventory';
         textSetAddLoss = 'Add\nLoss item';
         textSetEdit = 'EDIT';
@@ -611,6 +611,27 @@ class ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                       child: ListView(
                                         scrollDirection: Axis.horizontal,
                                         children: [
+                                          // Stack(
+                                          //   children: [
+                                          //     Container(
+                                          //       height: 100,
+                                          //       width: 133,
+                                          //     ),
+                                          //     Container(
+                                          //       height: 100,
+                                          //       width: 133,
+                                          //       child: CupertinoButton(
+                                          //         onPressed: () {
+                                          //
+                                          //         },
+                                          //         child: Text("Click Me"),
+                                          //         color: CupertinoColors.activeBlue,
+                                          //         padding: EdgeInsets.all(10),
+                                          //         disabledColor: Colors.grey,
+                                          //       ),
+                                          //     ),
+                                          //   ],
+                                          // ),
                                           Padding(
                                             padding: const EdgeInsets.only(left: 15.0),
                                             child: Stack(
@@ -653,10 +674,21 @@ class ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                 ),
                                                 ButtonTheme(
                                                   minWidth: 133,
-                                                  //minWidth: 50,
-                                                  splashColor: Colors.transparent,
                                                   height: 100,
                                                   child: FlatButton(
+                                                    // focusColor: Colors.black,
+                                                    splashColor: Colors.black.withOpacity(0.2),
+                                                    // splashColor: Colors.red,
+                                                    // highlightColor: Colors.green,
+                                                    // focusColor: Colors.red,
+                                                    // hoverColor: Colors.black,
+                                                    // color: Colors.white.withOpacity(0.78),
+                                                    // shape: RoundedRectangleBorder(
+                                                    //   borderRadius: BorderRadius.circular(7.0),
+                                                    //   side: BorderSide(
+                                                    //     color: Colors.white.withOpacity(0.78),
+                                                    //   ),
+                                                    // ),
                                                     color: Colors.white.withOpacity(0.78),
                                                     shape: RoundedRectangleBorder(
                                                       borderRadius: BorderRadius.circular(7.0),
