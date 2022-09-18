@@ -12805,7 +12805,7 @@ class HomePageState extends State<HomePage>
     debugPrint('closebyclick' + _selectIndex.toString());
     if(ayinIndex2 != _selectIndex) {
       if(_selectIndex == 0) {
-        closeGoToCart = !homeCartOpen;
+        closeGoToCart = homeCartOpen;
         drawerDrag = !homeDrawerOpen;
 
       } else if(_selectIndex == 1) {
@@ -12844,7 +12844,7 @@ class HomePageState extends State<HomePage>
       if(_selectIndex == 0) {
         drawerDrag = false;
         homeDrawerOpen = true;
-        closeGoToCart = false;
+        closeGoToCart = true;
         homeCartOpen = true;
       } else if(_selectIndex == 1) {
         drawerDrag = false;

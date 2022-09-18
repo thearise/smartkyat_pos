@@ -423,21 +423,13 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-
-                              // Padding(
-                              //   padding: const EdgeInsets.only(top: 15.0, bottom: 10.0),
-                              //   child: Container(
-                              //     height: 1,
-                              //     color: AppTheme.skBorderColor2,
-                              //   ),
-                              // ),
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 4.0),
                                 child: Row(
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        textSetTotalSales, textScaleFactor: 1,
+                                        'SALES IN-OUT SUMMARY',textScaleFactor: 1,
                                         style: TextStyle(
                                           height: 0.9,
                                           letterSpacing: 2,
@@ -446,608 +438,743 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                         ),
                                       ),
                                     ),
-                                    // Text(
-                                    //   titleTextBySlide(),
-                                    //   style: TextStyle( height: 0.9,
-                                    //     letterSpacing: 2,
-                                    //     fontWeight: FontWeight.bold,
-                                    //     fontSize: 14,color: Colors.grey,
-                                    //   ),
-                                    // )
                                   ],
                                 ),
                               ),
-                              SizedBox(height: 6,),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 0.0, bottom: 2.0),
-                                child: Container(
-                                  child: Row(
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 9, bottom: 14),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text(totalBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                        textScaleFactor: 1, textAlign: TextAlign.left,
-                                        style: GoogleFonts.lato(
-                                            textStyle: TextStyle(
-                                                letterSpacing: 1,
-                                                fontSize: 30,
-                                                fontWeight: FontWeight.w600,
-                                                color: Colors.black
-                                            )
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 12.0),
-                                        child: Text(' $currencyUnit', textScaleFactor: 1,
-                                          textAlign: TextAlign.left,
-                                          style: GoogleFonts.roboto(
-                                              textStyle: TextStyle(
-                                                  letterSpacing: 1,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Colors.black
-                                              )
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 3.0),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(5.0),
-                                            ),
-                                            color: growthRateSale(lastYearSale, thisYearOrdersChart) == 1000 ? Colors.blue : growthRateSale(lastYearSale, thisYearOrdersChart) < 0? AppTheme.badgeFgDanger: Colors.green,
-                                          ),
-                                          // width: 50,
-                                          height: 25,
-                                          child: Center(
-                                            child:  growthRateSale(lastYearSale, thisYearOrdersChart) == 1000 ? Text(' -%   ',
-                                              textScaleFactor: 1, textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Colors.white),
-                                            ) :
-                                            Text(' ' +  growthRateSale(lastYearSale, thisYearOrdersChart).toString() + '%  ',
-                                              textScaleFactor: 1, textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Colors.white),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            totalBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                            textScaleFactor: 1, textAlign: TextAlign.left,
+                                            style: GoogleFonts.lato(
+                                                textStyle: TextStyle(
+                                                    letterSpacing: 1,
+                                                    fontSize: 26,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.black
+                                                )
                                             ),
                                           ),
-                                        ),
-                                      )
+                                          Padding(
+                                              padding: const EdgeInsets.only(left: 5.0, top: 13.0),
+                                              child: Text(
+                                                  currencyUnit, textScaleFactor: 1,
+                                                  textAlign: TextAlign.left,
+                                                  style: GoogleFonts.roboto(
+                                                      textStyle: TextStyle(
+                                                          letterSpacing: 1,
+                                                          fontSize: 14,
+                                                          fontWeight: FontWeight.w600,
+                                                          color: Colors.black
+                                                      )
+                                                  ) ) ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'Net sales ' + '(',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                          growthRateSale(lastYearSale, thisYearOrdersChart) == 1001 || growthRateSale(lastYearSale, thisYearOrdersChart) == 1000 ?
+                                          Text('') :
+                                          Text(
+                                            growthRateSale(lastYearSale, thisYearOrdersChart).abs().toString()+ '% ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                              fontSize: 13, height: 1.2,
+                                              fontWeight: FontWeight.w500,
+                                              color: growthRateSale(lastYearSale, thisYearOrdersChart) == 1001 || growthRateSale(lastYearSale, thisYearOrdersChart) == 1000 ? Colors.blue: growthRateSale(lastYearSale, thisYearOrdersChart) < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                          ) ,
+                                          growthRateSale(lastYearSale, thisYearOrdersChart) == 1001 || growthRateSale(lastYearSale, thisYearOrdersChart) == 1000 ? Text(
+                                            'same as ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ) : growthRateSale(lastYearSale, thisYearOrdersChart) < 0?
+                                          Text(
+                                            'lower than ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ) :
+                                          Text(
+                                            'higher than ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                          Text(
+                                            yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                        ],
+                                      ),
                                     ],
                                   ),
                                 ),
                               ),
-                              SizedBox(height: 6,),
-                              // Padding(
-                              //   padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 0.0),
-                              //   child: Row(
-                              //     children: [
-                              //       Text('Total sales',
-                              //         textAlign: TextAlign.left,
-                              //         style: TextStyle(
-                              //             fontSize: 15,
-                              //             fontWeight: FontWeight.w500,
-                              //             color: Colors.black),
-                              //       ),
-                              //       Expanded(
-                              //         child: GestureDetector(
-                              //           onTap: () {
-                              //             Navigator.push(context, MaterialPageRoute(builder: (context) => TopSaleDetail(shopId: shopId.toString(),)),);
-                              //           },
-                              //           child: Row(
-                              //             mainAxisAlignment: MainAxisAlignment.end,
-                              //             // crossAxisAlignment: CrossAxisAlignment.end,
-                              //             children: [
-                              //               Text('View detail',
-                              //                 textAlign: TextAlign.right,
-                              //                 style: TextStyle(
-                              //                     fontSize: 15,
-                              //                     fontWeight: FontWeight.w500,
-                              //                     color: Colors.blue),
-                              //               ),
-                              //               Padding(
-                              //                 padding: const EdgeInsets.only(bottom: 4.5),
-                              //                 child: Container(
-                              //                   width: 25,
-                              //                   height: 25,
-                              //                   child: IconButton(
-                              //                       icon: Icon(
-                              //                         Icons.arrow_forward_ios_rounded,
-                              //                         size: 13,
-                              //                         color: Colors.blue,
-                              //                       ),
-                              //                       onPressed: () {
-                              //                       }),
-                              //                 ),
-                              //               )
-                              //             ],
-                              //           ),
-                              //         ),
-                              //       )
-                              //     ],
-                              //   ),
-                              // ),
-                              SizedBox(
-                                height: 8,
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: BoxDecoration(
+                                      border: Border(
+                                          bottom: BorderSide(
+                                              color: Colors.grey
+                                                  .withOpacity(
+                                                  0.3),
+                                              width: 1.0)
+                                      )),
+                                ),
                               ),
                               Container(
-                                height: 100,
-                                child: ListView(
-
-                                  scrollDirection: Axis.horizontal,
+                                width: MediaQuery.of(context).size.width,
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 9, bottom: 14),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(
+                                            profitByYear().toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                            textScaleFactor: 1, textAlign: TextAlign.left,
+                                            style: GoogleFonts.lato(
+                                                textStyle: TextStyle(
+                                                    letterSpacing: 1,
+                                                    fontSize: 26,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.black
+                                                )
+                                            ),
+                                          ),
+                                          Padding(
+                                              padding: const EdgeInsets.only(left: 5.0, top: 13.0),
+                                              child: Text(
+                                                  currencyUnit, textScaleFactor: 1,
+                                                  textAlign: TextAlign.left,
+                                                  style: GoogleFonts.roboto(
+                                                      textStyle: TextStyle(
+                                                          letterSpacing: 1,
+                                                          fontSize: 14,
+                                                          fontWeight: FontWeight.w600,
+                                                          color: Colors.black
+                                                      )
+                                                  ) ) ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'Avg profit ' + '(',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                          growthRateDayProfit(profitByLastYear(), profitByYear()) == 1001 || growthRateDayProfit(profitByLastYear(), profitByYear()) == 1000 ?
+                                          Text('') :
+                                          Text(
+                                            growthRateDayProfit(profitByLastYear(), profitByYear()).abs().toString()+ '% ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                              fontSize: 13, height: 1.2,
+                                              fontWeight: FontWeight.w500,
+                                              color: growthRateDayProfit(profitByLastYear(), profitByYear()) == 1001 || growthRateDayProfit(profitByLastYear(), profitByYear()) == 1000 ? Colors.blue: growthRateDayProfit(profitByLastYear(), profitByYear()) < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                          ) ,
+                                          growthRateDayProfit(profitByLastYear(), profitByYear()) == 1001 || growthRateDayProfit(profitByLastYear(), profitByYear()) == 1000 ? Text(
+                                            'same as ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ) :  growthRateDayProfit(profitByLastYear(), profitByYear()) < 0?
+                                          Text(
+                                            'lower than ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ) :
+                                          Text(
+                                            'higher than ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                          Text(
+                                            yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: BoxDecoration(
+                                      border: Border(
+                                          bottom: BorderSide(
+                                              color: Colors.grey
+                                                  .withOpacity(
+                                                  0.3),
+                                              width: 1.0)
+                                      )),
+                                ),
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 9, bottom: 14),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(
+                                            totalStockCostsBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                            textScaleFactor: 1, textAlign: TextAlign.left,
+                                            style: GoogleFonts.lato(
+                                                textStyle: TextStyle(
+                                                    letterSpacing: 1,
+                                                    fontSize: 26,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.black
+                                                )
+                                            ),
+                                          ),
+                                          Padding(
+                                              padding: const EdgeInsets.only(left: 5.0, top: 13.0),
+                                              child: Text(
+                                                  currencyUnit, textScaleFactor: 1,
+                                                  textAlign: TextAlign.left,
+                                                  style: GoogleFonts.roboto(
+                                                      textStyle: TextStyle(
+                                                          letterSpacing: 1,
+                                                          fontSize: 14,
+                                                          fontWeight: FontWeight.w600,
+                                                          color: Colors.black
+                                                      )
+                                                  ) ) ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'Unpaid amount ' + '(',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                          growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal) == 1001 || growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal) == 1000 ?
+                                          Text('') :
+                                          Text(
+                                            growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal).abs().toString()+ '% ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                              fontSize: 13, height: 1.2,
+                                              fontWeight: FontWeight.w500,
+                                              color: growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal) == 1001 || growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal) == 1000 ? Colors.blue: growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal) < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                          ) ,
+                                          growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal) == 1001 || growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal) == 1000 ? Text(
+                                            'same as ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ) :  growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal) < 0?
+                                          Text(
+                                            'lower than ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ) :
+                                          Text(
+                                            'higher than ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                          Text(
+                                            yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: BoxDecoration(
+                                      border: Border(
+                                          bottom: BorderSide(
+                                              color: Colors.grey
+                                                  .withOpacity(
+                                                  0.3),
+                                              width: 1.0)
+                                      )),
+                                ),
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 9, bottom: 14),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(
+                                            totalStockCostsRBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                            textScaleFactor: 1, textAlign: TextAlign.left,
+                                            style: GoogleFonts.lato(
+                                                textStyle: TextStyle(
+                                                    letterSpacing: 1,
+                                                    fontSize: 26,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.black
+                                                )
+                                            ),
+                                          ),
+                                          Padding(
+                                              padding: const EdgeInsets.only(left: 5.0, top: 13.0),
+                                              child: Text(
+                                                  currencyUnit, textScaleFactor: 1,
+                                                  textAlign: TextAlign.left,
+                                                  style: GoogleFonts.roboto(
+                                                      textStyle: TextStyle(
+                                                          letterSpacing: 1,
+                                                          fontSize: 14,
+                                                          fontWeight: FontWeight.w600,
+                                                          color: Colors.black
+                                                      )
+                                                  ) ) ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'Stock costs ' + '(',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                          growthRateCost(lastYearCost, yearCostsTotal2) == 1001 || growthRateCost(lastYearCost, yearCostsTotal2) == 1000 ?
+                                          Text('') :
+                                          Text(
+                                            growthRateCost(lastYearCost, yearCostsTotal2).abs().toString()+ '% ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                              fontSize: 13, height: 1.2,
+                                              fontWeight: FontWeight.w500,
+                                              color: growthRateCost(lastYearCost, yearCostsTotal2) == 1001 || growthRateCost(lastYearCost, yearCostsTotal2) == 1000 ? Colors.blue: growthRateCost(lastYearCost, yearCostsTotal2) < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                          ) ,
+                                          growthRateCost(lastYearCost, yearCostsTotal2) == 1001 || growthRateCost(lastYearCost, yearCostsTotal2) == 1000 ? Text(
+                                            'same as ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ) :  growthRateCost(lastYearCost, yearCostsTotal2) < 0?
+                                          Text(
+                                            'lower than ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ) :
+                                          Text(
+                                            'higher than ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                          Text(
+                                            yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: BoxDecoration(
+                                      border: Border(
+                                          bottom: BorderSide(
+                                              color: Colors.grey
+                                                  .withOpacity(
+                                                  0.3),
+                                              width: 1.0)
+                                      )),
+                                ),
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 9, bottom: 14),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(
+                                            yearRefundTotal.toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                            textScaleFactor: 1, textAlign: TextAlign.left,
+                                            style: GoogleFonts.lato(
+                                                textStyle: TextStyle(
+                                                    letterSpacing: 1,
+                                                    fontSize: 26,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.black
+                                                )
+                                            ),
+                                          ),
+                                          Padding(
+                                              padding: const EdgeInsets.only(left: 5.0, top: 13.0),
+                                              child: Text(
+                                                  currencyUnit, textScaleFactor: 1,
+                                                  textAlign: TextAlign.left,
+                                                  style: GoogleFonts.roboto(
+                                                      textStyle: TextStyle(
+                                                          letterSpacing: 1,
+                                                          fontSize: 14,
+                                                          fontWeight: FontWeight.w600,
+                                                          color: Colors.black
+                                                      )
+                                                  ) ) ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'Refund amount ' + '(',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                          growthRateRefund(lastYearRefund, yearRefundTotal) == 1001 || growthRateRefund(lastYearRefund, yearRefundTotal) == 1000 ?
+                                          Text('') :
+                                          Text(
+                                            growthRateRefund(lastYearRefund, yearRefundTotal).abs().toString()+ '% ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                              fontSize: 13, height: 1.2,
+                                              fontWeight: FontWeight.w500,
+                                              color: growthRateRefund(lastYearRefund, yearRefundTotal) == 1001 || growthRateRefund(lastYearRefund, yearRefundTotal) == 1000 ? Colors.blue: growthRateRefund(lastYearRefund, yearRefundTotal) < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                          ) ,
+                                          growthRateRefund(lastYearRefund, yearRefundTotal) == 1001 || growthRateRefund(lastYearRefund, yearRefundTotal) == 1000 ? Text(
+                                            'same as ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ) :  growthRateRefund(lastYearRefund, yearRefundTotal) < 0?
+                                          Text(
+                                            'lower than ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ) :
+                                          Text(
+                                            'higher than ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                          Text(
+                                            yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: BoxDecoration(
+                                      border: Border(
+                                          bottom: BorderSide(
+                                              color: Colors.grey
+                                                  .withOpacity(
+                                                  0.3),
+                                              width: 1.0)
+                                      )),
+                                ),
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 9, bottom: 14),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(
+                                            yearLossTotal.toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                            textScaleFactor: 1, textAlign: TextAlign.left,
+                                            style: GoogleFonts.lato(
+                                                textStyle: TextStyle(
+                                                    letterSpacing: 1,
+                                                    fontSize: 26,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.black
+                                                )
+                                            ),
+                                          ),
+                                          Padding(
+                                              padding: const EdgeInsets.only(left: 5.0, top: 13.0),
+                                              child: Text(
+                                                  currencyUnit, textScaleFactor: 1,
+                                                  textAlign: TextAlign.left,
+                                                  style: GoogleFonts.roboto(
+                                                      textStyle: TextStyle(
+                                                          letterSpacing: 1,
+                                                          fontSize: 14,
+                                                          fontWeight: FontWeight.w600,
+                                                          color: Colors.black
+                                                      )
+                                                  ) ) ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'Loss amount ' + '(',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                          growthRateLoss(lastYearLoss, yearLossTotal) == 1001 || growthRateLoss(lastYearLoss, yearLossTotal) == 1000 ?
+                                          Text('') :
+                                          Text(
+                                            growthRateLoss(lastYearLoss, yearLossTotal).abs().toString()+ '% ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                              fontSize: 13, height: 1.2,
+                                              fontWeight: FontWeight.w500,
+                                              color: growthRateLoss(lastYearLoss, yearLossTotal) == 1001 || growthRateLoss(lastYearLoss, yearLossTotal) == 1000 ? Colors.blue: growthRateLoss(lastYearLoss, yearLossTotal) < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                          ) ,
+                                          growthRateLoss(lastYearLoss, yearLossTotal) == 1001 || growthRateLoss(lastYearLoss, yearLossTotal) == 1000 ? Text(
+                                            'same as ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ) :  growthRateLoss(lastYearLoss, yearLossTotal) < 0?
+                                          Text(
+                                            'lower than ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ) :
+                                          Text(
+                                            'higher than ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                          Text(
+                                            yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ),
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                        bottom: BorderSide(
+                                            color: Colors.grey
+                                                .withOpacity(
+                                                0.3),
+                                            width: 1.0)
+                                    )),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 25.0 ,bottom: 25.0),
+                                child: Row(
                                   children: [
-                                    SizedBox(
-                                      width: 15,
-                                    ),
-                                    Container(
-                                      // width: 100,
-                                      height: 108,
-
-                                      constraints: BoxConstraints(
-                                          maxWidth: double.infinity, minWidth: 120),
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(8),
-                                          border: Border(
-                                            bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                            top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                            left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                            right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                          ),
-                                          color: AppTheme.lightBgColor
-                                      ),
-
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
-                                        child: Stack(
-                                          children: [
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                SizedBox(
-                                                    height:26
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.only(right:30.0),
-                                                  child: Text(totalStockCostsRBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                    textScaleFactor: 1, textAlign: TextAlign.left,
-                                                    style: GoogleFonts.lato(
-                                                        textStyle: TextStyle(
-                                                            letterSpacing: 1,
-                                                            fontSize: 20,
-                                                            fontWeight: FontWeight.w600,
-                                                            color: Colors.black
-                                                        )
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            // Positioned(
-                                            //     right: 0,
-                                            //     top: 0,
-                                            //     child: Text('?')
-                                            // ),
-                                            Text(textSetStockCosts, textScaleFactor: 1,
-                                              strutStyle: StrutStyle(
-                                                  forceStrutHeight: true,
-                                                  height: 1.2
-                                              ),
-                                              style: TextStyle(
-                                                  fontSize: 13,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.black.withOpacity(0.6)),
-                                            ),
-                                            Positioned(
-                                                right: 0,
-                                                bottom: 2,
-                                                child: Text(growthRateCost(lastYearCost, yearCostsTotal2).toString() == '1000' ? '-%' : growthRateCost(lastYearCost, yearCostsTotal2).toString() + '%',
-                                                  textScaleFactor: 1, style: TextStyle(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: growthRateCost(lastYearCost, yearCostsTotal2) == 1000 ? Colors.blue : growthRateCost(lastYearCost, yearCostsTotal2) < 0? Colors.green: AppTheme.badgeFgDanger,
-                                                  ),
-                                                )
-                                            ),
-                                            Positioned(
-                                              left: 0,
-                                              bottom: 2,
-                                              child: Text(currencyUnit, textScaleFactor: 1,
-                                                style: TextStyle(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black.withOpacity(0.6)),
-                                              ),
-                                            ),
-
-                                          ],
+                                    Expanded(
+                                      child: Text(
+                                        'SALES SUMMARY CHARTS',textScaleFactor: 1,
+                                        style: TextStyle(
+                                          height: 0.9,
+                                          letterSpacing: 2,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14,color: Colors.black,
                                         ),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      width: 15,
-                                    ),
-
-                                    Container(
-                                      // width: 100,
-                                      height: 108,
-
-                                      constraints: BoxConstraints(
-                                          maxWidth: double.infinity, minWidth: 120),
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(8),
-                                          border: Border(
-                                            bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                            top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                            left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                            right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                          ),
-                                          color: AppTheme.lightBgColor
-                                      ),
-
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
-                                        child: Stack(
-                                          children: [
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                SizedBox(
-                                                    height:26
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.only(right:30.0),
-                                                  child: Text(totalStockCostsBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                    textScaleFactor: 1, textAlign: TextAlign.left,
-                                                    style: GoogleFonts.lato(
-                                                        textStyle: TextStyle(
-                                                            letterSpacing: 1,
-                                                            fontSize: 20,
-                                                            fontWeight: FontWeight.w600,
-                                                            color: Colors.black
-                                                        )
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            // Positioned(
-                                            //     right: 0,
-                                            //     top: 0,
-                                            //     child: Text('?')
-                                            // ),
-                                            Text(textSetUnpaid, textScaleFactor: 1,
-                                              strutStyle: StrutStyle(
-                                                  forceStrutHeight: true,
-                                                  height: 1.2
-                                              ),
-                                              style: TextStyle(
-                                                  fontSize: 13, height: 1.2,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.black.withOpacity(0.6)),
-                                            ),
-
-                                            Positioned(
-                                                right: 0,
-                                                bottom: 2,
-                                                child: Text(growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal).toString() == '1000' ? '-%' : growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal).toString() + '%',
-                                                  textScaleFactor: 1, style: TextStyle(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal) == 1000 ? Colors.blue:  growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal) < 0? AppTheme.badgeFgDanger :  Colors.green,
-                                                  ),
-                                                )
-                                            ),
-                                            Positioned(
-                                              left: 0,
-                                              bottom: 2,
-                                              child: Text(currencyUnit, textScaleFactor: 1,
-                                                style: TextStyle(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black.withOpacity(0.6)),
-                                              ),
-                                            ),
-
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 15,
-                                    ),
-
-                                    Container(
-                                      // width: 100,
-                                      height: 108,
-
-                                      constraints: BoxConstraints(
-                                          maxWidth: double.infinity, minWidth: 120),
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(8),
-                                          border: Border(
-                                            bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                            top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                            left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                            right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                          ),
-                                          color: AppTheme.lightBgColor
-                                      ),
-
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
-                                        child: Stack(
-                                          children: [
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                SizedBox(
-                                                    height:26
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.only(right:30.0),
-                                                  child: Text(yearRefundTotal.toStringAsFixed(1).toString(), textScaleFactor: 1,
-                                                    textAlign: TextAlign.left,
-                                                    style: GoogleFonts.lato(
-                                                        textStyle: TextStyle(
-                                                            letterSpacing: 1,
-                                                            fontSize: 20,
-                                                            fontWeight: FontWeight.w600,
-                                                            color: Colors.black
-                                                        )
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            // Positioned(
-                                            //     right: 0,
-                                            //     top: 0,
-                                            //     child: Text('?')
-                                            // ),
-                                            Text(textSetBuys, textScaleFactor: 1,
-                                              strutStyle: StrutStyle(
-                                                  forceStrutHeight: true,
-                                                  height: 1.2
-                                              ),
-                                              style: TextStyle(
-                                                  fontSize: 13,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.black.withOpacity(0.6)),
-                                            ),
-
-                                            Positioned(
-                                                right: 0,
-                                                bottom: 2,
-                                                child: Text(growthRateRefund(lastYearRefund, yearRefundTotal).toString() == '1000' ? '-%' : growthRateRefund(lastYearRefund, yearRefundTotal).toString() + '%',
-                                                  textScaleFactor: 1, style: TextStyle(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.w500,
-                                                    color:  growthRateRefund(lastYearRefund, yearRefundTotal) == 1000 ? Colors.blue : growthRateRefund(lastYearRefund, yearRefundTotal) < 0? Colors.green: AppTheme.badgeFgDanger,
-                                                  ),
-                                                )
-                                            ),
-                                            Positioned(
-                                              left: 0,
-                                              bottom: 2,
-                                              child: Text(currencyUnit, textScaleFactor: 1,
-                                                style: TextStyle(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black.withOpacity(0.6)),
-                                              ),
-                                            ),
-
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 15,
-                                    ),
-
-                                    Container(
-                                      // width: 100,
-                                      height: 100,
-                                      constraints: BoxConstraints(
-                                          maxWidth: double.infinity, minWidth: 120),
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(8),
-                                          border: Border(
-                                            bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                            top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                            left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                            right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                          ),
-                                          color: AppTheme.lightBgColor
-                                      ),
-
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
-                                        child: Stack(
-                                          children: [
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                SizedBox(
-                                                    height:26
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.only(right:30.0),
-                                                  child: Text(yearLossTotal.toStringAsFixed(1).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),textScaleFactor: 1,
-                                                    textAlign: TextAlign.left,
-                                                    style: GoogleFonts.lato(
-                                                        textStyle: TextStyle(
-                                                            letterSpacing: 1,
-                                                            fontSize: 20,
-                                                            fontWeight: FontWeight.w600,
-                                                            color: Colors.black
-                                                        )
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            // Positioned(
-                                            //     right: 0,
-                                            //     top: 0,
-                                            //     child: Text('?')
-                                            // ),
-                                            Text(textSetLoss,textScaleFactor: 1,
-                                              strutStyle: StrutStyle(
-                                                  forceStrutHeight: true,
-                                                  height: 1.2
-                                              ),
-                                              style: TextStyle(
-                                                  fontSize: 13,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.black.withOpacity(0.6)),
-                                            ),
-                                            Container(
-                                              height: 100,
-                                              width: 100,
-                                              child: ListView.builder(
-                                                  shrinkWrap: true,
-                                                  itemCount: loadedState.documentSnapshots.length,
-                                                  itemBuilder: (BuildContext context, int index) {
-                                                    // for(int loopP = 0; loopP < snapshotPd.data!.docs.length; loopP++) {
-                                                    //
-                                                    // }
-                                                    Map<String, dynamic> dataL = loadedState.documentSnapshots[index].data()! as Map<String, dynamic>;
-                                                    debugPrint('check product ' + dataL['buy_price'].toString());
-                                                    return Container();
-                                                  }),
-                                            ),
-                                            Positioned(
-                                                right: 0,
-                                                bottom: 2,
-                                                child: Text(growthRateLoss(lastYearLoss, yearLossTotal).toString() == '1000' ? '-%' : growthRateLoss(lastYearLoss, yearLossTotal).toString() + '%',
-                                                  textScaleFactor: 1, style: TextStyle(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: growthRateLoss(lastYearLoss, yearLossTotal) == 1000? Colors.blue : growthRateLoss(lastYearLoss, yearLossTotal) < 0? Colors.green: AppTheme.badgeFgDanger,
-                                                  ),
-                                                )
-                                            ),
-                                            Positioned(
-                                              left: 0,
-                                              bottom: 2,
-                                              child: Text(currencyUnit, textScaleFactor: 1,
-                                                style: TextStyle(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black.withOpacity(0.6)),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 15,
-                                    ),
-                                    Container(
-                                      // width: 100,
-                                      height: 100,
-                                      constraints: BoxConstraints(
-                                          maxWidth: double.infinity, minWidth: 120),
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(8),
-                                          border: Border(
-                                            bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                            top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                            left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                            right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
-                                          ),
-                                          color: AppTheme.lightBgColor
-                                      ),
-
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
-                                        child: Stack(
-                                          children: [
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                SizedBox(
-                                                    height:26
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.only(right:30.0),
-                                                  child: Text(profitByYear().toStringAsFixed(1).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),textScaleFactor: 1,
-                                                    textAlign: TextAlign.left,
-                                                    style: GoogleFonts.lato(
-                                                        textStyle: TextStyle(
-                                                            letterSpacing: 1,
-                                                            fontSize: 20,
-                                                            fontWeight: FontWeight.w600,
-                                                            color: Colors.black
-                                                        )
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            // Positioned(
-                                            //     right: 0,
-                                            //     top: 0,
-                                            //     child: Text('?')
-                                            // ),
-                                            Text(textSetProfit,textScaleFactor: 1,
-                                              strutStyle: StrutStyle(
-                                                  forceStrutHeight: true,
-                                                  height: 1.2
-                                              ),
-                                              style: TextStyle(
-                                                  fontSize: 13,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.black.withOpacity(0.6)),
-                                            ),
-                                            Positioned(
-                                                right: 0,
-                                                bottom: 2,
-                                                child: Text(growthRateDayProfit(profitByLastYear(), profitByYear()).toString() == '1001' ? '-%' : growthRateDayProfit(profitByLastYear(), profitByYear()).toString()  == '1000' ? '-%' : growthRateDayProfit(profitByLastYear(), profitByYear()).toString()  + '%',
-                                                  textScaleFactor: 1, style: TextStyle(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: growthRateDayProfit(profitByLastYear(), profitByYear())  == 1001 || growthRateDayProfit(profitByLastYear(), profitByYear()) == 1000 ? Colors.blue: growthRateDayProfit(profitByLastYear(), profitByYear()) < 0? Colors.green: AppTheme.badgeFgDanger,
-                                                    // color: Colors.blue
-                                                  ),
-                                                )
-                                            ),
-                                            Positioned(
-                                              left: 0,
-                                              bottom: 2,
-                                              child: Text(currencyUnit, textScaleFactor: 1,
-                                                style: TextStyle(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black.withOpacity(0.6)),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 15,
                                     ),
                                   ],
                                 ),
-                              ),
-                              SizedBox(
-                                  height: 15.0
                               ),
                               Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
@@ -1092,6 +1219,674 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                   ],
                                 ),
                               ),
+                              // Padding(
+                              //   padding: const EdgeInsets.only(top: 15.0, bottom: 10.0),
+                              //   child: Container(
+                              //     height: 1,
+                              //     color: AppTheme.skBorderColor2,
+                              //   ),
+                              // ),
+                              // Padding(
+                              //   padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                              //   child: Row(
+                              //     children: [
+                              //       Expanded(
+                              //         child: Text(
+                              //           textSetTotalSales, textScaleFactor: 1,
+                              //           style: TextStyle(
+                              //             height: 0.9,
+                              //             letterSpacing: 2,
+                              //             fontWeight: FontWeight.bold,
+                              //             fontSize: 14,color: Colors.black,
+                              //           ),
+                              //         ),
+                              //       ),
+                              //       // Text(
+                              //       //   titleTextBySlide(),
+                              //       //   style: TextStyle( height: 0.9,
+                              //       //     letterSpacing: 2,
+                              //       //     fontWeight: FontWeight.bold,
+                              //       //     fontSize: 14,color: Colors.grey,
+                              //       //   ),
+                              //       // )
+                              //     ],
+                              //   ),
+                              // ),
+                              // SizedBox(height: 6,),
+                              // Padding(
+                              //   padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 0.0, bottom: 2.0),
+                              //   child: Container(
+                              //     child: Row(
+                              //       children: [
+                              //         Text(totalBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                              //           textScaleFactor: 1, textAlign: TextAlign.left,
+                              //           style: GoogleFonts.lato(
+                              //               textStyle: TextStyle(
+                              //                   letterSpacing: 1,
+                              //                   fontSize: 30,
+                              //                   fontWeight: FontWeight.w600,
+                              //                   color: Colors.black
+                              //               )
+                              //           ),
+                              //         ),
+                              //         Padding(
+                              //           padding: const EdgeInsets.only(top: 12.0),
+                              //           child: Text(' $currencyUnit', textScaleFactor: 1,
+                              //             textAlign: TextAlign.left,
+                              //             style: GoogleFonts.roboto(
+                              //                 textStyle: TextStyle(
+                              //                     letterSpacing: 1,
+                              //                     fontSize: 16,
+                              //                     fontWeight: FontWeight.w600,
+                              //                     color: Colors.black
+                              //                 )
+                              //             ),
+                              //           ),
+                              //         ),
+                              //         Expanded(
+                              //           child: Container(),
+                              //         ),
+                              //         Padding(
+                              //           padding: const EdgeInsets.only(top: 3.0),
+                              //           child: Container(
+                              //             decoration: BoxDecoration(
+                              //               borderRadius: BorderRadius.all(
+                              //                 Radius.circular(5.0),
+                              //               ),
+                              //               color: growthRateSale(lastYearSale, thisYearOrdersChart) == 1000 ? Colors.blue : growthRateSale(lastYearSale, thisYearOrdersChart) < 0? AppTheme.badgeFgDanger: Colors.green,
+                              //             ),
+                              //             // width: 50,
+                              //             height: 25,
+                              //             child: Center(
+                              //               child:  growthRateSale(lastYearSale, thisYearOrdersChart) == 1000 ? Text(' -%   ',
+                              //                 textScaleFactor: 1, textAlign: TextAlign.center,
+                              //                 style: TextStyle(
+                              //                     fontSize: 15,
+                              //                     fontWeight: FontWeight.w600,
+                              //                     color: Colors.white),
+                              //               ) :
+                              //               Text(' ' +  growthRateSale(lastYearSale, thisYearOrdersChart).toString() + '%  ',
+                              //                 textScaleFactor: 1, textAlign: TextAlign.center,
+                              //                 style: TextStyle(
+                              //                     fontSize: 15,
+                              //                     fontWeight: FontWeight.w600,
+                              //                     color: Colors.white),
+                              //               ),
+                              //             ),
+                              //           ),
+                              //         )
+                              //       ],
+                              //     ),
+                              //   ),
+                              // ),
+                              // SizedBox(height: 6,),
+                              // // Padding(
+                              // //   padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 0.0),
+                              // //   child: Row(
+                              // //     children: [
+                              // //       Text('Total sales',
+                              // //         textAlign: TextAlign.left,
+                              // //         style: TextStyle(
+                              // //             fontSize: 15,
+                              // //             fontWeight: FontWeight.w500,
+                              // //             color: Colors.black),
+                              // //       ),
+                              // //       Expanded(
+                              // //         child: GestureDetector(
+                              // //           onTap: () {
+                              // //             Navigator.push(context, MaterialPageRoute(builder: (context) => TopSaleDetail(shopId: shopId.toString(),)),);
+                              // //           },
+                              // //           child: Row(
+                              // //             mainAxisAlignment: MainAxisAlignment.end,
+                              // //             // crossAxisAlignment: CrossAxisAlignment.end,
+                              // //             children: [
+                              // //               Text('View detail',
+                              // //                 textAlign: TextAlign.right,
+                              // //                 style: TextStyle(
+                              // //                     fontSize: 15,
+                              // //                     fontWeight: FontWeight.w500,
+                              // //                     color: Colors.blue),
+                              // //               ),
+                              // //               Padding(
+                              // //                 padding: const EdgeInsets.only(bottom: 4.5),
+                              // //                 child: Container(
+                              // //                   width: 25,
+                              // //                   height: 25,
+                              // //                   child: IconButton(
+                              // //                       icon: Icon(
+                              // //                         Icons.arrow_forward_ios_rounded,
+                              // //                         size: 13,
+                              // //                         color: Colors.blue,
+                              // //                       ),
+                              // //                       onPressed: () {
+                              // //                       }),
+                              // //                 ),
+                              // //               )
+                              // //             ],
+                              // //           ),
+                              // //         ),
+                              // //       )
+                              // //     ],
+                              // //   ),
+                              // // ),
+                              // SizedBox(
+                              //   height: 8,
+                              // ),
+                              // Container(
+                              //   height: 100,
+                              //   child: ListView(
+                              //
+                              //     scrollDirection: Axis.horizontal,
+                              //     children: [
+                              //       SizedBox(
+                              //         width: 15,
+                              //       ),
+                              //       Container(
+                              //         // width: 100,
+                              //         height: 108,
+                              //
+                              //         constraints: BoxConstraints(
+                              //             maxWidth: double.infinity, minWidth: 120),
+                              //         decoration: BoxDecoration(
+                              //             borderRadius: BorderRadius.circular(8),
+                              //             border: Border(
+                              //               bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //               top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //               left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //               right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //             ),
+                              //             color: AppTheme.lightBgColor
+                              //         ),
+                              //
+                              //         child: Padding(
+                              //           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+                              //           child: Stack(
+                              //             children: [
+                              //               Column(
+                              //                 mainAxisAlignment: MainAxisAlignment.start,
+                              //                 crossAxisAlignment: CrossAxisAlignment.start,
+                              //                 children: [
+                              //                   SizedBox(
+                              //                       height:26
+                              //                   ),
+                              //                   Padding(
+                              //                     padding: const EdgeInsets.only(right:30.0),
+                              //                     child: Text(totalStockCostsRBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                              //                       textScaleFactor: 1, textAlign: TextAlign.left,
+                              //                       style: GoogleFonts.lato(
+                              //                           textStyle: TextStyle(
+                              //                               letterSpacing: 1,
+                              //                               fontSize: 20,
+                              //                               fontWeight: FontWeight.w600,
+                              //                               color: Colors.black
+                              //                           )
+                              //                       ),
+                              //                     ),
+                              //                   ),
+                              //                 ],
+                              //               ),
+                              //               // Positioned(
+                              //               //     right: 0,
+                              //               //     top: 0,
+                              //               //     child: Text('?')
+                              //               // ),
+                              //               Text(textSetStockCosts, textScaleFactor: 1,
+                              //                 strutStyle: StrutStyle(
+                              //                     forceStrutHeight: true,
+                              //                     height: 1.2
+                              //                 ),
+                              //                 style: TextStyle(
+                              //                     fontSize: 13,
+                              //                     fontWeight: FontWeight.w500,
+                              //                     color: Colors.black.withOpacity(0.6)),
+                              //               ),
+                              //               Positioned(
+                              //                   right: 0,
+                              //                   bottom: 2,
+                              //                   child: Text(growthRateCost(lastYearCost, yearCostsTotal2).toString() == '1000' ? '-%' : growthRateCost(lastYearCost, yearCostsTotal2).toString() + '%',
+                              //                     textScaleFactor: 1, style: TextStyle(
+                              //                       fontSize: 13,
+                              //                       fontWeight: FontWeight.w500,
+                              //                       color: growthRateCost(lastYearCost, yearCostsTotal2) == 1000 ? Colors.blue : growthRateCost(lastYearCost, yearCostsTotal2) < 0? Colors.green: AppTheme.badgeFgDanger,
+                              //                     ),
+                              //                   )
+                              //               ),
+                              //               Positioned(
+                              //                 left: 0,
+                              //                 bottom: 2,
+                              //                 child: Text(currencyUnit, textScaleFactor: 1,
+                              //                   style: TextStyle(
+                              //                       fontSize: 13,
+                              //                       fontWeight: FontWeight.w500,
+                              //                       color: Colors.black.withOpacity(0.6)),
+                              //                 ),
+                              //               ),
+                              //
+                              //             ],
+                              //           ),
+                              //         ),
+                              //       ),
+                              //       SizedBox(
+                              //         width: 15,
+                              //       ),
+                              //
+                              //       Container(
+                              //         // width: 100,
+                              //         height: 108,
+                              //
+                              //         constraints: BoxConstraints(
+                              //             maxWidth: double.infinity, minWidth: 120),
+                              //         decoration: BoxDecoration(
+                              //             borderRadius: BorderRadius.circular(8),
+                              //             border: Border(
+                              //               bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //               top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //               left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //               right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //             ),
+                              //             color: AppTheme.lightBgColor
+                              //         ),
+                              //
+                              //         child: Padding(
+                              //           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+                              //           child: Stack(
+                              //             children: [
+                              //               Column(
+                              //                 mainAxisAlignment: MainAxisAlignment.start,
+                              //                 crossAxisAlignment: CrossAxisAlignment.start,
+                              //                 children: [
+                              //                   SizedBox(
+                              //                       height:26
+                              //                   ),
+                              //                   Padding(
+                              //                     padding: const EdgeInsets.only(right:30.0),
+                              //                     child: Text(totalStockCostsBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                              //                       textScaleFactor: 1, textAlign: TextAlign.left,
+                              //                       style: GoogleFonts.lato(
+                              //                           textStyle: TextStyle(
+                              //                               letterSpacing: 1,
+                              //                               fontSize: 20,
+                              //                               fontWeight: FontWeight.w600,
+                              //                               color: Colors.black
+                              //                           )
+                              //                       ),
+                              //                     ),
+                              //                   ),
+                              //                 ],
+                              //               ),
+                              //               // Positioned(
+                              //               //     right: 0,
+                              //               //     top: 0,
+                              //               //     child: Text('?')
+                              //               // ),
+                              //               Text(textSetUnpaid, textScaleFactor: 1,
+                              //                 strutStyle: StrutStyle(
+                              //                     forceStrutHeight: true,
+                              //                     height: 1.2
+                              //                 ),
+                              //                 style: TextStyle(
+                              //                     fontSize: 13, height: 1.2,
+                              //                     fontWeight: FontWeight.w500,
+                              //                     color: Colors.black.withOpacity(0.6)),
+                              //               ),
+                              //
+                              //               Positioned(
+                              //                   right: 0,
+                              //                   bottom: 2,
+                              //                   child: Text(growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal).toString() == '1000' ? '-%' : growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal).toString() + '%',
+                              //                     textScaleFactor: 1, style: TextStyle(
+                              //                       fontSize: 13,
+                              //                       fontWeight: FontWeight.w500,
+                              //                       color: growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal) == 1000 ? Colors.blue:  growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal) < 0? AppTheme.badgeFgDanger :  Colors.green,
+                              //                     ),
+                              //                   )
+                              //               ),
+                              //               Positioned(
+                              //                 left: 0,
+                              //                 bottom: 2,
+                              //                 child: Text(currencyUnit, textScaleFactor: 1,
+                              //                   style: TextStyle(
+                              //                       fontSize: 13,
+                              //                       fontWeight: FontWeight.w500,
+                              //                       color: Colors.black.withOpacity(0.6)),
+                              //                 ),
+                              //               ),
+                              //
+                              //             ],
+                              //           ),
+                              //         ),
+                              //       ),
+                              //       SizedBox(
+                              //         width: 15,
+                              //       ),
+                              //
+                              //       Container(
+                              //         // width: 100,
+                              //         height: 108,
+                              //
+                              //         constraints: BoxConstraints(
+                              //             maxWidth: double.infinity, minWidth: 120),
+                              //         decoration: BoxDecoration(
+                              //             borderRadius: BorderRadius.circular(8),
+                              //             border: Border(
+                              //               bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //               top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //               left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //               right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //             ),
+                              //             color: AppTheme.lightBgColor
+                              //         ),
+                              //
+                              //         child: Padding(
+                              //           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+                              //           child: Stack(
+                              //             children: [
+                              //               Column(
+                              //                 mainAxisAlignment: MainAxisAlignment.start,
+                              //                 crossAxisAlignment: CrossAxisAlignment.start,
+                              //                 children: [
+                              //                   SizedBox(
+                              //                       height:26
+                              //                   ),
+                              //                   Padding(
+                              //                     padding: const EdgeInsets.only(right:30.0),
+                              //                     child: Text(yearRefundTotal.toStringAsFixed(1).toString(), textScaleFactor: 1,
+                              //                       textAlign: TextAlign.left,
+                              //                       style: GoogleFonts.lato(
+                              //                           textStyle: TextStyle(
+                              //                               letterSpacing: 1,
+                              //                               fontSize: 20,
+                              //                               fontWeight: FontWeight.w600,
+                              //                               color: Colors.black
+                              //                           )
+                              //                       ),
+                              //                     ),
+                              //                   ),
+                              //                 ],
+                              //               ),
+                              //               // Positioned(
+                              //               //     right: 0,
+                              //               //     top: 0,
+                              //               //     child: Text('?')
+                              //               // ),
+                              //               Text(textSetBuys, textScaleFactor: 1,
+                              //                 strutStyle: StrutStyle(
+                              //                     forceStrutHeight: true,
+                              //                     height: 1.2
+                              //                 ),
+                              //                 style: TextStyle(
+                              //                     fontSize: 13,
+                              //                     fontWeight: FontWeight.w500,
+                              //                     color: Colors.black.withOpacity(0.6)),
+                              //               ),
+                              //
+                              //               Positioned(
+                              //                   right: 0,
+                              //                   bottom: 2,
+                              //                   child: Text(growthRateRefund(lastYearRefund, yearRefundTotal).toString() == '1000' ? '-%' : growthRateRefund(lastYearRefund, yearRefundTotal).toString() + '%',
+                              //                     textScaleFactor: 1, style: TextStyle(
+                              //                       fontSize: 13,
+                              //                       fontWeight: FontWeight.w500,
+                              //                       color:  growthRateRefund(lastYearRefund, yearRefundTotal) == 1000 ? Colors.blue : growthRateRefund(lastYearRefund, yearRefundTotal) < 0? Colors.green: AppTheme.badgeFgDanger,
+                              //                     ),
+                              //                   )
+                              //               ),
+                              //               Positioned(
+                              //                 left: 0,
+                              //                 bottom: 2,
+                              //                 child: Text(currencyUnit, textScaleFactor: 1,
+                              //                   style: TextStyle(
+                              //                       fontSize: 13,
+                              //                       fontWeight: FontWeight.w500,
+                              //                       color: Colors.black.withOpacity(0.6)),
+                              //                 ),
+                              //               ),
+                              //
+                              //             ],
+                              //           ),
+                              //         ),
+                              //       ),
+                              //       SizedBox(
+                              //         width: 15,
+                              //       ),
+                              //
+                              //       Container(
+                              //         // width: 100,
+                              //         height: 100,
+                              //         constraints: BoxConstraints(
+                              //             maxWidth: double.infinity, minWidth: 120),
+                              //         decoration: BoxDecoration(
+                              //             borderRadius: BorderRadius.circular(8),
+                              //             border: Border(
+                              //               bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //               top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //               left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //               right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //             ),
+                              //             color: AppTheme.lightBgColor
+                              //         ),
+                              //
+                              //         child: Padding(
+                              //           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+                              //           child: Stack(
+                              //             children: [
+                              //               Column(
+                              //                 mainAxisAlignment: MainAxisAlignment.start,
+                              //                 crossAxisAlignment: CrossAxisAlignment.start,
+                              //                 children: [
+                              //                   SizedBox(
+                              //                       height:26
+                              //                   ),
+                              //                   Padding(
+                              //                     padding: const EdgeInsets.only(right:30.0),
+                              //                     child: Text(yearLossTotal.toStringAsFixed(1).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),textScaleFactor: 1,
+                              //                       textAlign: TextAlign.left,
+                              //                       style: GoogleFonts.lato(
+                              //                           textStyle: TextStyle(
+                              //                               letterSpacing: 1,
+                              //                               fontSize: 20,
+                              //                               fontWeight: FontWeight.w600,
+                              //                               color: Colors.black
+                              //                           )
+                              //                       ),
+                              //                     ),
+                              //                   ),
+                              //                 ],
+                              //               ),
+                              //               // Positioned(
+                              //               //     right: 0,
+                              //               //     top: 0,
+                              //               //     child: Text('?')
+                              //               // ),
+                              //               Text(textSetLoss,textScaleFactor: 1,
+                              //                 strutStyle: StrutStyle(
+                              //                     forceStrutHeight: true,
+                              //                     height: 1.2
+                              //                 ),
+                              //                 style: TextStyle(
+                              //                     fontSize: 13,
+                              //                     fontWeight: FontWeight.w500,
+                              //                     color: Colors.black.withOpacity(0.6)),
+                              //               ),
+                              //               Container(
+                              //                 height: 100,
+                              //                 width: 100,
+                              //                 child: ListView.builder(
+                              //                     shrinkWrap: true,
+                              //                     itemCount: loadedState.documentSnapshots.length,
+                              //                     itemBuilder: (BuildContext context, int index) {
+                              //                       // for(int loopP = 0; loopP < snapshotPd.data!.docs.length; loopP++) {
+                              //                       //
+                              //                       // }
+                              //                       Map<String, dynamic> dataL = loadedState.documentSnapshots[index].data()! as Map<String, dynamic>;
+                              //                       debugPrint('check product ' + dataL['buy_price'].toString());
+                              //                       return Container();
+                              //                     }),
+                              //               ),
+                              //               Positioned(
+                              //                   right: 0,
+                              //                   bottom: 2,
+                              //                   child: Text(growthRateLoss(lastYearLoss, yearLossTotal).toString() == '1000' ? '-%' : growthRateLoss(lastYearLoss, yearLossTotal).toString() + '%',
+                              //                     textScaleFactor: 1, style: TextStyle(
+                              //                       fontSize: 13,
+                              //                       fontWeight: FontWeight.w500,
+                              //                       color: growthRateLoss(lastYearLoss, yearLossTotal) == 1000? Colors.blue : growthRateLoss(lastYearLoss, yearLossTotal) < 0? Colors.green: AppTheme.badgeFgDanger,
+                              //                     ),
+                              //                   )
+                              //               ),
+                              //               Positioned(
+                              //                 left: 0,
+                              //                 bottom: 2,
+                              //                 child: Text(currencyUnit, textScaleFactor: 1,
+                              //                   style: TextStyle(
+                              //                       fontSize: 13,
+                              //                       fontWeight: FontWeight.w500,
+                              //                       color: Colors.black.withOpacity(0.6)),
+                              //                 ),
+                              //               ),
+                              //             ],
+                              //           ),
+                              //         ),
+                              //       ),
+                              //       SizedBox(
+                              //         width: 15,
+                              //       ),
+                              //       Container(
+                              //         // width: 100,
+                              //         height: 100,
+                              //         constraints: BoxConstraints(
+                              //             maxWidth: double.infinity, minWidth: 120),
+                              //         decoration: BoxDecoration(
+                              //             borderRadius: BorderRadius.circular(8),
+                              //             border: Border(
+                              //               bottom: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //               top: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //               left: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //               right: BorderSide(color: AppTheme.skBorderColor2, width: 1),
+                              //             ),
+                              //             color: AppTheme.lightBgColor
+                              //         ),
+                              //
+                              //         child: Padding(
+                              //           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+                              //           child: Stack(
+                              //             children: [
+                              //               Column(
+                              //                 mainAxisAlignment: MainAxisAlignment.start,
+                              //                 crossAxisAlignment: CrossAxisAlignment.start,
+                              //                 children: [
+                              //                   SizedBox(
+                              //                       height:26
+                              //                   ),
+                              //                   Padding(
+                              //                     padding: const EdgeInsets.only(right:30.0),
+                              //                     child: Text(profitByYear().toStringAsFixed(1).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),textScaleFactor: 1,
+                              //                       textAlign: TextAlign.left,
+                              //                       style: GoogleFonts.lato(
+                              //                           textStyle: TextStyle(
+                              //                               letterSpacing: 1,
+                              //                               fontSize: 20,
+                              //                               fontWeight: FontWeight.w600,
+                              //                               color: Colors.black
+                              //                           )
+                              //                       ),
+                              //                     ),
+                              //                   ),
+                              //                 ],
+                              //               ),
+                              //               // Positioned(
+                              //               //     right: 0,
+                              //               //     top: 0,
+                              //               //     child: Text('?')
+                              //               // ),
+                              //               Text(textSetProfit,textScaleFactor: 1,
+                              //                 strutStyle: StrutStyle(
+                              //                     forceStrutHeight: true,
+                              //                     height: 1.2
+                              //                 ),
+                              //                 style: TextStyle(
+                              //                     fontSize: 13,
+                              //                     fontWeight: FontWeight.w500,
+                              //                     color: Colors.black.withOpacity(0.6)),
+                              //               ),
+                              //               Positioned(
+                              //                   right: 0,
+                              //                   bottom: 2,
+                              //                   child: Text(growthRateDayProfit(profitByLastYear(), profitByYear()).toString() == '1001' ? '-%' : growthRateDayProfit(profitByLastYear(), profitByYear()).toString()  == '1000' ? '-%' : growthRateDayProfit(profitByLastYear(), profitByYear()).toString()  + '%',
+                              //                     textScaleFactor: 1, style: TextStyle(
+                              //                       fontSize: 13,
+                              //                       fontWeight: FontWeight.w500,
+                              //                       color: growthRateDayProfit(profitByLastYear(), profitByYear())  == 1001 || growthRateDayProfit(profitByLastYear(), profitByYear()) == 1000 ? Colors.blue: growthRateDayProfit(profitByLastYear(), profitByYear()) < 0? Colors.green: AppTheme.badgeFgDanger,
+                              //                       // color: Colors.blue
+                              //                     ),
+                              //                   )
+                              //               ),
+                              //               Positioned(
+                              //                 left: 0,
+                              //                 bottom: 2,
+                              //                 child: Text(currencyUnit, textScaleFactor: 1,
+                              //                   style: TextStyle(
+                              //                       fontSize: 13,
+                              //                       fontWeight: FontWeight.w500,
+                              //                       color: Colors.black.withOpacity(0.6)),
+                              //                 ),
+                              //               ),
+                              //             ],
+                              //           ),
+                              //         ),
+                              //       ),
+                              //       SizedBox(
+                              //         width: 15,
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
+                              // SizedBox(
+                              //     height: 15.0
+                              // ),
+                              // Padding(
+                              //   padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                              //   child: Row(
+                              //     children: [
+                              //       // Expanded(
+                              //       //   child: Text(
+                              //       //     'CHART DATA',
+                              //       //     style: TextStyle(
+                              //       //       letterSpacing: 2,
+                              //       //       fontWeight: FontWeight.bold,
+                              //       //       fontSize: 14,color: Colors.black,
+                              //       //     ),
+                              //       //   ),
+                              //       // ),
+                              //
+                              //       Padding(
+                              //         padding: const EdgeInsets.only(bottom: 1.0),
+                              //         child: Container(
+                              //           width: 7,
+                              //           height: 7,
+                              //           decoration: const BoxDecoration(
+                              //               borderRadius: BorderRadius.all(
+                              //                 Radius.circular(6),
+                              //               ),
+                              //               color: Colors.blue
+                              //           ),
+                              //
+                              //         ),
+                              //       ),
+                              //       SizedBox(width: 5),
+                              //       Text(
+                              //         'Total sales', textScaleFactor: 1,
+                              //         style: TextStyle(
+                              //             fontWeight: FontWeight.w500,
+                              //             fontSize: 14,color: Colors.grey,
+                              //             letterSpacing: 0.6
+                              //         ),
+                              //       ),
+                              //       SizedBox(width: 0),
+                              //
+                              //     ],
+                              //   ),
+                              // ),
                               Stack(
                                 children: [
 
@@ -2928,6 +3723,13 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
     double profit = 0.0;
     profit = lastYearSale - (lastYearCapital + lastYearLoss);
     return profit;
+  }
+
+  String yestWeekTitle() {
+    String title = '';
+    if(_sliding == 3) {
+      return title = 'last year';
+    } else  {return title = 'last year';}
   }
 
   double funChange(max) {
