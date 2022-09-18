@@ -6479,41 +6479,41 @@ class HomePageState extends State<HomePage>
                                                                       children: [
                                                                         Expanded(
                                                                           child: Padding(
-                                                                            padding: const EdgeInsets.only(
-                                                                                left: 8.0,
-                                                                                right: 8.0,
-                                                                                bottom: 2.0),
-                                                                            child: Row(
-                                                                              mainAxisAlignment: MainAxisAlignment.center,
-                                                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                                                              children: [
-                                                                                Text(
-                                                                                  totalItems(),
-                                                                                  textScaleFactor: 1, textAlign: TextAlign.center,
-                                                                                  style: TextStyle(
-                                                                                      fontSize: 18,
-                                                                                      fontWeight: FontWeight.w500,
-                                                                                      color: Colors.black),
-                                                                                ),
-                                                                                Text(
-                                                                                  totalItems() == '1'? ' item - ': ' items - ',
-                                                                                  textScaleFactor: 1, textAlign: TextAlign.center,
-                                                                                  style: TextStyle(
-                                                                                      fontSize: 18,
-                                                                                      fontWeight: FontWeight.w500,
-                                                                                      color: Colors.black),
-                                                                                ),
-                                                                                animatedTtlPrice(),
-                                                                                Text(
-                                                                                  ' $currencyUnit',
-                                                                                  textScaleFactor: 1, textAlign: TextAlign.center,
-                                                                                  style: TextStyle(
-                                                                                      fontSize: 18,
-                                                                                      fontWeight: FontWeight.w500,
-                                                                                      color: Colors.black),
-                                                                                ),
-                                                                              ],
-                                                                            )
+                                                                              padding: const EdgeInsets.only(
+                                                                                  left: 8.0,
+                                                                                  right: 8.0,
+                                                                                  bottom: 2.0),
+                                                                              child: Row(
+                                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                children: [
+                                                                                  Text(
+                                                                                    totalItems(),
+                                                                                    textScaleFactor: 1, textAlign: TextAlign.center,
+                                                                                    style: TextStyle(
+                                                                                        fontSize: 18,
+                                                                                        fontWeight: FontWeight.w500,
+                                                                                        color: Colors.black),
+                                                                                  ),
+                                                                                  Text(
+                                                                                    totalItems() == '1'? ' item - ': ' items - ',
+                                                                                    textScaleFactor: 1, textAlign: TextAlign.center,
+                                                                                    style: TextStyle(
+                                                                                        fontSize: 18,
+                                                                                        fontWeight: FontWeight.w500,
+                                                                                        color: Colors.black),
+                                                                                  ),
+                                                                                  animatedTtlPrice(),
+                                                                                  Text(
+                                                                                    ' $currencyUnit',
+                                                                                    textScaleFactor: 1, textAlign: TextAlign.center,
+                                                                                    style: TextStyle(
+                                                                                        fontSize: 18,
+                                                                                        fontWeight: FontWeight.w500,
+                                                                                        color: Colors.black),
+                                                                                  ),
+                                                                                ],
+                                                                              )
                                                                             // child: double.parse(totalItems()) == 1? Container(
                                                                             //   child:
                                                                             //   Text(
@@ -12805,7 +12805,7 @@ class HomePageState extends State<HomePage>
     debugPrint('closebyclick' + _selectIndex.toString());
     if(ayinIndex2 != _selectIndex) {
       if(_selectIndex == 0) {
-        closeGoToCart = !homeCartOpen;
+        closeGoToCart = homeCartOpen;
         drawerDrag = !homeDrawerOpen;
 
       } else if(_selectIndex == 1) {
@@ -12844,7 +12844,7 @@ class HomePageState extends State<HomePage>
       if(_selectIndex == 0) {
         drawerDrag = false;
         homeDrawerOpen = true;
-        closeGoToCart = false;
+        closeGoToCart = true;
         homeCartOpen = true;
       } else if(_selectIndex == 1) {
         drawerDrag = false;
