@@ -1751,7 +1751,92 @@ class OverviewPageState extends State<OverviewPage>
               //     : MediaQuery.of(context).size.width,
               child: Stack(
                 children: [
-                  if(!searchOpening)
+                  Container(
+                    height: 81,
+                    decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(
+                                color: Colors.Colors.grey.withOpacity(0.3),
+                                width: 1.0))),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                      child: Row(
+                        children: [
+                          // Padding(
+                          //   padding: const EdgeInsets.only(top: 0),
+                          //   child: Container(
+                          //     width: 37,
+                          //     height: 37,
+                          //     decoration: BoxDecoration(
+                          //         borderRadius: BorderRadius.all(
+                          //           Radius.circular(35.0),
+                          //         ),
+                          //         color: Colors.Colors.grey.withOpacity(0.3)),
+                          //     child: Padding(
+                          //       padding: const EdgeInsets.only(right: 3.0),
+                          //       child: IconButton(
+                          //           icon: Icon(
+                          //             Icons.arrow_back_ios_rounded,
+                          //             size: 17,
+                          //             color: Colors.Colors.black,
+                          //           ),
+                          //           onPressed: () {
+                          //             Navigator.pop(context);
+                          //           }),
+                          //     ),
+                          //   ),
+                          // ),
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                SizedBox(height: 16),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 5.0),
+                                  child: Text(
+                                    "Reports", textScaleFactor: 1,
+                                    maxLines: 1,
+                                    textAlign: TextAlign.right,
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500,
+                                        overflow: TextOverflow.ellipsis
+                                      // height: 1.5
+                                    ),
+                                    strutStyle: StrutStyle(
+                                      height: 1.4,
+                                      // fontSize:,
+                                      forceStrutHeight: true,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 20.0, right: 0.0),
+                                  child: Text(
+                                    "Summary detail", textScaleFactor: 1,
+                                    maxLines: 1,
+                                    textAlign: TextAlign.right,
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                      overflow: TextOverflow.ellipsis,
+                                      // height: 1.3
+                                    ),
+                                    strutStyle: StrutStyle(
+                                      height: 1.7,
+                                      // fontSize:,
+                                      forceStrutHeight: true,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Padding(
@@ -2474,153 +2559,153 @@ class OverviewPageState extends State<OverviewPage>
                         ),
                       ),
                     ),
-                  if(searchOpeningR)
-                    Container(
-                      height: MediaQuery.of(context).size.height,
-                      color: Colors.Colors.white,
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 30.0),
-                          child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                              child: CupertinoActivityIndicator(radius: 15,)),
-                        ),
-                      ),
-                    ),
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.Colors.white,
-                          border: Border(
-                            bottom: BorderSide(
-                                color: AppTheme.skBorderColor2,
-                                width: 1.0),
-                          )
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: 15.0, left: 15.0, right: 15.0, bottom: 15),
-                        child: GestureDetector(
-                          onTap: () {
-                            widget._searchBtn();
-                            // FocusScope.of(context).requestFocus(nodeFirst);
-                            // setState(() {
-                            //   loadingSearch = true;
-                            // });
-                            // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: loadingSearch? Colors.Colors.blue: Colors.Colors.transparent,
-                                style: BorderStyle.solid,
-                                width: 1.0,
-                              ),
-                              color: AppTheme.secButtonColor,
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            height: 50,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 10.0, bottom: 11.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-
-                                      // if(loadingSearch) {
-                                      //   _searchController.clear();
-                                      //   FocusScope.of(context).unfocus();
-                                      //   setState(() {
-                                      //     loadingSearch = false;
-                                      //   });
-                                      // } else {
-                                      //   FocusScope.of(context).requestFocus(nodeFirst);
-                                      //   setState(() {
-                                      //     loadingSearch = true;
-                                      //   });
-                                      //   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-                                      // }
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(left: 12.0),
-                                      child: Container(
-                                        child: Stack(
-                                          children: [
-                                            !loadingSearch? Padding(
-                                              padding: const EdgeInsets.only(left: 5.0),
-                                              child: Icon(
-                                                SmartKyat_POS.search,
-                                                size: 17,
-                                              ),
-                                            ): Padding(
-                                              padding: const EdgeInsets.only(left: 2, bottom: 1.0),
-                                              child: Icon(
-                                                Icons.close_rounded,
-                                                size: 24,
-                                              ),
-                                            )
-
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  // Expanded(
-                                  //   child: Padding(
-                                  //     padding: EdgeInsets.only(
-                                  //         left: !loadingSearch? 8.0: 4,
-                                  //         right: 8.0,
-                                  //         top: 0.5),
-                                  //     child: Text('Search'),
-                                  //   ),
-                                  // ),
-                                  Expanded(
-                                    child: Padding(
-                                        padding: EdgeInsets.only(
-                                            left: 13,
-                                            bottom: 1.5),
-                                        child: Text(
-                                          textSetSearch,textScaleFactor: 1,
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.Colors.black.withOpacity(0.55)
-                                          ),
-                                          strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: textSetSearch == 'Search'? 1.6: 1.3
-                                          ),
-                                        )
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      widget._barcodeBtn();
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                        right: 15.0,
-                                      ),
-                                      // child: Icon(
-                                      //   SmartKyat_POS.barcode,
-                                      //   color: Colors.Colors.black,
-                                      //   size: 25,
-                                      // ),
-                                      child: Container(
-                                          child: Image.asset('assets/system/barcode.png', height: 28,)
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),                  // _isBannerAdReady? Align(
+                  // if(searchOpeningR)
+                  //   Container(
+                  //     height: MediaQuery.of(context).size.height,
+                  //     color: Colors.Colors.white,
+                  //     child: Center(
+                  //       child: Padding(
+                  //         padding: const EdgeInsets.only(top: 30.0),
+                  //         child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                  //             child: CupertinoActivityIndicator(radius: 15,)),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // Align(
+                  //   alignment: Alignment.topCenter,
+                  //   child: Container(
+                  //     decoration: BoxDecoration(
+                  //         color: Colors.Colors.white,
+                  //         border: Border(
+                  //           bottom: BorderSide(
+                  //               color: AppTheme.skBorderColor2,
+                  //               width: 1.0),
+                  //         )
+                  //     ),
+                  //     child: Padding(
+                  //       padding: const EdgeInsets.only(
+                  //           top: 15.0, left: 15.0, right: 15.0, bottom: 15),
+                  //       child: GestureDetector(
+                  //         onTap: () {
+                  //           widget._searchBtn();
+                  //           // FocusScope.of(context).requestFocus(nodeFirst);
+                  //           // setState(() {
+                  //           //   loadingSearch = true;
+                  //           // });
+                  //           // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+                  //         },
+                  //         child: Container(
+                  //           decoration: BoxDecoration(
+                  //             border: Border.all(
+                  //               color: loadingSearch? Colors.Colors.blue: Colors.Colors.transparent,
+                  //               style: BorderStyle.solid,
+                  //               width: 1.0,
+                  //             ),
+                  //             color: AppTheme.secButtonColor,
+                  //             borderRadius: BorderRadius.circular(10.0),
+                  //           ),
+                  //           height: 50,
+                  //           child: Padding(
+                  //             padding: const EdgeInsets.only(
+                  //                 top: 10.0, bottom: 11.0),
+                  //             child: Row(
+                  //               mainAxisAlignment: MainAxisAlignment.center,
+                  //               children: [
+                  //                 GestureDetector(
+                  //                   onTap: () {
+                  //
+                  //                     // if(loadingSearch) {
+                  //                     //   _searchController.clear();
+                  //                     //   FocusScope.of(context).unfocus();
+                  //                     //   setState(() {
+                  //                     //     loadingSearch = false;
+                  //                     //   });
+                  //                     // } else {
+                  //                     //   FocusScope.of(context).requestFocus(nodeFirst);
+                  //                     //   setState(() {
+                  //                     //     loadingSearch = true;
+                  //                     //   });
+                  //                     //   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+                  //                     // }
+                  //                   },
+                  //                   child: Padding(
+                  //                     padding: const EdgeInsets.only(left: 12.0),
+                  //                     child: Container(
+                  //                       child: Stack(
+                  //                         children: [
+                  //                           !loadingSearch? Padding(
+                  //                             padding: const EdgeInsets.only(left: 5.0),
+                  //                             child: Icon(
+                  //                               SmartKyat_POS.search,
+                  //                               size: 17,
+                  //                             ),
+                  //                           ): Padding(
+                  //                             padding: const EdgeInsets.only(left: 2, bottom: 1.0),
+                  //                             child: Icon(
+                  //                               Icons.close_rounded,
+                  //                               size: 24,
+                  //                             ),
+                  //                           )
+                  //
+                  //                         ],
+                  //                       ),
+                  //                     ),
+                  //                   ),
+                  //                 ),
+                  //                 // Expanded(
+                  //                 //   child: Padding(
+                  //                 //     padding: EdgeInsets.only(
+                  //                 //         left: !loadingSearch? 8.0: 4,
+                  //                 //         right: 8.0,
+                  //                 //         top: 0.5),
+                  //                 //     child: Text('Search'),
+                  //                 //   ),
+                  //                 // ),
+                  //                 Expanded(
+                  //                   child: Padding(
+                  //                       padding: EdgeInsets.only(
+                  //                           left: 13,
+                  //                           bottom: 1.5),
+                  //                       child: Text(
+                  //                         textSetSearch,textScaleFactor: 1,
+                  //                         style: TextStyle(
+                  //                             fontSize: 18,
+                  //                             fontWeight: FontWeight.w500,
+                  //                             color: Colors.Colors.black.withOpacity(0.55)
+                  //                         ),
+                  //                         strutStyle: StrutStyle(
+                  //                             forceStrutHeight: true,
+                  //                             height: textSetSearch == 'Search'? 1.6: 1.3
+                  //                         ),
+                  //                       )
+                  //                   ),
+                  //                 ),
+                  //                 GestureDetector(
+                  //                   onTap: () {
+                  //                     widget._barcodeBtn();
+                  //                   },
+                  //                   child: Padding(
+                  //                     padding: const EdgeInsets.only(
+                  //                       right: 15.0,
+                  //                     ),
+                  //                     // child: Icon(
+                  //                     //   SmartKyat_POS.barcode,
+                  //                     //   color: Colors.Colors.black,
+                  //                     //   size: 25,
+                  //                     // ),
+                  //                     child: Container(
+                  //                         child: Image.asset('assets/system/barcode.png', height: 28,)
+                  //                     ),
+                  //                   ),
+                  //                 )
+                  //               ],
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),                  // _isBannerAdReady? Align(
                   //   alignment: Alignment.topCenter,
                   //   child: Container(
                   //     height: _bannerAd.size.height.toDouble(),
