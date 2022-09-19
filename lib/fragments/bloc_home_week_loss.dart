@@ -485,7 +485,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                               //   ),
                               // ),
                               Padding(
-                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 4.0),
+                                padding: const EdgeInsets.only(top: 5.0, left: 15.0, right: 15.0, bottom: 4.0),
                                 child: Row(
                                   children: [
                                     Expanded(
@@ -495,7 +495,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                           height: 0.9,
                                           letterSpacing: 2,
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 14,color: Colors.black,
+                                          fontSize: 14,color: Colors.grey,
                                         ),
                                       ),
                                     ),

@@ -2144,11 +2144,32 @@ class HomePageState extends State<HomePage>
                             if(snapshotShop.hasData) {
                               var output = snapshotShop.data != null? snapshotShop.data!.data(): null;
                               var shopName = output?['shop_name'];
+                              double storeTimeZone = 6.5;
+                              if(output!['timezone']==null) {
+                                storeTimeZone = 6.5;
+                              } else {
+                                storeTimeZone = output!['timezone'].toDouble();
+                              }
+                              if((today.timeZoneOffset.inMinutes/60) != storeTimeZone) {
+                                setStoreId('').then((_) {
+                                  showOkAlertDialog(
+                                      context: OneContext().context!,
+                                      title: 'Timezone mismatched',
+                                      message: 'Your store timezone and you current local timezone are not match. Please change it first and restart.'
+                                  ).then((result) async {
+                                    if (Platform.isAndroid) {
+                                      SystemNavigator.pop();
+                                    } else if (Platform.isIOS) {
+                                      exit(0);
+                                    }
+                                  });
+                                });
+                              }
                               shopGloName = shopName;
-                              var shopAddress = output?['shop_address'];
+                              var shopAddress = output!['shop_address']!=null?output!['shop_address']:'';
                               shopGloAddress = shopAddress;
-                              shopGloPhone = output?['shop_phone'];
-                              var isPro = output?['is_pro'];
+                              shopGloPhone = output!['shop_phone'];
+                              var isPro = output!['is_pro'];
                               Timestamp isProStart = isPro['start'];
                               Timestamp isProEnd = isPro['end'];
                               var devicesList = output?['devices'];
@@ -4308,14 +4329,20 @@ class HomePageState extends State<HomePage>
                                                                                                 onTap: () async {
                                                                                                   WriteBatch batch = FirebaseFirestore.instance.batch();
                                                                                                   DateTime now = DateTime.now();
-                                                                                                  if (calHourFromTZ(now).toString() != "390") {
-                                                                                                    await showOkAlertDialog(
-                                                                                                      context: context,
-                                                                                                      title:  'Unsupported TimeZone!',
-                                                                                                      message:
-                                                                                                      'Currently, only Myanmar TimeZone (UTC +6:30) is supported.',
-                                                                                                      okLabel: 'OK',
-                                                                                                    );
+                                                                                                  if ((today.timeZoneOffset.inMinutes/60) != storeTimeZone) {
+                                                                                                    setStoreId('').then((_) {
+                                                                                                      showOkAlertDialog(
+                                                                                                          context: OneContext().context!,
+                                                                                                          title: 'Timezone mismatched',
+                                                                                                          message: 'Your store timezone and you current local timezone are not match. Please change it first and restart.'
+                                                                                                      ).then((result) async {
+                                                                                                        if (Platform.isAndroid) {
+                                                                                                          SystemNavigator.pop();
+                                                                                                        } else if (Platform.isIOS) {
+                                                                                                          exit(0);
+                                                                                                        }
+                                                                                                      });
+                                                                                                    });
                                                                                                   } else {
 
                                                                                                     discountAmount = discount;
@@ -6426,7 +6453,7 @@ class HomePageState extends State<HomePage>
                                                               height: 50,
                                                               child: GestureDetector(
                                                                 onTap: () {
-                                                                  saleCart(context);
+                                                                  saleCart(context, storeTimeZone);
                                                                 },
                                                                 child: (prodList.length == 0) ? Container(
                                                                   decoration: BoxDecoration(
@@ -8033,7 +8060,7 @@ class HomePageState extends State<HomePage>
     );
   }
 
-  saleCart(priContext) async {
+  saleCart(priContext, storeTimeZone) async {
     int orderLength = 0;
     mainLoss = 0;
     sub1Loss=0;
@@ -9729,14 +9756,20 @@ class HomePageState extends State<HomePage>
                                                                       onTap: () async {
                                                                         WriteBatch batch = FirebaseFirestore.instance.batch();
                                                                         DateTime now = DateTime.now();
-                                                                        if (calHourFromTZ(now).toString() != "390") {
-                                                                          await showOkAlertDialog(
-                                                                            context: context,
-                                                                            title:  'Unsupported TimeZone!',
-                                                                            message:
-                                                                            'Currently, only Myanmar TimeZone (UTC +6:30) is supported.',
-                                                                            okLabel: 'OK',
-                                                                          );
+                                                                        if ((today.timeZoneOffset.inMinutes/60) != storeTimeZone) {
+                                                                          setStoreId('').then((_) {
+                                                                            showOkAlertDialog(
+                                                                                context: OneContext().context!,
+                                                                                title: 'Timezone mismatched',
+                                                                                message: 'Your store timezone and you current local timezone are not match. Please change it first and restart.'
+                                                                            ).then((result) async {
+                                                                              if (Platform.isAndroid) {
+                                                                                SystemNavigator.pop();
+                                                                              } else if (Platform.isIOS) {
+                                                                                exit(0);
+                                                                              }
+                                                                            });
+                                                                          });
                                                                         } else {
                                                                           discountAmount = discount;
                                                                           //now = now.subtract(Duration(minutes: calHourFromTZ(now)));

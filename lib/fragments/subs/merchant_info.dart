@@ -145,13 +145,22 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
     if (snapshot.hasData) {
       var output = snapshot.data != null ? snapshot.data!.data() : null;
       if (output?['mer'][widget.id] != null) {
-        var merchantName = output?['mer'][widget.id]['na'];
         var address = output?['mer'][widget.id]['ad'];
+        var merchantName = output?['mer'][widget.id]['na'];
         var phone = output?['mer'][widget.id]['ph'];
         var debtAmount = output?['mer'][widget.id]['da'];
         var debts = output?['mer'][widget.id]['de'];
         var totalOrders = output?['mer'][widget.id]['or'];
         var totalRefunds = output?['mer'][widget.id]['re'];
+        if(widget.isEnglish) {
+          if(merchantName == 'No merchant') {
+            merchantName = 'Walk-in merchants';
+          }
+        } else {
+          if(merchantName == 'No merchant') {
+            merchantName = 'အမည်မသိ ကုန်သည်စာရင်း';
+          }
+        }
         return Column(crossAxisAlignment: CrossAxisAlignment.stretch,
             // mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -1046,6 +1055,15 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
     var debts = output2?['debts'];
     var totalOrders = output2?['total_orders'];
     var totalRefunds = output2?['total_refunds'];
+    if(widget.isEnglish) {
+      if(merchantName == 'No merchant') {
+        merchantName = 'Walk-in merchants';
+      }
+    } else {
+      if(merchantName == 'No merchant') {
+        merchantName = 'အမည်မသိ ကုန်သည်စာရင်း';
+      }
+    }
                   return Column(crossAxisAlignment: CrossAxisAlignment.stretch,
                       // mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -1907,6 +1925,16 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
   }
 
   loadingView() {
+    var merchantName;
+    if(widget.isEnglish) {
+      if(widget.mercName == 'No merchant') {
+        merchantName = 'Walk-in merchants';
+      }
+    } else {
+      if(widget.mercName == 'No merchant') {
+        merchantName = 'အမည်မသိ ကုန်သည်စာရင်း';
+      }
+    }
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch,
         // mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -1966,7 +1994,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                           ),
                         ),
                         Text(
-                          widget.mercName,  textScaleFactor: 1,
+                          merchantName,  textScaleFactor: 1,
                           textAlign: TextAlign.right,
                           style: TextStyle(
                               fontSize: 18,
