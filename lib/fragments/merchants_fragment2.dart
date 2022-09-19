@@ -547,7 +547,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                                   .only(
                                                                   left: 0.0, right: 15) ,
                                                               title: Text(
-                                                                'No merchant', textScaleFactor: 1,
+                                                                widget.isEnglish? 'Walk-in merchants': 'အမည်မသိ ကုန်သည်စာရင်း', textScaleFactor: 1,
                                                                 maxLines: 1,
                                                                 style: TextStyle(
                                                                     fontSize: 18,
@@ -668,7 +668,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                                                 .only(
                                                                 left: 0.0, right: 15) ,
                                                             title: Text(
-                                                              'No merchant', textScaleFactor: 1,
+                                                              widget.isEnglish? 'Walk-in merchants': 'အမည်မသိ ကုန်သည်စာရင်း', textScaleFactor: 1,
                                                               maxLines: 1,
                                                               style: TextStyle(
                                                                   fontSize: 18,

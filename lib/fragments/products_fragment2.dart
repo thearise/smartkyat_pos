@@ -282,7 +282,7 @@ class ProductsFragmentState extends State<ProductsFragment>
       setState(() {
         textSetNewItem = 'New item';
         textSetAll = 'All';
-        textSetLowStocks = 'Low stocks';
+        textSetLowStocks = 'In stock';
         textSetSearch = 'Search';
       });
     }
@@ -290,7 +290,7 @@ class ProductsFragmentState extends State<ProductsFragment>
       setState(() {
         textSetNewItem = 'ကုန်ပစ္စည်း';
         textSetAll = 'အားလုံး';
-        textSetLowStocks = 'အနည်းမှ အများ';
+        textSetLowStocks = 'အရေအတွက်စဉ်';
         textSetSearch = 'ရှာဖွေရန်';
       });
     }

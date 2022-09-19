@@ -146,6 +146,15 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                var debts = output?['cus'][widget.id]['de'];
                var totalOrders = output?['cus'][widget.id]['or'];
                var totalRefunds = output?['cus'][widget.id]['re'];
+               if(widget.isEnglish) {
+                 if(customerName == 'No customer') {
+                   customerName = 'Walk-in customers';
+                 }
+               } else {
+                 if(customerName == 'No customer') {
+                   customerName = 'အမည်မသိ ဖောက်သည်စာရင်း';
+                 }
+               }
                return Column(crossAxisAlignment: CrossAxisAlignment.stretch,
                    // mainAxisAlignment: MainAxisAlignment.end,
                    children: [
@@ -1157,6 +1166,16 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                   var debts = output2?['debts'];
                   var totalOrders = output2?['total_orders'];
                   var totalRefunds = output2?['total_refunds'];
+
+                  if(widget.isEnglish) {
+                    if(customerName == 'No customer') {
+                      customerName = 'Walk-in customers';
+                    }
+                  } else {
+                    if(customerName == 'No customer') {
+                      customerName = 'အမည်မသိ ဖောက်သည်စာရင်း';
+                    }
+                  }
                   return Column(crossAxisAlignment: CrossAxisAlignment.stretch,
                       // mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -2141,6 +2160,16 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
   }
 
   loadingView() {
+    var customerName;
+    if(widget.isEnglish) {
+      if(widget.custName == 'No customer') {
+        customerName = 'Walk-in customers';
+      }
+    } else {
+      if(widget.custName == 'No customer') {
+        customerName = 'အမည်မသိ ဖောက်သည်စာရင်း';
+      }
+    }
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch,
         // mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -2201,7 +2230,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                           ),
                         ),
                         Text(
-                          widget.custName,  textScaleFactor: 1,
+                          customerName,  textScaleFactor: 1,
                           textAlign: TextAlign.right,
                           style: TextStyle(
                             fontSize: 18,

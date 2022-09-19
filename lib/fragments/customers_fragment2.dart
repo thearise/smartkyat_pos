@@ -571,7 +571,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                                                               .only(
                                                                               left: 0.0, right: 15) ,
                                                                           title: Text(
-                                                                            'No customer', textScaleFactor: 1,
+                                                                            widget.isEnglish? 'Walk-in customers': 'အမည်မသိ ဖောက်သည်စာရင်း', textScaleFactor: 1,
                                                                             maxLines: 1,
                                                                             style: TextStyle(
                                                                                 fontSize: 18,
@@ -747,9 +747,9 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                                                       child: ListTile(
                                                                         contentPadding: const EdgeInsets
                                                                             .only(
-                                                                            left: 0.0, right: 15) ,
+                                                                            left: 0.0, right: 15),
                                                                         title: Text(
-                                                                          'No customer', textScaleFactor: 1,
+                                                                          widget.isEnglish? 'Walk-in customers': 'အမည်မသိ ဖောက်သည်စာရင်း', textScaleFactor: 1,
                                                                           maxLines: 1,
                                                                           style: TextStyle(
                                                                               fontSize: 18,

@@ -1751,6 +1751,49 @@ class OverviewPageState extends State<OverviewPage>
               //     : MediaQuery.of(context).size.width,
               child: Stack(
                 children: [
+                  // Container(
+                  //   height: 81,
+                  //   width: MediaQuery.of(context).size.width,
+                  //   decoration: BoxDecoration(
+                  //       border: Border(
+                  //           bottom: BorderSide(
+                  //               color: Colors.Colors.grey.withOpacity(0.3),
+                  //               width: 1.0))),
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.only(top: 10.0, left: 15.0 , right: 15),
+                  //     child: Row(
+                  //       children: [
+                  //         Expanded(
+                  //           child: Text('Home', textScaleFactor: 1,
+                  //             style: TextStyle(
+                  //               fontSize: 26,
+                  //               fontWeight: FontWeight.w600,
+                  //               overflow: TextOverflow.ellipsis
+                  //             ),),
+                  //         ),
+                  //         // GestureDetector(
+                  //         //   onTap: () {
+                  //         //     widget._premiumCart();
+                  //         //   },
+                  //         //   child: Container(
+                  //         //     height: 30,
+                  //         //     width: 100,
+                  //         //     alignment: Alignment.center,
+                  //         //     decoration: BoxDecoration(
+                  //         //         borderRadius: BorderRadius.all(
+                  //         //           Radius.circular(8.0),
+                  //         //         ),
+                  //         //         color: Colors.grey.withOpacity(0.3)),
+                  //         //     child: Text(isPro == 'free'? 'Free version': 'Pro version', style: TextStyle(
+                  //         //         fontWeight: FontWeight.w500,
+                  //         //         fontSize: 13
+                  //         //     ),textScaleFactor: 1, ),
+                  //         //   ),
+                  //         // ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
                   Container(
                     height: 81,
                     decoration: BoxDecoration(
@@ -1789,13 +1832,13 @@ class OverviewPageState extends State<OverviewPage>
                           Expanded(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 SizedBox(height: 16),
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 5.0),
+                                  padding: const EdgeInsets.only(left: 0.0),
                                   child: Text(
-                                    "Reports", textScaleFactor: 1,
+                                    "Dashboard", textScaleFactor: 1,
                                     maxLines: 1,
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
@@ -1812,9 +1855,9 @@ class OverviewPageState extends State<OverviewPage>
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 20.0, right: 0.0),
+                                  padding: const EdgeInsets.only(left: 0.0, right: 0.0),
                                   child: Text(
-                                    "Summary detail", textScaleFactor: 1,
+                                    "Report for sales & inventory", textScaleFactor: 1,
                                     maxLines: 1,
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
@@ -1837,7 +1880,7 @@ class OverviewPageState extends State<OverviewPage>
                       ),
                     ),
                   ),
-                    Align(
+                  Align(
                       alignment: Alignment.centerLeft,
                       child: Padding(
                         padding: const EdgeInsets.only(top: 81.0),
@@ -2558,7 +2601,7 @@ class OverviewPageState extends State<OverviewPage>
                           ),
                         ),
                       ),
-                    ),
+                  ),
                   // if(searchOpeningR)
                   //   Container(
                   //     height: MediaQuery.of(context).size.height,

@@ -2,12 +2,14 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash/flash.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:one_context/one_context.dart';
 
 import '../../app_theme.dart';
 
@@ -194,7 +196,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                       bottom: 3.0),
                                   child: Container(
                                     child: Text(
-                                      'Reset Password',  textScaleFactor: 1,
+                                      'Reset password',  textScaleFactor: 1,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           fontSize: 18,
@@ -229,7 +231,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                       bottom: 3.0),
                                   child: Container(
                                     child: Text(
-                                      'Return to Login',  textScaleFactor: 1,
+                                      'Return to login',  textScaleFactor: 1,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           fontSize: 18,
@@ -662,8 +664,19 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: _email.text);
       setState(() {
         loadingState = false;
-        text1 = 'Reset password link is successfully send to your email!';
+        text1 = 'Reset password link is sent to your email!';
         buttonPressed = 'S';
+      });
+      showOkAlertDialog(
+          context: OneContext().context!,
+          title: 'Password reset',
+          message: 'Reset password link is sent to your email. Check your email (probably spam folder) and restart the application'
+      ).then((result) async {
+        if (Platform.isAndroid) {
+          SystemNavigator.pop();
+        } else if (Platform.isIOS) {
+          exit(0);
+        }
       });
     } catch (e) {
       setState(() {
