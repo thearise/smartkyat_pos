@@ -383,7 +383,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
         SliverAppBar(
           elevation: 0,
           backgroundColor: Colors.white,
-
+          automaticallyImplyLeading: false,
           // Provide a standard title.
 
           // Allows the user to reveal the app bar if they begin scrolling
