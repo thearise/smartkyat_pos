@@ -53,47 +53,22 @@ import '../axes/axes_gallery.dart' as axes show buildGallery;
 import '../behaviors/behaviors_gallery.dart' as behaviors show buildGallery;
 import '../i18n/i18n_gallery.dart' as i18n show buildGallery;
 import '../legends/legends_gallery.dart' as legends show buildGallery;
-import 'ad_helper.dart';
-import 'subs/customer_info.dart';
 
 
 class HomeFragment extends StatefulWidget {
-  final _callback;
-  final _callback2;
-  final _callback3;
-  final _callback4;
-  final _barcodeBtn;
-  final _searchBtn;
   final _openDrawerBtn;
   final _closeDrawerBtn;
 
   HomeFragment({
     required void closeDrawerBtn(String str),
     required void openDrawerBtn(String str),
-    required this.ordersSnapshot,
-    required this.buyOrdersSnapshot,
-    required this.lossSnapshot,
     required this.shopId,
     required this.isEnglish,
-    required void toggleCoinCallback(String str),
-    required void toggleCoinCallback2(String str),
-    required void toggleCoinCallback3(String str),
-    required void toggleCoinCallback4(String str) ,
-    required void barcodeBtn(),
-    required void searchBtn(),
     Key? key,
-  }) :  _callback = toggleCoinCallback,
-        _callback2 = toggleCoinCallback2 ,
-        _callback3 = toggleCoinCallback3,
-        _callback4 = toggleCoinCallback4,
-        _barcodeBtn = barcodeBtn,
-        _searchBtn = searchBtn,
+  }) :
         _openDrawerBtn = openDrawerBtn,
         _closeDrawerBtn = closeDrawerBtn;
   final shopId;
-  final ordersSnapshot;
-  final buyOrdersSnapshot;
-  final lossSnapshot;
   final bool isEnglish;
   @override
   HomeFragmentState createState() => HomeFragmentState();
@@ -389,19 +364,8 @@ class HomeFragmentState extends State<HomeFragment>
     }
   }
 
-  addProduct1(data) {
-    widget._callback3(data);
-  }
 
-  addCustomer2Cart1(data) {
-    widget._callback2(data);
-  }
-  addMerchant2Cart(data) {
-    widget._callback(data);
-  }
-  addProduct3(data) {
-    widget._callback4(data);
-  }
+
 
   List<double> thisWeekOrdersChart = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
   List<double> thisMonthOrdersChart = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
