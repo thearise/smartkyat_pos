@@ -386,6 +386,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
           // Allows the user to reveal the app bar if they begin scrolling
           // back up the list of items.
           floating: true,
+          automaticallyImplyLeading: false,
           bottom: PreferredSize(                       // Add this code
             preferredSize: Size.fromHeight(-2.0),      // Add this code
             child: Container(),                           // Add this code
