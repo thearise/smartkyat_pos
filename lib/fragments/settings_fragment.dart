@@ -5,6 +5,7 @@ import 'package:flash/flash.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smartkyat_pos/api/purchase_api.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 import 'package:smartkyat_pos/fragments/subs/account_setting.dart';
 import 'package:smartkyat_pos/fragments/subs/change_currency.dart';
@@ -118,6 +119,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
 
 
   initState() {
+    fetchingOffering();
     getPaperId().then((value) {
       setState(() {
         paperId = value.toString();
@@ -1001,6 +1003,13 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
       transitionDuration: Duration(milliseconds: 300),
     );
     return _previousController!.show();
+  }
+
+  Future<void> fetchingOffering() async {
+    await PurchaseApi.init();
+    PurchaseApi.fetchOffers().then((value) {
+      debugPrint('Offeringss ' + value.toString());
+    });
   }
 
 
