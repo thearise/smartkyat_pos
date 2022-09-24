@@ -429,13 +429,11 @@ class _LossProductState extends State<LossProduct> {
                             if (_formKey.currentState!.validate()) {
 
                               WriteBatch batch = FirebaseFirestore.instance.batch();
-
-                              var monthId = '';
-                              bool monthExist = false;
-                              var yearId = '';
-                              bool yearExist = false;
-
                               DateTime now = DateTime.now();
+
+                              DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodSaleData').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()));
+                              DocumentReference prodsMonthly = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodMthData').doc(now.year.toString() + zeroToTen(now.month.toString()));
+                              DocumentReference prodsYearly = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodYearData').doc(now.year.toString());
 
                               showOkCancelAlertDialog(
                                 context: context,
@@ -447,14 +445,117 @@ class _LossProductState extends State<LossProduct> {
                                   if (widget.prodID.split('^')[3] == 'unit_name') {
                                     batch  = await decStockFromInv(batch, widget.prodID.split('^')[0], 'im', lossAmount.text.toString());
                                     batch  = await updateLoss(batch, widget.prodID.split('^')[0], 'lm', lossAmount.text.toString());
+
+                                    batch.set(
+                                        prodsArr,
+                                        {
+                                          'prods': {
+                                            widget.prodID.split('^')[0].toString(): {
+                                              'lm': FieldValue.increment(double.parse(lossAmount.text.toString())),
+
+                                            }
+                                          }
+                                        },SetOptions(merge: true)
+                                    );
+
+                                    batch.set(
+                                        prodsMonthly,
+                                        {
+                                          'prods': {
+                                            widget.prodID.split('^')[0].toString(): {
+                                              'lm': FieldValue.increment(double.parse(lossAmount.text.toString())),
+                                            }
+                                          }
+                                        },SetOptions(merge: true)
+                                    );
+
+                                    batch.set(
+                                        prodsYearly,
+                                        {
+                                          'prods': {
+                                            widget.prodID.split('^')[0].toString(): {
+                                              'lm': FieldValue.increment(double.parse(lossAmount.text.toString())),
+
+                                            }
+                                          }
+                                        },SetOptions(merge: true)
+                                    );
                                   }
                                   else if (widget.prodID.split('^')[3] == 'sub1_name') {
                                     batch = await sub1Execution(batch, widget.prodID.split('^')[4], widget.prodID.split('^')[5], widget.prodID.split('^')[0], lossAmount.text.toString());
                                     batch  = await updateLoss(batch, widget.prodID.split('^')[0], 'l1', lossAmount.text.toString());
+                                    batch.set(
+                                        prodsArr,
+                                        {
+                                          'prods': {
+                                            widget.prodID.split('^')[0].toString(): {
+                                              'l1': FieldValue.increment(double.parse(lossAmount.text.toString())),
+
+                                            }
+                                          }
+                                        },SetOptions(merge: true)
+                                    );
+
+                                    batch.set(
+                                        prodsMonthly,
+                                        {
+                                          'prods': {
+                                            widget.prodID.split('^')[0].toString(): {
+                                              'l1': FieldValue.increment(double.parse(lossAmount.text.toString())),
+                                            }
+                                          }
+                                        },SetOptions(merge: true)
+                                    );
+
+                                    batch.set(
+                                        prodsYearly,
+                                        {
+                                          'prods': {
+                                            widget.prodID.split('^')[0].toString(): {
+                                              'l1': FieldValue.increment(double.parse(lossAmount.text.toString())),
+
+                                            }
+                                          }
+                                        },SetOptions(merge: true)
+                                    );
                                   }
                                   else if (widget.prodID.split('^')[3] == 'sub2_name') {
                                     batch = await sub2Execution(batch, widget.prodID.split('^')[4], widget.prodID.split('^')[5], widget.prodID.split('^')[0], lossAmount.text.toString());
                                     batch  = await updateLoss(batch, widget.prodID.split('^')[0], 'l2', lossAmount.text.toString());
+                                    batch.set(
+                                        prodsArr,
+                                        {
+                                          'prods': {
+                                            widget.prodID.split('^')[0].toString(): {
+                                              'l2': FieldValue.increment(double.parse(lossAmount.text.toString())),
+
+                                            }
+                                          }
+                                        },SetOptions(merge: true)
+                                    );
+
+                                    batch.set(
+                                        prodsMonthly,
+                                        {
+                                          'prods': {
+                                            widget.prodID.split('^')[0].toString(): {
+                                              'l2': FieldValue.increment(double.parse(lossAmount.text.toString())),
+                                            }
+                                          }
+                                        },SetOptions(merge: true)
+                                    );
+
+                                    batch.set(
+                                        prodsYearly,
+                                        {
+                                          'prods': {
+                                            widget.prodID.split('^')[0].toString(): {
+                                              'l2': FieldValue.increment(double.parse(lossAmount.text.toString())),
+
+                                            }
+                                          }
+                                        },SetOptions(merge: true)
+                                    );
                                   }
 
                                   DateTime ordCntDate = DateFormat("yyyy-MM-dd HH:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 12:00:00');

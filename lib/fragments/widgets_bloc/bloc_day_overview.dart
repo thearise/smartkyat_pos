@@ -253,6 +253,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
   @override
   void initState() {
 
+
     if(widget.isEnglish == true) {
 
       setState(() {
@@ -345,6 +346,12 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
     // )..fetchPaginatedList();
     super.initState();
   }
+
+  double tSale = 0;
+  double tRef = 0;
+  double tLoss = 0;
+
+  Map<dynamic, dynamic> resProds = {};
 
   Widget _buildListView(PaginationLoaded loadedState) {
     for(int i = 0; i < loadedState.documentSnapshots.length; i++) {
@@ -816,42 +823,73 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                     fontSize: 14,color: Colors.grey,
                                   ),),
                               ),
-                              Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                    child: Container(
-                                      height: 55,
-                                      child: Row(
+                              StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                                stream: FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodSaleData').doc(DateTime.now().year.toString() + zeroToTen(DateTime.now().month.toString()) + zeroToTen(DateTime.now().day.toString())).snapshots(),
+                                  builder: (BuildContext context, prodsSB) {
+                                    var prods;
+                                    tSale = 0;
+                                    tRef = 0;
+                                    tLoss = 0;
+                                    if(prodsSB.hasData) {
+                                      var prodsSnapOut = prodsSB.data != null? prodsSB.data!.data(): null;
+                                      prods = prodsSnapOut?['prods'];
+                                      if(prods != null && prods.length > 0) {
+                                        for(int i = 0; i <  prods.length; i++) {
+                                        var eachMap = prods.entries.elementAt(i);
+                                        if(eachMap.value['im'] != 0 || eachMap.value['im'] != null ) {
+                                          tSale++;
+                                        }
+                                        }
+                                      } else {
+                                        tSale = 0;
+                                        tRef = 0;
+                                        tLoss =0;
+                                      }
+                                    } else {
+                                        tSale = 0;
+                                        tRef = 0;
+                                        tLoss =0;
+                                    }
+                                      return Column(
                                         children: [
-                                          Text('Total sales', textScaleFactor: 1, style:
-                                          TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500, color: Colors.black,
-                                          ),),
-                                          Spacer(),
-                                          Text('7,345 sets', textScaleFactor: 1, style:
-                                          TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600, color: Colors.black,
-                                          ),),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 15.0),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          border: Border(
-                                              bottom: BorderSide(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.2),
-                                                  width: 1.0))),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                          Column(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                                child: Container(
+                                                  height: 55,
+                                                  child: Row(
+                                                    children: [
+                                                      Text('Total sales', textScaleFactor: 1, style:
+                                                      TextStyle(
+                                                        fontSize: 16,
+                                                        fontWeight: FontWeight.w500, color: Colors.black,
+                                                      ),),
+                                                      Spacer(),
+                                                      Text( tSale.toString() + ' sets', textScaleFactor: 1, style:
+                                                      TextStyle(
+                                                        fontSize: 16,
+                                                        fontWeight: FontWeight.w600, color: Colors.black,
+                                                      ),),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(left: 15.0),
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                      border: Border(
+                                                          bottom: BorderSide(
+                                                              color: Colors.grey
+                                                                  .withOpacity(0.2),
+                                                              width: 1.0))),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+
+
                               Column(
                                 children: [
                                   Padding(
@@ -866,7 +904,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                             fontWeight: FontWeight.w500, color: Colors.black,
                                           ),),
                                           Spacer(),
-                                          Text('532,112 sets', textScaleFactor: 1, style:
+                                          Text(tLoss.toString() + ' sets', textScaleFactor: 1, style:
                                           TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w600, color: Colors.black,
@@ -948,6 +986,10 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                     ),
                                   ),
                                 ],
+                              ),
+                                        ],
+                                      );
+                                  }
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 25.0, top: 10),
