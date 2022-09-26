@@ -527,10 +527,10 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                      NumberFormat.compactCurrency(
-                                        decimalDigits: 2,
-                                        symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
-                                      ).format(totalStockCostsBySlide()),
+                                            NumberFormat.compactCurrency(
+                                              decimalDigits: 2,
+                                              symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
+                                            ).format(totalStockCostsBySlide()),
                                             textScaleFactor: 1, textAlign: TextAlign.left,
                                             style: GoogleFonts.lato(
                                                 textStyle: TextStyle(
@@ -563,10 +563,10 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                      NumberFormat.compactCurrency(
-                                      decimalDigits: 2,
-                                        symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
-                                      ).format(totalUnpaidBySlide()),
+                                            NumberFormat.compactCurrency(
+                                              decimalDigits: 2,
+                                              symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
+                                            ).format(totalUnpaidBySlide()),
                                             textScaleFactor: 1, textAlign: TextAlign.left,
                                             style: GoogleFonts.lato(
                                                 textStyle: TextStyle(
@@ -617,10 +617,10 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                      NumberFormat.compactCurrency(
-                                        decimalDigits: 2,
-                                        symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
-                                      ).format(totalRefundBySlide()),
+                                            NumberFormat.compactCurrency(
+                                              decimalDigits: 2,
+                                              symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
+                                            ).format(totalRefundBySlide()),
                                             textScaleFactor: 1, textAlign: TextAlign.left,
                                             style: GoogleFonts.lato(
                                                 textStyle: TextStyle(
@@ -775,7 +775,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                             builder: (
                                                 context) =>
                                                 HomeFragment(
-                                               shopId: widget.shopId,  openDrawerBtn: widget._openDrawer, closeDrawerBtn: widget._closeDrawer, isEnglish: widget.isEnglish,
+                                                  shopId: widget.shopId,  openDrawerBtn: widget._openDrawer, closeDrawerBtn: widget._closeDrawer, isEnglish: widget.isEnglish,
                                                 )),
                                       );
                                       openDrawerFrom();
@@ -2235,7 +2235,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
   double monthCapital = 0;
   double monthSale = 0;
 
- double profitBySlide() {
+  double profitBySlide() {
     double profit = 0.0;
     if(_sliding == 0) {
       profit = monthSale - (monthCapital + monthLossTotal);
@@ -2321,32 +2321,32 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
         }
       }
 
-        if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'cash_cust'] != null) {
-          monthSale += data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'cash_cust'];
-        }
+      if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'cash_cust'] != null) {
+        monthSale += data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'cash_cust'];
+      }
 
 
-        if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'capital'] != null) {
-          monthCapital += data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'capital'];
-        }
+      if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'capital'] != null) {
+        monthCapital += data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'capital'];
+      }
 
 
-        if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'cash_merc'] != null) {
-          monthCostsTotal2 +=  data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'cash_merc'];
-        }
+      if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'cash_merc'] != null) {
+        monthCostsTotal2 +=  data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'cash_merc'];
+      }
 
 
-        if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'debt_cust'] != null) {
-          monthUnpaidTotal +=  data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'debt_cust'];
-        }
+      if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'debt_cust'] != null) {
+        monthUnpaidTotal +=  data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'debt_cust'];
+      }
 
-        if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'refu_cust'] != null) {
-          monthRefundTotal +=  data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'refu_cust'];
-        }
+      if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'refu_cust'] != null) {
+        monthRefundTotal +=  data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'refu_cust'];
+      }
 
 
-        if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'loss_cust'] != null) {
-          monthLossTotal +=  data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'loss_cust'];
+      if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'loss_cust'] != null) {
+        monthLossTotal +=  data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'loss_cust'];
       }
 
     }
