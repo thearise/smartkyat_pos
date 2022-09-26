@@ -22,6 +22,7 @@ import 'package:sticky_and_expandable_list/sticky_and_expandable_list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../home_fragment6.dart';
+import '../prod_sale_sum_home.dart';
 import 'bottom_loader.dart';
 import 'empty_display.dart';
 import 'empty_separator.dart';
@@ -350,6 +351,8 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
   double tSale = 0;
   double tRef = 0;
   double tLoss = 0;
+  double tSaleAmount = 0;
+  double tBuyAmount = 0;
 
   Map<dynamic, dynamic> resProds = {};
 
@@ -524,10 +527,10 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                      NumberFormat.compactCurrency(
-                                        decimalDigits: 2,
-                                        symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
-                                      ).format(totalStockCostsBySlide()),
+                                            NumberFormat.compactCurrency(
+                                              decimalDigits: 2,
+                                              symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
+                                            ).format(totalStockCostsBySlide()),
                                             textScaleFactor: 1, textAlign: TextAlign.left,
                                             style: GoogleFonts.lato(
                                                 textStyle: TextStyle(
@@ -560,10 +563,10 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                      NumberFormat.compactCurrency(
-                                      decimalDigits: 2,
-                                        symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
-                                      ).format(totalUnpaidBySlide()),
+                                            NumberFormat.compactCurrency(
+                                              decimalDigits: 2,
+                                              symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
+                                            ).format(totalUnpaidBySlide()),
                                             textScaleFactor: 1, textAlign: TextAlign.left,
                                             style: GoogleFonts.lato(
                                                 textStyle: TextStyle(
@@ -614,10 +617,10 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                      NumberFormat.compactCurrency(
-                                        decimalDigits: 2,
-                                        symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
-                                      ).format(totalRefundBySlide()),
+                                            NumberFormat.compactCurrency(
+                                              decimalDigits: 2,
+                                              symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
+                                            ).format(totalRefundBySlide()),
                                             textScaleFactor: 1, textAlign: TextAlign.left,
                                             style: GoogleFonts.lato(
                                                 textStyle: TextStyle(
@@ -772,11 +775,10 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                             builder: (
                                                 context) =>
                                                 HomeFragment(
-                                               shopId: widget.shopId,  openDrawerBtn: widget._openDrawer, closeDrawerBtn: widget._closeDrawer, isEnglish: widget.isEnglish,
+                                                  shopId: widget.shopId,  openDrawerBtn: widget._openDrawer, closeDrawerBtn: widget._closeDrawer, isEnglish: widget.isEnglish,
                                                 )),
                                       );
                                       openDrawerFrom();
-
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.only(
@@ -824,171 +826,289 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                   ),),
                               ),
                               StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                                stream: FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodSaleData').doc(DateTime.now().year.toString() + zeroToTen(DateTime.now().month.toString()) + zeroToTen(DateTime.now().day.toString())).snapshots(),
+                                  stream: FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodSaleData').doc(DateTime.now().year.toString() + zeroToTen(DateTime.now().month.toString()) + zeroToTen(DateTime.now().day.toString())).snapshots(),
                                   builder: (BuildContext context, prodsSB) {
                                     var prods;
                                     tSale = 0;
                                     tRef = 0;
                                     tLoss = 0;
+                                    tSaleAmount = 0;
+                                    tBuyAmount = 0;
+                                    double mainSale = 0;
+                                    double sub1Sale = 0;
+                                    double sub2Sale = 0;
+                                    double mainBuy = 0;
+                                    double sub1Buy = 0;
+                                    double sub2Buy = 0;
                                     if(prodsSB.hasData) {
                                       var prodsSnapOut = prodsSB.data != null? prodsSB.data!.data(): null;
                                       prods = prodsSnapOut?['prods'];
                                       if(prods != null && prods.length > 0) {
                                         for(int i = 0; i <  prods.length; i++) {
-                                        var eachMap = prods.entries.elementAt(i);
-                                        if(eachMap.value['im'] != 0 || eachMap.value['im'] != null ) {
-                                          tSale++;
+                                          var eachMap = prods.entries.elementAt(i);
+                                          if(eachMap.value['im'] != 0 && eachMap.value['im'] != null
+                                              || eachMap.value['i1'] != 0 && eachMap.value['i1'] != null
+                                              || eachMap.value['i2'] != 0 && eachMap.value['i2'] != null) {
+                                            tSale++;
+                                          }
+                                          if(eachMap.value['rm'] != 0 && eachMap.value['rm'] != null
+                                              || eachMap.value['r1'] != 0 && eachMap.value['r1'] != null
+                                              || eachMap.value['r2'] != 0 && eachMap.value['r2'] != null) {
+                                            tRef++;
+                                          }
+                                          if(eachMap.value['lm'] != 0 && eachMap.value['lm'] != null
+                                              || eachMap.value['l1'] != 0 && eachMap.value['l1'] != null
+                                              || eachMap.value['l2'] != 0 && eachMap.value['l2'] != null) {
+                                            tLoss++;
+                                          }
+                                          if(eachMap.value['sm'] != null) {
+                                            mainSale =  eachMap.value['sm'];
+                                          } else {
+                                            mainSale = 0;
+                                          }
+                                          if(eachMap.value['s1'] != null) {
+                                            sub1Sale =  eachMap.value['s1'];
+                                          } else {
+                                            sub1Sale = 0;
+                                          }
+                                          if(eachMap.value['s2'] != null) {
+                                            sub2Sale =  eachMap.value['s2'];
+                                          } else {
+                                            sub2Sale = 0;
+                                          }
+                                          tSaleAmount = tSaleAmount + (mainSale + sub1Sale + sub2Sale);
+
+                                          if(eachMap.value['bm'] != null) {
+                                            mainBuy =  eachMap.value['bm'];
+                                          } else {
+                                            mainBuy = 0;
+                                          }
+                                          if(eachMap.value['b1'] != null) {
+                                            sub1Buy =  eachMap.value['b1'];
+                                          } else {
+                                            sub1Buy = 0;
+                                          }
+                                          if(eachMap.value['b2'] != null) {
+                                            sub2Buy = eachMap.value['b2'];
+                                          } else {
+                                            sub2Buy = 0;
+                                          }
+                                          tBuyAmount = tBuyAmount + (mainBuy + sub1Buy + sub2Buy);
                                         }
-                                        }
-                                      } else {
-                                        tSale = 0;
-                                        tRef = 0;
-                                        tLoss =0;
+
                                       }
-                                    } else {
-                                        tSale = 0;
-                                        tRef = 0;
-                                        tLoss =0;
                                     }
-                                      return Column(
-                                        children: [
-                                          Column(
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                                child: Container(
-                                                  height: 55,
-                                                  child: Row(
-                                                    children: [
-                                                      Text('Total sales', textScaleFactor: 1, style:
-                                                      TextStyle(
-                                                        fontSize: 16,
-                                                        fontWeight: FontWeight.w500, color: Colors.black,
-                                                      ),),
-                                                      Spacer(),
-                                                      Text( tSale.toString() + ' sets', textScaleFactor: 1, style:
-                                                      TextStyle(
-                                                        fontSize: 16,
-                                                        fontWeight: FontWeight.w600, color: Colors.black,
-                                                      ),),
-                                                    ],
-                                                  ),
+                                    return Column(
+                                      children: [
+                                        Column(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                              child: Container(
+                                                height: 55,
+                                                child: Row(
+                                                  children: [
+                                                    Text('Total sales', textScaleFactor: 1, style:
+                                                    TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w500, color: Colors.black,
+                                                    ),),
+                                                    Spacer(),
+                                                    Text( tSale.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},') + ' types', textScaleFactor: 1, style:
+                                                    TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w600, color: Colors.black,
+                                                    ),),
+                                                  ],
                                                 ),
                                               ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(left: 15.0),
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                      border: Border(
-                                                          bottom: BorderSide(
-                                                              color: Colors.grey
-                                                                  .withOpacity(0.2),
-                                                              width: 1.0))),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 15.0),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    border: Border(
+                                                        bottom: BorderSide(
+                                                            color: Colors.grey
+                                                                .withOpacity(0.2),
+                                                            width: 1.0))),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+
+
+                                        Column(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                              child: Container(
+                                                height: 55,
+                                                child: Row(
+                                                  children: [
+                                                    Text('Total loss', textScaleFactor: 1, style:
+                                                    TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w500, color: Colors.black,
+                                                    ),),
+                                                    Spacer(),
+                                                    Text(tLoss.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},') + ' types', textScaleFactor: 1, style:
+                                                    TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w600, color: Colors.black,
+                                                    ),),
+                                                  ],
                                                 ),
                                               ),
-                                            ],
-                                          ),
-
-
-                              Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                    child: Container(
-                                      height: 55,
-                                      child: Row(
-                                        children: [
-                                          Text('Total loss', textScaleFactor: 1, style:
-                                          TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500, color: Colors.black,
-                                          ),),
-                                          Spacer(),
-                                          Text(tLoss.toString() + ' sets', textScaleFactor: 1, style:
-                                          TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600, color: Colors.black,
-                                          ),),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 15.0),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          border: Border(
-                                              bottom: BorderSide(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.2),
-                                                  width: 1.0))),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                    child: Container(
-                                      height: 55,
-                                      child: Row(
-                                        children: [
-                                          Text('Total refunds', textScaleFactor: 1, style:
-                                          TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500, color: Colors.black,
-                                          ),),
-                                          Spacer(),
-                                          Text('43,123 sets', textScaleFactor: 1, style:
-                                          TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600, color: Colors.black,
-                                          ),),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 15.0),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          border: Border(
-                                              bottom: BorderSide(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.2),
-                                                  width: 1.0))),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                    child: Container(
-                                      height: 55,
-                                      child: Row(
-                                        children: [
-                                          Text('Total products', textScaleFactor: 1, style:
-                                          TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500, color: Colors.black,
-                                          ),),
-                                          Spacer(),
-                                          Text('7,3454', textScaleFactor: 1, style:
-                                          TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600, color: Colors.black,
-                                          ),),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                                        ],
-                                      );
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 15.0),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    border: Border(
+                                                        bottom: BorderSide(
+                                                            color: Colors.grey
+                                                                .withOpacity(0.2),
+                                                            width: 1.0))),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Column(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                              child: Container(
+                                                height: 55,
+                                                child: Row(
+                                                  children: [
+                                                    Text('Total refunds', textScaleFactor: 1, style:
+                                                    TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w500, color: Colors.black,
+                                                    ),),
+                                                    Spacer(),
+                                                    Text(tRef.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},') + ' types', textScaleFactor: 1, style:
+                                                    TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w600, color: Colors.black,
+                                                    ),),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 15.0),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    border: Border(
+                                                        bottom: BorderSide(
+                                                            color: Colors.grey
+                                                                .withOpacity(0.2),
+                                                            width: 1.0))),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Column(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                              child: Container(
+                                                height: 55,
+                                                child: Row(
+                                                  children: [
+                                                    Text('Total sale amount', textScaleFactor: 1, style:
+                                                    TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w500, color: Colors.black,
+                                                    ),),
+                                                    Spacer(),
+                                                    Text( tSaleAmount.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},') + ' ' +currencyUnit, textScaleFactor: 1, style:
+                                                    TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w600, color: Colors.black,
+                                                    ),),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 15.0),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    border: Border(
+                                                        bottom: BorderSide(
+                                                            color: Colors.grey
+                                                                .withOpacity(0.2),
+                                                            width: 1.0))),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Column(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                              child: Container(
+                                                height: 55,
+                                                child: Row(
+                                                  children: [
+                                                    Text('Total Buy amount', textScaleFactor: 1, style:
+                                                    TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w500, color: Colors.black,
+                                                    ),),
+                                                    Spacer(),
+                                                    Text( tBuyAmount.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},') + ' ' +currencyUnit, textScaleFactor: 1, style:
+                                                    TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w600, color: Colors.black,
+                                                    ),),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 15.0),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    border: Border(
+                                                        bottom: BorderSide(
+                                                            color: Colors.grey
+                                                                .withOpacity(0.2),
+                                                            width: 1.0))),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        // Column(
+                                        //   children: [
+                                        //     Padding(
+                                        //       padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                        //       child: Container(
+                                        //         height: 55,
+                                        //         child: Row(
+                                        //           children: [
+                                        //             Text('Total products', textScaleFactor: 1, style:
+                                        //             TextStyle(
+                                        //               fontSize: 16,
+                                        //               fontWeight: FontWeight.w500, color: Colors.black,
+                                        //             ),),
+                                        //             Spacer(),
+                                        //             Text('7,3454', textScaleFactor: 1, style:
+                                        //             TextStyle(
+                                        //               fontSize: 16,
+                                        //               fontWeight: FontWeight.w600, color: Colors.black,
+                                        //             ),),
+                                        //           ],
+                                        //         ),
+                                        //       ),
+                                        //     ),
+                                        //   ],
+                                        // ),
+                                      ],
+                                    );
                                   }
                               ),
                               Padding(
@@ -1007,7 +1127,17 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                       ),
                                     ),
                                     onPressed: () async {
-
+                                      closeDrawerFrom();
+                                      await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (
+                                                context) =>
+                                                ProdSaleSumHome(
+                                                  shopId: widget.shopId,  openDrawerBtn: widget._openDrawer, closeDrawerBtn: widget._closeDrawer, isEnglish: widget.isEnglish,
+                                                )),
+                                      );
+                                      openDrawerFrom();
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.only(
@@ -2105,7 +2235,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
   double monthCapital = 0;
   double monthSale = 0;
 
- double profitBySlide() {
+  double profitBySlide() {
     double profit = 0.0;
     if(_sliding == 0) {
       profit = monthSale - (monthCapital + monthLossTotal);
@@ -2191,32 +2321,32 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
         }
       }
 
-        if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'cash_cust'] != null) {
-          monthSale += data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'cash_cust'];
-        }
+      if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'cash_cust'] != null) {
+        monthSale += data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'cash_cust'];
+      }
 
 
-        if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'capital'] != null) {
-          monthCapital += data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'capital'];
-        }
+      if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'capital'] != null) {
+        monthCapital += data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'capital'];
+      }
 
 
-        if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'cash_merc'] != null) {
-          monthCostsTotal2 +=  data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'cash_merc'];
-        }
+      if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'cash_merc'] != null) {
+        monthCostsTotal2 +=  data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'cash_merc'];
+      }
 
 
-        if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'debt_cust'] != null) {
-          monthUnpaidTotal +=  data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'debt_cust'];
-        }
+      if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'debt_cust'] != null) {
+        monthUnpaidTotal +=  data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'debt_cust'];
+      }
 
-        if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'refu_cust'] != null) {
-          monthRefundTotal +=  data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'refu_cust'];
-        }
+      if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'refu_cust'] != null) {
+        monthRefundTotal +=  data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'refu_cust'];
+      }
 
 
-        if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'loss_cust'] != null) {
-          monthLossTotal +=  data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'loss_cust'];
+      if(data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'loss_cust'] != null) {
+        monthLossTotal +=  data[today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString()) + 'loss_cust'];
       }
 
     }
