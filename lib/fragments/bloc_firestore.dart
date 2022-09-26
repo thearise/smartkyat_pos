@@ -1326,9 +1326,9 @@ class _BlocFirestoreState extends State<BlocFirestore> {
                         textScaleFactor: 1, style: TextStyle(
                           height: 0.8,
                           fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: 1.2,
-                          color: Colors.black
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 2,
+                          color: Colors.grey
                       ),
                       ),
 
@@ -1343,9 +1343,9 @@ class _BlocFirestoreState extends State<BlocFirestore> {
                             textScaleFactor: 1, style: TextStyle(
                             height: 0.8,
                             fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 1.2,
-                            color: Colors.black,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 2,
+                              color: Colors.grey
                           ),
                             textAlign: TextAlign.right,
                           ),
