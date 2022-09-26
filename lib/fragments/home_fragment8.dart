@@ -796,62 +796,46 @@ class OverviewPageState extends State<OverviewPage>
                 children: [
                   Container(
                     height: 81,
+                    width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                         border: Border(
                             bottom: BorderSide(
                                 color: Colors.Colors.grey.withOpacity(0.3),
                                 width: 1.0))),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                      padding: const EdgeInsets.only(top: 10.0, left: 15.0 , right: 15),
                       child: Row(
                         children: [
                           Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(height: 16),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 0.0),
-                                  child: Text(
-                                    "Dashboard", textScaleFactor: 1,
-                                    maxLines: 1,
-                                    textAlign: TextAlign.right,
-                                    style: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w500,
-                                        overflow: TextOverflow.ellipsis
-                                      // height: 1.5
+                            child: Text('Sale reports', textScaleFactor: 1,
+                              style: TextStyle(
+                                fontSize: 26,
+                                fontWeight: FontWeight.w600,
+                                overflow: TextOverflow.ellipsis,
+                              ),),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left:15.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                // widget._premiumCart();
+                              },
+                              child: Container(
+                                height: 30,
+                                width: 100,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(8.0),
                                     ),
-                                    strutStyle: StrutStyle(
-                                      height: 1.4,
-                                      // fontSize:,
-                                      forceStrutHeight: true,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 0.0, right: 0.0),
-                                  child: Text(
-                                    "Report for sales & inventory", textScaleFactor: 1,
-                                    maxLines: 1,
-                                    textAlign: TextAlign.right,
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                      overflow: TextOverflow.ellipsis,
-                                      // height: 1.3
-                                    ),
-                                    strutStyle: StrutStyle(
-                                      height: 1.7,
-                                      // fontSize:,
-                                      forceStrutHeight: true,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                                    color: Colors.Colors.grey.withOpacity(0.3)),
+                                child: Text('notfree' == 'free'? 'Free version': 'Pro version', style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 13
+                                ),textScaleFactor: 1, ),
+                              ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
