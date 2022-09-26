@@ -795,202 +795,202 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
                                   ),
                                 ),
                               ),
-                              Container(
-                                width: MediaQuery.of(context).size.width,
-                                decoration: BoxDecoration(
-                                    border: Border(
-                                        bottom: BorderSide(
-                                            color: Colors.grey
-                                                .withOpacity(
-                                                0.3),
-                                            width: 1.0)
-                                    )),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 20.0, left: 15.0, right: 15.0, bottom: 10.0),
-                                child: Text('PRODUCT SALE SUMMARY', textScaleFactor: 1,
-                                  style: TextStyle(
-                                    height: 0.9,
-                                    letterSpacing: 2,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,color: Colors.grey,
-                                  ),),
-                              ),
-                              Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                    child: Container(
-                                      height: 55,
-                                      child: Row(
-                                        children: [
-                                          Text('Total sales', textScaleFactor: 1, style:
-                                          TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500, color: Colors.black,
-                                          ),),
-                                          Spacer(),
-                                          Text('7,345 sets', textScaleFactor: 1, style:
-                                          TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600, color: Colors.black,
-                                          ),),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 15.0),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          border: Border(
-                                              bottom: BorderSide(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.2),
-                                                  width: 1.0))),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                    child: Container(
-                                      height: 55,
-                                      child: Row(
-                                        children: [
-                                          Text('Total loss', textScaleFactor: 1, style:
-                                          TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500, color: Colors.black,
-                                          ),),
-                                          Spacer(),
-                                          Text('532,112 sets', textScaleFactor: 1, style:
-                                          TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600, color: Colors.black,
-                                          ),),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 15.0),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          border: Border(
-                                              bottom: BorderSide(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.2),
-                                                  width: 1.0))),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                    child: Container(
-                                      height: 55,
-                                      child: Row(
-                                        children: [
-                                          Text('Total refunds', textScaleFactor: 1, style:
-                                          TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500, color: Colors.black,
-                                          ),),
-                                          Spacer(),
-                                          Text('43,123 sets', textScaleFactor: 1, style:
-                                          TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600, color: Colors.black,
-                                          ),),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 15.0),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          border: Border(
-                                              bottom: BorderSide(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.2),
-                                                  width: 1.0))),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                    child: Container(
-                                      height: 55,
-                                      child: Row(
-                                        children: [
-                                          Text('Total products', textScaleFactor: 1, style:
-                                          TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500, color: Colors.black,
-                                          ),),
-                                          Spacer(),
-                                          Text('7,3454', textScaleFactor: 1, style:
-                                          TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600, color: Colors.black,
-                                          ),),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 25.0, top: 10),
-                                child: ButtonTheme(
-                                  minWidth: MediaQuery.of(context).size.width,
-                                  splashColor: Colors.transparent,
-                                  height: 50,
-                                  child: FlatButton(
-                                    color: AppTheme.buttonColor2,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                      BorderRadius.circular(10.0),
-                                      side: BorderSide(
-                                        color: AppTheme.buttonColor2,
-                                      ),
-                                    ),
-                                    onPressed: () async {
-
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 5.0,
-                                          right: 5.0,
-                                          bottom: 2.0),
-                                      child: Container(
-                                        child: Text(
-                                            'More detail', textScaleFactor: 1,
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w600,
-                                                letterSpacing:-0.1
-                                            ),
-                                            strutStyle: StrutStyle(
-                                              height: 1.4,
-                                              forceStrutHeight: true,
-                                            )
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
+                              // Container(
+                              //   width: MediaQuery.of(context).size.width,
+                              //   decoration: BoxDecoration(
+                              //       border: Border(
+                              //           bottom: BorderSide(
+                              //               color: Colors.grey
+                              //                   .withOpacity(
+                              //                   0.3),
+                              //               width: 1.0)
+                              //       )),
+                              // ),
+                              // Padding(
+                              //   padding: const EdgeInsets.only(top: 20.0, left: 15.0, right: 15.0, bottom: 10.0),
+                              //   child: Text('PRODUCT SALE SUMMARY', textScaleFactor: 1,
+                              //     style: TextStyle(
+                              //       height: 0.9,
+                              //       letterSpacing: 2,
+                              //       fontWeight: FontWeight.bold,
+                              //       fontSize: 14,color: Colors.grey,
+                              //     ),),
+                              // ),
+                              // Column(
+                              //   children: [
+                              //     Padding(
+                              //       padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                              //       child: Container(
+                              //         height: 55,
+                              //         child: Row(
+                              //           children: [
+                              //             Text('Total sales', textScaleFactor: 1, style:
+                              //             TextStyle(
+                              //               fontSize: 16,
+                              //               fontWeight: FontWeight.w500, color: Colors.black,
+                              //             ),),
+                              //             Spacer(),
+                              //             Text('7,345 sets', textScaleFactor: 1, style:
+                              //             TextStyle(
+                              //               fontSize: 16,
+                              //               fontWeight: FontWeight.w600, color: Colors.black,
+                              //             ),),
+                              //           ],
+                              //         ),
+                              //       ),
+                              //     ),
+                              //     Padding(
+                              //       padding: const EdgeInsets.only(left: 15.0),
+                              //       child: Container(
+                              //         decoration: BoxDecoration(
+                              //             border: Border(
+                              //                 bottom: BorderSide(
+                              //                     color: Colors.grey
+                              //                         .withOpacity(0.2),
+                              //                     width: 1.0))),
+                              //       ),
+                              //     ),
+                              //   ],
+                              // ),
+                              // Column(
+                              //   children: [
+                              //     Padding(
+                              //       padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                              //       child: Container(
+                              //         height: 55,
+                              //         child: Row(
+                              //           children: [
+                              //             Text('Total loss', textScaleFactor: 1, style:
+                              //             TextStyle(
+                              //               fontSize: 16,
+                              //               fontWeight: FontWeight.w500, color: Colors.black,
+                              //             ),),
+                              //             Spacer(),
+                              //             Text('532,112 sets', textScaleFactor: 1, style:
+                              //             TextStyle(
+                              //               fontSize: 16,
+                              //               fontWeight: FontWeight.w600, color: Colors.black,
+                              //             ),),
+                              //           ],
+                              //         ),
+                              //       ),
+                              //     ),
+                              //     Padding(
+                              //       padding: const EdgeInsets.only(left: 15.0),
+                              //       child: Container(
+                              //         decoration: BoxDecoration(
+                              //             border: Border(
+                              //                 bottom: BorderSide(
+                              //                     color: Colors.grey
+                              //                         .withOpacity(0.2),
+                              //                     width: 1.0))),
+                              //       ),
+                              //     ),
+                              //   ],
+                              // ),
+                              // Column(
+                              //   children: [
+                              //     Padding(
+                              //       padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                              //       child: Container(
+                              //         height: 55,
+                              //         child: Row(
+                              //           children: [
+                              //             Text('Total refunds', textScaleFactor: 1, style:
+                              //             TextStyle(
+                              //               fontSize: 16,
+                              //               fontWeight: FontWeight.w500, color: Colors.black,
+                              //             ),),
+                              //             Spacer(),
+                              //             Text('43,123 sets', textScaleFactor: 1, style:
+                              //             TextStyle(
+                              //               fontSize: 16,
+                              //               fontWeight: FontWeight.w600, color: Colors.black,
+                              //             ),),
+                              //           ],
+                              //         ),
+                              //       ),
+                              //     ),
+                              //     Padding(
+                              //       padding: const EdgeInsets.only(left: 15.0),
+                              //       child: Container(
+                              //         decoration: BoxDecoration(
+                              //             border: Border(
+                              //                 bottom: BorderSide(
+                              //                     color: Colors.grey
+                              //                         .withOpacity(0.2),
+                              //                     width: 1.0))),
+                              //       ),
+                              //     ),
+                              //   ],
+                              // ),
+                              // Column(
+                              //   children: [
+                              //     Padding(
+                              //       padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                              //       child: Container(
+                              //         height: 55,
+                              //         child: Row(
+                              //           children: [
+                              //             Text('Total products', textScaleFactor: 1, style:
+                              //             TextStyle(
+                              //               fontSize: 16,
+                              //               fontWeight: FontWeight.w500, color: Colors.black,
+                              //             ),),
+                              //             Spacer(),
+                              //             Text('7,3454', textScaleFactor: 1, style:
+                              //             TextStyle(
+                              //               fontSize: 16,
+                              //               fontWeight: FontWeight.w600, color: Colors.black,
+                              //             ),),
+                              //           ],
+                              //         ),
+                              //       ),
+                              //     ),
+                              //   ],
+                              // ),
+                              // Padding(
+                              //   padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 25.0, top: 10),
+                              //   child: ButtonTheme(
+                              //     minWidth: MediaQuery.of(context).size.width,
+                              //     splashColor: Colors.transparent,
+                              //     height: 50,
+                              //     child: FlatButton(
+                              //       color: AppTheme.buttonColor2,
+                              //       shape: RoundedRectangleBorder(
+                              //         borderRadius:
+                              //         BorderRadius.circular(10.0),
+                              //         side: BorderSide(
+                              //           color: AppTheme.buttonColor2,
+                              //         ),
+                              //       ),
+                              //       onPressed: () async {
+                              //
+                              //       },
+                              //       child: Padding(
+                              //         padding: const EdgeInsets.only(
+                              //             left: 5.0,
+                              //             right: 5.0,
+                              //             bottom: 2.0),
+                              //         child: Container(
+                              //           child: Text(
+                              //               'More detail', textScaleFactor: 1,
+                              //               textAlign: TextAlign.center,
+                              //               style: TextStyle(
+                              //                   fontSize: 18,
+                              //                   fontWeight: FontWeight.w600,
+                              //                   letterSpacing:-0.1
+                              //               ),
+                              //               strutStyle: StrutStyle(
+                              //                 height: 1.4,
+                              //                 forceStrutHeight: true,
+                              //               )
+                              //           ),
+                              //         ),
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
 
 
                             ],
