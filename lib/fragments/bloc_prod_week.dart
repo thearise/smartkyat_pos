@@ -364,7 +364,7 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
             if(prodsSB.hasData) {
 
               for(int i =0; i< todayProds.length; i++) {
-                stateList.add(false);
+                stateList.add([false, false, false, false, false]);
               }
 
               return SliverList(
@@ -415,14 +415,14 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
                                   // collapsedBackgroundColor: index%2 == 1? Colors.grey.withOpacity(0.1): Colors.white,
                                   // backgroundColor: index%2 == 1? Colors.grey.withOpacity(0.1): Colors.white,
                                   onExpansionChanged: (bool expanded) {
-                                    onStateChanged(index, expanded);
+                                    onStateChanged(index, 0, expanded);
                                   },
                                   title: Row(
                                     children: [
                                       Padding(
                                         padding: const EdgeInsets.only(bottom: 3.0, right: 10.0),
                                         child: AnimatedRotation(
-                                          turns: stateList[index]? 0.250:0,
+                                          turns: stateList[index][0]? 0.250:0,
                                           duration: const Duration(milliseconds: 200),
                                           child: Icon(
                                             Icons.arrow_forward_ios_rounded,
@@ -473,64 +473,10 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
                                         ),
                                         ListTile(
                                           contentPadding: EdgeInsets.only(left: 42, right: 15),
-                                            title: Padding(
-                                              padding: const EdgeInsets.only(right: 10.0),
-                                              child: Text(
-                                                'Gross profits',
-                                                textScaleFactor: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500,
-                                                  overflow: TextOverflow.ellipsis,
-                                                  color: Colors.black,
-                                                ),
-                                                strutStyle: StrutStyle(
-                                                  height: 1,
-                                                  // fontSize:,
-                                                  forceStrutHeight: true,
-                                                ),
-                                              ),
-                                            ),
-                                          trailing: Text(
-                                            totalSaleCal(todayProds.entries.elementAt(index).value) + ' MMK',
-                                            textScaleFactor: 1,
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500,
-                                              overflow: TextOverflow.ellipsis,
-                                              color: Colors.black,
-                                            ),
-                                            strutStyle: StrutStyle(
-                                              height: 1,
-                                              // fontSize:,
-                                              forceStrutHeight: true,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Column(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(left: 42.0),
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                                border: Border(
-                                                    bottom: BorderSide(
-                                                        color: Colors.grey
-                                                            .withOpacity(
-                                                            0.6),
-                                                        width: 0.5)
-                                                )),
-                                          ),
-                                        ),
-                                        ListTile(
-                                          contentPadding: EdgeInsets.only(left: 42, right: 15),
                                           title: Padding(
                                             padding: const EdgeInsets.only(right: 10.0),
                                             child: Text(
-                                              'Stock costs',
+                                              'Discounts',
                                               textScaleFactor: 1,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
@@ -579,50 +525,1005 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
                                                 )),
                                           ),
                                         ),
-                                        ListTile(
-                                          contentPadding: EdgeInsets.only(left: 42, right: 15),
-                                          title: Row(
-                                            children: [
-                                              Icon(SmartKyat_POS.prodm, size: 17, color: Colors.grey,),
-                                              Expanded(
-                                                child: Padding(
-                                                  padding: const EdgeInsets.only(right: 10.0),
-                                                  child: Text(
-                                                    'Items (main)',
-                                                    textScaleFactor: 1,
-                                                    overflow: TextOverflow.ellipsis,
-                                                    style: TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight: FontWeight.w500,
-                                                      overflow: TextOverflow.ellipsis,
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 27.0),
+                                          child: ExpansionTile(
+                                            trailing: Text(
+                                              totalSaleCal(todayProds.entries.elementAt(index).value) + ' MMK',
+                                              textScaleFactor: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                                overflow: TextOverflow.ellipsis,
+                                                color: Colors.black,
+                                              ),
+                                              strutStyle: StrutStyle(
+                                                height: 1,
+                                                // fontSize:,
+                                                forceStrutHeight: true,
+                                              ),
+                                            ),
+                                            tilePadding: EdgeInsets.only(left: 15.0, top: 0.0, bottom: 0.0, right: 15.0),
+                                            childrenPadding: EdgeInsets.only(left: 0.0, top: 0.0, bottom: 0.0, right: 0.0),
+                                            // collapsedBackgroundColor: index%2 == 1? Colors.grey.withOpacity(0.1): Colors.white,
+                                            // backgroundColor: index%2 == 1? Colors.grey.withOpacity(0.1): Colors.white,
+                                            onExpansionChanged: (bool expanded) {
+                                              onStateChanged(index, 1, expanded);
+                                            },
+                                            title: Row(
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.only(bottom: 3.0, right: 10.0),
+                                                  child: AnimatedRotation(
+                                                    turns: stateList[index][1]? 0.250:0,
+                                                    duration: const Duration(milliseconds: 200),
+                                                    child: Icon(
+                                                      Icons.arrow_forward_ios_rounded,
+                                                      size: 17,
                                                       color: Colors.black,
-                                                    ),
-                                                    strutStyle: StrutStyle(
-                                                      height: 1,
-                                                      // fontSize:,
-                                                      forceStrutHeight: true,
                                                     ),
                                                   ),
                                                 ),
+                                                Expanded(
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(right: 10.0),
+                                                    child: Text(
+                                                      'Total sale',
+                                                      textScaleFactor: 1,
+                                                      overflow: TextOverflow.ellipsis,
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.w500,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        color: Colors.black,
+                                                      ),
+                                                      strutStyle: StrutStyle(
+                                                        height: 1,
+                                                        // fontSize:,
+                                                        forceStrutHeight: true,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            // controlAffinity: ListTileControlAffinity.leading,
+                                            children: <Widget>[
+                                              Column(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 42.0),
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                          border: Border(
+                                                              bottom: BorderSide(
+                                                                  color: Colors.grey
+                                                                      .withOpacity(
+                                                                      0.6),
+                                                                  width: 0.5)
+                                                          )),
+                                                    ),
+                                                  ),
+                                                  ListTile(
+                                                    contentPadding: EdgeInsets.only(left: 42, right: 15),
+                                                    title: Padding(
+                                                      padding: const EdgeInsets.only(right: 10.0),
+                                                      child: Text(
+                                                        'Gross profits',
+                                                        textScaleFactor: 1,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight: FontWeight.w500,
+                                                          overflow: TextOverflow.ellipsis,
+                                                          color: Colors.black,
+                                                        ),
+                                                        strutStyle: StrutStyle(
+                                                          height: 1,
+                                                          // fontSize:,
+                                                          forceStrutHeight: true,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    trailing: Text(
+                                                      totalSaleCal(todayProds.entries.elementAt(index).value) + ' MMK',
+                                                      textScaleFactor: 1,
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.w500,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        color: Colors.black,
+                                                      ),
+                                                      strutStyle: StrutStyle(
+                                                        height: 1,
+                                                        // fontSize:,
+                                                        forceStrutHeight: true,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Column(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 42.0),
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                          border: Border(
+                                                              bottom: BorderSide(
+                                                                  color: Colors.grey
+                                                                      .withOpacity(
+                                                                      0.6),
+                                                                  width: 0.5)
+                                                          )),
+                                                    ),
+                                                  ),
+                                                  ListTile(
+                                                    contentPadding: EdgeInsets.only(left: 42, right: 15),
+                                                    title: Padding(
+                                                      padding: const EdgeInsets.only(right: 10.0),
+                                                      child: Text(
+                                                        'Stock costs',
+                                                        textScaleFactor: 1,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight: FontWeight.w500,
+                                                          overflow: TextOverflow.ellipsis,
+                                                          color: Colors.black,
+                                                        ),
+                                                        strutStyle: StrutStyle(
+                                                          height: 1,
+                                                          // fontSize:,
+                                                          forceStrutHeight: true,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    trailing: Text(
+                                                      totalSaleCal(todayProds.entries.elementAt(index).value) + ' MMK',
+                                                      textScaleFactor: 1,
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.w500,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        color: Colors.black,
+                                                      ),
+                                                      strutStyle: StrutStyle(
+                                                        height: 1,
+                                                        // fontSize:,
+                                                        forceStrutHeight: true,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Column(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 42.0),
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                          border: Border(
+                                                              bottom: BorderSide(
+                                                                  color: Colors.grey
+                                                                      .withOpacity(
+                                                                      0.6),
+                                                                  width: 0.5)
+                                                          )),
+                                                    ),
+                                                  ),
+                                                  ListTile(
+                                                    contentPadding: EdgeInsets.only(left: 42, right: 15),
+                                                    title: Row(
+                                                      children: [
+                                                        Icon(SmartKyat_POS.prodm, size: 17, color: Colors.grey,),
+                                                        Expanded(
+                                                          child: Padding(
+                                                            padding: const EdgeInsets.only(right: 10.0),
+                                                            child: Text(
+                                                              'Items (main)',
+                                                              textScaleFactor: 1,
+                                                              overflow: TextOverflow.ellipsis,
+                                                              style: TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight: FontWeight.w500,
+                                                                overflow: TextOverflow.ellipsis,
+                                                                color: Colors.black,
+                                                              ),
+                                                              strutStyle: StrutStyle(
+                                                                height: 1,
+                                                                // fontSize:,
+                                                                forceStrutHeight: true,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    trailing: Text(
+                                                      totalSaleCal(todayProds.entries.elementAt(index).value) + ' MMK',
+                                                      textScaleFactor: 1,
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.w500,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        color: Colors.black,
+                                                      ),
+                                                      strutStyle: StrutStyle(
+                                                        height: 1,
+                                                        // fontSize:,
+                                                        forceStrutHeight: true,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ],
                                           ),
-                                          trailing: Text(
-                                            totalSaleCal(todayProds.entries.elementAt(index).value) + ' MMK',
-                                            textScaleFactor: 1,
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500,
-                                              overflow: TextOverflow.ellipsis,
-                                              color: Colors.black,
-                                            ),
-                                            strutStyle: StrutStyle(
-                                              height: 1,
-                                              // fontSize:,
-                                              forceStrutHeight: true,
-                                            ),
+                                        )
+                                      ],
+                                    ),
+                                    Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 42.0),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                border: Border(
+                                                    bottom: BorderSide(
+                                                        color: Colors.grey
+                                                            .withOpacity(
+                                                            0.6),
+                                                        width: 0.5)
+                                                )),
                                           ),
                                         ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 27.0),
+                                          child: ExpansionTile(
+                                            trailing: Text(
+                                              totalSaleCal(todayProds.entries.elementAt(index).value) + ' MMK',
+                                              textScaleFactor: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                                overflow: TextOverflow.ellipsis,
+                                                color: Colors.black,
+                                              ),
+                                              strutStyle: StrutStyle(
+                                                height: 1,
+                                                // fontSize:,
+                                                forceStrutHeight: true,
+                                              ),
+                                            ),
+                                            tilePadding: EdgeInsets.only(left: 15.0, top: 0.0, bottom: 0.0, right: 15.0),
+                                            childrenPadding: EdgeInsets.only(left: 0.0, top: 0.0, bottom: 0.0, right: 0.0),
+                                            // collapsedBackgroundColor: index%2 == 1? Colors.grey.withOpacity(0.1): Colors.white,
+                                            // backgroundColor: index%2 == 1? Colors.grey.withOpacity(0.1): Colors.white,
+                                            onExpansionChanged: (bool expanded) {
+                                              onStateChanged(index, 2, expanded);
+                                            },
+                                            title: Row(
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.only(bottom: 3.0, right: 10.0),
+                                                  child: AnimatedRotation(
+                                                    turns: stateList[index][2]? 0.250:0,
+                                                    duration: const Duration(milliseconds: 200),
+                                                    child: Icon(
+                                                      Icons.arrow_forward_ios_rounded,
+                                                      size: 17,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(right: 10.0),
+                                                    child: Text(
+                                                      'Gross profit',
+                                                      textScaleFactor: 1,
+                                                      overflow: TextOverflow.ellipsis,
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.w500,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        color: Colors.black,
+                                                      ),
+                                                      strutStyle: StrutStyle(
+                                                        height: 1,
+                                                        // fontSize:,
+                                                        forceStrutHeight: true,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            // controlAffinity: ListTileControlAffinity.leading,
+                                            children: <Widget>[
+                                              Column(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 42.0),
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                          border: Border(
+                                                              bottom: BorderSide(
+                                                                  color: Colors.grey
+                                                                      .withOpacity(
+                                                                      0.6),
+                                                                  width: 0.5)
+                                                          )),
+                                                    ),
+                                                  ),
+                                                  ListTile(
+                                                    contentPadding: EdgeInsets.only(left: 42, right: 15),
+                                                    title: Padding(
+                                                      padding: const EdgeInsets.only(right: 10.0),
+                                                      child: Text(
+                                                        'Gross profits',
+                                                        textScaleFactor: 1,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight: FontWeight.w500,
+                                                          overflow: TextOverflow.ellipsis,
+                                                          color: Colors.black,
+                                                        ),
+                                                        strutStyle: StrutStyle(
+                                                          height: 1,
+                                                          // fontSize:,
+                                                          forceStrutHeight: true,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    trailing: Text(
+                                                      totalSaleCal(todayProds.entries.elementAt(index).value) + ' MMK',
+                                                      textScaleFactor: 1,
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.w500,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        color: Colors.black,
+                                                      ),
+                                                      strutStyle: StrutStyle(
+                                                        height: 1,
+                                                        // fontSize:,
+                                                        forceStrutHeight: true,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Column(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 42.0),
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                          border: Border(
+                                                              bottom: BorderSide(
+                                                                  color: Colors.grey
+                                                                      .withOpacity(
+                                                                      0.6),
+                                                                  width: 0.5)
+                                                          )),
+                                                    ),
+                                                  ),
+                                                  ListTile(
+                                                    contentPadding: EdgeInsets.only(left: 42, right: 15),
+                                                    title: Padding(
+                                                      padding: const EdgeInsets.only(right: 10.0),
+                                                      child: Text(
+                                                        'Stock costs',
+                                                        textScaleFactor: 1,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight: FontWeight.w500,
+                                                          overflow: TextOverflow.ellipsis,
+                                                          color: Colors.black,
+                                                        ),
+                                                        strutStyle: StrutStyle(
+                                                          height: 1,
+                                                          // fontSize:,
+                                                          forceStrutHeight: true,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    trailing: Text(
+                                                      totalSaleCal(todayProds.entries.elementAt(index).value) + ' MMK',
+                                                      textScaleFactor: 1,
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.w500,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        color: Colors.black,
+                                                      ),
+                                                      strutStyle: StrutStyle(
+                                                        height: 1,
+                                                        // fontSize:,
+                                                        forceStrutHeight: true,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Column(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 42.0),
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                          border: Border(
+                                                              bottom: BorderSide(
+                                                                  color: Colors.grey
+                                                                      .withOpacity(
+                                                                      0.6),
+                                                                  width: 0.5)
+                                                          )),
+                                                    ),
+                                                  ),
+                                                  ListTile(
+                                                    contentPadding: EdgeInsets.only(left: 42, right: 15),
+                                                    title: Row(
+                                                      children: [
+                                                        Icon(SmartKyat_POS.prodm, size: 17, color: Colors.grey,),
+                                                        Expanded(
+                                                          child: Padding(
+                                                            padding: const EdgeInsets.only(right: 10.0),
+                                                            child: Text(
+                                                              'Items (main)',
+                                                              textScaleFactor: 1,
+                                                              overflow: TextOverflow.ellipsis,
+                                                              style: TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight: FontWeight.w500,
+                                                                overflow: TextOverflow.ellipsis,
+                                                                color: Colors.black,
+                                                              ),
+                                                              strutStyle: StrutStyle(
+                                                                height: 1,
+                                                                // fontSize:,
+                                                                forceStrutHeight: true,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    trailing: Text(
+                                                      totalSaleCal(todayProds.entries.elementAt(index).value) + ' MMK',
+                                                      textScaleFactor: 1,
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.w500,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        color: Colors.black,
+                                                      ),
+                                                      strutStyle: StrutStyle(
+                                                        height: 1,
+                                                        // fontSize:,
+                                                        forceStrutHeight: true,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 42.0),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                border: Border(
+                                                    bottom: BorderSide(
+                                                        color: Colors.grey
+                                                            .withOpacity(
+                                                            0.6),
+                                                        width: 0.5)
+                                                )),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 27.0),
+                                          child: ExpansionTile(
+                                            trailing: Text(
+                                              totalSaleCal(todayProds.entries.elementAt(index).value) + ' MMK',
+                                              textScaleFactor: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                                overflow: TextOverflow.ellipsis,
+                                                color: Colors.black,
+                                              ),
+                                              strutStyle: StrutStyle(
+                                                height: 1,
+                                                // fontSize:,
+                                                forceStrutHeight: true,
+                                              ),
+                                            ),
+                                            tilePadding: EdgeInsets.only(left: 15.0, top: 0.0, bottom: 0.0, right: 15.0),
+                                            childrenPadding: EdgeInsets.only(left: 0.0, top: 0.0, bottom: 0.0, right: 0.0),
+                                            // collapsedBackgroundColor: index%2 == 1? Colors.grey.withOpacity(0.1): Colors.white,
+                                            // backgroundColor: index%2 == 1? Colors.grey.withOpacity(0.1): Colors.white,
+                                            onExpansionChanged: (bool expanded) {
+                                              onStateChanged(index, 3, expanded);
+                                            },
+                                            title: Row(
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.only(bottom: 3.0, right: 10.0),
+                                                  child: AnimatedRotation(
+                                                    turns: stateList[index][3]? 0.250:0,
+                                                    duration: const Duration(milliseconds: 200),
+                                                    child: Icon(
+                                                      Icons.arrow_forward_ios_rounded,
+                                                      size: 17,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(right: 10.0),
+                                                    child: Text(
+                                                      'Stock cost',
+                                                      textScaleFactor: 1,
+                                                      overflow: TextOverflow.ellipsis,
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.w500,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        color: Colors.black,
+                                                      ),
+                                                      strutStyle: StrutStyle(
+                                                        height: 1,
+                                                        // fontSize:,
+                                                        forceStrutHeight: true,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            // controlAffinity: ListTileControlAffinity.leading,
+                                            children: <Widget>[
+                                              Column(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 42.0),
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                          border: Border(
+                                                              bottom: BorderSide(
+                                                                  color: Colors.grey
+                                                                      .withOpacity(
+                                                                      0.6),
+                                                                  width: 0.5)
+                                                          )),
+                                                    ),
+                                                  ),
+                                                  ListTile(
+                                                    contentPadding: EdgeInsets.only(left: 42, right: 15),
+                                                    title: Padding(
+                                                      padding: const EdgeInsets.only(right: 10.0),
+                                                      child: Text(
+                                                        'Gross profits',
+                                                        textScaleFactor: 1,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight: FontWeight.w500,
+                                                          overflow: TextOverflow.ellipsis,
+                                                          color: Colors.black,
+                                                        ),
+                                                        strutStyle: StrutStyle(
+                                                          height: 1,
+                                                          // fontSize:,
+                                                          forceStrutHeight: true,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    trailing: Text(
+                                                      totalSaleCal(todayProds.entries.elementAt(index).value) + ' MMK',
+                                                      textScaleFactor: 1,
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.w500,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        color: Colors.black,
+                                                      ),
+                                                      strutStyle: StrutStyle(
+                                                        height: 1,
+                                                        // fontSize:,
+                                                        forceStrutHeight: true,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Column(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 42.0),
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                          border: Border(
+                                                              bottom: BorderSide(
+                                                                  color: Colors.grey
+                                                                      .withOpacity(
+                                                                      0.6),
+                                                                  width: 0.5)
+                                                          )),
+                                                    ),
+                                                  ),
+                                                  ListTile(
+                                                    contentPadding: EdgeInsets.only(left: 42, right: 15),
+                                                    title: Padding(
+                                                      padding: const EdgeInsets.only(right: 10.0),
+                                                      child: Text(
+                                                        'Stock costs',
+                                                        textScaleFactor: 1,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight: FontWeight.w500,
+                                                          overflow: TextOverflow.ellipsis,
+                                                          color: Colors.black,
+                                                        ),
+                                                        strutStyle: StrutStyle(
+                                                          height: 1,
+                                                          // fontSize:,
+                                                          forceStrutHeight: true,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    trailing: Text(
+                                                      totalSaleCal(todayProds.entries.elementAt(index).value) + ' MMK',
+                                                      textScaleFactor: 1,
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.w500,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        color: Colors.black,
+                                                      ),
+                                                      strutStyle: StrutStyle(
+                                                        height: 1,
+                                                        // fontSize:,
+                                                        forceStrutHeight: true,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Column(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 42.0),
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                          border: Border(
+                                                              bottom: BorderSide(
+                                                                  color: Colors.grey
+                                                                      .withOpacity(
+                                                                      0.6),
+                                                                  width: 0.5)
+                                                          )),
+                                                    ),
+                                                  ),
+                                                  ListTile(
+                                                    contentPadding: EdgeInsets.only(left: 42, right: 15),
+                                                    title: Row(
+                                                      children: [
+                                                        Icon(SmartKyat_POS.prodm, size: 17, color: Colors.grey,),
+                                                        Expanded(
+                                                          child: Padding(
+                                                            padding: const EdgeInsets.only(right: 10.0),
+                                                            child: Text(
+                                                              'Items (main)',
+                                                              textScaleFactor: 1,
+                                                              overflow: TextOverflow.ellipsis,
+                                                              style: TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight: FontWeight.w500,
+                                                                overflow: TextOverflow.ellipsis,
+                                                                color: Colors.black,
+                                                              ),
+                                                              strutStyle: StrutStyle(
+                                                                height: 1,
+                                                                // fontSize:,
+                                                                forceStrutHeight: true,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    trailing: Text(
+                                                      totalSaleCal(todayProds.entries.elementAt(index).value) + ' MMK',
+                                                      textScaleFactor: 1,
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.w500,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        color: Colors.black,
+                                                      ),
+                                                      strutStyle: StrutStyle(
+                                                        height: 1,
+                                                        // fontSize:,
+                                                        forceStrutHeight: true,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 42.0),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                border: Border(
+                                                    bottom: BorderSide(
+                                                        color: Colors.grey
+                                                            .withOpacity(
+                                                            0.6),
+                                                        width: 0.5)
+                                                )),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 27.0),
+                                          child: ExpansionTile(
+                                            trailing: Text(
+                                              totalSaleCal(todayProds.entries.elementAt(index).value) + ' MMK',
+                                              textScaleFactor: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                                overflow: TextOverflow.ellipsis,
+                                                color: Colors.black,
+                                              ),
+                                              strutStyle: StrutStyle(
+                                                height: 1,
+                                                // fontSize:,
+                                                forceStrutHeight: true,
+                                              ),
+                                            ),
+                                            tilePadding: EdgeInsets.only(left: 15.0, top: 0.0, bottom: 0.0, right: 15.0),
+                                            childrenPadding: EdgeInsets.only(left: 0.0, top: 0.0, bottom: 0.0, right: 0.0),
+                                            // collapsedBackgroundColor: index%2 == 1? Colors.grey.withOpacity(0.1): Colors.white,
+                                            // backgroundColor: index%2 == 1? Colors.grey.withOpacity(0.1): Colors.white,
+                                            onExpansionChanged: (bool expanded) {
+                                              onStateChanged(index, 4, expanded);
+                                            },
+                                            title: Row(
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.only(bottom: 3.0, right: 10.0),
+                                                  child: AnimatedRotation(
+                                                    turns: stateList[index][4]? 0.250:0,
+                                                    duration: const Duration(milliseconds: 200),
+                                                    child: Icon(
+                                                      Icons.arrow_forward_ios_rounded,
+                                                      size: 17,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(right: 10.0),
+                                                    child: Text(
+                                                      'Quantity',
+                                                      textScaleFactor: 1,
+                                                      overflow: TextOverflow.ellipsis,
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.w500,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        color: Colors.black,
+                                                      ),
+                                                      strutStyle: StrutStyle(
+                                                        height: 1,
+                                                        // fontSize:,
+                                                        forceStrutHeight: true,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            // controlAffinity: ListTileControlAffinity.leading,
+                                            children: <Widget>[
+                                              Column(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 42.0),
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                          border: Border(
+                                                              bottom: BorderSide(
+                                                                  color: Colors.grey
+                                                                      .withOpacity(
+                                                                      0.6),
+                                                                  width: 0.5)
+                                                          )),
+                                                    ),
+                                                  ),
+                                                  ListTile(
+                                                    contentPadding: EdgeInsets.only(left: 42, right: 15),
+                                                    title: Padding(
+                                                      padding: const EdgeInsets.only(right: 10.0),
+                                                      child: Text(
+                                                        'Gross profits',
+                                                        textScaleFactor: 1,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight: FontWeight.w500,
+                                                          overflow: TextOverflow.ellipsis,
+                                                          color: Colors.black,
+                                                        ),
+                                                        strutStyle: StrutStyle(
+                                                          height: 1,
+                                                          // fontSize:,
+                                                          forceStrutHeight: true,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    trailing: Text(
+                                                      totalSaleCal(todayProds.entries.elementAt(index).value) + ' MMK',
+                                                      textScaleFactor: 1,
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.w500,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        color: Colors.black,
+                                                      ),
+                                                      strutStyle: StrutStyle(
+                                                        height: 1,
+                                                        // fontSize:,
+                                                        forceStrutHeight: true,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Column(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 42.0),
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                          border: Border(
+                                                              bottom: BorderSide(
+                                                                  color: Colors.grey
+                                                                      .withOpacity(
+                                                                      0.6),
+                                                                  width: 0.5)
+                                                          )),
+                                                    ),
+                                                  ),
+                                                  ListTile(
+                                                    contentPadding: EdgeInsets.only(left: 42, right: 15),
+                                                    title: Padding(
+                                                      padding: const EdgeInsets.only(right: 10.0),
+                                                      child: Text(
+                                                        'Stock costs',
+                                                        textScaleFactor: 1,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight: FontWeight.w500,
+                                                          overflow: TextOverflow.ellipsis,
+                                                          color: Colors.black,
+                                                        ),
+                                                        strutStyle: StrutStyle(
+                                                          height: 1,
+                                                          // fontSize:,
+                                                          forceStrutHeight: true,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    trailing: Text(
+                                                      totalSaleCal(todayProds.entries.elementAt(index).value) + ' MMK',
+                                                      textScaleFactor: 1,
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.w500,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        color: Colors.black,
+                                                      ),
+                                                      strutStyle: StrutStyle(
+                                                        height: 1,
+                                                        // fontSize:,
+                                                        forceStrutHeight: true,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Column(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 42.0),
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                          border: Border(
+                                                              bottom: BorderSide(
+                                                                  color: Colors.grey
+                                                                      .withOpacity(
+                                                                      0.6),
+                                                                  width: 0.5)
+                                                          )),
+                                                    ),
+                                                  ),
+                                                  ListTile(
+                                                    contentPadding: EdgeInsets.only(left: 42, right: 15),
+                                                    title: Row(
+                                                      children: [
+                                                        Icon(SmartKyat_POS.prodm, size: 17, color: Colors.grey,),
+                                                        Expanded(
+                                                          child: Padding(
+                                                            padding: const EdgeInsets.only(right: 10.0),
+                                                            child: Text(
+                                                              'Items (main)',
+                                                              textScaleFactor: 1,
+                                                              overflow: TextOverflow.ellipsis,
+                                                              style: TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight: FontWeight.w500,
+                                                                overflow: TextOverflow.ellipsis,
+                                                                color: Colors.black,
+                                                              ),
+                                                              strutStyle: StrutStyle(
+                                                                height: 1,
+                                                                // fontSize:,
+                                                                forceStrutHeight: true,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    trailing: Text(
+                                                      totalSaleCal(todayProds.entries.elementAt(index).value) + ' MMK',
+                                                      textScaleFactor: 1,
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.w500,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        color: Colors.black,
+                                                      ),
+                                                      strutStyle: StrutStyle(
+                                                        height: 1,
+                                                        // fontSize:,
+                                                        forceStrutHeight: true,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        )
                                       ],
                                     ),
                                   ],
@@ -657,6 +1558,29 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
             );
           }
         ),
+        // SliverAppBar(
+        //   toolbarHeight: 30,
+        //   elevation: 0,
+        //   backgroundColor: Colors.white,
+        //   // Provide a standard title.
+        //   // Allows the user to reveal the app bar if they begin scrolling
+        //   // back up the list of items.
+        //   floating: true,
+        //   flexibleSpace: !endOfResult?
+        //   Container(
+        //     child: LinearProgressIndicator(color: Colors.transparent, valueColor: new AlwaysStoppedAnimation<Color>(AppTheme.themeColor), backgroundColor: Colors.transparent,),
+        //   ):
+        //   Row(
+        //     mainAxisAlignment: MainAxisAlignment.center,
+        //     children: [
+        //       Container(
+        //           child: Text(
+        //             resProds.length == 0? '': 'End of results',
+        //             textScaleFactor: 1, strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)
+        //       ),
+        //     ],
+        //   ),
+        // ),
 
       ],
     );
@@ -1193,21 +2117,49 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
   }
 
   bool isExpanded = false;
-  List<bool> stateList = [];
+  List<List<bool>> stateList = [];
 
-  void onStateChanged(index, expanded) {
+  void onStateChanged(index, inner, expanded) {
+    if(inner!= 0) {
+      setState(() {
+        // for(int i = 0; i<stateList.length; i++) {
+        //   stateList[i] = false;
+        // }
+        if(expanded) {
+          stateList[index][inner] = true;
+        }
+        else {
+          stateList[index][inner] = false;
+        }
+      });
+    } else {
+      setState(() {
+        // for(int i = 0; i<stateList.length; i++) {
+        //   stateList[i] = false;
+        // }
+        if(expanded) {
+          stateList[index] = [true, false, false, false, false];
+        }
+        else {
+          stateList[index] = [false, false, false, false, false];
+        }
+      });
+
+    }
+  }
+
+  void onStateChangedInner(int index, int i, bool expanded) {
     setState(() {
       // for(int i = 0; i<stateList.length; i++) {
       //   stateList[i] = false;
       // }
       if(expanded) {
-        stateList[index] = true;
+        stateList[index][i] = true;
       }
       else {
-        stateList[index] = false;
+        stateList[index][i] = false;
       }
     });
-    // debugPrint('expanded ' + stateList.toString());
   }
 
   String totalSaleCal(value) {
