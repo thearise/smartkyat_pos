@@ -353,7 +353,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
   double tLoss = 0;
   double tSaleAmount = 0;
   double tBuyAmount = 0;
-
+  double tDiscount = 0;
   Map<dynamic, dynamic> resProds = {};
 
   Widget _buildListView(PaginationLoaded loadedState) {
@@ -452,10 +452,10 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                             ),
                                           ),
                                           Text(
-                                            'Net sales (MMK)',strutStyle: StrutStyle(
+                                            'Net sales ($currencyUnit)',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -488,10 +488,10 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                             ),
                                           ),
                                           Text(
-                                            'Avg profit (MMK)',strutStyle: StrutStyle(
+                                            'Avg profit ($currencyUnit)',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -542,10 +542,10 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                             ),
                                           ),
                                           Text(
-                                            'Stock costs (MMK)',strutStyle: StrutStyle(
+                                            'Stock costs (' + currencyUnit +')',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -578,10 +578,10 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                             ),
                                           ),
                                           Text(
-                                            'Unpaids (MMK)',strutStyle: StrutStyle(
+                                            'Unpaids ($currencyUnit)',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -632,10 +632,10 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                             ),
                                           ),
                                           Text(
-                                            'Refunds (MMK)',strutStyle: StrutStyle(
+                                            'Refunds ($currencyUnit)',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -668,10 +668,10 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                             ),
                                           ),
                                           Text(
-                                            'Loss amount (MMK)',strutStyle: StrutStyle(
+                                            'Loss amount ($currencyUnit)',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -834,18 +834,23 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                     tLoss = 0;
                                     tSaleAmount = 0;
                                     tBuyAmount = 0;
+                                    tDiscount = 0;
                                     double mainSale = 0;
                                     double sub1Sale = 0;
                                     double sub2Sale = 0;
                                     double mainBuy = 0;
                                     double sub1Buy = 0;
                                     double sub2Buy = 0;
+                                    double mainDis = 0;
+                                    double sub1Dis = 0;
+                                    double sub2Dis = 0;
                                     if(prodsSB.hasData) {
                                       var prodsSnapOut = prodsSB.data != null? prodsSB.data!.data(): null;
                                       prods = prodsSnapOut?['prods'];
                                       if(prods != null && prods.length > 0) {
                                         for(int i = 0; i <  prods.length; i++) {
                                           var eachMap = prods.entries.elementAt(i);
+
                                           if(eachMap.value['im'] != 0 && eachMap.value['im'] != null
                                               || eachMap.value['i1'] != 0 && eachMap.value['i1'] != null
                                               || eachMap.value['i2'] != 0 && eachMap.value['i2'] != null) {
@@ -894,6 +899,23 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                             sub2Buy = 0;
                                           }
                                           tBuyAmount = tBuyAmount + (mainBuy + sub1Buy + sub2Buy);
+
+                                          if(eachMap.value['dm'] != 0 && eachMap.value['dm'] != null) {
+                                            mainDis =  eachMap.value['dm'];
+                                          } else {
+                                            mainDis = 0;
+                                          }
+                                          if(eachMap.value['d1'] != 0 && eachMap.value['d1'] != null) {
+                                            sub1Dis =  eachMap.value['d1'];
+                                          } else {
+                                            sub1Dis = 0;
+                                          }
+                                          if(eachMap.value['d2'] != 0 && eachMap.value['d2'] != null) {
+                                            sub2Dis =  eachMap.value['d2'];
+                                          } else {
+                                            sub2Dis = 0;
+                                          }
+                                          tDiscount = tDiscount + (mainDis + sub1Dis + sub2Dis);
                                         }
 
                                       }
@@ -918,7 +940,8 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                                     TextStyle(
                                                       fontSize: 16,
                                                       fontWeight: FontWeight.w600, color: Colors.black,
-                                                    ),),
+                                                    ),
+                                                    ),
                                                   ],
                                                 ),
                                               ),
@@ -1054,13 +1077,49 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                                 height: 55,
                                                 child: Row(
                                                   children: [
-                                                    Text('Total Buy amount', textScaleFactor: 1, style:
+                                                    Text('Total buy amount', textScaleFactor: 1, style:
                                                     TextStyle(
                                                       fontSize: 16,
                                                       fontWeight: FontWeight.w500, color: Colors.black,
                                                     ),),
                                                     Spacer(),
                                                     Text( tBuyAmount.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},') + ' ' +currencyUnit, textScaleFactor: 1, style:
+                                                    TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w600, color: Colors.black,
+                                                    ),),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 15.0),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    border: Border(
+                                                        bottom: BorderSide(
+                                                            color: Colors.grey
+                                                                .withOpacity(0.2),
+                                                            width: 1.0))),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Column(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                              child: Container(
+                                                height: 55,
+                                                child: Row(
+                                                  children: [
+                                                    Text('Total discount amount', textScaleFactor: 1, style:
+                                                    TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w500, color: Colors.black,
+                                                    ),),
+                                                    Spacer(),
+                                                    Text( tDiscount.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},') + ' ' +currencyUnit, textScaleFactor: 1, style:
                                                     TextStyle(
                                                       fontSize: 16,
                                                       fontWeight: FontWeight.w600, color: Colors.black,
@@ -1197,9 +1256,9 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
 
   int segmentedControlGroupValue = 0;
   final Map<int, Widget> myTabs = const <int, Widget>{
-    0: Text("Today"),
-    1: Text("This month"),
-    2: Text("This year")
+    0: Text("Today", textScaleFactor: 1),
+    1: Text("This month", textScaleFactor: 1),
+    2: Text("This year", textScaleFactor: 1)
   };
 
   int initProdPagi = 0;
@@ -1394,7 +1453,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                             label: Container(
                               width: ((width-30) / 10) * 5.5,
                               child: Text(
-                                'Product',
+                                'Product', textScaleFactor: 1,
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                     fontSize: 16
@@ -1406,7 +1465,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                             label: Container(
                               width: ((width-30) / 10) * 1.5,
                               child: Text(
-                                'Main',
+                                'Main', textScaleFactor: 1,
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                     fontSize: 16
@@ -1421,7 +1480,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                               width: ((width-30) / 10) * 1.5,
                               child: Text(
                                 'Sub1',
-                                textAlign: TextAlign.right,
+                                textAlign: TextAlign.right, textScaleFactor: 1,
                                 style: TextStyle(
                                     fontSize: 16
                                 ),
@@ -1433,7 +1492,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                             label: Container(
                               width: ((width-30) / 10) * 1.5,
                               child: Text(
-                                'Sub2',
+                                'Sub2', textScaleFactor: 1,
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                     fontSize: 16
@@ -1452,7 +1511,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                         width: ((width-30) / 10) * 5.5,
                                         child: Text(
                                           prodsPrepMod.entries.elementAt(i).value['name'],
-                                          textAlign: TextAlign.left,
+                                          textAlign: TextAlign.left, textScaleFactor: 1,
                                           style: TextStyle(
                                               overflow: TextOverflow.ellipsis,
                                               fontSize: 16
@@ -1465,7 +1524,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                         width: ((width-30) / 10) * 1.5,
                                         child: Text(
                                           prodsPrepMod.entries.elementAt(i).value['main'].toString(),
-                                          textAlign: TextAlign.right,
+                                          textAlign: TextAlign.right, textScaleFactor: 1,
                                           style: TextStyle(
                                               fontSize: 16
                                           ),
@@ -1477,7 +1536,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                         width: ((width-30) / 10) * 1.5,
                                         child: Text(
                                           prodsPrepMod.entries.elementAt(i).value['sub1'].toString(),
-                                          textAlign: TextAlign.right,
+                                          textAlign: TextAlign.right, textScaleFactor: 1,
                                           style: TextStyle(
                                               fontSize: 16
                                           ),
@@ -1489,7 +1548,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                         width: ((width-30) / 10) * 1.5,
                                         child: Text(
                                           prodsPrepMod.entries.elementAt(i).value['sub2'].toString(),
-                                          textAlign: TextAlign.right,
+                                          textAlign: TextAlign.right, textScaleFactor: 1,
                                           style: TextStyle(
                                               fontSize: 16
                                           ),
