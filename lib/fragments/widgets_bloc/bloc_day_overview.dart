@@ -166,21 +166,24 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
   String gloSearchText = '';
   int gloSeaProLeng = 0;
 
-  String textSetTotalSales = 'TOTAL SALES';
-  String textSetTodaySoFar = 'TODAY SO FAR';
+  String textSetSaleSummary = 'SALES SUMMARY OVERVIEW';
   String textSetStockCosts = 'Stock costs';
+  String textSetNetSales = 'Net sales';
   String textSetUnpaid = 'Unpaid';
-  String textSetBuys = 'Refunds';
-  String textSetLoss = 'Loss';
-  String textSetToday = 'Day';
-  String textSetLastWeek = 'Last week';
+  String textSetRef = 'Refunds';
+  String textSetLoss = 'Loss amount';
+  String textSetToday = 'Today';
   String textSetLastMonth = 'This month';
   String textSetLastYear = 'This year';
-  String textSetLast7Days = 'Last 7 Days';
-  String textSetLast28D = 'LAST 28 DAYS';
-  String textSetLast12M = 'LAST 12 MONTHS';
-  String textSetSearch = 'Search';
-  String textSetProfit = 'Average profit';
+  String textSetProfit = 'Avg profit';
+  String textSetMore = 'More detail';
+  String textSetProdSale = 'PRODUCT SALE SUMMARY';
+  String textSetTSales = 'Total products sold';
+  String textSetTLoss = 'Total products loss';
+  String textSetTRef = 'Total products refund';
+  String textSetSaleAmt = 'Total sale amount';
+  String textSetBuyAmt = 'Total buy amount';
+  String textSetDiscount = 'Total discount amount';
 
 
   void closeDrawerFrom() {
@@ -258,39 +261,45 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
     if(widget.isEnglish == true) {
 
       setState(() {
-        textSetTotalSales = 'TOTAL SALES';
-        textSetTodaySoFar = 'TODAY SO FAR';
-        textSetStockCosts = 'Stock costs';
-        textSetUnpaid = 'Unpaid';
-        textSetBuys = 'Refunds';
-        textSetLoss = 'Loss';
-        textSetToday = 'Day';
-        textSetLastWeek = 'Last week';
-        textSetLastMonth = 'This month';
-        textSetLastYear = 'This year';
-        textSetLast7Days = 'Last 7 Days';
-        textSetLast28D = 'LAST 28 DAYS';
-        textSetLast12M = 'LAST 12 MONTHS';
-        textSetSearch = 'Search';
-        textSetProfit = 'Average profit';
+         textSetSaleSummary = 'SALES SUMMARY OVERVIEW';
+         textSetStockCosts = 'Stock costs';
+         textSetNetSales = 'Net sales';
+         textSetUnpaid = 'Unpaid';
+         textSetRef = 'Refunds';
+         textSetLoss = 'Loss amount';
+         textSetToday = 'Today';
+         textSetLastMonth = 'This month';
+         textSetLastYear = 'This year';
+         textSetProfit = 'Avg profit';
+         textSetMore = 'More detail';
+         textSetProdSale = 'PRODUCT SALE SUMMARY';
+         textSetTSales = 'Total products sold';
+         textSetTLoss = 'Total loss';
+         textSetTRef = 'Total refunds';
+         textSetSaleAmt = 'Total sale amount';
+         textSetBuyAmt = 'Total buy amount';
+         textSetDiscount = 'Total discount amount';
       });
     } else {
       setState(() {
-        textSetTotalSales = 'စုစုပေါင်း ရောင်းရငွေ';
-        textSetTodaySoFar = 'ဒီနေ့အတွင်း';
+        textSetSaleSummary = 'အရောင်းအကျဉ်းချုပ်';
         textSetStockCosts = 'ဝယ်ယူစရိတ်';
-        textSetUnpaid = 'အကြွေးရရန်';
-        textSetBuys = 'ပြန်ပေးငွေ';
-        textSetLoss = 'ဆုံးရှုံး';
-        textSetToday = 'နေ့စဉ်';
-        textSetLastWeek = 'အပတ်စဉ်';
-        textSetLastMonth = 'လစဉ်';
-        textSetLastYear = 'နှစ်စဉ်';
-        textSetLast7Days = '၇ရက်အတွင်း';
-        textSetLast28D = '၂၈ရက်အတွင်း';
-        textSetLast12M = '၁၂လအတွင်း';
-        textSetSearch = 'ရှာဖွေရန်';
+        textSetNetSales = 'ရောင်းရငွေ';
+        textSetUnpaid = 'အကြွေးကျန်ငွေ';
+        textSetRef = 'ပြန်ပေးငွေ';
+        textSetLoss = 'ဆုံးရှုံးငွေ';
+        textSetToday = 'Today';
+        textSetLastMonth = 'This month';
+        textSetLastYear = 'This year';
         textSetProfit = 'ပျမ်းမျှအမြတ်ငွေ';
+        textSetMore = 'အသေးစိတ်ကြည့်ရန်';
+        textSetProdSale = 'ပစ္စည်းအရောင်းအကျဉ်းချုပ်';
+        textSetTSales = 'အရောင်းပစ္စည်းအမျိုးအစားများ';
+        textSetTLoss = 'ဆုံးရှုံးပစ္စည်းအမျိုးအစားများ';
+        textSetTRef = 'ပြန်ပေးပစ္စည်းအမျိုးအစားများ';
+        textSetSaleAmt = 'ပစ္စည်းရောင်းရငွေ‌';
+        textSetBuyAmt = 'ပစ္စည်းဝယ်စျေး';
+        textSetDiscount = 'လျှော့ငွေ';
       });
     }
 
@@ -419,7 +428,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(top: 0.0, bottom: 4.0, left: 15.0, right: 15.0),
-                                child: Text('SALES SUMMARY OVERVIEW', textScaleFactor: 1,
+                                child: Text(textSetSaleSummary, textScaleFactor: 1,
                                   style: TextStyle(
                                     height: 0.9,
                                     letterSpacing: 2,
@@ -452,7 +461,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                             ),
                                           ),
                                           Text(
-                                            'Net sales ($currencyUnit)',strutStyle: StrutStyle(
+                                            '$textSetNetSales ($currencyUnit)',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
                                           ), textScaleFactor: 1,
@@ -488,7 +497,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                             ),
                                           ),
                                           Text(
-                                            'Avg profit ($currencyUnit)',strutStyle: StrutStyle(
+                                            '$textSetProfit ($currencyUnit)',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
                                           ), textScaleFactor: 1,
@@ -542,7 +551,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                             ),
                                           ),
                                           Text(
-                                            'Stock costs (' + currencyUnit +')',strutStyle: StrutStyle(
+                                            '$textSetStockCosts (' + currencyUnit +')',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
                                           ), textScaleFactor: 1,
@@ -578,7 +587,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                             ),
                                           ),
                                           Text(
-                                            'Unpaids ($currencyUnit)',strutStyle: StrutStyle(
+                                            '$textSetUnpaid ($currencyUnit)',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
                                           ), textScaleFactor: 1,
@@ -632,7 +641,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                             ),
                                           ),
                                           Text(
-                                            'Refunds ($currencyUnit)',strutStyle: StrutStyle(
+                                            '$textSetRef ($currencyUnit)',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
                                           ), textScaleFactor: 1,
@@ -668,7 +677,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                             ),
                                           ),
                                           Text(
-                                            'Loss amount ($currencyUnit)',strutStyle: StrutStyle(
+                                            '$textSetLoss ($currencyUnit)',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
                                           ), textScaleFactor: 1,
@@ -787,7 +796,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                           bottom: 2.0),
                                       child: Container(
                                         child: Text(
-                                            'More detail', textScaleFactor: 1,
+                                           textSetMore, textScaleFactor: 1,
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 fontSize: 18,
@@ -817,7 +826,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(top: 20.0, left: 15.0, right: 15.0, bottom: 10.0),
-                                child: Text('PRODUCT SALE SUMMARY', textScaleFactor: 1,
+                                child: Text(textSetProdSale, textScaleFactor: 1,
                                   style: TextStyle(
                                     height: 0.9,
                                     letterSpacing: 2,
@@ -826,7 +835,8 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                   ),),
                               ),
                               StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                                  stream: FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodSaleData').doc(DateTime.now().year.toString() + zeroToTen(DateTime.now().month.toString()) + zeroToTen(DateTime.now().day.toString())).snapshots(),
+                                  stream: _sliding == 0 ? FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodSaleData').doc(DateTime.now().year.toString() + zeroToTen(DateTime.now().month.toString()) + zeroToTen(DateTime.now().day.toString())).snapshots() :
+                                  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodMthData').doc(DateTime.now().year.toString() + zeroToTen(DateTime.now().month.toString())).snapshots(),
                                   builder: (BuildContext context, prodsSB) {
                                     var prods;
                                     tSale = 0;
@@ -930,7 +940,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                                 height: 55,
                                                 child: Row(
                                                   children: [
-                                                    Text('Total sales', textScaleFactor: 1, style:
+                                                    Text(textSetTSales, textScaleFactor: 1, style:
                                                     TextStyle(
                                                       fontSize: 16,
                                                       fontWeight: FontWeight.w500, color: Colors.black,
@@ -969,7 +979,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                                 height: 55,
                                                 child: Row(
                                                   children: [
-                                                    Text('Total loss', textScaleFactor: 1, style:
+                                                    Text(textSetTLoss, textScaleFactor: 1, style:
                                                     TextStyle(
                                                       fontSize: 16,
                                                       fontWeight: FontWeight.w500, color: Colors.black,
@@ -1005,7 +1015,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                                 height: 55,
                                                 child: Row(
                                                   children: [
-                                                    Text('Total refunds', textScaleFactor: 1, style:
+                                                    Text(textSetTRef, textScaleFactor: 1, style:
                                                     TextStyle(
                                                       fontSize: 16,
                                                       fontWeight: FontWeight.w500, color: Colors.black,
@@ -1041,7 +1051,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                                 height: 55,
                                                 child: Row(
                                                   children: [
-                                                    Text('Total sale amount', textScaleFactor: 1, style:
+                                                    Text(textSetSaleAmt, textScaleFactor: 1, style:
                                                     TextStyle(
                                                       fontSize: 16,
                                                       fontWeight: FontWeight.w500, color: Colors.black,
@@ -1077,7 +1087,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                                 height: 55,
                                                 child: Row(
                                                   children: [
-                                                    Text('Total buy amount', textScaleFactor: 1, style:
+                                                    Text(textSetBuyAmt, textScaleFactor: 1, style:
                                                     TextStyle(
                                                       fontSize: 16,
                                                       fontWeight: FontWeight.w500, color: Colors.black,
@@ -1113,7 +1123,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                                 height: 55,
                                                 child: Row(
                                                   children: [
-                                                    Text('Total discount amount', textScaleFactor: 1, style:
+                                                    Text(textSetDiscount, textScaleFactor: 1, style:
                                                     TextStyle(
                                                       fontSize: 16,
                                                       fontWeight: FontWeight.w500, color: Colors.black,
@@ -1126,17 +1136,6 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                                     ),),
                                                   ],
                                                 ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(left: 15.0),
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                    border: Border(
-                                                        bottom: BorderSide(
-                                                            color: Colors.grey
-                                                                .withOpacity(0.2),
-                                                            width: 1.0))),
                                               ),
                                             ),
                                           ],
@@ -1205,7 +1204,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                           bottom: 2.0),
                                       child: Container(
                                         child: Text(
-                                            'More detail', textScaleFactor: 1,
+                                            textSetMore, textScaleFactor: 1,
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 fontSize: 18,
