@@ -134,22 +134,22 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
   String gloSearchText = '';
   int gloSeaProLeng = 0;
 
-  String textSetTotalSales = 'TOTAL SALES';
-  String textSetTodaySoFar = 'TODAY SO FAR';
+  String textSetReports = 'Reports';
+  String textSetSaleSummary = 'Sales summary detail';
   String textSetStockCosts = 'Stock costs';
   String textSetUnpaid = 'Unpaid';
-  String textSetBuys = 'Refunds';
-  String textSetLoss = 'Loss';
+  String textSetBuys = 'Refund amount';
+  String textSetLoss = 'Loss amount';
   String textSetToday = 'Day';
   String textSetLastWeek = 'Last week';
   String textSetLastMonth = 'This month';
   String textSetLastYear = 'Last year';
-  String textSetLast7Days = 'Last 7 Days';
-  String textSetLast28D = 'LAST 28 DAYS';
-  String textSetLast12M = 'LAST 12 MONTHS';
-  String textSetSearch = 'Search';
-  String textSetEarn = 'Debt-to-income';
-  String textSetProfit = 'Average profit';
+  String textSetInOut = 'SALES IN-OUT SUMMARY';
+  String textSetNetSales = 'Net sales';
+  String textSetAvgProf = 'Avg profit';
+  String textSetEarn = 'Debt to income';
+  String textSetCharts = 'SALES SUMMARY CHARTS';
+  String textSetTotal = 'Total sales';
 
   var prodsSnap;
   var prodSaleData;
@@ -283,42 +283,41 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     if(widget.isEnglish == true) {
 
       setState(() {
-        textSetTotalSales = 'TOTAL SALES';
-        textSetTodaySoFar = 'TODAY SO FAR';
-        textSetStockCosts = 'Stock costs';
-        textSetUnpaid = 'Unpaid';
-        textSetBuys = 'Refunds';
-        textSetLoss = 'Loss';
-        textSetToday = 'Day';
-        textSetLastWeek = 'Last week';
-        textSetLastMonth = 'This month';
-        textSetLastYear = 'This year';
-        textSetLast7Days = 'Last 7 Days';
-        textSetLast28D = 'LAST 28 DAYS';
-        textSetLast12M = 'LAST 12 MONTHS';
-        textSetSearch = 'Search';
-        textSetEarn = 'Debt-to-income';
-        textSetProfit = 'Average profit';
-
+         textSetReports = 'Reports';
+         textSetSaleSummary = 'Sales summary detail';
+         textSetStockCosts = 'Stock costs';
+         textSetUnpaid = 'Unpaid';
+         textSetBuys = 'Refund amount';
+         textSetLoss = 'Loss amount';
+         textSetToday = 'Day';
+         textSetLastWeek = 'Last week';
+         textSetLastMonth = 'This month';
+         textSetLastYear = 'Last year';
+         textSetInOut = 'SALES IN-OUT SUMMARY';
+         textSetNetSales = 'Net sales';
+         textSetAvgProf = 'Avg profit';
+         textSetEarn = 'Debt to income';
+         textSetCharts = 'SALES SUMMARY CHARTS';
+         textSetTotal = 'Total sales';
       });
     } else {
       setState(() {
-        textSetTotalSales = 'စုစုပေါင်း ရောင်းရငွေ';
-        textSetTodaySoFar = 'ဒီနေ့အတွင်း';
-        textSetStockCosts = 'ဝယ်ယူစရိတ်';
-        textSetUnpaid = 'အကြွေးကျန်ငွေ';
-        textSetBuys = 'ပြန်ပေးငွေ';
-        textSetLoss = 'ဆုံးရှုံး';
-        textSetToday = 'နေ့စဉ်';
-        textSetLastWeek = 'အပတ်စဉ်';
-        textSetLastMonth = 'လစဉ်';
-        textSetLastYear = 'နှစ်စဉ်';
-        textSetLast7Days = '၇ရက်အတွင်း';
-        textSetLast28D = '၂၈ရက်အတွင်း';
-        textSetLast12M = '၁၂လအတွင်း';
-        textSetSearch = 'ရှာဖွေရန်';
-        textSetEarn = 'အကြွေးရငွေ';
-        textSetProfit = 'ပျမ်းမျှအမြတ်ငွေ';
+         textSetReports = 'အစီအရင်ခံစာ';
+         textSetSaleSummary = 'Sales summary detail';
+         textSetStockCosts = 'ဝယ်ယူစရိတ်';
+         textSetUnpaid = 'အကြွေးကျန်ငွေ';
+         textSetBuys = 'ပြန်ပေးငွေ';
+         textSetLoss = 'ဆုံးရှုံးငွေ';
+         textSetToday = 'နေ့စဉ်';
+         textSetLastWeek = 'အပတ်စဉ်';
+         textSetLastMonth = 'လစဉ်';
+         textSetLastYear = 'နှစ်စဉ်';
+         textSetInOut = 'SALES IN-OUT SUMMARY';
+         textSetNetSales = 'ရောင်းရငွေ';
+         textSetAvgProf = 'ပျမ်းမျှအမြတ်ငွေ';
+         textSetEarn = 'အကြွေးရငွေ';
+         textSetCharts = 'SALES SUMMARY CHARTS';
+         textSetTotal = 'စုစုပေါင်း ရောင်းရငွေ';
       });
     }
 
@@ -541,10 +540,10 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                       Row(
                                         children: [
                                           Text(
-                                            'Net sales ' + '(',strutStyle: StrutStyle(
+                                            textSetNetSales + ' (',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -556,7 +555,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             percentBySale().abs().toString()+ '% ',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -566,7 +565,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             'same as ',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -576,7 +575,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             'lower than ',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -586,7 +585,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             'higher than ',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -596,7 +595,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -661,10 +660,10 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                       Row(
                                         children: [
                                           Text(
-                                            'Avg profit ' + '(',strutStyle: StrutStyle(
+                                            textSetAvgProf + ' (',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -676,7 +675,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             growthRateDayProfit(lastProfitBySlide(), profitBySlide()).abs().toString()+ '% ',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                               fontSize: 13, height: 1.2,
                                               fontWeight: FontWeight.w500,
@@ -686,7 +685,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             'same as ',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -696,7 +695,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             'lower than ',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -706,7 +705,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             'higher than ',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -716,7 +715,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             yestWeekTitle().toString() + ')', strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -781,10 +780,10 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                       Row(
                                         children: [
                                           Text(
-                                            'Debt to income ' + '(',strutStyle: StrutStyle(
+                                            textSetEarn + ' (',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -796,7 +795,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             percentByEarn().abs().toString()+ '% ',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                               fontSize: 13, height: 1.2,
                                               fontWeight: FontWeight.w500,
@@ -806,7 +805,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             'same as ',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -816,7 +815,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             'lower than ',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -826,7 +825,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             'higher than ',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -836,7 +835,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -901,10 +900,10 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                       Row(
                                         children: [
                                           Text(
-                                            'Unpaid amount ' + '(',strutStyle: StrutStyle(
+                                            textSetUnpaid + ' (',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -916,7 +915,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             percentByUnpaid().abs().toString()+ '% ',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                               fontSize: 13, height: 1.2,
                                               fontWeight: FontWeight.w500,
@@ -926,7 +925,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             'same as ',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -936,7 +935,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             'lower than ',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -946,7 +945,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             'higher than ',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -956,7 +955,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -1028,7 +1027,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                     ),
                                     SizedBox(width: 5),
                                     Text(
-                                      'Total sales', textScaleFactor: 1,
+                                      textSetTotal, textScaleFactor: 1,
                                       style: TextStyle(
                                           fontWeight: FontWeight.w500,
                                           fontSize: 14,color: Colors.grey,
@@ -1108,10 +1107,10 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                       Row(
                                         children: [
                                           Text(
-                                            'Stock costs ' + '(',strutStyle: StrutStyle(
+                                            textSetStockCosts + ' (',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -1123,7 +1122,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             percentByCost().abs().toString()+ '% ',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                               fontSize: 13, height: 1.2,
                                               fontWeight: FontWeight.w500,
@@ -1133,7 +1132,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             'same as ',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -1143,7 +1142,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             'lower than ',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -1153,7 +1152,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             'higher than ',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -1163,127 +1162,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  decoration: BoxDecoration(
-                                      border: Border(
-                                          bottom: BorderSide(
-                                              color: Colors.grey
-                                                  .withOpacity(
-                                                  0.3),
-                                              width: 1.0)
-                                      )),
-                                ),
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width,
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 9, bottom: 14),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Text(
-                                            totalLossBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                            textScaleFactor: 1, textAlign: TextAlign.left,
-                                            style: GoogleFonts.lato(
-                                                textStyle: TextStyle(
-                                                    letterSpacing: 1,
-                                                    fontSize: 26,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.black
-                                                )
-                                            ),
-                                          ),
-                                          Padding(
-                                              padding: const EdgeInsets.only(left: 5.0, top: 13.0),
-                                              child: Text(
-                                                  currencyUnit, textScaleFactor: 1,
-                                                  textAlign: TextAlign.left,
-                                                  style: GoogleFonts.roboto(
-                                                      textStyle: TextStyle(
-                                                          letterSpacing: 1,
-                                                          fontSize: 14,
-                                                          fontWeight: FontWeight.w600,
-                                                          color: Colors.black
-                                                      )
-                                                  ) ) ),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            'Loss Amount ' + '(',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ),
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          percentByLoss() == 1001 || percentByLoss() == 1000 ?
-                                          Text('') :
-                                          Text(
-                                            percentByLoss().abs().toString()+ '% ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ),
-                                            style: TextStyle(
-                                              fontSize: 13, height: 1.2,
-                                              fontWeight: FontWeight.w500,
-                                              color: percentByLoss() == 1001 || percentByLoss() == 1000 ? Colors.blue: percentByLoss() < 0? AppTheme.badgeFgDanger: Colors.green,),
-                                          ) ,
-                                          percentByLoss() == 1001 || percentByLoss() == 1000 ? Text(
-                                            'same as ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ),
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :  percentByLoss() < 0?
-                                          Text(
-                                            'lower than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ),
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :
-                                          Text(
-                                            'higher than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ),
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          Text(
-                                            yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -1348,10 +1227,10 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                       Row(
                                         children: [
                                           Text(
-                                            'Refund amount ' + '(',strutStyle: StrutStyle(
+                                           textSetBuys + ' (',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -1363,7 +1242,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             percentByRefund().abs().toString()+ '% ',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                               fontSize: 13, height: 1.2,
                                               fontWeight: FontWeight.w500,
@@ -1373,7 +1252,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             'same as ',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -1383,7 +1262,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             'lower than ',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -1393,7 +1272,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             'higher than ',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -1403,7 +1282,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -1427,6 +1306,112 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                                   0.3),
                                               width: 1.0)
                                       )),
+                                ),
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 9, bottom: 14),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(
+                                            totalLossBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                            textScaleFactor: 1, textAlign: TextAlign.left,
+                                            style: GoogleFonts.lato(
+                                                textStyle: TextStyle(
+                                                    letterSpacing: 1,
+                                                    fontSize: 26,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.black
+                                                )
+                                            ),
+                                          ),
+                                          Padding(
+                                              padding: const EdgeInsets.only(left: 5.0, top: 13.0),
+                                              child: Text(
+                                                  currencyUnit, textScaleFactor: 1,
+                                                  textAlign: TextAlign.left,
+                                                  style: GoogleFonts.roboto(
+                                                      textStyle: TextStyle(
+                                                          letterSpacing: 1,
+                                                          fontSize: 14,
+                                                          fontWeight: FontWeight.w600,
+                                                          color: Colors.black
+                                                      )
+                                                  ) ) ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            textSetLoss + ' (',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ), textScaleFactor: 1,
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                          percentByLoss() == 1001 || percentByLoss() == 1000 ?
+                                          Text('') :
+                                          Text(
+                                            percentByLoss().abs().toString()+ '% ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ), textScaleFactor: 1,
+                                            style: TextStyle(
+                                              fontSize: 13, height: 1.2,
+                                              fontWeight: FontWeight.w500,
+                                              color: percentByLoss() == 1001 || percentByLoss() == 1000 ? Colors.blue: percentByLoss() < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                          ) ,
+                                          percentByLoss() == 1001 || percentByLoss() == 1000 ? Text(
+                                            'same as ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ), textScaleFactor: 1,
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ) :  percentByLoss() < 0?
+                                          Text(
+                                            'lower than ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ), textScaleFactor: 1,
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ) :
+                                          Text(
+                                            'higher than ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ), textScaleFactor: 1,
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                          Text(
+                                            yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ), textScaleFactor: 1,
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                               // Padding(
@@ -2261,13 +2246,6 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     }
   }
 
-  String titleTextBySlide() {
-    if(_sliding == 0) {
-      return textSetTodaySoFar;
-    } else {
-      return textSetLast7Days;
-    }
-  }
 
   String totalStockCostsBySlide() {
     debugPrint('todaycoststotal' + todayCostsTotal.toString());
