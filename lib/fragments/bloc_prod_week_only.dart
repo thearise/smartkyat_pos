@@ -50,9 +50,9 @@ class ExampleSection implements ExpandableListSection<String> {
   }
 }
 
-class BlocProdWeek extends StatefulWidget {
+class BlocProdWeekWeek extends StatefulWidget {
 
-  const BlocProdWeek({
+  const BlocProdWeekWeek({
     Key? key,
     required this.isEnglish,
     required this.itemBuilder,
@@ -131,7 +131,7 @@ class BlocProdWeek extends StatefulWidget {
   final bool includeMetadataChanges;
 
   @override
-  _BlocProdWeekState createState() => _BlocProdWeekState();
+  _BlocProdWeekWeekState createState() => _BlocProdWeekWeekState();
 
   final Widget Function(Exception)? onError;
 
@@ -144,7 +144,7 @@ class BlocProdWeek extends StatefulWidget {
   final void Function(int)? onPageChanged;
 }
 
-class _BlocProdWeekState extends State<BlocProdWeek> {
+class _BlocProdWeekWeekState extends State<BlocProdWeekWeek> {
   PaginationCubit? _cubit;
   String currencyUnit = 'MMK';
 
@@ -405,7 +405,7 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
     var initProds;
 
 
-    debugPrint('bloc_fire prod weeksps ' + today.toString());
+    debugPrint('bloc_fire prod weekonly ' + today.toString());
     if(_sliding == 0) {
       if(ayinSlide!=_sliding) {
         ayinList = [];
@@ -426,8 +426,8 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
       ayinSlide = 1;
       for(int i = 0; i < loadedState.documentSnapshots.length; i++) {
         Map<String, dynamic> data = loadedState.documentSnapshots[i].data() as Map<String, dynamic>;
-        debugPrint('bloc_fire prod week1 ' + data['date'].toDate().toString());
-        debugPrint('bloc_fire prod week2 ' + data['prods'].toString());
+        debugPrint('bloc_fire prod week1 only ' + data['date'].toDate().toString());
+        debugPrint('bloc_fire prod week2 only' + data['prods'].toString());
         if(initProds == null) {
           if(data['prods'] != null) {
             initProds = data['prods'];
@@ -699,7 +699,7 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
                                   ayinList.add([false, false, false, false, false]);
                                 }
                               }
-                              
+
 
                               return SliverList(
                                 // Use a delegate to build items as they're scrolled on screen.
@@ -709,24 +709,24 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
                                       (context, index) {
                                     if(index == todayProds.length) {
                                       return Padding(
-                                        padding: const EdgeInsets.only(bottom: 26.0),
-                                        child: !endOfResult?
-                                        Container(
-                                          child: LinearProgressIndicator(color: Colors.transparent, valueColor: new AlwaysStoppedAnimation<Color>(AppTheme.themeColor), backgroundColor: Colors.transparent,),
-                                        ):
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(top: 5.0),
-                                              child: Container(
-                                                  child: Text(
-                                                    'End of results',
-                                                    textScaleFactor: 1, strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)
+                                          padding: const EdgeInsets.only(bottom: 26.0),
+                                          child: !endOfResult?
+                                          Container(
+                                            child: LinearProgressIndicator(color: Colors.transparent, valueColor: new AlwaysStoppedAnimation<Color>(AppTheme.themeColor), backgroundColor: Colors.transparent,),
+                                          ):
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(top: 5.0),
+                                                child: Container(
+                                                    child: Text(
+                                                      'End of results',
+                                                      textScaleFactor: 1, strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)
+                                                ),
                                               ),
-                                            ),
-                                          ],
-                                        )
+                                            ],
+                                          )
                                       );
                                     }
 
