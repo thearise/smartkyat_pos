@@ -50,9 +50,9 @@ class ExampleSection implements ExpandableListSection<String> {
   }
 }
 
-class BlocProdWeek extends StatefulWidget {
+class BlocProdMonth extends StatefulWidget {
 
-  const BlocProdWeek({
+  const BlocProdMonth({
     Key? key,
     required this.isEnglish,
     required this.itemBuilder,
@@ -131,7 +131,7 @@ class BlocProdWeek extends StatefulWidget {
   final bool includeMetadataChanges;
 
   @override
-  _BlocProdWeekState createState() => _BlocProdWeekState();
+  _BlocProdMonthState createState() => _BlocProdMonthState();
 
   final Widget Function(Exception)? onError;
 
@@ -144,7 +144,7 @@ class BlocProdWeek extends StatefulWidget {
   final void Function(int)? onPageChanged;
 }
 
-class _BlocProdWeekState extends State<BlocProdWeek> {
+class _BlocProdMonthState extends State<BlocProdMonth> {
   PaginationCubit? _cubit;
   String currencyUnit = 'MMK';
 
@@ -405,90 +405,26 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
     var initProds;
 
 
-    debugPrint('bloc_fire prod weeksps ' + today.toString());
-    if(_sliding == 0) {
-      if(ayinSlide!=_sliding) {
-        ayinList = [];
-      }
-      ayinSlide = 0;
-      for(int i = 0; i < loadedState.documentSnapshots.length; i++) {
-        Map<String, dynamic> data = loadedState.documentSnapshots[i].data() as Map<String, dynamic>;
-        debugPrint('bloc_fire prod week1 ' + data['date'].toDate().toString());
-        debugPrint('bloc_fire prod week2 ' + data['prods'].toString());
-        if(today.day == data['date'].toDate().day) {
-          initProds = data['prods'];
-        }
-      }
-    } else if(_sliding == 1) {
-      if(ayinSlide!=_sliding) {
-        ayinList = [];
-      }
-      ayinSlide = 1;
-      for(int i = 0; i < loadedState.documentSnapshots.length; i++) {
-        Map<String, dynamic> data = loadedState.documentSnapshots[i].data() as Map<String, dynamic>;
-        debugPrint('bloc_fire prod week1 ' + data['date'].toDate().toString());
-        debugPrint('bloc_fire prod week2 ' + data['prods'].toString());
-        if(initProds == null) {
-          if(data['prods'] != null) {
-            initProds = data['prods'];
-          }
-        } else {
-          for(int j =0; j<data['prods'].length; j++) {
-            double psaleM = data['prods'].entries.elementAt(j).value['sm'] == null? 0: data['prods'].entries.elementAt(j).value['sm'];
-            double isaleM = initProds[data['prods'].entries.elementAt(j).key]==null || initProds[data['prods'].entries.elementAt(j).key]['sm'] == null? 0: initProds[data['prods'].entries.elementAt(j).key]['sm'];
-            if(initProds[data['prods'].entries.elementAt(j).key] == null) {
-              initProds[data['prods'].entries.elementAt(j).key] = {};
-            }
-            initProds[data['prods'].entries.elementAt(j).key]['sm'] = psaleM + isaleM;
-
-            double psale1 = data['prods'].entries.elementAt(j).value['s1'] == null? 0: data['prods'].entries.elementAt(j).value['s1'];
-            double isale1 = initProds[data['prods'].entries.elementAt(j).key]==null || initProds[data['prods'].entries.elementAt(j).key]['s1'] == null? 0: initProds[data['prods'].entries.elementAt(j).key]['s1'];
-            initProds[data['prods'].entries.elementAt(j).key]['s1'] = psale1 + isale1;
-
-            double psale2 = data['prods'].entries.elementAt(j).value['s2'] == null? 0: data['prods'].entries.elementAt(j).value['s2'];
-            double isale2 = initProds[data['prods'].entries.elementAt(j).key]==null || initProds[data['prods'].entries.elementAt(j).key]['s2'] == null? 0: initProds[data['prods'].entries.elementAt(j).key]['s2'];
-            initProds[data['prods'].entries.elementAt(j).key]['s2'] = psale2 + isale2;
-
-            double pqtyM = data['prods'].entries.elementAt(j).value['im'] == null? 0: data['prods'].entries.elementAt(j).value['im'];
-            double iqtyM = initProds[data['prods'].entries.elementAt(j).key]==null || initProds[data['prods'].entries.elementAt(j).key]['im'] == null? 0: initProds[data['prods'].entries.elementAt(j).key]['im'];
-            initProds[data['prods'].entries.elementAt(j).key]['im'] = pqtyM + iqtyM;
-
-            double pqty1 = data['prods'].entries.elementAt(j).value['i1'] == null? 0: data['prods'].entries.elementAt(j).value['i1'];
-            double iqty1 = initProds[data['prods'].entries.elementAt(j).key]==null || initProds[data['prods'].entries.elementAt(j).key]['i1'] == null? 0: initProds[data['prods'].entries.elementAt(j).key]['i1'];
-            initProds[data['prods'].entries.elementAt(j).key]['i1'] = pqty1 + iqty1;
-
-            double pqty2 = data['prods'].entries.elementAt(j).value['i2'] == null? 0: data['prods'].entries.elementAt(j).value['i2'];
-            double iqty2 = initProds[data['prods'].entries.elementAt(j).key]==null || initProds[data['prods'].entries.elementAt(j).key]['i2'] == null? 0: initProds[data['prods'].entries.elementAt(j).key]['i2'];
-            initProds[data['prods'].entries.elementAt(j).key]['i2'] = pqty2 + iqty2;
-
-            double pbuyM = data['prods'].entries.elementAt(j).value['bm'] == null? 0: data['prods'].entries.elementAt(j).value['bm'];
-            double ibuyM = initProds[data['prods'].entries.elementAt(j).key]==null || initProds[data['prods'].entries.elementAt(j).key]['bm'] == null? 0: initProds[data['prods'].entries.elementAt(j).key]['bm'];
-            initProds[data['prods'].entries.elementAt(j).key]['bm'] = pbuyM + ibuyM;
-
-            double pbuy1 = data['prods'].entries.elementAt(j).value['b1'] == null? 0: data['prods'].entries.elementAt(j).value['b1'];
-            double ibuy1 = initProds[data['prods'].entries.elementAt(j).key]==null || initProds[data['prods'].entries.elementAt(j).key]['b1'] == null? 0: initProds[data['prods'].entries.elementAt(j).key]['b1'];
-            initProds[data['prods'].entries.elementAt(j).key]['b1'] = pbuy1 + ibuy1;
-
-            double pbuy2 = data['prods'].entries.elementAt(j).value['b2'] == null? 0: data['prods'].entries.elementAt(j).value['b2'];
-            double ibuy2 = initProds[data['prods'].entries.elementAt(j).key]==null || initProds[data['prods'].entries.elementAt(j).key]['b2'] == null? 0: initProds[data['prods'].entries.elementAt(j).key]['b2'];
-            initProds[data['prods'].entries.elementAt(j).key]['b2'] = pbuy2 + ibuy2;
-
-            double pdiscM = data['prods'].entries.elementAt(j).value['dm'] == null? 0: data['prods'].entries.elementAt(j).value['dm'];
-            double idiscM = initProds[data['prods'].entries.elementAt(j).key]==null || initProds[data['prods'].entries.elementAt(j).key]['dm'] == null? 0: initProds[data['prods'].entries.elementAt(j).key]['dm'];
-            initProds[data['prods'].entries.elementAt(j).key]['dm'] = pdiscM + idiscM;
-
-            double pdisc1 = data['prods'].entries.elementAt(j).value['d1'] == null? 0: data['prods'].entries.elementAt(j).value['d1'];
-            double idisc1 = initProds[data['prods'].entries.elementAt(j).key]==null || initProds[data['prods'].entries.elementAt(j).key]['d1'] == null? 0: initProds[data['prods'].entries.elementAt(j).key]['d1'];
-            initProds[data['prods'].entries.elementAt(j).key]['d1'] = pdisc1 + idisc1;
-
-            double pdisc2 = data['prods'].entries.elementAt(j).value['d2'] == null? 0: data['prods'].entries.elementAt(j).value['d2'];
-            double idisc2 = initProds[data['prods'].entries.elementAt(j).key]==null || initProds[data['prods'].entries.elementAt(j).key]['d2'] == null? 0: initProds[data['prods'].entries.elementAt(j).key]['d2'];
-            initProds[data['prods'].entries.elementAt(j).key]['d2'] = pdisc2 + idisc2;
-          }
-        }
-        debugPrint('bloc_fire prod week2 ' + data['prods'].toString());
-      }
+    debugPrint('bloc_fire prod weekonly ' + today.toString());
+    if(loadedState.documentSnapshots.length!=0) {
+      Map<String, dynamic> data = loadedState.documentSnapshots[0].data() as Map<String, dynamic>;
+      initProds = data['prods'];
     }
+
+    // if(_sliding == 0) {
+    //   if(ayinSlide!=_sliding) {
+    //     ayinList = [];
+    //   }
+    //   ayinSlide = 0;
+    //   for(int i = 0; i < loadedState.documentSnapshots.length; i++) {
+    //     Map<String, dynamic> data = loadedState.documentSnapshots[i].data() as Map<String, dynamic>;
+    //     debugPrint('bloc_fire prod week1 ' + data['date'].toDate().toString());
+    //     debugPrint('bloc_fire prod week2 ' + data['prods'].toString());
+    //     if(today.day == data['date'].toDate().day) {
+    //       initProds = data['prods'];
+    //     }
+    //   }
+    // }
 
 
 
@@ -699,7 +635,7 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
                                   ayinList.add([false, false, false, false, false]);
                                 }
                               }
-                              
+
 
                               return SliverList(
                                 // Use a delegate to build items as they're scrolled on screen.
@@ -709,24 +645,24 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
                                       (context, index) {
                                     if(index == todayProds.length) {
                                       return Padding(
-                                        padding: const EdgeInsets.only(bottom: 26.0),
-                                        child: !endOfResult?
-                                        Container(
-                                          child: LinearProgressIndicator(color: Colors.transparent, valueColor: new AlwaysStoppedAnimation<Color>(AppTheme.themeColor), backgroundColor: Colors.transparent,),
-                                        ):
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(top: 5.0),
-                                              child: Container(
-                                                  child: Text(
-                                                    'End of results',
-                                                    textScaleFactor: 1, strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)
+                                          padding: const EdgeInsets.only(bottom: 26.0),
+                                          child: !endOfResult?
+                                          Container(
+                                            child: LinearProgressIndicator(color: Colors.transparent, valueColor: new AlwaysStoppedAnimation<Color>(AppTheme.themeColor), backgroundColor: Colors.transparent,),
+                                          ):
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(top: 5.0),
+                                                child: Container(
+                                                    child: Text(
+                                                      'End of results',
+                                                      textScaleFactor: 1, strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)
+                                                ),
                                               ),
-                                            ),
-                                          ],
-                                        )
+                                            ],
+                                          )
                                       );
                                     }
 
@@ -2339,7 +2275,7 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
 
   DateTime today = DateTime.now();
   DateTime? _dateTime;
-  String _format = 'yyyy-MMMM-dd';
+  String _format = 'yyyy-MMMM';
 
   _animateToIndex(i) {
     // debugPrint((_width * i).toString() + ' BBB ' + cateScCtler.offset.toString() + ' BBB ' + cateScCtler.position.maxScrollExtent.toString());
@@ -2383,29 +2319,29 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
     // if(_sliding==0) {
     // today.year.toString().substring(today.year.toString().length-2, today.year.toString().length
     if(today.month == 9) {
-      return 'Sep ' + today.day.toString() + ', ' + today.year.toString();
+      return 'Sep, ' + today.year.toString();
     } else if(today.month == 1) {
-      return 'Jan ' + today.day.toString() + ', ' + today.year.toString();
+      return 'Jan, ' + today.year.toString();
     } else if(today.month == 2) {
-      return 'Feb ' + today.day.toString() + ', ' + today.year.toString();
+      return 'Feb, ' + today.year.toString();
     } else if(today.month == 3) {
-      return 'Mar ' + today.day.toString() + ', ' + today.year.toString();
+      return 'Mar, ' + today.year.toString();
     } else if(today.month == 4) {
-      return 'Apr ' + today.day.toString() + ', ' + today.year.toString();
+      return 'Apr, ' + today.year.toString();
     } else if(today.month == 5) {
-      return 'May ' + today.day.toString() + ', ' + today.year.toString();
+      return 'May, ' + today.year.toString();
     } else if(today.month == 6) {
-      return 'Jun ' + today.day.toString() + ', ' + today.year.toString();
+      return 'Jun, ' + today.year.toString();
     } else if(today.month == 7) {
-      return 'Jul ' + today.day.toString() + ', ' + today.year.toString();
+      return 'Jul, ' + today.year.toString();
     } else if(today.month == 8) {
-      return 'Aug ' + today.day.toString() + ', ' + today.year.toString();
+      return 'Aug, ' + today.year.toString();
     } else if(today.month == 10) {
-      return 'Oct ' + today.day.toString() + ', ' + today.year.toString();
+      return 'Oct, ' + today.year.toString();
     } else if(today.month == 11) {
-      return 'Nov ' + today.day.toString() + ', ' + today.year.toString();
+      return 'Nov, ' + today.year.toString();
     } else if(today.month == 12) {
-      return 'Dec ' + today.day.toString() + ', ' + today.year.toString();
+      return 'Dec, ' + today.year.toString();
     } else {
       return '';
     }

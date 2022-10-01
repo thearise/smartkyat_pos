@@ -2005,74 +2005,74 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                         SizedBox(
                           height: 5,
                         ),
-                        StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                            stream: prodsSnap,
-                            builder: (BuildContext context, prodsSB) {
-                              if(prodsSB.hasData) {
-                                var prodsSnapOut = prodsSB.data != null? prodsSB.data!.data(): null;
-                                var prodsSc = prodsSnapOut?['prods'];
-                                debugPrint('iphone year test');
-
-                                return StreamBuilder(
-                                    stream: prodSaleData,
-                                    builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                                      if(snapshot.hasData) {
-                                        debugPrint('iphone year len ' + snapshot.data!.docs.length.toString());
-                                        var prodsDoc;
-                                        if(snapshot.data!.docs.length==0) {
-                                          return Container();
-                                        }
-                                        prodsDoc = snapshot.data!.docs[0].data()! as Map<String, dynamic>;
-                                        debugPrint('iphone year ' + prodsDoc['date'].toDate().toString());
-                                        if(prodsDoc != null) {
-                                          var prods = prodsDoc['prods'];
-                                          var prodsPrep = {};
-
-                                          for(int i = 0; i < prods.length; i++) {
-                                            var eachMap = prods.entries.elementAt(i);
-                                            debugPrint('jisoo ' + prodsSc[eachMap.key].toString());
-                                            double sort = 0;
-                                            double main = eachMap.value['im'] == null? 0: eachMap.value['im'];
-                                            double sub1 = eachMap.value['i1'] == null? 0: eachMap.value['i1'];
-                                            double sub2 = eachMap.value['i2'] == null? 0: eachMap.value['i2'];
-
-                                            debugPrint('setting 1 ' + prodsSc[eachMap.key].toString());
-                                            debugPrint('setting 2 ' + main.toString() + ' ' + sub1.toString() + ' ' + sub2.toString());
-                                            if(eachMap.value['im']!=0 && eachMap.value['im']!=null) {
-                                              sort += eachMap.value['im'];
-                                            }
-                                            if(prodsSc[eachMap.key]['c1'] != 0 && eachMap.value['i1']!=null) {
-                                              sort += sub1/prodsSc[eachMap.key]['c1'];
-                                            }
-                                            if(prodsSc[eachMap.key]['c2'] != 0 && prodsSc[eachMap.key]['c1'] != 0 && eachMap.value['i2']!=null) {
-                                              debugPrint('going?');
-                                              sort += (sub2/prodsSc[eachMap.key]['c2'])/prodsSc[eachMap.key]['c1'];
-                                            }
-
-                                            debugPrint('sorting ' + sort.toString());
-                                            var assign = {
-                                              'name': prodsSc[eachMap.key]['na'],
-                                              'main': main.toInt(),
-                                              'sub1': sub1.toInt(),
-                                              'sub2': sub2.toInt(),
-                                              'sort': sort.isNaN?0:sort,
-                                              'mana': prodsSc[eachMap.key]['nm'],
-                                              's1na': prodsSc[eachMap.key]['n1'],
-                                              's2na': prodsSc[eachMap.key]['n2']
-                                            };
-                                            prodsPrep.addAll({eachMap.key.toString(): assign});
-                                          }
-                                          return prodsDataTable(prodsPrep);
-                                        }
-                                        return Container();
-                                      }
-                                      return Container();
-                                    }
-                                );
-                              }
-                              return Container();
-                            }
-                        )
+                        // StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                        //     stream: prodsSnap,
+                        //     builder: (BuildContext context, prodsSB) {
+                        //       if(prodsSB.hasData) {
+                        //         var prodsSnapOut = prodsSB.data != null? prodsSB.data!.data(): null;
+                        //         var prodsSc = prodsSnapOut?['prods'];
+                        //         debugPrint('iphone year test');
+                        //
+                        //         return StreamBuilder(
+                        //             stream: prodSaleData,
+                        //             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                        //               if(snapshot.hasData) {
+                        //                 debugPrint('iphone year len ' + snapshot.data!.docs.length.toString());
+                        //                 var prodsDoc;
+                        //                 if(snapshot.data!.docs.length==0) {
+                        //                   return Container();
+                        //                 }
+                        //                 prodsDoc = snapshot.data!.docs[0].data()! as Map<String, dynamic>;
+                        //                 debugPrint('iphone year ' + prodsDoc['date'].toDate().toString());
+                        //                 if(prodsDoc != null) {
+                        //                   var prods = prodsDoc['prods'];
+                        //                   var prodsPrep = {};
+                        //
+                        //                   for(int i = 0; i < prods.length; i++) {
+                        //                     var eachMap = prods.entries.elementAt(i);
+                        //                     debugPrint('jisoo ' + prodsSc[eachMap.key].toString());
+                        //                     double sort = 0;
+                        //                     double main = eachMap.value['im'] == null? 0: eachMap.value['im'];
+                        //                     double sub1 = eachMap.value['i1'] == null? 0: eachMap.value['i1'];
+                        //                     double sub2 = eachMap.value['i2'] == null? 0: eachMap.value['i2'];
+                        //
+                        //                     debugPrint('setting 1 ' + prodsSc[eachMap.key].toString());
+                        //                     debugPrint('setting 2 ' + main.toString() + ' ' + sub1.toString() + ' ' + sub2.toString());
+                        //                     if(eachMap.value['im']!=0 && eachMap.value['im']!=null) {
+                        //                       sort += eachMap.value['im'];
+                        //                     }
+                        //                     if(prodsSc[eachMap.key]['c1'] != 0 && eachMap.value['i1']!=null) {
+                        //                       sort += sub1/prodsSc[eachMap.key]['c1'];
+                        //                     }
+                        //                     if(prodsSc[eachMap.key]['c2'] != 0 && prodsSc[eachMap.key]['c1'] != 0 && eachMap.value['i2']!=null) {
+                        //                       debugPrint('going?');
+                        //                       sort += (sub2/prodsSc[eachMap.key]['c2'])/prodsSc[eachMap.key]['c1'];
+                        //                     }
+                        //
+                        //                     debugPrint('sorting ' + sort.toString());
+                        //                     var assign = {
+                        //                       'name': prodsSc[eachMap.key]['na'],
+                        //                       'main': main.toInt(),
+                        //                       'sub1': sub1.toInt(),
+                        //                       'sub2': sub2.toInt(),
+                        //                       'sort': sort.isNaN?0:sort,
+                        //                       'mana': prodsSc[eachMap.key]['nm'],
+                        //                       's1na': prodsSc[eachMap.key]['n1'],
+                        //                       's2na': prodsSc[eachMap.key]['n2']
+                        //                     };
+                        //                     prodsPrep.addAll({eachMap.key.toString(): assign});
+                        //                   }
+                        //                   return prodsDataTable(prodsPrep);
+                        //                 }
+                        //                 return Container();
+                        //               }
+                        //               return Container();
+                        //             }
+                        //         );
+                        //       }
+                        //       return Container();
+                        //     }
+                        // )
                       ],
                     ),
                   ),
