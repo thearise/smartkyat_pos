@@ -279,7 +279,7 @@ class OverviewPageState extends State<OverviewPage>
     if(widget.isEnglish == true)
     {
       setState(() {
-        textSetTotalSales = 'TOTAL SALES';
+        textSetTotalSales = 'Sale reports';
 
       });
     }
@@ -773,7 +773,7 @@ class OverviewPageState extends State<OverviewPage>
                           Expanded(
                             child: Text(textSetTotalSales, textScaleFactor: 1,
                               style: TextStyle(
-                                fontSize: 26,
+                                fontSize: 23,
                                 fontWeight: FontWeight.w600,
                                 overflow: TextOverflow.ellipsis,
                               ),),

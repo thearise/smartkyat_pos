@@ -12057,7 +12057,7 @@ class HomePageState extends State<HomePage>
         fontSize: 18,
         fontWeight: FontWeight.w500,
         color: Colors.black,
-      ),
+      ), textScaleFactor: 1,
     );
   }
 
