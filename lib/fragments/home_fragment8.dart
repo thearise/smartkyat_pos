@@ -68,6 +68,7 @@ class OverviewPage extends StatefulWidget {
   final _searchBtn;
   final _openDrawerBtn;
   final _closeDrawerBtn;
+  final _premiumCart;
 
   OverviewPage({
     required void closeDrawerBtn(String str),
@@ -83,6 +84,7 @@ class OverviewPage extends StatefulWidget {
     required void toggleCoinCallback4(String str) ,
     required void barcodeBtn(),
     required void searchBtn(),
+    required void premiumCart(),
     Key? key,
   }) :  _callback = toggleCoinCallback,
         _callback2 = toggleCoinCallback2 ,
@@ -90,6 +92,7 @@ class OverviewPage extends StatefulWidget {
         _callback4 = toggleCoinCallback4,
         _barcodeBtn = barcodeBtn,
         _searchBtn = searchBtn,
+        _premiumCart = premiumCart,
         _openDrawerBtn = openDrawerBtn,
         _closeDrawerBtn = closeDrawerBtn,
         super(key: key);
@@ -779,7 +782,7 @@ class OverviewPageState extends State<OverviewPage>
                             padding: const EdgeInsets.only(left:15.0),
                             child: GestureDetector(
                               onTap: () {
-                                // widget._premiumCart();
+                                widget._premiumCart();
                               },
                               child: Container(
                                 height: 30,

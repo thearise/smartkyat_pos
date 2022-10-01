@@ -21,6 +21,9 @@ import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/bloc_home_month.dart' as BlocHomeMonthImp;
 import 'package:smartkyat_pos/fragments/bloc_home_year.dart' as BlocHomeYearImp;
 import 'package:smartkyat_pos/fragments/bloc_prod_week.dart';
+import 'package:smartkyat_pos/fragments/bloc_prod_week_only.dart' as BlocProdWeekWeekImp;
+import 'package:smartkyat_pos/fragments/bloc_prod_month.dart' as BlocProdMonthImp;
+import 'package:smartkyat_pos/fragments/bloc_prod_year.dart' as BlocProdYearImp;
 import 'package:smartkyat_pos/fragments/subs/buy_list_info.dart';
 import 'package:smartkyat_pos/fragments/subs/donut.dart';
 import 'package:smartkyat_pos/fragments/subs/language_settings.dart';
@@ -222,10 +225,10 @@ class ProdSaleSumHomeState extends State<ProdSaleSumHome>
                             MediaQuery.of(context).padding.top -
                             MediaQuery.of(context).padding.bottom -
                             100,
-                        child: BlocProdWeek(
+                        child: cateScIndex == 0 ?BlocProdWeek(
                           prodsSnap: prodsSnap,
                           isEnglish: widget.isEnglish,
-                          dateTime: today = DateTime.now(),
+                          dateTime: today,
                           // key: valueKeyTog(),
                           shopId: widget.shopId,
                           query: prodsQuery(),
@@ -243,6 +246,72 @@ class ProdSaleSumHomeState extends State<ProdSaleSumHome>
                           intValIni : cateScIndex,
                           itemBuilderType:
                           PaginateBuilderType.listView,
+                          isLive: true,
+                        ): cateScIndex == 1? BlocProdWeekWeekImp.BlocProdWeekWeek(
+                          prodsSnap: prodsSnap,
+                          isEnglish: widget.isEnglish,
+                          dateTime: today,
+                          key: valueKeyTog(),
+                          shopId: widget.shopId,
+                          query: prodsQuery(),
+                          itemBuilder: (context1, documentSnapshots, index) {
+                            Map<String, dynamic> data = documentSnapshots[index].data() as Map<String, dynamic>;
+
+                            String item = zeroToTen(data['date'].toDate().year.toString()) + ' ' + zeroToTen(data['date'].toDate().month.toString()) + ' ' + zeroToTen(data['date'].toDate().day.toString()) + ' ' + zeroToTen(data['date'].toDate().hour.toString()) + ' ' + zeroToTen(data['date'].toDate().minute.toString());
+                            return Container(child: Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Text('items ' + item.toString()),
+                            ));
+                          },
+                          resetState: resetState,
+                          selectedIntVal: selectedIntVal,
+                          intValIni : cateScIndex,
+                          itemBuilderType:
+                          BlocProdWeekWeekImp.PaginateBuilderType.listView,
+                          isLive: true,
+                        ): cateScIndex==2? BlocProdMonthImp.BlocProdMonth(
+                          prodsSnap: prodsSnap,
+                          isEnglish: widget.isEnglish,
+                          dateTime: today,
+                          key: valueKeyTog(),
+                          shopId: widget.shopId,
+                          query: prodsQueryMonth(),
+                          itemBuilder: (context1, documentSnapshots, index) {
+                            Map<String, dynamic> data = documentSnapshots[index].data() as Map<String, dynamic>;
+
+                            String item = zeroToTen(data['date'].toDate().year.toString()) + ' ' + zeroToTen(data['date'].toDate().month.toString()) + ' ' + zeroToTen(data['date'].toDate().day.toString()) + ' ' + zeroToTen(data['date'].toDate().hour.toString()) + ' ' + zeroToTen(data['date'].toDate().minute.toString());
+                            return Container(child: Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Text('items ' + item.toString()),
+                            ));
+                          },
+                          resetState: resetState,
+                          selectedIntVal: selectedIntVal,
+                          intValIni : cateScIndex,
+                          itemBuilderType:
+                          BlocProdMonthImp.PaginateBuilderType.listView,
+                          isLive: true,
+                        ): BlocProdYearImp.BlocProdYear(
+                          prodsSnap: prodsSnap,
+                          isEnglish: widget.isEnglish,
+                          dateTime: today,
+                          key: valueKeyTog(),
+                          shopId: widget.shopId,
+                          query: prodsQueryYear(),
+                          itemBuilder: (context1, documentSnapshots, index) {
+                            Map<String, dynamic> data = documentSnapshots[index].data() as Map<String, dynamic>;
+
+                            String item = zeroToTen(data['date'].toDate().year.toString()) + ' ' + zeroToTen(data['date'].toDate().month.toString()) + ' ' + zeroToTen(data['date'].toDate().day.toString()) + ' ' + zeroToTen(data['date'].toDate().hour.toString()) + ' ' + zeroToTen(data['date'].toDate().minute.toString());
+                            return Container(child: Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Text('items ' + item.toString()),
+                            ));
+                          },
+                          resetState: resetState,
+                          selectedIntVal: selectedIntVal,
+                          intValIni : cateScIndex,
+                          itemBuilderType:
+                          BlocProdYearImp.PaginateBuilderType.listView,
                           isLive: true,
                         ),
                       ),
@@ -264,6 +333,42 @@ class ProdSaleSumHomeState extends State<ProdSaleSumHome>
         .orderBy('date', descending: true);
   }
 
+  prodsQueryMonth() {
+    debugPrint('start ddd ' + DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-01 00:00:00').toString());
+    debugPrint('enddd ddd ' + DateFormat("yyyy-MM-dd HH:mm:ss").parse(nextYear(today.month, today.year).toString() + '-' + zeroToTen((nextMonth(today.month)).toString()) + '-00 23:59:59').toString());
+
+    return FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodMthData')
+        .where('date', isGreaterThan: DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.year.toString() + '-' + zeroToTen(today.month.toString()) + '-01 00:00:00'))
+        .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd HH:mm:ss").parse(nextYear(today.month, today.year).toString() + '-' + zeroToTen((nextMonth(today.month)).toString()) + '-00 23:59:59'))
+        .orderBy('date', descending: true);
+  }
+
+  prodsQueryYear() {
+    debugPrint('start dddy ' + DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.year.toString() + '-01-01 00:00:00').toString());
+    debugPrint('enddd dddy ' + DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.year.toString() + '-12-31 23:59:59').toString());
+
+    return FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodYearData')
+        .where('date', isGreaterThan: DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.year.toString() + '-01-01 00:00:00'))
+        .where('date', isLessThanOrEqualTo: DateFormat("yyyy-MM-dd HH:mm:ss").parse(today.year.toString() + '-12-31 23:59:59'))
+        .orderBy('date', descending: true);
+  }
+
+  nextMonth(int month) {
+    if(month == 12) {
+      return 1;
+    } else {
+      return month + 1;
+    }
+  }
+
+  nextYear(int month, int year) {
+    if(month == 12) {
+      return year+1;
+    } else {
+      return year;
+    }
+  }
+
   resetState(DateTime resetD) {
     setState(() {
       today = resetD;
@@ -276,5 +381,20 @@ class ProdSaleSumHomeState extends State<ProdSaleSumHome>
     setState(() {
       cateScIndex = index;
     });
+  }
+
+  String valKTog = '0';
+
+  valueKeyTog() {
+    valKTog = today.year.toString() + zeroToTen(today.month.toString()) + zeroToTen(today.day.toString());
+    return ValueKey<String>(valKTog.toString());
+    // if(valKTog == 0) {
+    //   valKTog = 1;
+    //   return ValueKey<String>(valKTog.toString());
+    // } else {
+    //   valKTog = 0;
+    //   return ValueKey<String>(valKTog.toString());
+    // }
+
   }
 }

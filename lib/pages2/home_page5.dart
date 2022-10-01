@@ -706,7 +706,7 @@ class HomePageState extends State<HomePage>
             icon: Icon(
               Icons.add,
             ),
-            page: OverviewPage(key: homeGlobalKey, barcodeBtn: openBarcodeSearch, searchBtn: openSearchFromFrag,
+            page: OverviewPage(key: homeGlobalKey, barcodeBtn: openBarcodeSearch, searchBtn: openSearchFromFrag, premiumCart: premiumCart,
               toggleCoinCallback:addMerchant2Cart, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addProduct, toggleCoinCallback4: addProduct3, shopId: shopId, ordersSnapshot: orderSnapshot, buyOrdersSnapshot: buyOrderSnapshot, lossSnapshot: homeLossSnapshot, openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom, isEnglish: isEnglish,
             ),
           ),
