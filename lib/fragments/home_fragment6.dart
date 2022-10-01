@@ -130,7 +130,7 @@ class HomeFragmentState extends State<HomeFragment>
 
   String textSetTotalSales = 'TOTAL SALES';
   String textSetTodaySoFar = 'TODAY SO FAR';
-  String textSetStockCosts = 'Stock costs';
+  String textSetReports = 'Reports';
   String textSetUnpaid = 'Unpaid';
   String textSetBuys = 'Refunds';
   String textSetLoss = 'Loss';
@@ -263,7 +263,7 @@ class HomeFragmentState extends State<HomeFragment>
       setState(() {
         textSetTotalSales = 'TOTAL SALES';
         textSetTodaySoFar = 'TODAY SO FAR';
-        textSetStockCosts = 'Stock costs';
+        textSetReports = 'Reports';
         textSetUnpaid = 'Unpaid';
         textSetBuys = 'Refunds';
         textSetLoss = 'Loss';
@@ -283,7 +283,7 @@ class HomeFragmentState extends State<HomeFragment>
       setState(() {
         textSetTotalSales = 'စုစုပေါင်း ရောင်းရငွေ';
         textSetTodaySoFar = 'ဒီနေ့အတွင်း';
-        textSetStockCosts = 'ဝယ်ယူစရိတ်';
+        textSetReports = 'အစီအရင်ခံစာ';
         textSetUnpaid = 'အကြွေးရရန်';
         textSetBuys = 'ပြန်ပေးငွေ';
         textSetLoss = 'ဆုံးရှုံး';

@@ -460,7 +460,7 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
                                             '$textSetNetSales ($currencyUnit)',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -496,7 +496,7 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
                                             '$textSetProfit ($currencyUnit)',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -550,7 +550,7 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
                                             '$textSetStockCosts ($currencyUnit)',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -586,7 +586,7 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
                                             '$textSetUnpaid ($currencyUnit)',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -640,7 +640,7 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
                                             '$textSetRef ($currencyUnit)',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -676,7 +676,7 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
                                             '$textSetLoss ($currencyUnit)',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
-                                          ),
+                                          ), textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
@@ -1173,9 +1173,9 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
 
   int segmentedControlGroupValue = 0;
   final Map<int, Widget> myTabs = const <int, Widget>{
-    0: Text("Today"),
-    1: Text("This month"),
-    2: Text("This year")
+    0: Text("Today", textScaleFactor: 1,),
+    1: Text("This month", textScaleFactor: 1),
+    2: Text("This year", textScaleFactor: 1,),
   };
 
   int initProdPagi = 0;
