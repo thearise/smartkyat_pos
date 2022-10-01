@@ -165,21 +165,24 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
   String gloSearchText = '';
   int gloSeaProLeng = 0;
 
-  String textSetTotalSales = 'TOTAL SALES';
-  String textSetTodaySoFar = 'TODAY SO FAR';
+  String textSetSaleSummary = 'SALES SUMMARY OVERVIEW';
   String textSetStockCosts = 'Stock costs';
+  String textSetNetSales = 'Net sales';
   String textSetUnpaid = 'Unpaid';
-  String textSetBuys = 'Refunds';
-  String textSetLoss = 'Loss';
-  String textSetToday = 'Day';
-  String textSetLastWeek = 'Last week';
+  String textSetRef = 'Refunds';
+  String textSetLoss = 'Loss amount';
+  String textSetToday = 'Today';
   String textSetLastMonth = 'This month';
   String textSetLastYear = 'This year';
-  String textSetLast7Days = 'Last 7 Days';
-  String textSetLast28D = 'LAST 28 DAYS';
-  String textSetLast12M = 'LAST 12 MONTHS';
-  String textSetSearch = 'Search';
-  String textSetProfit = 'Average profit';
+  String textSetProfit = 'Avg profit';
+  String textSetMore = 'More detail';
+  String textSetProdSale = 'PRODUCT SALE SUMMARY';
+  String textSetTSales = 'Total products sold';
+  String textSetTLoss = 'Total products loss';
+  String textSetTRef = 'Total products refund';
+  String textSetSaleAmt = 'Total sale amount';
+  String textSetBuyAmt = 'Total buy amount';
+  String textSetDiscount = 'Total discount amount';
 
 
   void closeDrawerFrom() {
@@ -249,6 +252,12 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
   }
 
 
+  double tSale = 0;
+  double tRef = 0;
+  double tLoss = 0;
+  double tSaleAmount = 0;
+  double tBuyAmount = 0;
+  double tDiscount = 0;
 
   @override
   void initState() {
@@ -256,39 +265,45 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
     if(widget.isEnglish == true) {
 
       setState(() {
-        textSetTotalSales = 'TOTAL SALES';
-        textSetTodaySoFar = 'TODAY SO FAR';
+        textSetSaleSummary = 'SALES SUMMARY OVERVIEW';
         textSetStockCosts = 'Stock costs';
+        textSetNetSales = 'Net sales';
         textSetUnpaid = 'Unpaid';
-        textSetBuys = 'Refunds';
-        textSetLoss = 'Loss';
-        textSetToday = 'Day';
-        textSetLastWeek = 'Last week';
+        textSetRef = 'Refunds';
+        textSetLoss = 'Loss amount';
+        textSetToday = 'Today';
         textSetLastMonth = 'This month';
         textSetLastYear = 'This year';
-        textSetLast7Days = 'Last 7 Days';
-        textSetLast28D = 'LAST 28 DAYS';
-        textSetLast12M = 'LAST 12 MONTHS';
-        textSetSearch = 'Search';
-        textSetProfit = 'Average profit';
+        textSetProfit = 'Avg profit';
+        textSetMore = 'More detail';
+        textSetProdSale = 'PRODUCT SALE SUMMARY';
+        textSetTSales = 'Total products sold';
+        textSetTLoss = 'Total loss';
+        textSetTRef = 'Total refunds';
+        textSetSaleAmt = 'Total sale amount';
+        textSetBuyAmt = 'Total buy amount';
+        textSetDiscount = 'Total discount amount';
       });
     } else {
       setState(() {
-        textSetTotalSales = 'စုစုပေါင်း ရောင်းရငွေ';
-        textSetTodaySoFar = 'ဒီနေ့အတွင်း';
+        textSetSaleSummary = 'အရောင်းအကျဉ်းချုပ်';
         textSetStockCosts = 'ဝယ်ယူစရိတ်';
-        textSetUnpaid = 'အကြွေးရရန်';
-        textSetBuys = 'ပြန်ပေးငွေ';
-        textSetLoss = 'ဆုံးရှုံး';
-        textSetToday = 'နေ့စဉ်';
-        textSetLastWeek = 'အပတ်စဉ်';
-        textSetLastMonth = 'လစဉ်';
-        textSetLastYear = 'နှစ်စဉ်';
-        textSetLast7Days = '၇ရက်အတွင်း';
-        textSetLast28D = '၂၈ရက်အတွင်း';
-        textSetLast12M = '၁၂လအတွင်း';
-        textSetSearch = 'ရှာဖွေရန်';
+        textSetNetSales = 'ရောင်းရငွေ';
+        textSetUnpaid = 'အကြွေးကျန်ငွေ';
+        textSetRef = 'ပြန်ပေးငွေ';
+        textSetLoss = 'ဆုံးရှုံးငွေ';
+        textSetToday = 'Today';
+        textSetLastMonth = 'This month';
+        textSetLastYear = 'This year';
         textSetProfit = 'ပျမ်းမျှအမြတ်ငွေ';
+        textSetMore = 'အသေးစိတ်ကြည့်ရန်';
+        textSetProdSale = 'ပစ္စည်းအရောင်းအကျဉ်းချုပ်';
+        textSetTSales = 'အရောင်းပစ္စည်းအမျိုးအစားများ';
+        textSetTLoss = 'ဆုံးရှုံးပစ္စည်းအမျိုးအစားများ';
+        textSetTRef = 'ပြန်ပေးပစ္စည်းအမျိုးအစားများ';
+        textSetSaleAmt = 'ပစ္စည်းရောင်းရငွေ‌';
+        textSetBuyAmt = 'ပစ္စည်းဝယ်စျေး';
+        textSetDiscount = 'လျှော့ငွေ';
       });
     }
 
@@ -409,7 +424,7 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(top: 0.0, bottom: 4.0, left: 15.0, right: 15.0),
-                                child: Text('SALES SUMMARY OVERVIEW', textScaleFactor: 1,
+                                child: Text(textSetSaleSummary, textScaleFactor: 1,
                                   style: TextStyle(
                                     height: 0.9,
                                     letterSpacing: 2,
@@ -442,7 +457,7 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
                                             ),
                                           ),
                                           Text(
-                                            'Net sales (MMK)',strutStyle: StrutStyle(
+                                            '$textSetNetSales ($currencyUnit)',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
                                           ),
@@ -478,7 +493,7 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
                                             ),
                                           ),
                                           Text(
-                                            'Avg profit (MMK)',strutStyle: StrutStyle(
+                                            '$textSetProfit ($currencyUnit)',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
                                           ),
@@ -532,7 +547,7 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
                                             ),
                                           ),
                                           Text(
-                                            'Stock costs (MMK)',strutStyle: StrutStyle(
+                                            '$textSetStockCosts ($currencyUnit)',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
                                           ),
@@ -568,7 +583,7 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
                                             ),
                                           ),
                                           Text(
-                                            'Unpaids (MMK)',strutStyle: StrutStyle(
+                                            '$textSetUnpaid ($currencyUnit)',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
                                           ),
@@ -622,7 +637,7 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
                                             ),
                                           ),
                                           Text(
-                                            'Refunds (MMK)',strutStyle: StrutStyle(
+                                            '$textSetRef ($currencyUnit)',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
                                           ),
@@ -658,7 +673,7 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
                                             ),
                                           ),
                                           Text(
-                                            'Loss amount (MMK)',strutStyle: StrutStyle(
+                                            '$textSetLoss ($currencyUnit)',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
                                               height: 1.2
                                           ),
@@ -673,75 +688,6 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
                                   ),
                                 ],
                               ),
-                              // Padding(
-                              //   padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                              //   child: Container(
-                              //     width: MediaQuery.of(context).size.width,
-                              //     decoration: BoxDecoration(
-                              //         border: Border(
-                              //             bottom: BorderSide(
-                              //                 color: Colors.grey
-                              //                     .withOpacity(
-                              //                     0.3),
-                              //                 width: 1.0)
-                              //         )),
-                              //   ),
-                              // ),
-                              // Row(
-                              //   children: [
-                              //     Container(
-                              //       width: MediaQuery.of(context).size.width/2,
-                              //       child: Padding(
-                              //         padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 9, bottom: 14),
-                              //         child: Column(
-                              //           crossAxisAlignment: CrossAxisAlignment.start,
-                              //           children: [
-                              //             Row(
-                              //               children: [
-                              //                 Text(
-                              //                   '45',
-                              //                   textScaleFactor: 1, textAlign: TextAlign.left,
-                              //                   style: GoogleFonts.lato(
-                              //                       textStyle: TextStyle(
-                              //                           letterSpacing: 1,
-                              //                           fontSize: 26,
-                              //                           fontWeight: FontWeight.w600,
-                              //                           color: Colors.black
-                              //                       )
-                              //                   ),
-                              //                 ),
-                              //                 Padding(
-                              //                   padding: const EdgeInsets.only(left: 5.0, top: 13.0),
-                              //                   child: Text(
-                              //                     'M',strutStyle: StrutStyle(
-                              //                       forceStrutHeight: true,
-                              //                       height: 1.2
-                              //                   ),
-                              //                     style: TextStyle(
-                              //                         fontSize: 27, height: 1.2,
-                              //                         fontWeight: FontWeight.w600,
-                              //                         color: Colors.black),
-                              //                   ),
-                              //                 )
-                              //               ],
-                              //             ),
-                              //             Text(
-                              //               'Loss amount (MMK)',strutStyle: StrutStyle(
-                              //                 forceStrutHeight: true,
-                              //                 height: 1.2
-                              //             ),
-                              //               style: TextStyle(
-                              //                   fontSize: 13, height: 1.2,
-                              //                   fontWeight: FontWeight.w500,
-                              //                   color: Colors.black.withOpacity(0.6)),
-                              //             ),
-                              //           ],
-                              //         ),
-                              //       ),
-                              //     ),
-                              //
-                              //   ],
-                              // ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 20.0, top: 4),
                                 child: ButtonTheme(
@@ -778,7 +724,7 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
                                           bottom: 2.0),
                                       child: Container(
                                         child: Text(
-                                            'More detail', textScaleFactor: 1,
+                                            textSetMore, textScaleFactor: 1,
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 fontSize: 18,
@@ -795,202 +741,404 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
                                   ),
                                 ),
                               ),
-                              // Container(
-                              //   width: MediaQuery.of(context).size.width,
-                              //   decoration: BoxDecoration(
-                              //       border: Border(
-                              //           bottom: BorderSide(
-                              //               color: Colors.grey
-                              //                   .withOpacity(
-                              //                   0.3),
-                              //               width: 1.0)
-                              //       )),
-                              // ),
-                              // Padding(
-                              //   padding: const EdgeInsets.only(top: 20.0, left: 15.0, right: 15.0, bottom: 10.0),
-                              //   child: Text('PRODUCT SALE SUMMARY', textScaleFactor: 1,
-                              //     style: TextStyle(
-                              //       height: 0.9,
-                              //       letterSpacing: 2,
-                              //       fontWeight: FontWeight.bold,
-                              //       fontSize: 14,color: Colors.grey,
-                              //     ),),
-                              // ),
-                              // Column(
-                              //   children: [
-                              //     Padding(
-                              //       padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                              //       child: Container(
-                              //         height: 55,
-                              //         child: Row(
-                              //           children: [
-                              //             Text('Total sales', textScaleFactor: 1, style:
-                              //             TextStyle(
-                              //               fontSize: 16,
-                              //               fontWeight: FontWeight.w500, color: Colors.black,
-                              //             ),),
-                              //             Spacer(),
-                              //             Text('7,345 sets', textScaleFactor: 1, style:
-                              //             TextStyle(
-                              //               fontSize: 16,
-                              //               fontWeight: FontWeight.w600, color: Colors.black,
-                              //             ),),
-                              //           ],
-                              //         ),
-                              //       ),
-                              //     ),
-                              //     Padding(
-                              //       padding: const EdgeInsets.only(left: 15.0),
-                              //       child: Container(
-                              //         decoration: BoxDecoration(
-                              //             border: Border(
-                              //                 bottom: BorderSide(
-                              //                     color: Colors.grey
-                              //                         .withOpacity(0.2),
-                              //                     width: 1.0))),
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
-                              // Column(
-                              //   children: [
-                              //     Padding(
-                              //       padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                              //       child: Container(
-                              //         height: 55,
-                              //         child: Row(
-                              //           children: [
-                              //             Text('Total loss', textScaleFactor: 1, style:
-                              //             TextStyle(
-                              //               fontSize: 16,
-                              //               fontWeight: FontWeight.w500, color: Colors.black,
-                              //             ),),
-                              //             Spacer(),
-                              //             Text('532,112 sets', textScaleFactor: 1, style:
-                              //             TextStyle(
-                              //               fontSize: 16,
-                              //               fontWeight: FontWeight.w600, color: Colors.black,
-                              //             ),),
-                              //           ],
-                              //         ),
-                              //       ),
-                              //     ),
-                              //     Padding(
-                              //       padding: const EdgeInsets.only(left: 15.0),
-                              //       child: Container(
-                              //         decoration: BoxDecoration(
-                              //             border: Border(
-                              //                 bottom: BorderSide(
-                              //                     color: Colors.grey
-                              //                         .withOpacity(0.2),
-                              //                     width: 1.0))),
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
-                              // Column(
-                              //   children: [
-                              //     Padding(
-                              //       padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                              //       child: Container(
-                              //         height: 55,
-                              //         child: Row(
-                              //           children: [
-                              //             Text('Total refunds', textScaleFactor: 1, style:
-                              //             TextStyle(
-                              //               fontSize: 16,
-                              //               fontWeight: FontWeight.w500, color: Colors.black,
-                              //             ),),
-                              //             Spacer(),
-                              //             Text('43,123 sets', textScaleFactor: 1, style:
-                              //             TextStyle(
-                              //               fontSize: 16,
-                              //               fontWeight: FontWeight.w600, color: Colors.black,
-                              //             ),),
-                              //           ],
-                              //         ),
-                              //       ),
-                              //     ),
-                              //     Padding(
-                              //       padding: const EdgeInsets.only(left: 15.0),
-                              //       child: Container(
-                              //         decoration: BoxDecoration(
-                              //             border: Border(
-                              //                 bottom: BorderSide(
-                              //                     color: Colors.grey
-                              //                         .withOpacity(0.2),
-                              //                     width: 1.0))),
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
-                              // Column(
-                              //   children: [
-                              //     Padding(
-                              //       padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                              //       child: Container(
-                              //         height: 55,
-                              //         child: Row(
-                              //           children: [
-                              //             Text('Total products', textScaleFactor: 1, style:
-                              //             TextStyle(
-                              //               fontSize: 16,
-                              //               fontWeight: FontWeight.w500, color: Colors.black,
-                              //             ),),
-                              //             Spacer(),
-                              //             Text('7,3454', textScaleFactor: 1, style:
-                              //             TextStyle(
-                              //               fontSize: 16,
-                              //               fontWeight: FontWeight.w600, color: Colors.black,
-                              //             ),),
-                              //           ],
-                              //         ),
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
-                              // Padding(
-                              //   padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 25.0, top: 10),
-                              //   child: ButtonTheme(
-                              //     minWidth: MediaQuery.of(context).size.width,
-                              //     splashColor: Colors.transparent,
-                              //     height: 50,
-                              //     child: FlatButton(
-                              //       color: AppTheme.buttonColor2,
-                              //       shape: RoundedRectangleBorder(
-                              //         borderRadius:
-                              //         BorderRadius.circular(10.0),
-                              //         side: BorderSide(
-                              //           color: AppTheme.buttonColor2,
-                              //         ),
-                              //       ),
-                              //       onPressed: () async {
-                              //
-                              //       },
-                              //       child: Padding(
-                              //         padding: const EdgeInsets.only(
-                              //             left: 5.0,
-                              //             right: 5.0,
-                              //             bottom: 2.0),
-                              //         child: Container(
-                              //           child: Text(
-                              //               'More detail', textScaleFactor: 1,
-                              //               textAlign: TextAlign.center,
-                              //               style: TextStyle(
-                              //                   fontSize: 18,
-                              //                   fontWeight: FontWeight.w600,
-                              //                   letterSpacing:-0.1
-                              //               ),
-                              //               strutStyle: StrutStyle(
-                              //                 height: 1.4,
-                              //                 forceStrutHeight: true,
-                              //               )
-                              //           ),
-                              //         ),
-                              //       ),
-                              //     ),
-                              //   ),
-                              // ),
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                        bottom: BorderSide(
+                                            color: Colors.grey
+                                                .withOpacity(
+                                                0.3),
+                                            width: 1.0)
+                                    )),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 20.0, left: 15.0, right: 15.0, bottom: 10.0),
+                                child: Text(textSetProdSale, textScaleFactor: 1,
+                                  style: TextStyle(
+                                    height: 0.9,
+                                    letterSpacing: 2,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,color: Colors.grey,
+                                  ),),
+                              ),
+                              StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                                  stream:
+                                  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodYearData').doc(DateTime.now().year.toString()).snapshots(),
+                                  builder: (BuildContext context, prodsSB) {
+                                    var prods;
+                                    tSale = 0;
+                                    tRef = 0;
+                                    tLoss = 0;
+                                    tSaleAmount = 0;
+                                    tBuyAmount = 0;
+                                    tDiscount = 0;
+                                    double mainSale = 0;
+                                    double sub1Sale = 0;
+                                    double sub2Sale = 0;
+                                    double mainBuy = 0;
+                                    double sub1Buy = 0;
+                                    double sub2Buy = 0;
+                                    double mainDis = 0;
+                                    double sub1Dis = 0;
+                                    double sub2Dis = 0;
+                                    if(prodsSB.hasData) {
+                                      var prodsSnapOut = prodsSB.data != null? prodsSB.data!.data(): null;
+                                      prods = prodsSnapOut?['prods'];
+                                      if(prods != null && prods.length > 0) {
+                                        for(int i = 0; i <  prods.length; i++) {
+                                          var eachMap = prods.entries.elementAt(i);
+
+                                          if(eachMap.value['im'] != 0 && eachMap.value['im'] != null
+                                              || eachMap.value['i1'] != 0 && eachMap.value['i1'] != null
+                                              || eachMap.value['i2'] != 0 && eachMap.value['i2'] != null) {
+                                            tSale++;
+                                          }
+                                          if(eachMap.value['rm'] != 0 && eachMap.value['rm'] != null
+                                              || eachMap.value['r1'] != 0 && eachMap.value['r1'] != null
+                                              || eachMap.value['r2'] != 0 && eachMap.value['r2'] != null) {
+                                            tRef++;
+                                          }
+                                          if(eachMap.value['lm'] != 0 && eachMap.value['lm'] != null
+                                              || eachMap.value['l1'] != 0 && eachMap.value['l1'] != null
+                                              || eachMap.value['l2'] != 0 && eachMap.value['l2'] != null) {
+                                            tLoss++;
+                                          }
+                                          if(eachMap.value['sm'] != null) {
+                                            mainSale =  eachMap.value['sm'];
+                                          } else {
+                                            mainSale = 0;
+                                          }
+                                          if(eachMap.value['s1'] != null) {
+                                            sub1Sale =  eachMap.value['s1'];
+                                          } else {
+                                            sub1Sale = 0;
+                                          }
+                                          if(eachMap.value['s2'] != null) {
+                                            sub2Sale =  eachMap.value['s2'];
+                                          } else {
+                                            sub2Sale = 0;
+                                          }
+                                          tSaleAmount = tSaleAmount + (mainSale + sub1Sale + sub2Sale);
+
+                                          if(eachMap.value['bm'] != null) {
+                                            mainBuy =  eachMap.value['bm'];
+                                          } else {
+                                            mainBuy = 0;
+                                          }
+                                          if(eachMap.value['b1'] != null) {
+                                            sub1Buy =  eachMap.value['b1'];
+                                          } else {
+                                            sub1Buy = 0;
+                                          }
+                                          if(eachMap.value['b2'] != null) {
+                                            sub2Buy = eachMap.value['b2'];
+                                          } else {
+                                            sub2Buy = 0;
+                                          }
+                                          tBuyAmount = tBuyAmount + (mainBuy + sub1Buy + sub2Buy);
+
+                                          if(eachMap.value['dm'] != 0 && eachMap.value['dm'] != null) {
+                                            mainDis =  eachMap.value['dm'];
+                                          } else {
+                                            mainDis = 0;
+                                          }
+                                          if(eachMap.value['d1'] != 0 && eachMap.value['d1'] != null) {
+                                            sub1Dis =  eachMap.value['d1'];
+                                          } else {
+                                            sub1Dis = 0;
+                                          }
+                                          if(eachMap.value['d2'] != 0 && eachMap.value['d2'] != null) {
+                                            sub2Dis =  eachMap.value['d2'];
+                                          } else {
+                                            sub2Dis = 0;
+                                          }
+                                          tDiscount = tDiscount + (mainDis + sub1Dis + sub2Dis);
+                                        }
+
+                                      }
+                                    }
+                                    return Column(
+                                      children: [
+                                        Column(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                              child: Container(
+                                                height: 55,
+                                                child: Row(
+                                                  children: [
+                                                    Text(textSetTSales, textScaleFactor: 1, style:
+                                                    TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w500, color: Colors.black,
+                                                    ),),
+                                                    Spacer(),
+                                                    Text( tSale.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},') + ' types', textScaleFactor: 1, style:
+                                                    TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w600, color: Colors.black,
+                                                    ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 15.0),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    border: Border(
+                                                        bottom: BorderSide(
+                                                            color: Colors.grey
+                                                                .withOpacity(0.2),
+                                                            width: 1.0))),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+
+
+                                        Column(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                              child: Container(
+                                                height: 55,
+                                                child: Row(
+                                                  children: [
+                                                    Text(textSetTLoss, textScaleFactor: 1, style:
+                                                    TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w500, color: Colors.black,
+                                                    ),),
+                                                    Spacer(),
+                                                    Text(tLoss.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},') + ' types', textScaleFactor: 1, style:
+                                                    TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w600, color: Colors.black,
+                                                    ),),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 15.0),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    border: Border(
+                                                        bottom: BorderSide(
+                                                            color: Colors.grey
+                                                                .withOpacity(0.2),
+                                                            width: 1.0))),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Column(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                              child: Container(
+                                                height: 55,
+                                                child: Row(
+                                                  children: [
+                                                    Text(textSetTRef, textScaleFactor: 1, style:
+                                                    TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w500, color: Colors.black,
+                                                    ),),
+                                                    Spacer(),
+                                                    Text(tRef.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},') + ' types', textScaleFactor: 1, style:
+                                                    TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w600, color: Colors.black,
+                                                    ),),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 15.0),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    border: Border(
+                                                        bottom: BorderSide(
+                                                            color: Colors.grey
+                                                                .withOpacity(0.2),
+                                                            width: 1.0))),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Column(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                              child: Container(
+                                                height: 55,
+                                                child: Row(
+                                                  children: [
+                                                    Text(textSetSaleAmt, textScaleFactor: 1, style:
+                                                    TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w500, color: Colors.black,
+                                                    ),),
+                                                    Spacer(),
+                                                    Text( tSaleAmount.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},') + ' ' +currencyUnit, textScaleFactor: 1, style:
+                                                    TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w600, color: Colors.black,
+                                                    ),),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 15.0),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    border: Border(
+                                                        bottom: BorderSide(
+                                                            color: Colors.grey
+                                                                .withOpacity(0.2),
+                                                            width: 1.0))),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Column(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                              child: Container(
+                                                height: 55,
+                                                child: Row(
+                                                  children: [
+                                                    Text(textSetBuyAmt, textScaleFactor: 1, style:
+                                                    TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w500, color: Colors.black,
+                                                    ),),
+                                                    Spacer(),
+                                                    Text( tBuyAmount.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},') + ' ' +currencyUnit, textScaleFactor: 1, style:
+                                                    TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w600, color: Colors.black,
+                                                    ),),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 15.0),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    border: Border(
+                                                        bottom: BorderSide(
+                                                            color: Colors.grey
+                                                                .withOpacity(0.2),
+                                                            width: 1.0))),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Column(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                              child: Container(
+                                                height: 55,
+                                                child: Row(
+                                                  children: [
+                                                    Text(textSetDiscount, textScaleFactor: 1, style:
+                                                    TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w500, color: Colors.black,
+                                                    ),),
+                                                    Spacer(),
+                                                    Text( tDiscount.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},') + ' ' +currencyUnit, textScaleFactor: 1, style:
+                                                    TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w600, color: Colors.black,
+                                                    ),),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        // Column(
+                                        //   children: [
+                                        //     Padding(
+                                        //       padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                        //       child: Container(
+                                        //         height: 55,
+                                        //         child: Row(
+                                        //           children: [
+                                        //             Text('Total products', textScaleFactor: 1, style:
+                                        //             TextStyle(
+                                        //               fontSize: 16,
+                                        //               fontWeight: FontWeight.w500, color: Colors.black,
+                                        //             ),),
+                                        //             Spacer(),
+                                        //             Text('7,3454', textScaleFactor: 1, style:
+                                        //             TextStyle(
+                                        //               fontSize: 16,
+                                        //               fontWeight: FontWeight.w600, color: Colors.black,
+                                        //             ),),
+                                        //           ],
+                                        //         ),
+                                        //       ),
+                                        //     ),
+                                        //   ],
+                                        // ),
+                                      ],
+                                    );
+                                  }
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 25.0, top: 10),
+                                child: ButtonTheme(
+                                  minWidth: MediaQuery.of(context).size.width,
+                                  splashColor: Colors.transparent,
+                                  height: 50,
+                                  child: FlatButton(
+                                    color: AppTheme.buttonColor2,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                      BorderRadius.circular(10.0),
+                                      side: BorderSide(
+                                        color: AppTheme.buttonColor2,
+                                      ),
+                                    ),
+                                    onPressed: () async {
+
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 5.0,
+                                          right: 5.0,
+                                          bottom: 2.0),
+                                      child: Container(
+                                        child: Text(
+                                            textSetMore, textScaleFactor: 1,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w600,
+                                                letterSpacing:-0.1
+                                            ),
+                                            strutStyle: StrutStyle(
+                                              height: 1.4,
+                                              forceStrutHeight: true,
+                                            )
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
 
 
                             ],

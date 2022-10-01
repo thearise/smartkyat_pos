@@ -159,20 +159,7 @@ class OverviewPageState extends State<OverviewPage>
   String gloSearchText = '';
   int gloSeaProLeng = 0;
 
-  String textSetTotalSales = 'TOTAL SALES';
-  String textSetTodaySoFar = 'TODAY SO FAR';
-  String textSetStockCosts = 'Stock costs';
-  String textSetUnpaid = 'Unpaid';
-  String textSetBuys = 'Refunds';
-  String textSetLoss = 'Loss';
-  String textSetToday = 'Day';
-  String textSetLastWeek = 'Last week';
-  String textSetLastMonth = 'This month';
-  String textSetLastYear = 'Last year';
-  String textSetLast7Days = 'Last 7 Days';
-  String textSetLast28D = 'LAST 28 DAYS';
-  String textSetLast12M = 'LAST 12 MONTHS';
-  String textSetSearch = 'Search';
+  String textSetTotalSales = 'Sale reports';
 
   String currencyUnit = 'MMK';
 
@@ -293,39 +280,13 @@ class OverviewPageState extends State<OverviewPage>
     {
       setState(() {
         textSetTotalSales = 'TOTAL SALES';
-        textSetTodaySoFar = 'TODAY SO FAR';
-        textSetStockCosts = 'Stock costs';
-        textSetUnpaid = 'Unpaid';
-        textSetBuys = 'Refunds';
-        textSetLoss = 'Loss';
-        textSetToday = 'Day';
-        textSetLastWeek = 'Last week';
-        textSetLastMonth = 'This month';
-        textSetLastYear = 'This year';
-        textSetLast7Days = 'Last 7 Days';
-        textSetLast28D = 'LAST 28 DAYS';
-        textSetLast12M = 'LAST 12 MONTHS';
-        textSetSearch = 'Search';
 
       });
     }
     else
     {
       setState(() {
-        textSetTotalSales = 'စုစုပေါင်း ရောင်းရငွေ';
-        textSetTodaySoFar = 'ဒီနေ့အတွင်း';
-        textSetStockCosts = 'ဝယ်ယူစရိတ်';
-        textSetUnpaid = 'အကြွေးရရန်';
-        textSetBuys = 'ပြန်ပေးငွေ';
-        textSetLoss = 'ဆုံးရှုံး';
-        textSetToday = 'နေ့စဉ်';
-        textSetLastWeek = 'အပတ်စဉ်';
-        textSetLastMonth = 'လစဉ်';
-        textSetLastYear = 'နှစ်စဉ်';
-        textSetLast7Days = '၇ရက်အတွင်း';
-        textSetLast28D = '၂၈ရက်အတွင်း';
-        textSetLast12M = '၁၂လအတွင်း';
-        textSetSearch = 'ရှာဖွေရန်';
+        textSetTotalSales = 'အရောင်း အစီအရင်ခံစာ';
       });
     }
 
@@ -810,7 +771,7 @@ class OverviewPageState extends State<OverviewPage>
                       child: Row(
                         children: [
                           Expanded(
-                            child: Text('Sale reports', textScaleFactor: 1,
+                            child: Text(textSetTotalSales, textScaleFactor: 1,
                               style: TextStyle(
                                 fontSize: 26,
                                 fontWeight: FontWeight.w600,
@@ -911,45 +872,6 @@ class OverviewPageState extends State<OverviewPage>
       ),
     );
   }
-
-  String titleTextBySlide() {
-    if(_sliding == 0) {
-      return textSetTodaySoFar;
-    } else if(_sliding == 1) {
-      return textSetLast7Days;
-    } else if(_sliding == 2) {
-      // return textSetLast28D;
-      if(today.month == 1) {
-        return 'JANUARY ' + today.year.toString();
-      } else if(today.month == 2) {
-        return 'FEBRUARY ' + today.year.toString();
-      } else if(today.month == 3) {
-        return 'MARCH ' + today.year.toString();
-      } else if(today.month == 4) {
-        return 'APRIL ' + today.year.toString();
-      } else if(today.month == 5) {
-        return 'MAY ' + today.year.toString();
-      } else if(today.month == 6) {
-        return 'JUNE ' + today.year.toString();
-      } else if(today.month == 7) {
-        return 'JULY ' + today.year.toString();
-      } else if(today.month == 8) {
-        return 'AUGUST ' + today.year.toString();
-      } else if(today.month == 9) {
-        return 'SEPTEMBER ' + today.year.toString();
-      } else if(today.month == 10) {
-        return 'OCTOBER ' + today.year.toString();
-      } else if(today.month == 11) {
-        return 'NOVEMBER ' + today.year.toString();
-      } else {
-        return 'DECEMBER ' + today.year.toString();
-      }
-    } else {
-      // return textSetLast12M;
-      return 'YEAR ' + today.year.toString();
-    }
-  }
-
 
   calMonth(month) {
     var calMonth = 0;
