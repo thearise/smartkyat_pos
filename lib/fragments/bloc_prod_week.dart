@@ -628,12 +628,18 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
                                 double ttlM = initProds.entries.elementAt(i).value['sm'] == null? 0: initProds.entries.elementAt(i).value['sm'];
                                 double ttl1 = initProds.entries.elementAt(i).value['s1'] == null? 0: initProds.entries.elementAt(i).value['s1'];
                                 double ttl2 = initProds.entries.elementAt(i).value['s2'] == null? 0: initProds.entries.elementAt(i).value['s2'];
+
                                 double btlM = initProds.entries.elementAt(i).value['bm'] == null? 0: initProds.entries.elementAt(i).value['bm'];
                                 double btl1 = initProds.entries.elementAt(i).value['b1'] == null? 0: initProds.entries.elementAt(i).value['b1'];
                                 double btl2 = initProds.entries.elementAt(i).value['b2'] == null? 0: initProds.entries.elementAt(i).value['b2'];
+
+                                double dtlM = initProds.entries.elementAt(i).value['dm'] == null? 0: initProds.entries.elementAt(i).value['dm'].toDouble();
+                                double dtl1 = initProds.entries.elementAt(i).value['d1'] == null? 0: initProds.entries.elementAt(i).value['d1'].toDouble();
+                                double dtl2 = initProds.entries.elementAt(i).value['d2'] == null? 0: initProds.entries.elementAt(i).value['d2'].toDouble();
+
                                 initProds.entries.elementAt(i).value['st'] = ttlM + ttl1 + ttl2;
                                 initProds.entries.elementAt(i).value['bt'] = btlM + btl1 + btl2;
-                                initProds.entries.elementAt(i).value['pt'] = (ttlM + ttl1 + ttl2) - (btlM + btl1 + btl2);
+                                initProds.entries.elementAt(i).value['pt'] = (ttlM + ttl1 + ttl2) - (btlM + btl1 + btl2) - (dtlM + dtl1 + dtl2);
                                 initProds.entries.elementAt(i).value['it'] = totalQtyCal(initProds.entries.elementAt(i).value, prodsSc[initProds.entries.elementAt(i).key]);
                               }
 
@@ -3020,17 +3026,17 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
     if(value['dm']==null) {
       salem = 0;
     } else {
-      salem = value['dm'];
+      salem = value['dm'].toDouble();
     }
     if(value['d1']==null) {
       sale1 = 0;
     } else {
-      sale1 = value['d1'];
+      sale1 = value['d1'].toDouble();
     }
     if(value['d2']==null) {
       sale2 = 0;
     } else {
-      sale2 = value['d2'];
+      sale2 = value['d2'].toDouble();
     }
     return (salem + sale1 + sale2).toString();
   }

@@ -473,16 +473,16 @@ class _BlocProdWeekWeekState extends State<BlocProdWeekWeek> {
             double ibuy2 = initProds[data['prods'].entries.elementAt(j).key]==null || initProds[data['prods'].entries.elementAt(j).key]['b2'] == null? 0: initProds[data['prods'].entries.elementAt(j).key]['b2'];
             initProds[data['prods'].entries.elementAt(j).key]['b2'] = pbuy2 + ibuy2;
 
-            double pdiscM = data['prods'].entries.elementAt(j).value['dm'] == null? 0: data['prods'].entries.elementAt(j).value['dm'];
-            double idiscM = initProds[data['prods'].entries.elementAt(j).key]==null || initProds[data['prods'].entries.elementAt(j).key]['dm'] == null? 0: initProds[data['prods'].entries.elementAt(j).key]['dm'];
+            double pdiscM = data['prods'].entries.elementAt(j).value['dm'] == null? 0: data['prods'].entries.elementAt(j).value['dm'].toDouble();
+            double idiscM = initProds[data['prods'].entries.elementAt(j).key]==null || initProds[data['prods'].entries.elementAt(j).key]['dm'] == null? 0: initProds[data['prods'].entries.elementAt(j).key]['dm'].toDouble();
             initProds[data['prods'].entries.elementAt(j).key]['dm'] = pdiscM + idiscM;
 
-            double pdisc1 = data['prods'].entries.elementAt(j).value['d1'] == null? 0: data['prods'].entries.elementAt(j).value['d1'];
-            double idisc1 = initProds[data['prods'].entries.elementAt(j).key]==null || initProds[data['prods'].entries.elementAt(j).key]['d1'] == null? 0: initProds[data['prods'].entries.elementAt(j).key]['d1'];
+            double pdisc1 = data['prods'].entries.elementAt(j).value['d1'] == null? 0: data['prods'].entries.elementAt(j).value['d1'].toDouble();
+            double idisc1 = initProds[data['prods'].entries.elementAt(j).key]==null || initProds[data['prods'].entries.elementAt(j).key]['d1'] == null? 0: initProds[data['prods'].entries.elementAt(j).key]['d1'].toDouble();
             initProds[data['prods'].entries.elementAt(j).key]['d1'] = pdisc1 + idisc1;
 
-            double pdisc2 = data['prods'].entries.elementAt(j).value['d2'] == null? 0: data['prods'].entries.elementAt(j).value['d2'];
-            double idisc2 = initProds[data['prods'].entries.elementAt(j).key]==null || initProds[data['prods'].entries.elementAt(j).key]['d2'] == null? 0: initProds[data['prods'].entries.elementAt(j).key]['d2'];
+            double pdisc2 = data['prods'].entries.elementAt(j).value['d2'] == null? 0: data['prods'].entries.elementAt(j).value['d2'].toDouble();
+            double idisc2 = initProds[data['prods'].entries.elementAt(j).key]==null || initProds[data['prods'].entries.elementAt(j).key]['d2'] == null? 0: initProds[data['prods'].entries.elementAt(j).key]['d2'].toDouble();
             initProds[data['prods'].entries.elementAt(j).key]['d2'] = pdisc2 + idisc2;
           }
         }
@@ -628,12 +628,18 @@ class _BlocProdWeekWeekState extends State<BlocProdWeekWeek> {
                                 double ttlM = initProds.entries.elementAt(i).value['sm'] == null? 0: initProds.entries.elementAt(i).value['sm'];
                                 double ttl1 = initProds.entries.elementAt(i).value['s1'] == null? 0: initProds.entries.elementAt(i).value['s1'];
                                 double ttl2 = initProds.entries.elementAt(i).value['s2'] == null? 0: initProds.entries.elementAt(i).value['s2'];
+
                                 double btlM = initProds.entries.elementAt(i).value['bm'] == null? 0: initProds.entries.elementAt(i).value['bm'];
                                 double btl1 = initProds.entries.elementAt(i).value['b1'] == null? 0: initProds.entries.elementAt(i).value['b1'];
                                 double btl2 = initProds.entries.elementAt(i).value['b2'] == null? 0: initProds.entries.elementAt(i).value['b2'];
+
+                                double dtlM = initProds.entries.elementAt(i).value['dm'] == null? 0: initProds.entries.elementAt(i).value['dm'].toDouble();
+                                double dtl1 = initProds.entries.elementAt(i).value['d1'] == null? 0: initProds.entries.elementAt(i).value['d1'].toDouble();
+                                double dtl2 = initProds.entries.elementAt(i).value['d2'] == null? 0: initProds.entries.elementAt(i).value['d2'].toDouble();
+
                                 initProds.entries.elementAt(i).value['st'] = ttlM + ttl1 + ttl2;
                                 initProds.entries.elementAt(i).value['bt'] = btlM + btl1 + btl2;
-                                initProds.entries.elementAt(i).value['pt'] = (ttlM + ttl1 + ttl2) - (btlM + btl1 + btl2);
+                                initProds.entries.elementAt(i).value['pt'] = (ttlM + ttl1 + ttl2) - (btlM + btl1 + btl2) - (dtlM + dtl1 + dtl2);
                                 initProds.entries.elementAt(i).value['it'] = totalQtyCal(initProds.entries.elementAt(i).value, prodsSc[initProds.entries.elementAt(i).key]);
                               }
 
@@ -3020,17 +3026,17 @@ class _BlocProdWeekWeekState extends State<BlocProdWeekWeek> {
     if(value['dm']==null) {
       salem = 0;
     } else {
-      salem = value['dm'];
+      salem = value['dm'].toDouble();
     }
     if(value['d1']==null) {
       sale1 = 0;
     } else {
-      sale1 = value['d1'];
+      sale1 = value['d1'].toDouble();
     }
     if(value['d2']==null) {
       sale2 = 0;
     } else {
-      sale2 = value['d2'];
+      sale2 = value['d2'].toDouble();
     }
     return (salem + sale1 + sale2).toString();
   }
