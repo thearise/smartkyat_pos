@@ -157,6 +157,7 @@ class _BuyListInfoState extends State<BuyListInfo>
   bool disableTouch = false;
 
   double totalPrice = 0;
+  double totalNPrice = 0;
   double totalRealPrice = 0.0;
   double ttlQ = 0;
   double ttlR = 0;
@@ -211,11 +212,13 @@ class _BuyListInfoState extends State<BuyListInfo>
                             prodListView.add(prodList[0]);
                             totalPrice = 0;
                             totalRealPrice = 0;
+                            totalNPrice = 0;
                             debugPrint(totalPrice.toString() +
                                 'totalPrice ' +
                                 prodList.toString());
 
                             for (int j=0;j< prodList.length; j++) {
+                              totalNPrice += double.parse(prodList[j].split('^')[4]) * (double.parse(prodList[j].split('^')[3]) - double.parse(prodList[j].split('^')[7]));
                               totalPrice += double.parse(prodList[j].split('^')[4]) * (double.parse(prodList[j].split('^')[3]) - double.parse(prodList[j].split('^')[7]));
                             }
                             for (int j=0;j< prodList.length; j++) {
@@ -561,7 +564,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                             Navigator.push(
                                                                 context,
                                                                 MaterialPageRoute(
-                                                                    builder: (context) => PrintReceiptRoute(fromSearch: widget.fromSearch, printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrintMod, shopId: widget.shopId, currency: currencyUnit,)));
+                                                                    builder: (context) => PrintReceiptRoute(fromSearch: widget.fromSearch, printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrintMod, shopId: widget.shopId, currency: currencyUnit, realPrice: totalNPrice,)));
                                                           } else {
                                                             smartKyatFMod(context, 'Try again in few seconds...', 'w');
                                                             // smartKyatFlash(
@@ -569,7 +572,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                           }} else  Navigator.push(
                                                             context,
                                                             MaterialPageRoute(
-                                                                builder: (context) => PrintReceiptRoute(fromSearch: widget.fromSearch, printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrintMod, shopId: widget.shopId, currency: currencyUnit,)));
+                                                                builder: (context) => PrintReceiptRoute(fromSearch: widget.fromSearch, printFromOrders: printFromOrdersFun, data: result, prodList: prodListPrintMod, shopId: widget.shopId, currency: currencyUnit, realPrice: totalNPrice,)));
                                                       },
                                                       child: Container(
                                                         width: 100,
@@ -911,7 +914,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                     subtitle: Text('$textSetPercent (' +  (widget.data.split('^')[6]).split('-')[0] + '%)',  textScaleFactor: 1, style: TextStyle(
                                                       fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
                                                     )),
-                                                    trailing: Text('- $currencyUnit ' + (totalRealPrice * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100)).toString(),  textScaleFactor: 1, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                    trailing: Text('- $currencyUnit ' + (totalNPrice * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100)).toStringAsFixed(1),  textScaleFactor: 1, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                                     // trailing: Text('- MMK ' + (int.parse(prodListView[i].split('^')[4]) * (int.parse(prodListView[i].split('^')[3]) - int.parse(prodListView[i].split('^')[7]))).toString()),
                                                     //trailing: Text('- MMK ' + (int.parse(TtlProdListPriceInit()) - int.parse((widget.data.split('^')[2]))).toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                                   ),
@@ -922,7 +925,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                     subtitle: Text(textSetAmount,  textScaleFactor: 1, style: TextStyle(
                                                       fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
                                                     )),
-                                                    trailing: Text('- $currencyUnit ' + (widget.data.split('^')[6]).split('-')[0],  textScaleFactor: 1, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                    trailing: Text('- $currencyUnit ' + (totalNPrice - totalPrice).toStringAsFixed(1),  textScaleFactor: 1, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                                                   ),
                                                 ),
                                               ) else Container(),

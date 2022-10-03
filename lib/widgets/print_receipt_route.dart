@@ -24,7 +24,7 @@ import 'printer_check_route.dart';
 
 class PrintReceiptRoute extends StatefulWidget {
 
-  const PrintReceiptRoute({Key? key, required this.currency, required this.fromSearch, required this.data, required this.prodList, required this.shopId, required void printFromOrders(File file, var prodListPR)})
+  const PrintReceiptRoute({Key? key, required this.realPrice ,required this.currency, required this.fromSearch, required this.data, required this.prodList, required this.shopId, required void printFromOrders(File file, var prodListPR)})
       : _printFromOrders = printFromOrders;
   final String data;
   final List prodList;
@@ -32,6 +32,7 @@ class PrintReceiptRoute extends StatefulWidget {
   final _printFromOrders;
   final String currency;
   final bool fromSearch;
+  final double realPrice;
 
   @override
   _PrintReceiptRouteState createState() => _PrintReceiptRouteState();
@@ -164,7 +165,7 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
               // vat: discountAmount,
               // type: disText,
               // debt: debt,
-              vat: double.parse(widget.data.split('^')[6].split('-')[0]),
+              vat:  widget.data.split('^')[6] != '0.0' ? widget.data.split('^')[6].split('-')[1] == 'd' ? widget.realPrice - double.parse(widget.data.split('^')[2]) : double.parse(widget.data.split('^')[6].split('-')[0]) : 0.0,
               type: widget.data.split('^')[6] != '0.0' ? '-' + (widget.data.split('^')[6].split('-')[1]).toString() : '',
               debt: double.parse(widget.data.split('^')[5]),
               unitPrice: double.parse(widget.prodList[i].split('^')[2]), currencyUnit: widget.currency,
