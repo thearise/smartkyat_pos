@@ -120,7 +120,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
       quantityCtrlList[i].selection = TextSelection.fromPosition(TextPosition(offset: quantityCtrlList[i].text.length));
 
     }
-    //  debugPrint('phyopyaesohn result test' + widget.data.toString());
+  //  debugPrint('phyopyaesohn result test' + widget.data.toString());
     super.initState();
   }
 
@@ -768,17 +768,17 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                     refund = true;
                                                   }
 
-                                                  // debugPrint('unit _name' + prodListView[i]);
+                                                 // debugPrint('unit _name' + prodListView[i]);
                                                   //debugPrint('unit ' + deffItems[i].toString() + ' ' + refundItems[i].toString() + (deffItems[i] - refundItems[i]).toString());
 
                                                   ref2Cust = [];
                                                   ref2Shop = [];
                                                   for(int i=0; i < deffItems.length; i++) {
                                                     if(deffItems[i] - refundItems[i] < 0) {
-                                                      //  debugPrint('ref to shop ' + prodListView[i].split('^')[3] + ' ' + prodListView[i].split('^')[5]);
+                                                    //  debugPrint('ref to shop ' + prodListView[i].split('^')[3] + ' ' + prodListView[i].split('^')[5]);
                                                       ref2Shop.add(prodListView[i].split('^')[0] + '^' + prodListView[i].split('^')[1] + '^' + (deffItems[i] - refundItems[i]).abs().toString() + '^' + prodListView[i].split('^')[5]);
                                                     } else if(deffItems[i] - refundItems[i] > 0) {
-                                                      //   debugPrint('ref to cust ' + prodListView[i].split('^')[3] + ' ' + prodListView[i].split('^')[5]);
+                                                   //   debugPrint('ref to cust ' + prodListView[i].split('^')[3] + ' ' + prodListView[i].split('^')[5]);
                                                     }
                                                   }
                                                 }
@@ -804,21 +804,21 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                   String prodId = prodListView[i].split('^')[0];
                                                   String prodTp = prodListView[i].split('^')[5];
 
-                                                  // debugPrint(prodId + ' ' + prodTp);
+                                                 // debugPrint(prodId + ' ' + prodTp);
 
                                                   for(int j=0; j< prodList.length; j++) {
-                                                    //  debugPrint('debuug ' + i.toString() + ' ' + j.toString() + ' ' + value.toString());
+                                                  //  debugPrint('debuug ' + i.toString() + ' ' + j.toString() + ' ' + value.toString());
                                                     double refund = 0;
 
                                                     if(prodId == prodList[j].split('^')[0] && prodTp == prodList[j].split('^')[5] && value <= double.parse(prodList[j].split('^')[3])) {
                                                       refund = value - double.parse(prodList[j].split('^')[7]);
-                                                      //  debugPrint('refun ' + refund.toString() + ' ' + value.toString() + ' ' + prodList[j].split('^')[7]);
+                                                    //  debugPrint('refun ' + refund.toString() + ' ' + value.toString() + ' ' + prodList[j].split('^')[7]);
                                                       prodList[j] = prodList[j].split('^')[0] + '^' + prodList[j].split('^')[1] + '^' + prodList[j].split('^')[2] + '^' + prodList[j].split('^')[3] + '^' + prodList[j].split('^')[4] + '^' + prodList[j].split('^')[5] + '^' + prodList[j].split('^')[6] + '^' +
                                                           value.toString() + '^' + prodList[j].split('^')[8];
                                                       break;
                                                     } else if (prodId == prodList[j].split('^')[0] && prodTp == prodList[j].split('^')[5] && value > int.parse(prodList[j].split('^')[3])) {
                                                       refund = value - int.parse(prodList[j].split('^')[7]);
-                                                      //   debugPrint('refun ' + refund.toString() + ' ' + value.toString() + ' ' + prodList[j].split('^')[7]);
+                                                   //   debugPrint('refun ' + refund.toString() + ' ' + value.toString() + ' ' + prodList[j].split('^')[7]);
                                                       prodList[j] = prodList[j].split('^')[0] + '^' + prodList[j].split('^')[1] + '^' + prodList[j].split('^')[2] + '^' + prodList[j].split('^')[3] + '^' + prodList[j].split('^')[4] + '^' + prodList[j].split('^')[5] + '^' + prodList[j].split('^')[6] + '^' +
                                                           prodList[j].split('^')[3] + '^' + prodList[j].split('^')[8];
                                                       value = value - int.parse(prodList[j].split('^')[3]);
@@ -855,7 +855,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                               }
                                                             }
 
-                                                            // print('chgDiscount ' + chgDiscount.toString());
+                                                           // print('chgDiscount ' + chgDiscount.toString());
 
 
                                                             batch = await updateProduct(batch, prodList[i].split('^')[0], prodList[i].split('^')[5], refNum);
@@ -942,7 +942,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                   ttlQ += double.parse(prodList[i].split('^')[3]);
                                                 }
 
-                                                //    debugPrint('totalTest ' + ttlR.toString() + ' ' +ttlQ.toString());
+                                            //    debugPrint('totalTest ' + ttlR.toString() + ' ' +ttlQ.toString());
                                                 if (ttlR.toString()  != '0' &&  ttlR == ttlQ) {
                                                   refundAmount = 'T';
                                                   reFilter = true;
@@ -957,7 +957,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                 double chgTotal = 0;
                                                 double chgCapital = 0;
 
-                                                // debugPrint('leesin ' +widget.data.split('^')[4].toString());
+                                               // debugPrint('leesin ' +widget.data.split('^')[4].toString());
 
 
                                                 if (double.parse(widget.data.split('^')[5]) != debt) {
