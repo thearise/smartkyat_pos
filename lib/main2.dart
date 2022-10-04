@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 // import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:one_context/one_context.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:smartkyat_pos/api/purchase_api.dart';
 import 'package:smartkyat_pos/pages2/home_page5.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'fragments/welcome_fragment.dart';
@@ -17,6 +18,7 @@ final themeMode = ValueNotifier(2);
 PackageInfo? packageInfo;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  PurchaseApi.init();
   // MobileAds.instance.initialize();
   await Firebase.initializeApp();
   // FirebaseFirestore.instance.settings = Settings(
