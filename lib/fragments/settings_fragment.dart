@@ -1007,12 +1007,17 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
 
   Future<void> fetchingOffering() async {
     await PurchaseApi.init();
-    PurchaseApi.fetchOffers().then((value) {
-      debugPrint('Offeringss ' + value.toString());
-    });
+    final offerings = await PurchaseApi.fetchOffers();
+
+    if (offerings.isEmpty) {
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //     SnackBar(content: Text('No plan found.')));
+    } else {
+      final packages = offerings.map((offer) => offer.availablePackages)
+          .expand((pair) => pair)
+          .toList();
+    }
   }
-
-
 }
 
 
