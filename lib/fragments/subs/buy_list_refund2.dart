@@ -822,16 +822,16 @@ class _BuyListRefundState extends State<BuyListRefund>
                                           ),
                                         ListTile(
                                           title: Text(
-                                            textSetTtlRefund,
+                                            textSetTtlRefund, textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 17,
                                                 fontWeight: FontWeight.w500
                                             ),
                                           ),
-                                          subtitle: totalItems() == 1? Text(totalItems().round().toString() + ' item',
+                                          subtitle: totalItems() == 1? Text(totalItems().round().toString() + ' item', textScaleFactor: 1,
                                               style: TextStyle(
                                                 fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-                                              )) : Text(totalItems().toString() + ' items',
+                                              )) : Text(totalItems().toString() + ' items', textScaleFactor: 1,
                                               style: TextStyle(
                                                 fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
                                               )),
@@ -841,7 +841,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                 fontSize: 17,
                                                 fontWeight:
                                                 FontWeight
-                                                    .w500),
+                                                    .w500), textScaleFactor: 1,
                                           ),
                                         ),
                                         ListTile(
@@ -935,25 +935,25 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                   refund = true;
                                                 }
 
-                                                debugPrint('unit _name' + prodListView[i]);
-                                                debugPrint('unit ' + deffItems[i].toString() + ' ' + refundItems[i].toString() + (deffItems[i] - refundItems[i]).toString());
+                                               // debugPrint('unit _name' + prodListView[i]);
+                                               // debugPrint('unit ' + deffItems[i].toString() + ' ' + refundItems[i].toString() + (deffItems[i] - refundItems[i]).toString());
 
                                                 ref2Cust = [];
                                                 ref2Shop = [];
                                                 for(int i=0; i < deffItems.length; i++) {
                                                   if(deffItems[i] - refundItems[i] < 0) {
-                                                    debugPrint('ref to shop ' + prodListView[i].split('^')[3] + ' ' + prodListView[i].split('^')[5]);
+                                                   // debugPrint('ref to shop ' + prodListView[i].split('^')[3] + ' ' + prodListView[i].split('^')[5]);
                                                     ref2Shop.add(prodListView[i].split('^')[0] + '^' + prodListView[i].split('^')[1] + '^' + (deffItems[i] - refundItems[i]).abs().toString() + '^' + prodListView[i].split('^')[5]);
                                                   } else if(deffItems[i] - refundItems[i] > 0) {
-                                                    debugPrint('ref to cust ' + prodListView[i].split('^')[3] + ' ' + prodListView[i].split('^')[5]);
+                                                   // debugPrint('ref to cust ' + prodListView[i].split('^')[3] + ' ' + prodListView[i].split('^')[5]);
                                                   }
                                                 }
                                               }
 
-                                              debugPrint('che ' + ref2Shop.toString());
-                                              debugPrint('che2 ' + prodListView.toString());
-
-                                              debugPrint('prodList 5  1 ' + total.toString() + ' ' + prodList.toString());
+                                              // debugPrint('che ' + ref2Shop.toString());
+                                              // debugPrint('che2 ' + prodListView.toString());
+                                              //
+                                              // debugPrint('prodList 5  1 ' + total.toString() + ' ' + prodList.toString());
 
                                               if(widget.data.split('^')[6] != '0.0') {
                                                 if(widget.data.split('^')[6].split('-')[1] == 'p') {
@@ -962,8 +962,8 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                   total = total - (total * (double.parse(widget.data.split('^')[6].split('-')[0])/widget.realPrice));
                                                 }
                                               }
-                                              debugPrint('result__ 3' + total.toString());
-                                              debugPrint('prodListBef 1 ' + prodListBefore.toString());
+                                              // debugPrint('result__ 3' + total.toString());
+                                              // debugPrint('prodListBef 1 ' + prodListBefore.toString());
 
                                               for(int i=0; i < prodListView.length; i++) {
                                                 // int.parse(ref2Shop[i].split('^')[2])
@@ -971,21 +971,21 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                 String prodId = prodListView[i].split('^')[0];
                                                 String prodTp = prodListView[i].split('^')[5];
 
-                                                debugPrint(prodId + ' ' + prodTp);
+                                            //    debugPrint(prodId + ' ' + prodTp);
 
                                                 for(int j=0; j< prodList.length; j++) {
-                                                  debugPrint('debuug ' + i.toString() + ' ' + j.toString() + ' ' + value.toString());
+                                                 // debugPrint('debuug ' + i.toString() + ' ' + j.toString() + ' ' + value.toString());
                                                   double refund = 0;
 
                                                   if(prodId == prodList[j].split('^')[0] && prodTp == prodList[j].split('^')[5] && value <= double.parse(prodList[j].split('^')[3])) {
                                                     refund = value - double.parse(prodList[j].split('^')[7]);
-                                                    debugPrint('refun ' + refund.toString() + ' ' + value.toString() + ' ' + prodList[j].split('^')[7]);
+                                                   // debugPrint('refun ' + refund.toString() + ' ' + value.toString() + ' ' + prodList[j].split('^')[7]);
                                                     prodList[j] = prodList[j].split('^')[0] + '^' + prodList[j].split('^')[1] + '^' + prodList[j].split('^')[2] + '^' + prodList[j].split('^')[3] + '^' + prodList[j].split('^')[4] + '^' + prodList[j].split('^')[5] + '^' + prodList[j].split('^')[6] + '^' +
                                                         value.toString() + '^' + prodList[j].split('^')[8];
                                                     break;
                                                   } else if (prodId == prodList[j].split('^')[0] && prodTp == prodList[j].split('^')[5] && value > int.parse(prodList[j].split('^')[3])) {
                                                     refund = value - int.parse(prodList[j].split('^')[7]);
-                                                    debugPrint('refun ' + refund.toString() + ' ' + value.toString() + ' ' + prodList[j].split('^')[7]);
+                                                 //   debugPrint('refun ' + refund.toString() + ' ' + value.toString() + ' ' + prodList[j].split('^')[7]);
                                                     prodList[j] = prodList[j].split('^')[0] + '^' + prodList[j].split('^')[1] + '^' + prodList[j].split('^')[2] + '^' + prodList[j].split('^')[3] + '^' + prodList[j].split('^')[4] + '^' + prodList[j].split('^')[5] + '^' + prodList[j].split('^')[6] + '^' +
                                                         prodList[j].split('^')[3] + '^' + prodList[j].split('^')[8];
                                                     value = value - int.parse(prodList[j].split('^')[3]);
@@ -993,8 +993,8 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                 }
                                               }
 
-                                              debugPrint('prodList 5  2 ' + total.toString() + ' ' + prodList.toString());
-                                              debugPrint('prodListBef 2 ' + prodListBefore.toString());
+                                              // debugPrint('prodList 5  2 ' + total.toString() + ' ' + prodList.toString());
+                                              // debugPrint('prodListBef 2 ' + prodListBefore.toString());
                                               List prodRets = prodList;
                                               for(int i=0; i < prodList.length; i++) {
                                                 double refNum = double.parse(prodList[i].split('^')[7]) - double.parse(prodListBefore[i].split('^')[7]);

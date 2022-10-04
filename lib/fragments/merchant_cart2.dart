@@ -172,9 +172,9 @@ class MerchantCartState extends State<MerchantCart>
   }
   @override
   void dispose() {
-    _textFieldController2.dispose();
-    myController.dispose();
-    buyPriceController.dispose();
+    // _textFieldController2.dispose();
+    // myController.dispose();
+    // buyPriceController.dispose();
     super.dispose();
   }
 
