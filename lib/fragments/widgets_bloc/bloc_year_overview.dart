@@ -17,6 +17,7 @@ import 'package:paginate_firestore/bloc/pagination_listeners.dart';
 import 'package:provider/provider.dart';
 import 'package:smartkyat_pos/app_theme.dart';
 import 'package:smartkyat_pos/fragments/bloc_home_month_loss.dart';
+import 'package:smartkyat_pos/fragments/prod_sale_sum_home.dart';
 import 'package:sticky_and_expandable_list/sticky_and_expandable_list.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -1113,7 +1114,17 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
                                       ),
                                     ),
                                     onPressed: () async {
-
+                                      closeDrawerFrom();
+                                      await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (
+                                                context) =>
+                                                ProdSaleSumHome(
+                                                  shopId: widget.shopId,  openDrawerBtn: widget._openDrawer, closeDrawerBtn: widget._closeDrawer, isEnglish: widget.isEnglish,
+                                                )),
+                                      );
+                                      openDrawerFrom();
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.only(

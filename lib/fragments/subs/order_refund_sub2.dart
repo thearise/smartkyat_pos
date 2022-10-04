@@ -88,20 +88,20 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
   @override
   void initState() {
 
-      if(widget.isEnglish == true) {
+    if(widget.isEnglish == true) {
 
-        setState(() {
-          textSetTtlRefund = 'Refunded items price';
-          textSetTtlRefundAmount = 'Total refund amount';
-          textSetRefundBtn = 'Refund';
-        });
-      } else {
-        setState(() {
-          textSetTtlRefund = 'ပြန်ပေးပစ္စည်းများ ကျသင့်ငွေ';
-          textSetTtlRefundAmount = 'စုစုပေါင်း ပြန်ပေးငွေ';
-          textSetRefundBtn = 'ပြန်ပေးပစ္စည်းထည့်မည်';
-        });
-      }
+      setState(() {
+        textSetTtlRefund = 'Refunded items price';
+        textSetTtlRefundAmount = 'Total refund amount';
+        textSetRefundBtn = 'Refund';
+      });
+    } else {
+      setState(() {
+        textSetTtlRefund = 'ပြန်ပေးပစ္စည်းများ ကျသင့်ငွေ';
+        textSetTtlRefundAmount = 'စုစုပေါင်း ပြန်ပေးငွေ';
+        textSetRefundBtn = 'ပြန်ပေးပစ္စည်းထည့်မည်';
+      });
+    }
 
     getCurrency().then((value){
       if(value == 'US Dollar (USD)') {
@@ -120,7 +120,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
       quantityCtrlList[i].selection = TextSelection.fromPosition(TextPosition(offset: quantityCtrlList[i].text.length));
 
     }
-    debugPrint('phyopyaesohn result test' + widget.data.toString());
+    //  debugPrint('phyopyaesohn result test' + widget.data.toString());
     super.initState();
   }
 
@@ -392,11 +392,11 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                                               }
                                                                             });
                                                                           }
-                                                                          debugPrint(
-                                                                              'dataRMM' +
-                                                                                  widget
-                                                                                      .data
-                                                                                      .toString());
+                                                                          // debugPrint(
+                                                                          //     'dataRMM' +
+                                                                          //         widget
+                                                                          //             .data
+                                                                          //             .toString());
                                                                         },
                                                                         child: Container(
                                                                           width: 42,
@@ -651,22 +651,22 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                           ),
                                         ListTile(
                                           title: Text(
-                                            textSetTtlRefund,
+                                            textSetTtlRefund, textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontSize: 17,
                                                 fontWeight: FontWeight.w500
                                             ),
                                           ),
                                           subtitle: totalItems() == 1? Text(totalItems().round().toString() + ' item',
-                                              style: TextStyle(
+                                              textScaleFactor: 1, style: TextStyle(
                                                 fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
                                               )) : Text(totalItems().toString() + ' items',
-                                              style: TextStyle(
+                                              textScaleFactor: 1, style: TextStyle(
                                                 fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
                                               )),
                                           trailing: Text('$currencyUnit '+
                                               totalPriceView().toStringAsFixed(2).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                            style: TextStyle(
+                                            textScaleFactor: 1, style: TextStyle(
                                                 fontSize: 17,
                                                 fontWeight:
                                                 FontWeight
@@ -734,330 +734,350 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                 );
                                               }
                                               else {
-                                              setState(() {
-                                                loadingState = true;
-                                                disableTouch = true;
-                                              });
-                                              openOverAllSubLoading();
-                                              double total = 0;
-                                              double total2 = 0;
-                                              bool refund = false;
-                                              var monthId = '';
-                                              bool monthExist = false;
-                                              var yearId = '';
-                                              bool yearExist = false;
-
-                                              List<String> ref2Cust = [];
-                                              List<String> ref2Shop = [];
-                                              for (int i = 0; i < refundItems.length; i++) {
-                                                prodListView[i] = prodListView[i].split('^')[0] + '^' + prodListView[i].split('^')[1] + '^' + prodListView[i].split('^')[2] + '^' +
-                                                    prodListView[i].split('^')[3] + '^' + prodListView[i].split('^')[4] + '^' + prodListView[i].split('^')[5] + '^' +
-                                                    prodListView[i].split('^')[6] +
-                                                    '^' +
-                                                    refundItems[i].toString() +
-                                                    '^' +
-                                                    prodListView[i].split('^')[8];
-                                                total += (double.parse(prodListView[i]
-                                                    .split('^')[3]) -
-                                                    refundItems[i]) *
-                                                    double.parse(prodListView[i].split('^')[4]);
-
-                                                total2 += (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[6]);
-
-                                                if (refundItems[i] > 0) {
-                                                  refund = true;
-                                                }
-
-                                                debugPrint('unit _name' + prodListView[i]);
-                                                debugPrint('unit ' + deffItems[i].toString() + ' ' + refundItems[i].toString() + (deffItems[i] - refundItems[i]).toString());
-
-                                                ref2Cust = [];
-                                                ref2Shop = [];
-                                                for(int i=0; i < deffItems.length; i++) {
-                                                  if(deffItems[i] - refundItems[i] < 0) {
-                                                    debugPrint('ref to shop ' + prodListView[i].split('^')[3] + ' ' + prodListView[i].split('^')[5]);
-                                                    ref2Shop.add(prodListView[i].split('^')[0] + '^' + prodListView[i].split('^')[1] + '^' + (deffItems[i] - refundItems[i]).abs().toString() + '^' + prodListView[i].split('^')[5]);
-                                                  } else if(deffItems[i] - refundItems[i] > 0) {
-                                                    debugPrint('ref to cust ' + prodListView[i].split('^')[3] + ' ' + prodListView[i].split('^')[5]);
-                                                  }
-                                                }
-                                              }
-
-                                              debugPrint('che ' + ref2Shop.toString());
-                                              debugPrint('che2 ' + prodListView.toString());
-
-                                              debugPrint('prodList 5  1 ' + total.toString() + ' ' + prodList.toString());
-
-                                              if(widget.data.split('^')[6] != '0.0') {
-                                                if(widget.data.split('^')[6].split('-')[1] == 'p') {
-                                                  total = total - (total * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100));
-                                                } else {
-                                                  total = total - (total * (double.parse(widget.data.split('^')[6].split('-')[0])/widget.realPrice));
-                                                }
-                                              }
-                                              debugPrint('result__ 3' + total.toString());
-                                              debugPrint('prodListBef 1 ' + prodListBefore.toString());
-
-                                              for(int i=0; i < prodListView.length; i++) {
-                                                // int.parse(ref2Shop[i].split('^')[2])
-                                                double value = double.parse(prodListView[i].split('^')[7]);
-                                                String prodId = prodListView[i].split('^')[0];
-                                                String prodTp = prodListView[i].split('^')[5];
-
-                                                debugPrint(prodId + ' ' + prodTp);
-
-                                                for(int j=0; j< prodList.length; j++) {
-                                                  debugPrint('debuug ' + i.toString() + ' ' + j.toString() + ' ' + value.toString());
-                                                  double refund = 0;
-
-                                                  if(prodId == prodList[j].split('^')[0] && prodTp == prodList[j].split('^')[5] && value <= double.parse(prodList[j].split('^')[3])) {
-                                                    refund = value - double.parse(prodList[j].split('^')[7]);
-                                                    debugPrint('refun ' + refund.toString() + ' ' + value.toString() + ' ' + prodList[j].split('^')[7]);
-                                                    prodList[j] = prodList[j].split('^')[0] + '^' + prodList[j].split('^')[1] + '^' + prodList[j].split('^')[2] + '^' + prodList[j].split('^')[3] + '^' + prodList[j].split('^')[4] + '^' + prodList[j].split('^')[5] + '^' + prodList[j].split('^')[6] + '^' +
-                                                        value.toString() + '^' + prodList[j].split('^')[8];
-                                                    break;
-                                                  } else if (prodId == prodList[j].split('^')[0] && prodTp == prodList[j].split('^')[5] && value > int.parse(prodList[j].split('^')[3])) {
-                                                    refund = value - int.parse(prodList[j].split('^')[7]);
-                                                    debugPrint('refun ' + refund.toString() + ' ' + value.toString() + ' ' + prodList[j].split('^')[7]);
-                                                    prodList[j] = prodList[j].split('^')[0] + '^' + prodList[j].split('^')[1] + '^' + prodList[j].split('^')[2] + '^' + prodList[j].split('^')[3] + '^' + prodList[j].split('^')[4] + '^' + prodList[j].split('^')[5] + '^' + prodList[j].split('^')[6] + '^' +
-                                                        prodList[j].split('^')[3] + '^' + prodList[j].split('^')[8];
-                                                    value = value - int.parse(prodList[j].split('^')[3]);
-                                                  }
-                                                }
-                                              }
-
-                                              debugPrint('prodList 5  2 ' + total.toString() + ' ' + prodList.toString());
-                                              debugPrint('prodListBef 2 ' + prodListBefore.toString());
-                                              List prodRets = prodList;
-                                              DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodSaleData').doc(widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8));
-                                              DocumentReference prodsMonthly = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodMthData').doc(widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6));
-                                              DocumentReference prodsYearly = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodYearData').doc(widget.data.split('^')[0].substring(0,4));
-
-                                              for(int i=0; i < prodList.length; i++) {
-                                                double refNum = double.parse(prodList[i].split('^')[7]) - double.parse(prodListBefore[i].split('^')[7]);
-                                                if(refNum > 0) {
-                                                  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr')
-                                                      .get()
-                                                      .then((DocumentSnapshot documentSnapshot) async {
-                                                    if (documentSnapshot.exists) {
-                                                      documentSnapshot['prods'].forEach((key, value) async {
-                                                        if(key.toString() ==  prodList[i].split('^')[0].toString()) {
-                                                          batch = await updateProduct(batch, prodList[i].split('^')[0], prodList[i].split('^')[5], refNum);
-                                                          batch.set(
-                                                              prodsArr,
-                                                              {
-                                                                'prods': {
-                                                                  prodList[i].split('^')[0].toString(): {
-                                                                    changeUnitName2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - double.parse(refNum.toString())),
-                                                                    changeSaleUnit2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[4])),
-                                                                    changeBuyUnit2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[6])),
-                                                                    changeRefName2Stock(prodList[i].split('^')[5]): FieldValue.increment(double.parse(refNum.toString())),
-                                                                  }
-                                                                }
-                                                              },SetOptions(merge: true)
-                                                          );
-
-                                                          batch.set(
-                                                              prodsMonthly,
-                                                              {
-                                                                'prods': {
-                                                                  prodList[i].split('^')[0].toString(): {
-                                                                    changeUnitName2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - double.parse(refNum.toString())),
-                                                                    changeSaleUnit2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[4])),
-                                                                    changeBuyUnit2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[6])),
-                                                                    changeRefName2Stock(prodList[i].split('^')[5]): FieldValue.increment(double.parse(refNum.toString())),
-                                                                  }
-                                                                }
-                                                              },SetOptions(merge: true)
-                                                          );
-
-                                                          batch.set(
-                                                              prodsYearly,
-                                                              {
-                                                                'prods': {
-                                                                  prodList[i].split('^')[0].toString(): {
-                                                                    changeUnitName2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - double.parse(refNum.toString())),
-                                                                    changeSaleUnit2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[4])),
-                                                                    changeBuyUnit2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[6])),
-                                                                    changeRefName2Stock(prodList[i].split('^')[5]): FieldValue.increment(double.parse(refNum.toString())),
-                                                                  }
-                                                                }
-                                                              },SetOptions(merge: true)
-                                                          );
-                                                        }
-                                                      });
-
-
-                                                    }
-                                                  });
-                                                  // var docSnapshot = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId)
-                                                  //     .collection('products').doc(prodList[i].split('^')[0]).get();
-                                                  // if (docSnapshot.exists) {
-
-                                                  // }
-                                                }
-                                              }
-
-                                              double debt = double.parse(widget.data.split('^')[5]);
-                                              String refundAmount = 'F';
-                                              bool reFilter = false;
-                                              bool deFilter = false;
-                                              double paidAmount = 0 ;
-                                              paidAmount = (double.parse(widget.data.split('^')[2]) - double.parse(widget.data.split('^')[5]));
-
-                                              if(paidAmount != 0 && total !=0 && total > paidAmount) {
-                                                debt = double.parse(widget.data.split('^')[5]) - (double.parse(widget.data.split('^')[2]) - total);
-                                                print('paid shi tl' + total.toString() + ' '+paidAmount.toString());
-                                              } else if(paidAmount != 0 && total !=0 && total <= paidAmount) {
-                                                debt = 0 ;
-                                              }
-                                              else {
-                                                debt = total;
-                                              }
-
-                                              double ttlR = 0.0;
-                                              double ttlQ = 0.0;
-                                              for (int i = 0; i < prodList.length; i++) {
-                                                ttlR += double.parse(prodList[i].split('^')[7]);
-                                                ttlQ += double.parse(prodList[i].split('^')[3]);
-                                              }
-
-                                              debugPrint('totalTest ' + ttlR.toString() + ' ' +ttlQ.toString());
-                                              if (ttlR.toString()  != '0' &&  ttlR == ttlQ) {
-                                                refundAmount = 'T';
-                                                reFilter = true;
-                                              }
-                                              if (ttlR.toString()  != '0'  &&  ttlR != ttlQ) {
-                                                refundAmount = 'P';
-                                                reFilter = true;
-                                              }
-                                              int totalRefunds = 0;
-                                              double chgDebts = 0;
-                                              int ttlDebts = 0;
-                                              double chgTotal = 0;
-                                              double chgCapital = 0;
-
-                                              debugPrint('leesin ' +widget.data.split('^')[4].toString());
-
-
-                                              if (double.parse(widget.data.split('^')[5]) != debt) {
-                                                chgDebts = double.parse(widget.data.split('^')[5]) - debt;
-                                              } else {
-                                                chgDebts = 0;
-                                              }
-
-                                              if (double.parse(widget.data.split('^')[5]) != debt && debt == 0) {
-                                                ttlDebts = 1;
-                                              } else {
-                                                ttlDebts = 0;
-                                              }
-
-                                              if (debt == 0) {
-                                                deFilter = false;
-                                              } else {
-                                                deFilter = true;
-                                              }
-                                              debugPrint('deFilter' + widget.data.split('^')[5].toString() +' ' + debt.toString() + ' ' + chgDebts.toString());
-
-                                              if(widget.data.split('^')[4] == 'F') {
-                                                totalRefunds = 1;
-                                              } else {
-                                                totalRefunds = 0;
-                                              }
-
-                                              if (double.parse(widget.data.split('^')[2]) != total) {
-                                                chgTotal = double.parse(widget.data.split('^')[2]) - total;
-                                                chgCapital =  total2;
-                                              } else {
-                                                chgTotal = 0;
-                                                chgCapital = 0;
-                                              }
-
-                                              batch = await updateMonthlyData1(batch, widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6), widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'cash_cust', widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'debt_cust', widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'capital', chgTotal, chgDebts, chgCapital);
-                                              batch = await updateYearlyData1(batch, widget.data.split('^')[0].substring(0,4), widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'cash_cust',  widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'debt_cust',   widget.data.split('^')[0].substring(0,4) +  widget.data.split('^')[0].substring(4,6)  + 'capital', chgTotal, chgDebts, chgCapital);
-
-
-                                              if(widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) != now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString())) {
-                                                batch = await updateMonthlyData2(batch,
-                                                    now.year.toString() +
-                                                        zeroToTen(now.month.toString()),
-                                                    now.year.toString() +
-                                                        zeroToTen(now.month.toString()) +
-                                                        zeroToTen(now.day.toString()) + 'refu_cust',
-                                                    chgTotal);
-                                                batch = await updateYearlyData2(batch, now.year.toString(), now.year.toString() +  zeroToTen(now.month.toString())  + 'refu_cust', chgTotal);
-
-                                              }
-
-                                              String data = widget.data;
-
-                                              String noCustomer = '';
-                                              if(data.split('^')[3].split('&')[0] == 'No customer') {
-                                                noCustomer = 'name';
-                                              } else {noCustomer = data.split('^')[3].split('&')[0];}
-
-                                              String dataRm = data.split('^')[0] +
-                                                  '^' +
-                                                  data.split('^')[1] +
-                                                  '^' +
-                                                  data.split('^')[2] +
-                                                  '^' +
-                                                  data.split('^')[3].split('&')[1] + '<>' + noCustomer +
-                                                  '^' +
-                                                  data.split('^')[4] + '^' + data.split('^')[5] + '^' + data.split('^')[6];
-
-                                              data = data.split('^')[0] +
-                                                  '^' +
-                                                  data.split('^')[1] +
-                                                  '^' +
-                                                  total.toString() +
-                                                  '^' +
-                                                  data.split('^')[3].split('&')[1] + '<>' + noCustomer +
-                                                  '^' +
-                                                  refundAmount + '^' + debt.toString() + '^' + data.split('^')[6];
-
-                                              batch = await updateDailyOrder(batch, widget.documentId, dataRm, data);
-                                              //
-                                              // debugPrint('text' + widget.docId + prodList.toString() +total.toString() +refundAmount.toString() + debt.toString()+ reFilter.toString()+ deFilter.toString());
-                                              batch = await updateOrderDetail(batch, widget.docId, prodList, total, refundAmount, debt, reFilter, deFilter);
-                                              //
-
-                                              FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('cusArr')
-                                                  .get()
-                                                  .then((DocumentSnapshot documentSnapshot) async {
-                                                if (documentSnapshot.exists) {
-                                                  documentSnapshot['cus'].forEach((key, value) async {
-                                                    debugPrint('custom ' +  widget.data.split('^')[3].split('&')[0].toString());
-                                                    if(key.toString() ==  widget.data.split('^')[3].split('&')[1].toString()) {
-                                                      batch = await updateRefund(batch, widget.data.split('^')[3].split('&')[1], totalRefunds, ttlDebts, chgDebts);
-                                                    }
-                                                  });
-                                                }
-                                                if( widget.data.split('^')[3].split('&')[1] == 'name') {
-                                                  batch = await updateRefund(batch, widget.data.split('^')[3].split('&')[1], totalRefunds, ttlDebts, chgDebts);
-                                                }
-
-                                              try{
-                                                batch.commit();
-                                                Future.delayed(const Duration(milliseconds: 2000), () {
-                                                  setState(() {
-                                                    loadingState = false;
-                                                    disableTouch = false;
-                                                  });
-                                                  closeOverAllSubLoading();
-                                                  Navigator.of(context).popUntil((route) => route.isFirst);
-                                                  smartKyatFlash('$currencyUnit' + totalRefund().toString() + 'is successfully refunded to #' + widget.data.split('^')[1].toString(), 's');
+                                                setState(() {
+                                                  loadingState = true;
+                                                  disableTouch = true;
                                                 });
-                                              }
-                                             catch(error) {
-                                               smartKyatFlash('An error occurred while creating order. Please try again later.', 'e');
-                                               setState(() {
-                                                 loadingState = false;
-                                                 disableTouch = false;
-                                               });
-                                               closeOverAllSubLoading();
-                                             }
-                                              });
+                                                openOverAllSubLoading();
+                                                double total = 0;
+                                                double total2 = 0;
+                                                bool refund = false;
+                                                var monthId = '';
+                                                bool monthExist = false;
+                                                var yearId = '';
+                                                bool yearExist = false;
+
+                                                List<String> ref2Cust = [];
+                                                List<String> ref2Shop = [];
+                                                for (int i = 0; i < refundItems.length; i++) {
+                                                  prodListView[i] = prodListView[i].split('^')[0] + '^' + prodListView[i].split('^')[1] + '^' + prodListView[i].split('^')[2] + '^' +
+                                                      prodListView[i].split('^')[3] + '^' + prodListView[i].split('^')[4] + '^' + prodListView[i].split('^')[5] + '^' +
+                                                      prodListView[i].split('^')[6] +
+                                                      '^' +
+                                                      refundItems[i].toString() +
+                                                      '^' +
+                                                      prodListView[i].split('^')[8];
+                                                  total += (double.parse(prodListView[i]
+                                                      .split('^')[3]) -
+                                                      refundItems[i]) *
+                                                      double.parse(prodListView[i].split('^')[4]);
+
+                                                  total2 += (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[6]);
+
+                                                  if (refundItems[i] > 0) {
+                                                    refund = true;
+                                                  }
+
+                                                  // debugPrint('unit _name' + prodListView[i]);
+                                                  //debugPrint('unit ' + deffItems[i].toString() + ' ' + refundItems[i].toString() + (deffItems[i] - refundItems[i]).toString());
+
+                                                  ref2Cust = [];
+                                                  ref2Shop = [];
+                                                  for(int i=0; i < deffItems.length; i++) {
+                                                    if(deffItems[i] - refundItems[i] < 0) {
+                                                      //  debugPrint('ref to shop ' + prodListView[i].split('^')[3] + ' ' + prodListView[i].split('^')[5]);
+                                                      ref2Shop.add(prodListView[i].split('^')[0] + '^' + prodListView[i].split('^')[1] + '^' + (deffItems[i] - refundItems[i]).abs().toString() + '^' + prodListView[i].split('^')[5]);
+                                                    } else if(deffItems[i] - refundItems[i] > 0) {
+                                                      //   debugPrint('ref to cust ' + prodListView[i].split('^')[3] + ' ' + prodListView[i].split('^')[5]);
+                                                    }
+                                                  }
+                                                }
+
+                                                // debugPrint('che ' + ref2Shop.toString());
+                                                // debugPrint('che2 ' + prodListView.toString());
+                                                //
+                                                // debugPrint('prodList 5  1 ' + total.toString() + ' ' + prodList.toString());
+
+                                                if(widget.data.split('^')[6] != '0.0') {
+                                                  if(widget.data.split('^')[6].split('-')[1] == 'p') {
+                                                    total = total - (total * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100));
+                                                  } else {
+                                                    total = total - (total * (double.parse(widget.data.split('^')[6].split('-')[0])/widget.realPrice));
+                                                  }
+                                                }
+                                                // debugPrint('result__ 3' + total.toString());
+                                                // debugPrint('prodListBef 1 ' + prodListBefore.toString());
+
+                                                for(int i=0; i < prodListView.length; i++) {
+                                                  // int.parse(ref2Shop[i].split('^')[2])
+                                                  double value = double.parse(prodListView[i].split('^')[7]);
+                                                  String prodId = prodListView[i].split('^')[0];
+                                                  String prodTp = prodListView[i].split('^')[5];
+
+                                                  // debugPrint(prodId + ' ' + prodTp);
+
+                                                  for(int j=0; j< prodList.length; j++) {
+                                                    //  debugPrint('debuug ' + i.toString() + ' ' + j.toString() + ' ' + value.toString());
+                                                    double refund = 0;
+
+                                                    if(prodId == prodList[j].split('^')[0] && prodTp == prodList[j].split('^')[5] && value <= double.parse(prodList[j].split('^')[3])) {
+                                                      refund = value - double.parse(prodList[j].split('^')[7]);
+                                                      //  debugPrint('refun ' + refund.toString() + ' ' + value.toString() + ' ' + prodList[j].split('^')[7]);
+                                                      prodList[j] = prodList[j].split('^')[0] + '^' + prodList[j].split('^')[1] + '^' + prodList[j].split('^')[2] + '^' + prodList[j].split('^')[3] + '^' + prodList[j].split('^')[4] + '^' + prodList[j].split('^')[5] + '^' + prodList[j].split('^')[6] + '^' +
+                                                          value.toString() + '^' + prodList[j].split('^')[8];
+                                                      break;
+                                                    } else if (prodId == prodList[j].split('^')[0] && prodTp == prodList[j].split('^')[5] && value > int.parse(prodList[j].split('^')[3])) {
+                                                      refund = value - int.parse(prodList[j].split('^')[7]);
+                                                      //   debugPrint('refun ' + refund.toString() + ' ' + value.toString() + ' ' + prodList[j].split('^')[7]);
+                                                      prodList[j] = prodList[j].split('^')[0] + '^' + prodList[j].split('^')[1] + '^' + prodList[j].split('^')[2] + '^' + prodList[j].split('^')[3] + '^' + prodList[j].split('^')[4] + '^' + prodList[j].split('^')[5] + '^' + prodList[j].split('^')[6] + '^' +
+                                                          prodList[j].split('^')[3] + '^' + prodList[j].split('^')[8];
+                                                      value = value - int.parse(prodList[j].split('^')[3]);
+                                                    }
+                                                  }
+                                                }
+
+                                                // debugPrint('prodList 5  2 ' + total.toString() + ' ' + prodList.toString());
+                                                // debugPrint('prodListBef 2 ' + prodListBefore.toString());
+                                                List prodRets = prodList;
+                                                DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodSaleData').doc(widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8));
+                                                DocumentReference prodsMonthly = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodMthData').doc(widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6));
+                                                DocumentReference prodsYearly = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodYearData').doc(widget.data.split('^')[0].substring(0,4));
+
+                                                for(int i=0; i < prodList.length; i++) {
+                                                  double refNum = double.parse(prodList[i].split('^')[7]) - double.parse(prodListBefore[i].split('^')[7]);
+                                                  if(refNum > 0) {
+                                                    FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr')
+                                                        .get()
+                                                        .then((DocumentSnapshot documentSnapshot) async {
+                                                      if (documentSnapshot.exists) {
+                                                        documentSnapshot['prods'].forEach((key, value) async {
+                                                          if(key.toString() ==  prodList[i].split('^')[0].toString()) {
+                                                            double chgDiscount = 0;
+                                                            double ttlNewPrice = 0;
+
+                                                            ttlNewPrice = (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[4]);
+
+                                                            if(widget.data.split('^')[6] != '0.0') {
+                                                              if(widget.data.split('^')[6].split('-')[1] == 'p') {
+                                                                chgDiscount =  (ttlNewPrice * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100));
+                                                              } else {
+                                                                chgDiscount = (ttlNewPrice * (double.parse(widget.data.split('^')[6].split('-')[0])/widget.realPrice));
+                                                              }
+                                                            }
+
+                                                            // print('chgDiscount ' + chgDiscount.toString());
+
+
+                                                            batch = await updateProduct(batch, prodList[i].split('^')[0], prodList[i].split('^')[5], refNum);
+                                                            batch.set(
+                                                                prodsArr,
+                                                                {
+                                                                  'prods': {
+                                                                    prodList[i].split('^')[0].toString(): {
+                                                                      changeUnitName2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - double.parse(refNum.toString())),
+                                                                      changeSaleUnit2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[4])),
+                                                                      changeBuyUnit2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[6])),
+                                                                      changeRefName2Stock(prodList[i].split('^')[5]): FieldValue.increment(double.parse(refNum.toString())),
+                                                                      changeDisName2Stock(prodList[i].split('^')[5]): FieldValue.increment(0 - chgDiscount),
+
+                                                                    }
+                                                                  }
+                                                                },SetOptions(merge: true)
+                                                            );
+
+                                                            batch.set(
+                                                                prodsMonthly,
+                                                                {
+                                                                  'prods': {
+                                                                    prodList[i].split('^')[0].toString(): {
+                                                                      changeUnitName2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - double.parse(refNum.toString())),
+                                                                      changeSaleUnit2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[4])),
+                                                                      changeBuyUnit2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[6])),
+                                                                      changeRefName2Stock(prodList[i].split('^')[5]): FieldValue.increment(double.parse(refNum.toString())),
+                                                                      changeDisName2Stock(prodList[i].split('^')[5]): FieldValue.increment(0 - chgDiscount),
+                                                                    }
+                                                                  }
+                                                                },SetOptions(merge: true)
+                                                            );
+
+                                                            batch.set(
+                                                                prodsYearly,
+                                                                {
+                                                                  'prods': {
+                                                                    prodList[i].split('^')[0].toString(): {
+                                                                      changeUnitName2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - double.parse(refNum.toString())),
+                                                                      changeSaleUnit2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[4])),
+                                                                      changeBuyUnit2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[6])),
+                                                                      changeRefName2Stock(prodList[i].split('^')[5]): FieldValue.increment(double.parse(refNum.toString())),
+                                                                      changeDisName2Stock(prodList[i].split('^')[5]): FieldValue.increment(0 - chgDiscount),
+                                                                    }
+                                                                  }
+                                                                },SetOptions(merge: true)
+                                                            );
+                                                          }
+                                                        });
+
+
+                                                      }
+                                                    });
+                                                    // var docSnapshot = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId)
+                                                    //     .collection('products').doc(prodList[i].split('^')[0]).get();
+                                                    // if (docSnapshot.exists) {
+
+                                                    // }
+                                                  }
+                                                }
+
+                                                double debt = double.parse(widget.data.split('^')[5]);
+                                                String refundAmount = 'F';
+                                                bool reFilter = false;
+                                                bool deFilter = false;
+                                                double paidAmount = 0 ;
+                                                paidAmount = (double.parse(widget.data.split('^')[2]) - double.parse(widget.data.split('^')[5]));
+
+                                                if(paidAmount != 0 && total !=0 && total > paidAmount) {
+                                                  debt = double.parse(widget.data.split('^')[5]) - (double.parse(widget.data.split('^')[2]) - total);
+                                                  print('paid shi tl' + total.toString() + ' '+paidAmount.toString());
+                                                } else if(paidAmount != 0 && total !=0 && total <= paidAmount) {
+                                                  debt = 0 ;
+                                                }
+                                                else {
+                                                  debt = total;
+                                                }
+
+                                                double ttlR = 0.0;
+                                                double ttlQ = 0.0;
+                                                for (int i = 0; i < prodList.length; i++) {
+                                                  ttlR += double.parse(prodList[i].split('^')[7]);
+                                                  ttlQ += double.parse(prodList[i].split('^')[3]);
+                                                }
+
+                                                //    debugPrint('totalTest ' + ttlR.toString() + ' ' +ttlQ.toString());
+                                                if (ttlR.toString()  != '0' &&  ttlR == ttlQ) {
+                                                  refundAmount = 'T';
+                                                  reFilter = true;
+                                                }
+                                                if (ttlR.toString()  != '0'  &&  ttlR != ttlQ) {
+                                                  refundAmount = 'P';
+                                                  reFilter = true;
+                                                }
+                                                int totalRefunds = 0;
+                                                double chgDebts = 0;
+                                                int ttlDebts = 0;
+                                                double chgTotal = 0;
+                                                double chgCapital = 0;
+
+                                                // debugPrint('leesin ' +widget.data.split('^')[4].toString());
+
+
+                                                if (double.parse(widget.data.split('^')[5]) != debt) {
+                                                  chgDebts = double.parse(widget.data.split('^')[5]) - debt;
+                                                } else {
+                                                  chgDebts = 0;
+                                                }
+
+                                                if (double.parse(widget.data.split('^')[5]) != debt && debt == 0) {
+                                                  ttlDebts = 1;
+                                                } else {
+                                                  ttlDebts = 0;
+                                                }
+
+                                                if (debt == 0) {
+                                                  deFilter = false;
+                                                } else {
+                                                  deFilter = true;
+                                                }
+                                                debugPrint('deFilter' + widget.data.split('^')[5].toString() +' ' + debt.toString() + ' ' + chgDebts.toString());
+
+                                                if(widget.data.split('^')[4] == 'F') {
+                                                  totalRefunds = 1;
+                                                } else {
+                                                  totalRefunds = 0;
+                                                }
+
+                                                if (double.parse(widget.data.split('^')[2]) != total) {
+                                                  chgTotal = double.parse(widget.data.split('^')[2]) - total;
+                                                  chgCapital =  total2;
+                                                } else {
+                                                  chgTotal = 0;
+                                                  chgCapital = 0;
+                                                }
+
+                                                batch = await updateMonthlyData1(batch, widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6), widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'cash_cust', widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'debt_cust', widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'capital', chgTotal, chgDebts, chgCapital);
+                                                batch = await updateYearlyData1(batch, widget.data.split('^')[0].substring(0,4), widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'cash_cust',  widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'debt_cust',   widget.data.split('^')[0].substring(0,4) +  widget.data.split('^')[0].substring(4,6)  + 'capital', chgTotal, chgDebts, chgCapital);
+
+
+                                                if(widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) != now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString())) {
+                                                  batch = await updateMonthlyData2(batch,
+                                                      now.year.toString() +
+                                                          zeroToTen(now.month.toString()),
+                                                      now.year.toString() +
+                                                          zeroToTen(now.month.toString()) +
+                                                          zeroToTen(now.day.toString()) + 'refu_cust',
+                                                      chgTotal);
+                                                  batch = await updateYearlyData2(batch, now.year.toString(), now.year.toString() +  zeroToTen(now.month.toString())  + 'refu_cust', chgTotal);
+
+                                                }
+
+                                                String data = widget.data;
+
+                                                String noCustomer = '';
+                                                if(data.split('^')[3].split('&')[0] == 'No customer') {
+                                                  noCustomer = 'name';
+                                                } else {noCustomer = data.split('^')[3].split('&')[0];}
+
+                                                String dataRm = data.split('^')[0] +
+                                                    '^' +
+                                                    data.split('^')[1] +
+                                                    '^' +
+                                                    data.split('^')[2] +
+                                                    '^' +
+                                                    data.split('^')[3].split('&')[1] + '<>' + noCustomer +
+                                                    '^' +
+                                                    data.split('^')[4] + '^' + data.split('^')[5] + '^' + data.split('^')[6];
+
+                                                data = data.split('^')[0] +
+                                                    '^' +
+                                                    data.split('^')[1] +
+                                                    '^' +
+                                                    total.toString() +
+                                                    '^' +
+                                                    data.split('^')[3].split('&')[1] + '<>' + noCustomer +
+                                                    '^' +
+                                                    refundAmount + '^' + debt.toString() + '^' + data.split('^')[6];
+
+                                                batch = await updateDailyOrder(batch, widget.documentId, dataRm, data);
+                                                //
+                                                // debugPrint('text' + widget.docId + prodList.toString() +total.toString() +refundAmount.toString() + debt.toString()+ reFilter.toString()+ deFilter.toString());
+                                                batch = await updateOrderDetail(batch, widget.docId, prodList, total, refundAmount, debt, reFilter, deFilter);
+                                                //
+
+                                                FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('cusArr')
+                                                    .get()
+                                                    .then((DocumentSnapshot documentSnapshot) async {
+                                                  if (documentSnapshot.exists) {
+                                                    documentSnapshot['cus'].forEach((key, value) async {
+                                                      debugPrint('custom ' +  widget.data.split('^')[3].split('&')[0].toString());
+                                                      if(key.toString() ==  widget.data.split('^')[3].split('&')[1].toString()) {
+                                                        batch = await updateRefund(batch, widget.data.split('^')[3].split('&')[1], totalRefunds, ttlDebts, chgDebts);
+                                                      }
+                                                    });
+                                                  }
+                                                  if( widget.data.split('^')[3].split('&')[1] == 'name') {
+                                                    batch = await updateRefund(batch, widget.data.split('^')[3].split('&')[1], totalRefunds, ttlDebts, chgDebts);
+                                                  }
+
+                                                  try{
+                                                    batch.commit();
+                                                    Future.delayed(const Duration(milliseconds: 2000), () {
+                                                      setState(() {
+                                                        loadingState = false;
+                                                        disableTouch = false;
+                                                      });
+                                                      closeOverAllSubLoading();
+                                                      Navigator.of(context).popUntil((route) => route.isFirst);
+                                                      smartKyatFlash('$currencyUnit' + totalRefund().toString() + 'is successfully refunded to #' + widget.data.split('^')[1].toString(), 's');
+                                                    });
+                                                  }
+                                                  catch(error) {
+                                                    smartKyatFlash('An error occurred while creating order. Please try again later.', 'e');
+                                                    setState(() {
+                                                      loadingState = false;
+                                                      disableTouch = false;
+                                                    });
+                                                    closeOverAllSubLoading();
+                                                  }
+                                                });
                                               }
                                             },
                                             child:  loadingState == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
@@ -1332,6 +1352,25 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
     return totalPrice;
   }
 
+
+  totalDiscount() {
+    double totalPrice = 0.0;
+    for(int i=0; i<refundItems.length; i++) {
+      totalPrice += (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[4]);
+    }
+
+    // widget.data.split('^')[6].split('-')[1] == 'p' ?
+    if(widget.data.split('^')[6] != '0.0') {
+      if(widget.data.split('^')[6].split('-')[1] == 'p') {
+        totalPrice = totalPrice - (totalPrice * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100));
+      } else {
+        totalPrice = totalPrice - (totalPrice * (double.parse(widget.data.split('^')[6].split('-')[0])/widget.realPrice));
+      }
+    }
+
+    return totalPrice;
+  }
+
   totalPriceView2() {
     double totalPrice = 0.0;
     for(int i=0; i<refundItems.length; i++) {
@@ -1357,6 +1396,14 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
     } else {
       debugPrint('split 3 ' +split[3].toString());
       return 'r' + (int.parse(split[3])).toString();
+    }
+  }
+
+  changeDisName2Stock(String split) {
+    if(split == 'unit_name') {
+      return 'dm';
+    } else {
+      return 'd' + (int.parse(split[3])).toString();
     }
   }
 
@@ -1406,11 +1453,11 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
 
   updateMonthlyData2(WriteBatch batch, id, field1, double price1) {
     DocumentReference documentReference = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('orders_monthly').doc(id);
-      batch.set(documentReference, {
-        field1.toString(): FieldValue.increment(
-            double.parse(price1.toString())),
-        // 'date': DateTime.now(),
-      }, SetOptions(merge: true));
+    batch.set(documentReference, {
+      field1.toString(): FieldValue.increment(
+          double.parse(price1.toString())),
+      // 'date': DateTime.now(),
+    }, SetOptions(merge: true));
     return batch;
   }
 

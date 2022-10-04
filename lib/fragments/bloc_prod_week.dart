@@ -640,7 +640,7 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
                                 initProds.entries.elementAt(i).value['st'] = ttlM + ttl1 + ttl2;
                                 initProds.entries.elementAt(i).value['bt'] = btlM + btl1 + btl2;
                                 initProds.entries.elementAt(i).value['pt'] = (ttlM + ttl1 + ttl2) - (btlM + btl1 + btl2) - (dtlM + dtl1 + dtl2);
-                                initProds.entries.elementAt(i).value['it'] = totalQtyCal(initProds.entries.elementAt(i).value, prodsSc[initProds.entries.elementAt(i).key]);
+                                initProds.entries.elementAt(i).value['it'] = double.parse(totalQtyCal(initProds.entries.elementAt(i).value, prodsSc[initProds.entries.elementAt(i).key]));
                               }
 
                               if(initIndex == 0) {
@@ -828,7 +828,7 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
                                                       padding: const EdgeInsets.only(left: 27.0),
                                                       child: ExpansionTile(
                                                         trailing: Text(
-                                                          totalSaleCal(todayProds.entries.elementAt(index).value) + ' MMK',
+                                                          double.parse(totalSaleCal(todayProds.entries.elementAt(index).value)).toStringAsFixed(2) + ' ' + currencyUnit,
                                                           textScaleFactor: 1,
                                                           overflow: TextOverflow.ellipsis,
                                                           style: TextStyle(
@@ -933,7 +933,7 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
                                                                   ],
                                                                 ),
                                                                 trailing: Text(
-                                                                  todayProds.entries.elementAt(index).value['sm'].toString() + ' MMK',
+                                                                  (todayProds.entries.elementAt(index).value['sm']==null?0:todayProds.entries.elementAt(index).value['sm']).toStringAsFixed(2) + ' ' + currencyUnit,
                                                                   textScaleFactor: 1,
                                                                   style: TextStyle(
                                                                     fontSize: 14,
@@ -994,7 +994,7 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
                                                                   ],
                                                                 ),
                                                                 trailing: Text(
-                                                                  todayProds.entries.elementAt(index).value['s1'].toString() + ' MMK',
+                                                                  (todayProds.entries.elementAt(index).value['s1']==null?0:todayProds.entries.elementAt(index).value['s1']).toStringAsFixed(2) + ' ' + currencyUnit,
                                                                   textScaleFactor: 1,
                                                                   style: TextStyle(
                                                                     fontSize: 14,
@@ -1056,7 +1056,7 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
                                                                   ],
                                                                 ),
                                                                 trailing: Text(
-                                                                  todayProds.entries.elementAt(index).value['s2'].toString() + ' MMK',
+                                                                  (todayProds.entries.elementAt(index).value['s2']==null?0:todayProds.entries.elementAt(index).value['s2']).toStringAsFixed(2) + ' ' + currencyUnit,
                                                                   textScaleFactor: 1,
                                                                   style: TextStyle(
                                                                     fontSize: 14,
@@ -1115,7 +1115,7 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
                                                         ),
                                                       ),
                                                       trailing: Text(
-                                                        totalSaleCal(todayProds.entries.elementAt(index).value) + ' MMK',
+                                                        double.parse(totalSaleCal(todayProds.entries.elementAt(index).value)).toStringAsFixed(2) + ' ' + currencyUnit,
                                                         textScaleFactor: 1,
                                                         style: TextStyle(
                                                           fontSize: 14,
@@ -1152,7 +1152,7 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
                                                       padding: const EdgeInsets.only(left: 27.0),
                                                       child: ExpansionTile(
                                                         trailing: Text(
-                                                          totalProfitCal(todayProds.entries.elementAt(index).value, double.parse(totalDiscCal(todayProds.entries.elementAt(index).value))) + ' MMK',
+                                                          double.parse(totalProfitCal(todayProds.entries.elementAt(index).value, double.parse(totalDiscCal(todayProds.entries.elementAt(index).value)))).toStringAsFixed(2) + ' ' + currencyUnit,
                                                           textScaleFactor: 1,
                                                           overflow: TextOverflow.ellipsis,
                                                           style: TextStyle(
@@ -1257,7 +1257,8 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
                                                                   ],
                                                                 ),
                                                                 trailing: Text(
-                                                                  (todayProds.entries.elementAt(index).value['sm'] - todayProds.entries.elementAt(index).value['bm']).toString() + ' MMK',
+                                                                  // 'MMSP ' + todayProds.entries.elementAt(index).value['sm'].toDouble().toString(),
+                                                                  ((todayProds.entries.elementAt(index).value['sm']==null?0:todayProds.entries.elementAt(index).value['sm'].toDouble()) - (todayProds.entries.elementAt(index).value['bm']==null?0:todayProds.entries.elementAt(index).value['bm'].toDouble())).toStringAsFixed(2) + ' ' + currencyUnit,
                                                                   textScaleFactor: 1,
                                                                   style: TextStyle(
                                                                     fontSize: 14,
@@ -1319,7 +1320,7 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
                                                                   ],
                                                                 ),
                                                                 trailing: Text(
-                                                                  ((todayProds.entries.elementAt(index).value["s1"]==null? 0: todayProds.entries.elementAt(index).value["s1"]) - (todayProds.entries.elementAt(index).value["b1"]==null? 0:todayProds.entries.elementAt(index).value["b1"])).toString() + ' MMK',
+                                                                  ((todayProds.entries.elementAt(index).value["s1"]==null? 0: todayProds.entries.elementAt(index).value["s1"]) - (todayProds.entries.elementAt(index).value["b1"]==null? 0:todayProds.entries.elementAt(index).value["b1"])).toStringAsFixed(2) + ' ' + currencyUnit,
                                                                   textScaleFactor: 1,
                                                                   style: TextStyle(
                                                                     fontSize: 14,
@@ -1381,7 +1382,7 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
                                                                   ],
                                                                 ),
                                                                 trailing: Text(
-                                                                  (todayProds.entries.elementAt(index).value['s2'] - todayProds.entries.elementAt(index).value['b2']).toString() + ' MMK',
+                                                                  ((todayProds.entries.elementAt(index).value['s2']==null? 0:todayProds.entries.elementAt(index).value['s2']) - (todayProds.entries.elementAt(index).value['b2']==null?0:todayProds.entries.elementAt(index).value['b2'])).toStringAsFixed(2) + ' ' + currencyUnit,
                                                                   textScaleFactor: 1,
                                                                   style: TextStyle(
                                                                     fontSize: 14,
@@ -1436,7 +1437,7 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
                                                                   ),
                                                                 ),
                                                                 trailing: Text(
-                                                                  '- ' + totalDiscCal(todayProds.entries.elementAt(index).value) + ' MMK',
+                                                                  '- ' + double.parse(totalDiscCal(todayProds.entries.elementAt(index).value)).toStringAsFixed(2) + ' ' + currencyUnit,
                                                                   textScaleFactor: 1,
                                                                   style: TextStyle(
                                                                     fontSize: 14,
@@ -1495,7 +1496,7 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
                                                         ),
                                                       ),
                                                       trailing: Text(
-                                                        totalProfitCal(todayProds.entries.elementAt(index).value, double.parse(totalDiscCal(todayProds.entries.elementAt(index).value))) + ' MMK',
+                                                        double.parse(totalProfitCal(todayProds.entries.elementAt(index).value, double.parse(totalDiscCal(todayProds.entries.elementAt(index).value)))).toStringAsFixed(2) + ' ' + currencyUnit,
                                                         textScaleFactor: 1,
                                                         style: TextStyle(
                                                           fontSize: 14,
@@ -1532,7 +1533,7 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
                                                       padding: const EdgeInsets.only(left: 27.0),
                                                       child: ExpansionTile(
                                                         trailing: Text(
-                                                          totalBuyCal(todayProds.entries.elementAt(index).value) + ' MMK',
+                                                          double.parse(totalBuyCal(todayProds.entries.elementAt(index).value)).toStringAsFixed(2) + ' ' + currencyUnit,
                                                           textScaleFactor: 1,
                                                           overflow: TextOverflow.ellipsis,
                                                           style: TextStyle(
@@ -1637,7 +1638,7 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
                                                                   ],
                                                                 ),
                                                                 trailing: Text(
-                                                                  todayProds.entries.elementAt(index).value['bm'].toString() + ' MMK',
+                                                                  (todayProds.entries.elementAt(index).value['bm']==null?0:todayProds.entries.elementAt(index).value['bm']).toStringAsFixed(2) + ' ' + currencyUnit,
                                                                   textScaleFactor: 1,
                                                                   style: TextStyle(
                                                                     fontSize: 14,
@@ -1698,7 +1699,7 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
                                                                   ],
                                                                 ),
                                                                 trailing: Text(
-                                                                  (todayProds.entries.elementAt(index).value['b1']==null? 0: todayProds.entries.elementAt(index).value['b1']).toString() + ' MMK',
+                                                                  (todayProds.entries.elementAt(index).value['b1']==null? 0: todayProds.entries.elementAt(index).value['b1']).toStringAsFixed(2) + ' ' + currencyUnit,
                                                                   textScaleFactor: 1,
                                                                   style: TextStyle(
                                                                     fontSize: 14,
@@ -1760,7 +1761,7 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
                                                                   ],
                                                                 ),
                                                                 trailing: Text(
-                                                                  todayProds.entries.elementAt(index).value['b2'].toString() + ' MMK',
+                                                                  (todayProds.entries.elementAt(index).value['b2']==null?0:todayProds.entries.elementAt(index).value['b2']).toStringAsFixed(2) + ' ' + currencyUnit,
                                                                   textScaleFactor: 1,
                                                                   style: TextStyle(
                                                                     fontSize: 14,
@@ -1819,7 +1820,7 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
                                                         ),
                                                       ),
                                                       trailing: Text(
-                                                        totalBuyCal(todayProds.entries.elementAt(index).value) + ' MMK',
+                                                        double.parse(totalBuyCal(todayProds.entries.elementAt(index).value)).toStringAsFixed(2) + ' ' + currencyUnit,
                                                         textScaleFactor: 1,
                                                         style: TextStyle(
                                                           fontSize: 14,
@@ -1961,7 +1962,7 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
                                                                   ],
                                                                 ),
                                                                 trailing: Text(
-                                                                  todayProds.entries.elementAt(index).value['im'].toInt().toString() + ' ' + prodsSc[todayProds.entries.elementAt(index).key]['nm'],
+                                                                  (todayProds.entries.elementAt(index).value['im']==null?0:todayProds.entries.elementAt(index).value['im']).toInt().toString() + ' ' + prodsSc[todayProds.entries.elementAt(index).key]['nm'],
                                                                   textScaleFactor: 1,
                                                                   style: TextStyle(
                                                                     fontSize: 14,
@@ -2084,7 +2085,7 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
                                                                   ],
                                                                 ),
                                                                 trailing: Text(
-                                                                  todayProds.entries.elementAt(index).value['i2'].toInt().toString() + ' ' + prodsSc[todayProds.entries.elementAt(index).key]['n2'],
+                                                                  (todayProds.entries.elementAt(index).value['i2']==null?0:todayProds.entries.elementAt(index).value['i2']).toInt().toString() + ' ' + prodsSc[todayProds.entries.elementAt(index).key]['n2'],
                                                                   textScaleFactor: 1,
                                                                   style: TextStyle(
                                                                     fontSize: 14,
@@ -3066,17 +3067,17 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
 
   String titleSortText(value, prodsSc, ttlDisc) {
     if(initIndex == 0) {
-      return totalSaleCal(value) + ' ' + currencyUnit;
+      return double.parse(totalSaleCal(value)).toStringAsFixed(2) + ' ' + currencyUnit;
     } else if(initIndex == 1) {
-      return totalProfitCal(value, ttlDisc) + ' ' + currencyUnit;
+      return double.parse(totalProfitCal(value, ttlDisc)).toStringAsFixed(2) + ' ' + currencyUnit;
     } else if(initIndex == 2) {
-      return totalBuyCal(value) + ' ' + currencyUnit;
+      return double.parse(totalBuyCal(value)).toStringAsFixed(2) + ' ' + currencyUnit;
     } else {
       double ttlQty = double.parse(totalQtyCal(value, prodsSc));
       if(isInteger(ttlQty)) {
         return ttlQty.toInt().toString() + ' ' + prodsSc['nm'];
       } else {
-        return ttlQty.toString() + ' ' + prodsSc['nm'];
+        return ttlQty.toStringAsFixed(2) + ' ' + prodsSc['nm'];
       }
 
     }
