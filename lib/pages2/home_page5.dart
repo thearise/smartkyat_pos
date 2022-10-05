@@ -1059,908 +1059,908 @@ class HomePageState extends State<HomePage>
         backgroundColor: Colors.transparent,
         builder: (BuildContext context) {
           return StatefulBuilder(
-            builder: (BuildContext context, StateSetter purcState) {
-              Future<void> fetchingOffering(StateSetter purcState) async {
-                final offerings = await PurchaseApi.fetchOffers();
+              builder: (BuildContext context, StateSetter purcState) {
+                Future<void> fetchingOffering(StateSetter purcState) async {
+                  final offerings = await PurchaseApi.fetchOffers();
 
-                if (offerings.isEmpty) {
-                  // ScaffoldMessenger.of(context).showSnackBar(
-                  //     SnackBar(content: Text('No plan found.')));
-                } else {
-                  final packages = offerings.map((offer) => offer.availablePackages)
-                      .expand((pair) => pair)
-                      .toList();
-                  offPackages = packages;
-                  debugPrint('offpack ' + packages.toString());
+                  if (offerings.isEmpty) {
+                    // ScaffoldMessenger.of(context).showSnackBar(
+                    //     SnackBar(content: Text('No plan found.')));
+                  } else {
+                    final packages = offerings.map((offer) => offer.availablePackages)
+                        .expand((pair) => pair)
+                        .toList();
+                    offPackages = packages;
+                    debugPrint('offpack ' + packages.toString());
+                  }
                 }
-              }
 
-              fetchingOffering(purcState);
+                fetchingOffering(purcState);
 
-              return Scaffold(
-                resizeToAvoidBottomInset: false,
-                body: Stack(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 60.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(18.0),
-                          topRight: Radius.circular(18.0),
-                        ),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(18.0),
-                              topRight: Radius.circular(18.0),
-                            ),
-                            color: Colors.white,
+                return Scaffold(
+                  resizeToAvoidBottomInset: false,
+                  body: Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 60.0),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(18.0),
+                            topRight: Radius.circular(18.0),
                           ),
-                          height:
-                          MediaQuery.of(context).size.height -
-                              45,
-                          width: double.infinity,
-                          child: Stack(
-                            children: [
-                              Container(
-                                height: MediaQuery.of(context).size.height -
-                                    45,
-                                // color: Colors.yellow,
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(15.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(18.0),
+                                topRight: Radius.circular(18.0),
+                              ),
+                              color: Colors.white,
+                            ),
+                            height:
+                            MediaQuery.of(context).size.height -
+                                45,
+                            width: double.infinity,
+                            child: Stack(
+                              children: [
+                                Container(
+                                  height: MediaQuery.of(context).size.height -
+                                      45,
+                                  // color: Colors.yellow,
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(15.0),
+                                          ),
+                                          color: Colors.white,
+                                          border: Border.all(
+                                              color: Colors.grey.withOpacity(0.2),
+                                              width: 1.0),
                                         ),
-                                        color: Colors.white,
-                                        border: Border.all(
-                                            color: Colors.grey.withOpacity(0.2),
-                                            width: 1.0),
+                                        height: (MediaQuery.of(context).size.height -
+                                            60)/ 2,
                                       ),
-                                      height: (MediaQuery.of(context).size.height -
-                                          60)/ 2,
+                                      Container(
+                                        color: Color(0xFFF2F1F6),
+                                        height: (MediaQuery.of(context).size.height -
+                                            60)/ 2,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Column(
+                                  children: [
+                                    Expanded(
+                                      child: ListView(
+                                        children: [
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(15.0),
+                                                topRight: Radius.circular(15.0),
+                                              ),
+                                              color: Colors.white,
+                                            ),
+                                            child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                                                stream: FirebaseFirestore.instance.collection('shops').doc(shopId).snapshots(),
+                                                builder: (context, snapshot) {
+                                                  if(snapshot.hasData) {
+                                                    var output = snapshot.data != null? snapshot.data!.data(): null;
+                                                    var isPro = output?['is_pro'];
+                                                    Timestamp isProStart = isPro['start'];
+                                                    Timestamp isProEnd = isPro['end'];
+
+                                                    DateTime start = isProStart.toDate();
+                                                    DateTime end = isProEnd.toDate();
+                                                    return Column(
+                                                        children: [
+                                                          Padding(
+                                                            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                                            child: Container(
+                                                              child: Column(
+                                                                children: [
+                                                                  SizedBox(height: 55),
+                                                                  Center(
+                                                                    child: Text(
+                                                                      'You are on pro version', textScaleFactor: 1, style: TextStyle(
+                                                                        fontWeight: FontWeight.w700,
+                                                                        fontSize: 26,
+                                                                        letterSpacing: -0.4
+                                                                    ),
+                                                                      strutStyle: StrutStyle(
+                                                                        height: 2.2,
+                                                                        // fontSize:,
+                                                                        forceStrutHeight: true,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(top: 20.0),
+                                                                    child: Text( isEnglish ? 'Your plan purchased (updated at ' + start.day.toString() + ' ' + convertToDate(zeroToTen(start.month.toString())) + ' ' + start.year.toString() + ') will end at '  + end.day.toString() + ' ' + convertToDate(zeroToTen(end.month.toString())) + ' ' + end.year.toString() +  '.' : '(' + start.day.toString() + ' ' + convertToDate(zeroToTen(start.month.toString())) + ' ' + start.year.toString() + ') မှ ဝယ်ယူထားသော အစီအစဉ်သည် ('   + end.day.toString() + ' ' + convertToDate(zeroToTen(end.month.toString())) + ' ' + end.year.toString() +  ') တွင် ကုန်ဆုံးမည် ဖြစ်ပါသည်။',
+                                                                      textScaleFactor: 1, style: TextStyle( fontSize: 14),
+                                                                      strutStyle: StrutStyle(
+                                                                        height: 1.2,
+                                                                        // fontSize:,
+                                                                        forceStrutHeight: true,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          // Padding(
+                                                          //   padding: const EdgeInsets.only(left: 15, right: 15, top: 20.0),
+                                                          //   child: Container(
+                                                          //       decoration: BoxDecoration(
+                                                          //         borderRadius: BorderRadius.all(
+                                                          //           Radius.circular(15.0),
+                                                          //         ),
+                                                          //         color: Color(0xFFF5F5F5),
+                                                          //         border: Border.all(
+                                                          //             color: Colors.grey.withOpacity(0.2),
+                                                          //             width: 1.0),
+                                                          //       ),
+                                                          //       width: MediaQuery.of(context).size.width,
+                                                          //       child: Padding(
+                                                          //         padding: const EdgeInsets.only(left: 20.0),
+                                                          //         child: Column(
+                                                          //           crossAxisAlignment: CrossAxisAlignment.start,
+                                                          //           mainAxisAlignment: MainAxisAlignment.center,
+                                                          //           children: [
+                                                          //             SizedBox(height: 18),
+                                                          //             Text('1 month pro version', textScaleFactor: 1, style: TextStyle(
+                                                          //                 fontWeight: FontWeight.w600,
+                                                          //                 fontSize: 18,
+                                                          //                 letterSpacing: -0.3
+                                                          //             ),
+                                                          //               strutStyle: StrutStyle(
+                                                          //                 height: 1.5,
+                                                          //                 // fontSize:,
+                                                          //                 forceStrutHeight: true,
+                                                          //               ),
+                                                          //             ),
+                                                          //             SizedBox(height: 5),
+                                                          //             Text('15,000 Kyats /month',textScaleFactor: 1, style: TextStyle(
+                                                          //                 fontWeight: FontWeight.w500,
+                                                          //                 fontSize: 14,
+                                                          //                 letterSpacing: -0.3
+                                                          //             ),
+                                                          //               strutStyle: StrutStyle(
+                                                          //                 height: 1.2,
+                                                          //                 // fontSize:,
+                                                          //                 forceStrutHeight: true,
+                                                          //               ),
+                                                          //             ),
+                                                          //             SizedBox(height: 22),
+                                                          //           ],
+                                                          //         ),
+                                                          //       )
+                                                          //   ),
+                                                          // ),
+                                                          // Padding(
+                                                          //   padding: const EdgeInsets.only(left: 15, right: 15, top: 15.0),
+                                                          //   child: Container(
+                                                          //       decoration: BoxDecoration(
+                                                          //           borderRadius: BorderRadius.all(
+                                                          //             Radius.circular(15.0),
+                                                          //           ),
+                                                          //           gradient: LinearGradient(
+                                                          //               colors: [Color(0xFFFFE18A), Color(0xFFC2FC1D)],
+                                                          //               begin: Alignment(-1.0, -2.0),
+                                                          //               end: Alignment(1.0, 2.0),
+                                                          //               tileMode: TileMode.clamp)),
+                                                          //       width: MediaQuery.of(context).size.width,
+                                                          //       child: Padding(
+                                                          //         padding: const EdgeInsets.only(left: 20.0),
+                                                          //         child: Column(
+                                                          //           crossAxisAlignment: CrossAxisAlignment.start,
+                                                          //           mainAxisAlignment: MainAxisAlignment.center,
+                                                          //           children: [
+                                                          //             SizedBox(height: 18),
+                                                          //             Text('3 month pro version (save 20%)', textScaleFactor: 1, style: TextStyle(
+                                                          //                 fontWeight: FontWeight.w600,
+                                                          //                 fontSize: 18,
+                                                          //                 letterSpacing: -0.3
+                                                          //             ),
+                                                          //               strutStyle: StrutStyle(
+                                                          //                 height: 1.5,
+                                                          //                 // fontSize:,
+                                                          //                 forceStrutHeight: true,
+                                                          //               ),
+                                                          //             ),
+                                                          //             SizedBox(height: 5),
+                                                          //             Text('12,000 Kyats /month',textScaleFactor: 1, style: TextStyle(
+                                                          //                 fontWeight: FontWeight.w500,
+                                                          //                 fontSize: 14,
+                                                          //                 letterSpacing: -0.3
+                                                          //             ),
+                                                          //               strutStyle: StrutStyle(
+                                                          //                 height: 1.2,
+                                                          //                 // fontSize:,
+                                                          //                 forceStrutHeight: true,
+                                                          //               ),
+                                                          //             ),
+                                                          //             SizedBox(height: 22),
+                                                          //           ],
+                                                          //         ),
+                                                          //       )),
+                                                          // ),
+                                                          // Padding(
+                                                          //   padding: const EdgeInsets.only(left: 15, right: 15, top: 15.0),
+                                                          //   child: Container(
+                                                          //       decoration: BoxDecoration(
+                                                          //           borderRadius: BorderRadius.all(
+                                                          //             Radius.circular(15.0),
+                                                          //           ),
+                                                          //           gradient: LinearGradient(
+                                                          //               colors: [Color(0xFFDBFF76), Color(0xFF9FFFD1)],
+                                                          //               begin: Alignment(-1.0, -2.0),
+                                                          //               end: Alignment(1.0, 2.0),
+                                                          //               tileMode: TileMode.clamp)),
+                                                          //       width: MediaQuery.of(context).size.width,
+                                                          //       child: Padding(
+                                                          //         padding: const EdgeInsets.only(left: 20.0),
+                                                          //         child: Column(
+                                                          //           crossAxisAlignment: CrossAxisAlignment.start,
+                                                          //           mainAxisAlignment: MainAxisAlignment.center,
+                                                          //           children: [
+                                                          //             SizedBox(height: 18),
+                                                          //             Text('5 month pro version (save 30%)', textScaleFactor: 1, style: TextStyle(
+                                                          //                 fontWeight: FontWeight.w600,
+                                                          //                 fontSize: 18,
+                                                          //                 letterSpacing: -0.3
+                                                          //             ),
+                                                          //               strutStyle: StrutStyle(
+                                                          //                 height: 1.5,
+                                                          //                 // fontSize:,
+                                                          //                 forceStrutHeight: true,
+                                                          //               ),
+                                                          //             ),
+                                                          //             SizedBox(height: 5),
+                                                          //             Text('10,500 Kyats /month',textScaleFactor: 1, style: TextStyle(
+                                                          //                 fontWeight: FontWeight.w500,
+                                                          //                 fontSize: 14,
+                                                          //                 letterSpacing: -0.3
+                                                          //             ),
+                                                          //               strutStyle: StrutStyle(
+                                                          //                 height: 1.2,
+                                                          //                 // fontSize:,
+                                                          //                 forceStrutHeight: true,
+                                                          //               ),
+                                                          //             ),
+                                                          //             SizedBox(height: 22),
+                                                          //           ],
+                                                          //         ),
+                                                          //       )),
+                                                          // ),
+                                                          SizedBox(height: 10),
+                                                          offPackages.length!=0?PaywallWidget(
+                                                            packages: offPackages,
+                                                            title: 'Upgrade your plan',
+                                                            description: 'Upgrade to new plan to enjoy',
+                                                            onClickedPackage: (package) async {
+                                                              await PurchaseApi.purchasePackage(package);
+                                                              Navigator.pop(context);
+                                                            },
+                                                          ):
+                                                          Padding(
+                                                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                                              child: Column(
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                                                    child: Container(
+                                                                      decoration: BoxDecoration(
+                                                                        borderRadius: BorderRadius.all(
+                                                                          Radius.circular(15.0),
+                                                                        ),
+                                                                        color: Color(0xFFF5F5F5),
+                                                                        border: Border.all(
+                                                                            color: Colors.grey.withOpacity(0.2),
+                                                                            width: 1.0),
+                                                                      ),
+                                                                      child: ListTile(
+                                                                        leading: Stack(
+                                                                          children: [
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.only(left:3.0, top: 0.0),
+                                                                              child: Icon(
+                                                                                // Icons.home_filled,
+                                                                                Icons.verified_rounded,
+                                                                                size: 32,
+                                                                                color: Colors.blue,
+                                                                              ),
+                                                                            ),
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.only(left: 11.0, top: 8),
+                                                                              child: Container(
+                                                                                  color: Colors.blue,
+                                                                                  width: 15,
+                                                                                  height: 15
+                                                                              ),
+                                                                            ),
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.only(left: 13.0, top: 4.5),
+                                                                              child: Text(
+                                                                                '1',
+                                                                                textScaleFactor: 1, textAlign: TextAlign.left,
+                                                                                style: GoogleFonts.lato(
+                                                                                    textStyle: TextStyle(
+                                                                                        letterSpacing: 1,
+                                                                                        fontSize: 16,
+                                                                                        fontWeight: FontWeight.w600,
+                                                                                        color: Colors.white
+                                                                                    )
+                                                                                ),
+                                                                              ),
+                                                                            )
+                                                                          ],
+                                                                        ),
+                                                                        title: Padding(
+                                                                          padding: const EdgeInsets.only(top: 10.0),
+                                                                          child: Text('1 month pro version', textScaleFactor: 1, style: TextStyle(
+                                                                              fontWeight: FontWeight.w600,
+                                                                              fontSize: 18,
+                                                                              letterSpacing: -0.3
+                                                                          ),
+                                                                            strutStyle: StrutStyle(
+                                                                              height: 1.8,
+                                                                              // fontSize:,
+                                                                              forceStrutHeight: true,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        subtitle: Column(
+                                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                                          children: [
+                                                                            SizedBox(height: 6),
+                                                                            Container(
+                                                                              decoration: BoxDecoration(
+                                                                                  border: Border(
+                                                                                      bottom: BorderSide(
+                                                                                          color: Colors.grey
+                                                                                              .withOpacity(0.3),
+                                                                                          width: 1.0))),
+                                                                              child: Padding(
+                                                                                padding: const EdgeInsets.only(bottom: 10.0),
+                                                                                child: Text('MMK 15,000.0 /month - Access to all features for 1 month with this package for the selected shop.', textScaleFactor: 1, style: TextStyle(
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                  fontSize: 15, color: Colors.black.withOpacity(0.6),
+                                                                                ),
+                                                                                  strutStyle: StrutStyle(
+                                                                                    height: 1.35,
+                                                                                    // fontSize:,
+                                                                                    forceStrutHeight: true,
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            SizedBox(height: 10),
+                                                                            // FlatButton(
+                                                                            //
+                                                                            // child: new Text("Call now", style: TextStyle(
+                                                                            //   fontWeight: FontWeight.w500,
+                                                                            //   fontSize: 17, color: Colors.blue,
+                                                                            // ),
+                                                                            //   strutStyle: StrutStyle(
+                                                                            //     height: 1.3,
+                                                                            //     // fontSize:,
+                                                                            //     forceStrutHeight: true,
+                                                                            //   ),)),
+                                                                            GestureDetector(
+                                                                              onTap: () {
+                                                                                // widget.onClickedPackage(package);
+                                                                              },
+                                                                              child: Text('Buy now ', textScaleFactor: 1, style: TextStyle(
+                                                                                fontWeight: FontWeight.w500,
+                                                                                fontSize: 17, color: Colors.blue.withOpacity(0.3),
+                                                                              ),
+                                                                                strutStyle: StrutStyle(
+                                                                                  height: 1.3,
+                                                                                  // fontSize:,
+                                                                                  forceStrutHeight: true,
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            SizedBox(height: 10),
+                                                                          ],
+                                                                        ),
+
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                                                    child: Container(
+                                                                      decoration: BoxDecoration(
+                                                                          borderRadius: BorderRadius.all(
+                                                                            Radius.circular(15.0),
+                                                                          ),
+                                                                          gradient: LinearGradient(
+                                                                              colors: [Color(0xFFFFE18A), Color(0xFFC2FC1D)],
+                                                                              begin: Alignment(-1.0, -2.0),
+                                                                              end: Alignment(1.0, 2.0),
+                                                                              tileMode: TileMode.clamp)),
+                                                                      child: ListTile(
+                                                                        leading: Stack(
+                                                                          children: [
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.only(left:3.0, top: 0.0),
+                                                                              child: Icon(
+                                                                                // Icons.home_filled,
+                                                                                Icons.verified_rounded,
+                                                                                size: 32,
+                                                                                color: Colors.blue,
+                                                                              ),
+                                                                            ),
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.only(left: 11.0, top: 8),
+                                                                              child: Container(
+                                                                                  color: Colors.blue,
+                                                                                  width: 15,
+                                                                                  height: 15
+                                                                              ),
+                                                                            ),
+                                                                            Padding(
+                                                                              padding: EdgeInsets.only(left: 13.0, top: Platform.isAndroid? 5:4.5),
+                                                                              child: Text(
+                                                                                '3',
+                                                                                textScaleFactor: 1, textAlign: TextAlign.left,
+                                                                                style: GoogleFonts.lato(
+                                                                                    textStyle: TextStyle(
+                                                                                        letterSpacing: 1,
+                                                                                        fontSize: 16,
+                                                                                        fontWeight: FontWeight.w600,
+                                                                                        color: Colors.white
+                                                                                    )
+                                                                                ),
+                                                                              ),
+                                                                            )
+                                                                          ],
+                                                                        ),
+                                                                        title: Padding(
+                                                                          padding: const EdgeInsets.only(top: 10.0),
+                                                                          child: Text('3 months pro version', textScaleFactor: 1, style: TextStyle(
+                                                                              fontWeight: FontWeight.w600,
+                                                                              fontSize: 18,
+                                                                              letterSpacing: -0.3
+                                                                          ),
+                                                                            strutStyle: StrutStyle(
+                                                                              height: 1.6,
+                                                                              // fontSize:,
+                                                                              forceStrutHeight: true,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        subtitle: Column(
+                                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                                          children: [
+                                                                            SizedBox(height: 6),
+                                                                            Container(
+                                                                              decoration: BoxDecoration(
+                                                                                  border: Border(
+                                                                                      bottom: BorderSide(
+                                                                                          color: Colors.grey
+                                                                                              .withOpacity(0.3),
+                                                                                          width: 1.0))),
+                                                                              child: Padding(
+                                                                                padding: const EdgeInsets.only(bottom: 10.0),
+                                                                                child: Text('MMK 12,000.0 /month - Access to all features for 3 months with this package for the selected shop.', textScaleFactor: 1, style: TextStyle(
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                  fontSize: 15, color: Colors.black.withOpacity(0.6),
+                                                                                ),
+                                                                                  strutStyle: StrutStyle(
+                                                                                    height: 1.35,
+                                                                                    // fontSize:,
+                                                                                    forceStrutHeight: true,
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            SizedBox(height: 10),
+                                                                            // FlatButton(
+                                                                            //
+                                                                            // child: new Text("Call now", style: TextStyle(
+                                                                            //   fontWeight: FontWeight.w500,
+                                                                            //   fontSize: 17, color: Colors.blue,
+                                                                            // ),
+                                                                            //   strutStyle: StrutStyle(
+                                                                            //     height: 1.3,
+                                                                            //     // fontSize:,
+                                                                            //     forceStrutHeight: true,
+                                                                            //   ),)),
+                                                                            GestureDetector(
+                                                                              onTap: () {
+                                                                                // widget.onClickedPackage(package);
+                                                                              },
+                                                                              child: Text('Buy now (save 20%)', textScaleFactor: 1, style: TextStyle(
+                                                                                fontWeight: FontWeight.w500,
+                                                                                fontSize: 17, color: Colors.blue.withOpacity(0.3),
+                                                                              ),
+                                                                                strutStyle: StrutStyle(
+                                                                                  height: 1.3,
+                                                                                  // fontSize:,
+                                                                                  forceStrutHeight: true,
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            SizedBox(height: 10),
+                                                                          ],
+                                                                        ),
+
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                                                    child: Container(
+                                                                      decoration: BoxDecoration(
+                                                                          borderRadius: BorderRadius.all(
+                                                                            Radius.circular(15.0),
+                                                                          ),
+                                                                          gradient: LinearGradient(
+                                                                              colors: [Color(0xFFDBFF76), Color(0xFF9FFFD1)],
+                                                                              begin: Alignment(-1.0, -2.0),
+                                                                              end: Alignment(1.0, 2.0),
+                                                                              tileMode: TileMode.clamp)),
+                                                                      child: ListTile(
+                                                                        leading: Stack(
+                                                                          children: [
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.only(left:3.0, top: 0.0),
+                                                                              child: Icon(
+                                                                                // Icons.home_filled,
+                                                                                Icons.verified_rounded,
+                                                                                size: 32,
+                                                                                color: Colors.blue,
+                                                                              ),
+                                                                            ),
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.only(left: 11.0, top: 8),
+                                                                              child: Container(
+                                                                                  color: Colors.blue,
+                                                                                  width: 15,
+                                                                                  height: 15
+                                                                              ),
+                                                                            ),
+                                                                            Padding(
+                                                                              padding: EdgeInsets.only(left: 13.0, top: Platform.isAndroid? 5.5:4.5),
+                                                                              child: Text(
+                                                                                '5',
+                                                                                textScaleFactor: 1, textAlign: TextAlign.left,
+                                                                                style: GoogleFonts.lato(
+                                                                                    textStyle: TextStyle(
+                                                                                        letterSpacing: 1,
+                                                                                        fontSize: 16,
+                                                                                        fontWeight: FontWeight.w600,
+                                                                                        color: Colors.white
+                                                                                    )
+                                                                                ),
+                                                                              ),
+                                                                            )
+                                                                          ],
+                                                                        ),
+                                                                        title: Padding(
+                                                                          padding: const EdgeInsets.only(top: 10.0),
+                                                                          child: Text('5 months pro version', textScaleFactor: 1, style: TextStyle(
+                                                                              fontWeight: FontWeight.w600,
+                                                                              fontSize: 18,
+                                                                              letterSpacing: -0.3
+                                                                          ),
+                                                                            strutStyle: StrutStyle(
+                                                                              height: 1.6,
+                                                                              // fontSize:,
+                                                                              forceStrutHeight: true,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        subtitle: Column(
+                                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                                          children: [
+                                                                            SizedBox(height: 6),
+                                                                            Container(
+                                                                              decoration: BoxDecoration(
+                                                                                  border: Border(
+                                                                                      bottom: BorderSide(
+                                                                                          color: Colors.grey
+                                                                                              .withOpacity(0.3),
+                                                                                          width: 1.0))),
+                                                                              child: Padding(
+                                                                                padding: const EdgeInsets.only(bottom: 10.0),
+                                                                                child: Text('MMK 10,500.0 /month - Access to all features for 5 months with this package for the selected shop.', textScaleFactor: 1, style: TextStyle(
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                  fontSize: 15, color: Colors.black.withOpacity(0.6),
+                                                                                ),
+                                                                                  strutStyle: StrutStyle(
+                                                                                    height: 1.35,
+                                                                                    // fontSize:,
+                                                                                    forceStrutHeight: true,
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            SizedBox(height: 10),
+                                                                            // FlatButton(
+                                                                            //
+                                                                            // child: new Text("Call now", style: TextStyle(
+                                                                            //   fontWeight: FontWeight.w500,
+                                                                            //   fontSize: 17, color: Colors.blue,
+                                                                            // ),
+                                                                            //   strutStyle: StrutStyle(
+                                                                            //     height: 1.3,
+                                                                            //     // fontSize:,
+                                                                            //     forceStrutHeight: true,
+                                                                            //   ),)),
+                                                                            GestureDetector(
+                                                                              onTap: () {
+                                                                                // widget.onClickedPackage(package);
+                                                                              },
+                                                                              child: Text('Buy now (save 30%)', textScaleFactor: 1, style: TextStyle(
+                                                                                fontWeight: FontWeight.w500,
+                                                                                fontSize: 17, color: Colors.blue.withOpacity(0.3),
+                                                                              ),
+                                                                                strutStyle: StrutStyle(
+                                                                                  height: 1.3,
+                                                                                  // fontSize:,
+                                                                                  forceStrutHeight: true,
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            SizedBox(height: 10),
+                                                                          ],
+                                                                        ),
+
+                                                                      ),
+                                                                    ),
+                                                                  )
+                                                                ],
+                                                              )
+                                                          )
+                                                          ,
+                                                          SizedBox(height: 15),
+                                                        ]
+                                                    );
+                                                  }
+                                                  return Container();
+                                                }
+                                            ),
+                                          ),
+                                          Container(
+                                            color: Color(0xFFF2F1F6),
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 20.0, bottom: 20),
+                                              child: Column(
+                                                children: [
+                                                  Container(
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.all(
+                                                        Radius.circular(15.0),
+                                                      ),
+                                                      color: Colors.white,
+                                                      border: Border.all(
+                                                          color: Colors.grey.withOpacity(0.2),
+                                                          width: 1.0),
+                                                    ),
+                                                    child: ListTile(
+                                                      leading: Padding(
+                                                        padding: const EdgeInsets.only(left:3.0, top: 3.0),
+                                                        child: Image(image: AssetImage('assets/system/call_now.png'), width: 28,),
+                                                      ),
+                                                      title: Padding(
+                                                        padding: const EdgeInsets.only(top: 10.0),
+                                                        child: Text('Contact us via phone', textScaleFactor: 1, style: TextStyle(
+                                                            fontWeight: FontWeight.w600,
+                                                            fontSize: 18,
+                                                            letterSpacing: -0.3
+                                                        ),
+                                                          strutStyle: StrutStyle(
+                                                            height: 1.5,
+                                                            // fontSize:,
+                                                            forceStrutHeight: true,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      subtitle: Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                        children: [
+                                                          SizedBox(height: 6),
+                                                          Container(
+                                                            decoration: BoxDecoration(
+                                                                border: Border(
+                                                                    bottom: BorderSide(
+                                                                        color: Colors.grey
+                                                                            .withOpacity(0.3),
+                                                                        width: 1.0))),
+                                                            child: Padding(
+                                                              padding: const EdgeInsets.only(bottom: 10.0),
+                                                              child: Text('You can contact us now to purchase above plans.', textScaleFactor: 1, style: TextStyle(
+                                                                fontWeight: FontWeight.w500,
+                                                                fontSize: 15, color: Colors.black.withOpacity(0.6),
+                                                              ),
+                                                                strutStyle: StrutStyle(
+                                                                  height: 1.35,
+                                                                  // fontSize:,
+                                                                  forceStrutHeight: true,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(height: 10),
+                                                          // FlatButton(
+                                                          //
+                                                          // child: new Text("Call now", style: TextStyle(
+                                                          //   fontWeight: FontWeight.w500,
+                                                          //   fontSize: 17, color: Colors.blue,
+                                                          // ),
+                                                          //   strutStyle: StrutStyle(
+                                                          //     height: 1.3,
+                                                          //     // fontSize:,
+                                                          //     forceStrutHeight: true,
+                                                          //   ),)),
+                                                          GestureDetector(
+                                                            onTap: () => launch("tel://+959794335708"),
+                                                            child: Text('Call now', textScaleFactor: 1, style: TextStyle(
+                                                              fontWeight: FontWeight.w500,
+                                                              fontSize: 17, color: Colors.blue,
+                                                            ),
+                                                              strutStyle: StrutStyle(
+                                                                height: 1.3,
+                                                                // fontSize:,
+                                                                forceStrutHeight: true,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(height: 10),
+                                                        ],
+                                                      ),
+
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: 15),
+                                                  Container(
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.all(
+                                                        Radius.circular(15.0),
+                                                      ),
+                                                      color: Colors.white,
+                                                      border: Border.all(
+                                                          color: Colors.grey.withOpacity(0.2),
+                                                          width: 1.0),
+                                                    ),
+                                                    child: ListTile(
+                                                      leading: Padding(
+                                                        padding: const EdgeInsets.only(left:3.0, top: 3.0),
+                                                        child: Image(image: AssetImage('assets/system/messenger.png'), width: 28,),
+                                                      ),
+                                                      title: Padding(
+                                                        padding: const EdgeInsets.only(top: 10.0),
+                                                        child: Text('Via messenger', textScaleFactor: 1, style: TextStyle(
+                                                            fontWeight: FontWeight.w600,
+                                                            fontSize: 18,
+                                                            letterSpacing: -0.3
+                                                        ),
+                                                          strutStyle: StrutStyle(
+                                                            height: 1.5,
+                                                            // fontSize:,
+                                                            forceStrutHeight: true,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      subtitle: Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                        children: [
+                                                          SizedBox(height: 6),
+                                                          Container(
+                                                            decoration: BoxDecoration(
+                                                                border: Border(
+                                                                    bottom: BorderSide(
+                                                                        color: Colors.grey
+                                                                            .withOpacity(0.3),
+                                                                        width: 1.0))),
+                                                            child: Padding(
+                                                              padding: const EdgeInsets.only(bottom: 10.0),
+                                                              child: Text('You can contact us now to purchase above plans (delay response).', textScaleFactor: 1, style: TextStyle(
+                                                                fontWeight: FontWeight.w500,
+                                                                fontSize: 15, color: Colors.black.withOpacity(0.6),
+                                                              ),
+                                                                strutStyle: StrutStyle(
+                                                                  height: 1.35,
+                                                                  // fontSize:,
+                                                                  forceStrutHeight: true,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(height: 10),
+                                                          GestureDetector(
+                                                            onTap: () => launch("http://m.me/smartkyat.pos"),
+                                                            child: Text('Messenger', textScaleFactor: 1, style: TextStyle(
+                                                              fontWeight: FontWeight.w500,
+                                                              fontSize: 17, color: Colors.blue,
+                                                            ),
+                                                              strutStyle: StrutStyle(
+                                                                height: 1.3,
+                                                                // fontSize:,
+                                                                forceStrutHeight: true,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(height: 10),
+                                                        ],
+                                                      ),
+
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
                                     ),
-                                    Container(
-                                      color: Color(0xFFF2F1F6),
-                                      height: (MediaQuery.of(context).size.height -
-                                          60)/ 2,
-                                    )
                                   ],
                                 ),
-                              ),
-                              Column(
-                                children: [
-                                  Expanded(
-                                    child: ListView(
-                                      children: [
-                                        Container(
+                                Align(
+                                  alignment: Alignment.topRight,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Container(
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(top: 15.0, right: 15.0, bottom: 15.0, left: 15.0),
+                                        child: Container(
+                                          width: 30,
+                                          height: 30,
                                           decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(15.0),
-                                              topRight: Radius.circular(15.0),
-                                            ),
-                                            color: Colors.white,
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(25.0),
+                                              ),
+                                              color: AppTheme.buttonColor2),
+                                          child: Icon(
+                                            // Icons.home_filled,
+                                            Icons.close_rounded,
+                                            size: 20,
                                           ),
-                                          child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                                              stream: FirebaseFirestore.instance.collection('shops').doc(shopId).snapshots(),
-                                              builder: (context, snapshot) {
-                                                if(snapshot.hasData) {
-                                                  var output = snapshot.data != null? snapshot.data!.data(): null;
-                                                  var isPro = output?['is_pro'];
-                                                  Timestamp isProStart = isPro['start'];
-                                                  Timestamp isProEnd = isPro['end'];
-
-                                                  DateTime start = isProStart.toDate();
-                                                  DateTime end = isProEnd.toDate();
-                                                  return Column(
-                                                      children: [
-                                                        Padding(
-                                                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                                          child: Container(
-                                                            child: Column(
-                                                              children: [
-                                                                SizedBox(height: 55),
-                                                                Center(
-                                                                  child: Text(
-                                                                    'You are on pro version', textScaleFactor: 1, style: TextStyle(
-                                                                      fontWeight: FontWeight.w700,
-                                                                      fontSize: 26,
-                                                                      letterSpacing: -0.4
-                                                                  ),
-                                                                    strutStyle: StrutStyle(
-                                                                      height: 2.2,
-                                                                      // fontSize:,
-                                                                      forceStrutHeight: true,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                Padding(
-                                                                  padding: const EdgeInsets.only(top: 20.0),
-                                                                  child: Text( isEnglish ? 'Your plan purchased (updated at ' + start.day.toString() + ' ' + convertToDate(zeroToTen(start.month.toString())) + ' ' + start.year.toString() + ') will end at '  + end.day.toString() + ' ' + convertToDate(zeroToTen(end.month.toString())) + ' ' + end.year.toString() +  '.' : '(' + start.day.toString() + ' ' + convertToDate(zeroToTen(start.month.toString())) + ' ' + start.year.toString() + ') မှ ဝယ်ယူထားသော အစီအစဉ်သည် ('   + end.day.toString() + ' ' + convertToDate(zeroToTen(end.month.toString())) + ' ' + end.year.toString() +  ') တွင် ကုန်ဆုံးမည် ဖြစ်ပါသည်။',
-                                                                    textScaleFactor: 1, style: TextStyle( fontSize: 14),
-                                                                    strutStyle: StrutStyle(
-                                                                      height: 1.2,
-                                                                      // fontSize:,
-                                                                      forceStrutHeight: true,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        // Padding(
-                                                        //   padding: const EdgeInsets.only(left: 15, right: 15, top: 20.0),
-                                                        //   child: Container(
-                                                        //       decoration: BoxDecoration(
-                                                        //         borderRadius: BorderRadius.all(
-                                                        //           Radius.circular(15.0),
-                                                        //         ),
-                                                        //         color: Color(0xFFF5F5F5),
-                                                        //         border: Border.all(
-                                                        //             color: Colors.grey.withOpacity(0.2),
-                                                        //             width: 1.0),
-                                                        //       ),
-                                                        //       width: MediaQuery.of(context).size.width,
-                                                        //       child: Padding(
-                                                        //         padding: const EdgeInsets.only(left: 20.0),
-                                                        //         child: Column(
-                                                        //           crossAxisAlignment: CrossAxisAlignment.start,
-                                                        //           mainAxisAlignment: MainAxisAlignment.center,
-                                                        //           children: [
-                                                        //             SizedBox(height: 18),
-                                                        //             Text('1 month pro version', textScaleFactor: 1, style: TextStyle(
-                                                        //                 fontWeight: FontWeight.w600,
-                                                        //                 fontSize: 18,
-                                                        //                 letterSpacing: -0.3
-                                                        //             ),
-                                                        //               strutStyle: StrutStyle(
-                                                        //                 height: 1.5,
-                                                        //                 // fontSize:,
-                                                        //                 forceStrutHeight: true,
-                                                        //               ),
-                                                        //             ),
-                                                        //             SizedBox(height: 5),
-                                                        //             Text('15,000 Kyats /month',textScaleFactor: 1, style: TextStyle(
-                                                        //                 fontWeight: FontWeight.w500,
-                                                        //                 fontSize: 14,
-                                                        //                 letterSpacing: -0.3
-                                                        //             ),
-                                                        //               strutStyle: StrutStyle(
-                                                        //                 height: 1.2,
-                                                        //                 // fontSize:,
-                                                        //                 forceStrutHeight: true,
-                                                        //               ),
-                                                        //             ),
-                                                        //             SizedBox(height: 22),
-                                                        //           ],
-                                                        //         ),
-                                                        //       )
-                                                        //   ),
-                                                        // ),
-                                                        // Padding(
-                                                        //   padding: const EdgeInsets.only(left: 15, right: 15, top: 15.0),
-                                                        //   child: Container(
-                                                        //       decoration: BoxDecoration(
-                                                        //           borderRadius: BorderRadius.all(
-                                                        //             Radius.circular(15.0),
-                                                        //           ),
-                                                        //           gradient: LinearGradient(
-                                                        //               colors: [Color(0xFFFFE18A), Color(0xFFC2FC1D)],
-                                                        //               begin: Alignment(-1.0, -2.0),
-                                                        //               end: Alignment(1.0, 2.0),
-                                                        //               tileMode: TileMode.clamp)),
-                                                        //       width: MediaQuery.of(context).size.width,
-                                                        //       child: Padding(
-                                                        //         padding: const EdgeInsets.only(left: 20.0),
-                                                        //         child: Column(
-                                                        //           crossAxisAlignment: CrossAxisAlignment.start,
-                                                        //           mainAxisAlignment: MainAxisAlignment.center,
-                                                        //           children: [
-                                                        //             SizedBox(height: 18),
-                                                        //             Text('3 month pro version (save 20%)', textScaleFactor: 1, style: TextStyle(
-                                                        //                 fontWeight: FontWeight.w600,
-                                                        //                 fontSize: 18,
-                                                        //                 letterSpacing: -0.3
-                                                        //             ),
-                                                        //               strutStyle: StrutStyle(
-                                                        //                 height: 1.5,
-                                                        //                 // fontSize:,
-                                                        //                 forceStrutHeight: true,
-                                                        //               ),
-                                                        //             ),
-                                                        //             SizedBox(height: 5),
-                                                        //             Text('12,000 Kyats /month',textScaleFactor: 1, style: TextStyle(
-                                                        //                 fontWeight: FontWeight.w500,
-                                                        //                 fontSize: 14,
-                                                        //                 letterSpacing: -0.3
-                                                        //             ),
-                                                        //               strutStyle: StrutStyle(
-                                                        //                 height: 1.2,
-                                                        //                 // fontSize:,
-                                                        //                 forceStrutHeight: true,
-                                                        //               ),
-                                                        //             ),
-                                                        //             SizedBox(height: 22),
-                                                        //           ],
-                                                        //         ),
-                                                        //       )),
-                                                        // ),
-                                                        // Padding(
-                                                        //   padding: const EdgeInsets.only(left: 15, right: 15, top: 15.0),
-                                                        //   child: Container(
-                                                        //       decoration: BoxDecoration(
-                                                        //           borderRadius: BorderRadius.all(
-                                                        //             Radius.circular(15.0),
-                                                        //           ),
-                                                        //           gradient: LinearGradient(
-                                                        //               colors: [Color(0xFFDBFF76), Color(0xFF9FFFD1)],
-                                                        //               begin: Alignment(-1.0, -2.0),
-                                                        //               end: Alignment(1.0, 2.0),
-                                                        //               tileMode: TileMode.clamp)),
-                                                        //       width: MediaQuery.of(context).size.width,
-                                                        //       child: Padding(
-                                                        //         padding: const EdgeInsets.only(left: 20.0),
-                                                        //         child: Column(
-                                                        //           crossAxisAlignment: CrossAxisAlignment.start,
-                                                        //           mainAxisAlignment: MainAxisAlignment.center,
-                                                        //           children: [
-                                                        //             SizedBox(height: 18),
-                                                        //             Text('5 month pro version (save 30%)', textScaleFactor: 1, style: TextStyle(
-                                                        //                 fontWeight: FontWeight.w600,
-                                                        //                 fontSize: 18,
-                                                        //                 letterSpacing: -0.3
-                                                        //             ),
-                                                        //               strutStyle: StrutStyle(
-                                                        //                 height: 1.5,
-                                                        //                 // fontSize:,
-                                                        //                 forceStrutHeight: true,
-                                                        //               ),
-                                                        //             ),
-                                                        //             SizedBox(height: 5),
-                                                        //             Text('10,500 Kyats /month',textScaleFactor: 1, style: TextStyle(
-                                                        //                 fontWeight: FontWeight.w500,
-                                                        //                 fontSize: 14,
-                                                        //                 letterSpacing: -0.3
-                                                        //             ),
-                                                        //               strutStyle: StrutStyle(
-                                                        //                 height: 1.2,
-                                                        //                 // fontSize:,
-                                                        //                 forceStrutHeight: true,
-                                                        //               ),
-                                                        //             ),
-                                                        //             SizedBox(height: 22),
-                                                        //           ],
-                                                        //         ),
-                                                        //       )),
-                                                        // ),
-                                                        SizedBox(height: 10),
-                                                        offPackages.length!=0?PaywallWidget(
-                                                          packages: offPackages,
-                                                          title: 'Upgrade your plan',
-                                                          description: 'Upgrade to new plan to enjoy',
-                                                          onClickedPackage: (package) async {
-                                                            await PurchaseApi.purchasePackage(package);
-                                                            Navigator.pop(context);
-                                                          },
-                                                        ):
-                                                        Padding(
-                                                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                                          child: Column(
-                                                            children: [
-                                                              Padding(
-                                                                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                                                                child: Container(
-                                                                  decoration: BoxDecoration(
-                                                                    borderRadius: BorderRadius.all(
-                                                                      Radius.circular(15.0),
-                                                                    ),
-                                                                    color: Color(0xFFF5F5F5),
-                                                                    border: Border.all(
-                                                                        color: Colors.grey.withOpacity(0.2),
-                                                                        width: 1.0),
-                                                                  ),
-                                                                  child: ListTile(
-                                                                    leading: Stack(
-                                                                      children: [
-                                                                        Padding(
-                                                                          padding: const EdgeInsets.only(left:3.0, top: 0.0),
-                                                                          child: Icon(
-                                                                            // Icons.home_filled,
-                                                                            Icons.verified_rounded,
-                                                                            size: 32,
-                                                                            color: Colors.blue,
-                                                                          ),
-                                                                        ),
-                                                                        Padding(
-                                                                          padding: const EdgeInsets.only(left: 11.0, top: 8),
-                                                                          child: Container(
-                                                                            color: Colors.blue,
-                                                                            width: 15,
-                                                                            height: 15
-                                                                          ),
-                                                                        ),
-                                                                        Padding(
-                                                                          padding: const EdgeInsets.only(left: 13.0, top: 4.5),
-                                                                          child: Text(
-                                                                            '1',
-                                                                            textScaleFactor: 1, textAlign: TextAlign.left,
-                                                                            style: GoogleFonts.lato(
-                                                                                textStyle: TextStyle(
-                                                                                    letterSpacing: 1,
-                                                                                    fontSize: 16,
-                                                                                    fontWeight: FontWeight.w600,
-                                                                                    color: Colors.white
-                                                                                )
-                                                                            ),
-                                                                          ),
-                                                                        )
-                                                                      ],
-                                                                    ),
-                                                                    title: Padding(
-                                                                      padding: const EdgeInsets.only(top: 10.0),
-                                                                      child: Text('1 month pro version', textScaleFactor: 1, style: TextStyle(
-                                                                          fontWeight: FontWeight.w600,
-                                                                          fontSize: 18,
-                                                                          letterSpacing: -0.3
-                                                                      ),
-                                                                        strutStyle: StrutStyle(
-                                                                          height: 1.8,
-                                                                          // fontSize:,
-                                                                          forceStrutHeight: true,
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                    subtitle: Column(
-                                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                                      mainAxisAlignment: MainAxisAlignment.start,
-                                                                      children: [
-                                                                        SizedBox(height: 6),
-                                                                        Container(
-                                                                          decoration: BoxDecoration(
-                                                                              border: Border(
-                                                                                  bottom: BorderSide(
-                                                                                      color: Colors.grey
-                                                                                          .withOpacity(0.3),
-                                                                                      width: 1.0))),
-                                                                          child: Padding(
-                                                                            padding: const EdgeInsets.only(bottom: 10.0),
-                                                                            child: Text('MMK 15,000.0 /month - Access to all features for 1 month with this package for the selected shop.', textScaleFactor: 1, style: TextStyle(
-                                                                              fontWeight: FontWeight.w500,
-                                                                              fontSize: 15, color: Colors.black.withOpacity(0.6),
-                                                                            ),
-                                                                              strutStyle: StrutStyle(
-                                                                                height: 1.35,
-                                                                                // fontSize:,
-                                                                                forceStrutHeight: true,
-                                                                              ),
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                        SizedBox(height: 10),
-                                                                        // FlatButton(
-                                                                        //
-                                                                        // child: new Text("Call now", style: TextStyle(
-                                                                        //   fontWeight: FontWeight.w500,
-                                                                        //   fontSize: 17, color: Colors.blue,
-                                                                        // ),
-                                                                        //   strutStyle: StrutStyle(
-                                                                        //     height: 1.3,
-                                                                        //     // fontSize:,
-                                                                        //     forceStrutHeight: true,
-                                                                        //   ),)),
-                                                                        GestureDetector(
-                                                                          onTap: () {
-                                                                            // widget.onClickedPackage(package);
-                                                                          },
-                                                                          child: Text('Buy now ', textScaleFactor: 1, style: TextStyle(
-                                                                            fontWeight: FontWeight.w500,
-                                                                            fontSize: 17, color: Colors.blue.withOpacity(0.3),
-                                                                          ),
-                                                                            strutStyle: StrutStyle(
-                                                                              height: 1.3,
-                                                                              // fontSize:,
-                                                                              forceStrutHeight: true,
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                        SizedBox(height: 10),
-                                                                      ],
-                                                                    ),
-
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Padding(
-                                                                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                                                                child: Container(
-                                                                  decoration: BoxDecoration(
-                                                                      borderRadius: BorderRadius.all(
-                                                                        Radius.circular(15.0),
-                                                                      ),
-                                                                      gradient: LinearGradient(
-                                                                          colors: [Color(0xFFFFE18A), Color(0xFFC2FC1D)],
-                                                                          begin: Alignment(-1.0, -2.0),
-                                                                          end: Alignment(1.0, 2.0),
-                                                                          tileMode: TileMode.clamp)),
-                                                                  child: ListTile(
-                                                                    leading: Stack(
-                                                                      children: [
-                                                                        Padding(
-                                                                          padding: const EdgeInsets.only(left:3.0, top: 0.0),
-                                                                          child: Icon(
-                                                                            // Icons.home_filled,
-                                                                            Icons.verified_rounded,
-                                                                            size: 32,
-                                                                            color: Colors.blue,
-                                                                          ),
-                                                                        ),
-                                                                        Padding(
-                                                                          padding: const EdgeInsets.only(left: 11.0, top: 8),
-                                                                          child: Container(
-                                                                              color: Colors.blue,
-                                                                              width: 15,
-                                                                              height: 15
-                                                                          ),
-                                                                        ),
-                                                                        Padding(
-                                                                          padding: EdgeInsets.only(left: 13.0, top: Platform.isAndroid? 5:4.5),
-                                                                          child: Text(
-                                                                            '3',
-                                                                            textScaleFactor: 1, textAlign: TextAlign.left,
-                                                                            style: GoogleFonts.lato(
-                                                                                textStyle: TextStyle(
-                                                                                    letterSpacing: 1,
-                                                                                    fontSize: 16,
-                                                                                    fontWeight: FontWeight.w600,
-                                                                                    color: Colors.white
-                                                                                )
-                                                                            ),
-                                                                          ),
-                                                                        )
-                                                                      ],
-                                                                    ),
-                                                                    title: Padding(
-                                                                      padding: const EdgeInsets.only(top: 10.0),
-                                                                      child: Text('3 months pro version', textScaleFactor: 1, style: TextStyle(
-                                                                          fontWeight: FontWeight.w600,
-                                                                          fontSize: 18,
-                                                                          letterSpacing: -0.3
-                                                                      ),
-                                                                        strutStyle: StrutStyle(
-                                                                          height: 1.6,
-                                                                          // fontSize:,
-                                                                          forceStrutHeight: true,
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                    subtitle: Column(
-                                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                                      mainAxisAlignment: MainAxisAlignment.start,
-                                                                      children: [
-                                                                        SizedBox(height: 6),
-                                                                        Container(
-                                                                          decoration: BoxDecoration(
-                                                                              border: Border(
-                                                                                  bottom: BorderSide(
-                                                                                      color: Colors.grey
-                                                                                          .withOpacity(0.3),
-                                                                                      width: 1.0))),
-                                                                          child: Padding(
-                                                                            padding: const EdgeInsets.only(bottom: 10.0),
-                                                                            child: Text('MMK 12,000.0 /month - Access to all features for 3 months with this package for the selected shop.', textScaleFactor: 1, style: TextStyle(
-                                                                              fontWeight: FontWeight.w500,
-                                                                              fontSize: 15, color: Colors.black.withOpacity(0.6),
-                                                                            ),
-                                                                              strutStyle: StrutStyle(
-                                                                                height: 1.35,
-                                                                                // fontSize:,
-                                                                                forceStrutHeight: true,
-                                                                              ),
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                        SizedBox(height: 10),
-                                                                        // FlatButton(
-                                                                        //
-                                                                        // child: new Text("Call now", style: TextStyle(
-                                                                        //   fontWeight: FontWeight.w500,
-                                                                        //   fontSize: 17, color: Colors.blue,
-                                                                        // ),
-                                                                        //   strutStyle: StrutStyle(
-                                                                        //     height: 1.3,
-                                                                        //     // fontSize:,
-                                                                        //     forceStrutHeight: true,
-                                                                        //   ),)),
-                                                                        GestureDetector(
-                                                                          onTap: () {
-                                                                            // widget.onClickedPackage(package);
-                                                                          },
-                                                                          child: Text('Buy now (save 20%)', textScaleFactor: 1, style: TextStyle(
-                                                                            fontWeight: FontWeight.w500,
-                                                                            fontSize: 17, color: Colors.blue.withOpacity(0.3),
-                                                                          ),
-                                                                            strutStyle: StrutStyle(
-                                                                              height: 1.3,
-                                                                              // fontSize:,
-                                                                              forceStrutHeight: true,
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                        SizedBox(height: 10),
-                                                                      ],
-                                                                    ),
-
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Padding(
-                                                                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                                                                child: Container(
-                                                                  decoration: BoxDecoration(
-                                                                      borderRadius: BorderRadius.all(
-                                                                        Radius.circular(15.0),
-                                                                      ),
-                                                                      gradient: LinearGradient(
-                                                                          colors: [Color(0xFFDBFF76), Color(0xFF9FFFD1)],
-                                                                          begin: Alignment(-1.0, -2.0),
-                                                                          end: Alignment(1.0, 2.0),
-                                                                          tileMode: TileMode.clamp)),
-                                                                  child: ListTile(
-                                                                    leading: Stack(
-                                                                      children: [
-                                                                        Padding(
-                                                                          padding: const EdgeInsets.only(left:3.0, top: 0.0),
-                                                                          child: Icon(
-                                                                            // Icons.home_filled,
-                                                                            Icons.verified_rounded,
-                                                                            size: 32,
-                                                                            color: Colors.blue,
-                                                                          ),
-                                                                        ),
-                                                                        Padding(
-                                                                          padding: const EdgeInsets.only(left: 11.0, top: 8),
-                                                                          child: Container(
-                                                                              color: Colors.blue,
-                                                                              width: 15,
-                                                                              height: 15
-                                                                          ),
-                                                                        ),
-                                                                        Padding(
-                                                                          padding: EdgeInsets.only(left: 13.0, top: Platform.isAndroid? 5.5:4.5),
-                                                                          child: Text(
-                                                                            '5',
-                                                                            textScaleFactor: 1, textAlign: TextAlign.left,
-                                                                            style: GoogleFonts.lato(
-                                                                                textStyle: TextStyle(
-                                                                                    letterSpacing: 1,
-                                                                                    fontSize: 16,
-                                                                                    fontWeight: FontWeight.w600,
-                                                                                    color: Colors.white
-                                                                                )
-                                                                            ),
-                                                                          ),
-                                                                        )
-                                                                      ],
-                                                                    ),
-                                                                    title: Padding(
-                                                                      padding: const EdgeInsets.only(top: 10.0),
-                                                                      child: Text('5 months pro version', textScaleFactor: 1, style: TextStyle(
-                                                                          fontWeight: FontWeight.w600,
-                                                                          fontSize: 18,
-                                                                          letterSpacing: -0.3
-                                                                      ),
-                                                                        strutStyle: StrutStyle(
-                                                                          height: 1.6,
-                                                                          // fontSize:,
-                                                                          forceStrutHeight: true,
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                    subtitle: Column(
-                                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                                      mainAxisAlignment: MainAxisAlignment.start,
-                                                                      children: [
-                                                                        SizedBox(height: 6),
-                                                                        Container(
-                                                                          decoration: BoxDecoration(
-                                                                              border: Border(
-                                                                                  bottom: BorderSide(
-                                                                                      color: Colors.grey
-                                                                                          .withOpacity(0.3),
-                                                                                      width: 1.0))),
-                                                                          child: Padding(
-                                                                            padding: const EdgeInsets.only(bottom: 10.0),
-                                                                            child: Text('MMK 10,500.0 /month - Access to all features for 5 months with this package for the selected shop.', textScaleFactor: 1, style: TextStyle(
-                                                                              fontWeight: FontWeight.w500,
-                                                                              fontSize: 15, color: Colors.black.withOpacity(0.6),
-                                                                            ),
-                                                                              strutStyle: StrutStyle(
-                                                                                height: 1.35,
-                                                                                // fontSize:,
-                                                                                forceStrutHeight: true,
-                                                                              ),
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                        SizedBox(height: 10),
-                                                                        // FlatButton(
-                                                                        //
-                                                                        // child: new Text("Call now", style: TextStyle(
-                                                                        //   fontWeight: FontWeight.w500,
-                                                                        //   fontSize: 17, color: Colors.blue,
-                                                                        // ),
-                                                                        //   strutStyle: StrutStyle(
-                                                                        //     height: 1.3,
-                                                                        //     // fontSize:,
-                                                                        //     forceStrutHeight: true,
-                                                                        //   ),)),
-                                                                        GestureDetector(
-                                                                          onTap: () {
-                                                                            // widget.onClickedPackage(package);
-                                                                          },
-                                                                          child: Text('Buy now (save 30%)', textScaleFactor: 1, style: TextStyle(
-                                                                            fontWeight: FontWeight.w500,
-                                                                            fontSize: 17, color: Colors.blue.withOpacity(0.3),
-                                                                          ),
-                                                                            strutStyle: StrutStyle(
-                                                                              height: 1.3,
-                                                                              // fontSize:,
-                                                                              forceStrutHeight: true,
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                        SizedBox(height: 10),
-                                                                      ],
-                                                                    ),
-
-                                                                  ),
-                                                                ),
-                                                              )
-                                                            ],
-                                                          )
-                                                        )
-                                                        ,
-                                                        SizedBox(height: 15),
-                                                      ]
-                                                  );
-                                                }
-                                                return Container();
-                                              }
-                                          ),
-                                        ),
-                                        Container(
-                                          color: Color(0xFFF2F1F6),
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 20.0, bottom: 20),
-                                            child: Column(
-                                              children: [
-                                                Container(
-                                                  decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.all(
-                                                      Radius.circular(15.0),
-                                                    ),
-                                                    color: Colors.white,
-                                                    border: Border.all(
-                                                        color: Colors.grey.withOpacity(0.2),
-                                                        width: 1.0),
-                                                  ),
-                                                  child: ListTile(
-                                                    leading: Padding(
-                                                      padding: const EdgeInsets.only(left:3.0, top: 3.0),
-                                                      child: Image(image: AssetImage('assets/system/call_now.png'), width: 28,),
-                                                    ),
-                                                    title: Padding(
-                                                      padding: const EdgeInsets.only(top: 10.0),
-                                                      child: Text('Contact us via phone', textScaleFactor: 1, style: TextStyle(
-                                                          fontWeight: FontWeight.w600,
-                                                          fontSize: 18,
-                                                          letterSpacing: -0.3
-                                                      ),
-                                                        strutStyle: StrutStyle(
-                                                          height: 1.5,
-                                                          // fontSize:,
-                                                          forceStrutHeight: true,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    subtitle: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      mainAxisAlignment: MainAxisAlignment.start,
-                                                      children: [
-                                                        SizedBox(height: 6),
-                                                        Container(
-                                                          decoration: BoxDecoration(
-                                                              border: Border(
-                                                                  bottom: BorderSide(
-                                                                      color: Colors.grey
-                                                                          .withOpacity(0.3),
-                                                                      width: 1.0))),
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.only(bottom: 10.0),
-                                                            child: Text('You can contact us now to purchase above plans.', textScaleFactor: 1, style: TextStyle(
-                                                              fontWeight: FontWeight.w500,
-                                                              fontSize: 15, color: Colors.black.withOpacity(0.6),
-                                                            ),
-                                                              strutStyle: StrutStyle(
-                                                                height: 1.35,
-                                                                // fontSize:,
-                                                                forceStrutHeight: true,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        SizedBox(height: 10),
-                                                        // FlatButton(
-                                                        //
-                                                        // child: new Text("Call now", style: TextStyle(
-                                                        //   fontWeight: FontWeight.w500,
-                                                        //   fontSize: 17, color: Colors.blue,
-                                                        // ),
-                                                        //   strutStyle: StrutStyle(
-                                                        //     height: 1.3,
-                                                        //     // fontSize:,
-                                                        //     forceStrutHeight: true,
-                                                        //   ),)),
-                                                        GestureDetector(
-                                                          onTap: () => launch("tel://+959794335708"),
-                                                          child: Text('Call now', textScaleFactor: 1, style: TextStyle(
-                                                            fontWeight: FontWeight.w500,
-                                                            fontSize: 17, color: Colors.blue,
-                                                          ),
-                                                            strutStyle: StrutStyle(
-                                                              height: 1.3,
-                                                              // fontSize:,
-                                                              forceStrutHeight: true,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        SizedBox(height: 10),
-                                                      ],
-                                                    ),
-
-                                                  ),
-                                                ),
-                                                SizedBox(height: 15),
-                                                Container(
-                                                  decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.all(
-                                                      Radius.circular(15.0),
-                                                    ),
-                                                    color: Colors.white,
-                                                    border: Border.all(
-                                                        color: Colors.grey.withOpacity(0.2),
-                                                        width: 1.0),
-                                                  ),
-                                                  child: ListTile(
-                                                    leading: Padding(
-                                                      padding: const EdgeInsets.only(left:3.0, top: 3.0),
-                                                      child: Image(image: AssetImage('assets/system/messenger.png'), width: 28,),
-                                                    ),
-                                                    title: Padding(
-                                                      padding: const EdgeInsets.only(top: 10.0),
-                                                      child: Text('Via messenger', textScaleFactor: 1, style: TextStyle(
-                                                          fontWeight: FontWeight.w600,
-                                                          fontSize: 18,
-                                                          letterSpacing: -0.3
-                                                      ),
-                                                        strutStyle: StrutStyle(
-                                                          height: 1.5,
-                                                          // fontSize:,
-                                                          forceStrutHeight: true,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    subtitle: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      mainAxisAlignment: MainAxisAlignment.start,
-                                                      children: [
-                                                        SizedBox(height: 6),
-                                                        Container(
-                                                          decoration: BoxDecoration(
-                                                              border: Border(
-                                                                  bottom: BorderSide(
-                                                                      color: Colors.grey
-                                                                          .withOpacity(0.3),
-                                                                      width: 1.0))),
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.only(bottom: 10.0),
-                                                            child: Text('You can contact us now to purchase above plans (delay response).', textScaleFactor: 1, style: TextStyle(
-                                                              fontWeight: FontWeight.w500,
-                                                              fontSize: 15, color: Colors.black.withOpacity(0.6),
-                                                            ),
-                                                              strutStyle: StrutStyle(
-                                                                height: 1.35,
-                                                                // fontSize:,
-                                                                forceStrutHeight: true,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        SizedBox(height: 10),
-                                                        GestureDetector(
-                                                          onTap: () => launch("http://m.me/smartkyat.pos"),
-                                                          child: Text('Messenger', textScaleFactor: 1, style: TextStyle(
-                                                            fontWeight: FontWeight.w500,
-                                                            fontSize: 17, color: Colors.blue,
-                                                          ),
-                                                            strutStyle: StrutStyle(
-                                                              height: 1.3,
-                                                              // fontSize:,
-                                                              forceStrutHeight: true,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        SizedBox(height: 10),
-                                                      ],
-                                                    ),
-
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Align(
-                                alignment: Alignment.topRight,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: Container(
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(top: 15.0, right: 15.0, bottom: 15.0, left: 15.0),
-                                      child: Container(
-                                        width: 30,
-                                        height: 30,
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(25.0),
-                                            ),
-                                            color: AppTheme.buttonColor2),
-                                        child: Icon(
-                                          // Icons.home_filled,
-                                          Icons.close_rounded,
-                                          size: 20,
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              )
-                            ],
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Positioned(
-                      top: 42,
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Container(
-                            width: 50,
-                            height: 5,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(25.0),
-                                ),
-                                color: Colors.white.withOpacity(0.5)),
+                      Positioned(
+                        top: 42,
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Container(
+                              width: 50,
+                              height: 5,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(25.0),
+                                  ),
+                                  color: Colors.white.withOpacity(0.5)),
+                            ),
                           ),
                         ),
-                      ),
-                    )
-                  ],
-                ),
-              );
-            }
+                      )
+                    ],
+                  ),
+                );
+              }
           );
           // return SingleAssetPage(toggleCoinCallback: closeNewProduct);
         });
@@ -10253,12 +10253,12 @@ class HomePageState extends State<HomePage>
 
                                                                             for (int k=0; k< prodList.length;  k++) {
                                                                               if(isDiscount == 'amount') {
-                                                                              ttlDiscount = (double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())) * (discountAmount / double.parse(TtlProdListPriceInit().toString()));
+                                                                                ttlDiscount = (double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())) * (discountAmount / double.parse(TtlProdListPriceInit().toString()));
                                                                               } else if(isDiscount == 'percent') {
                                                                                 ttlDiscount = (double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())) * (discountAmount / 100);
-                                                                                 } else {
-                                                                               ttlDiscount = 0;
-                                                                                }
+                                                                              } else {
+                                                                                ttlDiscount = 0;
+                                                                              }
                                                                               subList.add(prodList[k].split('^')[0] + '^' + prodList[k].split('^')[6] + '^' + prodList[k].split('^')[7] + '^' + prodList[k].split('^')[4] +'^' + prodList[k].split('^')[2] + '^' + prodList[k].split('^')[3] +'^' + prodList[k].split('^')[1] + '^0^' + prodList[k].split('^')[8]);
 
                                                                               if(prodList[k].split('^')[3] == 'unit_name') {
