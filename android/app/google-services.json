@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "992111549301",
+    "firebase_url": "https://smartkyat-pos-95ffb-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "smartkyat-pos-95ffb",
     "storage_bucket": "smartkyat-pos-95ffb.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "992111549301-n1snkuc5p86umuio8al3f9u1ekg4gigc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ethereals.smartkyat_pos",
+            "certificate_hash": "ece8980371b48791a5c185315fa4ed9c84646bec"
+          }
+        },
         {
           "client_id": "992111549301-mo4pm8kvjdf3jqdmq4njvm28k0e3k90m.apps.googleusercontent.com",
           "client_type": 3

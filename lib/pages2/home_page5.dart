@@ -29,6 +29,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fraction/fraction.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
 import 'package:metooltip/metooltip.dart';
 import 'package:ntp/ntp.dart';
@@ -3407,6 +3408,7 @@ class HomePageState extends State<HomePage>
                                                               } else {
                                                                 if(result.toString() == textSetLogOut) {
                                                                   // _selectTab(0);
+                                                                  GoogleSignIn().disconnect();
                                                                   await FirebaseAuth.instance.signOut();
                                                                   setStoreId('');
                                                                   Navigator.of(context).pushReplacement(

@@ -10,7 +10,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smartkyat_pos/fragments/add_shop_first.dart';
 import 'package:smartkyat_pos/fragments/customers_fragment2.dart';
 import 'package:smartkyat_pos/fragments/subs/forgot_password.dart';
 import 'package:smartkyat_pos/pages2/first_launch_page.dart';
@@ -144,9 +146,12 @@ class _WelcomeState extends State<Welcome>
         getStoreId().then((value) {
           if(!auth.currentUser!.emailVerified) {
             Navigator.of(context).pushReplacement(FadeRoute(page: VerifyScreen()),);
-          } else {
-            debugPrint('ID -> ' + value.toString());
+          }
+          else {
+            isLoading = true;
+
             Future.delayed(const Duration(milliseconds: 1000), () async {
+
               if(value.toString() != '' && value.toString() != 'idk') {
                 // Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));
 
@@ -157,25 +162,30 @@ class _WelcomeState extends State<Welcome>
                   }
                 });
               } else {
-                // Future.delayed(const Duration(milliseconds: 1000), () {
-                //   setState(() {
-                //     isLoading = false;
-                //   });
-                // });
-                if(this.mounted) {
-                  Navigator.of(context).popUntil((_) => true);
-                  Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
-                }
-
-
+                bool shopExists = false;
+                FirebaseFirestore.instance
+                    .collection('shops')
+                    .where('users', arrayContains: auth.currentUser!.email.toString())
+                    .get()
+                    .then((QuerySnapshot querySnapshot) {
+                  querySnapshot.docs.forEach((doc) {
+                    shopExists = true;
+                  });
+                  if(shopExists) {
+                    if(this.mounted) {
+                      Navigator.of(context).popUntil((_) => true);
+                      Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
+                    }
+                  } else {
+                    if(this.mounted) {
+                      Navigator.of(context).pushReplacement(FadeRoute(page: AddShopFirst()));
+                    }
+                  }
+                });
               }
             });
           }
         });
-
-
-
-        debugPrint('User is signed in!');
       }
     });
 
@@ -258,7 +268,7 @@ class _WelcomeState extends State<Welcome>
                             Form(
                               key: _formKey,
                               child: Container(
-                                height: MediaQuery.of(context).size.width > 900? 305 + 40 + (((MediaQuery.of(context).size.width/2) - 30) * (752/1496)) : 305 + 40 + ((MediaQuery.of(context).size.width - 30) * (752/1496)) ,
+                                height: MediaQuery.of(context).size.width > 900? 370 + 40 + (((MediaQuery.of(context).size.width/2) - 30) * (752/1496)) : 370 + 40 + ((MediaQuery.of(context).size.width - 30) * (752/1496)) ,
                                 child: TabBarView(
                                   physics: NeverScrollableScrollPhysics(),
                                   controller: _signupController,
@@ -274,7 +284,7 @@ class _WelcomeState extends State<Welcome>
                                             ),
                                           ),
                                           Container(
-                                            height: 305,
+                                            height: 370,
                                             child: TabBarView(
                                               physics: NeverScrollableScrollPhysics(),
                                               controller: _loginTabController,
@@ -451,7 +461,6 @@ class _WelcomeState extends State<Welcome>
                                                             padding: const EdgeInsets.only(top: 4.0, bottom: 15.0),
                                                             child: Container(
                                                               child: TextFormField(
-//The validator receives the text that the user has entered.
                                                                 keyboardType: TextInputType.emailAddress,
                                                                 controller: _email,
                                                                 validator: (value) {
@@ -518,11 +527,6 @@ class _WelcomeState extends State<Welcome>
                                                                   ),
 // errorText: 'Error message',
                                                                   labelText: isEnglish? 'Email address': 'အီးမေးလ်',
-                                                                  // labelStrutStyle: StrutStyle(
-                                                                  //   height: 1,
-                                                                  //   // fontSize:,
-                                                                  //   forceStrutHeight: true,
-                                                                  // ),
                                                                   floatingLabelBehavior:
                                                                   FloatingLabelBehavior.auto,
 //filled: true,
@@ -549,7 +553,7 @@ class _WelcomeState extends State<Welcome>
                                                                 return null;
                                                               },
                                                               style: TextStyle(
-                                                                height: 0.95,
+                                                                  height: 0.95,
                                                                   fontSize : 15/scaleFactor
                                                               ),
                                                               decoration: InputDecoration(
@@ -633,30 +637,30 @@ class _WelcomeState extends State<Welcome>
                                                                             color: AppTheme.buttonColor2,
                                                                           ),
                                                                         ),
-                                                                        onPressed: ()  {
-                                                                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ForgotPassword()));
+                                                                        onPressed: () async {
+                                                                          final GoogleSignInAccount? googleUser = await GoogleSignIn(
+                                                                              scopes: <String> ["email"]).signIn();
+
+                                                                          final GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
+
+                                                                          final credential = GoogleAuthProvider.credential(
+                                                                            accessToken: googleAuth.accessToken,
+                                                                            idToken: googleAuth.idToken,
+                                                                          );
+                                                                          setState(() {
+                                                                            isLoading = true;
+                                                                          });
+                                                                          await FirebaseAuth.instance.signInWithCredential(credential);
+
                                                                         },
-                                                                        child: Padding(
+                                                                        child: loadingState? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                                                            child: CupertinoActivityIndicator(radius: 10,)) : Padding(
                                                                           padding: const EdgeInsets.only(
                                                                               left: 5.0,
                                                                               right: 5.0,
                                                                               bottom: 2.0),
                                                                           child: Container(
-                                                                            child: Text(
-                                                                              isEnglish? 'Forgot?': 'မေ့နေလား?',
-                                                                              textAlign: TextAlign.center,
-                                                                              textScaleFactor: 1, style: TextStyle(
-                                                                                  height: 1.3,
-                                                                                  fontSize: 17.5,
-                                                                                  fontWeight: FontWeight.w600,
-                                                                                  color: Colors.black
-                                                                              ),
-                                                                              strutStyle: StrutStyle(
-                                                                                height: 1.3,
-                                                                                // fontSize:,
-                                                                                forceStrutHeight: true,
-                                                                              ),
-                                                                            ),
+                                                                              child: Image.asset('assets/system/app-google.png', height: 25, width: 25,)
                                                                           ),
                                                                         ),
                                                                       ),
@@ -880,10 +884,44 @@ class _WelcomeState extends State<Welcome>
                                                                         ),
                                                                     ],
                                                                   ),
-                                                                )
+                                                                ),
+
                                                               ],
                                                             ),
-                                                          )
+                                                          ),
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(top: 293.0),
+                                                            child: Center(
+                                                              child: TextButton(
+                                                                onPressed: ()  {
+                                                                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ForgotPassword()));
+                                                                },
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets.only(
+                                                                      left: 5.0,
+                                                                      right: 5.0,
+                                                                      bottom: 2.0),
+                                                                  child: Container(
+                                                                    child: Text(
+                                                                      isEnglish? 'Forgot password?': 'Password မေ့နေလား?',
+                                                                      textAlign: TextAlign.center,
+                                                                      textScaleFactor: 1, style: TextStyle(
+                                                                        height: 1.3,
+                                                                        fontSize: 15,
+                                                                        fontWeight: FontWeight.w600,
+                                                                        color: Colors.blue
+                                                                    ),
+                                                                      strutStyle: StrutStyle(
+                                                                        height: 1.3,
+                                                                        // fontSize:,
+                                                                        forceStrutHeight: true,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
                                                         ],
                                                       ),
 
@@ -896,490 +934,6 @@ class _WelcomeState extends State<Welcome>
                                         ],
                                       ),
                                     ),
-//                           Padding(
-//                             padding: const EdgeInsets.only(top: 17),
-//                             child: Column(
-//                               children: [
-//                                 Column(
-//                                   crossAxisAlignment: CrossAxisAlignment.start,
-//                                   children: [
-//                                     Padding(
-//                                       padding: const EdgeInsets.symmetric(horizontal: 15.0),
-//                                       child: Text('REGISTRATION', style: TextStyle(fontWeight: FontWeight.bold , fontSize: 14, letterSpacing: 2,
-//                                         color: Colors.grey,),),
-//                                     ),
-//                                     Padding(
-//                                       padding: const EdgeInsets.only(left: 15, right: 15, bottom: 16, top: 15.5),
-//                                       child: TextFormField(
-//                                         //obscureText: _obscureText,
-// //The validator receives the text that the user has entered.
-//                                         controller: _name,
-//                                         validator: (value) {
-//                                           if (value == null || value.isEmpty) {
-//                                             return ' This field is required ';
-//                                           }
-//                                           return null;
-//                                         },
-//                                         style: TextStyle(
-//                                             height: 0.95
-//                                         ),
-//                                         decoration: InputDecoration(
-//                                           enabledBorder: const OutlineInputBorder(
-// // width: 0.0 produces a thin "hairline" border
-//                                               borderSide: const BorderSide(
-//                                                   color: AppTheme.skBorderColor,
-//                                                   width: 2.0),
-//                                               borderRadius: BorderRadius.all(
-//                                                   Radius.circular(10.0))),
-//
-//                                           focusedBorder: const OutlineInputBorder(
-// // width: 0.0 produces a thin "hairline" border
-//                                               borderSide: const BorderSide(
-//                                                   color: AppTheme.skThemeColor2,
-//                                                   width: 2.0),
-//                                               borderRadius: BorderRadius.all(
-//                                                   Radius.circular(10.0))),
-//                                           contentPadding: const EdgeInsets.only(
-//                                               left: 15.0,
-//                                               right: 15.0,
-//                                               top: 20.0,
-//                                               bottom: 20.0),
-//                                           suffixText: 'Required',
-//                                           suffixStyle: TextStyle(
-//                                             color: Colors.grey,
-//                                             fontSize: 12,
-//                                             fontFamily: 'capsulesans',
-//                                           ),
-//                                           //errorText: wrongPassword,
-//                                           errorStyle: TextStyle(
-//                                               backgroundColor: Colors.white,
-//                                               fontSize: 12,
-//                                               fontFamily: 'capsulesans',
-//                                               height: 0.1
-//                                           ),
-//                                           labelStyle: TextStyle(
-//                                             fontWeight: FontWeight.w500,
-//                                             color: Colors.black,
-//                                           ),
-// // errorText: 'Error message',
-//                                           labelText: 'Name',
-//                                           floatingLabelBehavior:
-//                                           FloatingLabelBehavior.auto,
-// //filled: true,
-//                                           border: OutlineInputBorder(
-//                                             borderRadius: BorderRadius.circular(10),
-//                                           ),
-//                                         ),
-//                                       ),
-//                                     ),
-//                                     Padding(
-//                                       padding: const EdgeInsets.symmetric(horizontal: 15.0),
-//                                       child: TextFormField(
-//                                         //obscureText: _obscureText,
-// //The validator receives the text that the user has entered.
-//                                         controller: _emails,
-//                                         validator: (value) {
-//                                           if (value == null || value.isEmpty) {
-//                                             return ' This field is required ';
-//                                           }
-//                                           if (emailExist != '') {
-//                                             return emailExist;
-//                                           }
-//                                           return null;
-//                                         },
-//                                         style: TextStyle(
-//                                             height: 0.95
-//                                         ),
-//                                         decoration: InputDecoration(
-//                                           enabledBorder: const OutlineInputBorder(
-// // width: 0.0 produces a thin "hairline" border
-//                                               borderSide: const BorderSide(
-//                                                   color: AppTheme.skBorderColor,
-//                                                   width: 2.0),
-//                                               borderRadius: BorderRadius.all(
-//                                                   Radius.circular(10.0))),
-//
-//                                           focusedBorder: const OutlineInputBorder(
-// // width: 0.0 produces a thin "hairline" border
-//                                               borderSide: const BorderSide(
-//                                                   color: AppTheme.skThemeColor2,
-//                                                   width: 2.0),
-//                                               borderRadius: BorderRadius.all(
-//                                                   Radius.circular(10.0))),
-//                                           contentPadding: const EdgeInsets.only(
-//                                               left: 15.0,
-//                                               right: 15.0,
-//                                               top: 20.0,
-//                                               bottom: 20.0),
-//                                           suffixText: 'Required' ,
-//                                               //tooltip: 'Increase volume by 10',
-//                                           suffixStyle: TextStyle(
-//                                             color: Colors.grey,
-//                                             fontSize: 12,
-//                                             fontFamily: 'capsulesans',
-//                                           ),
-//                                           errorText: emailExist,
-//                                           errorStyle: TextStyle(
-//                                               backgroundColor: Colors.white,
-//                                               fontSize: 12,
-//                                               fontFamily: 'capsulesans',
-//                                               height: 0.1
-//                                           ),
-//                                           labelStyle: TextStyle(
-//                                             fontWeight: FontWeight.w500,
-//                                             color: Colors.black,
-//                                           ),
-// // errorText: 'Error message',
-//                                           labelText: 'Email Address',
-//                                           floatingLabelBehavior:
-//                                           FloatingLabelBehavior.auto,
-// //filled: true,
-//                                           border: OutlineInputBorder(
-//                                             borderRadius: BorderRadius.circular(10),
-//                                           ),
-//                                         ),
-//                                       ),
-//                                     ),
-//                                     SizedBox(height: 20,),
-//                                     Container(
-//                                       height: 2,
-//                                       width: MediaQuery.of(context).size.width,
-//                                       color: AppTheme.skBorderColor,
-//                                     ),
-//                                     SizedBox(height: 16,),
-//                                     Padding(
-//                                       padding: const EdgeInsets.symmetric(horizontal: 15.0),
-//                                       child: Text('SHOP REGISTRATION',style: TextStyle(fontWeight: FontWeight.bold , fontSize: 14, letterSpacing: 2,
-//                                         color: Colors.grey,)),
-//                                     ),
-//                                     Padding(
-//                                       padding: const EdgeInsets.only(left: 15, right: 15, bottom: 16, top: 16),
-//                                       child: TextFormField(
-//                                         obscureText: _obscureText1,
-// //The validator receives the text that the user has entered.
-//                                         controller: _passwords,
-//                                         validator: (value) {
-//                                           if (value == null || value.isEmpty) {
-//                                             return ' This field is required ';
-//                                           }
-//                                           if (weakPassword != '') {
-//                                             return weakPassword;
-//                                           }
-//                                           return null;
-//                                         },
-//                                         style: TextStyle(
-//                                             height: 0.95
-//                                         ),
-//                                         decoration: InputDecoration(
-//                                           enabledBorder: const OutlineInputBorder(
-// // width: 0.0 produces a thin "hairline" border
-//                                               borderSide: const BorderSide(
-//                                                   color: AppTheme.skBorderColor,
-//                                                   width: 2.0),
-//                                               borderRadius: BorderRadius.all(
-//                                                   Radius.circular(10.0))),
-//
-//                                           focusedBorder: const OutlineInputBorder(
-// // width: 0.0 produces a thin "hairline" border
-//                                               borderSide: const BorderSide(
-//                                                   color: AppTheme.skThemeColor2,
-//                                                   width: 2.0),
-//                                               borderRadius: BorderRadius.all(
-//                                                   Radius.circular(10.0))),
-//                                           contentPadding: const EdgeInsets.only(
-//                                               left: 15.0,
-//                                               right: 15.0,
-//                                               top: 20.0,
-//                                               bottom: 20.0),
-//                                           suffixIcon: Padding(
-//                                             padding: const EdgeInsets.only(bottom: 3.0),
-//                                             child: IconButton(
-//                                               icon: const Icon(Icons.visibility),
-//                                               //tooltip: 'Increase volume by 10',
-//                                               onPressed: () {
-//                                                 setState(() {
-//                                                   _toggle1();
-//                                                 });
-//                                               },
-//                                             ),
-//                                           ),
-//                                           // suffixStyle: TextStyle(
-//                                           //   color: Colors.grey,
-//                                           //   fontSize: 12,
-//                                           //   fontFamily: 'capsulesans',
-//                                           // ),
-//                                           errorText: weakPassword,
-//                                           errorStyle: TextStyle(
-//                                               backgroundColor: Colors.white,
-//                                               fontSize: 12,
-//                                               fontFamily: 'capsulesans',
-//                                               height: 0.1
-//                                           ),
-//                                           labelStyle: TextStyle(
-//                                             fontWeight: FontWeight.w500,
-//                                             color: Colors.black,
-//                                           ),
-// // errorText: 'Error message',
-//                                           labelText: 'Password',
-//                                           floatingLabelBehavior:
-//                                           FloatingLabelBehavior.auto,
-// //filled: true,
-//                                           border: OutlineInputBorder(
-//                                             borderRadius: BorderRadius.circular(10),
-//                                           ),
-//                                         ),
-//                                       ),
-//                                     ),
-//                                     Padding(
-//                                       padding: const EdgeInsets.symmetric(horizontal: 15.0),
-//                                       child: TextFormField(
-//                                         obscureText: _obscureText1,
-// //The validator receives the text that the user has entered.
-//                                         controller: _confirm,
-//                                         validator: (value) {
-//                                           if (value == null || value.isEmpty) {
-//                                             return ' This field is required ';
-//                                           }
-//                                           // if (weakPassword != '') {
-//                                           //   return weakPassword;
-//                                           // }
-//                                           return null;
-//                                         },
-//                                         style: TextStyle(
-//                                             height: 0.95
-//                                         ),
-//                                         decoration: InputDecoration(
-//                                           enabledBorder: const OutlineInputBorder(
-// // width: 0.0 produces a thin "hairline" border
-//                                               borderSide: const BorderSide(
-//                                                   color: AppTheme.skBorderColor,
-//                                                   width: 2.0),
-//                                               borderRadius: BorderRadius.all(
-//                                                   Radius.circular(10.0))),
-//
-//                                           focusedBorder: const OutlineInputBorder(
-// // width: 0.0 produces a thin "hairline" border
-//                                               borderSide: const BorderSide(
-//                                                   color: AppTheme.skThemeColor2,
-//                                                   width: 2.0),
-//                                               borderRadius: BorderRadius.all(
-//                                                   Radius.circular(10.0))),
-//                                           contentPadding: const EdgeInsets.only(
-//                                               left: 15.0,
-//                                               right: 15.0,
-//                                               top: 20.0,
-//                                               bottom: 20.0),
-//                                           suffixIcon: Padding(
-//                                             padding: const EdgeInsets.only(bottom: 3.0),
-//                                             child: IconButton(
-//                                               icon: const Icon(Icons.visibility),
-//                                               //tooltip: 'Increase volume by 10',
-//                                               onPressed: () {
-//                                                 setState(() {
-//                                                   _toggle1();
-//                                                 });
-//                                               },
-//                                             ),
-//                                           ),
-//                                           // suffixStyle: TextStyle(
-//                                           //   color: Colors.grey,
-//                                           //   fontSize: 12,
-//                                           //   fontFamily: 'capsulesans',
-//                                           // ),
-//                                           errorText: weakPassword,
-//                                           errorStyle: TextStyle(
-//                                               backgroundColor: Colors.white,
-//                                               fontSize: 12,
-//                                               fontFamily: 'capsulesans',
-//                                               height: 0.1
-//                                           ),
-//                                           labelStyle: TextStyle(
-//                                             fontWeight: FontWeight.w500,
-//                                             color: Colors.black,
-//                                           ),
-// // errorText: 'Error message',
-//                                           labelText: 'Confirm Password',
-//                                           floatingLabelBehavior:
-//                                           FloatingLabelBehavior.auto,
-// //filled: true,
-//                                           border: OutlineInputBorder(
-//                                             borderRadius: BorderRadius.circular(10),
-//                                           ),
-//                                         ),
-//                                       ),
-//                                     ),
-//                                     SizedBox(height: 30),
-//                                     Padding(
-//                                       padding: const EdgeInsets.symmetric(horizontal: 15.0),
-//                                       child: ButtonTheme(
-//                                         minWidth: MediaQuery.of(context).size.width,
-//                                         splashColor: Colors.transparent,
-//                                         height: 50,
-//                                         child: FlatButton(
-//                                           color: AppTheme.themeColor,
-//                                           shape: RoundedRectangleBorder(
-//                                             borderRadius:
-//                                             BorderRadius.circular(10.0),
-//                                             side: BorderSide(
-//                                               color: AppTheme.themeColor,
-//                                             ),
-//                                           ),
-//                                           onPressed: () async {
-//                                             emailExist = null;
-//                                             weakPassword = null;
-//                                             if (_formKey.currentState!.validate()) {
-//                                               try {
-//                                                 await FirebaseAuth.instance.createUserWithEmailAndPassword(
-//                                                     email: _emails.text,
-//                                                     password: _passwords.text).then((_) {
-//                                                   // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) =>
-//                                                   //     VerifyScreen()));
-//                                                   Navigator.push(
-//                                                     context,
-//                                                     MaterialPageRoute(
-//                                                         builder: (context) => VerifyScreen()),);
-//                                                 });
-//                                               } on FirebaseAuthException catch (e) {
-//                                                 if (e.code == 'weak-password') {
-//                                                   setState(() {
-//                                                     weakPassword = ' Password is too weak (must be at least 6 characters long) ';
-//                                                   });
-//                                                   debugPrint('The password provided is too weak.');
-//                                                 } else if (e.code == 'email-already-in-use') {
-//                                                   setState(() {
-//                                                     emailExist = ' Account already exists ';
-//                                                   });
-//                                                   debugPrint('The account already exists for that email.');
-//                                                 }
-//                                               } catch (e) {
-//                                                 debugPrint(e);
-//                                               }
-//                                             }
-//                                           },
-//                                           child: Padding(
-//                                             padding: const EdgeInsets.only(
-//                                                 left: 5.0,
-//                                                 right: 5.0,
-//                                                 bottom: 2.0),
-//                                             child: Container(
-//                                               child: Text(
-//                                                 'Sign up',
-//                                                 textAlign: TextAlign.center,
-//                                                 style: TextStyle(
-//                                                     fontSize: 17,
-//                                                     fontWeight: FontWeight.w600,
-//                                                     letterSpacing:-0.1
-//                                                 ),
-//                                               ),
-//                                             ),
-//                                           ),
-//                                         ),
-//                                       ),
-//                                     ),
-//                                     SizedBox(height: 22,),
-//                                     Padding(
-//                                       padding: const EdgeInsets.symmetric(horizontal: 15.0),
-//                                       child: Row(
-//                                         children: [
-//                                           Text('By singing up, you agree to our ',
-//                                             style: TextStyle(
-//                                               fontSize: 12.5,
-//                                               fontWeight: FontWeight.w600,
-//                                               color: Colors.grey,
-//                                             ),),
-//                                           Text('Terms',
-//                                             style: TextStyle(
-//                                               fontSize: 12.5,
-//                                               fontWeight: FontWeight.w600,
-//                                               color: Colors.blue,
-//                                             ),),
-//                                           Text(', ',
-//                                             style: TextStyle(
-//                                               fontSize: 12.5,
-//                                               fontWeight: FontWeight.w600,
-//                                               color: Colors.grey,
-//                                             ),),
-//                                           Text('Privacy Policy',
-//                                             style: TextStyle(
-//                                               fontSize: 12.5,
-//                                               fontWeight: FontWeight.w600,
-//                                               color: Colors.blue,
-//                                             ),),
-//                                           Text(', ',
-//                                             style: TextStyle(
-//                                               fontSize: 12.5,
-//                                               fontWeight: FontWeight.w600,
-//                                               color: Colors.grey,
-//                                             ),),
-//                                         ],
-//                                       ),
-//                                     ),
-//                                     Padding(
-//                                       padding: const EdgeInsets.symmetric(horizontal: 15.0),
-//                                       child: Row(
-//                                         children: [
-//                                           Text('and ',
-//                                             style: TextStyle(
-//                                               fontSize: 12.5,
-//                                               fontWeight: FontWeight.w600,
-//                                               color: Colors.grey,
-//                                             ),),
-//                                           Text('Cookie Use',
-//                                             style: TextStyle(
-//                                               fontSize: 12.5,
-//                                               fontWeight: FontWeight.w600,
-//                                               color: Colors.blue,
-//                                             ),),
-//                                         ],
-//                                       ),
-//                                     ),
-//                                     //SizedBox(height: 50,),
-//                                     // Padding(
-//                                     //   padding: const EdgeInsets.only(top: 50.0, left: 15, right: 15),
-//                                     //   child: Row(
-//                                     //     children: [
-//                                     //       Text('Have an account already?',
-//                                     //         style: TextStyle(
-//                                     //           fontSize: 16,
-//                                     //           fontWeight: FontWeight.bold,
-//                                     //         ),),
-//                                     //       SizedBox(width: 15,),
-//                                     //       ButtonTheme(
-//                                     //         minWidth: 35,
-//                                     //         splashColor: Colors.transparent,
-//                                     //         height: 30,
-//                                     //         child: FlatButton(
-//                                     //           color: AppTheme.themeColor,
-//                                     //           shape: RoundedRectangleBorder(
-//                                     //             borderRadius:
-//                                     //             BorderRadius.circular(50.0),
-//                                     //             side: BorderSide(
-//                                     //               color: AppTheme.themeColor,
-//                                     //             ),
-//                                     //           ),
-//                                     //           onPressed: ()  {
-//                                     //             _signupController.animateTo(0);
-//                                     //             _loginTabController.animateTo(1);
-//                                     //           },
-//                                     //           child: Container(
-//                                     //             child: Text(
-//                                     //               'Login',
-//                                     //               textAlign: TextAlign.center,
-//                                     //               style: TextStyle(
-//                                     //                 fontSize: 13,
-//                                     //                 fontWeight: FontWeight.bold,
-//                                     //               ),
-//                                     //             ),
-//                                     //           ),
-//                                     //         ),
-//                                     //       )],
-//                                     //   ),
-//                                     // ),
-//                                   ],
-//                                 ),
-//                               ],
-//                             ),
-//                           ),
                                     Padding(
                                       padding: const EdgeInsets.only(top: 27.0),
                                       child: Column(
@@ -1477,7 +1031,7 @@ class _WelcomeState extends State<Welcome>
                                                     return null;
                                                   },
                                                   style: TextStyle(
-                                                      height: 0.95, fontSize : 15/scaleFactor,
+                                                    height: 0.95, fontSize : 15/scaleFactor,
                                                   ),
                                                   decoration: InputDecoration(
                                                     enabledBorder: const OutlineInputBorder(
@@ -1937,7 +1491,6 @@ class _WelcomeState extends State<Welcome>
                                         ],
                                       ),
                                     ),
-
                                   ],
                                 ),
                               ),
@@ -2012,8 +1565,6 @@ class _WelcomeState extends State<Welcome>
                                     )],
                                 ),
                               ),
-
-
                               Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
                                 child: Row(
@@ -2080,7 +1631,6 @@ class _WelcomeState extends State<Welcome>
                                     )],
                                 ),
                               ),
-
                               Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
                                 child: Row(
@@ -2137,7 +1687,6 @@ class _WelcomeState extends State<Welcome>
                                     )],
                                 ),
                               ),
-
                               Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
                                 child: Row(
