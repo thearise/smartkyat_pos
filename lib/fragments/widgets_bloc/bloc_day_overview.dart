@@ -173,8 +173,8 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
   String textSetRef = 'Refunds';
   String textSetLoss = 'Loss amount';
   String textSetToday = 'Today';
-  String textSetLastMonth = 'This month';
-  String textSetLastYear = 'This year';
+  String textSetLastMonth = 'Monthly';
+  String textSetLastYear = 'Yearly';
   String textSetProfit = 'Avg profit';
   String textSetMore = 'More detail';
   String textSetProdSale = 'PRODUCT SALE SUMMARY';
@@ -268,8 +268,8 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
          textSetRef = 'Refunds';
          textSetLoss = 'Loss amount';
          textSetToday = 'Today';
-         textSetLastMonth = 'This month';
-         textSetLastYear = 'This year';
+         textSetLastMonth = 'Monthly';
+         textSetLastYear = 'Yearly';
          textSetProfit = 'Avg profit';
          textSetMore = 'More detail';
          textSetProdSale = 'PRODUCT SALE SUMMARY';
@@ -289,8 +289,8 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
         textSetRef = 'ပြန်ပေးငွေ';
         textSetLoss = 'ဆုံးရှုံးငွေ';
         textSetToday = 'Today';
-        textSetLastMonth = 'This month';
-        textSetLastYear = 'This year';
+        textSetLastMonth = 'Monthly';
+        textSetLastYear = 'Yearly';
         textSetProfit = 'ပျမ်းမျှအမြတ်ငွေ';
         textSetMore = 'အသေးစိတ်ကြည့်ရန်';
         textSetProdSale = 'ပစ္စည်းအရောင်းအကျဉ်းချုပ်';
@@ -2309,7 +2309,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
     String title = '';
     if(_sliding == 2) {
       return title = 'last month';
-    } else  {return title = 'last year';}
+    } else  {return title = 'Yearly';}
   }
 
 

@@ -483,25 +483,35 @@ class _EditMerchantState extends State<EditMerchant> {
                                 'mer.'+ widget.merchId + '.ad': merchAddressCtrl.text,
                                 'mer.'+ widget.merchId + '.ph': merchPhoneCtrl.text,
                               }).then((value) {
-                                Future.delayed(const Duration(milliseconds: 2000), () {
-                                  setState(() {
-                                    merchLoading = false;
-                                    disableTouch = false;
-                                  });
-                                  closeOverAllSubLoading();
-                                  Navigator.pop(context);
-                                  smartKyatFlash(merchNameCtrl.text + ' is successfully updated.', 's');
-                                });
+                                // Future.delayed(const Duration(milliseconds: 2000), () {
+                                //   setState(() {
+                                //     merchLoading = false;
+                                //     disableTouch = false;
+                                //   });
+                                //   closeOverAllSubLoading();
+                                //   Navigator.pop(context);
+                                //   smartKyatFlash(merchNameCtrl.text + ' is successfully updated.', 's');
+                                // });
                               }).catchError((error){
-                                Future.delayed(const Duration(milliseconds: 2000), () {
-                                  setState(() {
-                                    merchLoading = false;
-                                    disableTouch = false;
-                                  });
-                                  closeOverAllSubLoading();
-                                  Navigator.pop(context);
-                                  smartKyatFlash('An error occurred while editing merchant. Please try again later.', 'e');
+                                // Future.delayed(const Duration(milliseconds: 2000), () {
+                                //   setState(() {
+                                //     merchLoading = false;
+                                //     disableTouch = false;
+                                //   });
+                                //   closeOverAllSubLoading();
+                                //   Navigator.pop(context);
+                                //   smartKyatFlash('An error occurred while editing merchant. Please try again later.', 'e');
+                                // });
+                              });
+
+                              Future.delayed(const Duration(milliseconds: 2000), () {
+                                setState(() {
+                                  merchLoading = false;
+                                  disableTouch = false;
                                 });
+                                closeOverAllSubLoading();
+                                Navigator.pop(context);
+                                smartKyatFlash(merchNameCtrl.text + ' is successfully updated.', 's');
                               });
 
                             }

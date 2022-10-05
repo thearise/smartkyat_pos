@@ -155,10 +155,10 @@
 //   String textSetUnpaid = 'Unpaid';
 //   String textSetBuys = 'Buys';
 //   String textSetLoss = 'Loss';
-//   String textSetToday = 'Day';
-//   String textSetLastWeek = 'Last week';
+//   String textSetToday = 'Daily';
+//   String textSetLastWeek = 'Weekly';
 //   String textSetLastMonth = 'Last month';
-//   String textSetLastYear = 'Last year';
+//   String textSetLastYear = 'Yearly';
 //   String textSetLast7Days = 'Last 7 Days';
 //   String textSetLast28D = 'LAST 28 DAYS';
 //   String textSetLast12M = 'LAST 12 MONTHS';
@@ -350,10 +350,10 @@
 //          textSetUnpaid = 'Unpaid';
 //          textSetBuys = 'Buys';
 //          textSetLoss = 'Loss';
-//          textSetToday = 'Day';
-//          textSetLastWeek = 'Last week';
+//          textSetToday = 'Daily';
+//          textSetLastWeek = 'Weekly';
 //          textSetLastMonth = 'Last month';
-//          textSetLastYear = 'Last year';
+//          textSetLastYear = 'Yearly';
 //          textSetLast7Days = 'Last 7 Days';
 //          textSetLast28D = 'LAST 28 DAYS';
 //          textSetLast12M = 'LAST 12 MONTHS';
