@@ -162,10 +162,10 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
   String textSetUnpaid = 'Unpaid';
   String textSetBuys = 'Refund amount';
   String textSetLoss = 'Loss amount';
-  String textSetToday = 'Day';
-  String textSetLastWeek = 'Last week';
-  String textSetLastMonth = 'This month';
-  String textSetLastYear = 'Last year';
+  String textSetToday = 'Daily';
+  String textSetLastWeek = 'Weekly';
+  String textSetLastMonth = 'Monthly';
+  String textSetLastYear = 'Yearly';
   String textSetInOut = 'SALES IN-OUT SUMMARY';
   String textSetNetSales = 'Net sales';
   String textSetAvgProf = 'Avg profit';
@@ -267,10 +267,10 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
         textSetUnpaid = 'Unpaid';
         textSetBuys = 'Refund amount';
         textSetLoss = 'Loss amount';
-        textSetToday = 'Day';
-        textSetLastWeek = 'Last week';
-        textSetLastMonth = 'This month';
-        textSetLastYear = 'Last year';
+        textSetToday = 'Daily';
+        textSetLastWeek = 'Weekly';
+        textSetLastMonth = 'Monthly';
+        textSetLastYear = 'Yearly';
         textSetInOut = 'SALES IN-OUT SUMMARY';
         textSetNetSales = 'Net sales';
         textSetAvgProf = 'Avg profit';
@@ -2966,8 +2966,8 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
   String yestWeekTitle() {
     String title = '';
     if(_sliding == 3) {
-      return title = 'last year';
-    } else  {return title = 'last year';}
+      return title = 'Yearly';
+    } else  {return title = 'Yearly';}
   }
 
   double funChange(max) {
