@@ -181,9 +181,9 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
   String textSetTSales = 'Total products sold';
   String textSetTLoss = 'Total products loss';
   String textSetTRef = 'Total products refund';
-  String textSetSaleAmt = 'Total sale amount';
-  String textSetBuyAmt = 'Total buy amount';
-  String textSetDiscount = 'Total discount amount';
+  String textSetSaleAmt = 'Gross sales';
+  String textSetBuyAmt = 'Buys';
+  String textSetDiscount = 'Discount';
 
 
   void closeDrawerFrom() {
@@ -276,9 +276,9 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
          textSetTSales = 'Total products sold';
          textSetTLoss = 'Total loss';
          textSetTRef = 'Total refunds';
-         textSetSaleAmt = 'Total sale amount';
-         textSetBuyAmt = 'Total buy amount';
-         textSetDiscount = 'Total discount amount';
+         textSetSaleAmt = 'Gross sales';
+         textSetBuyAmt = 'Buys';
+         textSetDiscount = 'Discount';
       });
     } else {
       setState(() {
@@ -297,7 +297,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
         textSetTSales = 'အရောင်းပစ္စည်းအမျိုးအစားများ';
         textSetTLoss = 'ဆုံးရှုံးပစ္စည်းအမျိုးအစားများ';
         textSetTRef = 'ပြန်ပေးပစ္စည်းအမျိုးအစားများ';
-        textSetSaleAmt = 'ပစ္စည်းရောင်းရငွေ‌';
+        textSetSaleAmt = 'စုစုပေါင်းရောင်းအား';
         textSetBuyAmt = 'ပစ္စည်းဝယ်စျေး';
         textSetDiscount = 'လျှော့ငွေ';
       });
