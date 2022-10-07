@@ -631,6 +631,126 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                       Row(
                                         children: [
                                           Text(
+                                            totalStockCostsBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                            textScaleFactor: 1, textAlign: TextAlign.left,
+                                            style: GoogleFonts.lato(
+                                                textStyle: TextStyle(
+                                                    letterSpacing: 1,
+                                                    fontSize: 26,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.black
+                                                )
+                                            ),
+                                          ),
+                                          Padding(
+                                              padding: const EdgeInsets.only(left: 5.0, top: 13.0),
+                                              child: Text(
+                                                  currencyUnit, textScaleFactor: 1,
+                                                  textAlign: TextAlign.left,
+                                                  style: GoogleFonts.roboto(
+                                                      textStyle: TextStyle(
+                                                          letterSpacing: 1,
+                                                          fontSize: 14,
+                                                          fontWeight: FontWeight.w600,
+                                                          color: Colors.black
+                                                      )
+                                                  ) ) ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            textSetUnpaid + ' (',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ), textScaleFactor: 1,
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                          percentByUnpaid() == 1001 || percentByUnpaid() == 1000 ?
+                                          Text('') :
+                                          Text(
+                                            percentByUnpaid().abs().toString()+ '% ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ), textScaleFactor: 1,
+                                            style: TextStyle(
+                                              fontSize: 13, height: 1.2,
+                                              fontWeight: FontWeight.w500,
+                                              color: percentByUnpaid() == 1001 || percentByUnpaid() == 1000 ? Colors.blue: percentByUnpaid() < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                          ) ,
+                                          percentByUnpaid() == 1001 || percentByUnpaid() == 1000 ? Text(
+                                            'same as ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ), textScaleFactor: 1,
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ) :  percentByUnpaid() < 0?
+                                          Text(
+                                            'lower than ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ), textScaleFactor: 1,
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ) :
+                                          Text(
+                                            'higher than ',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ), textScaleFactor: 1,
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                          Text(
+                                            yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
+                                              forceStrutHeight: true,
+                                              height: 1.2
+                                          ), textScaleFactor: 1,
+                                            style: TextStyle(
+                                                fontSize: 13, height: 1.2,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black.withOpacity(0.6)),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: BoxDecoration(
+                                      border: Border(
+                                          bottom: BorderSide(
+                                              color: Colors.grey
+                                                  .withOpacity(
+                                                  0.3),
+                                              width: 1.0)
+                                      )),
+                                ),
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 9, bottom: 14),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(
                                             profitBySlide().toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                             textScaleFactor: 1, textAlign: TextAlign.left,
                                             style: GoogleFonts.lato(
@@ -811,126 +931,6 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                                 fontWeight: FontWeight.w500,
                                                 color: Colors.black.withOpacity(0.6)),
                                           ) :  percentByEarn() < 0?
-                                          Text(
-                                            'lower than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :
-                                          Text(
-                                            'higher than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          Text(
-                                            yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  decoration: BoxDecoration(
-                                      border: Border(
-                                          bottom: BorderSide(
-                                              color: Colors.grey
-                                                  .withOpacity(
-                                                  0.3),
-                                              width: 1.0)
-                                      )),
-                                ),
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width,
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 9, bottom: 14),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Text(
-                                            totalStockCostsBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                            textScaleFactor: 1, textAlign: TextAlign.left,
-                                            style: GoogleFonts.lato(
-                                                textStyle: TextStyle(
-                                                    letterSpacing: 1,
-                                                    fontSize: 26,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.black
-                                                )
-                                            ),
-                                          ),
-                                          Padding(
-                                              padding: const EdgeInsets.only(left: 5.0, top: 13.0),
-                                              child: Text(
-                                                  currencyUnit, textScaleFactor: 1,
-                                                  textAlign: TextAlign.left,
-                                                  style: GoogleFonts.roboto(
-                                                      textStyle: TextStyle(
-                                                          letterSpacing: 1,
-                                                          fontSize: 14,
-                                                          fontWeight: FontWeight.w600,
-                                                          color: Colors.black
-                                                      )
-                                                  ) ) ),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            textSetUnpaid + ' (',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          percentByUnpaid() == 1001 || percentByUnpaid() == 1000 ?
-                                          Text('') :
-                                          Text(
-                                            percentByUnpaid().abs().toString()+ '% ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                              fontSize: 13, height: 1.2,
-                                              fontWeight: FontWeight.w500,
-                                              color: percentByUnpaid() == 1001 || percentByUnpaid() == 1000 ? Colors.blue: percentByUnpaid() < 0? AppTheme.badgeFgDanger: Colors.green,),
-                                          ) ,
-                                          percentByUnpaid() == 1001 || percentByUnpaid() == 1000 ? Text(
-                                            'same as ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :  percentByUnpaid() < 0?
                                           Text(
                                             'lower than ',strutStyle: StrutStyle(
                                               forceStrutHeight: true,
