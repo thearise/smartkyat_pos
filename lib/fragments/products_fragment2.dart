@@ -989,7 +989,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                                           child: imgUrl != ""
                                                                               ? CachedNetworkImage(
                                                                             imageUrl:
-                                                                            'https://htoomedia.info/smartkyat_pos/api/uploads/' +
+                                                                            'https://smartkyatpos.com/api/uploads/' +
                                                                                 imgUrl,
                                                                             width: 75,
                                                                             height: 75,

@@ -524,7 +524,7 @@ class MerchantCartState extends State<MerchantCart>
                                                 child: image != ""
                                                     ? CachedNetworkImage(
                                                   imageUrl:
-                                                  'https://htoomedia.info/smartkyat_pos/api/uploads/' +
+                                                  'https://smartkyatpos.com/api/uploads/' +
                                                       image,
                                                   width: 58,
                                                   height: 58,
@@ -550,7 +550,7 @@ class MerchantCartState extends State<MerchantCart>
                                                 )
                                                     : CachedNetworkImage(
                                                   imageUrl:
-                                                  'https://htoomedia.info/smartkyat_pos/api/uploads/shark1.jpg',
+                                                  'https://smartkyatpos.com/api/uploads/shark1.jpg',
                                                   width: 58,
                                                   height: 58,
                                                   // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),

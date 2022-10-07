@@ -369,6 +369,9 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
     }
 
     fetchOrdersMY(loadedState.documentSnapshots);
+    double width = MediaQuery.of(context).size.width > 900
+        ? MediaQuery.of(context).size.width * (2 / 3.5)
+        : MediaQuery.of(context).size.width;
 
     var listView = CustomScrollView(
       reverse: widget.reverse,
@@ -404,7 +407,7 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
               if(cateScIndex == 2) {
                 return Container(
                   // height: MediaQuery.of(context).size.height-353,
-                  width: MediaQuery.of(context).size.width,
+                  width: width,
                   color: Colors.white,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 0.0, right: 0.0,),
@@ -436,7 +439,7 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
                               Row(
                                 children: [
                                   Container(
-                                    width: MediaQuery.of(context).size.width/2,
+                                    width: width/2,
                                     child: Padding(
                                       padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 9, bottom: 14),
                                       child: Column(
@@ -472,7 +475,7 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
                                     ),
                                   ),
                                   Container(
-                                    width: MediaQuery.of(context).size.width/2,
+                                    width: width/2,
                                     child: Padding(
                                       padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 9, bottom: 14),
                                       child: Column(
@@ -512,7 +515,7 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
                               Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
                                 child: Container(
-                                  width: MediaQuery.of(context).size.width,
+                                  width: width,
                                   decoration: BoxDecoration(
                                       border: Border(
                                           bottom: BorderSide(
@@ -526,7 +529,7 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
                               Row(
                                 children: [
                                   Container(
-                                    width: MediaQuery.of(context).size.width/2,
+                                    width: width/2,
                                     child: Padding(
                                       padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 9, bottom: 14),
                                       child: Column(
@@ -562,7 +565,7 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
                                     ),
                                   ),
                                   Container(
-                                    width: MediaQuery.of(context).size.width/2,
+                                    width: width/2,
                                     child: Padding(
                                       padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 9, bottom: 14),
                                       child: Column(
@@ -602,7 +605,7 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
                               Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
                                 child: Container(
-                                  width: MediaQuery.of(context).size.width,
+                                  width: width,
                                   decoration: BoxDecoration(
                                       border: Border(
                                           bottom: BorderSide(
@@ -616,7 +619,7 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
                               Row(
                                 children: [
                                   Container(
-                                    width: MediaQuery.of(context).size.width/2,
+                                    width: width/2,
                                     child: Padding(
                                       padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 9, bottom: 14),
                                       child: Column(
@@ -652,7 +655,7 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
                                     ),
                                   ),
                                   Container(
-                                    width: MediaQuery.of(context).size.width/2,
+                                    width: width/2,
                                     child: Padding(
                                       padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 9, bottom: 14),
                                       child: Column(
@@ -692,7 +695,7 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
                               Padding(
                                 padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 20.0, top: 4),
                                 child: ButtonTheme(
-                                  minWidth: MediaQuery.of(context).size.width,
+                                  minWidth: width,
                                   splashColor: Colors.transparent,
                                   height: 50,
                                   child: FlatButton(
@@ -743,7 +746,7 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
                                 ),
                               ),
                               Container(
-                                width: MediaQuery.of(context).size.width,
+                                width: width,
                                 decoration: BoxDecoration(
                                     border: Border(
                                         bottom: BorderSide(
@@ -1101,7 +1104,7 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
                               Padding(
                                 padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 25.0, top: 10),
                                 child: ButtonTheme(
-                                  minWidth: MediaQuery.of(context).size.width,
+                                  minWidth: width,
                                   splashColor: Colors.transparent,
                                   height: 50,
                                   child: FlatButton(
@@ -1185,8 +1188,8 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
   int segmentedControlGroupValue = 0;
   final Map<int, Widget> myTabs = const <int, Widget>{
     0: Text("Today", textScaleFactor: 1,),
-    1: Text("This month", textScaleFactor: 1),
-    2: Text("This year", textScaleFactor: 1,),
+    1: Text("Month", textScaleFactor: 1),
+    2: Text("Year", textScaleFactor: 1,),
   };
 
   int initProdPagi = 0;
