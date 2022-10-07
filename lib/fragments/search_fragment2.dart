@@ -946,7 +946,7 @@
 //   //                                           child: data['img_1'] != ""
 //   //                                               ? CachedNetworkImage(
 //   //                                             imageUrl:
-//   //                                             'https://htoomedia.info/smartkyat_pos/api/uploads/' +
+//   //                                             'https://smartkyatpos.com/api/uploads/' +
 //   //                                                 data['img_1'],
 //   //                                             width: 75,
 //   //                                             height: 75,
@@ -3974,7 +3974,7 @@
 //                                                           child: imgUrl != ""
 //                                                               ? CachedNetworkImage(
 //                                                             imageUrl:
-//                                                             'https://htoomedia.info/smartkyat_pos/api/uploads/' +
+//                                                             'https://smartkyatpos.com/api/uploads/' +
 //                                                                 imgUrl,
 //                                                             width: 75,
 //                                                             height: 75,

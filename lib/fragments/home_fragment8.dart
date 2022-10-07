@@ -767,19 +767,66 @@ class OverviewPageState extends State<OverviewPage>
                                 color: Colors.Colors.grey.withOpacity(0.3),
                                 width: 1.0))),
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 10.0, left: 15.0 , right: 15),
+                      padding: const EdgeInsets.only(left: 15.0, right: 15.0),
                       child: Row(
                         children: [
                           Expanded(
-                            child: Text(textSetTotalSales, textScaleFactor: 1,
-                              style: TextStyle(
-                                fontSize: 23,
-                                fontWeight: FontWeight.w600,
-                                overflow: TextOverflow.ellipsis,
-                              ),),
+                            child: Container(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(height: 16),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 10.0),
+                                    child: Text(
+                                      "6 October 2022", textScaleFactor: 1,
+                                      maxLines: 1,
+                                      textAlign: TextAlign.right,
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
+                                          overflow: TextOverflow.ellipsis
+                                        // height: 1.5
+                                      ),
+                                      strutStyle: StrutStyle(
+                                        height: 1.4,
+                                        // fontSize:,
+                                        forceStrutHeight: true,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 0.0, right: 10.0),
+                                    child: Text(
+                                      "Ongoing sale reports", textScaleFactor: 1,
+                                      maxLines: 1,
+                                      textAlign: TextAlign.right,
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                        overflow: TextOverflow.ellipsis,
+                                        // height: 1.3
+                                      ),
+                                      strutStyle: StrutStyle(
+                                        height: 1.7,
+                                        // fontSize:,
+                                        forceStrutHeight: true,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            // child: Text(textSetTotalSales, textScaleFactor: 1,
+                            //   style: TextStyle(
+                            //     fontSize: 23,
+                            //     fontWeight: FontWeight.w600,
+                            //     overflow: TextOverflow.ellipsis,
+                            //   ),),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(left:15.0),
+                            padding: const EdgeInsets.only(top: 0.0, left:15.0),
                             child: GestureDetector(
                               onTap: () {
                                 widget._premiumCart();

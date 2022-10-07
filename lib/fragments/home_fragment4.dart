@@ -3610,7 +3610,7 @@ class HomeFragmentState extends State<HomeFragment>
   //                                                             child: item.split('^sps^')[2] != ""
   //                                                                 ? CachedNetworkImage(
   //                                                               imageUrl:
-  //                                                               'https://htoomedia.info/smartkyat_pos/api/uploads/' +
+  //                                                               'https://smartkyatpos.com/api/uploads/' +
   //                                                                   item.split('^sps^')[2],
   //                                                               width: 75,
   //                                                               height: 75,
@@ -3636,7 +3636,7 @@ class HomeFragmentState extends State<HomeFragment>
   //                                                             )
   //                                                                 : CachedNetworkImage(
   //                                                               imageUrl:
-  //                                                               'https://htoomedia.info/smartkyat_pos/api/uploads/shark1.jpg',
+  //                                                               'https://smartkyatpos.com/api/uploads/shark1.jpg',
   //                                                               width: 75,
   //                                                               height: 75,
   //                                                               // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
@@ -5100,7 +5100,7 @@ class HomeFragmentState extends State<HomeFragment>
   //                         //                                 child: item.split('^sps^')[2] != ""
   //                         //                                     ? CachedNetworkImage(
   //                         //                                   imageUrl:
-  //                         //                                   'https://htoomedia.info/smartkyat_pos/api/uploads/' +
+  //                         //                                   'https://smartkyatpos.com/api/uploads/' +
   //                         //                                       item.split('^sps^')[2],
   //                         //                                   width: 75,
   //                         //                                   height: 75,
@@ -5126,7 +5126,7 @@ class HomeFragmentState extends State<HomeFragment>
   //                         //                                 )
   //                         //                                     : CachedNetworkImage(
   //                         //                                   imageUrl:
-  //                         //                                   'https://htoomedia.info/smartkyat_pos/api/uploads/shark1.jpg',
+  //                         //                                   'https://smartkyatpos.com/api/uploads/shark1.jpg',
   //                         //                                   width: 75,
   //                         //                                   height: 75,
   //                         //                                   // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),

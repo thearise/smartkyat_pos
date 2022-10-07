@@ -981,7 +981,7 @@
 //                                                         child: data['img_1'] != ""
 //                                                             ? CachedNetworkImage(
 //                                                           imageUrl:
-//                                                           'https://htoomedia.info/smartkyat_pos/api/uploads/' +
+//                                                           'https://smartkyatpos.com/api/uploads/' +
 //                                                               data['img_1'],
 //                                                           width: 75,
 //                                                           height: 75,
