@@ -1,45 +1,16 @@
 import 'dart:developer';
 import 'dart:math';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:equatable/equatable.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_picker.dart';
-import 'package:flutter_switch/flutter_switch.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:intl/intl.dart';
-import 'package:jiffy/jiffy.dart';
-import 'package:one_context/one_context.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/widgets_bloc/bloc_day_overview.dart' as BlocDayOverviewImp;
 import 'package:smartkyat_pos/fragments/widgets_bloc/bloc_year_overview.dart' as BlocYearOverviewImp;
-import 'package:smartkyat_pos/fragments/bloc_home_week.dart';
-import 'package:smartkyat_pos/fragments/bloc_home_year.dart' as BlocHomeYearImp;
-import 'package:smartkyat_pos/fragments/subs/buy_list_info.dart';
-import 'package:smartkyat_pos/fragments/subs/donut.dart';
-import 'package:smartkyat_pos/fragments/subs/language_settings.dart';
-import 'package:smartkyat_pos/fragments/subs/merchant_info.dart';
-import 'package:smartkyat_pos/fragments/subs/order_info.dart';
-import 'package:smartkyat_pos/fragments/subs/top_sale_detail.dart';
-import 'package:smartkyat_pos/pages2/home_page4.dart';
-import 'package:smartkyat_pos/pie_chart/simple.dart';
-import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
 import 'package:flutter/src/material/colors.dart' as Colors;
-import 'package:smartkyat_pos/widgets/apply_discount_to_cart.dart';
-import 'package:smartkyat_pos/widgets/line_chart_sample2.dart';
-import 'package:smartkyat_pos/widgets/overall_search.dart';
-import 'package:smartkyat_pos/widgets/product_details_view.dart';
-import 'package:sticky_and_expandable_list/sticky_and_expandable_list.dart';
-import 'package:vector_math/vector_math_64.dart';
-import '../app_theme.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
 import '../a11y/a11y_gallery.dart' as a11y show buildGallery;
 import '../bar_chart/bar_gallery.dart' as bar show buildGallery;
 import '../gallery_scaffold.dart';
@@ -54,9 +25,6 @@ import '../axes/axes_gallery.dart' as axes show buildGallery;
 import '../behaviors/behaviors_gallery.dart' as behaviors show buildGallery;
 import '../i18n/i18n_gallery.dart' as i18n show buildGallery;
 import '../legends/legends_gallery.dart' as legends show buildGallery;
-import 'ad_helper.dart';
-import 'home_fragment6.dart';
-import 'subs/customer_info.dart';
 
 
 class OverviewPage extends StatefulWidget {
@@ -736,6 +704,40 @@ class OverviewPageState extends State<OverviewPage>
     });
   }
 
+  String selectDaysCast() {
+    debugPrint("TTT " + today.year.toString().length.toString());
+    // if(_sliding==0) {
+    // today.year.toString().substring(today.year.toString().length-2, today.year.toString().length
+    if(today.month == 9) {
+      return today.day.toString() + ' September ' + today.year.toString();
+    } else if(today.month == 1) {
+      return today.day.toString() + ' January ' + today.year.toString();
+    } else if(today.month == 2) {
+      return today.day.toString() + ' February ' + today.year.toString();
+    } else if(today.month == 3) {
+      return today.day.toString() + ' March '  + today.year.toString();
+    } else if(today.month == 4) {
+      return today.day.toString() + ' April '  + today.year.toString();
+    } else if(today.month == 5) {
+      return today.day.toString() + ' May '  + today.year.toString();
+    } else if(today.month == 6) {
+      return today.day.toString() + ' June '  + today.year.toString();
+    } else if(today.month == 7) {
+      return today.day.toString() + ' July '  + today.year.toString();
+    } else if(today.month == 8) {
+      return today.day.toString() + ' August ' + today.year.toString();
+    } else if(today.month == 10) {
+      return today.day.toString() + ' October '  + today.year.toString();
+    } else if(today.month == 11) {
+      return today.day.toString() + ' November ' + today.year.toString();
+    } else if(today.month == 12) {
+      return today.day.toString() + ' December '  + today.year.toString();
+    } else {
+      return '';
+    }
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -780,7 +782,7 @@ class OverviewPageState extends State<OverviewPage>
                                   Padding(
                                     padding: const EdgeInsets.only(right: 10.0),
                                     child: Text(
-                                      "6 October 2022", textScaleFactor: 1,
+                                      selectDaysCast(), textScaleFactor: 1,
                                       maxLines: 1,
                                       textAlign: TextAlign.right,
                                       style: TextStyle(
