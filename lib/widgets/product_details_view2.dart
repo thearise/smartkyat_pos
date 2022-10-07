@@ -644,7 +644,7 @@ class ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                     child: image != ""
                                                         ? CachedNetworkImage(
                                                       imageUrl:
-                                                      'https://htoomedia.info/smartkyat_pos/api/uploads/' +
+                                                      'https://smartkyatpos.com/api/uploads/' +
                                                           image,
                                                       width: 133,
                                                       height: 100,
@@ -2086,7 +2086,7 @@ class ProductDetailsViewState2 extends State<ProductDetailsView2>  with
 
   Future<int> removeImgServer(String image) async {
     final response = await http.post(
-      Uri.parse('https://htoomedia.info/smartkyat_pos/api/images_remove.php'),
+      Uri.parse('https://smartkyatpos.com/api/images_remove.php'),
       // headers: <String, String>{
       //   'Content-Type': 'application/json; charset=UTF-8',
       // },
@@ -2096,7 +2096,7 @@ class ProductDetailsViewState2 extends State<ProductDetailsView2>  with
     );
 
 
-    // var uri = Uri.parse("https://htoomedia.info/smartkyat_pos/api/images_remove.php");
+    // var uri = Uri.parse("https://smartkyatpos.com/api/images_remove.php");
     // var request = new http.Request("POST", uri);
     // request.bodyFields['rm_image'] = image;
     //

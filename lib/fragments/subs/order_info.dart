@@ -665,7 +665,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                             child: imgUrl != ""
                                                                 ? CachedNetworkImage(
                                                               imageUrl:
-                                                              'https://htoomedia.info/smartkyat_pos/api/uploads/' +
+                                                              'https://smartkyatpos.com/api/uploads/' +
                                                                   imgUrl,
                                                               width: 56.5,
                                                               height: 56.5,
@@ -1018,7 +1018,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                                       ""
                                                                       ? CachedNetworkImage(
                                                                     imageUrl:
-                                                                    'https://htoomedia.info/smartkyat_pos/api/uploads/' +
+                                                                    'https://smartkyatpos.com/api/uploads/' +
                                                                         imgUrl,
                                                                     width: 56.5,
                                                                     height: 56.5,

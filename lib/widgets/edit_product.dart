@@ -1528,7 +1528,7 @@ class _EditProductState extends State<EditProduct> {
     new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
     var length = await imageFile.length();
     var uri =
-    Uri.parse("https://htoomedia.info/smartkyat_pos/api/images_upload.php");
+    Uri.parse("https://smartkyatpos.com/api/images_upload.php");
 
     var request = new http.MultipartRequest("POST", uri);
 
@@ -1556,7 +1556,7 @@ class _EditProductState extends State<EditProduct> {
 // ignore: deprecated_member_use
     var stream = new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
     var length = await imageFile.length();
-    var uri = Uri.parse("https://htoomedia.info/smartkyat_pos/api/images_reup.php");
+    var uri = Uri.parse("https://smartkyatpos.com/api/images_reup.php");
     var request = new http.MultipartRequest("POST", uri);
 
     var multipartFile = new http.MultipartFile("image", stream, length,
@@ -1586,7 +1586,7 @@ class _EditProductState extends State<EditProduct> {
 // // ignore: deprecated_member_use
 //     var stream = new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
 //     var length = await imageFile.length();
-//     var uri = Uri.parse("https://htoomedia.info/smartkyat_pos/api/images_upload.php");
+//     var uri = Uri.parse("https://smartkyatpos.com/api/images_upload.php");
 //
 //     var request = new http.MultipartRequest("POST", uri);
 //

@@ -2889,7 +2889,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
     new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
     var length = await imageFile.length();
     var uri =
-    Uri.parse("https://htoomedia.info/smartkyat_pos/api/images_upload.php");
+    Uri.parse("https://smartkyatpos.com/api/images_upload.php");
 
     var request = new http.MultipartRequest("POST", uri);
 

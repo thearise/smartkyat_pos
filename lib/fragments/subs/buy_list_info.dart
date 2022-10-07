@@ -668,7 +668,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                             child: imgUrl != ""
                                                                 ? CachedNetworkImage(
                                                               imageUrl:
-                                                              'https://htoomedia.info/smartkyat_pos/api/uploads/' +
+                                                              'https://smartkyatpos.com/api/uploads/' +
                                                                   imgUrl,
                                                               width: 56.5,
                                                               height: 56.5,
@@ -1020,7 +1020,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                                       ""
                                                                       ? CachedNetworkImage(
                                                                     imageUrl:
-                                                                    'https://htoomedia.info/smartkyat_pos/api/uploads/' +
+                                                                    'https://smartkyatpos.com/api/uploads/' +
                                                                         imgUrl,
                                                                     width: 56.5,
                                                                     height: 56.5,

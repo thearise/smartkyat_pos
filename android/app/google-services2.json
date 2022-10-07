@@ -23,14 +23,6 @@
           }
         },
         {
-          "client_id": "992111549301-rdj158ks9ektv64brc5qi4hphecv3546.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.ethereals.smartkyat_pos",
-            "certificate_hash": "e3628f62ac3f5bab88fbf07c928e7919c8566966"
-          }
-        },
-        {
           "client_id": "992111549301-mo4pm8kvjdf3jqdmq4njvm28k0e3k90m.apps.googleusercontent.com",
           "client_type": 3
         }

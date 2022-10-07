@@ -315,14 +315,17 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
                             color: Colors.grey.withOpacity(0.3),
                             width: 1.0))),
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 10.0, left: 15.0 , right: 15),
+                  padding: const EdgeInsets.only(top: 1.0, left: 15.0 , right: 15),
                   child: Row(
                     children: [
-                      Text(textSetTitle, textScaleFactor: 1,
-                        style: TextStyle(
-                          fontSize: 26,
-                          fontWeight: FontWeight.w600,
-                        ),),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 0.0),
+                        child: Text(textSetTitle, textScaleFactor: 1,
+                          style: TextStyle(
+                            fontSize: 26,
+                            fontWeight: FontWeight.w600,
+                          ),),
+                      ),
                       Spacer(),
                       GestureDetector(
                         onTap: () {

@@ -320,47 +320,95 @@ class _WelcomeState extends State<Welcome>
                                                             letterSpacing: 0.02
                                                         ),),
                                                       SizedBox(height: 50,),
-                                                      ButtonTheme(
-                                                        minWidth: MediaQuery.of(context).size.width,
-                                                        splashColor: Colors.transparent,
-                                                        height: 50,
-                                                        child: FlatButton(
-                                                          color: AppTheme.themeColor,
-                                                          shape: RoundedRectangleBorder(
-                                                            borderRadius:
-                                                            BorderRadius.circular(10.0),
-                                                            side: BorderSide(
-                                                              color: AppTheme.themeColor,
-                                                            ),
-                                                          ),
-                                                          onPressed: () {
-                                                            pressedCreate = true;
-                                                            _signupController.animateTo(1);
-                                                          },
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.only(
-                                                                left: 5.0,
-                                                                right: 5.0,
-                                                                bottom: 3.0),
-                                                            child: Container(
-                                                              child: Text(
-                                                                isEnglish? 'Create an account': 'အကောင့်ဖန်တီးပါ',
-                                                                textScaleFactor: 1, textAlign: TextAlign.center,
-                                                                style: TextStyle(
-                                                                    height: 1.3,
-                                                                    fontSize: 17.5,
-                                                                    fontWeight: FontWeight.w600,
-                                                                    color: Colors.black
+                                                      Row(
+                                                        children: [
+                                                          ButtonTheme(
+                                                            // minWidth: MediaQuery.of(context).size.width/3 - 22.5,
+                                                            splashColor: Colors.transparent,
+                                                            height: 50,
+                                                            child: FlatButton(
+                                                              color: AppTheme.buttonColor2,
+                                                              shape: RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                BorderRadius.circular(10.0),
+                                                                side: BorderSide(
+                                                                  color: AppTheme.buttonColor2,
                                                                 ),
-                                                                strutStyle: StrutStyle(
-                                                                  height: 1.3,
-                                                                  // fontSize:,
-                                                                  forceStrutHeight: true,
+                                                              ),
+                                                              onPressed: () async {
+                                                                final GoogleSignInAccount? googleUser = await GoogleSignIn(
+                                                                    scopes: <String> ["email"]).signIn();
+
+                                                                final GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
+
+                                                                final credential = GoogleAuthProvider.credential(
+                                                                  accessToken: googleAuth.accessToken,
+                                                                  idToken: googleAuth.idToken,
+                                                                );
+                                                                setState(() {
+                                                                  isLoading = true;
+                                                                });
+                                                                await FirebaseAuth.instance.signInWithCredential(credential);
+
+                                                              },
+                                                              child: loadingState? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                                                  child: CupertinoActivityIndicator(radius: 10,)) : Padding(
+                                                                padding: const EdgeInsets.only(
+                                                                    left: 5.0,
+                                                                    right: 5.0,
+                                                                    bottom: 2.0),
+                                                                child: Container(
+                                                                    child: Image.asset('assets/system/app-google.png', height: 22, width: 22,)
                                                                 ),
                                                               ),
                                                             ),
                                                           ),
-                                                        ),
+                                                          SizedBox(width: 15),
+                                                          Expanded(
+                                                            child: ButtonTheme(
+                                                              // minWidth: MediaQuery.of(context).size.width,
+                                                              splashColor: Colors.transparent,
+                                                              height: 50,
+                                                              child: FlatButton(
+                                                                color: AppTheme.themeColor,
+                                                                shape: RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                  BorderRadius.circular(10.0),
+                                                                  side: BorderSide(
+                                                                    color: AppTheme.themeColor,
+                                                                  ),
+                                                                ),
+                                                                onPressed: () {
+                                                                  pressedCreate = true;
+                                                                  _signupController.animateTo(1);
+                                                                },
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets.only(
+                                                                      left: 5.0,
+                                                                      right: 5.0,
+                                                                      bottom: 3.0),
+                                                                  child: Container(
+                                                                    child: Text(
+                                                                      isEnglish? 'Create an account': 'အကောင့်ဖန်တီးပါ',
+                                                                      textScaleFactor: 1, textAlign: TextAlign.center,
+                                                                      style: TextStyle(
+                                                                          height: 1.3,
+                                                                          fontSize: 17.5,
+                                                                          fontWeight: FontWeight.w600,
+                                                                          color: Colors.black
+                                                                      ),
+                                                                      strutStyle: StrutStyle(
+                                                                        height: 1.3,
+                                                                        // fontSize:,
+                                                                        forceStrutHeight: true,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
                                                       SizedBox(height: 22,),
                                                       RichText(
@@ -660,7 +708,7 @@ class _WelcomeState extends State<Welcome>
                                                                               right: 5.0,
                                                                               bottom: 2.0),
                                                                           child: Container(
-                                                                              child: Image.asset('assets/system/app-google.png', height: 25, width: 25,)
+                                                                              child: Image.asset('assets/system/app-google.png', height: 22, width: 22,)
                                                                           ),
                                                                         ),
                                                                       ),
@@ -885,41 +933,38 @@ class _WelcomeState extends State<Welcome>
                                                                     ],
                                                                   ),
                                                                 ),
-
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          Padding(
-                                                            padding: const EdgeInsets.only(top: 293.0),
-                                                            child: Center(
-                                                              child: TextButton(
-                                                                onPressed: ()  {
-                                                                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ForgotPassword()));
-                                                                },
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets.only(
-                                                                      left: 5.0,
-                                                                      right: 5.0,
-                                                                      bottom: 2.0),
-                                                                  child: Container(
-                                                                    child: Text(
-                                                                      isEnglish? 'Forgot password?': 'Password မေ့နေလား?',
-                                                                      textAlign: TextAlign.center,
-                                                                      textScaleFactor: 1, style: TextStyle(
-                                                                        height: 1.3,
-                                                                        fontSize: 15,
-                                                                        fontWeight: FontWeight.w600,
-                                                                        color: Colors.blue
-                                                                    ),
-                                                                      strutStyle: StrutStyle(
-                                                                        height: 1.3,
-                                                                        // fontSize:,
-                                                                        forceStrutHeight: true,
+                                                                Center(
+                                                                  child: TextButton(
+                                                                    onPressed: ()  {
+                                                                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => ForgotPassword()));
+                                                                    },
+                                                                    child: Padding(
+                                                                      padding: const EdgeInsets.only(
+                                                                          left: 5.0,
+                                                                          right: 5.0,
+                                                                          bottom: 2.0),
+                                                                      child: Container(
+                                                                        child: Text(
+                                                                          isEnglish? 'Forgot password?': 'Password မေ့နေလား?',
+                                                                          textAlign: TextAlign.center,
+                                                                          textScaleFactor: 1, style: TextStyle(
+                                                                          fontSize: 12.5,
+                                                                          color: Colors.blue,
+                                                                          fontWeight: FontWeight.w500,
+                                                                          height: 1.2,
+                                                                          decoration: TextDecoration.underline,
+                                                                        ),
+                                                                          strutStyle: StrutStyle(
+                                                                            height: 1.3,
+                                                                            // fontSize:,
+                                                                            forceStrutHeight: true,
+                                                                          ),
+                                                                        ),
                                                                       ),
                                                                     ),
                                                                   ),
-                                                                ),
-                                                              ),
+                                                                )
+                                                              ],
                                                             ),
                                                           ),
                                                         ],

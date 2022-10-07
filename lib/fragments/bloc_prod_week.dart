@@ -787,14 +787,14 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
                                                     child: Padding(
                                                       padding: const EdgeInsets.only(right: 10.0),
                                                       child: Text(
-                                                        prodsSc[todayProds.entries.elementAt(index).key]['na'].toString(),
+                                                        prodsSc[todayProds.entries.elementAt(index).key]==null?'No item': prodsSc[todayProds.entries.elementAt(index).key]['na'].toString(),
                                                         textScaleFactor: 1,
                                                         overflow: TextOverflow.ellipsis,
                                                         style: TextStyle(
                                                           fontSize: 16,
                                                           fontWeight: FontWeight.w500,
                                                           overflow: TextOverflow.ellipsis,
-                                                          color: Colors.black,
+                                                          color: prodsSc[todayProds.entries.elementAt(index).key]==null?Colors.grey: Colors.black,
                                                         ),
                                                         strutStyle: StrutStyle(
                                                           height: 1.2,
@@ -808,1359 +808,1404 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
                                               ),
                                               // controlAffinity: ListTileControlAffinity.leading,
                                               children: <Widget>[
-                                                prodsSc[todayProds.entries.elementAt(index).key]['c1']!=0?
-                                                Column(
-                                                  children: [
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(left: 42.0),
-                                                      child: Container(
-                                                        decoration: BoxDecoration(
-                                                            border: Border(
-                                                                bottom: BorderSide(
-                                                                    color: Colors.grey
-                                                                        .withOpacity(
-                                                                        0.6),
-                                                                    width: 0.5)
-                                                            )),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(left: 27.0),
-                                                      child: ExpansionTile(
-                                                        trailing: Text(
-                                                          double.parse(totalSaleCal(todayProds.entries.elementAt(index).value)).toStringAsFixed(2) + ' ' + currencyUnit,
-                                                          textScaleFactor: 1,
-                                                          overflow: TextOverflow.ellipsis,
-                                                          style: TextStyle(
-                                                            fontSize: 14,
-                                                            fontWeight: FontWeight.w500,
-                                                            overflow: TextOverflow.ellipsis,
-                                                            color: Colors.black,
-                                                          ),
-                                                          strutStyle: StrutStyle(
-                                                            height: 1,
-                                                            // fontSize:,
-                                                            forceStrutHeight: true,
+                                                prodsSc[todayProds.entries.elementAt(index).key]==null? Container(
+                                                    child: Column(
+                                                      children: [
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(left: 42.0),
+                                                          child: Container(
+                                                            decoration: BoxDecoration(
+                                                                border: Border(
+                                                                    bottom: BorderSide(
+                                                                        color: Colors.grey
+                                                                            .withOpacity(
+                                                                            0.6),
+                                                                        width: 0.5)
+                                                                )),
                                                           ),
                                                         ),
-                                                        tilePadding: EdgeInsets.only(left: 15.0, top: 0.0, bottom: 0.0, right: 15.0),
-                                                        childrenPadding: EdgeInsets.only(left: 0.0, top: 0.0, bottom: 0.0, right: 0.0),
-                                                        // collapsedBackgroundColor: index%2 == 1? Colors.grey.withOpacity(0.1): Colors.white,
-                                                        // backgroundColor: index%2 == 1? Colors.grey.withOpacity(0.1): Colors.white,
-                                                        onExpansionChanged: (bool expanded) {
-                                                          onStateChanged(index, 1, expanded);
-                                                        },
-                                                        title: Row(
-                                                          children: [
-                                                            Padding(
-                                                              padding: const EdgeInsets.only(bottom: 3.0, right: 10.0),
-                                                              child: AnimatedRotation(
-                                                                turns: ayinList[index][1]? 0.250:0,
-                                                                duration: const Duration(milliseconds: 200),
-                                                                child: Icon(
-                                                                  Icons.arrow_forward_ios_rounded,
-                                                                  size: 17,
-                                                                  color: Colors.black,
-                                                                ),
+                                                        ListTile(
+                                                          contentPadding: EdgeInsets.only(left: 42, right: 15),
+                                                          title: Padding(
+                                                            padding: const EdgeInsets.only(right: 10.0),
+                                                            child: Text(
+                                                              'Item infromation is missing.',
+                                                              textScaleFactor: 1,
+                                                              overflow: TextOverflow.ellipsis,
+                                                              style: TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight: FontWeight.w500,
+                                                                overflow: TextOverflow.ellipsis,
+                                                                color: Colors.black,
+                                                              ),
+                                                              strutStyle: StrutStyle(
+                                                                height: 1,
+                                                                // fontSize:,
+                                                                forceStrutHeight: true,
                                                               ),
                                                             ),
-                                                            Expanded(
-                                                              child: Padding(
-                                                                padding: const EdgeInsets.only(right: 10.0),
-                                                                child: Text(
-                                                                  'Total sale',
-                                                                  textScaleFactor: 1,
-                                                                  overflow: TextOverflow.ellipsis,
-                                                                  style: TextStyle(
-                                                                    fontSize: 14,
-                                                                    fontWeight: FontWeight.w500,
-                                                                    overflow: TextOverflow.ellipsis,
-                                                                    color: Colors.black,
-                                                                  ),
-                                                                  strutStyle: StrutStyle(
-                                                                    height: 1,
-                                                                    // fontSize:,
-                                                                    forceStrutHeight: true,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ],
+                                                          ),
                                                         ),
-                                                        // controlAffinity: ListTileControlAffinity.leading,
-                                                        children: <Widget>[
-                                                          Column(
-                                                            children: [
-                                                              Padding(
-                                                                padding: const EdgeInsets.only(left: 42.0),
-                                                                child: Container(
-                                                                  decoration: BoxDecoration(
-                                                                      border: Border(
-                                                                          bottom: BorderSide(
-                                                                              color: Colors.grey
-                                                                                  .withOpacity(
-                                                                                  0.6),
-                                                                              width: 0.5)
-                                                                      )),
-                                                                ),
-                                                              ),
-                                                              ListTile(
-                                                                contentPadding: EdgeInsets.only(left: 42, right: 15),
-                                                                title: Row(
-                                                                  children: [
-                                                                    Icon(SmartKyat_POS.prodm, size: 17, color: Colors.grey,),
-                                                                    Expanded(
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.only(left: 5.0, right: 10.0),
-                                                                        child: Text(
-                                                                          'Main (' + prodsSc[todayProds.entries.elementAt(index).key]['nm'] + ')',
-                                                                          textScaleFactor: 1,
-                                                                          overflow: TextOverflow.ellipsis,
-                                                                          style: TextStyle(
-                                                                            fontSize: 14,
-                                                                            fontWeight: FontWeight.w500,
-                                                                            overflow: TextOverflow.ellipsis,
-                                                                            color: Colors.black,
-                                                                          ),
-                                                                          strutStyle: StrutStyle(
-                                                                            height: 1,
-                                                                            // fontSize:,
-                                                                            forceStrutHeight: true,
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                                trailing: Text(
-                                                                  (todayProds.entries.elementAt(index).value['sm']==null?0:todayProds.entries.elementAt(index).value['sm']).toStringAsFixed(2) + ' ' + currencyUnit,
-                                                                  textScaleFactor: 1,
-                                                                  style: TextStyle(
-                                                                    fontSize: 14,
-                                                                    fontWeight: FontWeight.w500,
-                                                                    overflow: TextOverflow.ellipsis,
-                                                                    color: Colors.black,
-                                                                  ),
-                                                                  strutStyle: StrutStyle(
-                                                                    height: 1,
-                                                                    // fontSize:,
-                                                                    forceStrutHeight: true,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          Column(
-                                                            children: [
-                                                              Padding(
-                                                                padding: const EdgeInsets.only(left: 42.0),
-                                                                child: Container(
-                                                                  decoration: BoxDecoration(
-                                                                      border: Border(
-                                                                          bottom: BorderSide(
-                                                                              color: Colors.grey
-                                                                                  .withOpacity(
-                                                                                  0.6),
-                                                                              width: 0.5)
-                                                                      )),
-                                                                ),
-                                                              ),
-                                                              ListTile(
-                                                                contentPadding: EdgeInsets.only(left: 42, right: 15),
-                                                                title: Row(
-                                                                  children: [
-                                                                    Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,),
-                                                                    Expanded(
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.only(left: 5.0, right: 10.0),
-                                                                        child: Text(
-                                                                          'Sub1 (' + prodsSc[todayProds.entries.elementAt(index).key]['n1'] + ')',
-                                                                          textScaleFactor: 1,
-                                                                          overflow: TextOverflow.ellipsis,
-                                                                          style: TextStyle(
-                                                                            fontSize: 14,
-                                                                            fontWeight: FontWeight.w500,
-                                                                            overflow: TextOverflow.ellipsis,
-                                                                            color: Colors.black,
-                                                                          ),
-                                                                          strutStyle: StrutStyle(
-                                                                            height: 1,
-                                                                            // fontSize:,
-                                                                            forceStrutHeight: true,
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                                trailing: Text(
-                                                                  (todayProds.entries.elementAt(index).value['s1']==null?0:todayProds.entries.elementAt(index).value['s1']).toStringAsFixed(2) + ' ' + currencyUnit,
-                                                                  textScaleFactor: 1,
-                                                                  style: TextStyle(
-                                                                    fontSize: 14,
-                                                                    fontWeight: FontWeight.w500,
-                                                                    overflow: TextOverflow.ellipsis,
-                                                                    color: Colors.black,
-                                                                  ),
-                                                                  strutStyle: StrutStyle(
-                                                                    height: 1,
-                                                                    // fontSize:,
-                                                                    forceStrutHeight: true,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          prodsSc[todayProds.entries.elementAt(index).key]['c2']!=0?
-                                                          Column(
-                                                            children: [
-                                                              Padding(
-                                                                padding: const EdgeInsets.only(left: 42.0),
-                                                                child: Container(
-                                                                  decoration: BoxDecoration(
-                                                                      border: Border(
-                                                                          bottom: BorderSide(
-                                                                              color: Colors.grey
-                                                                                  .withOpacity(
-                                                                                  0.6),
-                                                                              width: 0.5)
-                                                                      )),
-                                                                ),
-                                                              ),
-                                                              ListTile(
-                                                                contentPadding: EdgeInsets.only(left: 42, right: 15),
-                                                                title: Row(
-                                                                  children: [
-                                                                    Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
-                                                                    Expanded(
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.only(left: 5.0, right: 10.0),
-                                                                        child: Text(
-                                                                          'Sub2 (' + prodsSc[todayProds.entries.elementAt(index).key]['n2'] + ')',
-                                                                          textScaleFactor: 1,
-                                                                          overflow: TextOverflow.ellipsis,
-                                                                          style: TextStyle(
-                                                                            fontSize: 14,
-                                                                            fontWeight: FontWeight.w500,
-                                                                            overflow: TextOverflow.ellipsis,
-                                                                            color: Colors.black,
-                                                                          ),
-                                                                          strutStyle: StrutStyle(
-                                                                            height: 1,
-                                                                            // fontSize:,
-                                                                            forceStrutHeight: true,
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                                trailing: Text(
-                                                                  (todayProds.entries.elementAt(index).value['s2']==null?0:todayProds.entries.elementAt(index).value['s2']).toStringAsFixed(2) + ' ' + currencyUnit,
-                                                                  textScaleFactor: 1,
-                                                                  style: TextStyle(
-                                                                    fontSize: 14,
-                                                                    fontWeight: FontWeight.w500,
-                                                                    overflow: TextOverflow.ellipsis,
-                                                                    color: Colors.black,
-                                                                  ),
-                                                                  strutStyle: StrutStyle(
-                                                                    height: 1,
-                                                                    // fontSize:,
-                                                                    forceStrutHeight: true,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ):Container(),
-                                                        ],
-                                                      ),
+                                                      ],
                                                     )
-                                                  ],
-                                                ):
-                                                Column(
+                                                ): Column(
                                                   children: [
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(left: 42.0),
-                                                      child: Container(
-                                                        decoration: BoxDecoration(
-                                                            border: Border(
-                                                                bottom: BorderSide(
-                                                                    color: Colors.grey
-                                                                        .withOpacity(
-                                                                        0.6),
-                                                                    width: 0.5)
-                                                            )),
-                                                      ),
-                                                    ),
-                                                    ListTile(
-                                                      contentPadding: EdgeInsets.only(left: 42, right: 15),
-                                                      title: Padding(
-                                                        padding: const EdgeInsets.only(right: 10.0),
-                                                        child: Text(
-                                                          'Total sale',
-                                                          textScaleFactor: 1,
-                                                          overflow: TextOverflow.ellipsis,
-                                                          style: TextStyle(
-                                                            fontSize: 14,
-                                                            fontWeight: FontWeight.w500,
-                                                            overflow: TextOverflow.ellipsis,
-                                                            color: Colors.black,
-                                                          ),
-                                                          strutStyle: StrutStyle(
-                                                            height: 1,
-                                                            // fontSize:,
-                                                            forceStrutHeight: true,
+                                                    prodsSc[todayProds.entries.elementAt(index).key]['c1']!=0?
+                                                    Column(
+                                                      children: [
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(left: 42.0),
+                                                          child: Container(
+                                                            decoration: BoxDecoration(
+                                                                border: Border(
+                                                                    bottom: BorderSide(
+                                                                        color: Colors.grey
+                                                                            .withOpacity(
+                                                                            0.6),
+                                                                        width: 0.5)
+                                                                )),
                                                           ),
                                                         ),
-                                                      ),
-                                                      trailing: Text(
-                                                        double.parse(totalSaleCal(todayProds.entries.elementAt(index).value)).toStringAsFixed(2) + ' ' + currencyUnit,
-                                                        textScaleFactor: 1,
-                                                        style: TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight: FontWeight.w500,
-                                                          overflow: TextOverflow.ellipsis,
-                                                          color: Colors.black,
-                                                        ),
-                                                        strutStyle: StrutStyle(
-                                                          height: 1,
-                                                          // fontSize:,
-                                                          forceStrutHeight: true,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                double.parse(totalDiscCal(todayProds.entries.elementAt(index).value))!=0 || prodsSc[todayProds.entries.elementAt(index).key]['c1']!=0?
-                                                Column(
-                                                  children: [
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(left: 42.0),
-                                                      child: Container(
-                                                        decoration: BoxDecoration(
-                                                            border: Border(
-                                                                bottom: BorderSide(
-                                                                    color: Colors.grey
-                                                                        .withOpacity(
-                                                                        0.6),
-                                                                    width: 0.5)
-                                                            )),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(left: 27.0),
-                                                      child: ExpansionTile(
-                                                        trailing: Text(
-                                                          double.parse(totalProfitCal(todayProds.entries.elementAt(index).value, double.parse(totalDiscCal(todayProds.entries.elementAt(index).value)))).toStringAsFixed(2) + ' ' + currencyUnit,
-                                                          textScaleFactor: 1,
-                                                          overflow: TextOverflow.ellipsis,
-                                                          style: TextStyle(
-                                                            fontSize: 14,
-                                                            fontWeight: FontWeight.w500,
-                                                            overflow: TextOverflow.ellipsis,
-                                                            color: Colors.black,
-                                                          ),
-                                                          strutStyle: StrutStyle(
-                                                            height: 1,
-                                                            // fontSize:,
-                                                            forceStrutHeight: true,
-                                                          ),
-                                                        ),
-                                                        tilePadding: EdgeInsets.only(left: 15.0, top: 0.0, bottom: 0.0, right: 15.0),
-                                                        childrenPadding: EdgeInsets.only(left: 0.0, top: 0.0, bottom: 0.0, right: 0.0),
-                                                        // collapsedBackgroundColor: index%2 == 1? Colors.grey.withOpacity(0.1): Colors.white,
-                                                        // backgroundColor: index%2 == 1? Colors.grey.withOpacity(0.1): Colors.white,
-                                                        onExpansionChanged: (bool expanded) {
-                                                          onStateChanged(index, 2, expanded);
-                                                        },
-                                                        title: Row(
-                                                          children: [
-                                                            Padding(
-                                                              padding: const EdgeInsets.only(bottom: 3.0, right: 10.0),
-                                                              child: AnimatedRotation(
-                                                                turns: ayinList[index][2]? 0.250:0,
-                                                                duration: const Duration(milliseconds: 200),
-                                                                child: Icon(
-                                                                  Icons.arrow_forward_ios_rounded,
-                                                                  size: 17,
-                                                                  color: Colors.black,
-                                                                ),
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(left: 27.0),
+                                                          child: ExpansionTile(
+                                                            trailing: Text(
+                                                              double.parse(totalSaleCal(todayProds.entries.elementAt(index).value)).toStringAsFixed(2) + ' ' + currencyUnit,
+                                                              textScaleFactor: 1,
+                                                              overflow: TextOverflow.ellipsis,
+                                                              style: TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight: FontWeight.w500,
+                                                                overflow: TextOverflow.ellipsis,
+                                                                color: Colors.black,
+                                                              ),
+                                                              strutStyle: StrutStyle(
+                                                                height: 1,
+                                                                // fontSize:,
+                                                                forceStrutHeight: true,
                                                               ),
                                                             ),
-                                                            Expanded(
-                                                              child: Padding(
-                                                                padding: const EdgeInsets.only(right: 10.0),
-                                                                child: Text(
-                                                                  'Total profit',
-                                                                  textScaleFactor: 1,
-                                                                  overflow: TextOverflow.ellipsis,
-                                                                  style: TextStyle(
-                                                                    fontSize: 14,
-                                                                    fontWeight: FontWeight.w500,
-                                                                    overflow: TextOverflow.ellipsis,
-                                                                    color: Colors.black,
-                                                                  ),
-                                                                  strutStyle: StrutStyle(
-                                                                    height: 1,
-                                                                    // fontSize:,
-                                                                    forceStrutHeight: true,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        // controlAffinity: ListTileControlAffinity.leading,
-                                                        children: <Widget>[
-                                                          Column(
-                                                            children: [
-                                                              Padding(
-                                                                padding: const EdgeInsets.only(left: 42.0),
-                                                                child: Container(
-                                                                  decoration: BoxDecoration(
-                                                                      border: Border(
-                                                                          bottom: BorderSide(
-                                                                              color: Colors.grey
-                                                                                  .withOpacity(
-                                                                                  0.6),
-                                                                              width: 0.5)
-                                                                      )),
-                                                                ),
-                                                              ),
-                                                              ListTile(
-                                                                contentPadding: EdgeInsets.only(left: 42, right: 15),
-                                                                title: Row(
-                                                                  children: [
-                                                                    Icon(SmartKyat_POS.prodm, size: 17, color: Colors.grey,),
-                                                                    Expanded(
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.only(left: 5.0, right: 10.0),
-                                                                        child: Text(
-                                                                          'Main (' + prodsSc[todayProds.entries.elementAt(index).key]['nm'] + ')',
-                                                                          textScaleFactor: 1,
-                                                                          overflow: TextOverflow.ellipsis,
-                                                                          style: TextStyle(
-                                                                            fontSize: 14,
-                                                                            fontWeight: FontWeight.w500,
-                                                                            overflow: TextOverflow.ellipsis,
-                                                                            color: Colors.black,
-                                                                          ),
-                                                                          strutStyle: StrutStyle(
-                                                                            height: 1,
-                                                                            // fontSize:,
-                                                                            forceStrutHeight: true,
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                                trailing: Text(
-                                                                  // 'MMSP ' + todayProds.entries.elementAt(index).value['sm'].toDouble().toString(),
-                                                                  ((todayProds.entries.elementAt(index).value['sm']==null?0:todayProds.entries.elementAt(index).value['sm'].toDouble()) - (todayProds.entries.elementAt(index).value['bm']==null?0:todayProds.entries.elementAt(index).value['bm'].toDouble())).toStringAsFixed(2) + ' ' + currencyUnit,
-                                                                  textScaleFactor: 1,
-                                                                  style: TextStyle(
-                                                                    fontSize: 14,
-                                                                    fontWeight: FontWeight.w500,
-                                                                    overflow: TextOverflow.ellipsis,
-                                                                    color: Colors.black,
-                                                                  ),
-                                                                  strutStyle: StrutStyle(
-                                                                    height: 1,
-                                                                    // fontSize:,
-                                                                    forceStrutHeight: true,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          prodsSc[todayProds.entries.elementAt(index).key]['c1']!=0?
-                                                          Column(
-                                                            children: [
-                                                              Padding(
-                                                                padding: const EdgeInsets.only(left: 42.0),
-                                                                child: Container(
-                                                                  decoration: BoxDecoration(
-                                                                      border: Border(
-                                                                          bottom: BorderSide(
-                                                                              color: Colors.grey
-                                                                                  .withOpacity(
-                                                                                  0.6),
-                                                                              width: 0.5)
-                                                                      )),
-                                                                ),
-                                                              ),
-                                                              ListTile(
-                                                                contentPadding: EdgeInsets.only(left: 42, right: 15),
-                                                                title: Row(
-                                                                  children: [
-                                                                    Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,),
-                                                                    Expanded(
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.only(left: 5.0, right: 10.0),
-                                                                        child: Text(
-                                                                          'Sub1 (' + prodsSc[todayProds.entries.elementAt(index).key]['n1'] + ')',
-                                                                          textScaleFactor: 1,
-                                                                          overflow: TextOverflow.ellipsis,
-                                                                          style: TextStyle(
-                                                                            fontSize: 14,
-                                                                            fontWeight: FontWeight.w500,
-                                                                            overflow: TextOverflow.ellipsis,
-                                                                            color: Colors.black,
-                                                                          ),
-                                                                          strutStyle: StrutStyle(
-                                                                            height: 1,
-                                                                            // fontSize:,
-                                                                            forceStrutHeight: true,
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                                trailing: Text(
-                                                                  ((todayProds.entries.elementAt(index).value["s1"]==null? 0: todayProds.entries.elementAt(index).value["s1"]) - (todayProds.entries.elementAt(index).value["b1"]==null? 0:todayProds.entries.elementAt(index).value["b1"])).toStringAsFixed(2) + ' ' + currencyUnit,
-                                                                  textScaleFactor: 1,
-                                                                  style: TextStyle(
-                                                                    fontSize: 14,
-                                                                    fontWeight: FontWeight.w500,
-                                                                    overflow: TextOverflow.ellipsis,
-                                                                    color: Colors.black,
-                                                                  ),
-                                                                  strutStyle: StrutStyle(
-                                                                    height: 1,
-                                                                    // fontSize:,
-                                                                    forceStrutHeight: true,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ):Container(),
-                                                          prodsSc[todayProds.entries.elementAt(index).key]['c2']!=0?
-                                                          Column(
-                                                            children: [
-                                                              Padding(
-                                                                padding: const EdgeInsets.only(left: 42.0),
-                                                                child: Container(
-                                                                  decoration: BoxDecoration(
-                                                                      border: Border(
-                                                                          bottom: BorderSide(
-                                                                              color: Colors.grey
-                                                                                  .withOpacity(
-                                                                                  0.6),
-                                                                              width: 0.5)
-                                                                      )),
-                                                                ),
-                                                              ),
-                                                              ListTile(
-                                                                contentPadding: EdgeInsets.only(left: 42, right: 15),
-                                                                title: Row(
-                                                                  children: [
-                                                                    Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
-                                                                    Expanded(
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.only(left: 5.0, right: 10.0),
-                                                                        child: Text(
-                                                                          'Sub2 (' + prodsSc[todayProds.entries.elementAt(index).key]['n2'] + ')',
-                                                                          textScaleFactor: 1,
-                                                                          overflow: TextOverflow.ellipsis,
-                                                                          style: TextStyle(
-                                                                            fontSize: 14,
-                                                                            fontWeight: FontWeight.w500,
-                                                                            overflow: TextOverflow.ellipsis,
-                                                                            color: Colors.black,
-                                                                          ),
-                                                                          strutStyle: StrutStyle(
-                                                                            height: 1,
-                                                                            // fontSize:,
-                                                                            forceStrutHeight: true,
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                                trailing: Text(
-                                                                  ((todayProds.entries.elementAt(index).value['s2']==null? 0:todayProds.entries.elementAt(index).value['s2']) - (todayProds.entries.elementAt(index).value['b2']==null?0:todayProds.entries.elementAt(index).value['b2'])).toStringAsFixed(2) + ' ' + currencyUnit,
-                                                                  textScaleFactor: 1,
-                                                                  style: TextStyle(
-                                                                    fontSize: 14,
-                                                                    fontWeight: FontWeight.w500,
-                                                                    overflow: TextOverflow.ellipsis,
-                                                                    color: Colors.black,
-                                                                  ),
-                                                                  strutStyle: StrutStyle(
-                                                                    height: 1,
-                                                                    // fontSize:,
-                                                                    forceStrutHeight: true,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ):Container(),
-                                                          double.parse(totalDiscCal(todayProds.entries.elementAt(index).value))!=0?
-                                                          Column(
-                                                            children: [
-                                                              Padding(
-                                                                padding: const EdgeInsets.only(left: 42.0),
-                                                                child: Container(
-                                                                  decoration: BoxDecoration(
-                                                                      border: Border(
-                                                                          bottom: BorderSide(
-                                                                              color: Colors.grey
-                                                                                  .withOpacity(
-                                                                                  0.6),
-                                                                              width: 0.5)
-                                                                      )),
-                                                                ),
-                                                              ),
-                                                              ListTile(
-                                                                contentPadding: EdgeInsets.only(left: 42, right: 15),
-                                                                title: Padding(
-                                                                  padding: const EdgeInsets.only(right: 10.0),
-                                                                  child: Text(
-                                                                    'Discounts',
-                                                                    textScaleFactor: 1,
-                                                                    overflow: TextOverflow.ellipsis,
-                                                                    style: TextStyle(
-                                                                      fontSize: 14,
-                                                                      fontWeight: FontWeight.w500,
-                                                                      overflow: TextOverflow.ellipsis,
+                                                            tilePadding: EdgeInsets.only(left: 15.0, top: 0.0, bottom: 0.0, right: 15.0),
+                                                            childrenPadding: EdgeInsets.only(left: 0.0, top: 0.0, bottom: 0.0, right: 0.0),
+                                                            // collapsedBackgroundColor: index%2 == 1? Colors.grey.withOpacity(0.1): Colors.white,
+                                                            // backgroundColor: index%2 == 1? Colors.grey.withOpacity(0.1): Colors.white,
+                                                            onExpansionChanged: (bool expanded) {
+                                                              onStateChanged(index, 1, expanded);
+                                                            },
+                                                            title: Row(
+                                                              children: [
+                                                                Padding(
+                                                                  padding: const EdgeInsets.only(bottom: 3.0, right: 10.0),
+                                                                  child: AnimatedRotation(
+                                                                    turns: ayinList[index][1]? 0.250:0,
+                                                                    duration: const Duration(milliseconds: 200),
+                                                                    child: Icon(
+                                                                      Icons.arrow_forward_ios_rounded,
+                                                                      size: 17,
                                                                       color: Colors.black,
                                                                     ),
-                                                                    strutStyle: StrutStyle(
-                                                                      height: 1,
-                                                                      // fontSize:,
-                                                                      forceStrutHeight: true,
+                                                                  ),
+                                                                ),
+                                                                Expanded(
+                                                                  child: Padding(
+                                                                    padding: const EdgeInsets.only(right: 10.0),
+                                                                    child: Text(
+                                                                      'Total sale',
+                                                                      textScaleFactor: 1,
+                                                                      overflow: TextOverflow.ellipsis,
+                                                                      style: TextStyle(
+                                                                        fontSize: 14,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        overflow: TextOverflow.ellipsis,
+                                                                        color: Colors.black,
+                                                                      ),
+                                                                      strutStyle: StrutStyle(
+                                                                        height: 1,
+                                                                        // fontSize:,
+                                                                        forceStrutHeight: true,
+                                                                      ),
                                                                     ),
                                                                   ),
                                                                 ),
-                                                                trailing: Text(
-                                                                  '- ' + double.parse(totalDiscCal(todayProds.entries.elementAt(index).value)).toStringAsFixed(2) + ' ' + currencyUnit,
-                                                                  textScaleFactor: 1,
-                                                                  style: TextStyle(
-                                                                    fontSize: 14,
-                                                                    fontWeight: FontWeight.w500,
-                                                                    overflow: TextOverflow.ellipsis,
-                                                                    color: Colors.black,
+                                                              ],
+                                                            ),
+                                                            // controlAffinity: ListTileControlAffinity.leading,
+                                                            children: <Widget>[
+                                                              Column(
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(left: 42.0),
+                                                                    child: Container(
+                                                                      decoration: BoxDecoration(
+                                                                          border: Border(
+                                                                              bottom: BorderSide(
+                                                                                  color: Colors.grey
+                                                                                      .withOpacity(
+                                                                                      0.6),
+                                                                                  width: 0.5)
+                                                                          )),
+                                                                    ),
                                                                   ),
-                                                                  strutStyle: StrutStyle(
-                                                                    height: 1,
-                                                                    // fontSize:,
-                                                                    forceStrutHeight: true,
+                                                                  ListTile(
+                                                                    contentPadding: EdgeInsets.only(left: 42, right: 15),
+                                                                    title: Row(
+                                                                      children: [
+                                                                        Icon(SmartKyat_POS.prodm, size: 17, color: Colors.grey,),
+                                                                        Expanded(
+                                                                          child: Padding(
+                                                                            padding: const EdgeInsets.only(left: 5.0, right: 10.0),
+                                                                            child: Text(
+                                                                              'Main (' + prodsSc[todayProds.entries.elementAt(index).key]['nm'] + ')',
+                                                                              textScaleFactor: 1,
+                                                                              overflow: TextOverflow.ellipsis,
+                                                                              style: TextStyle(
+                                                                                fontSize: 14,
+                                                                                fontWeight: FontWeight.w500,
+                                                                                overflow: TextOverflow.ellipsis,
+                                                                                color: Colors.black,
+                                                                              ),
+                                                                              strutStyle: StrutStyle(
+                                                                                height: 1,
+                                                                                // fontSize:,
+                                                                                forceStrutHeight: true,
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    trailing: Text(
+                                                                      (todayProds.entries.elementAt(index).value['sm']==null?0:todayProds.entries.elementAt(index).value['sm']).toStringAsFixed(2) + ' ' + currencyUnit,
+                                                                      textScaleFactor: 1,
+                                                                      style: TextStyle(
+                                                                        fontSize: 14,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        overflow: TextOverflow.ellipsis,
+                                                                        color: Colors.black,
+                                                                      ),
+                                                                      strutStyle: StrutStyle(
+                                                                        height: 1,
+                                                                        // fontSize:,
+                                                                        forceStrutHeight: true,
+                                                                      ),
+                                                                    ),
                                                                   ),
-                                                                ),
+                                                                ],
                                                               ),
+                                                              Column(
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(left: 42.0),
+                                                                    child: Container(
+                                                                      decoration: BoxDecoration(
+                                                                          border: Border(
+                                                                              bottom: BorderSide(
+                                                                                  color: Colors.grey
+                                                                                      .withOpacity(
+                                                                                      0.6),
+                                                                                  width: 0.5)
+                                                                          )),
+                                                                    ),
+                                                                  ),
+                                                                  ListTile(
+                                                                    contentPadding: EdgeInsets.only(left: 42, right: 15),
+                                                                    title: Row(
+                                                                      children: [
+                                                                        Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,),
+                                                                        Expanded(
+                                                                          child: Padding(
+                                                                            padding: const EdgeInsets.only(left: 5.0, right: 10.0),
+                                                                            child: Text(
+                                                                              'Sub1 (' + prodsSc[todayProds.entries.elementAt(index).key]['n1'] + ')',
+                                                                              textScaleFactor: 1,
+                                                                              overflow: TextOverflow.ellipsis,
+                                                                              style: TextStyle(
+                                                                                fontSize: 14,
+                                                                                fontWeight: FontWeight.w500,
+                                                                                overflow: TextOverflow.ellipsis,
+                                                                                color: Colors.black,
+                                                                              ),
+                                                                              strutStyle: StrutStyle(
+                                                                                height: 1,
+                                                                                // fontSize:,
+                                                                                forceStrutHeight: true,
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    trailing: Text(
+                                                                      (todayProds.entries.elementAt(index).value['s1']==null?0:todayProds.entries.elementAt(index).value['s1']).toStringAsFixed(2) + ' ' + currencyUnit,
+                                                                      textScaleFactor: 1,
+                                                                      style: TextStyle(
+                                                                        fontSize: 14,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        overflow: TextOverflow.ellipsis,
+                                                                        color: Colors.black,
+                                                                      ),
+                                                                      strutStyle: StrutStyle(
+                                                                        height: 1,
+                                                                        // fontSize:,
+                                                                        forceStrutHeight: true,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              prodsSc[todayProds.entries.elementAt(index).key]['c2']!=0?
+                                                              Column(
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(left: 42.0),
+                                                                    child: Container(
+                                                                      decoration: BoxDecoration(
+                                                                          border: Border(
+                                                                              bottom: BorderSide(
+                                                                                  color: Colors.grey
+                                                                                      .withOpacity(
+                                                                                      0.6),
+                                                                                  width: 0.5)
+                                                                          )),
+                                                                    ),
+                                                                  ),
+                                                                  ListTile(
+                                                                    contentPadding: EdgeInsets.only(left: 42, right: 15),
+                                                                    title: Row(
+                                                                      children: [
+                                                                        Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
+                                                                        Expanded(
+                                                                          child: Padding(
+                                                                            padding: const EdgeInsets.only(left: 5.0, right: 10.0),
+                                                                            child: Text(
+                                                                              'Sub2 (' + prodsSc[todayProds.entries.elementAt(index).key]['n2'] + ')',
+                                                                              textScaleFactor: 1,
+                                                                              overflow: TextOverflow.ellipsis,
+                                                                              style: TextStyle(
+                                                                                fontSize: 14,
+                                                                                fontWeight: FontWeight.w500,
+                                                                                overflow: TextOverflow.ellipsis,
+                                                                                color: Colors.black,
+                                                                              ),
+                                                                              strutStyle: StrutStyle(
+                                                                                height: 1,
+                                                                                // fontSize:,
+                                                                                forceStrutHeight: true,
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    trailing: Text(
+                                                                      (todayProds.entries.elementAt(index).value['s2']==null?0:todayProds.entries.elementAt(index).value['s2']).toStringAsFixed(2) + ' ' + currencyUnit,
+                                                                      textScaleFactor: 1,
+                                                                      style: TextStyle(
+                                                                        fontSize: 14,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        overflow: TextOverflow.ellipsis,
+                                                                        color: Colors.black,
+                                                                      ),
+                                                                      strutStyle: StrutStyle(
+                                                                        height: 1,
+                                                                        // fontSize:,
+                                                                        forceStrutHeight: true,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ):Container(),
                                                             ],
-                                                          ):Container(),
-                                                        ],
-                                                      ),
-                                                    )
-                                                  ],
-                                                ):
-                                                Column(
-                                                  children: [
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(left: 42.0),
-                                                      child: Container(
-                                                        decoration: BoxDecoration(
-                                                            border: Border(
-                                                                bottom: BorderSide(
-                                                                    color: Colors.grey
-                                                                        .withOpacity(
-                                                                        0.6),
-                                                                    width: 0.5)
-                                                            )),
-                                                      ),
-                                                    ),
-                                                    ListTile(
-                                                      contentPadding: EdgeInsets.only(left: 42, right: 15),
-                                                      title: Padding(
-                                                        padding: const EdgeInsets.only(right: 10.0),
-                                                        child: Text(
-                                                          'Total profit',
-                                                          textScaleFactor: 1,
-                                                          overflow: TextOverflow.ellipsis,
-                                                          style: TextStyle(
-                                                            fontSize: 14,
-                                                            fontWeight: FontWeight.w500,
-                                                            overflow: TextOverflow.ellipsis,
-                                                            color: Colors.black,
                                                           ),
-                                                          strutStyle: StrutStyle(
-                                                            height: 1,
-                                                            // fontSize:,
-                                                            forceStrutHeight: true,
+                                                        )
+                                                      ],
+                                                    ):
+                                                    Column(
+                                                      children: [
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(left: 42.0),
+                                                          child: Container(
+                                                            decoration: BoxDecoration(
+                                                                border: Border(
+                                                                    bottom: BorderSide(
+                                                                        color: Colors.grey
+                                                                            .withOpacity(
+                                                                            0.6),
+                                                                        width: 0.5)
+                                                                )),
                                                           ),
                                                         ),
-                                                      ),
-                                                      trailing: Text(
-                                                        double.parse(totalProfitCal(todayProds.entries.elementAt(index).value, double.parse(totalDiscCal(todayProds.entries.elementAt(index).value)))).toStringAsFixed(2) + ' ' + currencyUnit,
-                                                        textScaleFactor: 1,
-                                                        style: TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight: FontWeight.w500,
-                                                          overflow: TextOverflow.ellipsis,
-                                                          color: Colors.black,
-                                                        ),
-                                                        strutStyle: StrutStyle(
-                                                          height: 1,
-                                                          // fontSize:,
-                                                          forceStrutHeight: true,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                prodsSc[todayProds.entries.elementAt(index).key]['c1']!=0?
-                                                Column(
-                                                  children: [
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(left: 42.0),
-                                                      child: Container(
-                                                        decoration: BoxDecoration(
-                                                            border: Border(
-                                                                bottom: BorderSide(
-                                                                    color: Colors.grey
-                                                                        .withOpacity(
-                                                                        0.6),
-                                                                    width: 0.5)
-                                                            )),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(left: 27.0),
-                                                      child: ExpansionTile(
-                                                        trailing: Text(
-                                                          double.parse(totalBuyCal(todayProds.entries.elementAt(index).value)).toStringAsFixed(2) + ' ' + currencyUnit,
-                                                          textScaleFactor: 1,
-                                                          overflow: TextOverflow.ellipsis,
-                                                          style: TextStyle(
-                                                            fontSize: 14,
-                                                            fontWeight: FontWeight.w500,
-                                                            overflow: TextOverflow.ellipsis,
-                                                            color: Colors.black,
-                                                          ),
-                                                          strutStyle: StrutStyle(
-                                                            height: 1,
-                                                            // fontSize:,
-                                                            forceStrutHeight: true,
-                                                          ),
-                                                        ),
-                                                        tilePadding: EdgeInsets.only(left: 15.0, top: 0.0, bottom: 0.0, right: 15.0),
-                                                        childrenPadding: EdgeInsets.only(left: 0.0, top: 0.0, bottom: 0.0, right: 0.0),
-                                                        // collapsedBackgroundColor: index%2 == 1? Colors.grey.withOpacity(0.1): Colors.white,
-                                                        // backgroundColor: index%2 == 1? Colors.grey.withOpacity(0.1): Colors.white,
-                                                        onExpansionChanged: (bool expanded) {
-                                                          onStateChanged(index, 3, expanded);
-                                                        },
-                                                        title: Row(
-                                                          children: [
-                                                            Padding(
-                                                              padding: const EdgeInsets.only(bottom: 3.0, right: 10.0),
-                                                              child: AnimatedRotation(
-                                                                turns: ayinList[index][3]? 0.250:0,
-                                                                duration: const Duration(milliseconds: 200),
-                                                                child: Icon(
-                                                                  Icons.arrow_forward_ios_rounded,
-                                                                  size: 17,
-                                                                  color: Colors.black,
-                                                                ),
+                                                        ListTile(
+                                                          contentPadding: EdgeInsets.only(left: 42, right: 15),
+                                                          title: Padding(
+                                                            padding: const EdgeInsets.only(right: 10.0),
+                                                            child: Text(
+                                                              'Total sale',
+                                                              textScaleFactor: 1,
+                                                              overflow: TextOverflow.ellipsis,
+                                                              style: TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight: FontWeight.w500,
+                                                                overflow: TextOverflow.ellipsis,
+                                                                color: Colors.black,
+                                                              ),
+                                                              strutStyle: StrutStyle(
+                                                                height: 1,
+                                                                // fontSize:,
+                                                                forceStrutHeight: true,
                                                               ),
                                                             ),
-                                                            Expanded(
-                                                              child: Padding(
-                                                                padding: const EdgeInsets.only(right: 10.0),
-                                                                child: Text(
-                                                                  'Total costs',
-                                                                  textScaleFactor: 1,
-                                                                  overflow: TextOverflow.ellipsis,
-                                                                  style: TextStyle(
-                                                                    fontSize: 14,
-                                                                    fontWeight: FontWeight.w500,
-                                                                    overflow: TextOverflow.ellipsis,
-                                                                    color: Colors.black,
-                                                                  ),
-                                                                  strutStyle: StrutStyle(
-                                                                    height: 1,
-                                                                    // fontSize:,
-                                                                    forceStrutHeight: true,
-                                                                  ),
-                                                                ),
+                                                          ),
+                                                          trailing: Text(
+                                                            double.parse(totalSaleCal(todayProds.entries.elementAt(index).value)).toStringAsFixed(2) + ' ' + currencyUnit,
+                                                            textScaleFactor: 1,
+                                                            style: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight: FontWeight.w500,
+                                                              overflow: TextOverflow.ellipsis,
+                                                              color: Colors.black,
+                                                            ),
+                                                            strutStyle: StrutStyle(
+                                                              height: 1,
+                                                              // fontSize:,
+                                                              forceStrutHeight: true,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    double.parse(totalDiscCal(todayProds.entries.elementAt(index).value))!=0 || prodsSc[todayProds.entries.elementAt(index).key]['c1']!=0?
+                                                    Column(
+                                                      children: [
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(left: 42.0),
+                                                          child: Container(
+                                                            decoration: BoxDecoration(
+                                                                border: Border(
+                                                                    bottom: BorderSide(
+                                                                        color: Colors.grey
+                                                                            .withOpacity(
+                                                                            0.6),
+                                                                        width: 0.5)
+                                                                )),
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(left: 27.0),
+                                                          child: ExpansionTile(
+                                                            trailing: Text(
+                                                              double.parse(totalProfitCal(todayProds.entries.elementAt(index).value, double.parse(totalDiscCal(todayProds.entries.elementAt(index).value)))).toStringAsFixed(2) + ' ' + currencyUnit,
+                                                              textScaleFactor: 1,
+                                                              overflow: TextOverflow.ellipsis,
+                                                              style: TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight: FontWeight.w500,
+                                                                overflow: TextOverflow.ellipsis,
+                                                                color: Colors.black,
+                                                              ),
+                                                              strutStyle: StrutStyle(
+                                                                height: 1,
+                                                                // fontSize:,
+                                                                forceStrutHeight: true,
                                                               ),
                                                             ),
-                                                          ],
-                                                        ),
-                                                        // controlAffinity: ListTileControlAffinity.leading,
-                                                        children: <Widget>[
-                                                          Column(
-                                                            children: [
-                                                              Padding(
-                                                                padding: const EdgeInsets.only(left: 42.0),
-                                                                child: Container(
-                                                                  decoration: BoxDecoration(
-                                                                      border: Border(
-                                                                          bottom: BorderSide(
-                                                                              color: Colors.grey
-                                                                                  .withOpacity(
-                                                                                  0.6),
-                                                                              width: 0.5)
-                                                                      )),
+                                                            tilePadding: EdgeInsets.only(left: 15.0, top: 0.0, bottom: 0.0, right: 15.0),
+                                                            childrenPadding: EdgeInsets.only(left: 0.0, top: 0.0, bottom: 0.0, right: 0.0),
+                                                            // collapsedBackgroundColor: index%2 == 1? Colors.grey.withOpacity(0.1): Colors.white,
+                                                            // backgroundColor: index%2 == 1? Colors.grey.withOpacity(0.1): Colors.white,
+                                                            onExpansionChanged: (bool expanded) {
+                                                              onStateChanged(index, 2, expanded);
+                                                            },
+                                                            title: Row(
+                                                              children: [
+                                                                Padding(
+                                                                  padding: const EdgeInsets.only(bottom: 3.0, right: 10.0),
+                                                                  child: AnimatedRotation(
+                                                                    turns: ayinList[index][2]? 0.250:0,
+                                                                    duration: const Duration(milliseconds: 200),
+                                                                    child: Icon(
+                                                                      Icons.arrow_forward_ios_rounded,
+                                                                      size: 17,
+                                                                      color: Colors.black,
+                                                                    ),
+                                                                  ),
                                                                 ),
+                                                                Expanded(
+                                                                  child: Padding(
+                                                                    padding: const EdgeInsets.only(right: 10.0),
+                                                                    child: Text(
+                                                                      'Total profit',
+                                                                      textScaleFactor: 1,
+                                                                      overflow: TextOverflow.ellipsis,
+                                                                      style: TextStyle(
+                                                                        fontSize: 14,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        overflow: TextOverflow.ellipsis,
+                                                                        color: Colors.black,
+                                                                      ),
+                                                                      strutStyle: StrutStyle(
+                                                                        height: 1,
+                                                                        // fontSize:,
+                                                                        forceStrutHeight: true,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            // controlAffinity: ListTileControlAffinity.leading,
+                                                            children: <Widget>[
+                                                              Column(
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(left: 42.0),
+                                                                    child: Container(
+                                                                      decoration: BoxDecoration(
+                                                                          border: Border(
+                                                                              bottom: BorderSide(
+                                                                                  color: Colors.grey
+                                                                                      .withOpacity(
+                                                                                      0.6),
+                                                                                  width: 0.5)
+                                                                          )),
+                                                                    ),
+                                                                  ),
+                                                                  ListTile(
+                                                                    contentPadding: EdgeInsets.only(left: 42, right: 15),
+                                                                    title: Row(
+                                                                      children: [
+                                                                        Icon(SmartKyat_POS.prodm, size: 17, color: Colors.grey,),
+                                                                        Expanded(
+                                                                          child: Padding(
+                                                                            padding: const EdgeInsets.only(left: 5.0, right: 10.0),
+                                                                            child: Text(
+                                                                              'Main (' + prodsSc[todayProds.entries.elementAt(index).key]['nm'] + ')',
+                                                                              textScaleFactor: 1,
+                                                                              overflow: TextOverflow.ellipsis,
+                                                                              style: TextStyle(
+                                                                                fontSize: 14,
+                                                                                fontWeight: FontWeight.w500,
+                                                                                overflow: TextOverflow.ellipsis,
+                                                                                color: Colors.black,
+                                                                              ),
+                                                                              strutStyle: StrutStyle(
+                                                                                height: 1,
+                                                                                // fontSize:,
+                                                                                forceStrutHeight: true,
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    trailing: Text(
+                                                                      // 'MMSP ' + todayProds.entries.elementAt(index).value['sm'].toDouble().toString(),
+                                                                      ((todayProds.entries.elementAt(index).value['sm']==null?0:todayProds.entries.elementAt(index).value['sm'].toDouble()) - (todayProds.entries.elementAt(index).value['bm']==null?0:todayProds.entries.elementAt(index).value['bm'].toDouble())).toStringAsFixed(2) + ' ' + currencyUnit,
+                                                                      textScaleFactor: 1,
+                                                                      style: TextStyle(
+                                                                        fontSize: 14,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        overflow: TextOverflow.ellipsis,
+                                                                        color: Colors.black,
+                                                                      ),
+                                                                      strutStyle: StrutStyle(
+                                                                        height: 1,
+                                                                        // fontSize:,
+                                                                        forceStrutHeight: true,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
                                                               ),
-                                                              ListTile(
-                                                                contentPadding: EdgeInsets.only(left: 42, right: 15),
-                                                                title: Row(
-                                                                  children: [
-                                                                    Icon(SmartKyat_POS.prodm, size: 17, color: Colors.grey,),
-                                                                    Expanded(
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.only(left: 5.0, right: 10.0),
-                                                                        child: Text(
-                                                                          'Main (' + prodsSc[todayProds.entries.elementAt(index).key]['nm'] + ')',
-                                                                          textScaleFactor: 1,
+                                                              prodsSc[todayProds.entries.elementAt(index).key]['c1']!=0?
+                                                              Column(
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(left: 42.0),
+                                                                    child: Container(
+                                                                      decoration: BoxDecoration(
+                                                                          border: Border(
+                                                                              bottom: BorderSide(
+                                                                                  color: Colors.grey
+                                                                                      .withOpacity(
+                                                                                      0.6),
+                                                                                  width: 0.5)
+                                                                          )),
+                                                                    ),
+                                                                  ),
+                                                                  ListTile(
+                                                                    contentPadding: EdgeInsets.only(left: 42, right: 15),
+                                                                    title: Row(
+                                                                      children: [
+                                                                        Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,),
+                                                                        Expanded(
+                                                                          child: Padding(
+                                                                            padding: const EdgeInsets.only(left: 5.0, right: 10.0),
+                                                                            child: Text(
+                                                                              'Sub1 (' + prodsSc[todayProds.entries.elementAt(index).key]['n1'] + ')',
+                                                                              textScaleFactor: 1,
+                                                                              overflow: TextOverflow.ellipsis,
+                                                                              style: TextStyle(
+                                                                                fontSize: 14,
+                                                                                fontWeight: FontWeight.w500,
+                                                                                overflow: TextOverflow.ellipsis,
+                                                                                color: Colors.black,
+                                                                              ),
+                                                                              strutStyle: StrutStyle(
+                                                                                height: 1,
+                                                                                // fontSize:,
+                                                                                forceStrutHeight: true,
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    trailing: Text(
+                                                                      ((todayProds.entries.elementAt(index).value["s1"]==null? 0: todayProds.entries.elementAt(index).value["s1"]) - (todayProds.entries.elementAt(index).value["b1"]==null? 0:todayProds.entries.elementAt(index).value["b1"])).toStringAsFixed(2) + ' ' + currencyUnit,
+                                                                      textScaleFactor: 1,
+                                                                      style: TextStyle(
+                                                                        fontSize: 14,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        overflow: TextOverflow.ellipsis,
+                                                                        color: Colors.black,
+                                                                      ),
+                                                                      strutStyle: StrutStyle(
+                                                                        height: 1,
+                                                                        // fontSize:,
+                                                                        forceStrutHeight: true,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ):Container(),
+                                                              prodsSc[todayProds.entries.elementAt(index).key]['c2']!=0?
+                                                              Column(
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(left: 42.0),
+                                                                    child: Container(
+                                                                      decoration: BoxDecoration(
+                                                                          border: Border(
+                                                                              bottom: BorderSide(
+                                                                                  color: Colors.grey
+                                                                                      .withOpacity(
+                                                                                      0.6),
+                                                                                  width: 0.5)
+                                                                          )),
+                                                                    ),
+                                                                  ),
+                                                                  ListTile(
+                                                                    contentPadding: EdgeInsets.only(left: 42, right: 15),
+                                                                    title: Row(
+                                                                      children: [
+                                                                        Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
+                                                                        Expanded(
+                                                                          child: Padding(
+                                                                            padding: const EdgeInsets.only(left: 5.0, right: 10.0),
+                                                                            child: Text(
+                                                                              'Sub2 (' + prodsSc[todayProds.entries.elementAt(index).key]['n2'] + ')',
+                                                                              textScaleFactor: 1,
+                                                                              overflow: TextOverflow.ellipsis,
+                                                                              style: TextStyle(
+                                                                                fontSize: 14,
+                                                                                fontWeight: FontWeight.w500,
+                                                                                overflow: TextOverflow.ellipsis,
+                                                                                color: Colors.black,
+                                                                              ),
+                                                                              strutStyle: StrutStyle(
+                                                                                height: 1,
+                                                                                // fontSize:,
+                                                                                forceStrutHeight: true,
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    trailing: Text(
+                                                                      ((todayProds.entries.elementAt(index).value['s2']==null? 0:todayProds.entries.elementAt(index).value['s2']) - (todayProds.entries.elementAt(index).value['b2']==null?0:todayProds.entries.elementAt(index).value['b2'])).toStringAsFixed(2) + ' ' + currencyUnit,
+                                                                      textScaleFactor: 1,
+                                                                      style: TextStyle(
+                                                                        fontSize: 14,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        overflow: TextOverflow.ellipsis,
+                                                                        color: Colors.black,
+                                                                      ),
+                                                                      strutStyle: StrutStyle(
+                                                                        height: 1,
+                                                                        // fontSize:,
+                                                                        forceStrutHeight: true,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ):Container(),
+                                                              double.parse(totalDiscCal(todayProds.entries.elementAt(index).value))!=0?
+                                                              Column(
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(left: 42.0),
+                                                                    child: Container(
+                                                                      decoration: BoxDecoration(
+                                                                          border: Border(
+                                                                              bottom: BorderSide(
+                                                                                  color: Colors.grey
+                                                                                      .withOpacity(
+                                                                                      0.6),
+                                                                                  width: 0.5)
+                                                                          )),
+                                                                    ),
+                                                                  ),
+                                                                  ListTile(
+                                                                    contentPadding: EdgeInsets.only(left: 42, right: 15),
+                                                                    title: Padding(
+                                                                      padding: const EdgeInsets.only(right: 10.0),
+                                                                      child: Text(
+                                                                        'Discounts',
+                                                                        textScaleFactor: 1,
+                                                                        overflow: TextOverflow.ellipsis,
+                                                                        style: TextStyle(
+                                                                          fontSize: 14,
+                                                                          fontWeight: FontWeight.w500,
                                                                           overflow: TextOverflow.ellipsis,
-                                                                          style: TextStyle(
-                                                                            fontSize: 14,
-                                                                            fontWeight: FontWeight.w500,
-                                                                            overflow: TextOverflow.ellipsis,
-                                                                            color: Colors.black,
-                                                                          ),
-                                                                          strutStyle: StrutStyle(
-                                                                            height: 1,
-                                                                            // fontSize:,
-                                                                            forceStrutHeight: true,
-                                                                          ),
+                                                                          color: Colors.black,
+                                                                        ),
+                                                                        strutStyle: StrutStyle(
+                                                                          height: 1,
+                                                                          // fontSize:,
+                                                                          forceStrutHeight: true,
                                                                         ),
                                                                       ),
                                                                     ),
-                                                                  ],
-                                                                ),
-                                                                trailing: Text(
-                                                                  (todayProds.entries.elementAt(index).value['bm']==null?0:todayProds.entries.elementAt(index).value['bm']).toStringAsFixed(2) + ' ' + currencyUnit,
-                                                                  textScaleFactor: 1,
-                                                                  style: TextStyle(
-                                                                    fontSize: 14,
-                                                                    fontWeight: FontWeight.w500,
-                                                                    overflow: TextOverflow.ellipsis,
-                                                                    color: Colors.black,
-                                                                  ),
-                                                                  strutStyle: StrutStyle(
-                                                                    height: 1,
-                                                                    // fontSize:,
-                                                                    forceStrutHeight: true,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          Column(
-                                                            children: [
-                                                              Padding(
-                                                                padding: const EdgeInsets.only(left: 42.0),
-                                                                child: Container(
-                                                                  decoration: BoxDecoration(
-                                                                      border: Border(
-                                                                          bottom: BorderSide(
-                                                                              color: Colors.grey
-                                                                                  .withOpacity(
-                                                                                  0.6),
-                                                                              width: 0.5)
-                                                                      )),
-                                                                ),
-                                                              ),
-                                                              ListTile(
-                                                                contentPadding: EdgeInsets.only(left: 42, right: 15),
-                                                                title: Row(
-                                                                  children: [
-                                                                    Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,),
-                                                                    Expanded(
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.only(left: 5.0, right: 10.0),
-                                                                        child: Text(
-                                                                          'Sub1 (' + prodsSc[todayProds.entries.elementAt(index).key]['n1'] + ')',
-                                                                          textScaleFactor: 1,
-                                                                          overflow: TextOverflow.ellipsis,
-                                                                          style: TextStyle(
-                                                                            fontSize: 14,
-                                                                            fontWeight: FontWeight.w500,
-                                                                            overflow: TextOverflow.ellipsis,
-                                                                            color: Colors.black,
-                                                                          ),
-                                                                          strutStyle: StrutStyle(
-                                                                            height: 1,
-                                                                            // fontSize:,
-                                                                            forceStrutHeight: true,
-                                                                          ),
-                                                                        ),
+                                                                    trailing: Text(
+                                                                      '- ' + double.parse(totalDiscCal(todayProds.entries.elementAt(index).value)).toStringAsFixed(2) + ' ' + currencyUnit,
+                                                                      textScaleFactor: 1,
+                                                                      style: TextStyle(
+                                                                        fontSize: 14,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        overflow: TextOverflow.ellipsis,
+                                                                        color: Colors.black,
+                                                                      ),
+                                                                      strutStyle: StrutStyle(
+                                                                        height: 1,
+                                                                        // fontSize:,
+                                                                        forceStrutHeight: true,
                                                                       ),
                                                                     ),
-                                                                  ],
-                                                                ),
-                                                                trailing: Text(
-                                                                  (todayProds.entries.elementAt(index).value['b1']==null? 0: todayProds.entries.elementAt(index).value['b1']).toStringAsFixed(2) + ' ' + currencyUnit,
-                                                                  textScaleFactor: 1,
-                                                                  style: TextStyle(
-                                                                    fontSize: 14,
-                                                                    fontWeight: FontWeight.w500,
-                                                                    overflow: TextOverflow.ellipsis,
-                                                                    color: Colors.black,
                                                                   ),
-                                                                  strutStyle: StrutStyle(
-                                                                    height: 1,
-                                                                    // fontSize:,
-                                                                    forceStrutHeight: true,
-                                                                  ),
-                                                                ),
-                                                              ),
+                                                                ],
+                                                              ):Container(),
                                                             ],
                                                           ),
-                                                          prodsSc[todayProds.entries.elementAt(index).key]['c2']!=0?
-                                                          Column(
-                                                            children: [
-                                                              Padding(
-                                                                padding: const EdgeInsets.only(left: 42.0),
-                                                                child: Container(
-                                                                  decoration: BoxDecoration(
-                                                                      border: Border(
-                                                                          bottom: BorderSide(
-                                                                              color: Colors.grey
-                                                                                  .withOpacity(
-                                                                                  0.6),
-                                                                              width: 0.5)
-                                                                      )),
-                                                                ),
+                                                        )
+                                                      ],
+                                                    ):
+                                                    Column(
+                                                      children: [
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(left: 42.0),
+                                                          child: Container(
+                                                            decoration: BoxDecoration(
+                                                                border: Border(
+                                                                    bottom: BorderSide(
+                                                                        color: Colors.grey
+                                                                            .withOpacity(
+                                                                            0.6),
+                                                                        width: 0.5)
+                                                                )),
+                                                          ),
+                                                        ),
+                                                        ListTile(
+                                                          contentPadding: EdgeInsets.only(left: 42, right: 15),
+                                                          title: Padding(
+                                                            padding: const EdgeInsets.only(right: 10.0),
+                                                            child: Text(
+                                                              'Total profit',
+                                                              textScaleFactor: 1,
+                                                              overflow: TextOverflow.ellipsis,
+                                                              style: TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight: FontWeight.w500,
+                                                                overflow: TextOverflow.ellipsis,
+                                                                color: Colors.black,
                                                               ),
-                                                              ListTile(
-                                                                contentPadding: EdgeInsets.only(left: 42, right: 15),
-                                                                title: Row(
-                                                                  children: [
-                                                                    Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
-                                                                    Expanded(
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.only(left: 5.0, right: 10.0),
-                                                                        child: Text(
-                                                                          'Sub2 (' + prodsSc[todayProds.entries.elementAt(index).key]['n2'] + ')',
-                                                                          textScaleFactor: 1,
-                                                                          overflow: TextOverflow.ellipsis,
-                                                                          style: TextStyle(
-                                                                            fontSize: 14,
-                                                                            fontWeight: FontWeight.w500,
-                                                                            overflow: TextOverflow.ellipsis,
-                                                                            color: Colors.black,
-                                                                          ),
-                                                                          strutStyle: StrutStyle(
-                                                                            height: 1,
-                                                                            // fontSize:,
-                                                                            forceStrutHeight: true,
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                                trailing: Text(
-                                                                  (todayProds.entries.elementAt(index).value['b2']==null?0:todayProds.entries.elementAt(index).value['b2']).toStringAsFixed(2) + ' ' + currencyUnit,
-                                                                  textScaleFactor: 1,
-                                                                  style: TextStyle(
-                                                                    fontSize: 14,
-                                                                    fontWeight: FontWeight.w500,
-                                                                    overflow: TextOverflow.ellipsis,
-                                                                    color: Colors.black,
-                                                                  ),
-                                                                  strutStyle: StrutStyle(
-                                                                    height: 1,
-                                                                    // fontSize:,
-                                                                    forceStrutHeight: true,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ):Container(),
-                                                        ],
-                                                      ),
-                                                    )
-                                                  ],
-                                                ):
-                                                Column(
-                                                  children: [
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(left: 42.0),
-                                                      child: Container(
-                                                        decoration: BoxDecoration(
-                                                            border: Border(
-                                                                bottom: BorderSide(
-                                                                    color: Colors.grey
-                                                                        .withOpacity(
-                                                                        0.6),
-                                                                    width: 0.5)
-                                                            )),
-                                                      ),
-                                                    ),
-                                                    ListTile(
-                                                      contentPadding: EdgeInsets.only(left: 42, right: 15),
-                                                      title: Padding(
-                                                        padding: const EdgeInsets.only(right: 10.0),
-                                                        child: Text(
-                                                          'Total costs',
-                                                          textScaleFactor: 1,
-                                                          overflow: TextOverflow.ellipsis,
-                                                          style: TextStyle(
-                                                            fontSize: 14,
-                                                            fontWeight: FontWeight.w500,
-                                                            overflow: TextOverflow.ellipsis,
-                                                            color: Colors.black,
-                                                          ),
-                                                          strutStyle: StrutStyle(
-                                                            height: 1,
-                                                            // fontSize:,
-                                                            forceStrutHeight: true,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      trailing: Text(
-                                                        double.parse(totalBuyCal(todayProds.entries.elementAt(index).value)).toStringAsFixed(2) + ' ' + currencyUnit,
-                                                        textScaleFactor: 1,
-                                                        style: TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight: FontWeight.w500,
-                                                          overflow: TextOverflow.ellipsis,
-                                                          color: Colors.black,
-                                                        ),
-                                                        strutStyle: StrutStyle(
-                                                          height: 1,
-                                                          // fontSize:,
-                                                          forceStrutHeight: true,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                prodsSc[todayProds.entries.elementAt(index).key]['c1']!=0?
-                                                Column(
-                                                  children: [
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(left: 42.0),
-                                                      child: Container(
-                                                        decoration: BoxDecoration(
-                                                            border: Border(
-                                                                bottom: BorderSide(
-                                                                    color: Colors.grey
-                                                                        .withOpacity(
-                                                                        0.6),
-                                                                    width: 0.5)
-                                                            )),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(left: 27.0),
-                                                      child: ExpansionTile(
-                                                        trailing: Text(
-                                                          totalQtyCal(todayProds.entries.elementAt(index).value, prodsSc[todayProds.entries.elementAt(index).key]) + ' ' + prodsSc[todayProds.entries.elementAt(index).key]['nm'],
-                                                          textScaleFactor: 1,
-                                                          overflow: TextOverflow.ellipsis,
-                                                          style: TextStyle(
-                                                            fontSize: 14,
-                                                            fontWeight: FontWeight.w500,
-                                                            overflow: TextOverflow.ellipsis,
-                                                            color: Colors.black,
-                                                          ),
-                                                          strutStyle: StrutStyle(
-                                                            height: 1,
-                                                            // fontSize:,
-                                                            forceStrutHeight: true,
-                                                          ),
-                                                        ),
-                                                        tilePadding: EdgeInsets.only(left: 15.0, top: 0.0, bottom: 0.0, right: 15.0),
-                                                        childrenPadding: EdgeInsets.only(left: 0.0, top: 0.0, bottom: 0.0, right: 0.0),
-                                                        // collapsedBackgroundColor: index%2 == 1? Colors.grey.withOpacity(0.1): Colors.white,
-                                                        // backgroundColor: index%2 == 1? Colors.grey.withOpacity(0.1): Colors.white,
-                                                        onExpansionChanged: (bool expanded) {
-                                                          onStateChanged(index, 4, expanded);
-                                                        },
-                                                        title: Row(
-                                                          children: [
-                                                            Padding(
-                                                              padding: const EdgeInsets.only(bottom: 3.0, right: 10.0),
-                                                              child: AnimatedRotation(
-                                                                turns: ayinList[index][4]? 0.250:0,
-                                                                duration: const Duration(milliseconds: 200),
-                                                                child: Icon(
-                                                                  Icons.arrow_forward_ios_rounded,
-                                                                  size: 17,
-                                                                  color: Colors.black,
-                                                                ),
+                                                              strutStyle: StrutStyle(
+                                                                height: 1,
+                                                                // fontSize:,
+                                                                forceStrutHeight: true,
                                                               ),
                                                             ),
-                                                            Expanded(
-                                                              child: Padding(
-                                                                padding: const EdgeInsets.only(right: 10.0),
-                                                                child: Text(
-                                                                  'Total quantity',
-                                                                  textScaleFactor: 1,
-                                                                  overflow: TextOverflow.ellipsis,
-                                                                  style: TextStyle(
-                                                                    fontSize: 14,
-                                                                    fontWeight: FontWeight.w500,
-                                                                    overflow: TextOverflow.ellipsis,
-                                                                    color: Colors.black,
-                                                                  ),
-                                                                  strutStyle: StrutStyle(
-                                                                    height: 1,
-                                                                    // fontSize:,
-                                                                    forceStrutHeight: true,
-                                                                  ),
-                                                                ),
+                                                          ),
+                                                          trailing: Text(
+                                                            double.parse(totalProfitCal(todayProds.entries.elementAt(index).value, double.parse(totalDiscCal(todayProds.entries.elementAt(index).value)))).toStringAsFixed(2) + ' ' + currencyUnit,
+                                                            textScaleFactor: 1,
+                                                            style: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight: FontWeight.w500,
+                                                              overflow: TextOverflow.ellipsis,
+                                                              color: Colors.black,
+                                                            ),
+                                                            strutStyle: StrutStyle(
+                                                              height: 1,
+                                                              // fontSize:,
+                                                              forceStrutHeight: true,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    prodsSc[todayProds.entries.elementAt(index).key]['c1']!=0?
+                                                    Column(
+                                                      children: [
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(left: 42.0),
+                                                          child: Container(
+                                                            decoration: BoxDecoration(
+                                                                border: Border(
+                                                                    bottom: BorderSide(
+                                                                        color: Colors.grey
+                                                                            .withOpacity(
+                                                                            0.6),
+                                                                        width: 0.5)
+                                                                )),
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(left: 27.0),
+                                                          child: ExpansionTile(
+                                                            trailing: Text(
+                                                              double.parse(totalBuyCal(todayProds.entries.elementAt(index).value)).toStringAsFixed(2) + ' ' + currencyUnit,
+                                                              textScaleFactor: 1,
+                                                              overflow: TextOverflow.ellipsis,
+                                                              style: TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight: FontWeight.w500,
+                                                                overflow: TextOverflow.ellipsis,
+                                                                color: Colors.black,
+                                                              ),
+                                                              strutStyle: StrutStyle(
+                                                                height: 1,
+                                                                // fontSize:,
+                                                                forceStrutHeight: true,
                                                               ),
                                                             ),
-                                                          ],
+                                                            tilePadding: EdgeInsets.only(left: 15.0, top: 0.0, bottom: 0.0, right: 15.0),
+                                                            childrenPadding: EdgeInsets.only(left: 0.0, top: 0.0, bottom: 0.0, right: 0.0),
+                                                            // collapsedBackgroundColor: index%2 == 1? Colors.grey.withOpacity(0.1): Colors.white,
+                                                            // backgroundColor: index%2 == 1? Colors.grey.withOpacity(0.1): Colors.white,
+                                                            onExpansionChanged: (bool expanded) {
+                                                              onStateChanged(index, 3, expanded);
+                                                            },
+                                                            title: Row(
+                                                              children: [
+                                                                Padding(
+                                                                  padding: const EdgeInsets.only(bottom: 3.0, right: 10.0),
+                                                                  child: AnimatedRotation(
+                                                                    turns: ayinList[index][3]? 0.250:0,
+                                                                    duration: const Duration(milliseconds: 200),
+                                                                    child: Icon(
+                                                                      Icons.arrow_forward_ios_rounded,
+                                                                      size: 17,
+                                                                      color: Colors.black,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                Expanded(
+                                                                  child: Padding(
+                                                                    padding: const EdgeInsets.only(right: 10.0),
+                                                                    child: Text(
+                                                                      'Total costs',
+                                                                      textScaleFactor: 1,
+                                                                      overflow: TextOverflow.ellipsis,
+                                                                      style: TextStyle(
+                                                                        fontSize: 14,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        overflow: TextOverflow.ellipsis,
+                                                                        color: Colors.black,
+                                                                      ),
+                                                                      strutStyle: StrutStyle(
+                                                                        height: 1,
+                                                                        // fontSize:,
+                                                                        forceStrutHeight: true,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            // controlAffinity: ListTileControlAffinity.leading,
+                                                            children: <Widget>[
+                                                              Column(
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(left: 42.0),
+                                                                    child: Container(
+                                                                      decoration: BoxDecoration(
+                                                                          border: Border(
+                                                                              bottom: BorderSide(
+                                                                                  color: Colors.grey
+                                                                                      .withOpacity(
+                                                                                      0.6),
+                                                                                  width: 0.5)
+                                                                          )),
+                                                                    ),
+                                                                  ),
+                                                                  ListTile(
+                                                                    contentPadding: EdgeInsets.only(left: 42, right: 15),
+                                                                    title: Row(
+                                                                      children: [
+                                                                        Icon(SmartKyat_POS.prodm, size: 17, color: Colors.grey,),
+                                                                        Expanded(
+                                                                          child: Padding(
+                                                                            padding: const EdgeInsets.only(left: 5.0, right: 10.0),
+                                                                            child: Text(
+                                                                              'Main (' + prodsSc[todayProds.entries.elementAt(index).key]['nm'] + ')',
+                                                                              textScaleFactor: 1,
+                                                                              overflow: TextOverflow.ellipsis,
+                                                                              style: TextStyle(
+                                                                                fontSize: 14,
+                                                                                fontWeight: FontWeight.w500,
+                                                                                overflow: TextOverflow.ellipsis,
+                                                                                color: Colors.black,
+                                                                              ),
+                                                                              strutStyle: StrutStyle(
+                                                                                height: 1,
+                                                                                // fontSize:,
+                                                                                forceStrutHeight: true,
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    trailing: Text(
+                                                                      (todayProds.entries.elementAt(index).value['bm']==null?0:todayProds.entries.elementAt(index).value['bm']).toStringAsFixed(2) + ' ' + currencyUnit,
+                                                                      textScaleFactor: 1,
+                                                                      style: TextStyle(
+                                                                        fontSize: 14,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        overflow: TextOverflow.ellipsis,
+                                                                        color: Colors.black,
+                                                                      ),
+                                                                      strutStyle: StrutStyle(
+                                                                        height: 1,
+                                                                        // fontSize:,
+                                                                        forceStrutHeight: true,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              Column(
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(left: 42.0),
+                                                                    child: Container(
+                                                                      decoration: BoxDecoration(
+                                                                          border: Border(
+                                                                              bottom: BorderSide(
+                                                                                  color: Colors.grey
+                                                                                      .withOpacity(
+                                                                                      0.6),
+                                                                                  width: 0.5)
+                                                                          )),
+                                                                    ),
+                                                                  ),
+                                                                  ListTile(
+                                                                    contentPadding: EdgeInsets.only(left: 42, right: 15),
+                                                                    title: Row(
+                                                                      children: [
+                                                                        Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,),
+                                                                        Expanded(
+                                                                          child: Padding(
+                                                                            padding: const EdgeInsets.only(left: 5.0, right: 10.0),
+                                                                            child: Text(
+                                                                              'Sub1 (' + prodsSc[todayProds.entries.elementAt(index).key]['n1'] + ')',
+                                                                              textScaleFactor: 1,
+                                                                              overflow: TextOverflow.ellipsis,
+                                                                              style: TextStyle(
+                                                                                fontSize: 14,
+                                                                                fontWeight: FontWeight.w500,
+                                                                                overflow: TextOverflow.ellipsis,
+                                                                                color: Colors.black,
+                                                                              ),
+                                                                              strutStyle: StrutStyle(
+                                                                                height: 1,
+                                                                                // fontSize:,
+                                                                                forceStrutHeight: true,
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    trailing: Text(
+                                                                      (todayProds.entries.elementAt(index).value['b1']==null? 0: todayProds.entries.elementAt(index).value['b1']).toStringAsFixed(2) + ' ' + currencyUnit,
+                                                                      textScaleFactor: 1,
+                                                                      style: TextStyle(
+                                                                        fontSize: 14,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        overflow: TextOverflow.ellipsis,
+                                                                        color: Colors.black,
+                                                                      ),
+                                                                      strutStyle: StrutStyle(
+                                                                        height: 1,
+                                                                        // fontSize:,
+                                                                        forceStrutHeight: true,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              prodsSc[todayProds.entries.elementAt(index).key]['c2']!=0?
+                                                              Column(
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(left: 42.0),
+                                                                    child: Container(
+                                                                      decoration: BoxDecoration(
+                                                                          border: Border(
+                                                                              bottom: BorderSide(
+                                                                                  color: Colors.grey
+                                                                                      .withOpacity(
+                                                                                      0.6),
+                                                                                  width: 0.5)
+                                                                          )),
+                                                                    ),
+                                                                  ),
+                                                                  ListTile(
+                                                                    contentPadding: EdgeInsets.only(left: 42, right: 15),
+                                                                    title: Row(
+                                                                      children: [
+                                                                        Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
+                                                                        Expanded(
+                                                                          child: Padding(
+                                                                            padding: const EdgeInsets.only(left: 5.0, right: 10.0),
+                                                                            child: Text(
+                                                                              'Sub2 (' + prodsSc[todayProds.entries.elementAt(index).key]['n2'] + ')',
+                                                                              textScaleFactor: 1,
+                                                                              overflow: TextOverflow.ellipsis,
+                                                                              style: TextStyle(
+                                                                                fontSize: 14,
+                                                                                fontWeight: FontWeight.w500,
+                                                                                overflow: TextOverflow.ellipsis,
+                                                                                color: Colors.black,
+                                                                              ),
+                                                                              strutStyle: StrutStyle(
+                                                                                height: 1,
+                                                                                // fontSize:,
+                                                                                forceStrutHeight: true,
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    trailing: Text(
+                                                                      (todayProds.entries.elementAt(index).value['b2']==null?0:todayProds.entries.elementAt(index).value['b2']).toStringAsFixed(2) + ' ' + currencyUnit,
+                                                                      textScaleFactor: 1,
+                                                                      style: TextStyle(
+                                                                        fontSize: 14,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        overflow: TextOverflow.ellipsis,
+                                                                        color: Colors.black,
+                                                                      ),
+                                                                      strutStyle: StrutStyle(
+                                                                        height: 1,
+                                                                        // fontSize:,
+                                                                        forceStrutHeight: true,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ):Container(),
+                                                            ],
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ):
+                                                    Column(
+                                                      children: [
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(left: 42.0),
+                                                          child: Container(
+                                                            decoration: BoxDecoration(
+                                                                border: Border(
+                                                                    bottom: BorderSide(
+                                                                        color: Colors.grey
+                                                                            .withOpacity(
+                                                                            0.6),
+                                                                        width: 0.5)
+                                                                )),
+                                                          ),
                                                         ),
-                                                        // controlAffinity: ListTileControlAffinity.leading,
-                                                        children: <Widget>[
-                                                          Column(
-                                                            children: [
-                                                              Padding(
-                                                                padding: const EdgeInsets.only(left: 42.0),
-                                                                child: Container(
-                                                                  decoration: BoxDecoration(
-                                                                      border: Border(
-                                                                          bottom: BorderSide(
-                                                                              color: Colors.grey
-                                                                                  .withOpacity(
-                                                                                  0.6),
-                                                                              width: 0.5)
-                                                                      )),
-                                                                ),
+                                                        ListTile(
+                                                          contentPadding: EdgeInsets.only(left: 42, right: 15),
+                                                          title: Padding(
+                                                            padding: const EdgeInsets.only(right: 10.0),
+                                                            child: Text(
+                                                              'Total costs',
+                                                              textScaleFactor: 1,
+                                                              overflow: TextOverflow.ellipsis,
+                                                              style: TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight: FontWeight.w500,
+                                                                overflow: TextOverflow.ellipsis,
+                                                                color: Colors.black,
                                                               ),
-                                                              ListTile(
-                                                                contentPadding: EdgeInsets.only(left: 42, right: 15),
-                                                                title: Row(
-                                                                  children: [
-                                                                    Icon(SmartKyat_POS.prodm, size: 17, color: Colors.grey,),
-                                                                    Expanded(
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.only(left: 5.0, right: 10.0),
-                                                                        child: Text(
-                                                                          'Main (' + prodsSc[todayProds.entries.elementAt(index).key]['nm'] + ')',
-                                                                          textScaleFactor: 1,
-                                                                          overflow: TextOverflow.ellipsis,
-                                                                          style: TextStyle(
-                                                                            fontSize: 14,
-                                                                            fontWeight: FontWeight.w500,
-                                                                            overflow: TextOverflow.ellipsis,
-                                                                            color: Colors.black,
-                                                                          ),
-                                                                          strutStyle: StrutStyle(
-                                                                            height: 1,
-                                                                            // fontSize:,
-                                                                            forceStrutHeight: true,
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                                trailing: Text(
-                                                                  (todayProds.entries.elementAt(index).value['im']==null?0:todayProds.entries.elementAt(index).value['im']).toInt().toString() + ' ' + prodsSc[todayProds.entries.elementAt(index).key]['nm'],
-                                                                  textScaleFactor: 1,
-                                                                  style: TextStyle(
-                                                                    fontSize: 14,
-                                                                    fontWeight: FontWeight.w500,
-                                                                    overflow: TextOverflow.ellipsis,
-                                                                    color: Colors.black,
-                                                                  ),
-                                                                  strutStyle: StrutStyle(
-                                                                    height: 1,
-                                                                    // fontSize:,
-                                                                    forceStrutHeight: true,
-                                                                  ),
-                                                                ),
+                                                              strutStyle: StrutStyle(
+                                                                height: 1,
+                                                                // fontSize:,
+                                                                forceStrutHeight: true,
                                                               ),
-                                                            ],
+                                                            ),
                                                           ),
-                                                          Column(
-                                                            children: [
-                                                              Padding(
-                                                                padding: const EdgeInsets.only(left: 42.0),
-                                                                child: Container(
-                                                                  decoration: BoxDecoration(
-                                                                      border: Border(
-                                                                          bottom: BorderSide(
-                                                                              color: Colors.grey
-                                                                                  .withOpacity(
-                                                                                  0.6),
-                                                                              width: 0.5)
-                                                                      )),
-                                                                ),
-                                                              ),
-                                                              ListTile(
-                                                                contentPadding: EdgeInsets.only(left: 42, right: 15),
-                                                                title: Row(
-                                                                  children: [
-                                                                    Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,),
-                                                                    Expanded(
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.only(left: 5.0, right: 10.0),
-                                                                        child: Text(
-                                                                          'Sub1 (' + prodsSc[todayProds.entries.elementAt(index).key]['n1'] + ')',
-                                                                          textScaleFactor: 1,
-                                                                          overflow: TextOverflow.ellipsis,
-                                                                          style: TextStyle(
-                                                                            fontSize: 14,
-                                                                            fontWeight: FontWeight.w500,
-                                                                            overflow: TextOverflow.ellipsis,
-                                                                            color: Colors.black,
-                                                                          ),
-                                                                          strutStyle: StrutStyle(
-                                                                            height: 1,
-                                                                            // fontSize:,
-                                                                            forceStrutHeight: true,
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                                trailing: Text(
-                                                                  (todayProds.entries.elementAt(index).value['i1'] == null? 0: todayProds.entries.elementAt(index).value['i1']).toInt().toString() + ' ' + prodsSc[todayProds.entries.elementAt(index).key]['n1'],
-                                                                  textScaleFactor: 1,
-                                                                  style: TextStyle(
-                                                                    fontSize: 14,
-                                                                    fontWeight: FontWeight.w500,
-                                                                    overflow: TextOverflow.ellipsis,
-                                                                    color: Colors.black,
-                                                                  ),
-                                                                  strutStyle: StrutStyle(
-                                                                    height: 1,
-                                                                    // fontSize:,
-                                                                    forceStrutHeight: true,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
+                                                          trailing: Text(
+                                                            double.parse(totalBuyCal(todayProds.entries.elementAt(index).value)).toStringAsFixed(2) + ' ' + currencyUnit,
+                                                            textScaleFactor: 1,
+                                                            style: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight: FontWeight.w500,
+                                                              overflow: TextOverflow.ellipsis,
+                                                              color: Colors.black,
+                                                            ),
+                                                            strutStyle: StrutStyle(
+                                                              height: 1,
+                                                              // fontSize:,
+                                                              forceStrutHeight: true,
+                                                            ),
                                                           ),
-                                                          prodsSc[todayProds.entries.elementAt(index).key]['c2']!=0?
-                                                          Column(
-                                                            children: [
-                                                              Padding(
-                                                                padding: const EdgeInsets.only(left: 42.0),
-                                                                child: Container(
-                                                                  decoration: BoxDecoration(
-                                                                      border: Border(
-                                                                          bottom: BorderSide(
-                                                                              color: Colors.grey
-                                                                                  .withOpacity(
-                                                                                  0.6),
-                                                                              width: 0.5)
-                                                                      )),
-                                                                ),
-                                                              ),
-                                                              ListTile(
-                                                                contentPadding: EdgeInsets.only(left: 42, right: 15),
-                                                                title: Row(
-                                                                  children: [
-                                                                    Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
-                                                                    Expanded(
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.only(left: 5.0, right: 10.0),
-                                                                        child: Text(
-                                                                          'Sub2 (' + prodsSc[todayProds.entries.elementAt(index).key]['n2'] + ')',
-                                                                          textScaleFactor: 1,
-                                                                          overflow: TextOverflow.ellipsis,
-                                                                          style: TextStyle(
-                                                                            fontSize: 14,
-                                                                            fontWeight: FontWeight.w500,
-                                                                            overflow: TextOverflow.ellipsis,
-                                                                            color: Colors.black,
-                                                                          ),
-                                                                          strutStyle: StrutStyle(
-                                                                            height: 1,
-                                                                            // fontSize:,
-                                                                            forceStrutHeight: true,
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                                trailing: Text(
-                                                                  (todayProds.entries.elementAt(index).value['i2']==null?0:todayProds.entries.elementAt(index).value['i2']).toInt().toString() + ' ' + prodsSc[todayProds.entries.elementAt(index).key]['n2'],
-                                                                  textScaleFactor: 1,
-                                                                  style: TextStyle(
-                                                                    fontSize: 14,
-                                                                    fontWeight: FontWeight.w500,
-                                                                    overflow: TextOverflow.ellipsis,
-                                                                    color: Colors.black,
-                                                                  ),
-                                                                  strutStyle: StrutStyle(
-                                                                    height: 1,
-                                                                    // fontSize:,
-                                                                    forceStrutHeight: true,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ):Container(),
-                                                        ],
-                                                      ),
-                                                    )
-                                                  ],
-                                                ):
-                                                Column(
-                                                  children: [
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(left: 42.0),
-                                                      child: Container(
-                                                        decoration: BoxDecoration(
-                                                            border: Border(
-                                                                bottom: BorderSide(
-                                                                    color: Colors.grey
-                                                                        .withOpacity(
-                                                                        0.6),
-                                                                    width: 0.5)
-                                                            )),
-                                                      ),
+                                                        ),
+                                                      ],
                                                     ),
-                                                    ListTile(
-                                                      contentPadding: EdgeInsets.only(left: 42, right: 15),
-                                                      title: Padding(
-                                                        padding: const EdgeInsets.only(right: 10.0),
-                                                        child: Text(
-                                                          'Total quantity',
-                                                          textScaleFactor: 1,
-                                                          overflow: TextOverflow.ellipsis,
-                                                          style: TextStyle(
-                                                            fontSize: 14,
-                                                            fontWeight: FontWeight.w500,
-                                                            overflow: TextOverflow.ellipsis,
-                                                            color: Colors.black,
-                                                          ),
-                                                          strutStyle: StrutStyle(
-                                                            height: 1,
-                                                            // fontSize:,
-                                                            forceStrutHeight: true,
+                                                    prodsSc[todayProds.entries.elementAt(index).key]['c1']!=0?
+                                                    Column(
+                                                      children: [
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(left: 42.0),
+                                                          child: Container(
+                                                            decoration: BoxDecoration(
+                                                                border: Border(
+                                                                    bottom: BorderSide(
+                                                                        color: Colors.grey
+                                                                            .withOpacity(
+                                                                            0.6),
+                                                                        width: 0.5)
+                                                                )),
                                                           ),
                                                         ),
-                                                      ),
-                                                      trailing: Text(
-                                                        double.parse(totalQtyCal(todayProds.entries.elementAt(index).value, prodsSc[todayProds.entries.elementAt(index).key])).toInt().toString() + ' ' + prodsSc[todayProds.entries.elementAt(index).key]['nm'],
-                                                        textScaleFactor: 1,
-                                                        style: TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight: FontWeight.w500,
-                                                          overflow: TextOverflow.ellipsis,
-                                                          color: Colors.black,
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(left: 27.0),
+                                                          child: ExpansionTile(
+                                                            trailing: Text(
+                                                              totalQtyCal(todayProds.entries.elementAt(index).value, prodsSc[todayProds.entries.elementAt(index).key]) + ' ' + prodsSc[todayProds.entries.elementAt(index).key]['nm'],
+                                                              textScaleFactor: 1,
+                                                              overflow: TextOverflow.ellipsis,
+                                                              style: TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight: FontWeight.w500,
+                                                                overflow: TextOverflow.ellipsis,
+                                                                color: Colors.black,
+                                                              ),
+                                                              strutStyle: StrutStyle(
+                                                                height: 1,
+                                                                // fontSize:,
+                                                                forceStrutHeight: true,
+                                                              ),
+                                                            ),
+                                                            tilePadding: EdgeInsets.only(left: 15.0, top: 0.0, bottom: 0.0, right: 15.0),
+                                                            childrenPadding: EdgeInsets.only(left: 0.0, top: 0.0, bottom: 0.0, right: 0.0),
+                                                            // collapsedBackgroundColor: index%2 == 1? Colors.grey.withOpacity(0.1): Colors.white,
+                                                            // backgroundColor: index%2 == 1? Colors.grey.withOpacity(0.1): Colors.white,
+                                                            onExpansionChanged: (bool expanded) {
+                                                              onStateChanged(index, 4, expanded);
+                                                            },
+                                                            title: Row(
+                                                              children: [
+                                                                Padding(
+                                                                  padding: const EdgeInsets.only(bottom: 3.0, right: 10.0),
+                                                                  child: AnimatedRotation(
+                                                                    turns: ayinList[index][4]? 0.250:0,
+                                                                    duration: const Duration(milliseconds: 200),
+                                                                    child: Icon(
+                                                                      Icons.arrow_forward_ios_rounded,
+                                                                      size: 17,
+                                                                      color: Colors.black,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                Expanded(
+                                                                  child: Padding(
+                                                                    padding: const EdgeInsets.only(right: 10.0),
+                                                                    child: Text(
+                                                                      'Total quantity',
+                                                                      textScaleFactor: 1,
+                                                                      overflow: TextOverflow.ellipsis,
+                                                                      style: TextStyle(
+                                                                        fontSize: 14,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        overflow: TextOverflow.ellipsis,
+                                                                        color: Colors.black,
+                                                                      ),
+                                                                      strutStyle: StrutStyle(
+                                                                        height: 1,
+                                                                        // fontSize:,
+                                                                        forceStrutHeight: true,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            // controlAffinity: ListTileControlAffinity.leading,
+                                                            children: <Widget>[
+                                                              Column(
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(left: 42.0),
+                                                                    child: Container(
+                                                                      decoration: BoxDecoration(
+                                                                          border: Border(
+                                                                              bottom: BorderSide(
+                                                                                  color: Colors.grey
+                                                                                      .withOpacity(
+                                                                                      0.6),
+                                                                                  width: 0.5)
+                                                                          )),
+                                                                    ),
+                                                                  ),
+                                                                  ListTile(
+                                                                    contentPadding: EdgeInsets.only(left: 42, right: 15),
+                                                                    title: Row(
+                                                                      children: [
+                                                                        Icon(SmartKyat_POS.prodm, size: 17, color: Colors.grey,),
+                                                                        Expanded(
+                                                                          child: Padding(
+                                                                            padding: const EdgeInsets.only(left: 5.0, right: 10.0),
+                                                                            child: Text(
+                                                                              'Main (' + prodsSc[todayProds.entries.elementAt(index).key]['nm'] + ')',
+                                                                              textScaleFactor: 1,
+                                                                              overflow: TextOverflow.ellipsis,
+                                                                              style: TextStyle(
+                                                                                fontSize: 14,
+                                                                                fontWeight: FontWeight.w500,
+                                                                                overflow: TextOverflow.ellipsis,
+                                                                                color: Colors.black,
+                                                                              ),
+                                                                              strutStyle: StrutStyle(
+                                                                                height: 1,
+                                                                                // fontSize:,
+                                                                                forceStrutHeight: true,
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    trailing: Text(
+                                                                      (todayProds.entries.elementAt(index).value['im']==null?0:todayProds.entries.elementAt(index).value['im']).toInt().toString() + ' ' + prodsSc[todayProds.entries.elementAt(index).key]['nm'],
+                                                                      textScaleFactor: 1,
+                                                                      style: TextStyle(
+                                                                        fontSize: 14,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        overflow: TextOverflow.ellipsis,
+                                                                        color: Colors.black,
+                                                                      ),
+                                                                      strutStyle: StrutStyle(
+                                                                        height: 1,
+                                                                        // fontSize:,
+                                                                        forceStrutHeight: true,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              Column(
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(left: 42.0),
+                                                                    child: Container(
+                                                                      decoration: BoxDecoration(
+                                                                          border: Border(
+                                                                              bottom: BorderSide(
+                                                                                  color: Colors.grey
+                                                                                      .withOpacity(
+                                                                                      0.6),
+                                                                                  width: 0.5)
+                                                                          )),
+                                                                    ),
+                                                                  ),
+                                                                  ListTile(
+                                                                    contentPadding: EdgeInsets.only(left: 42, right: 15),
+                                                                    title: Row(
+                                                                      children: [
+                                                                        Icon(SmartKyat_POS.prods1, size: 17, color: Colors.grey,),
+                                                                        Expanded(
+                                                                          child: Padding(
+                                                                            padding: const EdgeInsets.only(left: 5.0, right: 10.0),
+                                                                            child: Text(
+                                                                              'Sub1 (' + prodsSc[todayProds.entries.elementAt(index).key]['n1'] + ')',
+                                                                              textScaleFactor: 1,
+                                                                              overflow: TextOverflow.ellipsis,
+                                                                              style: TextStyle(
+                                                                                fontSize: 14,
+                                                                                fontWeight: FontWeight.w500,
+                                                                                overflow: TextOverflow.ellipsis,
+                                                                                color: Colors.black,
+                                                                              ),
+                                                                              strutStyle: StrutStyle(
+                                                                                height: 1,
+                                                                                // fontSize:,
+                                                                                forceStrutHeight: true,
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    trailing: Text(
+                                                                      (todayProds.entries.elementAt(index).value['i1'] == null? 0: todayProds.entries.elementAt(index).value['i1']).toInt().toString() + ' ' + prodsSc[todayProds.entries.elementAt(index).key]['n1'],
+                                                                      textScaleFactor: 1,
+                                                                      style: TextStyle(
+                                                                        fontSize: 14,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        overflow: TextOverflow.ellipsis,
+                                                                        color: Colors.black,
+                                                                      ),
+                                                                      strutStyle: StrutStyle(
+                                                                        height: 1,
+                                                                        // fontSize:,
+                                                                        forceStrutHeight: true,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              prodsSc[todayProds.entries.elementAt(index).key]['c2']!=0?
+                                                              Column(
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(left: 42.0),
+                                                                    child: Container(
+                                                                      decoration: BoxDecoration(
+                                                                          border: Border(
+                                                                              bottom: BorderSide(
+                                                                                  color: Colors.grey
+                                                                                      .withOpacity(
+                                                                                      0.6),
+                                                                                  width: 0.5)
+                                                                          )),
+                                                                    ),
+                                                                  ),
+                                                                  ListTile(
+                                                                    contentPadding: EdgeInsets.only(left: 42, right: 15),
+                                                                    title: Row(
+                                                                      children: [
+                                                                        Icon(SmartKyat_POS.prods2, size: 17, color: Colors.grey,),
+                                                                        Expanded(
+                                                                          child: Padding(
+                                                                            padding: const EdgeInsets.only(left: 5.0, right: 10.0),
+                                                                            child: Text(
+                                                                              'Sub2 (' + prodsSc[todayProds.entries.elementAt(index).key]['n2'] + ')',
+                                                                              textScaleFactor: 1,
+                                                                              overflow: TextOverflow.ellipsis,
+                                                                              style: TextStyle(
+                                                                                fontSize: 14,
+                                                                                fontWeight: FontWeight.w500,
+                                                                                overflow: TextOverflow.ellipsis,
+                                                                                color: Colors.black,
+                                                                              ),
+                                                                              strutStyle: StrutStyle(
+                                                                                height: 1,
+                                                                                // fontSize:,
+                                                                                forceStrutHeight: true,
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    trailing: Text(
+                                                                      (todayProds.entries.elementAt(index).value['i2']==null?0:todayProds.entries.elementAt(index).value['i2']).toInt().toString() + ' ' + prodsSc[todayProds.entries.elementAt(index).key]['n2'],
+                                                                      textScaleFactor: 1,
+                                                                      style: TextStyle(
+                                                                        fontSize: 14,
+                                                                        fontWeight: FontWeight.w500,
+                                                                        overflow: TextOverflow.ellipsis,
+                                                                        color: Colors.black,
+                                                                      ),
+                                                                      strutStyle: StrutStyle(
+                                                                        height: 1,
+                                                                        // fontSize:,
+                                                                        forceStrutHeight: true,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ):Container(),
+                                                            ],
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ):
+                                                    Column(
+                                                      children: [
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(left: 42.0),
+                                                          child: Container(
+                                                            decoration: BoxDecoration(
+                                                                border: Border(
+                                                                    bottom: BorderSide(
+                                                                        color: Colors.grey
+                                                                            .withOpacity(
+                                                                            0.6),
+                                                                        width: 0.5)
+                                                                )),
+                                                          ),
                                                         ),
-                                                        strutStyle: StrutStyle(
-                                                          height: 1,
-                                                          // fontSize:,
-                                                          forceStrutHeight: true,
+                                                        ListTile(
+                                                          contentPadding: EdgeInsets.only(left: 42, right: 15),
+                                                          title: Padding(
+                                                            padding: const EdgeInsets.only(right: 10.0),
+                                                            child: Text(
+                                                              'Total quantity',
+                                                              textScaleFactor: 1,
+                                                              overflow: TextOverflow.ellipsis,
+                                                              style: TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight: FontWeight.w500,
+                                                                overflow: TextOverflow.ellipsis,
+                                                                color: Colors.black,
+                                                              ),
+                                                              strutStyle: StrutStyle(
+                                                                height: 1,
+                                                                // fontSize:,
+                                                                forceStrutHeight: true,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          trailing: Text(
+                                                            double.parse(totalQtyCal(todayProds.entries.elementAt(index).value, prodsSc[todayProds.entries.elementAt(index).key])).toInt().toString() + ' ' + prodsSc[todayProds.entries.elementAt(index).key]['nm'],
+                                                            textScaleFactor: 1,
+                                                            style: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight: FontWeight.w500,
+                                                              overflow: TextOverflow.ellipsis,
+                                                              color: Colors.black,
+                                                            ),
+                                                            strutStyle: StrutStyle(
+                                                              height: 1,
+                                                              // fontSize:,
+                                                              forceStrutHeight: true,
+                                                            ),
+                                                          ),
                                                         ),
-                                                      ),
+                                                      ],
                                                     ),
                                                   ],
-                                                ),
+                                                )
+
                                               ],
                                             ),
                                           ),
@@ -3046,7 +3091,10 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
     double salem = 0;
     double sale1 = 0;
     double sale2 = 0;
-    debugPrint(prodsSc['na'] + ' ' + value['im'].toString() + ' ' + value['i1'].toString() + ' ' + value['i2'].toString() + ' ' + prodsSc['c1'].toString() + ' ' + prodsSc['c2'].toString());
+    // debugPrint(prodsSc['na'] + ' ' + value['im'].toString() + ' ' + value['i1'].toString() + ' ' + value['i2'].toString() + ' ' + prodsSc['c1'].toString() + ' ' + prodsSc['c2'].toString());
+    if(prodsSc == null) {
+      return value['im']!=null? value['im'].toString():'0';
+    }
     if(value['im']==null) {
       salem = 0;
     } else {
