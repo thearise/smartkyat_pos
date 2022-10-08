@@ -1160,7 +1160,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                     controller: munitCtrl,
                                                     keyboardType: TextInputType.numberWithOptions(decimal: false),
                                                     inputFormatters: <TextInputFormatter>[
-                                                      FilteringTextInputFormatter.allow(RegExp(_getNum())),],
+                                                      FilteringTextInputFormatter.allow(RegExp(_getNum())),  LengthLimitingTextInputFormatter(15),],
 // The validator receives the text that the user has entered.
                                                     validator: (value) {
                                                       if (value == null || value.isEmpty) {
@@ -1310,7 +1310,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                               controller: msaleCtrl,
                                               keyboardType: TextInputType.numberWithOptions(decimal: true),
                                               inputFormatters: <TextInputFormatter>[
-                                                FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+                                                FilteringTextInputFormatter.allow(RegExp(_getRegexString())),  LengthLimitingTextInputFormatter(15),],
 // The validator receives the text that the user has entered.
                                               validator: (value) {
                                                 if (value == null || value.isEmpty) {
@@ -1376,7 +1376,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                               controller: mcostCtrl,
                                               keyboardType: TextInputType.numberWithOptions(decimal: true),
                                               inputFormatters: <TextInputFormatter>[
-                                                FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+                                                FilteringTextInputFormatter.allow(RegExp(_getRegexString())),  LengthLimitingTextInputFormatter(15),],
 // The validator receives the text that the user has entered.
                                               validator: (value) {
                                                 if (value == null || value.isEmpty) {
@@ -3011,7 +3011,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                   controller: nameController,
                   keyboardType: TextInputType.numberWithOptions(decimal: false),
                   inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.allow(RegExp(_getNum())),],
+                    FilteringTextInputFormatter.allow(RegExp(_getNum())),  LengthLimitingTextInputFormatter(15),],
                   // The validator receives the text that the user has entered.
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -3161,7 +3161,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
               controller: priceController,
               keyboardType: TextInputType.numberWithOptions(decimal: false),
               inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.allow(RegExp(_getNum())),],
+                FilteringTextInputFormatter.allow(RegExp(_getNum())),  LengthLimitingTextInputFormatter(15),],
               // The validator receives the text that the user has entered.
               validator: (value) {
                 // if (value == null || value.isEmpty) {
@@ -3221,7 +3221,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
               controller: jobController,
               keyboardType: TextInputType.numberWithOptions(decimal: true),
               inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+                FilteringTextInputFormatter.allow(RegExp(_getRegexString())),  LengthLimitingTextInputFormatter(15),],
               // The validator receives the text that the user has entered.
               validator: (value) {
                 if (value == null || value.isEmpty) {
