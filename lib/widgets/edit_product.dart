@@ -197,50 +197,50 @@ class _EditProductState extends State<EditProduct> {
 
     // debugPrint('photo check ' + widget.sub1UnitName.toString() + widget.subExist.toString());
 
-      if(widget.isEnglish == true) {
+    if(widget.isEnglish == true) {
 
-        setState(() {
-          textSetEdit = 'Edit product';
-          textSetProductInfo = 'PRODUCT INFORMATION';
-          textSetProdName = 'Product name';
-          textSetBarcode = 'Barcode';
-          textSetMainUnitQty = 'MAIN UNIT QUANTITY';
-          textSetUnitQty = 'Unit quantity';
-          textSetUnitName = 'Unit name';
-          textSetBuyPrice = 'Buy price';
-          textSetSalePrice = 'Sale price';
-          textSetSub1UnitQty = '#1 SUB UNIT QUANTITY';
-          textSetSub2UnitQty = '#2 SUB UNIT QUANTITY';
-          textSetWarning = 'E.g, If this item were \"Cigarette 10 packs per 1 carton box\" then it could break down into \"10 / main carton box\".';
-          textSetWarning2 = 'E.g, If this item were \"20 cigarettes per 1 pack\" then it could break down into \"20 / #1 sub pack\".';
-          textSetRemove = 'REMOVE';
-          textSetUnitMain = 'Unit/main unit';
-          textSetSaveProd = 'Save';
-          textSetMoreUnit = 'More unit?';
-          textSetUnitSub = 'Unit/sub1 unit';
-        });
-      } else {
-        setState(() {
-          textSetEdit = 'ပစ္စည်း ပြင်ဆင်ခြင်း';
-          textSetProductInfo = 'ပစ္စည်း အချက်အလက်';
-          textSetProdName = 'ပစ္စည်းအမည်';
-          textSetBarcode = 'Barcode';
-          textSetMainUnitQty = 'MAIN UNIT QUANTITY';
-          textSetUnitQty = 'အရေအတွက်';
-          textSetUnitName = 'ယူနစ်';
-          textSetBuyPrice = 'ဝယ်ဈေး';
-          textSetSalePrice = 'ရောင်းဈေး';
-          textSetSub1UnitQty = '#1 SUB UNIT QUANTITY';
-          textSetSub2UnitQty = '#2 SUB UNIT QUANTITY';
-          textSetWarning = 'E.g, If this item were \"Cigarette 10 packs per 1 carton box\" then it could break down into \"10 / main carton box\".';
-          textSetWarning2 = 'E.g, If this item were \"20 cigarettes per 1 pack\" then it could break down into \"20 / #1 sub pack\".';
-          textSetRemove = 'ဖယ်ရှားပါ';
-          textSetUnitMain = 'Unit/main unit';
-          textSetSaveProd = 'သိမ်းဆည်းမည်';
-          textSetMoreUnit = 'နောက်ထပ် ယူနစ်?';
-          textSetUnitSub = 'Unit/sub1 unit';
-        });
-      }
+      setState(() {
+        textSetEdit = 'Edit product';
+        textSetProductInfo = 'PRODUCT INFORMATION';
+        textSetProdName = 'Product name';
+        textSetBarcode = 'Barcode';
+        textSetMainUnitQty = 'MAIN UNIT QUANTITY';
+        textSetUnitQty = 'Unit quantity';
+        textSetUnitName = 'Unit name';
+        textSetBuyPrice = 'Buy price';
+        textSetSalePrice = 'Sale price';
+        textSetSub1UnitQty = '#1 SUB UNIT QUANTITY';
+        textSetSub2UnitQty = '#2 SUB UNIT QUANTITY';
+        textSetWarning = 'E.g, If this item were \"Cigarette 10 packs per 1 carton box\" then it could break down into \"10 / main carton box\".';
+        textSetWarning2 = 'E.g, If this item were \"20 cigarettes per 1 pack\" then it could break down into \"20 / #1 sub pack\".';
+        textSetRemove = 'REMOVE';
+        textSetUnitMain = 'Unit/main unit';
+        textSetSaveProd = 'Save';
+        textSetMoreUnit = 'More unit?';
+        textSetUnitSub = 'Unit/sub1 unit';
+      });
+    } else {
+      setState(() {
+        textSetEdit = 'ပစ္စည်း ပြင်ဆင်ခြင်း';
+        textSetProductInfo = 'ပစ္စည်း အချက်အလက်';
+        textSetProdName = 'ပစ္စည်းအမည်';
+        textSetBarcode = 'Barcode';
+        textSetMainUnitQty = 'MAIN UNIT QUANTITY';
+        textSetUnitQty = 'အရေအတွက်';
+        textSetUnitName = 'ယူနစ်';
+        textSetBuyPrice = 'ဝယ်ဈေး';
+        textSetSalePrice = 'ရောင်းဈေး';
+        textSetSub1UnitQty = '#1 SUB UNIT QUANTITY';
+        textSetSub2UnitQty = '#2 SUB UNIT QUANTITY';
+        textSetWarning = 'E.g, If this item were \"Cigarette 10 packs per 1 carton box\" then it could break down into \"10 / main carton box\".';
+        textSetWarning2 = 'E.g, If this item were \"20 cigarettes per 1 pack\" then it could break down into \"20 / #1 sub pack\".';
+        textSetRemove = 'ဖယ်ရှားပါ';
+        textSetUnitMain = 'Unit/main unit';
+        textSetSaveProd = 'သိမ်းဆည်းမည်';
+        textSetMoreUnit = 'နောက်ထပ် ယူနစ်?';
+        textSetUnitSub = 'Unit/sub1 unit';
+      });
+    }
 
     super.initState();
   }
@@ -325,36 +325,47 @@ class _EditProductState extends State<EditProduct> {
                       ),
                       Expanded(
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            Text(
-                              widget.prodName, textScaleFactor: 1,
-                              maxLines: 1,
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w500,
-                                  overflow: TextOverflow.ellipsis
-                                // height: 1.5
-                              ),
-                              strutStyle: StrutStyle(
-                                height: 1.4,
-                                // fontSize:,
-                                forceStrutHeight: true,
-                              ),
-                            ),
-                            Text(
+                            SizedBox(height: 16),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 5.0),
+                              child: Text(
                                 textSetEdit, textScaleFactor: 1,
+                                maxLines: 1,
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w600,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500,
+                                    overflow: TextOverflow.ellipsis
+                                  // height: 1.5
                                 ),
                                 strutStyle: StrutStyle(
-                                  height: widget.isEnglish? 1.4: 1.6,
+                                  height: 1.4,
+                                  // fontSize:,
                                   forceStrutHeight: true,
-                                )
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 20.0, right: 0.0),
+                              child: Text(
+                                widget.prodName, textScaleFactor: 1,
+                                maxLines: 1,
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                  overflow: TextOverflow.ellipsis,
+                                  // height: 1.3
+                                ),
+                                strutStyle: StrutStyle(
+                                  height: 1.7,
+                                  // fontSize:,
+                                  forceStrutHeight: true,
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -589,8 +600,11 @@ class _EditProductState extends State<EditProduct> {
                                   child: TextFormField(
                                     controller: mainQtyCtrl,
                                     keyboardType: TextInputType.numberWithOptions(decimal: false),
+
                                     inputFormatters: <TextInputFormatter>[
-                                      FilteringTextInputFormatter.allow(RegExp(_getNum())),],
+                                      FilteringTextInputFormatter.allow(RegExp(_getNum())),
+                                      LengthLimitingTextInputFormatter(15),
+                                    ],
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
                                         return ' This field is required ';
@@ -727,7 +741,7 @@ class _EditProductState extends State<EditProduct> {
                             child: TextFormField(
                               controller: mainBuyCtrl,
                               keyboardType: TextInputType.numberWithOptions(decimal: true),
-                              inputFormatters: <TextInputFormatter>[
+                              inputFormatters: <TextInputFormatter>[  LengthLimitingTextInputFormatter(15),
                                 FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
@@ -796,7 +810,7 @@ class _EditProductState extends State<EditProduct> {
                                     controller: mainSellCtrl,
                                     keyboardType: TextInputType.numberWithOptions(decimal: true),
                                     inputFormatters: <TextInputFormatter>[
-                                      FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+                                      FilteringTextInputFormatter.allow(RegExp(_getRegexString())),  LengthLimitingTextInputFormatter(15),],
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
                                         return ' This field is required ';
@@ -1723,7 +1737,7 @@ class _EditProductState extends State<EditProduct> {
                   controller: controller1,
                   keyboardType: TextInputType.numberWithOptions(decimal: false),
                   inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.allow(RegExp(_getNum())),],
+                    FilteringTextInputFormatter.allow(RegExp(_getNum())),  LengthLimitingTextInputFormatter(15),],
                   // The validator receives the text that the user has entered.
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -1877,7 +1891,7 @@ class _EditProductState extends State<EditProduct> {
               controller: controller3,
               keyboardType: TextInputType.numberWithOptions(decimal: false),
               inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.allow(RegExp(_getNum())),],
+                FilteringTextInputFormatter.allow(RegExp(_getNum())),  LengthLimitingTextInputFormatter(15),],
               // The validator receives the text that the user has entered.
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -1940,7 +1954,7 @@ class _EditProductState extends State<EditProduct> {
               controller: controller4,
               keyboardType: TextInputType.numberWithOptions(decimal: true),
               inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+                FilteringTextInputFormatter.allow(RegExp(_getRegexString())),  LengthLimitingTextInputFormatter(15),],
 
               // The validator receives the text that the user has entered.
               validator: (value) {
