@@ -5325,10 +5325,18 @@ class HomePageState extends State<HomePage>
                                                                                                   GestureDetector(
                                                                                                     onTap: () {
                                                                                                       setState(() {
-                                                                                                        quantity = double.parse(myControllerTablet.text) -1;
-                                                                                                        myControllerTablet.text = quantity.round().toString();
-                                                                                                        debugPrint('qqq' + quantity.toString());
-                                                                                                      });
+                                                                                                        quantity = double.parse(myControllerTablet.text) -1; });
+                                                                                                      if(quantity.isNegative) {
+                                                                                                        setState((){
+                                                                                                          quantity = 0;
+                                                                                                          myControllerTablet.text = '0';
+                                                                                                        });
+
+                                                                                                      } else {
+                                                                                                        setState((){
+                                                                                                          myControllerTablet.text = quantity.round().toString();
+                                                                                                        });
+                                                                                                      }
                                                                                                     },
                                                                                                     child: Container(
                                                                                                       width: (MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 61)/3,
@@ -5420,11 +5428,11 @@ class HomePageState extends State<HomePage>
                                                                                                   GestureDetector(
                                                                                                     onTap: () {
                                                                                                       setState(() {
-                                                                                                        setState(() {
-                                                                                                          quantity = double.parse(myControllerTablet.text) +1;
-                                                                                                          myControllerTablet.text = quantity.round().toString();
-                                                                                                          debugPrint('qqq' + quantity.toString());
-                                                                                                        });
+
+                                                                                                        quantity = double.parse(myControllerTablet.text) +1;
+                                                                                                        myControllerTablet.text = quantity.round().toString();
+                                                                                                        debugPrint('qqq' + quantity.toString());
+
                                                                                                       });
                                                                                                     },
                                                                                                     child: Container(
@@ -5753,159 +5761,189 @@ class HomePageState extends State<HomePage>
                                                                             ),
                                                                             Align(
                                                                               alignment: Alignment.bottomCenter,
-                                                                              child: Padding(
-                                                                                padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-                                                                                child: Container(
-                                                                                  decoration: BoxDecoration(
-                                                                                      color: Colors.white,
-                                                                                      border: Border(
-                                                                                        top: BorderSide(
-                                                                                            color:
-                                                                                            AppTheme.skBorderColor2,
-                                                                                            width: 1.0),
-                                                                                      )),
-                                                                                  width: double.infinity,
-                                                                                  height: 138,
-                                                                                  child: Column(
-                                                                                    mainAxisAlignment:
-                                                                                    MainAxisAlignment.end,
-                                                                                    crossAxisAlignment:
-                                                                                    CrossAxisAlignment.end,
-                                                                                    children: [
-                                                                                      ListTile(
-                                                                                        title: Text(
-                                                                                          textSetTotal, textScaleFactor: 1,
-                                                                                          style: TextStyle(
-                                                                                              fontSize: 17,
-                                                                                              fontWeight:
-                                                                                              FontWeight
-                                                                                                  .w500),
-                                                                                          strutStyle: StrutStyle(
-                                                                                              forceStrutHeight: true,
-                                                                                              height: 1.3
-                                                                                          ),
-                                                                                        ),
-                                                                                        trailing: Text('$currencyUnit '+
-                                                                                            (totalFixAmount).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), textScaleFactor: 1,
-                                                                                          style: TextStyle(
-                                                                                              fontSize: 17,
-                                                                                              fontWeight:
-                                                                                              FontWeight
-                                                                                                  .w500),
-                                                                                        ),
+                                                                              child: Container(
+                                                                                decoration: BoxDecoration(
+                                                                                    border: Border(
+                                                                                      top: BorderSide(
+                                                                                          color:
+                                                                                          AppTheme.skBorderColor2,
+                                                                                          width: 1.0),
+                                                                                    )),
+                                                                                width: double.infinity,
+                                                                                height: 138,
+                                                                                child: Column(
+                                                                                  mainAxisAlignment:
+                                                                                  MainAxisAlignment.end,
+                                                                                  crossAxisAlignment:
+                                                                                  CrossAxisAlignment.end,
+                                                                                  children: [
+                                                                                    Padding(
+                                                                                      padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15.5),
+                                                                                      child: Row(
+                                                                                          mainAxisAlignment:
+                                                                                          MainAxisAlignment.center,
+                                                                                          crossAxisAlignment:
+                                                                                          CrossAxisAlignment.center,
+                                                                                          children: [
+                                                                                            Expanded(
+                                                                                              child: Text(
+                                                                                                textSetTotal, textScaleFactor: 1,
+                                                                                                style: TextStyle(
+                                                                                                    overflow: TextOverflow.ellipsis,
+                                                                                                    fontSize: 17,
+                                                                                                    fontWeight:
+                                                                                                    FontWeight
+                                                                                                        .w500),
+                                                                                                strutStyle: StrutStyle(
+                                                                                                    forceStrutHeight: true,
+                                                                                                    height: 1.3
+                                                                                                ),
+                                                                                              ),
+                                                                                            ),
+                                                                                            Text('$currencyUnit '+
+                                                                                                (totalFixAmount).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), textScaleFactor: 1,
+                                                                                              style: TextStyle(
+                                                                                                  fontSize: 17,
+                                                                                                  fontWeight:
+                                                                                                  FontWeight
+                                                                                                      .w500),
+                                                                                            )
+                                                                                          ]
                                                                                       ),
-                                                                                      SizedBox(height: 10),
-                                                                                      Padding(
-                                                                                          padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
-                                                                                          child: Row(
-                                                                                              children: [
-                                                                                                GestureDetector(
-                                                                                                  onTap: () {
-                                                                                                    setState((){
+                                                                                      // child: ListTile(
+                                                                                      //   title: Text(
+                                                                                      //     textSetTotal, textScaleFactor: 1,
+                                                                                      //     style: TextStyle(
+                                                                                      //         fontSize: 17,
+                                                                                      //         fontWeight:
+                                                                                      //         FontWeight
+                                                                                      //             .w500),
+                                                                                      //     strutStyle: StrutStyle(
+                                                                                      //         forceStrutHeight: true,
+                                                                                      //         height: 1.3
+                                                                                      //     ),
+                                                                                      //   ),
+                                                                                      //   trailing: Text('$currencyUnit '+
+                                                                                      //       (totalFixAmount).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), textScaleFactor: 1,
+                                                                                      //     style: TextStyle(
+                                                                                      //         fontSize: 17,
+                                                                                      //         fontWeight:
+                                                                                      //         FontWeight
+                                                                                      //             .w500),
+                                                                                      //   ),
+                                                                                      // ),
+                                                                                    ),
+                                                                                    SizedBox(height: 10),
+                                                                                    Padding(
+                                                                                        padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
+                                                                                        child: Row(
+                                                                                            children: [
+                                                                                              GestureDetector(
+                                                                                                onTap: () {
+                                                                                                  setState((){
 
-                                                                                                      //  String ttlProdListPriceFut = await TtlProdListPriceFut();
-                                                                                                      _controllerTablet.animateTo(0);
-                                                                                                      _textFieldControllerTablet.clear();
-                                                                                                      paidAmount = 0;
-                                                                                                      debt = 0;
-                                                                                                      refund = 0;
-                                                                                                      totalAmount = double.parse(TtlProdListPrice.toString());
+                                                                                                    //  String ttlProdListPriceFut = await TtlProdListPriceFut();
+                                                                                                    _controllerTablet.animateTo(0);
+                                                                                                    _textFieldControllerTablet.clear();
+                                                                                                    paidAmount = 0;
+                                                                                                    debt = 0;
+                                                                                                    refund = 0;
+                                                                                                    totalAmount = double.parse(TtlProdListPrice.toString());
 
-                                                                                                    });
+                                                                                                  });
 
-                                                                                                  },
-                                                                                                  child: Container(
-                                                                                                    width: (MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 45)/2,
-                                                                                                    height: 50,
-                                                                                                    decoration: BoxDecoration(
-                                                                                                        borderRadius:
-                                                                                                        BorderRadius.circular(10.0),
-                                                                                                        color: AppTheme.secButtonColor),
-                                                                                                    child: Row(
-                                                                                                      mainAxisAlignment:
-                                                                                                      MainAxisAlignment
-                                                                                                          .center,
-                                                                                                      children: [
-                                                                                                        Expanded(
-                                                                                                          child: Padding(
-                                                                                                            padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                                                                                            child: Container(
-                                                                                                                child: Text(
-                                                                                                                  textSetBack, textScaleFactor: 1,
-                                                                                                                  textAlign: TextAlign.center,
-                                                                                                                  style: TextStyle(
-                                                                                                                      fontSize: 18,
-                                                                                                                      fontWeight: FontWeight.w600,
-                                                                                                                      color: Colors.black
-                                                                                                                  ),
-                                                                                                                )
-                                                                                                            ),
+                                                                                                },
+                                                                                                child: Container(
+                                                                                                  width: (MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 45)/2,
+                                                                                                  height: 50,
+                                                                                                  decoration: BoxDecoration(
+                                                                                                      borderRadius:
+                                                                                                      BorderRadius.circular(10.0),
+                                                                                                      color: AppTheme.secButtonColor),
+                                                                                                  child: Row(
+                                                                                                    mainAxisAlignment:
+                                                                                                    MainAxisAlignment
+                                                                                                        .center,
+                                                                                                    children: [
+                                                                                                      Expanded(
+                                                                                                        child: Padding(
+                                                                                                          padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                                                                                          child: Container(
+                                                                                                              child: Text(
+                                                                                                                textSetBack, textScaleFactor: 1,
+                                                                                                                textAlign: TextAlign.center,
+                                                                                                                style: TextStyle(
+                                                                                                                    fontSize: 18,
+                                                                                                                    fontWeight: FontWeight.w600,
+                                                                                                                    color: Colors.black
+                                                                                                                ),
+                                                                                                              )
                                                                                                           ),
                                                                                                         ),
-                                                                                                      ],
-                                                                                                    ),
+                                                                                                      ),
+                                                                                                    ],
                                                                                                   ),
                                                                                                 ),
-                                                                                                Spacer(),
-                                                                                                GestureDetector(
-                                                                                                  onTap: () {
-                                                                                                    if (_formKey2.currentState!.validate()) {
-                                                                                                      debugPrint('eachProduct' + eachProd);
-                                                                                                      for (int j = 0; j < prodList.length; j++)
-                                                                                                        if( prodList[j].split('^')[0] == eachProd.split('^')[0] && prodList[j].split('^')[3] == eachProd.split('^')[3]){
-                                                                                                          setState((){
-                                                                                                            eachProd = eachProd.split('^')[0] +'^' + eachProd.split('^')[1]+'^'+ (price2.toString()) +'^'+eachProd.split('^')[3]+ '^' + (quantity.toString()) + '^' + eachProd.split('^')[5] + '^' + prodList[j].split('^')[6] + '^' + prodList[j].split('^')[7] + '^' + prodList[j].split('^')[8]+ '^' + prodList[j].split('^')[9]+ '^' + prodList[j].split('^')[10];
-                                                                                                            prodList[j] = eachProd;
-                                                                                                          });
-                                                                                                          debugPrint('leepae' + prodList[j]);
-                                                                                                        } else debugPrint('leelar');
-                                                                                                      _controllerTablet.animateTo(0);
-                                                                                                      // if(mainQty - quantity <= 0) {smartKyatFlash('Out of Stock', 'w');}
+                                                                                              ),
+                                                                                              Spacer(),
+                                                                                              GestureDetector(
+                                                                                                onTap: () {
+                                                                                                  if (_formKey2.currentState!.validate()) {
+                                                                                                    debugPrint('eachProduct' + eachProd);
+                                                                                                    for (int j = 0; j < prodList.length; j++)
+                                                                                                      if( prodList[j].split('^')[0] == eachProd.split('^')[0] && prodList[j].split('^')[3] == eachProd.split('^')[3]){
+                                                                                                        setState((){
+                                                                                                          eachProd = eachProd.split('^')[0] +'^' + eachProd.split('^')[1]+'^'+ (price2.toString()) +'^'+eachProd.split('^')[3]+ '^' + (quantity.toString()) + '^' + eachProd.split('^')[5] + '^' + prodList[j].split('^')[6] + '^' + prodList[j].split('^')[7] + '^' + prodList[j].split('^')[8]+ '^' + prodList[j].split('^')[9]+ '^' + prodList[j].split('^')[10];
+                                                                                                          prodList[j] = eachProd;
+                                                                                                        });
+                                                                                                        debugPrint('leepae' + prodList[j]);
+                                                                                                      } else debugPrint('leelar');
+                                                                                                    _controllerTablet.animateTo(0);
+                                                                                                    // if(mainQty - quantity <= 0) {smartKyatFlash('Out of Stock', 'w');}
 
-                                                                                                    }
-                                                                                                  },
-                                                                                                  child: Container(
-                                                                                                    width: (MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 45)/2,
-                                                                                                    height: 50,
-                                                                                                    decoration: BoxDecoration(
-                                                                                                        borderRadius:
-                                                                                                        BorderRadius.circular(10.0),
-                                                                                                        color: AppTheme.themeColor),
-                                                                                                    child: Row(
-                                                                                                      mainAxisAlignment:
-                                                                                                      MainAxisAlignment
-                                                                                                          .center,
-                                                                                                      children: [
-                                                                                                        Expanded(
-                                                                                                          child: Padding(
-                                                                                                            padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                                                                                            child: Container(
-                                                                                                                child: Text(
-                                                                                                                  textSetDone, textScaleFactor: 1,
-                                                                                                                  textAlign: TextAlign.center,
-                                                                                                                  style: TextStyle(
-                                                                                                                      fontSize: 17.5,
-                                                                                                                      fontWeight: FontWeight.w600,
-                                                                                                                      color: Colors.black
-                                                                                                                  ),
-                                                                                                                  strutStyle: StrutStyle(
-                                                                                                                    height: 1.3,
-                                                                                                                    // fontSize:,
-                                                                                                                    forceStrutHeight: true,
-                                                                                                                  ),
-                                                                                                                )
-                                                                                                            ),
+                                                                                                  }
+                                                                                                },
+                                                                                                child: Container(
+                                                                                                  width: (MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 45)/2,
+                                                                                                  height: 50,
+                                                                                                  decoration: BoxDecoration(
+                                                                                                      borderRadius:
+                                                                                                      BorderRadius.circular(10.0),
+                                                                                                      color: AppTheme.themeColor),
+                                                                                                  child: Row(
+                                                                                                    mainAxisAlignment:
+                                                                                                    MainAxisAlignment
+                                                                                                        .center,
+                                                                                                    children: [
+                                                                                                      Expanded(
+                                                                                                        child: Padding(
+                                                                                                          padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                                                                                          child: Container(
+                                                                                                              child: Text(
+                                                                                                                textSetDone, textScaleFactor: 1,
+                                                                                                                textAlign: TextAlign.center,
+                                                                                                                style: TextStyle(
+                                                                                                                    fontSize: 17.5,
+                                                                                                                    fontWeight: FontWeight.w600,
+                                                                                                                    color: Colors.black
+                                                                                                                ),
+                                                                                                                strutStyle: StrutStyle(
+                                                                                                                  height: 1.3,
+                                                                                                                  // fontSize:,
+                                                                                                                  forceStrutHeight: true,
+                                                                                                                ),
+                                                                                                              )
                                                                                                           ),
                                                                                                         ),
-                                                                                                      ],
-                                                                                                    ),
+                                                                                                      ),
+                                                                                                    ],
                                                                                                   ),
                                                                                                 ),
-                                                                                              ]
-                                                                                          )
-                                                                                      )
-                                                                                    ],
-                                                                                  ),
+                                                                                              ),
+                                                                                            ]
+                                                                                        )
+                                                                                    )
+                                                                                  ],
                                                                                 ),
                                                                               ),
                                                                             ),
@@ -6187,7 +6225,7 @@ class HomePageState extends State<HomePage>
                                                                                   SizedBox(
                                                                                     height: 5,
                                                                                   ),
-                                                                                  pdfText == '' ? Container(height: 20, width: 20, color: Colors.blue) :
+                                                                                  pdfText == '' ? Container() :
                                                                                   Expanded(
                                                                                       child: GestureDetector(
                                                                                           onTap: () {
@@ -6195,7 +6233,7 @@ class HomePageState extends State<HomePage>
                                                                                             PdfApi.openFile(pdfFile!);
                                                                                           },
                                                                                           child: Padding(
-                                                                                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                                                                            padding: const EdgeInsets.symmetric(horizontal: 45.0),
                                                                                             child: PdfViewer.openFile(pdfText),
                                                                                           )
                                                                                       )
@@ -7713,12 +7751,20 @@ class HomePageState extends State<HomePage>
                                                         children: [
                                                           GestureDetector(
                                                             onTap: () {
-                                                              setState(() {
+                                                              stateful(() {
+                                                                qty = double.parse(barcodeCtrl.text) - 1;
+                                                              });
+                                                              if(qty.isNegative) {
                                                                 stateful((){
-                                                                  qty = double.parse(barcodeCtrl.text) - 1;
+                                                                  qty = 0;
+                                                                  barcodeCtrl.text = '0';
+                                                                });
+
+                                                              } else {
+                                                                stateful((){
                                                                   barcodeCtrl.text = qty.round().toString();
-                                                                  debugPrint('qqq' + qty.toString());
-                                                                });});
+                                                                });
+                                                              }
                                                             },
                                                             child: Container(
                                                               width: (MediaQuery.of(context).size.width - 60)/3,
@@ -8545,35 +8591,35 @@ class HomePageState extends State<HomePage>
                 return GestureDetector(
                   onTap: (){
                     debugPrint('error prod' + prodListInd.toString());
-                    setState((){
-                      mystate((){
-                        quantity = double.parse(prodListInd.split('^')[4]);
-                        price2 = double.parse(prodListInd.split('^')[2]);
-                        eachProd = prodListInd;
-                        unit = prodListInd.split('^')[3];
-                        mainName =  'mainName?';
-                        sub1Name = 'sub1Name?';
-                        sub2Name = 'sub2Name?';
-                        salePrice = prodListInd.split('^')[2];
-                        // mainLoss = double.parse(prodListInCartModData[index].split('^')[5]);
-                        // sub1Loss = double.parse(prodListInCartModData[index].split('^')[6]);
-                        // sub2Loss = double.parse(prodListInCartModData[index].split('^')[7]);
-                        // barcode = output2?['bar_code'];
-                        // mainQty = output2?['inStock1'].round();
-                        // sub1Qty = output2?['inStock2'].round();
-                        // sub2Qty = output2?['inStock3'].round();
-                        // sell1 =output2?['unit_sell'];
-                        // sell2 =output2?['sub1_sell'];
-                        // sell3 =output2?['sub2_sell'];
 
-                        productId = prodList[index].split('^')[0];
-                        productLink = prodList[index].split('^')[7];
-                        productName = prodList[index].split('^')[6];
-                        myController.text = double.parse(prodListInd.split('^')[4]).round().toString();
-                        sellPriceController.text = prodListInd.split('^')[2];
-                        // sellDone = false;
-                        onChangeAmountTab = true;
-                      });});
+                    mystate((){
+                      quantity = double.parse(prodListInd.split('^')[4]);
+                      price2 = double.parse(prodListInd.split('^')[2]);
+                      eachProd = prodListInd;
+                      unit = prodListInd.split('^')[3];
+                      mainName =  'mainName?';
+                      sub1Name = 'sub1Name?';
+                      sub2Name = 'sub2Name?';
+                      salePrice = prodListInd.split('^')[2];
+                      // mainLoss = double.parse(prodListInCartModData[index].split('^')[5]);
+                      // sub1Loss = double.parse(prodListInCartModData[index].split('^')[6]);
+                      // sub2Loss = double.parse(prodListInCartModData[index].split('^')[7]);
+                      // barcode = output2?['bar_code'];
+                      // mainQty = output2?['inStock1'].round();
+                      // sub1Qty = output2?['inStock2'].round();
+                      // sub2Qty = output2?['inStock3'].round();
+                      // sell1 =output2?['unit_sell'];
+                      // sell2 =output2?['sub1_sell'];
+                      // sell3 =output2?['sub2_sell'];
+
+                      productId = prodList[index].split('^')[0];
+                      productLink = prodList[index].split('^')[7];
+                      productName = prodList[index].split('^')[6];
+                      myController.text = double.parse(prodListInd.split('^')[4]).round().toString();
+                      sellPriceController.text = prodListInd.split('^')[2];
+                      // sellDone = false;
+                      onChangeAmountTab = true;
+                    });
                     _controller.animateTo(2);
                     // Future.delayed(const Duration(milliseconds: 1000), () {
                     //   setState(() {
@@ -8743,23 +8789,22 @@ class HomePageState extends State<HomePage>
                 });       });
 
               myController.addListener((){
-                setState(() {
-                  mystate((){
-                    (myController.text != '' && sellPriceController.text != '') ? totalFixAmount =double.parse(myController.text) * double.parse(sellPriceController.text) : totalFixAmount = 0.0;
-                  });});
+                mystate((){
+                  (myController.text != '' && sellPriceController.text != '') ? totalFixAmount =double.parse(myController.text) * double.parse(sellPriceController.text) : totalFixAmount = 0.0;
+                });
               });
 
               sellPriceController.addListener((){
-                setState(() {
-                  mystate((){
-                    (myController.text != '' && sellPriceController.text != '') ? totalFixAmount =double.parse(myController.text) * double.parse(sellPriceController.text) : totalFixAmount = 0.0;
-                    if( sellPriceController.text != '') {
-                      titlePrice = double.parse(sellPriceController.text);
-                      price2 = double.parse(sellPriceController.text); } else {
-                      titlePrice = 0.0;
-                      price2 = 0;
-                    }
-                  });});
+
+                mystate((){
+                  (myController.text != '' && sellPriceController.text != '') ? totalFixAmount =double.parse(myController.text) * double.parse(sellPriceController.text) : totalFixAmount = 0.0;
+                  if( sellPriceController.text != '') {
+                    titlePrice = double.parse(sellPriceController.text);
+                    price2 = double.parse(sellPriceController.text); } else {
+                    titlePrice = 0.0;
+                    price2 = 0;
+                  }
+                });
               });
 
               Future<void> _onScanPressedHome() async {
@@ -10774,10 +10819,21 @@ class HomePageState extends State<HomePage>
                                                                           GestureDetector(
                                                                             onTap: () {
                                                                               mystate(() {
-                                                                                quantity = double.parse(myController.text) -1;
-                                                                                myController.text = quantity.round().toString();
-                                                                                debugPrint('qqq' + quantity.toString());
-                                                                              });
+                                                                                quantity = double.parse(myController.text) -1; });
+                                                                              if(quantity.isNegative) {
+                                                                                mystate((){
+                                                                                  quantity = 0;
+                                                                                  myController.text = '0';
+                                                                                });
+
+                                                                              } else {
+                                                                                mystate((){
+                                                                                  myController.text = quantity.round().toString();
+                                                                                });
+                                                                              }
+
+                                                                              debugPrint('qqq' + quantity.toString());
+
                                                                             },
                                                                             child: Container(
                                                                               width: (MediaQuery.of(context).size.width - 60)/3,

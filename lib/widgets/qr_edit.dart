@@ -266,38 +266,44 @@ class _QREditExampleState extends State<QREditExample> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    widget.prodName, textScaleFactor: 1,
-                                    textAlign: TextAlign.right,
-                                    style: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w500,
-                                        overflow: TextOverflow.ellipsis
-                                      // height: 1.5
-                                    ),
-                                    strutStyle: StrutStyle(
-                                      height: 1.4,
-                                      // fontSize:,
-                                      forceStrutHeight: true,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Text(
-                                widget.isEnglish? 'Edit product': 'ပစ္စည်း ပြင်ဆင်ခြင်း', textScaleFactor: 1,
-                                textAlign: TextAlign.right,
+                              SizedBox(height: 16),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 5.0),
+                                child: Text(
+                                  widget.isEnglish? 'Edit product': 'ပစ္စည်း ပြင်ဆင်ခြင်း', textScaleFactor: 1,
+                                  maxLines: 1,
+                                  textAlign: TextAlign.right,
                                   style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600,
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w500,
+                                      overflow: TextOverflow.ellipsis
+                                    // height: 1.5
                                   ),
                                   strutStyle: StrutStyle(
-                                    height: widget.isEnglish? 1.4: 1.6,
+                                    height: 1.4,
+                                    // fontSize:,
                                     forceStrutHeight: true,
-                                  )
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 20.0, right: 0.0),
+                                child: Text(
+                                  widget.prodName, textScaleFactor: 1,
+                                  maxLines: 1,
+                                  textAlign: TextAlign.right,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                    overflow: TextOverflow.ellipsis,
+                                    // height: 1.3
+                                  ),
+                                  strutStyle: StrutStyle(
+                                    height: 1.7,
+                                    // fontSize:,
+                                    forceStrutHeight: true,
+                                  ),
+                                ),
                               ),
                             ],
                           ),
