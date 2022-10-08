@@ -121,8 +121,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
             Align(
               alignment: Alignment.centerLeft,
               child: Padding(
-                padding: EdgeInsets.only(top: 81.0, bottom: widget.fromSearch? 141: 0),
-                child: PaginateFirestore(
+                padding: EdgeInsets.only(top: 81.0, bottom: MediaQuery.of(context).size.width > 900 && widget.fromSearch? 58 : MediaQuery.of(context).size.width <= 900 && widget.fromSearch? 141 : 0,),                child: PaginateFirestore(
                   itemsPerPage: 10,
                   onEmpty: Align(
                     alignment: Alignment.topCenter,
@@ -544,7 +543,13 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.w500,
                                                 color: Colors.grey,
-                                              )),
+                                              ),
+                                                strutStyle: StrutStyle(
+                                                  height: 1.3,
+                                                  // fontSize:,
+                                                  forceStrutHeight: true,
+                                                ),
+                                              ),
 
                                             ],
                                           ),
@@ -776,41 +781,41 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                     ),
                     Expanded(
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
+                          SizedBox(height: 15.5),
                           Text(
                             widget.custAddress,  textScaleFactor: 1,
                             textAlign: TextAlign.right,
                             style: TextStyle(
                               fontSize: 13,
-                              height: 1.5,
                               fontWeight: FontWeight.w500,
-                              //color: Colors.grey,
+                              height: 1.5,
                             ),
                             strutStyle: StrutStyle(
-                              height: 1.5,
+                              height: 1.4,
                               // fontSize:,
                               forceStrutHeight: true,
                             ),
                           ),
                           Text(
-                            widget.custName, textScaleFactor: 1,
+                            widget.custName,  textScaleFactor: 1,
                             textAlign: TextAlign.right,
                             style: TextStyle(
-                              fontSize: 18,
-                              height: 1.3,
-                              fontWeight: FontWeight.w600,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                                height: 1.3
                             ),
                             strutStyle: StrutStyle(
-                              height: 1.5,
+                              height: 1.7,
                               // fontSize:,
                               forceStrutHeight: true,
                             ),
                           ),
                         ],
                       ),
-                    ),
+                    )
                   ],
                 ),
               ),

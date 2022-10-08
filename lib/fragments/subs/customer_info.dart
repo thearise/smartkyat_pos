@@ -2160,7 +2160,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
   }
 
   loadingView() {
-    var customerName;
+    var customerName = widget.custName;
     if(widget.isEnglish) {
       if(widget.custName == 'No customer') {
         customerName = 'Walk-in customers';
