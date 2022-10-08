@@ -251,7 +251,7 @@ class MerchantCartState extends State<MerchantCart>
         );
         // Future.delayed(const Duration(milliseconds: 1000), () {
         //   setState(() {
-        //     mystate((){
+        //     myState((){
         //       saleLoadingState = false;
         //     });
         //
@@ -1286,18 +1286,18 @@ class MerchantCartState extends State<MerchantCart>
     titlePrice = double.parse(buyPriceController.text);
     totalFixAmount = double.parse(myController.text) * double.parse(buyPriceController.text);
     return StatefulBuilder(
-        builder: (BuildContext context, StateSetter mystate) {
+        builder: (BuildContext context, StateSetter myState) {
           final double scaleFactor = MediaQuery.of(context).textScaleFactor;
           myController.addListener((){
-            setState(() {
-              mystate((){
+
+              myState((){
                 (myController.text != '' && buyPriceController.text != '') ? totalFixAmount =double.parse(myController.text) * double.parse(buyPriceController.text) : totalFixAmount = 0.0;
-              });});
+              });
           });
 
           buyPriceController.addListener((){
             setState(() {
-              mystate((){
+              myState((){
                 (myController.text != '' && buyPriceController.text != '') ? totalFixAmount =double.parse(myController.text) * double.parse(buyPriceController.text) : totalFixAmount = 0.0;
                 if( buyPriceController.text != '') {
                   titlePrice = double.parse(buyPriceController.text);
@@ -1438,11 +1438,20 @@ class MerchantCartState extends State<MerchantCart>
                                             GestureDetector(
                                               onTap: () {
                                                 setState(() {
-                                                  mystate((){
-                                                    quantity2 = double.parse(myController.text) - 1;
-                                                    myController.text = quantity2.round().toString();
-                                                    debugPrint('qqq' + quantity2.toString());
-                                                  });});
+                                                  myState((){
+                                                    quantity2 = double.parse(myController.text) - 1;  });});
+                                                    if(quantity2.isNegative) {
+                                                      myState((){
+                                                        quantity2 = 0;
+                                                        myController.text = '0';
+                                                      });
+
+                                                    } else {
+                                                      myState((){
+                                                        myController.text = quantity2.round().toString();
+                                                      });
+                                                    }
+
                                               },
                                               child: Container(
                                                 width: (MediaQuery.of(context).size.width - 60)/3,
@@ -1516,7 +1525,7 @@ class MerchantCartState extends State<MerchantCart>
                                                   FilteringTextInputFormatter.allow(RegExp(_getNum())),],
                                                 onChanged: (value) {
                                                   setState(() {
-                                                    mystate(() {
+                                                    myState(() {
                                                       quantity2 = double.parse(value);
                                                     }); });
                                                 },
@@ -1527,7 +1536,7 @@ class MerchantCartState extends State<MerchantCart>
                                             GestureDetector(
                                               onTap: () {
                                                 setState(() {
-                                                  mystate((){
+                                                  myState((){
                                                     quantity2 = double.parse(myController.text) + 1;
                                                     myController.text = quantity2.round().toString();
                                                     debugPrint('qqq' + quantity2.toString());
@@ -1888,7 +1897,7 @@ class MerchantCartState extends State<MerchantCart>
                                     for (int j = 0; j < widget.prodList2.length; j++)
                                       if( widget.prodList2[j].split('^')[0] == eachProd.split('^')[0] && widget.prodList2[j].split('^')[4] == eachProd.split('^')[3]){
                                         setState((){
-                                          mystate((){
+                                          myState((){
                                             eachProd = eachProd.split('^')[0] +'^' + price2.toString() +'^'+(quantity2.toString())+'^'+ 'Phyo'+ '^'+ eachProd.split('^')[3]+'^'+ '1' +'^'+ eachProd.split('^')[5] + '^' + widget.prodList2[j].split('^')[7] +'^'+ widget.prodList2[j].split('^')[8] +'^'+ widget.prodList2[j].split('^')[9] +'^'+ widget.prodList2[j].split('^')[10]+'^'+ widget.prodList2[j].split('^')[11]+'^'+ widget.prodList2[j].split('^')[12] ;
                                             widget.prodList2[j] = eachProd;
                                           });  });
@@ -2133,12 +2142,12 @@ class MerchantCartState extends State<MerchantCart>
     totalAmount2 = double.parse(TtlProdListPrice2());
 
     return StatefulBuilder(
-        builder: (BuildContext context, StateSetter mystate) {
+        builder: (BuildContext context, StateSetter myState) {
           final double scaleFactor = MediaQuery.of(context).textScaleFactor;
           _textFieldController2.addListener((){
             debugPrint("value: ${_textFieldController2.text}");
             setState(() {
-              mystate(() {
+              myState(() {
                 totalAmount2 = double.parse(TtlProdListPrice2());
                 _textFieldController2.text != '' ? paidAmount2 = double.parse(_textFieldController2.text) : paidAmount2 = 0.0;
                 if((totalAmount2 - paidAmount2).isNegative){
@@ -2183,7 +2192,7 @@ class MerchantCartState extends State<MerchantCart>
                                         ),
                                         onPressed: () {
                                           setState((){
-                                            mystate(() {
+                                            myState(() {
                                               _textFieldController2.clear();
                                               paidAmount2 = 0;
                                               debt2 = 0;
@@ -2353,7 +2362,7 @@ class MerchantCartState extends State<MerchantCart>
                                       FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
                                     onChanged: (value) {
                                       setState(() {
-                                        mystate(()
+                                        myState(()
                                         {
                                           totalAmount2 = double.parse(TtlProdListPrice2());
                                           value != '' ? paidAmount2 = double.parse(value) : paidAmount2 = 0.0;
@@ -2385,7 +2394,7 @@ class MerchantCartState extends State<MerchantCart>
                                       ),
                                       onPressed: () async {
                                         setState(() {
-                                          mystate(() {
+                                          myState(() {
                                             totalAmount2 =
                                                 double
                                                     .parse(
@@ -2526,7 +2535,7 @@ class MerchantCartState extends State<MerchantCart>
                                       double debtAmounts = 0;
                                       debugPrint('order creating here2');
 
-                                      mystate(() {
+                                      myState(() {
                                         setState(() {
                                           disableTouch = true;
                                           merchCartCreating = true;
@@ -2792,7 +2801,7 @@ class MerchantCartState extends State<MerchantCart>
                                         try {
                                           batch.commit();
                                           Future.delayed(const Duration(milliseconds: 2000), () {
-                                            mystate(() {
+                                            myState(() {
                                               setState(() {
                                                 widget.endMerchCartLoadingState();
                                                 disableTouch = false;
@@ -2806,7 +2815,7 @@ class MerchantCartState extends State<MerchantCart>
                                           });
                                         } catch (error) {
                                           Future.delayed(const Duration(milliseconds: 2000), () {
-                                            mystate(() {
+                                            myState(() {
                                               setState(() {
                                                 widget.endMerchCartLoadingState();
                                                 disableTouch = false;
@@ -2824,7 +2833,7 @@ class MerchantCartState extends State<MerchantCart>
 
 
                                       // Future.delayed(const Duration(milliseconds: 3000), () {
-                                      //   mystate(() {
+                                      //   myState(() {
                                       //     setState(() {
                                       //       widget.endMerchCartLoadingState();
                                       //       disableTouch = false;

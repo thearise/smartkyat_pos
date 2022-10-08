@@ -1925,7 +1925,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
   }
 
   loadingView() {
-    var merchantName;
+    var merchantName = widget.mercName;
     if(widget.isEnglish) {
       if(widget.mercName == 'No merchant') {
         merchantName = 'Walk-in merchants';
