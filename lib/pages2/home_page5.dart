@@ -1,9 +1,9 @@
 import 'dart:async';
-import 'dart:convert' show base64, latin1, utf8;
+import 'dart:convert' show base64, json, jsonDecode, latin1, utf8;
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
-
+import 'package:http/http.dart' as http;
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:blue_print_pos/blue_print_pos.dart';
 import 'package:blue_print_pos/models/blue_device.dart';
@@ -710,7 +710,7 @@ class HomePageState extends State<HomePage>
             icon: Icon(
               Icons.add,
             ),
-            page: OverviewPage(key: homeGlobalKey, barcodeBtn: openBarcodeSearch, searchBtn: openSearchFromFrag, premiumCart: premiumCart,
+            page: OverviewPage(key: homeGlobalKey, barcodeBtn: openBarcodeSearch, searchBtn: openSearchFromFrag, premiumCart: premiumCart, howToCart: howToCart,
               toggleCoinCallback:addMerchant2Cart, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addProduct, toggleCoinCallback4: addProduct3, shopId: shopId, ordersSnapshot: orderSnapshot, buyOrdersSnapshot: buyOrderSnapshot, lossSnapshot: homeLossSnapshot, openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom, isEnglish: isEnglish,
             ),
           ),
@@ -1047,6 +1047,428 @@ class HomePageState extends State<HomePage>
   //   });
   //   debugPrint('disable2' + disableTouch.toString());
   // }
+
+  Future<Items> getDetail(String userUrl) async {
+    String embedUrl = "https://www.youtube.com/oembed?url=$userUrl&format=json";
+
+    //store http request response to res variable
+    var res = await http.get(Uri.parse(embedUrl));
+    print("get youtube detail status code: " + res.statusCode.toString());
+
+    try {
+      if (res.statusCode == 200) {
+        //return the json from the response
+        return Items.fromJson(jsonDecode(res.body));
+
+      } else {
+        //return null if status code other than 200
+        throw Exception('Failed to load data');
+      }
+    } on FormatException catch (e) {
+      debugPrint('invalid JSON'+ e.toString());
+      //return null if error
+      throw Exception('Failed to load data');
+    }
+  }
+
+  howToCart() {
+    final List<String> prodFieldsValue = [];
+    showModalBottomSheet(
+        isDismissible: !disableTouch,
+        enableDrag: !disableTouch,
+        isScrollControlled: true,
+        context: context,
+        backgroundColor: Colors.transparent,
+        builder: (BuildContext context) {
+          return StatefulBuilder(
+              builder: (BuildContext context, StateSetter purcState) {
+
+                return Scaffold(
+                  resizeToAvoidBottomInset: false,
+                  body: Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 60.0),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(18.0),
+                            topRight: Radius.circular(18.0),
+                          ),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(18.0),
+                                topRight: Radius.circular(18.0),
+                              ),
+                              color: Colors.white,
+                            ),
+                            height:
+                            MediaQuery.of(context).size.height -
+                                45,
+                            width: double.infinity,
+                            child: Stack(
+                              children: [
+                                Column(
+                                  children: [
+                                    Expanded(
+                                      child: ListView(
+                                        children: [
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(15.0),
+                                                topRight: Radius.circular(15.0),
+                                              ),
+                                              color: Colors.white,
+                                            ),
+                                            child: Column(
+                                                children: [
+                                                  Container(
+                                                    child: Column(
+                                                      children: [
+                                                        SizedBox(height: 55),
+                                                        Padding(
+                                                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                                          child: Center(
+                                                            child: Text(
+                                                              'Tips and tricks to use our Powerful POS',
+                                                              textAlign: TextAlign.center,
+                                                              textScaleFactor: 1, style: TextStyle(
+                                                                fontWeight: FontWeight.w700,
+                                                                fontSize: 26,
+                                                                letterSpacing: -0.4
+                                                            ),
+                                                              strutStyle: StrutStyle(
+                                                                height: 2.2,
+                                                                // fontSize:,
+                                                                forceStrutHeight: true,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        // Padding(
+                                                        //   padding: const EdgeInsets.only(left: 15, right: 15, top: 20.0),
+                                                        //   child: Text('All of our videos are organized to learn more clearly and also uploaded on our own YouTube channel.',
+                                                        //     textScaleFactor: 1, style: TextStyle( fontSize: 14),
+                                                        //     strutStyle: StrutStyle(
+                                                        //       height: 1.2,
+                                                        //       // fontSize:,
+                                                        //       forceStrutHeight: true,
+                                                        //     ),
+                                                        //   ),
+                                                        // ),
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(top: 25.0, left: 15.0, right: 15.0, bottom: 15.0),
+                                                          child: Align(
+                                                            alignment: Alignment.centerLeft,
+                                                            child: Container(
+                                                              child: Text('ORDER CREATION', textScaleFactor: 1,
+                                                                style: TextStyle(
+                                                                  height: 0.9,
+                                                                  letterSpacing: 2,
+                                                                  fontWeight: FontWeight.bold,
+                                                                  fontSize: 14,color: Colors.grey,
+                                                                ),),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height: 175,
+                                                          child: ListView(
+                                                            scrollDirection: Axis.horizontal,
+                                                            children: [
+                                                              Padding(
+                                                                padding: const EdgeInsets.only(left: 15.0),
+                                                                child: FutureBuilder(
+                                                                    future: getDetail('https://www.youtube.com/watch?v=ZL8BHwdRizc'),
+                                                                    builder: (context, AsyncSnapshot<Items?> snapshot){
+                                                                      if(snapshot.hasData)
+                                                                        return ClipRRect(
+                                                                          borderRadius:
+                                                                          BorderRadius
+                                                                              .circular(
+                                                                              10.0),
+                                                                          child: Container(
+
+                                                                            height: 175,
+                                                                            width: 200,
+                                                                              decoration: BoxDecoration(
+                                                                                // borderRadius: BorderRadius.all(
+                                                                                //   Radius.circular(10.0),
+                                                                                // ),
+                                                                                color: Colors.grey.withOpacity(0.2),
+                                                                              ),
+                                                                            child: Column(
+                                                                              children: [
+                                                                                CachedNetworkImage(
+                                                                                  imageUrl: snapshot.data!.thumbnail_url,
+                                                                                  height: 112.5,
+                                                                                  width: 200,
+                                                                                  // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                                  errorWidget: (context,
+                                                                                      url,
+                                                                                      error) =>
+                                                                                      Icon(Icons
+                                                                                          .error),
+                                                                                  fadeInDuration:
+                                                                                  Duration(
+                                                                                      milliseconds:
+                                                                                      100),
+                                                                                  fadeOutDuration:
+                                                                                  Duration(
+                                                                                      milliseconds:
+                                                                                      10),
+                                                                                  fadeInCurve:
+                                                                                  Curves
+                                                                                      .bounceIn,
+                                                                                  fit: BoxFit
+                                                                                      .cover,
+                                                                                ),
+                                                                                Padding(
+                                                                                  padding: const EdgeInsets.only(left:8.0, right: 8.0, top: 10),
+                                                                                  child: Text(snapshot.data!.title,
+                                                                                    maxLines: 2,
+                                                                                    textScaleFactor: 1, style:
+                                                                                    TextStyle(
+                                                                                      fontSize: 13,
+                                                                                      overflow: TextOverflow.ellipsis,
+                                                                                      height: 1.3
+                                                                                    ),
+                                                                                    strutStyle: StrutStyle(
+                                                                                      height: 1.3,
+                                                                                      // fontSize:,
+                                                                                      forceStrutHeight: true,
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ],
+                                                                            )
+                                                                          ),
+                                                                        );
+
+                                                                      return Container(child: CircularProgressIndicator());
+                                                                    }
+                                                                ),
+                                                              ),
+                                                              Padding(
+                                                                padding: const EdgeInsets.only(left: 15.0),
+                                                                child: FutureBuilder(
+                                                                    future: getDetail('https://www.youtube.com/watch?v=ZL8BHwdRizc'),
+                                                                    builder: (context, AsyncSnapshot<Items?> snapshot){
+                                                                      if(snapshot.hasData)
+                                                                        return ClipRRect(
+                                                                          borderRadius:
+                                                                          BorderRadius
+                                                                              .circular(
+                                                                              10.0),
+                                                                          child: Container(
+
+                                                                              height: 175,
+                                                                              width: 200,
+                                                                              decoration: BoxDecoration(
+                                                                                // borderRadius: BorderRadius.all(
+                                                                                //   Radius.circular(10.0),
+                                                                                // ),
+                                                                                color: Colors.grey.withOpacity(0.2),
+                                                                              ),
+                                                                              child: Column(
+                                                                                children: [
+                                                                                  CachedNetworkImage(
+                                                                                    imageUrl: snapshot.data!.thumbnail_url,
+                                                                                    height: 112.5,
+                                                                                    width: 200,
+                                                                                    // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                                    errorWidget: (context,
+                                                                                        url,
+                                                                                        error) =>
+                                                                                        Icon(Icons
+                                                                                            .error),
+                                                                                    fadeInDuration:
+                                                                                    Duration(
+                                                                                        milliseconds:
+                                                                                        100),
+                                                                                    fadeOutDuration:
+                                                                                    Duration(
+                                                                                        milliseconds:
+                                                                                        10),
+                                                                                    fadeInCurve:
+                                                                                    Curves
+                                                                                        .bounceIn,
+                                                                                    fit: BoxFit
+                                                                                        .cover,
+                                                                                  ),
+                                                                                  Padding(
+                                                                                    padding: const EdgeInsets.only(left:8.0, right: 8.0, top: 10),
+                                                                                    child: Text(snapshot.data!.title,
+                                                                                      maxLines: 2,
+                                                                                      textScaleFactor: 1, style:
+                                                                                      TextStyle(
+                                                                                          fontSize: 13,
+                                                                                          overflow: TextOverflow.ellipsis,
+                                                                                          height: 1.3
+                                                                                      ),
+                                                                                      strutStyle: StrutStyle(
+                                                                                        height: 1.3,
+                                                                                        // fontSize:,
+                                                                                        forceStrutHeight: true,
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ],
+                                                                              )
+                                                                          ),
+                                                                        );
+
+                                                                      return Container(child: CircularProgressIndicator());
+                                                                    }
+                                                                ),
+                                                              ),
+                                                              Padding(
+                                                                padding: const EdgeInsets.only(left: 15.0, right: 15),
+                                                                child: FutureBuilder(
+                                                                    future: getDetail('https://www.youtube.com/watch?v=ZL8BHwdRizc'),
+                                                                    builder: (context, AsyncSnapshot<Items?> snapshot){
+                                                                      if(snapshot.hasData)
+                                                                        return ClipRRect(
+                                                                          borderRadius:
+                                                                          BorderRadius
+                                                                              .circular(
+                                                                              10.0),
+                                                                          child: Container(
+
+                                                                              height: 175,
+                                                                              width: 200,
+                                                                              decoration: BoxDecoration(
+                                                                                // borderRadius: BorderRadius.all(
+                                                                                //   Radius.circular(10.0),
+                                                                                // ),
+                                                                                color: Colors.grey.withOpacity(0.2),
+                                                                              ),
+                                                                              child: Column(
+                                                                                children: [
+                                                                                  CachedNetworkImage(
+                                                                                    imageUrl: snapshot.data!.thumbnail_url,
+                                                                                    height: 112.5,
+                                                                                    width: 200,
+                                                                                    // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                                    errorWidget: (context,
+                                                                                        url,
+                                                                                        error) =>
+                                                                                        Icon(Icons
+                                                                                            .error),
+                                                                                    fadeInDuration:
+                                                                                    Duration(
+                                                                                        milliseconds:
+                                                                                        100),
+                                                                                    fadeOutDuration:
+                                                                                    Duration(
+                                                                                        milliseconds:
+                                                                                        10),
+                                                                                    fadeInCurve:
+                                                                                    Curves
+                                                                                        .bounceIn,
+                                                                                    fit: BoxFit
+                                                                                        .cover,
+                                                                                  ),
+                                                                                  Padding(
+                                                                                    padding: const EdgeInsets.only(left:8.0, right: 8.0, top: 10),
+                                                                                    child: Text(snapshot.data!.title,
+                                                                                      maxLines: 2,
+                                                                                      textScaleFactor: 1, style:
+                                                                                      TextStyle(
+                                                                                          fontSize: 13,
+                                                                                          overflow: TextOverflow.ellipsis,
+                                                                                          height: 1.3
+                                                                                      ),
+                                                                                      strutStyle: StrutStyle(
+                                                                                        height: 1.3,
+                                                                                        // fontSize:,
+                                                                                        forceStrutHeight: true,
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ],
+                                                                              )
+                                                                          ),
+                                                                        );
+
+                                                                      return Container(child: CircularProgressIndicator());
+                                                                    }
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ]
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Align(
+                                  alignment: Alignment.topRight,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Container(
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(top: 15.0, right: 15.0, bottom: 15.0, left: 15.0),
+                                        child: Container(
+                                          width: 30,
+                                          height: 30,
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(25.0),
+                                              ),
+                                              color: AppTheme.buttonColor2),
+                                          child: Icon(
+                                            // Icons.home_filled,
+                                            Icons.close_rounded,
+                                            size: 20,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: 42,
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Container(
+                              width: 50,
+                              height: 5,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(25.0),
+                                  ),
+                                  color: Colors.white.withOpacity(0.5)),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              }
+          );
+          // return SingleAssetPage(toggleCoinCallback: closeNewProduct);
+        });
+  }
 
   premiumCart() {
     final List<String> prodFieldsValue = [];
@@ -14321,6 +14743,29 @@ class HomePageState extends State<HomePage>
   calHourFromTZ(DateTime dateTime) {
 
     return dateTime.timeZoneOffset.inMinutes;
+  }
+
+//   Future<Items> youTubeThumb(String str) async {
+//     String videoUrl = str;
+//     var jsonData = await getDetail(videoUrl);
+// //you can take anything provided in the JSON, just change the key according to
+// //what is available in the response
+//     String title = jsonData['title'];
+//     return title;
+//   }
+}
+
+class Items {
+  final String title;
+  final String thumbnail_url;
+
+  Items({required this.title, required this.thumbnail_url});
+
+  factory Items.fromJson(Map<String, dynamic> json){
+    return Items(
+        title: json['title'],
+        thumbnail_url: json['thumbnail_url'],
+    );
   }
 }
 
