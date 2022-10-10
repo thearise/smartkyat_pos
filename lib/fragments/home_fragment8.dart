@@ -37,6 +37,7 @@ class OverviewPage extends StatefulWidget {
   final _openDrawerBtn;
   final _closeDrawerBtn;
   final _premiumCart;
+  final _howToCart;
 
   OverviewPage({
     required void closeDrawerBtn(String str),
@@ -53,6 +54,7 @@ class OverviewPage extends StatefulWidget {
     required void barcodeBtn(),
     required void searchBtn(),
     required void premiumCart(),
+    required void howToCart(),
     Key? key,
   }) :  _callback = toggleCoinCallback,
         _callback2 = toggleCoinCallback2 ,
@@ -61,6 +63,7 @@ class OverviewPage extends StatefulWidget {
         _barcodeBtn = barcodeBtn,
         _searchBtn = searchBtn,
         _premiumCart = premiumCart,
+        _howToCart = howToCart,
         _openDrawerBtn = openDrawerBtn,
         _closeDrawerBtn = closeDrawerBtn,
         super(key: key);
@@ -831,18 +834,18 @@ class OverviewPageState extends State<OverviewPage>
                             padding: const EdgeInsets.only(top: 0.0, left:15.0),
                             child: GestureDetector(
                               onTap: () {
-                                widget._premiumCart();
+                                widget._howToCart();
                               },
                               child: Container(
                                 height: 30,
-                                width: 100,
+                                width: 80,
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.all(
                                       Radius.circular(8.0),
                                     ),
                                     color: Colors.Colors.grey.withOpacity(0.3)),
-                                child: Text('notfree' == 'free'? 'Free version': 'Pro version', style: TextStyle(
+                                child: Text(widget.isEnglish? 'How to ?': 'လမ်းညွှန်' + ' ?', style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 13
                                 ),textScaleFactor: 1, ),

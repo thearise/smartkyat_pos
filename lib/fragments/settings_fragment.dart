@@ -333,14 +333,18 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
                         },
                         child: Container(
                           height: 30,
-                          width: 100,
+                          width: 110,
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(8.0),
                               ),
                               color: Colors.grey.withOpacity(0.3)),
-                          child: Text(isPro == 'free'? 'Free version': 'Pro version', style: TextStyle(
+                          // child: Text(isPro == 'free'? 'Free version': 'Buy/see plans', style: TextStyle(
+                          //     fontWeight: FontWeight.w500,
+                          //     fontSize: 13
+                          // ),textScaleFactor: 1, ),
+                          child: Text(widget.isEnglish? 'Buy/see plans': 'Plan ဝယ်ယူရန်', style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 13
                           ),textScaleFactor: 1, ),
