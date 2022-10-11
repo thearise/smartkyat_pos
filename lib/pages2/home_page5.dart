@@ -3,6 +3,7 @@ import 'dart:convert' show base64, json, jsonDecode, latin1, utf8;
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
+import 'package:fade_shimmer/fade_shimmer.dart';
 import 'package:http/http.dart' as http;
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:blue_print_pos/blue_print_pos.dart';
@@ -433,7 +434,7 @@ class HomePageState extends State<HomePage>
           VPaid = 'ပေးငွေ';
           VDebt = 'ကျန်ငွေ';
           subVTotal = 'ကျသင့်ငွေပေါင်း';
-          VDiscount = 'လျှော့ငွေ';
+          VDiscount = 'ဝယ်စာရင်း လျှော့ငွေ';
           textSetClear = 'ပယ်ဖျက်ရန်';
           textSetTotalSale = 'စုစုပေါင်း';
           textSetCheckOut = 'ရောင်းရန်';
@@ -1246,7 +1247,61 @@ class HomePageState extends State<HomePage>
                                                                           ),
                                                                         );
 
-                                                                      return Container(child: CircularProgressIndicator());
+                                                                      return Container(child: ClipRRect(
+                                                                        borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(
+                                                                            10.0),
+                                                                        child: Container(
+
+                                                                            height: 175,
+                                                                            width: 200,
+                                                                            decoration: BoxDecoration(
+                                                                              // borderRadius: BorderRadius.all(
+                                                                              //   Radius.circular(10.0),
+                                                                              // ),
+                                                                              color: Colors.grey.withOpacity(0.2),
+                                                                            ),
+                                                                            child: Column(
+                                                                              children: [
+                                                                                Container(
+                                                                                  height: 112.5,
+                                                                                  width: 200,
+                                                                                  // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                                  child: FadeShimmer(
+                                                                                    height: 112.5,
+                                                                                    width: 200,
+                                                                                    radius: 0,
+                                                                                    highlightColor: Colors.grey.withOpacity(0.1),
+                                                                                    baseColor: Colors.grey.withOpacity(0.5),
+                                                                                  )
+                                                                                ),
+                                                                                Padding(
+                                                                                  padding: const EdgeInsets.only(left:15.0, right: 15.0, top: 13),
+                                                                                  child: Column(
+                                                                                    children: [
+                                                                                      FadeShimmer(
+                                                                                        height: 12,
+                                                                                        width: 184,
+                                                                                        radius: 2,
+                                                                                        highlightColor: Colors.grey.withOpacity(0.1),
+                                                                                        baseColor: Colors.grey.withOpacity(0.5),
+                                                                                      ),
+                                                                                      SizedBox(height: 8),
+                                                                                      FadeShimmer(
+                                                                                        height: 12,
+                                                                                        width: 184,
+                                                                                        radius: 2,
+                                                                                        highlightColor: Colors.grey.withOpacity(0.1),
+                                                                                        baseColor: Colors.grey.withOpacity(0.5),
+                                                                                      )
+                                                                                    ],
+                                                                                  ),
+                                                                                ),
+                                                                              ],
+                                                                            )
+                                                                        ),
+                                                                      ));
                                                                     }
                                                                 ),
                                                               ),
@@ -1319,7 +1374,61 @@ class HomePageState extends State<HomePage>
                                                                           ),
                                                                         );
 
-                                                                      return Container(child: CircularProgressIndicator());
+                                                                      return Container(child: ClipRRect(
+                                                                        borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(
+                                                                            10.0),
+                                                                        child: Container(
+
+                                                                            height: 175,
+                                                                            width: 200,
+                                                                            decoration: BoxDecoration(
+                                                                              // borderRadius: BorderRadius.all(
+                                                                              //   Radius.circular(10.0),
+                                                                              // ),
+                                                                              color: Colors.grey.withOpacity(0.2),
+                                                                            ),
+                                                                            child: Column(
+                                                                              children: [
+                                                                                Container(
+                                                                                    height: 112.5,
+                                                                                    width: 200,
+                                                                                    // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                                    child: FadeShimmer(
+                                                                                      height: 112.5,
+                                                                                      width: 200,
+                                                                                      radius: 0,
+                                                                                      highlightColor: Colors.grey.withOpacity(0.1),
+                                                                                      baseColor: Colors.grey.withOpacity(0.5),
+                                                                                    )
+                                                                                ),
+                                                                                Padding(
+                                                                                  padding: const EdgeInsets.only(left:15.0, right: 15.0, top: 13),
+                                                                                  child: Column(
+                                                                                    children: [
+                                                                                      FadeShimmer(
+                                                                                        height: 12,
+                                                                                        width: 184,
+                                                                                        radius: 2,
+                                                                                        highlightColor: Colors.grey.withOpacity(0.1),
+                                                                                        baseColor: Colors.grey.withOpacity(0.5),
+                                                                                      ),
+                                                                                      SizedBox(height: 8),
+                                                                                      FadeShimmer(
+                                                                                        height: 12,
+                                                                                        width: 184,
+                                                                                        radius: 2,
+                                                                                        highlightColor: Colors.grey.withOpacity(0.1),
+                                                                                        baseColor: Colors.grey.withOpacity(0.5),
+                                                                                      )
+                                                                                    ],
+                                                                                  ),
+                                                                                ),
+                                                                              ],
+                                                                            )
+                                                                        ),
+                                                                      ));
                                                                     }
                                                                 ),
                                                               ),
@@ -1392,7 +1501,61 @@ class HomePageState extends State<HomePage>
                                                                           ),
                                                                         );
 
-                                                                      return Container(child: CircularProgressIndicator());
+                                                                      return Container(child: ClipRRect(
+                                                                        borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(
+                                                                            10.0),
+                                                                        child: Container(
+
+                                                                            height: 175,
+                                                                            width: 200,
+                                                                            decoration: BoxDecoration(
+                                                                              // borderRadius: BorderRadius.all(
+                                                                              //   Radius.circular(10.0),
+                                                                              // ),
+                                                                              color: Colors.grey.withOpacity(0.2),
+                                                                            ),
+                                                                            child: Column(
+                                                                              children: [
+                                                                                Container(
+                                                                                    height: 112.5,
+                                                                                    width: 200,
+                                                                                    // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                                    child: FadeShimmer(
+                                                                                      height: 112.5,
+                                                                                      width: 200,
+                                                                                      radius: 0,
+                                                                                      highlightColor: Colors.grey.withOpacity(0.1),
+                                                                                      baseColor: Colors.grey.withOpacity(0.5),
+                                                                                    )
+                                                                                ),
+                                                                                Padding(
+                                                                                  padding: const EdgeInsets.only(left:15.0, right: 15.0, top: 13),
+                                                                                  child: Column(
+                                                                                    children: [
+                                                                                      FadeShimmer(
+                                                                                        height: 12,
+                                                                                        width: 184,
+                                                                                        radius: 2,
+                                                                                        highlightColor: Colors.grey.withOpacity(0.1),
+                                                                                        baseColor: Colors.grey.withOpacity(0.5),
+                                                                                      ),
+                                                                                      SizedBox(height: 8),
+                                                                                      FadeShimmer(
+                                                                                        height: 12,
+                                                                                        width: 184,
+                                                                                        radius: 2,
+                                                                                        highlightColor: Colors.grey.withOpacity(0.1),
+                                                                                        baseColor: Colors.grey.withOpacity(0.5),
+                                                                                      )
+                                                                                    ],
+                                                                                  ),
+                                                                                ),
+                                                                              ],
+                                                                            )
+                                                                        ),
+                                                                      ));
                                                                     }
                                                                 ),
                                                               ),
@@ -4255,6 +4418,7 @@ class HomePageState extends State<HomePage>
                                                                                     onTap: () {
                                                                                       setState((){
                                                                                         // mystate(() {
+                                                                                        ayinTtlPrice = 0;
                                                                                         prodList = [];
                                                                                         discount = 0.0;
                                                                                         discountAmount = 0.0;
@@ -8928,8 +9092,10 @@ class HomePageState extends State<HomePage>
           child: SlidableDrawerDismissal(),
           onDismissed: (actionType) {
             setState((){
-
               prodList.removeAt(index);
+              if(prodList.length==0) {
+                ayinTtlPrice = 0;
+              }
               if(discount > double.parse(TtlProdListPriceReal())) {
                 discount = 0;
               }
@@ -8945,8 +9111,10 @@ class HomePageState extends State<HomePage>
             icon: Icons.delete,
             onTap: () {
               setState((){
-
                 prodList.removeAt(index);
+                if(prodList.length==0) {
+                  ayinTtlPrice = 0;
+                }
                 if(discount > double.parse(TtlProdListPriceReal())) {
                   discount = 0;
                 }
@@ -9165,6 +9333,9 @@ class HomePageState extends State<HomePage>
                         setState((){
                           mystate(() {
                             prodList.removeAt(index);
+                            if(prodList.length==0) {
+                              ayinTtlPrice = 0;
+                            }
                             if(discount > double.parse(TtlProdListPriceReal())) {
                               discount = 0;
                             }
@@ -9182,6 +9353,9 @@ class HomePageState extends State<HomePage>
                           setState((){
                             mystate(() {
                               prodList.removeAt(index);
+                              if(prodList.length==0) {
+                                ayinTtlPrice = 0;
+                              }
                               if(discount > double.parse(TtlProdListPriceReal())) {
                                 discount = 0;
                               }
@@ -9598,6 +9772,7 @@ class HomePageState extends State<HomePage>
                                                         onTap: () {
                                                           setState((){
                                                             mystate(() {
+                                                              ayinTtlPrice = 0;
                                                               prodList = [];
                                                               discount = 0.0;
                                                               discountAmount = 0.0;
@@ -12936,6 +13111,9 @@ class HomePageState extends State<HomePage>
 
   double ayinTtlPrice = 0;
   animatedTtlPrice() {
+    if(prodList.length==0) {
+      ayinTtlPrice = 0;
+    }
     double temp = ayinTtlPrice;
     double total =  double.parse(TtlProdListPrice());
     ayinTtlPrice = total;

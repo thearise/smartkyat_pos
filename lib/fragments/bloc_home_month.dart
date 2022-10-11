@@ -3,6 +3,7 @@ library paginate_firestore;
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:countup/countup.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
@@ -291,12 +292,12 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
         textSetLastWeek = 'အပတ်စဉ်';
         textSetLastMonth = 'လစဉ်';
         textSetLastYear = 'နှစ်စဉ်';
-        textSetInOut = 'SALES IN-OUT SUMMARY';
-        textSetNetSales = 'ရောင်းရငွေ';
+        textSetInOut = 'အရောင်းအဝယ် စာရင်းများ';
+        textSetNetSales = 'အသားတင် ရောင်းရငွေ';
         textSetAvgProf = 'ပျမ်းမျှအမြတ်ငွေ';
         textSetEarn = 'အကြွေးရငွေ';
-        textSetCharts = 'SALES SUMMARY CHARTS';
-        textSetTotal = 'စုစုပေါင်း ရောင်းရငွေ';
+        textSetCharts = 'အရောင်းစာရင်းပြ ဇယား';
+        textSetTotal = 'စုစုပေါင်း အသားတင် ရောင်းရငွေ';
       });
     }
 
@@ -430,17 +431,17 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 4.0),
+                                padding: const EdgeInsets.only(top: 5.0, left: 15.0, right: 15.0, bottom: 4.0),
                                 child: Row(
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        'SALES IN-OUT SUMMARY',textScaleFactor: 1,
+                                        textSetInOut,textScaleFactor: 1,
                                         style: TextStyle(
                                           height: 0.9,
                                           letterSpacing: 2,
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 14,color: Colors.black,
+                                          fontSize: 14,color: Colors.grey,
                                         ),
                                       ),
                                     ),
@@ -456,17 +457,16 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                     children: [
                                       Row(
                                         children: [
-                                          Text(
-                                            totalBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                            textScaleFactor: 1, textAlign: TextAlign.left,
-                                            style: GoogleFonts.lato(
-                                                textStyle: TextStyle(
-                                                    letterSpacing: 1,
-                                                    fontSize: 26,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.black
-                                                )
-                                            ),
+                                          animatedPrice(
+                                              double.parse(totalBySlide()),
+                                              GoogleFonts.lato(
+                                                  textStyle: TextStyle(
+                                                      letterSpacing: 1,
+                                                      fontSize: 26,
+                                                      fontWeight: FontWeight.w600,
+                                                      color: Colors.black
+                                                  )
+                                              )
                                           ),
                                           Padding(
                                               padding: const EdgeInsets.only(left: 5.0, top: 13.0),
@@ -576,18 +576,29 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                     children: [
                                       Row(
                                         children: [
-                                          Text(
-                                            totalStockCostsBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                            textScaleFactor: 1, textAlign: TextAlign.left,
-                                            style: GoogleFonts.lato(
-                                                textStyle: TextStyle(
-                                                    letterSpacing: 1,
-                                                    fontSize: 26,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.black
-                                                )
-                                            ),
+                                          animatedPrice(
+                                              double.parse(totalStockCostsBySlide()),
+                                              GoogleFonts.lato(
+                                                  textStyle: TextStyle(
+                                                      letterSpacing: 1,
+                                                      fontSize: 26,
+                                                      fontWeight: FontWeight.w600,
+                                                      color: Colors.black
+                                                  )
+                                              )
                                           ),
+                                          // Text(
+                                          //   totalStockCostsBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                          //   textScaleFactor: 1, textAlign: TextAlign.left,
+                                          //   style: GoogleFonts.lato(
+                                          //       textStyle: TextStyle(
+                                          //           letterSpacing: 1,
+                                          //           fontSize: 26,
+                                          //           fontWeight: FontWeight.w600,
+                                          //           color: Colors.black
+                                          //       )
+                                          //   ),
+                                          // ),
                                           Padding(
                                               padding: const EdgeInsets.only(left: 5.0, top: 13.0),
                                               child: Text(
@@ -696,18 +707,29 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                     children: [
                                       Row(
                                         children: [
-                                          Text(
-                                            profitByMonth().toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                            textScaleFactor: 1, textAlign: TextAlign.left,
-                                            style: GoogleFonts.lato(
-                                                textStyle: TextStyle(
-                                                    letterSpacing: 1,
-                                                    fontSize: 26,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.black
-                                                )
-                                            ),
+                                          animatedPrice(
+                                              profitByMonth(),
+                                              GoogleFonts.lato(
+                                                  textStyle: TextStyle(
+                                                      letterSpacing: 1,
+                                                      fontSize: 26,
+                                                      fontWeight: FontWeight.w600,
+                                                      color: Colors.black
+                                                  )
+                                              )
                                           ),
+                                          // Text(
+                                          //   profitByMonth().toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                          //   textScaleFactor: 1, textAlign: TextAlign.left,
+                                          //   style: GoogleFonts.lato(
+                                          //       textStyle: TextStyle(
+                                          //           letterSpacing: 1,
+                                          //           fontSize: 26,
+                                          //           fontWeight: FontWeight.w600,
+                                          //           color: Colors.black
+                                          //       )
+                                          //   ),
+                                          // ),
                                           Padding(
                                               padding: const EdgeInsets.only(left: 5.0, top: 13.0),
                                               child: Text(
@@ -824,12 +846,12 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        'SALES SUMMARY CHARTS',textScaleFactor: 1,
+                                        textSetCharts,textScaleFactor: 1,
                                         style: TextStyle(
                                           height: 0.9,
                                           letterSpacing: 2,
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 14,color: Colors.black,
+                                          fontSize: 14,color: Colors.grey,
                                         ),
                                       ),
                                     ),
@@ -846,7 +868,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                     //     style: TextStyle(
                                     //       letterSpacing: 2,
                                     //       fontWeight: FontWeight.bold,
-                                    //       fontSize: 14,color: Colors.black,
+                                    //       fontSize: 14,color: Colors.grey,
                                     //     ),
                                     //   ),
                                     // ),
@@ -917,18 +939,29 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                     children: [
                                       Row(
                                         children: [
-                                          Text(
-                                            totalStockCostsRBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                            textScaleFactor: 1, textAlign: TextAlign.left,
-                                            style: GoogleFonts.lato(
-                                                textStyle: TextStyle(
-                                                    letterSpacing: 1,
-                                                    fontSize: 26,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.black
-                                                )
-                                            ),
+                                          animatedPrice(
+                                              double.parse(totalStockCostsRBySlide()),
+                                              GoogleFonts.lato(
+                                                  textStyle: TextStyle(
+                                                      letterSpacing: 1,
+                                                      fontSize: 26,
+                                                      fontWeight: FontWeight.w600,
+                                                      color: Colors.black
+                                                  )
+                                              )
                                           ),
+                                          // Text(
+                                          //   totalStockCostsRBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                          //   textScaleFactor: 1, textAlign: TextAlign.left,
+                                          //   style: GoogleFonts.lato(
+                                          //       textStyle: TextStyle(
+                                          //           letterSpacing: 1,
+                                          //           fontSize: 26,
+                                          //           fontWeight: FontWeight.w600,
+                                          //           color: Colors.black
+                                          //       )
+                                          //   ),
+                                          // ),
                                           Padding(
                                               padding: const EdgeInsets.only(left: 5.0, top: 13.0),
                                               child: Text(
@@ -1037,18 +1070,29 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                     children: [
                                       Row(
                                         children: [
-                                          Text(
-                                            totalRefundBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                            textScaleFactor: 1, textAlign: TextAlign.left,
-                                            style: GoogleFonts.lato(
-                                                textStyle: TextStyle(
-                                                    letterSpacing: 1,
-                                                    fontSize: 26,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.black
-                                                )
-                                            ),
+                                          animatedPrice(
+                                              double.parse(totalRefundBySlide()),
+                                              GoogleFonts.lato(
+                                                  textStyle: TextStyle(
+                                                      letterSpacing: 1,
+                                                      fontSize: 26,
+                                                      fontWeight: FontWeight.w600,
+                                                      color: Colors.black
+                                                  )
+                                              )
                                           ),
+                                          // Text(
+                                          //   totalRefundBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                          //   textScaleFactor: 1, textAlign: TextAlign.left,
+                                          //   style: GoogleFonts.lato(
+                                          //       textStyle: TextStyle(
+                                          //           letterSpacing: 1,
+                                          //           fontSize: 26,
+                                          //           fontWeight: FontWeight.w600,
+                                          //           color: Colors.black
+                                          //       )
+                                          //   ),
+                                          // ),
                                           Padding(
                                               padding: const EdgeInsets.only(left: 5.0, top: 13.0),
                                               child: Text(
@@ -1157,18 +1201,29 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                     children: [
                                       Row(
                                         children: [
-                                          Text(
-                                            monthLossTotal.toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                            textScaleFactor: 1, textAlign: TextAlign.left,
-                                            style: GoogleFonts.lato(
-                                                textStyle: TextStyle(
-                                                    letterSpacing: 1,
-                                                    fontSize: 26,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.black
-                                                )
-                                            ),
+                                          animatedPrice(
+                                              monthLossTotal,
+                                              GoogleFonts.lato(
+                                                  textStyle: TextStyle(
+                                                      letterSpacing: 1,
+                                                      fontSize: 26,
+                                                      fontWeight: FontWeight.w600,
+                                                      color: Colors.black
+                                                  )
+                                              )
                                           ),
+                                          // Text(
+                                          //   monthLossTotal.toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                          //   textScaleFactor: 1, textAlign: TextAlign.left,
+                                          //   style: GoogleFonts.lato(
+                                          //       textStyle: TextStyle(
+                                          //           letterSpacing: 1,
+                                          //           fontSize: 26,
+                                          //           fontWeight: FontWeight.w600,
+                                          //           color: Colors.black
+                                          //       )
+                                          //   ),
+                                          // ),
                                           Padding(
                                               padding: const EdgeInsets.only(left: 5.0, top: 13.0),
                                               child: Text(
@@ -1413,7 +1468,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                               height: 0.9,
                               letterSpacing: 2,
                               fontWeight: FontWeight.bold,
-                              fontSize: 14,color: Colors.black,
+                              fontSize: 14,color: Colors.grey,
                             ),
                           ),
                           Padding(
@@ -3260,13 +3315,15 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
 
   profitByMonth() {
     double profit = 0.0;
-    profit = monthSale - (monthCapital + monthLossTotal);
+    // profit = monthSale - (monthCapital + monthLossTotal);
+    profit = monthSale - (monthCapital);
     return profit;
   }
 
   profitByLastMonth() {
     double profit = 0.0;
-    profit = lastMonthSale - (lastMonthCapital + lastMonthLoss);
+    // profit = lastMonthSale - (lastMonthCapital + lastMonthLoss);
+    profit = lastMonthSale - (lastMonthCapital);
     return profit;
   }
 
@@ -3385,6 +3442,20 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
         }
       }
     }
+  }
+
+  animatedPrice(double price, style) {
+    double temp = 0;
+    double total =  price;
+    return Countup(
+      precision: 2,
+      begin: temp,
+      end: total,
+      curve: Curves.easeInOut,
+      duration: Duration(milliseconds: 500),
+      separator: ',',
+      style: style, textScaleFactor: 1,
+    );
   }
 }
 

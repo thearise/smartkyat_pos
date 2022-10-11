@@ -118,6 +118,7 @@ dependencies:
   timezone: ^0.8.0
   countup: ^0.1.4
   purchases_flutter: ^4.0.0
+  fade_shimmer: ^2.0.1
 
 
 

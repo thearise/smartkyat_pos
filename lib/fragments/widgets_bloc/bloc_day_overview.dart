@@ -3,6 +3,7 @@ library paginate_firestore;
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:countup/countup.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flash/flash.dart';
 import 'package:flutter/cupertino.dart';
@@ -256,7 +257,11 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
 
   @override
   void initState() {
-
+    myTabs = <int, Widget>{
+      0: Text(widget.isEnglish? 'Today':'ယနေ့', textScaleFactor: 1, style: TextStyle(height: widget.isEnglish? 1:2),),
+      1: Text(widget.isEnglish? 'Month':'ယခုလ', textScaleFactor: 1, style: TextStyle(height: widget.isEnglish? 1:2),),
+      2: Text(widget.isEnglish? 'Year':'ယခုနှစ်', textScaleFactor: 1, style: TextStyle(height: widget.isEnglish? 1:2),)
+    };
 
     if(widget.isEnglish == true) {
 
@@ -284,7 +289,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
       setState(() {
         textSetSaleSummary = 'အရောင်းအကျဉ်းချုပ်';
         textSetStockCosts = 'ဝယ်ယူစရိတ်';
-        textSetNetSales = 'ရောင်းရငွေ';
+        textSetNetSales = 'အသားတင် ရောင်းရငွေ';
         textSetUnpaid = 'အကြွေးကျန်ငွေ';
         textSetRef = 'ပြန်ပေးငွေ';
         textSetLoss = 'ဆုံးရှုံးငွေ';
@@ -294,12 +299,12 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
         textSetProfit = 'ပျမ်းမျှအမြတ်ငွေ';
         textSetMore = 'အသေးစိတ်ကြည့်ရန်';
         textSetProdSale = 'ပစ္စည်းအရောင်းအကျဉ်းချုပ်';
-        textSetTSales = 'အရောင်းပစ္စည်းအမျိုးအစားများ';
-        textSetTLoss = 'ဆုံးရှုံးပစ္စည်းအမျိုးအစားများ';
-        textSetTRef = 'ပြန်ပေးပစ္စည်းအမျိုးအစားများ';
-        textSetSaleAmt = 'စုစုပေါင်းရောင်းအား';
-        textSetBuyAmt = 'ပစ္စည်းဝယ်စျေး';
-        textSetDiscount = 'လျှော့ငွေ';
+        textSetTSales = 'ရောင်းပြီးကုန်အမျိုးများ';
+        textSetTLoss = 'ဆုံးရှုံးကုန်အမျိုးများ';
+        textSetTRef = 'ပြန်ပေးကုန်အမျိုးများ';
+        textSetSaleAmt = 'စုစုပေါင်းရောင်းငွေ';
+        textSetBuyAmt = 'ရောင်းပြီးကုန်များ ဝယ်စျေး';
+        textSetDiscount = 'ဝယ်စာရင်း လျှော့ငွေ';
       });
     }
 
@@ -440,6 +445,8 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                   ),),
                               ),
                               Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Container(
                                     width: width/2,
@@ -448,20 +455,40 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            NumberFormat.compactCurrency(
-                                              decimalDigits: 2,
-                                              symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
-                                            ).format(totalBySlide()),
-                                            textScaleFactor: 1, textAlign: TextAlign.left,
-                                            style: GoogleFonts.lato(
-                                                textStyle: TextStyle(
-                                                    letterSpacing: 1,
-                                                    fontSize: 26,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.black
-                                                )
-                                            ),
+                                          Row(
+                                            children: [
+                                              animatedPrice(
+                                                  doubleRetri(NumberFormat.compactCurrency(
+                                                    decimalDigits: 2,
+                                                    symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
+                                                  ).format(totalBySlide())),
+                                                  GoogleFonts.lato(
+                                                      textStyle: TextStyle(
+                                                          letterSpacing: 1,
+                                                          fontSize: 26,
+                                                          fontWeight: FontWeight.w600,
+                                                          color: Colors.black
+                                                      )
+                                                  ),
+                                                  2
+                                              ),
+                                              Text(
+                                                lastSRetri(NumberFormat.compactCurrency(
+                                                  decimalDigits: 2,
+                                                  symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
+                                                ).format(totalBySlide()))
+                                                ,
+                                                textScaleFactor: 1, textAlign: TextAlign.left,
+                                                style: GoogleFonts.lato(
+                                                    textStyle: TextStyle(
+                                                        letterSpacing: 1,
+                                                        fontSize: 26,
+                                                        fontWeight: FontWeight.w600,
+                                                        color: Colors.black
+                                                    )
+                                                ),
+                                              )
+                                            ],
                                           ),
                                           Text(
                                             '$textSetNetSales ($currencyUnit)',strutStyle: StrutStyle(
@@ -484,20 +511,40 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            NumberFormat.compactCurrency(
-                                              decimalDigits: 2,
-                                              symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
-                                            ).format(profitBySlide()),
-                                            textScaleFactor: 1, textAlign: TextAlign.left,
-                                            style: GoogleFonts.lato(
-                                                textStyle: TextStyle(
-                                                    letterSpacing: 1,
-                                                    fontSize: 26,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.black
-                                                )
-                                            ),
+                                          Row(
+                                            children: [
+                                              animatedPrice(
+                                                  doubleRetri(NumberFormat.compactCurrency(
+                                                    decimalDigits: 2,
+                                                    symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
+                                                  ).format(profitBySlide())),
+                                                  GoogleFonts.lato(
+                                                      textStyle: TextStyle(
+                                                          letterSpacing: 1,
+                                                          fontSize: 26,
+                                                          fontWeight: FontWeight.w600,
+                                                          color: Colors.black
+                                                      )
+                                                  ),
+                                                2
+                                              ),
+                                              Text(
+                                                lastSRetri(NumberFormat.compactCurrency(
+                                                  decimalDigits: 2,
+                                                  symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
+                                                ).format(profitBySlide()))
+                                                ,
+                                                textScaleFactor: 1, textAlign: TextAlign.left,
+                                                style: GoogleFonts.lato(
+                                                    textStyle: TextStyle(
+                                                        letterSpacing: 1,
+                                                        fontSize: 26,
+                                                        fontWeight: FontWeight.w600,
+                                                        color: Colors.black
+                                                    )
+                                                ),
+                                              )
+                                            ],
                                           ),
                                           Text(
                                             '$textSetProfit ($currencyUnit)',strutStyle: StrutStyle(
@@ -530,6 +577,8 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                 ),
                               ),
                               Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Container(
                                     width: width/2,
@@ -538,20 +587,40 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            NumberFormat.compactCurrency(
-                                              decimalDigits: 2,
-                                              symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
-                                            ).format(totalStockCostsBySlide()),
-                                            textScaleFactor: 1, textAlign: TextAlign.left,
-                                            style: GoogleFonts.lato(
-                                                textStyle: TextStyle(
-                                                    letterSpacing: 1,
-                                                    fontSize: 26,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.black
-                                                )
-                                            ),
+                                          Row(
+                                            children: [
+                                              animatedPrice(
+                                                  doubleRetri(NumberFormat.compactCurrency(
+                                                    decimalDigits: 2,
+                                                    symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
+                                                  ).format(totalStockCostsBySlide())),
+                                                  GoogleFonts.lato(
+                                                      textStyle: TextStyle(
+                                                          letterSpacing: 1,
+                                                          fontSize: 26,
+                                                          fontWeight: FontWeight.w600,
+                                                          color: Colors.black
+                                                      )
+                                                  ),
+                                                2
+                                              ),
+                                              Text(
+                                                lastSRetri(NumberFormat.compactCurrency(
+                                                  decimalDigits: 2,
+                                                  symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
+                                                ).format(totalStockCostsBySlide()))
+                                                ,
+                                                textScaleFactor: 1, textAlign: TextAlign.left,
+                                                style: GoogleFonts.lato(
+                                                    textStyle: TextStyle(
+                                                        letterSpacing: 1,
+                                                        fontSize: 26,
+                                                        fontWeight: FontWeight.w600,
+                                                        color: Colors.black
+                                                    )
+                                                ),
+                                              )
+                                            ],
                                           ),
                                           Text(
                                             '$textSetStockCosts (' + currencyUnit +')',strutStyle: StrutStyle(
@@ -574,20 +643,40 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            NumberFormat.compactCurrency(
-                                              decimalDigits: 2,
-                                              symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
-                                            ).format(totalUnpaidBySlide()),
-                                            textScaleFactor: 1, textAlign: TextAlign.left,
-                                            style: GoogleFonts.lato(
-                                                textStyle: TextStyle(
-                                                    letterSpacing: 1,
-                                                    fontSize: 26,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.black
-                                                )
-                                            ),
+                                          Row(
+                                            children: [
+                                              animatedPrice(
+                                                  doubleRetri(NumberFormat.compactCurrency(
+                                                    decimalDigits: 2,
+                                                    symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
+                                                  ).format(totalUnpaidBySlide())),
+                                                  GoogleFonts.lato(
+                                                      textStyle: TextStyle(
+                                                          letterSpacing: 1,
+                                                          fontSize: 26,
+                                                          fontWeight: FontWeight.w600,
+                                                          color: Colors.black
+                                                      )
+                                                  ),
+                                                2
+                                              ),
+                                              Text(
+                                                lastSRetri(NumberFormat.compactCurrency(
+                                                  decimalDigits: 2,
+                                                  symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
+                                                ).format(totalUnpaidBySlide()))
+                                                ,
+                                                textScaleFactor: 1, textAlign: TextAlign.left,
+                                                style: GoogleFonts.lato(
+                                                    textStyle: TextStyle(
+                                                        letterSpacing: 1,
+                                                        fontSize: 26,
+                                                        fontWeight: FontWeight.w600,
+                                                        color: Colors.black
+                                                    )
+                                                ),
+                                              )
+                                            ],
                                           ),
                                           Text(
                                             '$textSetUnpaid ($currencyUnit)',strutStyle: StrutStyle(
@@ -620,6 +709,8 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                 ),
                               ),
                               Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Container(
                                     width: width/2,
@@ -628,20 +719,40 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            NumberFormat.compactCurrency(
-                                              decimalDigits: 2,
-                                              symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
-                                            ).format(totalRefundBySlide()),
-                                            textScaleFactor: 1, textAlign: TextAlign.left,
-                                            style: GoogleFonts.lato(
-                                                textStyle: TextStyle(
-                                                    letterSpacing: 1,
-                                                    fontSize: 26,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.black
-                                                )
-                                            ),
+                                          Row(
+                                            children: [
+                                              animatedPrice(
+                                                  doubleRetri(NumberFormat.compactCurrency(
+                                                    decimalDigits: 2,
+                                                    symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
+                                                  ).format(totalRefundBySlide())),
+                                                  GoogleFonts.lato(
+                                                      textStyle: TextStyle(
+                                                          letterSpacing: 1,
+                                                          fontSize: 26,
+                                                          fontWeight: FontWeight.w600,
+                                                          color: Colors.black
+                                                      )
+                                                  ),
+                                                2
+                                              ),
+                                              Text(
+                                                lastSRetri(NumberFormat.compactCurrency(
+                                                  decimalDigits: 2,
+                                                  symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
+                                                ).format(totalRefundBySlide()))
+                                                ,
+                                                textScaleFactor: 1, textAlign: TextAlign.left,
+                                                style: GoogleFonts.lato(
+                                                    textStyle: TextStyle(
+                                                        letterSpacing: 1,
+                                                        fontSize: 26,
+                                                        fontWeight: FontWeight.w600,
+                                                        color: Colors.black
+                                                    )
+                                                ),
+                                              )
+                                            ],
                                           ),
                                           Text(
                                             '$textSetRef ($currencyUnit)',strutStyle: StrutStyle(
@@ -664,20 +775,40 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            NumberFormat.compactCurrency(
-                                              decimalDigits: 2,
-                                              symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
-                                            ).format(totalLossBySlide()),
-                                            textScaleFactor: 1, textAlign: TextAlign.left,
-                                            style: GoogleFonts.lato(
-                                                textStyle: TextStyle(
-                                                    letterSpacing: 1,
-                                                    fontSize: 26,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.black
-                                                )
-                                            ),
+                                          Row(
+                                            children: [
+                                              animatedPrice(
+                                                  doubleRetri(NumberFormat.compactCurrency(
+                                                    decimalDigits: 2,
+                                                    symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
+                                                  ).format(totalLossBySlide())),
+                                                  GoogleFonts.lato(
+                                                      textStyle: TextStyle(
+                                                          letterSpacing: 1,
+                                                          fontSize: 26,
+                                                          fontWeight: FontWeight.w600,
+                                                          color: Colors.black
+                                                      )
+                                                  ),
+                                                2
+                                              ),
+                                              Text(
+                                                lastSRetri(NumberFormat.compactCurrency(
+                                                  decimalDigits: 2,
+                                                  symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
+                                                ).format(totalLossBySlide()))
+                                                ,
+                                                textScaleFactor: 1, textAlign: TextAlign.left,
+                                                style: GoogleFonts.lato(
+                                                    textStyle: TextStyle(
+                                                        letterSpacing: 1,
+                                                        fontSize: 26,
+                                                        fontWeight: FontWeight.w600,
+                                                        color: Colors.black
+                                                    )
+                                                ),
+                                              )
+                                            ],
                                           ),
                                           Text(
                                             '$textSetLoss ($currencyUnit)',strutStyle: StrutStyle(
@@ -949,7 +1080,15 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                                       fontWeight: FontWeight.w500, color: Colors.black,
                                                     ),),
                                                     Spacer(),
-                                                    Text( tSale.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},') + ' types', textScaleFactor: 1, style:
+                                                    animatedPrice(
+                                                      tSale,
+                                                      TextStyle(
+                                                        fontSize: 16,
+                                                        fontWeight: FontWeight.w600, color: Colors.black,
+                                                      ),
+                                                      0
+                                                    ),
+                                                    Text((widget.isEnglish? ' types': ' မျိုး'), textScaleFactor: 1, style:
                                                     TextStyle(
                                                       fontSize: 16,
                                                       fontWeight: FontWeight.w600, color: Colors.black,
@@ -988,7 +1127,15 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                                       fontWeight: FontWeight.w500, color: Colors.black,
                                                     ),),
                                                     Spacer(),
-                                                    Text(tLoss.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},') + ' types', textScaleFactor: 1, style:
+                                                    animatedPrice(
+                                                        tLoss,
+                                                        TextStyle(
+                                                          fontSize: 16,
+                                                          fontWeight: FontWeight.w600, color: Colors.black,
+                                                        ),
+                                                      0
+                                                    ),
+                                                    Text((widget.isEnglish? ' types': ' မျိုး'), textScaleFactor: 1, style:
                                                     TextStyle(
                                                       fontSize: 16,
                                                       fontWeight: FontWeight.w600, color: Colors.black,
@@ -1024,7 +1171,15 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                                       fontWeight: FontWeight.w500, color: Colors.black,
                                                     ),),
                                                     Spacer(),
-                                                    Text(tRef.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},') + ' types', textScaleFactor: 1, style:
+                                                    animatedPrice(
+                                                        tRef,
+                                                        TextStyle(
+                                                          fontSize: 16,
+                                                          fontWeight: FontWeight.w600, color: Colors.black,
+                                                        ),
+                                                      0
+                                                    ),
+                                                    Text((widget.isEnglish? ' types': ' မျိုး'), textScaleFactor: 1, style:
                                                     TextStyle(
                                                       fontSize: 16,
                                                       fontWeight: FontWeight.w600, color: Colors.black,
@@ -1060,7 +1215,15 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                                       fontWeight: FontWeight.w500, color: Colors.black,
                                                     ),),
                                                     Spacer(),
-                                                    Text( tSaleAmount.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},') + ' ' +currencyUnit, textScaleFactor: 1, style:
+                                                    animatedPrice(
+                                                        tSaleAmount,
+                                                        TextStyle(
+                                                          fontSize: 16,
+                                                          fontWeight: FontWeight.w600, color: Colors.black,
+                                                        ),
+                                                      2
+                                                    ),
+                                                    Text(' ' +currencyUnit, textScaleFactor: 1, style:
                                                     TextStyle(
                                                       fontSize: 16,
                                                       fontWeight: FontWeight.w600, color: Colors.black,
@@ -1096,7 +1259,15 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                                       fontWeight: FontWeight.w500, color: Colors.black,
                                                     ),),
                                                     Spacer(),
-                                                    Text( tBuyAmount.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},') + ' ' +currencyUnit, textScaleFactor: 1, style:
+                                                    animatedPrice(
+                                                        tBuyAmount,
+                                                        TextStyle(
+                                                          fontSize: 16,
+                                                          fontWeight: FontWeight.w600, color: Colors.black,
+                                                        ),
+                                                      2
+                                                    ),
+                                                    Text(' ' +currencyUnit, textScaleFactor: 1, style:
                                                     TextStyle(
                                                       fontSize: 16,
                                                       fontWeight: FontWeight.w600, color: Colors.black,
@@ -1132,7 +1303,15 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                                       fontWeight: FontWeight.w500, color: Colors.black,
                                                     ),),
                                                     Spacer(),
-                                                    Text( tDiscount.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},') + ' ' +currencyUnit, textScaleFactor: 1, style:
+                                                    animatedPrice(
+                                                        tDiscount,
+                                                        TextStyle(
+                                                          fontSize: 16,
+                                                          fontWeight: FontWeight.w600, color: Colors.black,
+                                                        ),
+                                                      2
+                                                    ),
+                                                    Text(' ' +currencyUnit, textScaleFactor: 1, style:
                                                     TextStyle(
                                                       fontSize: 16,
                                                       fontWeight: FontWeight.w600, color: Colors.black,
@@ -1257,7 +1436,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
   }
 
   int segmentedControlGroupValue = 0;
-  final Map<int, Widget> myTabs = const <int, Widget>{
+  Map<int, Widget> myTabs = const <int, Widget>{
     0: Text("Today", textScaleFactor: 1),
     1: Text("Month", textScaleFactor: 1),
     2: Text("Year", textScaleFactor: 1)
@@ -2299,9 +2478,9 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
   double profitBySlide() {
     double profit = 0.0;
     if(_sliding == 0) {
-      profit = monthSale - (monthCapital + monthLossTotal);
+      profit = monthSale - (monthCapital);
     } else {
-      profit = realMthSale - (realMthCapital + realMthLoss);
+      profit = realMthSale - (realMthCapital);
     }
 
     return profit;
@@ -2411,6 +2590,37 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
       }
 
     }
+  }
+
+  doubleRetri(String format) {
+    if(format[format.length-1]!= 'K' && format[format.length-1]!= 'M' && format[format.length-1]!= 'B') {
+      return double.parse(format);
+    } else {
+      return double.parse(format.substring(0, format.length-1));
+    }
+    // return format[format.length]
+  }
+
+  lastSRetri(String format) {
+    if(format[format.length-1]!= 'K' && format[format.length-1]!= 'M' && format[format.length-1]!= 'B') {
+      return '';
+    } else {
+      return format[format.length-1];
+    }
+  }
+
+  animatedPrice(double price, style, precision) {
+    double temp = 0;
+    double total =  price;
+    return Countup(
+      precision: precision,
+      begin: temp,
+      end: total,
+      curve: Curves.easeInOut,
+      duration: Duration(milliseconds: 500),
+      separator: ',',
+      style: style, textScaleFactor: 1,
+    );
   }
 }
 

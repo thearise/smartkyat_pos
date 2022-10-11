@@ -437,7 +437,7 @@
 //           VPaid = 'ပေးငွေ';
 //           VDebt = 'ကျန်ငွေ';
 //           subVTotal = 'ကျသင့်ငွေပေါင်း';
-//           VDiscount = 'လျှော့ငွေ';
+//           VDiscount = 'ဝယ်စာရင်း လျှော့ငွေ';
 //           textSetClear = 'ပယ်ဖျက်ရန်';
 //           textSetTotalSale = 'စုစုပေါင်း';
 //           textSetCheckOut = 'ရောင်းရန်';

@@ -327,7 +327,7 @@
 //     getLangId().then((value) {
 //       if(value=='burmese') {
 //         setState(() {
-//           textSetTotalSales = 'စုစုပေါင်း ရောင်းရငွေ';
+//           textSetTotalSales = 'စုစုပေါင်း အသားတင် ရောင်းရငွေ';
 //           textSetTodaySoFar = 'ဒီနေ့အတွင်း';
 //           textSetStockCosts = 'ဝယ်ယူစရိတ်';
 //           textSetUnpaid = 'အကြွေးရရန်';
