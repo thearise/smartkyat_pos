@@ -67,12 +67,14 @@ class ProdSaleSumHome extends StatefulWidget {
     required void openDrawerBtn(String str),
     required this.shopId,
     required this.isEnglish,
+    required this.tab,
     Key? key,
   }) :
         _openDrawerBtn = openDrawerBtn,
         _closeDrawerBtn = closeDrawerBtn;
   final shopId;
   final bool isEnglish;
+  final int tab;
   @override
   ProdSaleSumHomeState createState() => ProdSaleSumHomeState();
 
@@ -92,6 +94,13 @@ class ProdSaleSumHomeState extends State<ProdSaleSumHome>
 
   @override
   initState() {
+    if(widget.tab == 0) {
+      cateScIndex = 0;
+    } else if (widget.tab == 1) {
+      cateScIndex = 2;
+    } else {
+      cateScIndex = 3;
+    }
     prodsSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr').snapshots();
     // prodSaleData =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodSaleData')
     //     .where('date', isGreaterThan: DateFormat("yyyy-MM-dd HH:mm:ss").parse(widget.dateTime!.year.toString() + '-' + zeroToTen(widget.dateTime!.month.toString()) + '-' + zeroToTen(widget.dateTime!.day.toString()) + ' 00:00:00').subtract(Duration(days: 6)))
