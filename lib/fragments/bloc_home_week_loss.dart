@@ -3,6 +3,7 @@ library paginate_firestore;
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:countup/countup.dart';
 import 'package:dropdown_below/dropdown_below.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
@@ -312,12 +313,12 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
          textSetLastWeek = 'အပတ်စဉ်';
          textSetLastMonth = 'လစဉ်';
          textSetLastYear = 'နှစ်စဉ်';
-         textSetInOut = 'SALES IN-OUT SUMMARY';
-         textSetNetSales = 'ရောင်းရငွေ';
+         textSetInOut = 'အရောင်းအဝယ် စာရင်းများ';
+         textSetNetSales = 'အသားတင် ရောင်းရငွေ';
          textSetAvgProf = 'ပျမ်းမျှအမြတ်ငွေ';
          textSetEarn = 'အကြွေးရငွေ';
-         textSetCharts = 'SALES SUMMARY CHARTS';
-         textSetTotal = 'စုစုပေါင်း ရောင်းရငွေ';
+         textSetCharts = 'အရောင်းစာရင်းပြ ဇယား';
+         textSetTotal = 'စုစုပေါင်း အသားတင် ရောင်းရငွေ';
       });
     }
 
@@ -489,7 +490,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        'SALES IN-OUT SUMMARY',textScaleFactor: 1,
+                                        textSetInOut,textScaleFactor: 1,
                                         style: TextStyle(
                                           height: 0.9,
                                           letterSpacing: 2,
@@ -510,18 +511,29 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                     children: [
                                       Row(
                                         children: [
-                                          Text(
-                                            totalBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                            textScaleFactor: 1, textAlign: TextAlign.left,
-                                            style: GoogleFonts.lato(
-                                                textStyle: TextStyle(
-                                                    letterSpacing: 1,
-                                                    fontSize: 26,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.black
-                                                )
-                                            ),
+                                          animatedPrice(
+                                              double.parse(totalBySlide()),
+                                              GoogleFonts.lato(
+                                                  textStyle: TextStyle(
+                                                      letterSpacing: 1,
+                                                      fontSize: 26,
+                                                      fontWeight: FontWeight.w600,
+                                                      color: Colors.black
+                                                  )
+                                              )
                                           ),
+                                          // Text(
+                                          //   totalBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                          //   textScaleFactor: 1, textAlign: TextAlign.left,
+                                          //   style: GoogleFonts.lato(
+                                          //       textStyle: TextStyle(
+                                          //           letterSpacing: 1,
+                                          //           fontSize: 26,
+                                          //           fontWeight: FontWeight.w600,
+                                          //           color: Colors.black
+                                          //       )
+                                          //   ),
+                                          // ),
                                           Padding(
                                             padding: const EdgeInsets.only(left: 5.0, top: 13.0),
                                             child: Text(
@@ -560,47 +572,96 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                                 fontSize: 13, height: 1.2,
                                                 fontWeight: FontWeight.w500,
                                               color: percentBySale() == 1001 || percentBySale() == 1000 ? Colors.blue: percentBySale() < 0? AppTheme.badgeFgDanger: Colors.green,),
-                                          ) ,
-                                          percentBySale() == 1001 || percentBySale() == 1000 ? Text(
-                                            'same as ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :  percentBySale() < 0?
-                                          Text(
-                                            'lower than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :
-                                          Text(
-                                            'higher than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
                                           ),
-                                          Text(
-                                            yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
+                                          widget.isEnglish?
+                                          Row(
+                                            children: [
+                                              percentBySale() == 1001 || percentBySale() == 1000 ? Text(
+                                                'same as ',strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ), textScaleFactor: 1,
+                                                style: TextStyle(
+                                                    fontSize: 13, height: 1.2,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black.withOpacity(0.6)),
+                                              ) :  percentBySale() < 0?
+                                              Text(
+                                                'lower than ',strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ), textScaleFactor: 1,
+                                                style: TextStyle(
+                                                    fontSize: 13, height: 1.2,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black.withOpacity(0.6)),
+                                              ) :
+                                              Text(
+                                                'higher than ',strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ), textScaleFactor: 1,
+                                                style: TextStyle(
+                                                    fontSize: 13, height: 1.2,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black.withOpacity(0.6)),
+                                              ),
+                                              Text(
+                                                yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ), textScaleFactor: 1,
+                                                style: TextStyle(
+                                                    fontSize: 13, height: 1.2,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black.withOpacity(0.6)),
+                                              ),
+                                            ],
+                                          ):
+                                          Row(
+                                            children: [
+                                              Text(
+                                                yestWeekTitle().toString(),strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ), textScaleFactor: 1,
+                                                style: TextStyle(
+                                                    fontSize: 13, height: 1.2,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black.withOpacity(0.6)),
+                                              ),
+                                              percentBySale() == 1001 || percentBySale() == 1000 ? Text(
+                                                'ကအတိုင်း ရရှိသည်)',strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ), textScaleFactor: 1,
+                                                style: TextStyle(
+                                                    fontSize: 13, height: 1.2,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black.withOpacity(0.6)),
+                                              ) :  percentBySale() < 0?
+                                              Text(
+                                                'ကအောက် လျော့ရသည်)',strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ), textScaleFactor: 1,
+                                                style: TextStyle(
+                                                    fontSize: 13, height: 1.2,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black.withOpacity(0.6)),
+                                              ) :
+                                              Text(
+                                                'ကထက် ပိုရသည်)',strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ), textScaleFactor: 1,
+                                                style: TextStyle(
+                                                    fontSize: 13, height: 1.2,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black.withOpacity(0.6)),
+                                              ),
+                                            ],
+                                          )
                                         ],
                                       ),
                                     ],
@@ -630,18 +691,29 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                     children: [
                                       Row(
                                         children: [
-                                          Text(
-                                            totalStockCostsBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                            textScaleFactor: 1, textAlign: TextAlign.left,
-                                            style: GoogleFonts.lato(
-                                                textStyle: TextStyle(
-                                                    letterSpacing: 1,
-                                                    fontSize: 26,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.black
-                                                )
-                                            ),
+                                          animatedPrice(
+                                              double.parse(totalStockCostsBySlide()),
+                                              GoogleFonts.lato(
+                                                  textStyle: TextStyle(
+                                                      letterSpacing: 1,
+                                                      fontSize: 26,
+                                                      fontWeight: FontWeight.w600,
+                                                      color: Colors.black
+                                                  )
+                                              )
                                           ),
+                                          // Text(
+                                          //   totalStockCostsBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                          //   textScaleFactor: 1, textAlign: TextAlign.left,
+                                          //   style: GoogleFonts.lato(
+                                          //       textStyle: TextStyle(
+                                          //           letterSpacing: 1,
+                                          //           fontSize: 26,
+                                          //           fontWeight: FontWeight.w600,
+                                          //           color: Colors.black
+                                          //       )
+                                          //   ),
+                                          // ),
                                           Padding(
                                               padding: const EdgeInsets.only(left: 5.0, top: 13.0),
                                               child: Text(
@@ -750,18 +822,29 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                     children: [
                                       Row(
                                         children: [
-                                          Text(
-                                            profitBySlide().toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                            textScaleFactor: 1, textAlign: TextAlign.left,
-                                            style: GoogleFonts.lato(
-                                                textStyle: TextStyle(
-                                                    letterSpacing: 1,
-                                                    fontSize: 26,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.black
-                                                )
-                                            ),
+                                          animatedPrice(
+                                              profitBySlide(),
+                                              GoogleFonts.lato(
+                                                  textStyle: TextStyle(
+                                                      letterSpacing: 1,
+                                                      fontSize: 26,
+                                                      fontWeight: FontWeight.w600,
+                                                      color: Colors.black
+                                                  )
+                                              )
                                           ),
+                                          // Text(
+                                          //   profitBySlide().toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                          //   textScaleFactor: 1, textAlign: TextAlign.left,
+                                          //   style: GoogleFonts.lato(
+                                          //       textStyle: TextStyle(
+                                          //           letterSpacing: 1,
+                                          //           fontSize: 26,
+                                          //           fontWeight: FontWeight.w600,
+                                          //           color: Colors.black
+                                          //       )
+                                          //   ),
+                                          // ),
                                           Padding(
                                               padding: const EdgeInsets.only(left: 5.0, top: 13.0),
                                               child: Text(
@@ -870,18 +953,29 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                     children: [
                                       Row(
                                         children: [
-                                          Text(
-                                            totalEarnBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                            textScaleFactor: 1, textAlign: TextAlign.left,
-                                            style: GoogleFonts.lato(
-                                                textStyle: TextStyle(
-                                                    letterSpacing: 1,
-                                                    fontSize: 26,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.black
-                                                )
-                                            ),
+                                          animatedPrice(
+                                              double.parse(totalEarnBySlide()),
+                                              GoogleFonts.lato(
+                                                  textStyle: TextStyle(
+                                                      letterSpacing: 1,
+                                                      fontSize: 26,
+                                                      fontWeight: FontWeight.w600,
+                                                      color: Colors.black
+                                                  )
+                                              )
                                           ),
+                                          // Text(
+                                          //   totalEarnBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                          //   textScaleFactor: 1, textAlign: TextAlign.left,
+                                          //   style: GoogleFonts.lato(
+                                          //       textStyle: TextStyle(
+                                          //           letterSpacing: 1,
+                                          //           fontSize: 26,
+                                          //           fontWeight: FontWeight.w600,
+                                          //           color: Colors.black
+                                          //       )
+                                          //   ),
+                                          // ),
                                           Padding(
                                               padding: const EdgeInsets.only(left: 5.0, top: 13.0),
                                               child: Text(
@@ -984,12 +1078,12 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        'SALES SUMMARY CHARTS',textScaleFactor: 1,
+                                        textSetCharts,textScaleFactor: 1,
                                         style: TextStyle(
                                           height: 0.9,
                                           letterSpacing: 2,
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 14,color: Colors.black,
+                                          fontSize: 14,color: Colors.grey,
                                         ),
                                       ),
                                     ),
@@ -1077,18 +1171,29 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                     children: [
                                       Row(
                                         children: [
-                                          Text(
-                                            totalStockCostsRBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                            textScaleFactor: 1, textAlign: TextAlign.left,
-                                            style: GoogleFonts.lato(
-                                                textStyle: TextStyle(
-                                                    letterSpacing: 1,
-                                                    fontSize: 26,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.black
-                                                )
-                                            ),
+                                          animatedPrice(
+                                              double.parse(totalStockCostsRBySlide()),
+                                              GoogleFonts.lato(
+                                                  textStyle: TextStyle(
+                                                      letterSpacing: 1,
+                                                      fontSize: 26,
+                                                      fontWeight: FontWeight.w600,
+                                                      color: Colors.black
+                                                  )
+                                              )
                                           ),
+                                          // Text(
+                                          //   totalStockCostsRBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                          //   textScaleFactor: 1, textAlign: TextAlign.left,
+                                          //   style: GoogleFonts.lato(
+                                          //       textStyle: TextStyle(
+                                          //           letterSpacing: 1,
+                                          //           fontSize: 26,
+                                          //           fontWeight: FontWeight.w600,
+                                          //           color: Colors.black
+                                          //       )
+                                          //   ),
+                                          // ),
                                           Padding(
                                               padding: const EdgeInsets.only(left: 5.0, top: 13.0),
                                               child: Text(
@@ -1197,18 +1302,29 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                     children: [
                                       Row(
                                         children: [
-                                          Text(
-                                            totalRefundBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                            textScaleFactor: 1, textAlign: TextAlign.left,
-                                            style: GoogleFonts.lato(
-                                                textStyle: TextStyle(
-                                                    letterSpacing: 1,
-                                                    fontSize: 26,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.black
-                                                )
-                                            ),
+                                          animatedPrice(
+                                              double.parse(totalRefundBySlide()),
+                                              GoogleFonts.lato(
+                                                  textStyle: TextStyle(
+                                                      letterSpacing: 1,
+                                                      fontSize: 26,
+                                                      fontWeight: FontWeight.w600,
+                                                      color: Colors.black
+                                                  )
+                                              )
                                           ),
+                                          // Text(
+                                          //   totalRefundBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                          //   textScaleFactor: 1, textAlign: TextAlign.left,
+                                          //   style: GoogleFonts.lato(
+                                          //       textStyle: TextStyle(
+                                          //           letterSpacing: 1,
+                                          //           fontSize: 26,
+                                          //           fontWeight: FontWeight.w600,
+                                          //           color: Colors.black
+                                          //       )
+                                          //   ),
+                                          // ),
                                           Padding(
                                               padding: const EdgeInsets.only(left: 5.0, top: 13.0),
                                               child: Text(
@@ -1317,18 +1433,29 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                     children: [
                                       Row(
                                         children: [
-                                          Text(
-                                            totalLossBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                            textScaleFactor: 1, textAlign: TextAlign.left,
-                                            style: GoogleFonts.lato(
-                                                textStyle: TextStyle(
-                                                    letterSpacing: 1,
-                                                    fontSize: 26,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.black
-                                                )
-                                            ),
+                                          animatedPrice(
+                                              double.parse(totalLossBySlide()),
+                                              GoogleFonts.lato(
+                                                  textStyle: TextStyle(
+                                                      letterSpacing: 1,
+                                                      fontSize: 26,
+                                                      fontWeight: FontWeight.w600,
+                                                      color: Colors.black
+                                                  )
+                                              )
                                           ),
+                                          // Text(
+                                          //   totalLossBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                          //   textScaleFactor: 1, textAlign: TextAlign.left,
+                                          //   style: GoogleFonts.lato(
+                                          //       textStyle: TextStyle(
+                                          //           letterSpacing: 1,
+                                          //           fontSize: 26,
+                                          //           fontWeight: FontWeight.w600,
+                                          //           color: Colors.black
+                                          //       )
+                                          //   ),
+                                          // ),
                                           Padding(
                                               padding: const EdgeInsets.only(left: 5.0, top: 13.0),
                                               child: Text(
@@ -2352,8 +2479,16 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
   String yestWeekTitle() {
     String title = '';
     if(_sliding == 0) {
+      if(!widget.isEnglish) {
+        return title = 'မနေ့';
+      }
       return title = 'yesterday';
-    } else  {return title = 'Weekly';}
+    } else {
+      if(!widget.isEnglish) {
+        return title = 'အရင်ပတ်';
+      }
+      return title = 'last week';
+    }
   }
 
   String totalBySlide() {
@@ -2875,12 +3010,14 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
       for (int i = 0; i < todayOrdersChart.length; i++){
         todayTotal += todayOrdersChart[i];
       }
-      profit = todayTotal - (todayCapital + todayLossTotal);
+      // profit = todayTotal - (todayCapital + todayLossTotal);
+      profit = todayTotal - (todayCapital);
     } else {
       for (int i = 0; i < thisWeekOrdersChart.length; i++){
         weeklyTotal += thisWeekOrdersChart[i];
       }
-      profit = weeklyTotal - (weekCapital + weekLossTotal);
+      // profit = weeklyTotal - (weekCapital + weekLossTotal);
+      profit = weeklyTotal - (weekCapital);
     }
     return profit;
   }
@@ -2888,9 +3025,11 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
   lastProfitBySlide() {
     double profit = 0.0;
     if(_sliding == 0) {
-      profit = yestOrdersChart - (ystCapital + ystLossTotal);
+      // profit = yestOrdersChart - (ystCapital + ystLossTotal);
+      profit = yestOrdersChart - (ystCapital);
     } else {
-      profit = lastWeekOrderChart - (lastWeekCapital + lastWeekLoss);
+      // profit = lastWeekOrderChart - (lastWeekCapital + lastWeekLoss);
+      profit = lastWeekOrderChart - (lastWeekCapital);
     }
     return profit;
   }
@@ -3817,6 +3956,20 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
       ..sort((k1, k2) => ((map[k2]['sub2'].compareTo(map[k1]['sub2']))));
 
     return Map.fromIterable(sortedKeys, key: (k) => k, value: (k) => map[k]);
+  }
+
+  animatedPrice(double price, style) {
+    double temp = 0;
+    double total =  price;
+    return Countup(
+      precision: 2,
+      begin: temp,
+      end: total,
+      curve: Curves.easeInOut,
+      duration: Duration(milliseconds: 500),
+      separator: ',',
+      style: style, textScaleFactor: 1,
+    );
   }
 
 }
