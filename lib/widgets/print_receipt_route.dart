@@ -93,7 +93,7 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
           VPaid = 'ပေးငွေ';
           VDebt = 'ကျန်ငွေ';
           subVTotal = 'ကျသင့်ငွေပေါင်း';
-          VDiscount = 'လျှော့ငွေ';
+          VDiscount = 'ဝယ်စာရင်း လျှော့ငွေ';
         });
       }
     });

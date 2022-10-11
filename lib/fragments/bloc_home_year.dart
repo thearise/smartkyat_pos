@@ -3,6 +3,7 @@ library paginate_firestore;
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:countup/countup.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -290,12 +291,12 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
         textSetLastWeek = 'အပတ်စဉ်';
         textSetLastMonth = 'လစဉ်';
         textSetLastYear = 'နှစ်စဉ်';
-        textSetInOut = 'SALES IN-OUT SUMMARY';
-        textSetNetSales = 'ရောင်းရငွေ';
+        textSetInOut = 'အရောင်းအဝယ် စာရင်းများ';
+        textSetNetSales = 'အသားတင် ရောင်းရငွေ';
         textSetAvgProf = 'ပျမ်းမျှအမြတ်ငွေ';
         textSetEarn = 'အကြွေးရငွေ';
-        textSetCharts = 'SALES SUMMARY CHARTS';
-        textSetTotal = 'စုစုပေါင်း ရောင်းရငွေ';
+        textSetCharts = 'အရောင်းစာရင်းပြ ဇယား';
+        textSetTotal = 'စုစုပေါင်း အသားတင် ရောင်းရငွေ';
       });
     }
 
@@ -428,17 +429,17 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 4.0),
+                                padding: const EdgeInsets.only(top: 5.0, left: 15.0, right: 15.0, bottom: 4.0),
                                 child: Row(
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        'SALES IN-OUT SUMMARY',textScaleFactor: 1,
+                                        textSetInOut,textScaleFactor: 1,
                                         style: TextStyle(
                                           height: 0.9,
                                           letterSpacing: 2,
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 14,color: Colors.black,
+                                          fontSize: 14,color: Colors.grey,
                                         ),
                                       ),
                                     ),
@@ -454,18 +455,29 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                     children: [
                                       Row(
                                         children: [
-                                          Text(
-                                            totalBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                            textScaleFactor: 1, textAlign: TextAlign.left,
-                                            style: GoogleFonts.lato(
-                                                textStyle: TextStyle(
-                                                    letterSpacing: 1,
-                                                    fontSize: 26,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.black
-                                                )
-                                            ),
+                                          animatedPrice(
+                                              double.parse(totalBySlide()),
+                                              GoogleFonts.lato(
+                                                  textStyle: TextStyle(
+                                                      letterSpacing: 1,
+                                                      fontSize: 26,
+                                                      fontWeight: FontWeight.w600,
+                                                      color: Colors.black
+                                                  )
+                                              )
                                           ),
+                                          // Text(
+                                          //   totalBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                          //   textScaleFactor: 1, textAlign: TextAlign.left,
+                                          //   style: GoogleFonts.lato(
+                                          //       textStyle: TextStyle(
+                                          //           letterSpacing: 1,
+                                          //           fontSize: 26,
+                                          //           fontWeight: FontWeight.w600,
+                                          //           color: Colors.black
+                                          //       )
+                                          //   ),
+                                          // ),
                                           Padding(
                                               padding: const EdgeInsets.only(left: 5.0, top: 13.0),
                                               child: Text(
@@ -574,18 +586,29 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                     children: [
                                       Row(
                                         children: [
-                                          Text(
-                                            totalStockCostsBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                            textScaleFactor: 1, textAlign: TextAlign.left,
-                                            style: GoogleFonts.lato(
-                                                textStyle: TextStyle(
-                                                    letterSpacing: 1,
-                                                    fontSize: 26,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.black
-                                                )
-                                            ),
+                                          animatedPrice(
+                                              double.parse(totalStockCostsBySlide()),
+                                              GoogleFonts.lato(
+                                                  textStyle: TextStyle(
+                                                      letterSpacing: 1,
+                                                      fontSize: 26,
+                                                      fontWeight: FontWeight.w600,
+                                                      color: Colors.black
+                                                  )
+                                              )
                                           ),
+                                          // Text(
+                                          //   totalStockCostsBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                          //   textScaleFactor: 1, textAlign: TextAlign.left,
+                                          //   style: GoogleFonts.lato(
+                                          //       textStyle: TextStyle(
+                                          //           letterSpacing: 1,
+                                          //           fontSize: 26,
+                                          //           fontWeight: FontWeight.w600,
+                                          //           color: Colors.black
+                                          //       )
+                                          //   ),
+                                          // ),
                                           Padding(
                                               padding: const EdgeInsets.only(left: 5.0, top: 13.0),
                                               child: Text(
@@ -694,18 +717,29 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                     children: [
                                       Row(
                                         children: [
-                                          Text(
-                                            profitByYear().toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                            textScaleFactor: 1, textAlign: TextAlign.left,
-                                            style: GoogleFonts.lato(
-                                                textStyle: TextStyle(
-                                                    letterSpacing: 1,
-                                                    fontSize: 26,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.black
-                                                )
-                                            ),
+                                          animatedPrice(
+                                              profitByYear(),
+                                              GoogleFonts.lato(
+                                                  textStyle: TextStyle(
+                                                      letterSpacing: 1,
+                                                      fontSize: 26,
+                                                      fontWeight: FontWeight.w600,
+                                                      color: Colors.black
+                                                  )
+                                              )
                                           ),
+                                          // Text(
+                                          //   profitByYear().toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                          //   textScaleFactor: 1, textAlign: TextAlign.left,
+                                          //   style: GoogleFonts.lato(
+                                          //       textStyle: TextStyle(
+                                          //           letterSpacing: 1,
+                                          //           fontSize: 26,
+                                          //           fontWeight: FontWeight.w600,
+                                          //           color: Colors.black
+                                          //       )
+                                          //   ),
+                                          // ),
                                           Padding(
                                               padding: const EdgeInsets.only(left: 5.0, top: 13.0),
                                               child: Text(
@@ -808,12 +842,12 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        'SALES SUMMARY CHARTS',textScaleFactor: 1,
+                                        textSetCharts,textScaleFactor: 1,
                                         style: TextStyle(
                                           height: 0.9,
                                           letterSpacing: 2,
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 14,color: Colors.black,
+                                          fontSize: 14,color: Colors.grey,
                                         ),
                                       ),
                                     ),
@@ -901,18 +935,29 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                     children: [
                                       Row(
                                         children: [
-                                          Text(
-                                            totalStockCostsRBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                            textScaleFactor: 1, textAlign: TextAlign.left,
-                                            style: GoogleFonts.lato(
-                                                textStyle: TextStyle(
-                                                    letterSpacing: 1,
-                                                    fontSize: 26,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.black
-                                                )
-                                            ),
+                                          animatedPrice(
+                                              double.parse(totalStockCostsRBySlide()),
+                                              GoogleFonts.lato(
+                                                  textStyle: TextStyle(
+                                                      letterSpacing: 1,
+                                                      fontSize: 26,
+                                                      fontWeight: FontWeight.w600,
+                                                      color: Colors.black
+                                                  )
+                                              )
                                           ),
+                                          // Text(
+                                          //   totalStockCostsRBySlide().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                          //   textScaleFactor: 1, textAlign: TextAlign.left,
+                                          //   style: GoogleFonts.lato(
+                                          //       textStyle: TextStyle(
+                                          //           letterSpacing: 1,
+                                          //           fontSize: 26,
+                                          //           fontWeight: FontWeight.w600,
+                                          //           color: Colors.black
+                                          //       )
+                                          //   ),
+                                          // ),
                                           Padding(
                                               padding: const EdgeInsets.only(left: 5.0, top: 13.0),
                                               child: Text(
@@ -1021,18 +1066,29 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                     children: [
                                       Row(
                                         children: [
-                                          Text(
-                                            yearRefundTotal.toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                            textScaleFactor: 1, textAlign: TextAlign.left,
-                                            style: GoogleFonts.lato(
-                                                textStyle: TextStyle(
-                                                    letterSpacing: 1,
-                                                    fontSize: 26,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.black
-                                                )
-                                            ),
+                                          animatedPrice(
+                                              yearRefundTotal,
+                                              GoogleFonts.lato(
+                                                  textStyle: TextStyle(
+                                                      letterSpacing: 1,
+                                                      fontSize: 26,
+                                                      fontWeight: FontWeight.w600,
+                                                      color: Colors.black
+                                                  )
+                                              )
                                           ),
+                                          // Text(
+                                          //   yearRefundTotal.toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                          //   textScaleFactor: 1, textAlign: TextAlign.left,
+                                          //   style: GoogleFonts.lato(
+                                          //       textStyle: TextStyle(
+                                          //           letterSpacing: 1,
+                                          //           fontSize: 26,
+                                          //           fontWeight: FontWeight.w600,
+                                          //           color: Colors.black
+                                          //       )
+                                          //   ),
+                                          // ),
                                           Padding(
                                               padding: const EdgeInsets.only(left: 5.0, top: 13.0),
                                               child: Text(
@@ -1141,18 +1197,29 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                     children: [
                                       Row(
                                         children: [
-                                          Text(
-                                            yearLossTotal.toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                            textScaleFactor: 1, textAlign: TextAlign.left,
-                                            style: GoogleFonts.lato(
-                                                textStyle: TextStyle(
-                                                    letterSpacing: 1,
-                                                    fontSize: 26,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.black
-                                                )
-                                            ),
+                                          animatedPrice(
+                                              yearLossTotal,
+                                              GoogleFonts.lato(
+                                                  textStyle: TextStyle(
+                                                      letterSpacing: 1,
+                                                      fontSize: 26,
+                                                      fontWeight: FontWeight.w600,
+                                                      color: Colors.black
+                                                  )
+                                              )
                                           ),
+                                          // Text(
+                                          //   yearLossTotal.toStringAsFixed(1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                          //   textScaleFactor: 1, textAlign: TextAlign.left,
+                                          //   style: GoogleFonts.lato(
+                                          //       textStyle: TextStyle(
+                                          //           letterSpacing: 1,
+                                          //           fontSize: 26,
+                                          //           fontWeight: FontWeight.w600,
+                                          //           color: Colors.black
+                                          //       )
+                                          //   ),
+                                          // ),
                                           Padding(
                                               padding: const EdgeInsets.only(left: 5.0, top: 13.0),
                                               child: Text(
@@ -2953,13 +3020,15 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
 
   profitByYear() {
     double profit = 0.0;
-      profit = yearSale - (yearCapital + yearLossTotal);
+    // profit = yearSale - (yearCapital + yearLossTotal);
+    profit = yearSale - (yearCapital);
     return profit;
   }
 
   profitByLastYear() {
     double profit = 0.0;
-    profit = lastYearSale - (lastYearCapital + lastYearLoss);
+    // profit = lastYearSale - (lastYearCapital + lastYearLoss);
+    profit = lastYearSale - (lastYearCapital);
     return profit;
   }
 
@@ -3256,6 +3325,20 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
       return 1000;
     }
     return growthRate.toInt();
+  }
+
+  animatedPrice(double price, style) {
+    double temp = 0;
+    double total =  price;
+    return Countup(
+      precision: 2,
+      begin: temp,
+      end: total,
+      curve: Curves.easeInOut,
+      duration: Duration(milliseconds: 500),
+      separator: ',',
+      style: style, textScaleFactor: 1,
+    );
   }
 
 

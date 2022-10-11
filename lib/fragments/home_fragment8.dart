@@ -804,9 +804,9 @@ class OverviewPageState extends State<OverviewPage>
                                   Padding(
                                     padding: const EdgeInsets.only(left: 0.0, right: 10.0),
                                     child: Text(
-                                      "Ongoing sale reports", textScaleFactor: 1,
+                                      widget.isEnglish? "Ongoing sale reports": "လက်ရှိ ရောင်းဝယ် အချုပ်", textScaleFactor: 1,
                                       maxLines: 1,
-                                      textAlign: TextAlign.right,
+                                      textAlign: TextAlign.left,
                                       style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w600,
@@ -864,8 +864,7 @@ class OverviewPageState extends State<OverviewPage>
                         padding: const EdgeInsets.only(
                             top: 0.0, left: 0.0, right: 0.0),
 
-                        child: cateScIndex == 0 || cateScIndex == 1 ?
-                        BlocDayOverviewImp.BlocDayOverview(
+                        child: cateScIndex == 0 ? BlocDayOverviewImp.BlocDayOverview(
                           isEnglish: widget.isEnglish,
                           dateTime: today,
                           key: valueKeyTog(),
@@ -888,7 +887,33 @@ class OverviewPageState extends State<OverviewPage>
                           itemBuilderType:
                           BlocDayOverviewImp.PaginateBuilderType.listView,
                           isLive: true,
-                        ) :
+                        ):
+                            cateScIndex == 1 ? Container(
+                              child: BlocDayOverviewImp.BlocDayOverview(
+                                isEnglish: widget.isEnglish,
+                                dateTime: today,
+                                key: valueKeyTog(),
+                                shopId: widget.shopId,
+                                openDrawer : widget._openDrawerBtn,
+                                closeDrawer : widget._closeDrawerBtn,
+                                query: ordersQueryMonth(),
+                                itemBuilder: (context1, documentSnapshots, index) {
+                                  Map<String, dynamic> data = documentSnapshots[index].data() as Map<String, dynamic>;
+
+                                  String item = zeroToTen(data['date'].toDate().year.toString()) + ' ' + zeroToTen(data['date'].toDate().month.toString()) + ' ' + zeroToTen(data['date'].toDate().day.toString()) + ' ' + zeroToTen(data['date'].toDate().hour.toString()) + ' ' + zeroToTen(data['date'].toDate().minute.toString());
+                                  return Container(child: Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: Text('items ' + item.toString()),
+                                  ));
+                                },
+                                resetState: resetState,
+                                selectedIntVal: selectedIntVal,
+                                intValIni : cateScIndex,
+                                itemBuilderType:
+                                BlocDayOverviewImp.PaginateBuilderType.listView,
+                                isLive: true,
+                              ),
+                            ):
                         BlocYearOverviewImp.BlocYearOverview(
                           isEnglish: widget.isEnglish,
                           dateTime: today,
