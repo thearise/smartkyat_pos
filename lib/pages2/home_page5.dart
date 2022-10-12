@@ -8013,13 +8013,37 @@ class HomePageState extends State<HomePage>
 
   List<String> prodList2 = [];
   late final SlidableController slidableController1;
-  addProduct3(data) {
+  // addProduct3(data) {
+  //   if (data != 'null') {
+  //     data =  data.split('^')[0] + '^' + data.split('^')[1] + '^' + data.split('^')[2] + '^' + data.split('^')[3] + '^' +
+  //         data.split('^')[4] + '^' + data.split('^')[5] + '^' +  '0'+ '^'  + data.split('^')[6] + '^' + data.split('^')[7]+ '^' + data.split('^')[8] + '^' + data.split('^')[9] + '^' + data.split('^')[10] + '^' + data.split('^')[11];
+  //     setState(() {
+  //       prodList2.add(data);
+  //     });
+  //   }
+  // }
+  addProduct3(data) async {
+    String newData =  data.split('^')[3] + '^' +
+        data.split('^')[4] + '^' + data.split('^')[5] + '^' +  '0'+ '^'  + data.split('^')[6] + '^' + data.split('^')[7]+ '^' + data.split('^')[8] + '^' + data.split('^')[9] + '^' + data.split('^')[10] + '^' + data.split('^')[11];
+    for (var i = 0; i < prodList2.length; i++) {
+      if (prodList2[i].split('^')[0] == data.split('^')[0] &&
+          prodList2[i].split('^')[4] == data.split('^')[4]) {
+        data = data.split('^')[0] +
+            '^' +
+            data.split('^')[1] +
+            '^' +
+            (double.parse(prodList2[i].split('^')[2]) +  double.parse(data.split('^')[2])).toString();
+        setState((){
+          prodList2[i] = data + '^' + newData;
+        });
+        return;
+      }
+    }
     if (data != 'null') {
       data =  data.split('^')[0] + '^' + data.split('^')[1] + '^' + data.split('^')[2] + '^' + data.split('^')[3] + '^' +
           data.split('^')[4] + '^' + data.split('^')[5] + '^' +  '0'+ '^'  + data.split('^')[6] + '^' + data.split('^')[7]+ '^' + data.split('^')[8] + '^' + data.split('^')[9] + '^' + data.split('^')[10] + '^' + data.split('^')[11];
-      setState(() {
-        prodList2.add(data);
-      });
+      setState((){
+        prodList2.add(data);});
     }
   }
 

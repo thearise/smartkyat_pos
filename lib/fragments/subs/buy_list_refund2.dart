@@ -817,7 +817,8 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                       ],
                                                     ),
                                                   );
-                                                } return Container();
+                                                }
+                                                return Container(height: 78.5,);
                                               }
                                           ),
                                         ListTile(
@@ -1207,7 +1208,15 @@ class _BuyListRefundState extends State<BuyListRefund>
                             );
                           }
 
-                          return Expanded(child: Container());
+                          return Expanded(
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 15.0),
+                                child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                    child: CupertinoActivityIndicator(radius: 15,)),
+                              ),
+                            ),
+                          );
                         }),
                   Container(
                     color: Colors.white,
