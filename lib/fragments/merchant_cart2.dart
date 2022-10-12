@@ -151,7 +151,7 @@ class MerchantCartState extends State<MerchantCart>
         setState(() {
           textSetMerchOrders = 'အ၀ယ်စာရင်း';
           textSetClearCart = 'စာရင်းမလုပ်သေးပါ';
-          textSetDiscount = 'ဝယ်စာရင်း လျှော့ငွေ';
+          textSetDiscount = 'လျှော့ငွေ';
           textSetNoMerchant = 'ဝယ်ယူသူမရွေးရသေးပါ';
           textSetTotalSale = 'စုစုပေါင်းကျသင့်ငွေ';
           textSetCheckout = 'ဝယ်မည်';

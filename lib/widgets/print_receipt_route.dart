@@ -93,7 +93,7 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
           VPaid = 'ပေးငွေ';
           VDebt = 'ကျန်ငွေ';
           subVTotal = 'ကျသင့်ငွေပေါင်း';
-          VDiscount = 'ဝယ်စာရင်း လျှော့ငွေ';
+          VDiscount = 'လျှော့ငွေ';
         });
       }
     });
@@ -537,7 +537,7 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                            padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 5),
                             child: Text('RECEIPT VOUCHER', textScaleFactor: 1,
                               textAlign: TextAlign.left,
                               style: TextStyle(
@@ -548,7 +548,7 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
                               ),),
                           ),
                           SizedBox(
-                            height: 5,
+                            height: 10,
                           ),
                           Expanded(
                               child: pdfText == '' ? Center(
@@ -560,7 +560,7 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
                                     PdfApi.openFile(pdfFile!);
                                   },
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                    padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width > 900? 80: 8.0),
                                     child: PdfViewer.openFile(pdfText),
                                   )
                               )
