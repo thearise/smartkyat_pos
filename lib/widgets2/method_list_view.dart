@@ -15,10 +15,12 @@ import '../constants/picker_method.dart';
 class MethodListView extends StatelessWidget {
   const MethodListView({
     Key? key,
+    required this.isEnglish,
     required this.pickMethods,
     required this.onSelectMethod,
   }) : super(key: key);
 
+  final bool isEnglish;
   final List<PickMethod> pickMethods;
   final Function(PickMethod method) onSelectMethod;
 
@@ -142,7 +144,7 @@ class MethodListView extends StatelessWidget {
                 // addNewProd(context);
               },
               child: Text(
-                'Add image', textScaleFactor: 1,
+                isEnglish? 'Add image': 'ပုံထည့်ရန်', textScaleFactor: 1,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     height: 1.3,

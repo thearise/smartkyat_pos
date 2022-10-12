@@ -117,6 +117,7 @@ mixin ExamplePageMixin<T extends StatefulWidget> on State<T> {
           ),
         Expanded(
           child: MethodListView(
+            isEnglish: true,
             pickMethods: pickMethods,
             onSelectMethod: selectAssets,
           ),
