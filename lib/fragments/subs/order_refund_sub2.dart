@@ -646,7 +646,8 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                       ],
                                                     ),
                                                   );
-                                                } return Container();
+                                                }
+                                                return Container(height: 78.5,);
                                               }
                                           ),
                                         ListTile(
@@ -1112,7 +1113,15 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                             );
                           }
 
-                          return Expanded(child: Container());
+                          return Expanded(
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 15.0),
+                                child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                    child: CupertinoActivityIndicator(radius: 15,)),
+                              ),
+                            ),
+                          );
                         }),
                   Container(
                     color: Colors.white,

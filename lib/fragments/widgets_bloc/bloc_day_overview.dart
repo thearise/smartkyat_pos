@@ -918,7 +918,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                             builder: (
                                                 context) =>
                                                 HomeFragment(
-                                                  shopId: widget.shopId,  openDrawerBtn: widget._openDrawer, closeDrawerBtn: widget._closeDrawer, isEnglish: widget.isEnglish,
+                                                  shopId: widget.shopId, tab: cateScIndex, openDrawerBtn: widget._openDrawer, closeDrawerBtn: widget._closeDrawer, isEnglish: widget.isEnglish,
                                                 )),
                                       );
                                       openDrawerFrom();
@@ -1374,7 +1374,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                             builder: (
                                                 context) =>
                                                 ProdSaleSumHome(
-                                                  shopId: widget.shopId,  openDrawerBtn: widget._openDrawer, closeDrawerBtn: widget._closeDrawer, isEnglish: widget.isEnglish,
+                                                  shopId: widget.shopId,  tab: cateScIndex,openDrawerBtn: widget._openDrawer, closeDrawerBtn: widget._closeDrawer, isEnglish: widget.isEnglish,
                                                 )),
                                       );
                                       openDrawerFrom();

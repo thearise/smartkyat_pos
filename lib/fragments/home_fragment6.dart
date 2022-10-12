@@ -59,24 +59,22 @@ class HomeFragment extends StatefulWidget {
   final _openDrawerBtn;
   final _closeDrawerBtn;
 
+
   HomeFragment({
     required void closeDrawerBtn(String str),
     required void openDrawerBtn(String str),
     required this.shopId,
     required this.isEnglish,
+    required this.tab,
     Key? key,
   }) :
         _openDrawerBtn = openDrawerBtn,
         _closeDrawerBtn = closeDrawerBtn;
   final shopId;
   final bool isEnglish;
+  final int tab;
   @override
   HomeFragmentState createState() => HomeFragmentState();
-
-// HomeFragment({Key? key, required void toggleCoinCallback()}) : super(key: key);
-//
-// @override
-// _HomeFragmentState createState() => _HomeFragmentState();
 }
 
 class HomeFragmentState extends State<HomeFragment>
@@ -146,7 +144,6 @@ class HomeFragmentState extends State<HomeFragment>
   String currencyUnit = 'MMK';
 
   slidingSearchCont() {
-
     if(slidingSearch == 0) {
       // debugPrint('gg0');
       subTabController.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
@@ -228,9 +225,17 @@ class HomeFragmentState extends State<HomeFragment>
 
   @override
   initState() {
+
     _dateTime = DateTime.now();
     debugPrint('Timestamp ' + DateTime.now().toString() + ' --> ' + Timestamp.fromMillisecondsSinceEpoch(1599573193925).toString());
     getStoreId().then((value) {
+      if(widget.tab == 0) {
+        cateScIndex = 0;
+      } else if (widget.tab == 1) {
+        cateScIndex = 2;
+      } else {
+        cateScIndex = 3;
+      }
       setState(() {
         shopId = value;
       });

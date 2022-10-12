@@ -134,6 +134,8 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
   ScrollController _scrollController = ScrollController();
   int itemPerPage = 10;
 
+  Map<dynamic, dynamic> resProds = {};
+
 
   @override
   initState() {
@@ -223,13 +225,13 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
 
   Map sortMapByImS(Map map) {
     final sortedKeys = map.keys.toList(growable: false)
-      ..sort((k1, k2) => ((map[k1]['de'].compareTo(map[k2]['de']))));
+      ..sort((k1, k2) => ((map[k1]['da'].compareTo(map[k2]['da']))));
 
     return Map.fromIterable(sortedKeys, key: (k) => k, value: (k) => map[k]);
   }
   Map sortMapByImR(Map map) {
     final sortedKeys = map.keys.toList(growable: false)
-      ..sort((k1, k2) => ((map[k2]['de'].compareTo(map[k1]['de']))));
+      ..sort((k1, k2) => ((map[k2]['da'].compareTo(map[k1]['da']))));
 
     return Map.fromIterable(sortedKeys, key: (k) => k, value: (k) => map[k]);
   }
@@ -269,7 +271,7 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                           stream: prodsSnap,
                           builder: (BuildContext context, prodsSB) {
                             var prods;
-                            Map<dynamic, dynamic> resProds = {};
+                            resProds = {};
 
                             if(prodsSB.hasData) {
                               var prodsSnapOut = prodsSB.data != null? prodsSB.data!.data(): null;
@@ -314,27 +316,12 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                       'mer.' + eachMap.key.toString(): FieldValue.delete()
                                     },
                                   );
-
-                                  debugPrint('prods entri');
                                 }
                                 else {
                                   resProds[eachMap.key] = eachMap.value;
                                 }
                               }
-
-                              if(cateScIndex == 0) {
-                                if(i0Clicked) {
-                                  resProds = sortMapByNaS(resProds);
-                                } else {
-                                  resProds = sortMapByNaR(resProds);
-                                }
-                              } else if(cateScIndex == 1) {
-                                if(i1Clicked) {
-                                  resProds = sortMapByImR(resProds);
-                                } else {
-                                  resProds = sortMapByImS(resProds);
-                                }
-                              } }
+                              }
                               return CustomScrollView(
                                 controller: _scrollController,
                                 slivers: [
@@ -766,6 +753,11 @@ class MerchantsFragmentState extends State<MerchantsFragment> with TickerProvide
                                           }
                                       )
                                   ),
+                                  resProds.length == 0? SliverFillRemaining(
+                                    child: Center(
+                                      child: Text('No item found', textScaleFactor: 1, style: TextStyle(fontSize: 15),),
+                                    ),
+                                  ) :
                                   SliverList(
                                     delegate: SliverChildBuilderDelegate(
                                           (context, index) {
