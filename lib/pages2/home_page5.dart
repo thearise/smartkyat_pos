@@ -434,7 +434,7 @@ class HomePageState extends State<HomePage>
           VPaid = 'ပေးငွေ';
           VDebt = 'ကျန်ငွေ';
           subVTotal = 'ကျသင့်ငွေပေါင်း';
-          VDiscount = 'ဝယ်စာရင်း လျှော့ငွေ';
+          VDiscount = 'လျှော့ငွေ';
           textSetClear = 'ပယ်ဖျက်ရန်';
           textSetTotalSale = 'စုစုပေါင်း';
           textSetCheckOut = 'ရောင်းရန်';
@@ -6602,232 +6602,234 @@ class HomePageState extends State<HomePage>
                                                                             ),
                                                                             Padding(
                                                                               padding: const EdgeInsets.only(
-                                                                                  top: 71.0,
+                                                                                  top: 67.0,
                                                                                   left: 0.0,
                                                                                   right: 0.0),
-                                                                              child: Column(
-                                                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                children: [
-                                                                                  Container(
-                                                                                    child: Padding(
-                                                                                        padding: const EdgeInsets.only(top: 15.0, left: 15.0, right: 15.0, bottom: 12.0),
-                                                                                        child: Row(
-                                                                                            children: [
-                                                                                              GestureDetector(
-                                                                                                onTap: () async {
-                                                                                                  setState((){
-                                                                                                    saveLoading = true;
-                                                                                                    disableTouch = true;
-                                                                                                  });
-                                                                                                  final doc = await PdfDocument.openFile(pdfFile!.path);
-                                                                                                  final pages = doc.pageCount;
-                                                                                                  List<imglib.Image> images = [];
+                                                                              child: Container(
+                                                                                child: Column(
+                                                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                  children: [
+                                                                                    Container(
+                                                                                      child: Padding(
+                                                                                          padding: const EdgeInsets.only(top: 15.0, left: 15.0, right: 15.0, bottom: 12.0),
+                                                                                          child: Row(
+                                                                                              children: [
+                                                                                                GestureDetector(
+                                                                                                  onTap: () async {
+                                                                                                    setState((){
+                                                                                                      saveLoading = true;
+                                                                                                      disableTouch = true;
+                                                                                                    });
+                                                                                                    final doc = await PdfDocument.openFile(pdfFile!.path);
+                                                                                                    final pages = doc.pageCount;
+                                                                                                    List<imglib.Image> images = [];
 
 // get images from all the pages
-                                                                                                  for (int i = 1; i <= pages; i++) {
-                                                                                                    var page = await doc.getPage(i);
-                                                                                                    var imgPDF = await page.render(width: page.width.round()*5, height: page.height.round()*5);
-                                                                                                    var img = await imgPDF.createImageDetached();
-                                                                                                    var imgBytes = await img.toByteData(format: ImageByteFormat.png);
-                                                                                                    var libImage = imglib.decodeImage(imgBytes!.buffer
-                                                                                                        .asUint8List(imgBytes.offsetInBytes, imgBytes.lengthInBytes));
-                                                                                                    images.add(libImage!);
-                                                                                                  }
+                                                                                                    for (int i = 1; i <= pages; i++) {
+                                                                                                      var page = await doc.getPage(i);
+                                                                                                      var imgPDF = await page.render(width: page.width.round()*5, height: page.height.round()*5);
+                                                                                                      var img = await imgPDF.createImageDetached();
+                                                                                                      var imgBytes = await img.toByteData(format: ImageByteFormat.png);
+                                                                                                      var libImage = imglib.decodeImage(imgBytes!.buffer
+                                                                                                          .asUint8List(imgBytes.offsetInBytes, imgBytes.lengthInBytes));
+                                                                                                      images.add(libImage!);
+                                                                                                    }
 
 // stitch images
-                                                                                                  int totalHeight = 0;
-                                                                                                  images.forEach((e) {
-                                                                                                    totalHeight += e.height;
-                                                                                                  });
-                                                                                                  int totalWidth = 0;
-                                                                                                  images.forEach((element) {
-                                                                                                    totalWidth = totalWidth < element.width ? element.width : totalWidth;
-                                                                                                  });
-                                                                                                  mergedImage = imglib.Image(totalWidth, totalHeight);
-                                                                                                  int mergedHeight = 0;
-                                                                                                  images.forEach((element) {
-                                                                                                    imglib.copyInto(mergedImage, element, dstX: 0, dstY: mergedHeight, blend: false);
-                                                                                                    mergedHeight += element.height;
-                                                                                                  });
-
-                                                                                                  // Save image as a file
-                                                                                                  // final documentDirectory = await getExternalStorageDirectory();
-                                                                                                  // Directory appDocDirectory = await getApplicationDocumentsDirectory();
-                                                                                                  // File imgFile = new File(appDocDirectory.path + 'test.jpg');
-                                                                                                  // new File(imgFile.path).writeAsBytes(imglib.encodeJpg(mergedImage));
-
-                                                                                                  // Save to album.
-                                                                                                  // bool? success = await ImageSave.saveImage(Uint8List.fromList(imglib.encodeJpg(mergedImage)), "demo.jpg", albumName: "demo");
-                                                                                                  _saveImage(Uint8List.fromList(imglib.encodeJpg(mergedImage)));
-                                                                                                  Future.delayed(const Duration(milliseconds: 2000), () {
-                                                                                                    setState((){
-                                                                                                      saveLoading = false;
-                                                                                                      disableTouch = false;
+                                                                                                    int totalHeight = 0;
+                                                                                                    images.forEach((e) {
+                                                                                                      totalHeight += e.height;
                                                                                                     });
-                                                                                                    smartKyatFlash('Image Saved successfully.', 's');
+                                                                                                    int totalWidth = 0;
+                                                                                                    images.forEach((element) {
+                                                                                                      totalWidth = totalWidth < element.width ? element.width : totalWidth;
+                                                                                                    });
+                                                                                                    mergedImage = imglib.Image(totalWidth, totalHeight);
+                                                                                                    int mergedHeight = 0;
+                                                                                                    images.forEach((element) {
+                                                                                                      imglib.copyInto(mergedImage, element, dstX: 0, dstY: mergedHeight, blend: false);
+                                                                                                      mergedHeight += element.height;
+                                                                                                    });
 
-                                                                                                  });
-                                                                                                },
-                                                                                                child: Container(
-                                                                                                  width: MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 31 - 100,
-                                                                                                  height: 50,
-                                                                                                  decoration: BoxDecoration(
-                                                                                                    borderRadius:
-                                                                                                    BorderRadius.circular(10.0),
-                                                                                                    color: AppTheme.secButtonColor,
-                                                                                                  ),
-                                                                                                  child: Padding(
-                                                                                                    padding: const EdgeInsets.only(
-                                                                                                        top: 0.0,
-                                                                                                        bottom: 0.0),
-                                                                                                    child: Row(
-                                                                                                      mainAxisAlignment:
-                                                                                                      MainAxisAlignment
-                                                                                                          .center,
-                                                                                                      children: [
-                                                                                                        Expanded(
-                                                                                                          child: Padding(
-                                                                                                            padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                                                                                            child: saveLoading ?  Center(
-                                                                                                              child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                                                                                                  child: CupertinoActivityIndicator(radius: 15,)),
-                                                                                                            ) : Container(
-                                                                                                                child: Text(
-                                                                                                                  textSetSaveImage, textScaleFactor: 1,
-                                                                                                                  textAlign: TextAlign.center,
-                                                                                                                  style: TextStyle(
-                                                                                                                      fontSize: 17.5,
-                                                                                                                      fontWeight: FontWeight.w600,
-                                                                                                                      color: Colors.black
-                                                                                                                  ),
-                                                                                                                  strutStyle: StrutStyle(
-                                                                                                                    height: 1.3,
-                                                                                                                    // fontSize:,
-                                                                                                                    forceStrutHeight: true,
-                                                                                                                  ),
-                                                                                                                )
-                                                                                                            ),
-                                                                                                          ),
-                                                                                                        ),
-                                                                                                      ],
-                                                                                                    ),
-                                                                                                  ),
-                                                                                                ),
-                                                                                              ),
-                                                                                              SizedBox(width: 15.0),
-                                                                                              GestureDetector(
-                                                                                                onTap: () async {
-                                                                                                  _onScanPressed();
-                                                                                                  setState(() {
-                                                                                                    // mystate(()  {
-                                                                                                    prodList = [];
-                                                                                                    discount = 0.0;
-                                                                                                    discountAmount =0.0;
-                                                                                                    debt =0;
-                                                                                                    refund =0;
-                                                                                                    customerId = 'name^name';
-                                                                                                    disText = '';
-                                                                                                    isDiscount = '';
-                                                                                                    // });
-                                                                                                  });
-                                                                                                  Future.delayed(const Duration(milliseconds: 1000), () {
-                                                                                                    _controllerTablet.animateTo(4);
-                                                                                                  });
-                                                                                                },
-                                                                                                child: Container(
-                                                                                                  // width: (MediaQuery.of(context).size.width - 45)* (1/4),
-                                                                                                  width: 85,
-                                                                                                  height: 50,
-                                                                                                  decoration: BoxDecoration(
+                                                                                                    // Save image as a file
+                                                                                                    // final documentDirectory = await getExternalStorageDirectory();
+                                                                                                    // Directory appDocDirectory = await getApplicationDocumentsDirectory();
+                                                                                                    // File imgFile = new File(appDocDirectory.path + 'test.jpg');
+                                                                                                    // new File(imgFile.path).writeAsBytes(imglib.encodeJpg(mergedImage));
+
+                                                                                                    // Save to album.
+                                                                                                    // bool? success = await ImageSave.saveImage(Uint8List.fromList(imglib.encodeJpg(mergedImage)), "demo.jpg", albumName: "demo");
+                                                                                                    _saveImage(Uint8List.fromList(imglib.encodeJpg(mergedImage)));
+                                                                                                    Future.delayed(const Duration(milliseconds: 2000), () {
+                                                                                                      setState((){
+                                                                                                        saveLoading = false;
+                                                                                                        disableTouch = false;
+                                                                                                      });
+                                                                                                      smartKyatFlash('Image Saved successfully.', 's');
+
+                                                                                                    });
+                                                                                                  },
+                                                                                                  child: Container(
+                                                                                                    width: MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * (2 / 3.5)) - 31 - 100,
+                                                                                                    height: 50,
+                                                                                                    decoration: BoxDecoration(
                                                                                                       borderRadius:
                                                                                                       BorderRadius.circular(10.0),
-                                                                                                      color: AppTheme.themeColor),
-                                                                                                  child: Padding(
-                                                                                                    padding: const EdgeInsets.only(
-                                                                                                        top: 0.0,
-                                                                                                        bottom: 0.0),
-                                                                                                    child: Row(
-                                                                                                      mainAxisAlignment:
-                                                                                                      MainAxisAlignment
-                                                                                                          .center,
-                                                                                                      children: [
-                                                                                                        Expanded(
-                                                                                                          child: Padding(
-                                                                                                            padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 2.0),
-                                                                                                            child: Container(
-                                                                                                                child: Icon(
-                                                                                                                  Icons.print_rounded,
-                                                                                                                  size: 25,
-                                                                                                                  color: Colors.black,
-                                                                                                                )
-                                                                                                              // child: Text(
-                                                                                                              //   '',
-                                                                                                              //   textAlign: TextAlign.center,
-                                                                                                              //   style: TextStyle(
-                                                                                                              //       fontSize: 18,
-                                                                                                              //       fontWeight: FontWeight.w600,
-                                                                                                              //       color: Colors.black
-                                                                                                              //   ),
-                                                                                                              // )
+                                                                                                      color: AppTheme.secButtonColor,
+                                                                                                    ),
+                                                                                                    child: Padding(
+                                                                                                      padding: const EdgeInsets.only(
+                                                                                                          top: 0.0,
+                                                                                                          bottom: 0.0),
+                                                                                                      child: Row(
+                                                                                                        mainAxisAlignment:
+                                                                                                        MainAxisAlignment
+                                                                                                            .center,
+                                                                                                        children: [
+                                                                                                          Expanded(
+                                                                                                            child: Padding(
+                                                                                                              padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                                                                                              child: saveLoading ?  Center(
+                                                                                                                child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                                                                                                    child: CupertinoActivityIndicator(radius: 15,)),
+                                                                                                              ) : Container(
+                                                                                                                  child: Text(
+                                                                                                                    textSetSaveImage, textScaleFactor: 1,
+                                                                                                                    textAlign: TextAlign.center,
+                                                                                                                    style: TextStyle(
+                                                                                                                        fontSize: 17.5,
+                                                                                                                        fontWeight: FontWeight.w600,
+                                                                                                                        color: Colors.black
+                                                                                                                    ),
+                                                                                                                    strutStyle: StrutStyle(
+                                                                                                                      height: 1.3,
+                                                                                                                      // fontSize:,
+                                                                                                                      forceStrutHeight: true,
+                                                                                                                    ),
+                                                                                                                  )
+                                                                                                              ),
                                                                                                             ),
                                                                                                           ),
-                                                                                                        ),
-                                                                                                      ],
+                                                                                                        ],
+                                                                                                      ),
                                                                                                     ),
                                                                                                   ),
                                                                                                 ),
-                                                                                              ),
-                                                                                            ]
+                                                                                                SizedBox(width: 15.0),
+                                                                                                GestureDetector(
+                                                                                                  onTap: () async {
+                                                                                                    _onScanPressed();
+                                                                                                    setState(() {
+                                                                                                      // mystate(()  {
+                                                                                                      prodList = [];
+                                                                                                      discount = 0.0;
+                                                                                                      discountAmount =0.0;
+                                                                                                      debt =0;
+                                                                                                      refund =0;
+                                                                                                      customerId = 'name^name';
+                                                                                                      disText = '';
+                                                                                                      isDiscount = '';
+                                                                                                      // });
+                                                                                                    });
+                                                                                                    Future.delayed(const Duration(milliseconds: 1000), () {
+                                                                                                      _controllerTablet.animateTo(4);
+                                                                                                    });
+                                                                                                  },
+                                                                                                  child: Container(
+                                                                                                    // width: (MediaQuery.of(context).size.width - 45)* (1/4),
+                                                                                                    width: 85,
+                                                                                                    height: 50,
+                                                                                                    decoration: BoxDecoration(
+                                                                                                        borderRadius:
+                                                                                                        BorderRadius.circular(10.0),
+                                                                                                        color: AppTheme.themeColor),
+                                                                                                    child: Padding(
+                                                                                                      padding: const EdgeInsets.only(
+                                                                                                          top: 0.0,
+                                                                                                          bottom: 0.0),
+                                                                                                      child: Row(
+                                                                                                        mainAxisAlignment:
+                                                                                                        MainAxisAlignment
+                                                                                                            .center,
+                                                                                                        children: [
+                                                                                                          Expanded(
+                                                                                                            child: Padding(
+                                                                                                              padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 2.0),
+                                                                                                              child: Container(
+                                                                                                                  child: Icon(
+                                                                                                                    Icons.print_rounded,
+                                                                                                                    size: 25,
+                                                                                                                    color: Colors.black,
+                                                                                                                  )
+                                                                                                                // child: Text(
+                                                                                                                //   '',
+                                                                                                                //   textAlign: TextAlign.center,
+                                                                                                                //   style: TextStyle(
+                                                                                                                //       fontSize: 18,
+                                                                                                                //       fontWeight: FontWeight.w600,
+                                                                                                                //       color: Colors.black
+                                                                                                                //   ),
+                                                                                                                // )
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                          ),
+                                                                                                        ],
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ]
+                                                                                          )
+                                                                                      ),
+                                                                                    ),
+                                                                                    SizedBox(height: 5),
+                                                                                    // Container(
+                                                                                    //   height: 500,
+                                                                                    //   width: 200,
+                                                                                    //   child: GestureDetector(
+                                                                                    //       onTap: () {
+                                                                                    //         debugPrint('clicked');
+                                                                                    //         PdfApi.openFile(pdfFile);
+                                                                                    //       },
+                                                                                    //       child: PdfViewer.openFile(pdfText)
+                                                                                    //   ),
+                                                                                    // )
+                                                                                    // SizedBox(
+                                                                                    //   height: 10,
+                                                                                    // ),
+                                                                                    Padding(
+                                                                                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                                                                      child: Text(textSetReceipt, textScaleFactor: 1,
+                                                                                        textAlign: TextAlign.left,
+                                                                                        style: TextStyle(
+                                                                                          fontWeight: FontWeight.bold,
+                                                                                          fontSize: 14,
+                                                                                          letterSpacing: 2,
+                                                                                          color: Colors.grey,
+                                                                                        ),),
+                                                                                    ),
+                                                                                    SizedBox(
+                                                                                      height: 5,
+                                                                                    ),
+                                                                                    pdfText == '' ? Container() :
+                                                                                    Expanded(
+                                                                                        child: GestureDetector(
+                                                                                            onTap: () {
+                                                                                              debugPrint('clicked');
+                                                                                              PdfApi.openFile(pdfFile!);
+                                                                                            },
+                                                                                            child: Padding(
+                                                                                              padding: const EdgeInsets.symmetric(horizontal: 45.0),
+                                                                                              child: PdfViewer.openFile(pdfText),
+                                                                                            )
                                                                                         )
                                                                                     ),
-                                                                                  ),
-                                                                                  SizedBox(height: 5),
-                                                                                  // Container(
-                                                                                  //   height: 500,
-                                                                                  //   width: 200,
-                                                                                  //   child: GestureDetector(
-                                                                                  //       onTap: () {
-                                                                                  //         debugPrint('clicked');
-                                                                                  //         PdfApi.openFile(pdfFile);
-                                                                                  //       },
-                                                                                  //       child: PdfViewer.openFile(pdfText)
-                                                                                  //   ),
-                                                                                  // )
-                                                                                  // SizedBox(
-                                                                                  //   height: 10,
-                                                                                  // ),
-                                                                                  Padding(
-                                                                                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                                                                    child: Text(textSetReceipt, textScaleFactor: 1,
-                                                                                      textAlign: TextAlign.left,
-                                                                                      style: TextStyle(
-                                                                                        fontWeight: FontWeight.bold,
-                                                                                        fontSize: 14,
-                                                                                        letterSpacing: 2,
-                                                                                        color: Colors.grey,
-                                                                                      ),),
-                                                                                  ),
-                                                                                  SizedBox(
-                                                                                    height: 5,
-                                                                                  ),
-                                                                                  pdfText == '' ? Container() :
-                                                                                  Expanded(
-                                                                                      child: GestureDetector(
-                                                                                          onTap: () {
-                                                                                            debugPrint('clicked');
-                                                                                            PdfApi.openFile(pdfFile!);
-                                                                                          },
-                                                                                          child: Padding(
-                                                                                            padding: const EdgeInsets.symmetric(horizontal: 45.0),
-                                                                                            child: PdfViewer.openFile(pdfText),
-                                                                                          )
-                                                                                      )
-                                                                                  ),
-                                                                                  SizedBox(
-                                                                                    height: 137,
-                                                                                  )
-                                                                                ],
+                                                                                    SizedBox(
+                                                                                      height: 137,
+                                                                                    )
+                                                                                  ],
+                                                                                ),
                                                                               ),
                                                                             ),
                                                                             Align(

@@ -104,7 +104,7 @@ class _BuyListInfoState extends State<BuyListInfo>
           textSetPurchase = 'ဝယ်ယူထားသောပစ္စည်းများ';
           textSetRefund = 'ပြန်ပေးပစ္စည်းများ';
           textSetDebt = 'ကျန်ငွေ';
-          textSetDiscount = 'ဝယ်စာရင်း လျှော့ငွေ';
+          textSetDiscount = 'လျှော့ငွေ';
           textSetAmount = 'Amount applied';
           textSetRefBtn = 'ပစ္စည်းပြန်ပေးရန်';
           textSetPayCashBtn = 'ကျန်ငွေပေးချေရန်';
