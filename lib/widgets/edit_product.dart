@@ -204,41 +204,43 @@ class _EditProductState extends State<EditProduct> {
         textSetProductInfo = 'PRODUCT INFORMATION';
         textSetProdName = 'Product name';
         textSetBarcode = 'Barcode';
-        textSetMainUnitQty = 'MAIN UNIT QUANTITY';
+        textSetMainUnitQty = 'MAIN UNIT INFORMATION';
         textSetUnitQty = 'Unit quantity';
         textSetUnitName = 'Unit name';
         textSetBuyPrice = 'Buy price';
         textSetSalePrice = 'Sale price';
-        textSetSub1UnitQty = '#1 SUB UNIT QUANTITY';
-        textSetSub2UnitQty = '#2 SUB UNIT QUANTITY';
-        textSetWarning = 'E.g, If this item were \"Cigarette 10 packs per 1 carton box\" then it could break down into \"10 / main carton box\".';
-        textSetWarning2 = 'E.g, If this item were \"20 cigarettes per 1 pack\" then it could break down into \"20 / #1 sub pack\".';
+        textSetSub1UnitQty = '#1 SUB UNIT INFORMATION';
+        textSetSub2UnitQty = '#2 SUB UNIT INFORMATION';
+        textSetWarning = 'e.g, If this item were \"Cigarette 10 packs per 1 carton box\" then it could break down into \"10 / main carton box\".';
+        textSetWarning2 = 'e.g, If this item were \"20 cigarettes per 1 pack\" then it could break down into \"20 / #1 sub pack\".';
         textSetRemove = 'REMOVE';
-        textSetUnitMain = 'Unit/main unit';
-        textSetSaveProd = 'Save';
+        textSetUnitMain = 'Qty/ main unit';
+        textSetSaveProd = 'Add product';
         textSetMoreUnit = 'More unit?';
-        textSetUnitSub = 'Unit/sub1 unit';
+        textSetUnitSub = 'Unit/#1 unit';
       });
     } else {
       setState(() {
         textSetEdit = 'ပစ္စည်း ပြင်ဆင်ခြင်း';
-        textSetProductInfo = 'ပစ္စည်း အချက်အလက်';
+        textSetProductInfo = 'PRODUCT INFORMATION';
+        // textSetProductInfo = 'ပစ္စည်း အချက်အလက်';
         textSetProdName = 'ပစ္စည်းအမည်';
-        textSetBarcode = 'Barcode';
-        textSetMainUnitQty = 'MAIN UNIT QUANTITY';
+        textSetBarcode = 'ဘားကုဒ်';
+        textSetMainUnitQty = 'MAIN UNIT INFORMATION';
+        // textSetMainUnitQty = 'အဓိကယူနစ် အချက်အလက်';
         textSetUnitQty = 'အရေအတွက်';
-        textSetUnitName = 'ယူနစ်';
+        textSetUnitName = 'ယူနစ်အမည်';
         textSetBuyPrice = 'ဝယ်ဈေး';
         textSetSalePrice = 'ရောင်းဈေး';
-        textSetSub1UnitQty = '#1 SUB UNIT QUANTITY';
-        textSetSub2UnitQty = '#2 SUB UNIT QUANTITY';
-        textSetWarning = 'E.g, If this item were \"Cigarette 10 packs per 1 carton box\" then it could break down into \"10 / main carton box\".';
-        textSetWarning2 = 'E.g, If this item were \"20 cigarettes per 1 pack\" then it could break down into \"20 / #1 sub pack\".';
-        textSetRemove = 'ဖယ်ရှားပါ';
-        textSetUnitMain = 'Unit/main unit';
+        textSetSub1UnitQty = '#1 ယူနစ် အချက်အလက်';
+        textSetSub2UnitQty = '#2 ယူနစ် အချက်အလက်';
+        textSetWarning = 'e.g, If this item were \"Cigarette 10 packs per 1 carton box\" then it could break down into \"10 / main carton box\".';
+        textSetWarning2 = 'e.g, If this item were \"20 cigarettes per 1 pack\" then it could break down into \"20 / #1 sub pack\".';
+        textSetRemove = 'ပယ်ဖျက်မည်';
+        textSetUnitMain = 'အရေတွက်/ အဓိကယူနစ်';
         textSetSaveProd = 'သိမ်းဆည်းမည်';
-        textSetMoreUnit = 'နောက်ထပ် ယူနစ်?';
-        textSetUnitSub = 'Unit/sub1 unit';
+        textSetMoreUnit = 'ယူနစ်?';
+        textSetUnitSub = 'အရေတွက်/ #1ယူနစ်';
       });
     }
 
@@ -271,6 +273,9 @@ class _EditProductState extends State<EditProduct> {
   double homeBotPadding = 0;
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width > 900
+        ? MediaQuery.of(context).size.width * (2 / 3.5)
+        : MediaQuery.of(context).size.width;
     // homeBotPadding = MediaQuery.of(context).padding.bottom;
     debugPrint('homebotpad ' + homeBotPadding.toString());
     final double scaleFactor = MediaQuery.of(context).textScaleFactor;
@@ -413,6 +418,7 @@ class _EditProductState extends State<EditProduct> {
                                     ),
                                   Expanded(
                                     child: MethodListView(
+                                      isEnglish: widget.isEnglish,
                                       pickMethods: [
                                         PickMethod.cameraAndStay(
                                           maxAssetsCount: 1, lang: widget.isEnglish? 'en': 'mm',
@@ -427,144 +433,173 @@ class _EditProductState extends State<EditProduct> {
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0),
-                            child: TextFormField(
-                              controller: prodNameCtrl,
-                              keyboardType: TextInputType.text,
-                              inputFormatters: [
-                                LengthLimitingTextInputFormatter(30),
-                              ],
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return ' This field is required ';
-                                }
-                                if(value.length > 30 ) {
-                                  return '  You have reached maximum no of characters.';
-                                }
-                                return null;
-                              },
-                              style: TextStyle(
-                                height: 0.95,
-                                fontSize: 15 / scaleFactor,
-                              ),
-                              decoration: InputDecoration(
-                                enabledBorder: OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                    borderSide: BorderSide(
-                                        color: AppTheme.skBorderColor,
-                                        width: 2.0),
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(10.0))),
-
-                                focusedBorder: OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                    borderSide: BorderSide(
-                                        color: AppTheme.themeColor,
-                                        width: 2.0),
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(10.0))),
-                                contentPadding: EdgeInsets.only(
-                                    left: 15.0,
-                                    right: 15.0,
-                                    top: 20.0,
-                                    bottom: 20.0),
-                                //suffixText: 'Required',
-                                suffixStyle: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 12/scaleFactor,
-                                  fontFamily: 'capsulesans',
+                            child: Container(
+                              height: 69,
+                              child: TextFormField(
+                                controller: prodNameCtrl,
+                                keyboardType: TextInputType.text,
+                                inputFormatters: [
+                                  LengthLimitingTextInputFormatter(30),
+                                ],
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return ' This field is required ';
+                                  }
+                                  if(value.length > 30 ) {
+                                    return '  You have reached maximum no of characters.';
+                                  }
+                                  return null;
+                                },
+                                style: TextStyle(
+                                  height: 0.95,
+                                  fontSize: 15 / scaleFactor,
                                 ),
-                                // errorText: wrongPassword,
-                                errorStyle: TextStyle(
-                                    backgroundColor: Colors.white,
+                                decoration: InputDecoration(
+                                  enabledBorder: OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                      borderSide: BorderSide(
+                                          color: AppTheme.skBorderColor,
+                                          width: 2.0),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0))),
+
+                                  focusedBorder: OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                      borderSide: BorderSide(
+                                          color: AppTheme.themeColor,
+                                          width: 2.0),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0))),
+                                  contentPadding: EdgeInsets.only(
+                                      left: 15.0,
+                                      right: 15.0,
+                                      top: 20.0,
+                                      bottom: 20.0),
+                                  //suffixText: 'Required',
+                                  suffixStyle: TextStyle(
+                                    color: Colors.grey,
                                     fontSize: 12/scaleFactor,
                                     fontFamily: 'capsulesans',
-                                    height: 0.1
-                                ),
-                                labelStyle: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black,
-                                ),
+                                  ),
+                                  // errorText: wrongPassword,
+                                  errorStyle: TextStyle(
+                                      backgroundColor: Colors.white,
+                                      fontSize: 12/scaleFactor,
+                                      fontFamily: 'capsulesans',
+                                      height: 0.1
+                                  ),
+                                  labelStyle: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black,
+                                  ),
 // errorText: 'Error message',
-                                labelText: textSetProdName,
-                                floatingLabelBehavior:
-                                FloatingLabelBehavior.auto,
+                                  labelText: textSetProdName,
+                                  floatingLabelBehavior:
+                                  FloatingLabelBehavior.auto,
 //filled: true,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0),
-                            child: TextFormField(
-                              controller: barCodeCtrl,
-                              keyboardType: TextInputType.text,
-                              validator: (value) {
-                                return null;
-                              },
-                              style: TextStyle(
-                                height: 0.95,
-                                fontSize: 15 / scaleFactor,
-                              ),
-                              decoration: InputDecoration(
-                                enabledBorder: OutlineInputBorder(
+                            padding: const EdgeInsets.only(top: 0.0, right: 15.0, left:15.0),
+                            child: Container(
+                              height: 69,
+                              child: TextFormField(
+                                controller: barCodeCtrl,
+                                keyboardType: TextInputType.text,
+                                validator: (value) {
+                                  return null;
+                                },
+                                style: TextStyle(
+                                  height: 0.95,
+                                  fontSize: 15 / scaleFactor,
+                                ),
+                                decoration: InputDecoration(
+                                  enabledBorder: OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
-                                    borderSide: BorderSide(
-                                        color: AppTheme.skBorderColor,
-                                        width: 2.0),
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(10.0))),
+                                      borderSide: BorderSide(
+                                          color: AppTheme.skBorderColor,
+                                          width: 2.0),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0))),
 
-                                focusedBorder: OutlineInputBorder(
+                                  focusedBorder: OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
-                                    borderSide: BorderSide(
-                                        color: AppTheme.themeColor,
-                                        width: 2.0),
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(10.0))),
-                                contentPadding: EdgeInsets.only(
-                                    left: 15.0,
-                                    right: 15.0,
-                                    top: 20.0,
-                                    bottom: 20.0),
-                                //suffixText: 'Required',
-                                suffixIcon: IconButton(
-                                  icon: Image.asset('assets/system/barcode.png', height: 28,),
-                                  onPressed: () async {
-                                    debugPrint("Barcode");
-                                    var code = await  Navigator.of(context).push(
-                                        FadeRoute(page:
-                                        QREditExample(prodName: widget.prodName, isEnglish: widget.isEnglish),
-                                        )
-                                    );
-                                    barCodeCtrl.text = code;
-                                    debugPrint('bar bar ' + code);
-                                  },
-                                ),
-                                suffixStyle: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 12/scaleFactor,
-                                  fontFamily: 'capsulesans',
-                                ),
-                                // errorText: wrongPassword,
-                                errorStyle: TextStyle(
-                                    backgroundColor: Colors.white,
+                                      borderSide: BorderSide(
+                                          color: AppTheme.themeColor,
+                                          width: 2.0),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0))),
+                                  contentPadding: EdgeInsets.only(
+                                      left: 15.0,
+                                      right: 15.0,
+                                      top: 20.0,
+                                      bottom: 20.0),
+                                  //suffixText: 'Required',
+                                  suffixIcon: IconButton(
+                                    icon: Image.asset('assets/system/barcode.png', height: 28,),
+                                    onPressed: () async {
+                                      debugPrint("Barcode");
+                                      var code = await  Navigator.of(context).push(
+                                          FadeRoute(page:
+                                          QREditExample(prodName: widget.prodName, isEnglish: widget.isEnglish),
+                                          )
+                                      );
+                                      barCodeCtrl.text = code;
+                                      debugPrint('bar bar ' + code);
+                                    },
+                                  ),
+                                  suffixStyle: TextStyle(
+                                    color: Colors.grey,
                                     fontSize: 12/scaleFactor,
                                     fontFamily: 'capsulesans',
-                                    height: 0.1
-                                ),
-                                labelStyle: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black,
-                                ),
-                                labelText: textSetBarcode,
-                                floatingLabelBehavior:
-                                FloatingLabelBehavior.auto,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  // errorText: wrongPassword,
+                                  errorStyle: TextStyle(
+                                      backgroundColor: Colors.white,
+                                      fontSize: 12/scaleFactor,
+                                      fontFamily: 'capsulesans',
+                                      height: 0.1
+                                  ),
+                                  labelStyle: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black,
+                                  ),
+                                  labelText: textSetBarcode,
+                                  floatingLabelBehavior:
+                                  FloatingLabelBehavior.auto,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
                                 ),
                               ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 0, left: 15.0),
+                            child: Container(
+                              color: AppTheme.skBorderColor2,
+                              height: 1,
+                              width: MediaQuery.of(context).size.width,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0),
+                            child: Text(
+                                textSetMainUnitQty, textScaleFactor: 1,
+                                style: TextStyle(
+                                  letterSpacing: 1.5,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,color: Colors.grey,
+                                ),
+                                strutStyle: StrutStyle(
+                                  height: widget.isEnglish? 1.4: 1.6,
+                                  forceStrutHeight: true,
+                                )
                             ),
                           ),
                           Padding(
@@ -572,105 +607,80 @@ class _EditProductState extends State<EditProduct> {
                             child: Row(
                               children: [
                                 Expanded(
-                                  child: Text(
-                                      textSetMainUnitQty, textScaleFactor: 1,
+                                  child: Container(
+                                    height: 69,
+                                    child: TextFormField(
+                                      controller: mainQtyCtrl,
+                                      keyboardType: TextInputType.numberWithOptions(decimal: false),
+
+                                      inputFormatters: <TextInputFormatter>[
+                                        FilteringTextInputFormatter.allow(RegExp(_getNum())),
+                                        LengthLimitingTextInputFormatter(15),
+                                      ],
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return ' This field is required ';
+                                        }
+                                        return null;
+                                      },
                                       style: TextStyle(
-                                        letterSpacing: 1.5,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14,color: Colors.grey,
+                                        height: 0.95,
+                                        fontSize: 15 / scaleFactor,
                                       ),
-                                      strutStyle: StrutStyle(
-                                        height: widget.isEnglish? 1.4: 1.6,
-                                        forceStrutHeight: true,
-                                      )
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0),
-                            child: Row(
-                              children: [
-                                Container(
-                                  width: MediaQuery.of(context).size.width > 900 ? ((MediaQuery.of(context).size.width * (2 / 3.5))  - 30) *
-                                      (2.6 / 4) - 8 : (MediaQuery.of(context).size.width -
-                                      30) *
-                                      (2.6 / 4) - 8,
-                                  child: TextFormField(
-                                    controller: mainQtyCtrl,
-                                    keyboardType: TextInputType.numberWithOptions(decimal: false),
-
-                                    inputFormatters: <TextInputFormatter>[
-                                      FilteringTextInputFormatter.allow(RegExp(_getNum())),
-                                      LengthLimitingTextInputFormatter(15),
-                                    ],
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return ' This field is required ';
-                                      }
-                                      return null;
-                                    },
-                                    style: TextStyle(
-                                      height: 0.95,
-                                      fontSize: 15 / scaleFactor,
-                                    ),
-                                    decoration: InputDecoration(
-                                      enabledBorder: OutlineInputBorder(
+                                      decoration: InputDecoration(
+                                        enabledBorder: OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
-                                          borderSide: BorderSide(
-                                              color: AppTheme.skBorderColor,
-                                              width: 2.0),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10.0))),
+                                            borderSide: BorderSide(
+                                                color: AppTheme.skBorderColor,
+                                                width: 2.0),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10.0))),
 
-                                      focusedBorder: OutlineInputBorder(
+                                        focusedBorder: OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
-                                          borderSide: BorderSide(
-                                              color: AppTheme.themeColor,
-                                              width: 2.0),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10.0))),
-                                      contentPadding: EdgeInsets.only(
-                                          left: 15.0,
-                                          right: 15.0,
-                                          top: 20.0,
-                                          bottom: 20.0),
-                                      //suffixText: 'Required',
-                                      suffixStyle: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 12/scaleFactor,
-                                        fontFamily: 'capsulesans',
-                                      ),
-                                      // errorText: wrongPassword,
-                                      errorStyle: TextStyle(
-                                          backgroundColor: Colors.white,
+                                            borderSide: BorderSide(
+                                                color: AppTheme.themeColor,
+                                                width: 2.0),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10.0))),
+                                        contentPadding: EdgeInsets.only(
+                                            left: 15.0,
+                                            right: 15.0,
+                                            top: 20.0,
+                                            bottom: 20.0),
+                                        //suffixText: 'Required',
+                                        suffixStyle: TextStyle(
+                                          color: Colors.grey,
                                           fontSize: 12/scaleFactor,
                                           fontFamily: 'capsulesans',
-                                          height: 0.1
-                                      ),
-                                      labelStyle: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black,
-                                      ),
+                                        ),
+                                        // errorText: wrongPassword,
+                                        errorStyle: TextStyle(
+                                            backgroundColor: Colors.white,
+                                            fontSize: 12/scaleFactor,
+                                            fontFamily: 'capsulesans',
+                                            height: 0.1
+                                        ),
+                                        labelStyle: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black,
+                                        ),
 // errorText: 'Error message',
-                                      labelText: textSetUnitQty,
-                                      floatingLabelBehavior:
-                                      FloatingLabelBehavior.auto,
+                                        labelText: textSetUnitQty,
+                                        floatingLabelBehavior:
+                                        FloatingLabelBehavior.auto,
 //filled: true,
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(10),
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                                Spacer(),
+                                SizedBox(width: 15),
                                 Container(
-                                  width: MediaQuery.of(context).size.width > 900 ? ((MediaQuery.of(context).size.width * (2 / 3.5))  -
-                                      30) *
-                                      (1.4 / 4) - 8 : (MediaQuery.of(context).size.width -
-                                      30) *
-                                      (1.4 / 4) - 8,
+                                  height: 69,
+                                  width: (width - 30) * (1.41 / 4),
                                   child: TextFormField(
                                     controller: mainUnitNameCtrl,
                                     keyboardType: TextInputType.name,
@@ -737,76 +747,81 @@ class _EditProductState extends State<EditProduct> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0),
-                            child: TextFormField(
-                              controller: mainBuyCtrl,
-                              keyboardType: TextInputType.numberWithOptions(decimal: true),
-                              inputFormatters: <TextInputFormatter>[  LengthLimitingTextInputFormatter(15),
-                                FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return ' This field is required ';
-                                }
-                                return null;
-                              },
-                              style: TextStyle(
-                                height: 0.95,
-                                fontSize: 15 / scaleFactor,
-                              ),
-                              decoration: InputDecoration(
-                                enabledBorder: OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                    borderSide: BorderSide(
-                                        color: AppTheme.skBorderColor,
-                                        width: 2.0),
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(10.0))),
-
-                                focusedBorder: OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                    borderSide: BorderSide(
-                                        color: AppTheme.themeColor,
-                                        width: 2.0),
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(10.0))),
-                                contentPadding: EdgeInsets.only(
-                                    left: 15.0,
-                                    right: 15.0,
-                                    top: 20.0,
-                                    bottom: 20.0),
-                                suffixText: '$currencyUnit',
-                                suffixStyle: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 12/scaleFactor,
-                                  fontFamily: 'capsulesans',
+                            padding: const EdgeInsets.only(top: 0.0, right: 15.0, left:15.0),
+                            child: Container(
+                              height: 69,
+                              child: TextFormField(
+                                controller: mainBuyCtrl,
+                                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                inputFormatters: <TextInputFormatter>[  LengthLimitingTextInputFormatter(15),
+                                  FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return ' This field is required ';
+                                  }
+                                  return null;
+                                },
+                                style: TextStyle(
+                                  height: 0.95,
+                                  fontSize: 15 / scaleFactor,
                                 ),
-                                // errorText: wrongPassword,
-                                errorStyle: TextStyle(
-                                    backgroundColor: Colors.white,
+                                decoration: InputDecoration(
+                                  enabledBorder: OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                      borderSide: BorderSide(
+                                          color: AppTheme.skBorderColor,
+                                          width: 2.0),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0))),
+
+                                  focusedBorder: OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                      borderSide: BorderSide(
+                                          color: AppTheme.themeColor,
+                                          width: 2.0),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0))),
+                                  contentPadding: EdgeInsets.only(
+                                      left: 15.0,
+                                      right: 15.0,
+                                      top: 20.0,
+                                      bottom: 20.0),
+                                  suffixText: '$currencyUnit',
+                                  suffixStyle: TextStyle(
+                                    color: Colors.grey,
                                     fontSize: 12/scaleFactor,
                                     fontFamily: 'capsulesans',
-                                    height: 0.1
-                                ),
-                                labelStyle: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black,
-                                ),
+                                  ),
+                                  // errorText: wrongPassword,
+                                  errorStyle: TextStyle(
+                                      backgroundColor: Colors.white,
+                                      fontSize: 12/scaleFactor,
+                                      fontFamily: 'capsulesans',
+                                      height: 0.1
+                                  ),
+                                  labelStyle: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black,
+                                  ),
 // errorText: 'Error message',
-                                labelText: textSetBuyPrice,
-                                floatingLabelBehavior:
-                                FloatingLabelBehavior.auto,
+                                  labelText: textSetBuyPrice,
+                                  floatingLabelBehavior:
+                                  FloatingLabelBehavior.auto,
 //filled: true,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                          Stack(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0, bottom: 15.0),
-                                  child: TextFormField(
+                          Padding(
+                            padding: const EdgeInsets.only(top: 0.0, right: 15.0, left:15.0, bottom: 0.0),
+                            child: Container(
+                              height: 69,
+                              child: Stack(
+                                children: [
+                                  TextFormField(
                                     controller: mainSellCtrl,
                                     keyboardType: TextInputType.numberWithOptions(decimal: true),
                                     inputFormatters: <TextInputFormatter>[
@@ -869,35 +884,37 @@ class _EditProductState extends State<EditProduct> {
                                       ),
                                     ),
                                   ),
-                                ),
-                                priceWarning ? Padding(
-                                  padding: const EdgeInsets.only(left: 30.0, right: 15.0, top: 61),
-                                  child: Container(
-                                    color: Colors.white,
-                                    //height: 20,
-                                    child: Text(' Price warning ', textScaleFactor: 1,
-                                      style: TextStyle(
-                                        color: Colors.amber, fontSize: 12, fontWeight: FontWeight.w500,
-                                      ),),
-                                  ),
-                                ) : Container(),
-                              ]
+                                  priceWarning ? Padding(
+                                    padding: const EdgeInsets.only(left: 15.0, top: 43, right: 15),
+                                    child: Container(
+                                      height: 69,
+                                      color: Colors.white,
+                                      //height: 20,
+                                      child: Text(' Price warning ', textScaleFactor: 1,
+                                        style: TextStyle(
+                                          color: Colors.amber, fontSize: 12, fontWeight: FontWeight.w500,
+                                        ),),
+                                    ),
+                                  ) : Container(),
+                                ],
+                              ),
+                            ),
                           ),
-                          (sub1UnitNameCtrl.text != '') && (sub2UnitNameCtrl.text == '') && subExist == 1 || (sub1UnitNameCtrl.text != '') && (sub2UnitNameCtrl.text != '') && subExist == 1 ? createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl, textSetWarning) : Container(),
+                          (sub1UnitNameCtrl.text != '') && (sub2UnitNameCtrl.text == '') && subExist == 1 || (sub1UnitNameCtrl.text != '') && (sub2UnitNameCtrl.text != '') && subExist == 1 ? createCard('1', widget.isEnglish? 'main': 'အဓိက', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl, textSetWarning) : Container(),
                           (sub1UnitNameCtrl.text != '') && (sub2UnitNameCtrl.text != '' )  && subExist == 2 ? Column(
                             children: [
-                              createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl, textSetWarning),
-                              createCard('2', 'sub1', sub2perUnitCtrl, sub2UnitNameCtrl, sub2QtyCtrl, sub2SellCtrl, textSetWarning2),
+                              createCard('1', widget.isEnglish? 'main': 'အဓိက', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl, textSetWarning),
+                              createCard('2', widget.isEnglish? '#1 sub ': '#1 အခွဲ', sub2perUnitCtrl, sub2UnitNameCtrl, sub2QtyCtrl, sub2SellCtrl, textSetWarning2),
                             ],
                           ) : Container(),
 
-                          addSubUnit == 1 && subExist == 0? createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl, textSetWarning) : Container(),
-                          addSubUnit == 1 && subExist == 1 ?  createCard('2', 'sub1', sub2perUnitCtrl, sub2UnitNameCtrl, sub2QtyCtrl, sub2SellCtrl, textSetWarning2) : Container(),
+                          addSubUnit == 1 && subExist == 0? createCard('1', widget.isEnglish? 'main': 'အဓိက', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl, textSetWarning) : Container(),
+                          addSubUnit == 1 && subExist == 1 ?  createCard('2', widget.isEnglish? '#1 sub ': '#1 အခွဲ', sub2perUnitCtrl, sub2UnitNameCtrl, sub2QtyCtrl, sub2SellCtrl, textSetWarning2) : Container(),
                           addSubUnit == 2 && subExist == 0 ?
                           Column(
                             children: [
-                              createCard('1', 'main', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl, textSetWarning),
-                              createCard('2', 'sub1', sub2perUnitCtrl, sub2UnitNameCtrl, sub2QtyCtrl, sub2SellCtrl, textSetWarning2),
+                              createCard('1', widget.isEnglish? 'main': 'အဓိက', sub1perUnitCtrl, sub1UnitNameCtrl, sub1QtyCtrl, sub1SellCtrl, textSetWarning),
+                              createCard('2', widget.isEnglish? '#1 sub ': '#1 အခွဲ', sub2perUnitCtrl, sub2UnitNameCtrl, sub2QtyCtrl, sub2SellCtrl, textSetWarning2),
                             ],
                           ) : Container(),
                         ],
@@ -1629,20 +1646,33 @@ class _EditProductState extends State<EditProduct> {
     return Padding(
       padding: const EdgeInsets.only(left: 15.0, right: 15.0),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(top: 0, bottom: 15),
+            child: Container(
+              color: AppTheme.skBorderColor2,
+              height: 1,
+              width: MediaQuery.of(context).size.width,
+            ),
+          ),
           Row(
             children: [
               Expanded(
                 child: Container(
                   alignment: Alignment.topLeft,
+                  padding: EdgeInsets.only(top: 0),
                   child: Text(
-                    "#$length SUB UNIT QUANTITY", textScaleFactor: 1,
+                    widget.isEnglish?
+                    "#$length SUB UNIT INFORMATION":
+                    "#$length SUB UNIT INFORMATION",
+                    // "#${cards.length + 1} ယူနစ် အချက်အလက်",
+                    textScaleFactor: 1,
                     style: TextStyle(
-                        letterSpacing: 1.5,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,color: Colors.grey,
-                        overflow: TextOverflow.ellipsis
+                      letterSpacing: 1.5,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,color: Colors.grey,
                     ),
                   ),
                 ),
@@ -1727,74 +1757,76 @@ class _EditProductState extends State<EditProduct> {
           ),
           Row(
             children: [
-              Container(
-                height: 65,
-                width: MediaQuery.of(context).size.width > 900 ? ((MediaQuery.of(context).size.width * (2 / 3.5))  - 30) *
-                    (2.6 / 4) - 8 : (MediaQuery.of(context).size.width -
-                    30) *
-                    (2.6 / 4) - 8,
-                child: TextFormField(
-                  controller: controller1,
-                  keyboardType: TextInputType.numberWithOptions(decimal: false),
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.allow(RegExp(_getNum())),  LengthLimitingTextInputFormatter(15),],
-                  // The validator receives the text that the user has entered.
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return ' This field is required ';
-                    }
+              Expanded(
+                child: Container(
+                  height: 65,
+                  width: MediaQuery.of(context).size.width > 900 ? ((MediaQuery.of(context).size.width * (2 / 3.5))  - 30) *
+                      (2.6 / 4) - 8 : (MediaQuery.of(context).size.width -
+                      30) *
+                      (2.6 / 4) - 8,
+                  child: TextFormField(
+                    controller: controller1,
+                    keyboardType: TextInputType.numberWithOptions(decimal: false),
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(RegExp(_getNum())),  LengthLimitingTextInputFormatter(15),],
+                    // The validator receives the text that the user has entered.
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return ' This field is required ';
+                      }
 
-                    if ((value.isNotEmpty || value != null) && double.parse(value.toString()) < 2) {
-                      return ' Must be greater than 1 ';
-                    }
-                    // prodFieldsValue.add(value);
-                    return null;
-                  },
-                  style: TextStyle(
-                    height: 0.95,
-                    fontSize: 15 / scaleFactor,
-                  ),
-                  decoration: InputDecoration(
-                    enabledBorder: const OutlineInputBorder(
-                      // width: 0.0 produces a thin "hairline" border
-                        borderSide: const BorderSide(
-                            color: AppTheme.skBorderColor, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
-
-                    focusedBorder: const OutlineInputBorder(
-                      // width: 0.0 produces a thin "hairline" border
-                        borderSide: const BorderSide(
-                            color: AppTheme.themeColor, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                    contentPadding: const EdgeInsets.only(
-                        left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
-                    //suffixText: 'Required',
-                    suffixStyle: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 12/scaleFactor,
-                      fontFamily: 'capsulesans',
+                      if ((value.isNotEmpty || value != null) && double.parse(value.toString()) < 2) {
+                        return ' Must be greater than 1 ';
+                      }
+                      // prodFieldsValue.add(value);
+                      return null;
+                    },
+                    style: TextStyle(
+                      height: 0.95,
+                      fontSize: 15 / scaleFactor,
                     ),
-                    errorStyle: TextStyle(
-                        backgroundColor: Colors.white,
+                    decoration: InputDecoration(
+                      enabledBorder: const OutlineInputBorder(
+                        // width: 0.0 produces a thin "hairline" border
+                          borderSide: const BorderSide(
+                              color: AppTheme.skBorderColor, width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(10.0))),
+
+                      focusedBorder: const OutlineInputBorder(
+                        // width: 0.0 produces a thin "hairline" border
+                          borderSide: const BorderSide(
+                              color: AppTheme.themeColor, width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                      contentPadding: const EdgeInsets.only(
+                          left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
+                      //suffixText: 'Required',
+                      suffixStyle: TextStyle(
+                        color: Colors.grey,
                         fontSize: 12/scaleFactor,
                         fontFamily: 'capsulesans',
-                        height: 0.1
-                    ),
-                    labelStyle: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                    ),
-                    // errorText: 'Error message',
-                    labelText: 'Units / $unit unit',
-                    floatingLabelBehavior: FloatingLabelBehavior.auto,
-                    //filled: true,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
+                      ),
+                      errorStyle: TextStyle(
+                          backgroundColor: Colors.white,
+                          fontSize: 12/scaleFactor,
+                          fontFamily: 'capsulesans',
+                          height: 0.1
+                      ),
+                      labelStyle: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black,
+                      ),
+                      // errorText: 'Error message',
+                      labelText: widget.isEnglish? 'Qty/ $unit unit': 'အရေတွက်/ $unitယူနစ်',
+                      floatingLabelBehavior: FloatingLabelBehavior.auto,
+                      //filled: true,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
                   ),
                 ),
               ),
-              Spacer(),
+              SizedBox(width: 15),
               Container(
                 height: 65,
                 width: MediaQuery.of(context).size.width > 900 ? ((MediaQuery.of(context).size.width * (2 / 3.5))  -
@@ -1859,7 +1891,6 @@ class _EditProductState extends State<EditProduct> {
               ),
             ],
           ),
-          SizedBox(height: 3,),
           RichText(
             strutStyle: StrutStyle(
               height: 1,
@@ -1883,7 +1914,7 @@ class _EditProductState extends State<EditProduct> {
             ),
           ),
           SizedBox(
-            height: 17,
+            height: 20,
           ),
           Container(
             height: 65,
@@ -1944,9 +1975,6 @@ class _EditProductState extends State<EditProduct> {
                 ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 7,
           ),
           Container(
             height: 65,
