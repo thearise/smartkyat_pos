@@ -207,8 +207,8 @@ class _EditProductState extends State<EditProduct> {
         textSetMainUnitQty = 'MAIN UNIT INFORMATION';
         textSetUnitQty = 'Unit quantity';
         textSetUnitName = 'Unit name';
-        textSetBuyPrice = 'Buy price';
-        textSetSalePrice = 'Sale price';
+        textSetBuyPrice = 'Buy price per unit';
+        textSetSalePrice = 'Sale price per unit';
         textSetSub1UnitQty = '#1 SUB UNIT INFORMATION';
         textSetSub2UnitQty = '#2 SUB UNIT INFORMATION';
         textSetWarning = 'e.g, If this item were \"Cigarette 10 packs per 1 carton box\" then it could break down into \"10 / main carton box\".';
@@ -228,10 +228,10 @@ class _EditProductState extends State<EditProduct> {
         textSetBarcode = 'ဘားကုဒ်';
         textSetMainUnitQty = 'MAIN UNIT INFORMATION';
         // textSetMainUnitQty = 'အဓိကယူနစ် အချက်အလက်';
-        textSetUnitQty = 'အရေအတွက်';
+        textSetUnitQty = 'လက်ကျန် အရေအတွက်';
         textSetUnitName = 'ယူနစ်အမည်';
-        textSetBuyPrice = 'ဝယ်ဈေး';
-        textSetSalePrice = 'ရောင်းဈေး';
+        textSetBuyPrice = 'တစ်ယူနစ် ဝယ်ဈေး';
+        textSetSalePrice = 'တစ်ယူနစ် ရောင်းဈေး';
         textSetSub1UnitQty = '#1 ယူနစ် အချက်အလက်';
         textSetSub2UnitQty = '#2 ယူနစ် အချက်အလက်';
         textSetWarning = 'e.g, If this item were \"Cigarette 10 packs per 1 carton box\" then it could break down into \"10 / main carton box\".';
@@ -403,7 +403,7 @@ class _EditProductState extends State<EditProduct> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(top: 15.0),
+                            padding: const EdgeInsets.only(top: 0.0),
                             child: Container(
                               height: assets.isNotEmpty ? 120 : 82,
                               child: Column(
@@ -432,7 +432,7 @@ class _EditProductState extends State<EditProduct> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0),
+                            padding: const EdgeInsets.only(top: 0.0, right: 15.0, left:15.0),
                             child: Container(
                               height: 69,
                               child: TextFormField(

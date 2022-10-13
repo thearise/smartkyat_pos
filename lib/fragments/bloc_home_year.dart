@@ -429,7 +429,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(top: 5.0, left: 15.0, right: 15.0, bottom: 4.0),
+                                padding: const EdgeInsets.only(top: 0.0, left: 15.0, right: 15.0, bottom: 4.0),
                                 child: Row(
                                   children: [
                                     Expanded(
