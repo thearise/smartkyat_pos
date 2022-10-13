@@ -476,7 +476,7 @@ class ProductDetailsViewState2 extends State<ProductDetailsView2>  with
         textSetSalePrice = 'ရောင်းဈေး';
         textSetInStock = 'လက်ကျန်ပစ္စည်း';
         textSetLoss = 'ဆုံးရှုံးပစ္စည်း';
-        textSetBarcode = 'Barcode';
+        textSetBarcode = 'ဘားကုဒ်';
         textSetOtherInfo = 'OTHER INFORMATION';
         textSetTotalSale = 'ရောင်းပြီးပစ္စည်း';
         textSetBuyPrice = 'ဝယ်ဈေး';
@@ -1089,7 +1089,7 @@ class ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                           ),
                                                         ),
                                                         Text(
-                                                          'Edit item', textScaleFactor: 1,
+                                                          widget.isEnglish? 'Edit item': 'ပြင်ဆင်ရန်', textScaleFactor: 1,
                                                           textAlign: TextAlign.center,
                                                           style: TextStyle(
                                                               fontSize: 14,

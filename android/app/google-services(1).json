@@ -15,14 +15,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "992111549301-2825p99cuq38gj8sdqgg5tadei2j3uu4.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.ethereals.smartkyat_pos",
-            "certificate_hash": "0858a0a50638179daef2a48b46bfaf817193d66e"
-          }
-        },
-        {
           "client_id": "992111549301-n1snkuc5p86umuio8al3f9u1ekg4gigc.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
