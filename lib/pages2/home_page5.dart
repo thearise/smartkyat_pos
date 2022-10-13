@@ -2862,7 +2862,7 @@ class HomePageState extends State<HomePage>
                                             )
                                         ),
                                         SizedBox(height: 2.5),
-                                        Text('New product creation', textScaleFactor: 1,
+                                        Text(isEnglish? 'New product creation': 'ပစ္စည်းအသစ် ထည့်သွင်းခြင်း', textScaleFactor: 1,
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 19
@@ -4610,12 +4610,12 @@ class HomePageState extends State<HomePage>
                                                                                           title: 'Choose discount type',
                                                                                           actions: [
                                                                                             SheetAction(
-                                                                                              icon: Icons.warning,
+                                                                                              icon: Icons.monetization_on_rounded,
                                                                                               label: 'Amount',
                                                                                               key: 'amount',
                                                                                             ),
                                                                                             SheetAction(
-                                                                                              icon: Icons.warning,
+                                                                                              icon: Icons.watch_later_rounded,
                                                                                               label: 'Percent',
                                                                                               key: 'percent',
                                                                                             ),
