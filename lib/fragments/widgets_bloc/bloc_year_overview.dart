@@ -967,8 +967,8 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
                                   ),),
                               ),
                               StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                                  stream: _sliding == 0 ? FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodSaleData').doc(DateTime.now().year.toString() + zeroToTen(DateTime.now().month.toString()) + zeroToTen(DateTime.now().day.toString())).snapshots() :
-                                  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodMthData').doc(DateTime.now().year.toString() + zeroToTen(DateTime.now().month.toString())).snapshots(),
+                                  stream:
+                                  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodYearData').doc(DateTime.now().year.toString()).snapshots(),
                                   builder: (BuildContext context, prodsSB) {
                                     var prods;
                                     tSale = 0;
