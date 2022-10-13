@@ -253,6 +253,8 @@ class ProdSaleSumHomeState extends State<ProdSaleSumHome>
                           resetState: resetState,
                           selectedIntVal: selectedIntVal,
                           intValIni : cateScIndex,
+                          sortIndex : sortIndex,
+                          initialIndex : sortIndexItem,
                           itemBuilderType:
                           PaginateBuilderType.listView,
                           isLive: true,
@@ -275,12 +277,16 @@ class ProdSaleSumHomeState extends State<ProdSaleSumHome>
                           resetState: resetState,
                           selectedIntVal: selectedIntVal,
                           intValIni : cateScIndex,
+                          sortIndex : sortIndex,
+                          initialIndex : sortIndexItem,
                           itemBuilderType:
                           BlocProdWeekWeekImp.PaginateBuilderType.listView,
                           isLive: true,
                         ): cateScIndex==2? BlocProdMonthImp.BlocProdMonth(
                           prodsSnap: prodsSnap,
                           isEnglish: widget.isEnglish,
+                          sortIndex : sortIndex,
+                          initialIndex : sortIndexItem,
                           dateTime: today,
                           key: valueKeyTog(),
                           shopId: widget.shopId,
@@ -319,6 +325,8 @@ class ProdSaleSumHomeState extends State<ProdSaleSumHome>
                           resetState: resetState,
                           selectedIntVal: selectedIntVal,
                           intValIni : cateScIndex,
+                          sortIndex : sortIndex,
+                          initialIndex : sortIndexItem,
                           itemBuilderType:
                           BlocProdYearImp.PaginateBuilderType.listView,
                           isLive: true,
@@ -333,6 +341,13 @@ class ProdSaleSumHomeState extends State<ProdSaleSumHome>
         ),
       ),
     );
+  }
+  int sortIndexItem = 0;
+
+  sortIndex(int data) {
+    setState(() {
+      sortIndexItem = data;
+    });
   }
 
   prodsQuery() {

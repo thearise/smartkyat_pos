@@ -57,6 +57,7 @@ class BlocProdWeek extends StatefulWidget {
     required this.isEnglish,
     required this.itemBuilder,
     required this.query,
+    required this.initialIndex,
     required this.itemBuilderType,
     this.gridDelegate =
     const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
@@ -89,14 +90,17 @@ class BlocProdWeek extends StatefulWidget {
     required this.intValIni,
     required void resetState(DateTime resetD),
     required void selectedIntVal(int index),
+    required void sortIndex(int data),
     required this.prodsSnap,
   }) :
         _resetState = resetState,
         _selectedIntVal = selectedIntVal,
+         _sortIndex = sortIndex,
         super(key: key);
 
   final int intValIni;
   final bool isEnglish;
+  final int initialIndex;
   final Widget bottomLoader;
   final Widget onEmpty;
   final SliverGridDelegate gridDelegate;
@@ -122,6 +126,7 @@ class BlocProdWeek extends StatefulWidget {
   final DateTime? dateTime;
   final _resetState;
   final _selectedIntVal;
+  final _sortIndex;
   final prodsSnap;
 
   /// Use this only if `isLive = false`
@@ -252,6 +257,7 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
     _sliding = widget.intValIni;
     today = widget.dateTime!;
     _dateTime = today;
+    initIndex = widget.initialIndex;
     getCurrency().then((value){
       if(value == 'US Dollar (USD)') {
         setState(() {
@@ -399,13 +405,12 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
 
   bool straight = true;
   int ayinSlide = 0;
+  double tSale = 0;
 
   Widget _buildListView(PaginationLoaded loadedState) {
     var todayProds = {};
     var initProds;
 
-
-    debugPrint('bloc_fire prod weeksps ' + today.toString());
     if(_sliding == 0) {
       if(ayinSlide!=_sliding) {
         ayinList = [];
@@ -413,84 +418,26 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
       ayinSlide = 0;
       for(int i = 0; i < loadedState.documentSnapshots.length; i++) {
         Map<String, dynamic> data = loadedState.documentSnapshots[i].data() as Map<String, dynamic>;
-        debugPrint('bloc_fire prod week1 ' + data['date'].toDate().toString());
-        debugPrint('bloc_fire prod week2 ' + data['prods'].toString());
+
         if(today.day == data['date'].toDate().day) {
           initProds = data['prods'];
-        }
-      }
-    } else if(_sliding == 1) {
-      if(ayinSlide!=_sliding) {
-        ayinList = [];
-      }
-      ayinSlide = 1;
-      for(int i = 0; i < loadedState.documentSnapshots.length; i++) {
-        Map<String, dynamic> data = loadedState.documentSnapshots[i].data() as Map<String, dynamic>;
-        debugPrint('bloc_fire prod week1 ' + data['date'].toDate().toString());
-        debugPrint('bloc_fire prod week2 ' + data['prods'].toString());
-        if(initProds == null) {
-          if(data['prods'] != null) {
-            initProds = data['prods'];
-          }
-        } else {
-          for(int j =0; j<data['prods'].length; j++) {
-            double psaleM = data['prods'].entries.elementAt(j).value['sm'] == null? 0: data['prods'].entries.elementAt(j).value['sm'];
-            double isaleM = initProds[data['prods'].entries.elementAt(j).key]==null || initProds[data['prods'].entries.elementAt(j).key]['sm'] == null? 0: initProds[data['prods'].entries.elementAt(j).key]['sm'];
-            if(initProds[data['prods'].entries.elementAt(j).key] == null) {
-              initProds[data['prods'].entries.elementAt(j).key] = {};
+          tSale = 0;
+
+          if(initProds != null && initProds.length > 0) {
+            for(int i = 0; i <  initProds.length; i++) {
+              var eachMap = initProds.entries.elementAt(i);
+
+              if(eachMap.value['im'] != 0 && eachMap.value['im'] != null
+                  || eachMap.value['i1'] != 0 && eachMap.value['i1'] != null
+                  || eachMap.value['i2'] != 0 && eachMap.value['i2'] != null) {
+                tSale++;
+              }
             }
-            initProds[data['prods'].entries.elementAt(j).key]['sm'] = psaleM + isaleM;
 
-            double psale1 = data['prods'].entries.elementAt(j).value['s1'] == null? 0: data['prods'].entries.elementAt(j).value['s1'];
-            double isale1 = initProds[data['prods'].entries.elementAt(j).key]==null || initProds[data['prods'].entries.elementAt(j).key]['s1'] == null? 0: initProds[data['prods'].entries.elementAt(j).key]['s1'];
-            initProds[data['prods'].entries.elementAt(j).key]['s1'] = psale1 + isale1;
-
-            double psale2 = data['prods'].entries.elementAt(j).value['s2'] == null? 0: data['prods'].entries.elementAt(j).value['s2'];
-            double isale2 = initProds[data['prods'].entries.elementAt(j).key]==null || initProds[data['prods'].entries.elementAt(j).key]['s2'] == null? 0: initProds[data['prods'].entries.elementAt(j).key]['s2'];
-            initProds[data['prods'].entries.elementAt(j).key]['s2'] = psale2 + isale2;
-
-            double pqtyM = data['prods'].entries.elementAt(j).value['im'] == null? 0: data['prods'].entries.elementAt(j).value['im'];
-            double iqtyM = initProds[data['prods'].entries.elementAt(j).key]==null || initProds[data['prods'].entries.elementAt(j).key]['im'] == null? 0: initProds[data['prods'].entries.elementAt(j).key]['im'];
-            initProds[data['prods'].entries.elementAt(j).key]['im'] = pqtyM + iqtyM;
-
-            double pqty1 = data['prods'].entries.elementAt(j).value['i1'] == null? 0: data['prods'].entries.elementAt(j).value['i1'];
-            double iqty1 = initProds[data['prods'].entries.elementAt(j).key]==null || initProds[data['prods'].entries.elementAt(j).key]['i1'] == null? 0: initProds[data['prods'].entries.elementAt(j).key]['i1'];
-            initProds[data['prods'].entries.elementAt(j).key]['i1'] = pqty1 + iqty1;
-
-            double pqty2 = data['prods'].entries.elementAt(j).value['i2'] == null? 0: data['prods'].entries.elementAt(j).value['i2'];
-            double iqty2 = initProds[data['prods'].entries.elementAt(j).key]==null || initProds[data['prods'].entries.elementAt(j).key]['i2'] == null? 0: initProds[data['prods'].entries.elementAt(j).key]['i2'];
-            initProds[data['prods'].entries.elementAt(j).key]['i2'] = pqty2 + iqty2;
-
-            double pbuyM = data['prods'].entries.elementAt(j).value['bm'] == null? 0: data['prods'].entries.elementAt(j).value['bm'];
-            double ibuyM = initProds[data['prods'].entries.elementAt(j).key]==null || initProds[data['prods'].entries.elementAt(j).key]['bm'] == null? 0: initProds[data['prods'].entries.elementAt(j).key]['bm'];
-            initProds[data['prods'].entries.elementAt(j).key]['bm'] = pbuyM + ibuyM;
-
-            double pbuy1 = data['prods'].entries.elementAt(j).value['b1'] == null? 0: data['prods'].entries.elementAt(j).value['b1'];
-            double ibuy1 = initProds[data['prods'].entries.elementAt(j).key]==null || initProds[data['prods'].entries.elementAt(j).key]['b1'] == null? 0: initProds[data['prods'].entries.elementAt(j).key]['b1'];
-            initProds[data['prods'].entries.elementAt(j).key]['b1'] = pbuy1 + ibuy1;
-
-            double pbuy2 = data['prods'].entries.elementAt(j).value['b2'] == null? 0: data['prods'].entries.elementAt(j).value['b2'];
-            double ibuy2 = initProds[data['prods'].entries.elementAt(j).key]==null || initProds[data['prods'].entries.elementAt(j).key]['b2'] == null? 0: initProds[data['prods'].entries.elementAt(j).key]['b2'];
-            initProds[data['prods'].entries.elementAt(j).key]['b2'] = pbuy2 + ibuy2;
-
-            double pdiscM = data['prods'].entries.elementAt(j).value['dm'] == null? 0: data['prods'].entries.elementAt(j).value['dm'];
-            double idiscM = initProds[data['prods'].entries.elementAt(j).key]==null || initProds[data['prods'].entries.elementAt(j).key]['dm'] == null? 0: initProds[data['prods'].entries.elementAt(j).key]['dm'];
-            initProds[data['prods'].entries.elementAt(j).key]['dm'] = pdiscM + idiscM;
-
-            double pdisc1 = data['prods'].entries.elementAt(j).value['d1'] == null? 0: data['prods'].entries.elementAt(j).value['d1'];
-            double idisc1 = initProds[data['prods'].entries.elementAt(j).key]==null || initProds[data['prods'].entries.elementAt(j).key]['d1'] == null? 0: initProds[data['prods'].entries.elementAt(j).key]['d1'];
-            initProds[data['prods'].entries.elementAt(j).key]['d1'] = pdisc1 + idisc1;
-
-            double pdisc2 = data['prods'].entries.elementAt(j).value['d2'] == null? 0: data['prods'].entries.elementAt(j).value['d2'];
-            double idisc2 = initProds[data['prods'].entries.elementAt(j).key]==null || initProds[data['prods'].entries.elementAt(j).key]['d2'] == null? 0: initProds[data['prods'].entries.elementAt(j).key]['d2'];
-            initProds[data['prods'].entries.elementAt(j).key]['d2'] = pdisc2 + idisc2;
           }
         }
-        debugPrint('bloc_fire prod week2 ' + data['prods'].toString());
       }
     }
-
-
 
     // debugPrint('bloc_fire prod week3 ' + todayProds.entries.elementAt(0).value.toString());
     var listView = Scaffold(
@@ -564,7 +511,7 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
                                     ),),
                                 ):
                                 Expanded(
-                                  child: Text('PRODUCT (' + initProds.length.toString() + ')', textScaleFactor: 1,
+                                  child: Text('PRODUCT (' + tSale.round().toString() + ')', textScaleFactor: 1,
                                     style: TextStyle(
                                       height: 0.9,
                                       letterSpacing: 2,
@@ -2423,6 +2370,7 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
           initIndex = index;
           straight = true;
         });
+        widget._sortIndex(index);
       },
       onChange: (index) {
         debugPrint('changing id -> ' + index.toString());
@@ -2490,6 +2438,10 @@ class _BlocProdWeekState extends State<BlocProdWeek> {
 
   resetState(DateTime resetD) {
     widget._resetState(resetD);
+  }
+  
+  sortIndex(int data) {
+    widget._sortIndex(data);
   }
 
   selectedIntVal(int index) {

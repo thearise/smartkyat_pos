@@ -58,6 +58,7 @@ class BlocProdWeekWeek extends StatefulWidget {
     required this.itemBuilder,
     required this.query,
     required this.itemBuilderType,
+    required this.initialIndex,
     this.gridDelegate =
     const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
     this.startAfterDocument,
@@ -89,13 +90,16 @@ class BlocProdWeekWeek extends StatefulWidget {
     required this.intValIni,
     required void resetState(DateTime resetD),
     required void selectedIntVal(int index),
+    required void sortIndex(int data),
     required this.prodsSnap,
   }) :
         _resetState = resetState,
+        _sortIndex = sortIndex,
         _selectedIntVal = selectedIntVal,
         super(key: key);
 
   final int intValIni;
+  final int initialIndex;
   final bool isEnglish;
   final Widget bottomLoader;
   final Widget onEmpty;
@@ -122,6 +126,7 @@ class BlocProdWeekWeek extends StatefulWidget {
   final DateTime? dateTime;
   final _resetState;
   final _selectedIntVal;
+  final _sortIndex;
   final prodsSnap;
 
   /// Use this only if `isLive = false`
@@ -208,6 +213,10 @@ class _BlocProdWeekWeekState extends State<BlocProdWeekWeek> {
     super.dispose();
   }
 
+  sortIndex(int data) {
+    widget._sortIndex(data);
+  }
+
   getCurrency() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('currency');
@@ -252,6 +261,7 @@ class _BlocProdWeekWeekState extends State<BlocProdWeekWeek> {
     _sliding = widget.intValIni;
     today = widget.dateTime!;
     _dateTime = today;
+    initIndex = widget.initialIndex;
     getCurrency().then((value){
       if(value == 'US Dollar (USD)') {
         setState(() {
@@ -399,6 +409,7 @@ class _BlocProdWeekWeekState extends State<BlocProdWeekWeek> {
 
   bool straight = true;
   int ayinSlide = 0;
+  double tSale = 0;
 
   Widget _buildListView(PaginationLoaded loadedState) {
     var todayProds = {};
@@ -413,8 +424,6 @@ class _BlocProdWeekWeekState extends State<BlocProdWeekWeek> {
       ayinSlide = 0;
       for(int i = 0; i < loadedState.documentSnapshots.length; i++) {
         Map<String, dynamic> data = loadedState.documentSnapshots[i].data() as Map<String, dynamic>;
-        debugPrint('bloc_fire prod week1 ' + data['date'].toDate().toString());
-        debugPrint('bloc_fire prod week2 ' + data['prods'].toString());
         if(today.day == data['date'].toDate().day) {
           initProds = data['prods'];
         }
@@ -432,7 +441,23 @@ class _BlocProdWeekWeekState extends State<BlocProdWeekWeek> {
           if(data['prods'] != null) {
             initProds = data['prods'];
           }
-        } else {
+        }
+        else {
+          tSale = 0;
+
+          if(initProds != null && initProds.length > 0) {
+            for(int i = 0; i <  initProds.length; i++) {
+              var eachMap = initProds.entries.elementAt(i);
+
+              if(eachMap.value['im'] != 0 && eachMap.value['im'] != null
+                  || eachMap.value['i1'] != 0 && eachMap.value['i1'] != null
+                  || eachMap.value['i2'] != 0 && eachMap.value['i2'] != null) {
+                tSale++;
+              }
+            }
+
+          }
+
           for(int j =0; j<data['prods'].length; j++) {
             double psaleM = data['prods'].entries.elementAt(j).value['sm'] == null? 0: data['prods'].entries.elementAt(j).value['sm'];
             double isaleM = initProds[data['prods'].entries.elementAt(j).key]==null || initProds[data['prods'].entries.elementAt(j).key]['sm'] == null? 0: initProds[data['prods'].entries.elementAt(j).key]['sm'];
@@ -486,7 +511,6 @@ class _BlocProdWeekWeekState extends State<BlocProdWeekWeek> {
             initProds[data['prods'].entries.elementAt(j).key]['d2'] = pdisc2 + idisc2;
           }
         }
-        debugPrint('bloc_fire prod week2 ' + data['prods'].toString());
       }
     }
 
@@ -564,7 +588,7 @@ class _BlocProdWeekWeekState extends State<BlocProdWeekWeek> {
                                     ),),
                                 ):
                                 Expanded(
-                                  child: Text('PRODUCT (' + initProds.length.toString() + ')', textScaleFactor: 1,
+                                  child: Text('PRODUCT (' + tSale.round().toString() + ')', textScaleFactor: 1,
                                     style: TextStyle(
                                       height: 0.9,
                                       letterSpacing: 2,
@@ -2423,6 +2447,7 @@ class _BlocProdWeekWeekState extends State<BlocProdWeekWeek> {
           initIndex = index;
           straight = true;
         });
+        widget._sortIndex(index);
       },
       onChange: (index) {
         debugPrint('changing id -> ' + index.toString());
