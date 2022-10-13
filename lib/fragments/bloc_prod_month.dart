@@ -86,16 +86,21 @@ class BlocProdMonth extends StatefulWidget {
     this.options,
     this.shopId,
     this.dateTime,
+    required this.initialIndex,
     required this.intValIni,
     required void resetState(DateTime resetD),
     required void selectedIntVal(int index),
+    required void sortIndex(int data),
     required this.prodsSnap,
   }) :
         _resetState = resetState,
+        _sortIndex = sortIndex,
         _selectedIntVal = selectedIntVal,
         super(key: key);
 
   final int intValIni;
+  final int initialIndex;
+  final _sortIndex;
   final bool isEnglish;
   final Widget bottomLoader;
   final Widget onEmpty;
@@ -251,6 +256,7 @@ class _BlocProdMonthState extends State<BlocProdMonth> {
     cateScIndex = widget.intValIni;
     _sliding = widget.intValIni;
     today = widget.dateTime!;
+    initIndex = widget.initialIndex;
     _dateTime = today;
     getCurrency().then((value){
       if(value == 'US Dollar (USD)') {
@@ -400,15 +406,34 @@ class _BlocProdMonthState extends State<BlocProdMonth> {
   bool straight = true;
   int ayinSlide = 0;
 
+  double tSale = 0;
+
+
   Widget _buildListView(PaginationLoaded loadedState) {
     var todayProds = {};
     var initProds;
 
 
-    debugPrint('bloc_fire prod weekonly ' + today.toString());
+
     if(loadedState.documentSnapshots.length!=0) {
       Map<String, dynamic> data = loadedState.documentSnapshots[0].data() as Map<String, dynamic>;
+
       initProds = data['prods'];
+
+      tSale = 0;
+
+      if(initProds != null && initProds.length > 0) {
+        for(int i = 0; i <  initProds.length; i++) {
+          var eachMap = initProds.entries.elementAt(i);
+
+          if(eachMap.value['im'] != 0 && eachMap.value['im'] != null
+              || eachMap.value['i1'] != 0 && eachMap.value['i1'] != null
+              || eachMap.value['i2'] != 0 && eachMap.value['i2'] != null) {
+            tSale++;
+          }
+        }
+
+      }
     }
 
     // if(_sliding == 0) {
@@ -500,7 +525,7 @@ class _BlocProdMonthState extends State<BlocProdMonth> {
                                     ),),
                                 ):
                                 Expanded(
-                                  child: Text('PRODUCT (' + initProds.length.toString() + ')', textScaleFactor: 1,
+                                  child: Text('PRODUCT (' +  tSale.round().toString() + ')', textScaleFactor: 1,
                                     style: TextStyle(
                                       height: 0.9,
                                       letterSpacing: 2,
@@ -2359,6 +2384,7 @@ class _BlocProdMonthState extends State<BlocProdMonth> {
           initIndex = index;
           straight = true;
         });
+        widget._sortIndex(index);
       },
       onChange: (index) {
         debugPrint('changing id -> ' + index.toString());
@@ -2426,6 +2452,10 @@ class _BlocProdMonthState extends State<BlocProdMonth> {
 
   resetState(DateTime resetD) {
     widget._resetState(resetD);
+  }
+
+  sortIndex(int data) {
+    widget._sortIndex(data);
   }
 
   selectedIntVal(int index) {

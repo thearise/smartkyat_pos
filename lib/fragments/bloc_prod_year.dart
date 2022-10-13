@@ -89,14 +89,19 @@ class BlocProdYear extends StatefulWidget {
     required this.intValIni,
     required void resetState(DateTime resetD),
     required void selectedIntVal(int index),
+    required void sortIndex(int data),
+    required this.initialIndex,
     required this.prodsSnap,
   }) :
         _resetState = resetState,
         _selectedIntVal = selectedIntVal,
+        _sortIndex = sortIndex,
         super(key: key);
 
   final int intValIni;
   final bool isEnglish;
+  final int initialIndex;
+  final _sortIndex;
   final Widget bottomLoader;
   final Widget onEmpty;
   final SliverGridDelegate gridDelegate;
@@ -232,6 +237,10 @@ class _BlocProdYearState extends State<BlocProdYear> {
   String textSetEarn = 'Debt-to-income';
   String textSetProfit = 'Average profit';
 
+  sortIndex(int data) {
+    widget._sortIndex(data);
+  }
+
   @override
   void initState() {
     _scrollController.addListener(() {
@@ -252,6 +261,7 @@ class _BlocProdYearState extends State<BlocProdYear> {
     _sliding = widget.intValIni;
     today = widget.dateTime!;
     _dateTime = today;
+    initIndex = widget.initialIndex;
     getCurrency().then((value){
       if(value == 'US Dollar (USD)') {
         setState(() {
@@ -399,6 +409,7 @@ class _BlocProdYearState extends State<BlocProdYear> {
 
   bool straight = true;
   int ayinSlide = 0;
+  double tSale = 0;
 
   Widget _buildListView(PaginationLoaded loadedState) {
     var todayProds = {};
@@ -409,6 +420,20 @@ class _BlocProdYearState extends State<BlocProdYear> {
     if(loadedState.documentSnapshots.length!=0) {
       Map<String, dynamic> data = loadedState.documentSnapshots[0].data() as Map<String, dynamic>;
       initProds = data['prods'];
+      tSale = 0;
+
+      if(initProds != null && initProds.length > 0) {
+        for(int i = 0; i <  initProds.length; i++) {
+          var eachMap = initProds.entries.elementAt(i);
+
+          if(eachMap.value['im'] != 0 && eachMap.value['im'] != null
+              || eachMap.value['i1'] != 0 && eachMap.value['i1'] != null
+              || eachMap.value['i2'] != 0 && eachMap.value['i2'] != null) {
+            tSale++;
+          }
+        }
+
+      }
     }
 
     // if(_sliding == 0) {
@@ -500,7 +525,7 @@ class _BlocProdYearState extends State<BlocProdYear> {
                                     ),),
                                 ):
                                 Expanded(
-                                  child: Text('PRODUCT (' + initProds.length.toString() + ')', textScaleFactor: 1,
+                                  child: Text('PRODUCT (' + tSale.round().toString() + ')', textScaleFactor: 1,
                                     style: TextStyle(
                                       height: 0.9,
                                       letterSpacing: 2,
@@ -2359,6 +2384,7 @@ class _BlocProdYearState extends State<BlocProdYear> {
           initIndex = index;
           straight = true;
         });
+        widget._sortIndex(index);
       },
       onChange: (index) {
         debugPrint('changing id -> ' + index.toString());
