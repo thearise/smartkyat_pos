@@ -833,9 +833,9 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                 DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodSaleData').doc(widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8));
                                                 DocumentReference prodsMonthly = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodMthData').doc(widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6));
                                                 DocumentReference prodsYearly = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodYearData').doc(widget.data.split('^')[0].substring(0,4));
-
+                                                 double refNum = 0;
                                                 for(int i=0; i < prodList.length; i++) {
-                                                  double refNum = double.parse(prodList[i].split('^')[7]) - double.parse(prodListBefore[i].split('^')[7]);
+                                                   refNum = double.parse(prodList[i].split('^')[7]) - double.parse(prodListBefore[i].split('^')[7]);
                                                   if(refNum > 0) {
                                                     FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr')
                                                         .get()
@@ -1059,16 +1059,47 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                   }
 
                                                   try{
-                                                    batch.commit();
-                                                    Future.delayed(const Duration(milliseconds: 2000), () {
-                                                      setState(() {
-                                                        loadingState = false;
-                                                        disableTouch = false;
+                                                    if(refNum > 0 ) {
+                                                      batch.commit();
+                                                      Future.delayed(
+                                                          const Duration(
+                                                              milliseconds: 2000), () {
+                                                        setState(() {
+                                                          loadingState = false;
+                                                          disableTouch = false;
+                                                        });
+                                                        closeOverAllSubLoading();
+                                                        Navigator.of(context)
+                                                            .popUntil((route) =>
+                                                        route.isFirst);
+                                                        smartKyatFlash(
+                                                            '$currencyUnit' +
+                                                                totalRefund()
+                                                                    .toString() +
+                                                                'is successfully refunded to #' +
+                                                                widget.data
+                                                                    .split(
+                                                                    '^')[1]
+                                                                    .toString(),
+                                                            's');
                                                       });
-                                                      closeOverAllSubLoading();
-                                                      Navigator.of(context).popUntil((route) => route.isFirst);
-                                                      smartKyatFlash('$currencyUnit' + totalRefund().toString() + 'is successfully refunded to #' + widget.data.split('^')[1].toString(), 's');
-                                                    });
+                                                    } else {
+                                                      Future.delayed(
+                                                          const Duration(
+                                                              milliseconds: 2000), () {
+                                                        setState(() {
+                                                          loadingState = false;
+                                                          disableTouch = false;
+                                                        });
+                                                        closeOverAllSubLoading();
+                                                        // Navigator.of(context)
+                                                        //     .popUntil((route) =>
+                                                        // route.isFirst);
+                                                        smartKyatFlash(
+                                                            'To make a refund, please select an item first.',
+                                                            'w');
+                                                      });
+                                                    }
                                                   }
                                                   catch(error) {
                                                     smartKyatFlash('An error occurred while creating order. Please try again later.', 'e');
