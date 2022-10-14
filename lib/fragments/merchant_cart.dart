@@ -231,7 +231,7 @@ class MerchantCartState extends State<MerchantCart>
                                             18,
                                             fontWeight:
                                             FontWeight
-                                                .w600,
+                                                .w500,
                                             color: Colors
                                                 .black),
                                       )),
@@ -345,7 +345,7 @@ class MerchantCartState extends State<MerchantCart>
                                             18,
                                             fontWeight:
                                             FontWeight
-                                                .w600,
+                                                .w500,
                                             color: Colors
                                                 .black),
                                       )),
@@ -390,7 +390,7 @@ class MerchantCartState extends State<MerchantCart>
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(widget.merchantId.split('-')[1].toString() == 'name' ? 'Unknown' : widget.merchantId.split('-')[1] , style: TextStyle(
-                                      fontSize: 17, fontWeight: FontWeight.w600,
+                                      fontSize: 17, fontWeight: FontWeight.w500,
                                     )),
                                     Text(widget.merchantId.split('-')[1].toString() == 'name' ? 'Unknown' : address,
                                                 style: TextStyle(
@@ -829,7 +829,7 @@ class MerchantCartState extends State<MerchantCart>
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 fontSize: 18,
-                                                fontWeight: FontWeight.w600,
+                                                fontWeight: FontWeight.w500,
                                                 color: Colors.black
                                             ),
                                           )
@@ -1607,7 +1607,7 @@ class MerchantCartState extends State<MerchantCart>
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontSize: 18,
-                                                  fontWeight: FontWeight.w600,
+                                                  fontWeight: FontWeight.w500,
                                                   color: Colors.black
                                               ),
                                             )
@@ -2089,7 +2089,7 @@ class MerchantCartState extends State<MerchantCart>
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                             fontSize: 18,
-                                            fontWeight: FontWeight.w600,
+                                            fontWeight: FontWeight.w500,
                                             color: Colors.black
                                         ),
                                       )

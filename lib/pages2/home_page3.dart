@@ -974,7 +974,7 @@
 //                                                       children: [
 //                                                         SizedBox(height: 18),
 //                                                         Text('1 month pro version', style: TextStyle(
-//                                                             fontWeight: FontWeight.w600,
+//                                                             fontWeight: FontWeight.w500,
 //                                                             fontSize: 18,
 //                                                             letterSpacing: -0.3
 //                                                         )),
@@ -1010,7 +1010,7 @@
 //                                                       children: [
 //                                                         SizedBox(height: 18),
 //                                                         Text('3 month pro version (save 20%)', style: TextStyle(
-//                                                             fontWeight: FontWeight.w600,
+//                                                             fontWeight: FontWeight.w500,
 //                                                             fontSize: 18,
 //                                                             letterSpacing: -0.3
 //                                                         )),
@@ -1046,7 +1046,7 @@
 //                                                       children: [
 //                                                         SizedBox(height: 18),
 //                                                         Text('5 month pro version (save 30%)', style: TextStyle(
-//                                                             fontWeight: FontWeight.w600,
+//                                                             fontWeight: FontWeight.w500,
 //                                                             fontSize: 18,
 //                                                             letterSpacing: -0.3
 //                                                         )),
@@ -1089,7 +1089,7 @@
 //                                                 title: Padding(
 //                                                   padding: const EdgeInsets.only(top: 10.0),
 //                                                   child: Text('Contact us via phone', style: TextStyle(
-//                                                       fontWeight: FontWeight.w600,
+//                                                       fontWeight: FontWeight.w500,
 //                                                       fontSize: 18,
 //                                                       letterSpacing: -0.3
 //                                                   )),
@@ -1144,7 +1144,7 @@
 //                                                 title: Padding(
 //                                                   padding: const EdgeInsets.only(top: 10.0),
 //                                                   child: Text('Via messenger', style: TextStyle(
-//                                                       fontWeight: FontWeight.w600,
+//                                                       fontWeight: FontWeight.w500,
 //                                                       fontSize: 18,
 //                                                       letterSpacing: -0.3
 //                                                   )),
@@ -1307,7 +1307,7 @@
 //                                       )),
 //                                       SizedBox(height: 2.5),
 //                                       Text('New merchant creation', style: TextStyle(
-//                                           fontWeight: FontWeight.w600,
+//                                           fontWeight: FontWeight.w500,
 //                                           fontSize: 19
 //                                       )),
 //                                     ],
@@ -1416,7 +1416,7 @@
 //                                         )),
 //                                         SizedBox(height: 2.5),
 //                                         Text('New customer creation', style: TextStyle(
-//                                             fontWeight: FontWeight.w600,
+//                                             fontWeight: FontWeight.w500,
 //                                             fontSize: 19
 //                                         )),
 //                                       ],
@@ -1527,7 +1527,7 @@
 //                                         )),
 //                                         SizedBox(height: 2.5),
 //                                         Text('New product creation', style: TextStyle(
-//                                             fontWeight: FontWeight.w600,
+//                                             fontWeight: FontWeight.w500,
 //                                             fontSize: 19
 //                                         )),
 //                                       ],
@@ -2676,7 +2676,7 @@
 //                               //                             textAlign: TextAlign.center,
 //                               //                             style: TextStyle(
 //                               //                                 fontSize: 16.5,
-//                               //                                 fontWeight: FontWeight.w600,
+//                               //                                 fontWeight: FontWeight.w500,
 //                               //                                 color: Colors.black.withOpacity(0.6)),
 //                               //                           )),
 //                               //                     ),
@@ -3290,7 +3290,7 @@
 //                                                                                                       18,
 //                                                                                                       fontWeight:
 //                                                                                                       FontWeight
-//                                                                                                           .w600,
+//                                                                                                           .w500,
 //                                                                                                       color: Colors
 //                                                                                                           .black),
 //                                                                                                 )),
@@ -3403,7 +3403,7 @@
 //                                                                                                       18,
 //                                                                                                       fontWeight:
 //                                                                                                       FontWeight
-//                                                                                                           .w600,
+//                                                                                                           .w500,
 //                                                                                                       color: Colors
 //                                                                                                           .black),
 //                                                                                                 )),
@@ -3502,7 +3502,7 @@
 //                                                                                                           textAlign: TextAlign.center,
 //                                                                                                           style: TextStyle(
 //                                                                                                               fontSize: 17,
-//                                                                                                               fontWeight: FontWeight.w600,
+//                                                                                                               fontWeight: FontWeight.w500,
 //                                                                                                               color: Colors.black
 //                                                                                                           ),
 //                                                                                                         )
@@ -3542,7 +3542,7 @@
 //                                                                                                           textAlign: TextAlign.center,
 //                                                                                                           style: TextStyle(
 //                                                                                                               fontSize: 17,
-//                                                                                                               fontWeight: FontWeight.w600,
+//                                                                                                               fontWeight: FontWeight.w500,
 //                                                                                                               color: Colors.black
 //                                                                                                           ),
 //                                                                                                         )
@@ -3791,7 +3791,7 @@
 //                                                                                                       child: Text( '$currencyUnit ' +
 //                                                                                                           TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
 //                                                                                                         style: TextStyle(
-//                                                                                                             fontWeight: FontWeight.w600,
+//                                                                                                             fontWeight: FontWeight.w500,
 //                                                                                                             fontSize: 17
 //                                                                                                         ),
 //                                                                                                       ),
@@ -3833,7 +3833,7 @@
 //                                                                                         height: 1.5,
 //                                                                                       )),
 //                                                                                       Text('Cash acceptance', style: TextStyle(
-//                                                                                           fontWeight: FontWeight.w600,
+//                                                                                           fontWeight: FontWeight.w500,
 //                                                                                           fontSize: 18,
 //                                                                                           height: 1.3
 //                                                                                       )),
@@ -3934,7 +3934,7 @@
 //                                                                                                                   textAlign: TextAlign.center,
 //                                                                                                                   style: TextStyle(
 //                                                                                                                       fontSize: 18,
-//                                                                                                                       fontWeight: FontWeight.w600,
+//                                                                                                                       fontWeight: FontWeight.w500,
 //                                                                                                                       color: Colors.black
 //                                                                                                                   ),
 //                                                                                                                 )
@@ -4279,7 +4279,7 @@
 //                                                                                                                   textAlign: TextAlign.center,
 //                                                                                                                   style: TextStyle(
 //                                                                                                                       fontSize: 17,
-//                                                                                                                       fontWeight: FontWeight.w600,
+//                                                                                                                       fontWeight: FontWeight.w500,
 //                                                                                                                       color: Colors.black
 //                                                                                                                   ),
 //                                                                                                                 )
@@ -4365,7 +4365,7 @@
 //                                                                                         ],
 //                                                                                       ),
 //                                                                                       Text(productName, style: TextStyle(
-//                                                                                           fontWeight: FontWeight.w600,
+//                                                                                           fontWeight: FontWeight.w500,
 //                                                                                           fontSize: 18,
 //                                                                                           height: 1.3
 //                                                                                       ),
@@ -4859,7 +4859,7 @@
 //                                                                                                                       textAlign: TextAlign.center,
 //                                                                                                                       style: TextStyle(
 //                                                                                                                           fontSize: 18,
-//                                                                                                                           fontWeight: FontWeight.w600,
+//                                                                                                                           fontWeight: FontWeight.w500,
 //                                                                                                                           color: Colors.black
 //                                                                                                                       ),
 //                                                                                                                     )
@@ -4908,7 +4908,7 @@
 //                                                                                                                     textAlign: TextAlign.center,
 //                                                                                                                     style: TextStyle(
 //                                                                                                                         fontSize: 17,
-//                                                                                                                         fontWeight: FontWeight.w600,
+//                                                                                                                         fontWeight: FontWeight.w500,
 //                                                                                                                         color: Colors.black
 //                                                                                                                     ),
 //                                                                                                                   )
@@ -4972,7 +4972,7 @@
 //                                                                                       )),
 //                                                                                       SizedBox(height: 2.5),
 //                                                                                       Text('Invoice receipt', style: TextStyle(
-//                                                                                           fontWeight: FontWeight.w600,
+//                                                                                           fontWeight: FontWeight.w500,
 //                                                                                           fontSize: 19
 //                                                                                       )),
 //                                                                                     ],
@@ -5062,7 +5062,7 @@
 //                                                                                                                     textAlign: TextAlign.center,
 //                                                                                                                     style: TextStyle(
 //                                                                                                                         fontSize: 17,
-//                                                                                                                         fontWeight: FontWeight.w600,
+//                                                                                                                         fontWeight: FontWeight.w500,
 //                                                                                                                         color: Colors.black
 //                                                                                                                     ),
 //                                                                                                                   )
@@ -5125,7 +5125,7 @@
 //                                                                                                                 //   textAlign: TextAlign.center,
 //                                                                                                                 //   style: TextStyle(
 //                                                                                                                 //       fontSize: 18,
-//                                                                                                                 //       fontWeight: FontWeight.w600,
+//                                                                                                                 //       fontWeight: FontWeight.w500,
 //                                                                                                                 //       color: Colors.black
 //                                                                                                                 //   ),
 //                                                                                                                 // )
@@ -5276,7 +5276,7 @@
 //                                                                                                                   textAlign: TextAlign.center,
 //                                                                                                                   style: TextStyle(
 //                                                                                                                       fontSize: 17,
-//                                                                                                                       fontWeight: FontWeight.w600,
+//                                                                                                                       fontWeight: FontWeight.w500,
 //                                                                                                                       color: Colors.black
 //                                                                                                                   ),
 //                                                                                                                 )
@@ -5327,7 +5327,7 @@
 //                                                                                     )),
 //                                                                                     SizedBox(height: 2.5),
 //                                                                                     Text('Printing service', style: TextStyle(
-//                                                                                         fontWeight: FontWeight.w600,
+//                                                                                         fontWeight: FontWeight.w500,
 //                                                                                         fontSize: 19
 //                                                                                     )),
 //                                                                                   ],
@@ -5380,7 +5380,7 @@
 //                                                                                                                             .address
 //                                                                                                                         ? AppTheme.themeColor
 //                                                                                                                         : Colors.black,
-//                                                                                                                     fontWeight: FontWeight.w600,
+//                                                                                                                     fontWeight: FontWeight.w500,
 //                                                                                                                     fontSize: 19
 //                                                                                                                 ),
 //                                                                                                               ),
@@ -5590,7 +5590,7 @@
 //                                                                                                                   textAlign: TextAlign.center,
 //                                                                                                                   style: TextStyle(
 //                                                                                                                       fontSize: 17,
-//                                                                                                                       fontWeight: FontWeight.w600,
+//                                                                                                                       fontWeight: FontWeight.w500,
 //                                                                                                                       color: Colors.black
 //                                                                                                                   ),
 //                                                                                                                 )
@@ -6611,7 +6611,7 @@
 //                                                 ),
 //                                                 SizedBox(height: 3),
 //                                                 Text(result.split('^')[1], style: TextStyle(
-//                                                     fontWeight: FontWeight.w600,
+//                                                     fontWeight: FontWeight.w500,
 //                                                     fontSize: 19
 //                                                 )),
 //                                               ],
@@ -7038,7 +7038,7 @@
 //                                                                     textAlign: TextAlign.center,
 //                                                                     style: TextStyle(
 //                                                                         fontSize: 18,
-//                                                                         fontWeight: FontWeight.w600,
+//                                                                         fontWeight: FontWeight.w500,
 //                                                                         color: Colors.black
 //                                                                     ),
 //                                                                   )
@@ -7997,7 +7997,7 @@
 //                                                                     18,
 //                                                                     fontWeight:
 //                                                                     FontWeight
-//                                                                         .w600,
+//                                                                         .w500,
 //                                                                     color: Colors
 //                                                                         .black),
 //                                                               )),
@@ -8112,7 +8112,7 @@
 //                                                                     18,
 //                                                                     fontWeight:
 //                                                                     FontWeight
-//                                                                         .w600,
+//                                                                         .w500,
 //                                                                     color: Colors
 //                                                                         .black),
 //                                                               )),
@@ -8396,7 +8396,7 @@
 //                                                                         textAlign: TextAlign.center,
 //                                                                         style: TextStyle(
 //                                                                             fontSize: 17,
-//                                                                             fontWeight: FontWeight.w600,
+//                                                                             fontWeight: FontWeight.w500,
 //                                                                             color: Colors.black
 //                                                                         ),
 //                                                                       )
@@ -8435,7 +8435,7 @@
 //                                                                         textAlign: TextAlign.center,
 //                                                                         style: TextStyle(
 //                                                                             fontSize: 17,
-//                                                                             fontWeight: FontWeight.w600,
+//                                                                             fontWeight: FontWeight.w500,
 //                                                                             color: Colors.black
 //                                                                         ),
 //                                                                       )
@@ -8494,7 +8494,7 @@
 //                                                     )),
 //                                                     SizedBox(height: 2.5),
 //                                                     Text('Cash acceptance', style: TextStyle(
-//                                                         fontWeight: FontWeight.w600,
+//                                                         fontWeight: FontWeight.w500,
 //                                                         fontSize: 19
 //                                                     )),
 //                                                   ],
@@ -8676,7 +8676,7 @@
 //                                                                       child: Text( '$currencyUnit ' +
 //                                                                           TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
 //                                                                         style: TextStyle(
-//                                                                             fontWeight: FontWeight.w600,
+//                                                                             fontWeight: FontWeight.w500,
 //                                                                             fontSize: 17
 //                                                                         ),
 //                                                                       ),
@@ -8787,7 +8787,7 @@
 //                                                                                   textAlign: TextAlign.center,
 //                                                                                   style: TextStyle(
 //                                                                                       fontSize: 18,
-//                                                                                       fontWeight: FontWeight.w600,
+//                                                                                       fontWeight: FontWeight.w500,
 //                                                                                       color: Colors.black
 //                                                                                   ),
 //                                                                                 )
@@ -9245,7 +9245,7 @@
 //                                                                                     textAlign: TextAlign.center,
 //                                                                                     style: TextStyle(
 //                                                                                         fontSize: 17,
-//                                                                                         fontWeight: FontWeight.w600,
+//                                                                                         fontWeight: FontWeight.w500,
 //                                                                                         color: Colors.black
 //                                                                                     ),
 //                                                                                   )
@@ -9317,7 +9317,7 @@
 //                                                     ),
 //                                                     SizedBox(height: 2.5),
 //                                                     Text(productName, style: TextStyle(
-//                                                         fontWeight: FontWeight.w600,
+//                                                         fontWeight: FontWeight.w500,
 //                                                         fontSize: 19
 //                                                     ),
 //                                                         strutStyle: StrutStyle(
@@ -9832,7 +9832,7 @@
 //                                                                                       textAlign: TextAlign.center,
 //                                                                                       style: TextStyle(
 //                                                                                           fontSize: 18,
-//                                                                                           fontWeight: FontWeight.w600,
+//                                                                                           fontWeight: FontWeight.w500,
 //                                                                                           color: Colors.black
 //                                                                                       ),
 //                                                                                     )
@@ -9883,7 +9883,7 @@
 //                                                                                       textAlign: TextAlign.center,
 //                                                                                       style: TextStyle(
 //                                                                                           fontSize: 17,
-//                                                                                           fontWeight: FontWeight.w600,
+//                                                                                           fontWeight: FontWeight.w500,
 //                                                                                           color: Colors.black
 //                                                                                       ),
 //                                                                                     )
@@ -9957,7 +9957,7 @@
 //                                                     )),
 //                                                     SizedBox(height: 2.5),
 //                                                     Text('Invoice receipt', style: TextStyle(
-//                                                         fontWeight: FontWeight.w600,
+//                                                         fontWeight: FontWeight.w500,
 //                                                         fontSize: 19
 //                                                     )),
 //                                                   ],
@@ -10047,7 +10047,7 @@
 //                                                                                   textAlign: TextAlign.center,
 //                                                                                   style: TextStyle(
 //                                                                                       fontSize: 17,
-//                                                                                       fontWeight: FontWeight.w600,
+//                                                                                       fontWeight: FontWeight.w500,
 //                                                                                       color: Colors.black
 //                                                                                   ),
 //                                                                                 )
@@ -10098,7 +10098,7 @@
 //                                                                               //   textAlign: TextAlign.center,
 //                                                                               //   style: TextStyle(
 //                                                                               //       fontSize: 18,
-//                                                                               //       fontWeight: FontWeight.w600,
+//                                                                               //       fontWeight: FontWeight.w500,
 //                                                                               //       color: Colors.black
 //                                                                               //   ),
 //                                                                               // )
@@ -10250,7 +10250,7 @@
 //                                                                                   textAlign: TextAlign.center,
 //                                                                                   style: TextStyle(
 //                                                                                       fontSize: 17,
-//                                                                                       fontWeight: FontWeight.w600,
+//                                                                                       fontWeight: FontWeight.w500,
 //                                                                                       color: Colors.black
 //                                                                                   ),
 //                                                                                 )
@@ -10411,7 +10411,7 @@
 //                                                                                                           .address
 //                                                                                                       ? AppTheme.themeColor
 //                                                                                                       : Colors.black,
-//                                                                                                   fontWeight: FontWeight.w600,
+//                                                                                                   fontWeight: FontWeight.w500,
 //                                                                                                   fontSize: 19
 //                                                                                               ),
 //                                                                                             ),
@@ -10554,7 +10554,7 @@
 //                                                           )),
 //                                                           SizedBox(height: 2.5),
 //                                                           Text('Printing service', style: TextStyle(
-//                                                               fontWeight: FontWeight.w600,
+//                                                               fontWeight: FontWeight.w500,
 //                                                               fontSize: 19
 //                                                           )),
 //                                                         ],
@@ -10630,7 +10630,7 @@
 //                                                                                         textAlign: TextAlign.center,
 //                                                                                         style: TextStyle(
 //                                                                                             fontSize: 18,
-//                                                                                             fontWeight: FontWeight.w600,
+//                                                                                             fontWeight: FontWeight.w500,
 //                                                                                             color: Colors.black
 //                                                                                         ),
 //                                                                                       )
@@ -10680,7 +10680,7 @@
 //                                                                                         textAlign: TextAlign.center,
 //                                                                                         style: TextStyle(
 //                                                                                             fontSize: 17,
-//                                                                                             fontWeight: FontWeight.w600,
+//                                                                                             fontWeight: FontWeight.w500,
 //                                                                                             color: Colors.black
 //                                                                                         ),
 //                                                                                       )
@@ -12214,7 +12214,7 @@
 //                                                                                             .address
 //                                                                                         ? AppTheme.themeColor
 //                                                                                         : Colors.black,
-//                                                                                     fontWeight: FontWeight.w600,
+//                                                                                     fontWeight: FontWeight.w500,
 //                                                                                     fontSize: 19
 //                                                                                 ),
 //                                                                               ),
@@ -12357,7 +12357,7 @@
 //                                             )),
 //                                             SizedBox(height: 2.5),
 //                                             Text('Printing service', style: TextStyle(
-//                                                 fontWeight: FontWeight.w600,
+//                                                 fontWeight: FontWeight.w500,
 //                                                 fontSize: 19
 //                                             )),
 //                                           ],
@@ -12433,7 +12433,7 @@
 //                                                                           textAlign: TextAlign.center,
 //                                                                           style: TextStyle(
 //                                                                               fontSize: 18,
-//                                                                               fontWeight: FontWeight.w600,
+//                                                                               fontWeight: FontWeight.w500,
 //                                                                               color: Colors.black
 //                                                                           ),
 //                                                                         )
@@ -12483,7 +12483,7 @@
 //                                                                           textAlign: TextAlign.center,
 //                                                                           style: TextStyle(
 //                                                                               fontSize: 17,
-//                                                                               fontWeight: FontWeight.w600,
+//                                                                               fontWeight: FontWeight.w500,
 //                                                                               color: Colors.black
 //                                                                           ),
 //                                                                         )

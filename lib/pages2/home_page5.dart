@@ -1796,7 +1796,7 @@ class HomePageState extends State<HomePage>
                                                           //           children: [
                                                           //             SizedBox(height: 18),
                                                           //             Text('1 month pro version', textScaleFactor: 1, style: TextStyle(
-                                                          //                 fontWeight: FontWeight.w600,
+                                                          //                 fontWeight: FontWeight.w500,
                                                           //                 fontSize: 18,
                                                           //                 letterSpacing: -0.3
                                                           //             ),
@@ -1845,7 +1845,7 @@ class HomePageState extends State<HomePage>
                                                           //           children: [
                                                           //             SizedBox(height: 18),
                                                           //             Text('3 month pro version (save 20%)', textScaleFactor: 1, style: TextStyle(
-                                                          //                 fontWeight: FontWeight.w600,
+                                                          //                 fontWeight: FontWeight.w500,
                                                           //                 fontSize: 18,
                                                           //                 letterSpacing: -0.3
                                                           //             ),
@@ -1893,7 +1893,7 @@ class HomePageState extends State<HomePage>
                                                           //           children: [
                                                           //             SizedBox(height: 18),
                                                           //             Text('5 month pro version (save 30%)', textScaleFactor: 1, style: TextStyle(
-                                                          //                 fontWeight: FontWeight.w600,
+                                                          //                 fontWeight: FontWeight.w500,
                                                           //                 fontSize: 18,
                                                           //                 letterSpacing: -0.3
                                                           //             ),
@@ -1975,7 +1975,7 @@ class HomePageState extends State<HomePage>
                                                                                     textStyle: TextStyle(
                                                                                         letterSpacing: 1,
                                                                                         fontSize: 16,
-                                                                                        fontWeight: FontWeight.w600,
+                                                                                        fontWeight: FontWeight.w500,
                                                                                         color: Colors.white
                                                                                     )
                                                                                 ),
@@ -1986,7 +1986,7 @@ class HomePageState extends State<HomePage>
                                                                         title: Padding(
                                                                           padding: const EdgeInsets.only(top: 10.0),
                                                                           child: Text('1 month pro version', textScaleFactor: 1, style: TextStyle(
-                                                                              fontWeight: FontWeight.w600,
+                                                                              fontWeight: FontWeight.w500,
                                                                               fontSize: 18,
                                                                               letterSpacing: -0.3
                                                                           ),
@@ -2098,7 +2098,7 @@ class HomePageState extends State<HomePage>
                                                                                     textStyle: TextStyle(
                                                                                         letterSpacing: 1,
                                                                                         fontSize: 16,
-                                                                                        fontWeight: FontWeight.w600,
+                                                                                        fontWeight: FontWeight.w500,
                                                                                         color: Colors.white
                                                                                     )
                                                                                 ),
@@ -2109,7 +2109,7 @@ class HomePageState extends State<HomePage>
                                                                         title: Padding(
                                                                           padding: const EdgeInsets.only(top: 10.0),
                                                                           child: Text('3 months pro version', textScaleFactor: 1, style: TextStyle(
-                                                                              fontWeight: FontWeight.w600,
+                                                                              fontWeight: FontWeight.w500,
                                                                               fontSize: 18,
                                                                               letterSpacing: -0.3
                                                                           ),
@@ -2221,7 +2221,7 @@ class HomePageState extends State<HomePage>
                                                                                     textStyle: TextStyle(
                                                                                         letterSpacing: 1,
                                                                                         fontSize: 16,
-                                                                                        fontWeight: FontWeight.w600,
+                                                                                        fontWeight: FontWeight.w500,
                                                                                         color: Colors.white
                                                                                     )
                                                                                 ),
@@ -2232,7 +2232,7 @@ class HomePageState extends State<HomePage>
                                                                         title: Padding(
                                                                           padding: const EdgeInsets.only(top: 10.0),
                                                                           child: Text('5 months pro version', textScaleFactor: 1, style: TextStyle(
-                                                                              fontWeight: FontWeight.w600,
+                                                                              fontWeight: FontWeight.w500,
                                                                               fontSize: 18,
                                                                               letterSpacing: -0.3
                                                                           ),
@@ -2339,7 +2339,7 @@ class HomePageState extends State<HomePage>
                                                       title: Padding(
                                                         padding: const EdgeInsets.only(top: 10.0),
                                                         child: Text('Contact us via phone', textScaleFactor: 1, style: TextStyle(
-                                                            fontWeight: FontWeight.w600,
+                                                            fontWeight: FontWeight.w500,
                                                             fontSize: 18,
                                                             letterSpacing: -0.3
                                                         ),
@@ -2426,7 +2426,7 @@ class HomePageState extends State<HomePage>
                                                       title: Padding(
                                                         padding: const EdgeInsets.only(top: 10.0),
                                                         child: Text('Via messenger', textScaleFactor: 1, style: TextStyle(
-                                                            fontWeight: FontWeight.w600,
+                                                            fontWeight: FontWeight.w500,
                                                             fontSize: 18,
                                                             letterSpacing: -0.3
                                                         ),
@@ -2619,7 +2619,7 @@ class HomePageState extends State<HomePage>
                                       SizedBox(height: 2.5),
                                       Text('New merchant creation', textScaleFactor: 1,
                                           style: TextStyle(
-                                              fontWeight: FontWeight.w600,
+                                              fontWeight: FontWeight.w500,
                                               fontSize: 19
                                           ),
                                           strutStyle: StrutStyle(
@@ -2741,7 +2741,7 @@ class HomePageState extends State<HomePage>
                                         SizedBox(height: 2.5),
                                         Text('New customer creation', textScaleFactor: 1,
                                             style: TextStyle(
-                                                fontWeight: FontWeight.w600,
+                                                fontWeight: FontWeight.w500,
                                                 fontSize: 19
                                             ),
                                             strutStyle: StrutStyle(
@@ -2864,7 +2864,7 @@ class HomePageState extends State<HomePage>
                                         SizedBox(height: 2.5),
                                         Text(isEnglish? 'New product creation': 'ပစ္စည်းအသစ် ထည့်သွင်းခြင်း', textScaleFactor: 1,
                                             style: TextStyle(
-                                                fontWeight: FontWeight.w600,
+                                                fontWeight: FontWeight.w500,
                                                 fontSize: 19
                                             ),
                                             strutStyle: StrutStyle(
@@ -4455,7 +4455,7 @@ class HomePageState extends State<HomePage>
                                                                                                   .center,
                                                                                               style: TextStyle(
                                                                                                   fontSize: 17.5,
-                                                                                                  fontWeight: FontWeight.w600,
+                                                                                                  fontWeight: FontWeight.w500,
                                                                                                   color: Colors.black),
                                                                                               strutStyle: StrutStyle(
                                                                                                 height: 1.3,
@@ -4735,7 +4735,7 @@ class HomePageState extends State<HomePage>
                                                                                                 textScaleFactor: 1,
                                                                                                 style: TextStyle(
                                                                                                     fontSize: 17.5,
-                                                                                                    fontWeight: FontWeight.w600,
+                                                                                                    fontWeight: FontWeight.w500,
                                                                                                     color: Colors.black),
                                                                                                 strutStyle: StrutStyle(
                                                                                                   height: 1.3,
@@ -4856,7 +4856,7 @@ class HomePageState extends State<HomePage>
                                                                                                         textAlign: TextAlign.center,
                                                                                                         style: TextStyle(
                                                                                                             fontSize: 17.5,
-                                                                                                            fontWeight: FontWeight.w600,
+                                                                                                            fontWeight: FontWeight.w500,
                                                                                                             color: Colors.black),
                                                                                                         strutStyle: StrutStyle(
                                                                                                           height: 1.3,
@@ -4900,7 +4900,7 @@ class HomePageState extends State<HomePage>
                                                                                                         textAlign: TextAlign.center,
                                                                                                         style: TextStyle(
                                                                                                             fontSize: 17.5,
-                                                                                                            fontWeight: FontWeight.w600,
+                                                                                                            fontWeight: FontWeight.w500,
                                                                                                             color: Colors.black),
                                                                                                         strutStyle: StrutStyle(
                                                                                                           height: 1.3,
@@ -5148,7 +5148,7 @@ class HomePageState extends State<HomePage>
                                                                                                     child: Text( '$currencyUnit ' +
                                                                                                         TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), textScaleFactor: 1,
                                                                                                       style: TextStyle(
-                                                                                                          fontWeight: FontWeight.w600,
+                                                                                                          fontWeight: FontWeight.w500,
                                                                                                           fontSize: 17
                                                                                                       ),
                                                                                                     ),
@@ -5198,7 +5198,7 @@ class HomePageState extends State<HomePage>
                                                                                     ),
                                                                                     Text('Cash acceptance', textScaleFactor: 1,
                                                                                         style: TextStyle(
-                                                                                            fontWeight: FontWeight.w600,
+                                                                                            fontWeight: FontWeight.w500,
                                                                                             fontSize: 18,
                                                                                             overflow: TextOverflow.ellipsis
                                                                                         ),
@@ -5313,7 +5313,7 @@ class HomePageState extends State<HomePage>
                                                                                                                 textAlign: TextAlign.center,
                                                                                                                 style: TextStyle(
                                                                                                                     fontSize: 18,
-                                                                                                                    fontWeight: FontWeight.w600,
+                                                                                                                    fontWeight: FontWeight.w500,
                                                                                                                     color: Colors.black
                                                                                                                 ),
                                                                                                               )
@@ -5686,7 +5686,7 @@ class HomePageState extends State<HomePage>
 
                                                                                                               getPaperId().then((value) async {
                                                                                                                 debugPrint('VVAALLUUEE ' + value.toString());
-                                                                                                                pdfFile = await PdfInvoiceApi.generate(invoice, value);
+                                                                                                                pdfFile = await PdfInvoiceApi.generate(invoice, value, isEnglish);
 
                                                                                                                 Uint8List bytes = pdfFile!.readAsBytesSync();
 
@@ -5770,7 +5770,7 @@ class HomePageState extends State<HomePage>
                                                                                                                 textAlign: TextAlign.center,
                                                                                                                 style: TextStyle(
                                                                                                                     fontSize: 17.5,
-                                                                                                                    fontWeight: FontWeight.w600,
+                                                                                                                    fontWeight: FontWeight.w500,
                                                                                                                     color: Colors.black
                                                                                                                 ),
                                                                                                                 strutStyle: StrutStyle(
@@ -5863,7 +5863,7 @@ class HomePageState extends State<HomePage>
                                                                                     Text(
                                                                                         productName, textScaleFactor: 1,
                                                                                         style: TextStyle(
-                                                                                            fontWeight: FontWeight.w600,
+                                                                                            fontWeight: FontWeight.w500,
                                                                                             fontSize: 18,
                                                                                             height: 1.3
                                                                                         ),
@@ -6460,7 +6460,7 @@ class HomePageState extends State<HomePage>
                                                                                                                 textAlign: TextAlign.center,
                                                                                                                 style: TextStyle(
                                                                                                                     fontSize: 18,
-                                                                                                                    fontWeight: FontWeight.w600,
+                                                                                                                    fontWeight: FontWeight.w500,
                                                                                                                     color: Colors.black
                                                                                                                 ),
                                                                                                               )
@@ -6510,7 +6510,7 @@ class HomePageState extends State<HomePage>
                                                                                                                 textAlign: TextAlign.center,
                                                                                                                 style: TextStyle(
                                                                                                                     fontSize: 17.5,
-                                                                                                                    fontWeight: FontWeight.w600,
+                                                                                                                    fontWeight: FontWeight.w500,
                                                                                                                     color: Colors.black
                                                                                                                 ),
                                                                                                                 strutStyle: StrutStyle(
@@ -6587,7 +6587,7 @@ class HomePageState extends State<HomePage>
                                                                                     ),
                                                                                     Text(textSetInvoice, textScaleFactor: 1,
                                                                                         style: TextStyle(
-                                                                                            fontWeight: FontWeight.w600,
+                                                                                            fontWeight: FontWeight.w500,
                                                                                             fontSize: 18,
                                                                                             overflow: TextOverflow.ellipsis
                                                                                         ),
@@ -6699,7 +6699,7 @@ class HomePageState extends State<HomePage>
                                                                                                                     textAlign: TextAlign.center,
                                                                                                                     style: TextStyle(
                                                                                                                         fontSize: 17.5,
-                                                                                                                        fontWeight: FontWeight.w600,
+                                                                                                                        fontWeight: FontWeight.w500,
                                                                                                                         color: Colors.black
                                                                                                                     ),
                                                                                                                     strutStyle: StrutStyle(
@@ -6767,7 +6767,7 @@ class HomePageState extends State<HomePage>
                                                                                                                 //   textAlign: TextAlign.center,
                                                                                                                 //   style: TextStyle(
                                                                                                                 //       fontSize: 18,
-                                                                                                                //       fontWeight: FontWeight.w600,
+                                                                                                                //       fontWeight: FontWeight.w500,
                                                                                                                 //       color: Colors.black
                                                                                                                 //   ),
                                                                                                                 // )
@@ -6926,7 +6926,7 @@ class HomePageState extends State<HomePage>
                                                                                                                 textAlign: TextAlign.center,
                                                                                                                 style: TextStyle(
                                                                                                                     fontSize: 17.5,
-                                                                                                                    fontWeight: FontWeight.w600,
+                                                                                                                    fontWeight: FontWeight.w500,
                                                                                                                     color: Colors.black
                                                                                                                 ),
                                                                                                                 strutStyle: StrutStyle(
@@ -6992,7 +6992,7 @@ class HomePageState extends State<HomePage>
                                                                                   ),
                                                                                   Text(textSetPrinting, textScaleFactor: 1,
                                                                                       style: TextStyle(
-                                                                                          fontWeight: FontWeight.w600,
+                                                                                          fontWeight: FontWeight.w500,
                                                                                           fontSize: 18,
                                                                                           overflow: TextOverflow.ellipsis
                                                                                       ),
@@ -7051,7 +7051,7 @@ class HomePageState extends State<HomePage>
                                                                                                                           .address
                                                                                                                       ? AppTheme.themeColor
                                                                                                                       : Colors.black,
-                                                                                                                  fontWeight: FontWeight.w600,
+                                                                                                                  fontWeight: FontWeight.w500,
                                                                                                                   fontSize: 19
                                                                                                               ),
                                                                                                             ),
@@ -7253,7 +7253,7 @@ class HomePageState extends State<HomePage>
                                                                                                                 textAlign: TextAlign.center,
                                                                                                                 style: TextStyle(
                                                                                                                     fontSize: 17.5,
-                                                                                                                    fontWeight: FontWeight.w600,
+                                                                                                                    fontWeight: FontWeight.w500,
                                                                                                                     color: Colors.black
                                                                                                                 ),
                                                                                                                 strutStyle: StrutStyle(
@@ -7534,7 +7534,7 @@ class HomePageState extends State<HomePage>
                                                                               textAlign: TextAlign.center,
                                                                               style: TextStyle(
                                                                                   fontSize: 17.5,
-                                                                                  fontWeight: FontWeight.w600,
+                                                                                  fontWeight: FontWeight.w500,
                                                                                   color: Colors.black),
                                                                               strutStyle: StrutStyle(
                                                                                 height: 1.3,
@@ -7929,7 +7929,7 @@ class HomePageState extends State<HomePage>
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                             fontSize: 18,
-                                            fontWeight: FontWeight.w600,
+                                            fontWeight: FontWeight.w500,
                                             letterSpacing:-0.1
                                         ),
                                       ),
@@ -8274,7 +8274,7 @@ class HomePageState extends State<HomePage>
                                                 ),
                                                 SizedBox(height: 2.5),
                                                 Text(result.split('^')[1], textScaleFactor: 1, style: TextStyle(
-                                                    fontWeight: FontWeight.w600,
+                                                    fontWeight: FontWeight.w500,
                                                     fontSize: 19
                                                 ),
                                                     strutStyle: StrutStyle(
@@ -8730,7 +8730,7 @@ class HomePageState extends State<HomePage>
                                                                     textAlign: TextAlign.center,
                                                                     style: TextStyle(
                                                                         fontSize: 18,
-                                                                        fontWeight: FontWeight.w600,
+                                                                        fontWeight: FontWeight.w500,
                                                                         color: Colors.black
                                                                     ),
                                                                   )
@@ -8889,7 +8889,8 @@ class HomePageState extends State<HomePage>
       style: ReceiptTextStyleType.bold,
     );
     receiptText.addLeftText(
-      'Name: ' + saleInfo.split('^')[3].toString(),
+      // 'Name: ' + saleInfo.split('^')[3].toString(),
+      'Name: ' + (saleInfo.split('^')[3].toString()=='No customer'? (isEnglish? 'Walk-in customer': 'အမည်မသိ ဖောက်သည်'): saleInfo.split('^')[3].toString()).toString(),
       size: ReceiptTextSizeType.extraextraSmall,
     );
     var dateNow = DateTime.now();
@@ -9566,7 +9567,8 @@ class HomePageState extends State<HomePage>
                   style: ReceiptTextStyleType.bold,
                 );
                 receiptText.addLeftText(
-                  'Name: ' + saleInfo.split('^')[3].toString(),
+                  // 'Name: ' + saleInfo.split('^')[3].toString(),
+                  'Name: ' + (saleInfo.split('^')[3].toString()=='No customer'? (isEnglish? 'Walk-in customer': 'အမည်မသိ ဖောက်သည်'): saleInfo.split('^')[3].toString()).toString(),
                   size: ReceiptTextSizeType.extraextraSmall,
                 );
                 var dateNow = DateTime.now();
@@ -9840,7 +9842,7 @@ class HomePageState extends State<HomePage>
                                                                         .center,
                                                                     style: TextStyle(
                                                                         fontSize: 17.5,
-                                                                        fontWeight: FontWeight.w600,
+                                                                        fontWeight: FontWeight.w500,
                                                                         color: Colors.black),
                                                                     strutStyle: StrutStyle(
                                                                       height: 1.3,
@@ -10125,7 +10127,7 @@ class HomePageState extends State<HomePage>
                                                                         .center,
                                                                     style: TextStyle(
                                                                         fontSize: 17.5,
-                                                                        fontWeight: FontWeight.w600,
+                                                                        fontWeight: FontWeight.w500,
                                                                         color: Colors.black),
                                                                     strutStyle: StrutStyle(
                                                                       height: 1.3,
@@ -10415,7 +10417,7 @@ class HomePageState extends State<HomePage>
                                                                             style: TextStyle(
                                                                                 height: 1.3,
                                                                                 fontSize: 17.5,
-                                                                                fontWeight: FontWeight.w600,
+                                                                                fontWeight: FontWeight.w500,
                                                                                 color: Colors.black
                                                                             ),
                                                                             strutStyle: StrutStyle(
@@ -10459,7 +10461,7 @@ class HomePageState extends State<HomePage>
                                                                             style: TextStyle(
                                                                                 height: 1.3,
                                                                                 fontSize: 17.5,
-                                                                                fontWeight: FontWeight.w600,
+                                                                                fontWeight: FontWeight.w500,
                                                                                 color: Colors.black
                                                                             ),
                                                                             strutStyle: StrutStyle(
@@ -10526,7 +10528,7 @@ class HomePageState extends State<HomePage>
                                                             )),
                                                         SizedBox(height: 2.5),
                                                         Text('Cash acceptance', textScaleFactor: 1, style: TextStyle(
-                                                            fontWeight: FontWeight.w600,
+                                                            fontWeight: FontWeight.w500,
                                                             fontSize: 19
                                                         ),
                                                             strutStyle: StrutStyle(
@@ -10719,7 +10721,7 @@ class HomePageState extends State<HomePage>
                                                                           child: Text( '$currencyUnit ' +
                                                                               TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                                                             textScaleFactor: 1, style: TextStyle(
-                                                                                fontWeight: FontWeight.w600,
+                                                                                fontWeight: FontWeight.w500,
                                                                                 fontSize: 17
                                                                             ),
                                                                           ),
@@ -10839,7 +10841,7 @@ class HomePageState extends State<HomePage>
                                                                                       textScaleFactor: 1, textAlign: TextAlign.center,
                                                                                       style: TextStyle(
                                                                                           fontSize: 18,
-                                                                                          fontWeight: FontWeight.w600,
+                                                                                          fontWeight: FontWeight.w500,
                                                                                           color: Colors.black
                                                                                       ),
                                                                                     )
@@ -11251,7 +11253,7 @@ class HomePageState extends State<HomePage>
 
                                                                                     getPaperId().then((value) async {
                                                                                       debugPrint('VVAALLUUEE ' + value.toString());
-                                                                                      pdfFile = await PdfInvoiceApi.generate(invoice, value);
+                                                                                      pdfFile = await PdfInvoiceApi.generate(invoice, value, isEnglish);
 
                                                                                       Uint8List bytes = pdfFile!.readAsBytesSync();
 
@@ -11318,7 +11320,7 @@ class HomePageState extends State<HomePage>
                                                                                         textScaleFactor: 1, textAlign: TextAlign.center,
                                                                                         style: TextStyle(
                                                                                             fontSize: 17.5,
-                                                                                            fontWeight: FontWeight.w600,
+                                                                                            fontWeight: FontWeight.w500,
                                                                                             color: Colors.black
                                                                                         ),
                                                                                         strutStyle: StrutStyle(
@@ -11395,7 +11397,7 @@ class HomePageState extends State<HomePage>
                                                         ),
                                                         SizedBox(height: 2.5),
                                                         Text(productName, textScaleFactor: 1, style: TextStyle(
-                                                            fontWeight: FontWeight.w600,
+                                                            fontWeight: FontWeight.w500,
                                                             fontSize: 19
                                                         ),
                                                             strutStyle: StrutStyle(
@@ -11958,7 +11960,7 @@ class HomePageState extends State<HomePage>
                                                                                           textScaleFactor: 1, textAlign: TextAlign.center,
                                                                                           style: TextStyle(
                                                                                               fontSize: 18,
-                                                                                              fontWeight: FontWeight.w600,
+                                                                                              fontWeight: FontWeight.w500,
                                                                                               color: Colors.black
                                                                                           ),
                                                                                         )
@@ -12009,7 +12011,7 @@ class HomePageState extends State<HomePage>
                                                                                           textScaleFactor: 1, textAlign: TextAlign.center,
                                                                                           style: TextStyle(
                                                                                               fontSize: 17.5,
-                                                                                              fontWeight: FontWeight.w600,
+                                                                                              fontWeight: FontWeight.w500,
                                                                                               color: Colors.black
                                                                                           ),
                                                                                           strutStyle: StrutStyle(
@@ -12091,7 +12093,7 @@ class HomePageState extends State<HomePage>
                                                         ),
                                                         SizedBox(height: 2.5),
                                                         Text(textSetInvoice, style: TextStyle(
-                                                            fontWeight: FontWeight.w600,
+                                                            fontWeight: FontWeight.w500,
                                                             fontSize: 19
                                                         ), textScaleFactor: 1,
                                                             strutStyle: StrutStyle(
@@ -12209,7 +12211,7 @@ class HomePageState extends State<HomePage>
                                                                                       textScaleFactor: 1, textAlign: TextAlign.center,
                                                                                       style: TextStyle(
                                                                                           fontSize: 17.5,
-                                                                                          fontWeight: FontWeight.w600,
+                                                                                          fontWeight: FontWeight.w500,
                                                                                           color: Colors.black
                                                                                       ),
                                                                                       strutStyle: StrutStyle(
@@ -12265,7 +12267,7 @@ class HomePageState extends State<HomePage>
                                                                                   //   textAlign: TextAlign.center,
                                                                                   //   style: TextStyle(
                                                                                   //       fontSize: 18,
-                                                                                  //       fontWeight: FontWeight.w600,
+                                                                                  //       fontWeight: FontWeight.w500,
                                                                                   //       color: Colors.black
                                                                                   //   ),
                                                                                   // )
@@ -12421,7 +12423,7 @@ class HomePageState extends State<HomePage>
                                                                                       textScaleFactor: 1, textAlign: TextAlign.center,
                                                                                       style: TextStyle(
                                                                                           fontSize: 17.5,
-                                                                                          fontWeight: FontWeight.w600,
+                                                                                          fontWeight: FontWeight.w500,
                                                                                           color: Colors.black
                                                                                       ),
                                                                                       strutStyle: StrutStyle(
@@ -12587,7 +12589,7 @@ class HomePageState extends State<HomePage>
                                                                                                               .address
                                                                                                           ? AppTheme.themeColor
                                                                                                           : Colors.black,
-                                                                                                      fontWeight: FontWeight.w600,
+                                                                                                      fontWeight: FontWeight.w500,
                                                                                                       fontSize: 19
                                                                                                   ),
                                                                                                 ),
@@ -12734,7 +12736,7 @@ class HomePageState extends State<HomePage>
                                                               ),
                                                               SizedBox(height: 2.5),
                                                               Text(textSetPrinting, textScaleFactor: 1, style: TextStyle(
-                                                                  fontWeight: FontWeight.w600,
+                                                                  fontWeight: FontWeight.w500,
                                                                   fontSize: 19
                                                               ),
                                                                   strutStyle: StrutStyle(
@@ -12815,7 +12817,7 @@ class HomePageState extends State<HomePage>
                                                                                             textScaleFactor: 1, textAlign: TextAlign.center,
                                                                                             style: TextStyle(
                                                                                                 fontSize: 18,
-                                                                                                fontWeight: FontWeight.w600,
+                                                                                                fontWeight: FontWeight.w500,
                                                                                                 color: Colors.black
                                                                                             ),
                                                                                           )
@@ -12865,7 +12867,7 @@ class HomePageState extends State<HomePage>
                                                                                             textScaleFactor: 1, textAlign: TextAlign.center,
                                                                                             style: TextStyle(
                                                                                                 fontSize: 17.5,
-                                                                                                fontWeight: FontWeight.w600,
+                                                                                                fontWeight: FontWeight.w500,
                                                                                                 color: Colors.black
                                                                                             ),
                                                                                             strutStyle: StrutStyle(
@@ -14304,7 +14306,8 @@ class HomePageState extends State<HomePage>
                       style: ReceiptTextStyleType.bold,
                     );
                     receiptText.addLeftText(
-                      'Name: ' + prodListPR[prodListPR.length-1].split('<>')[7].toString(),
+                      // 'Name: ' + prodListPR[prodListPR.length-1].split('<>')[7].toString(),
+                      'Name: ' + (prodListPR[prodListPR.length-1].split('<>')[7].toString()=='No customer'? (isEnglish? 'Walk-in customer': 'အမည်မသိ ဖောက်သည်'): prodListPR[prodListPR.length-1].split('<>')[7].toString()).toString(),
                       size: ReceiptTextSizeType.extraextraSmall,
                     );
                     receiptText.addLeftText(
@@ -14585,7 +14588,7 @@ class HomePageState extends State<HomePage>
                                                                                             .address
                                                                                         ? AppTheme.themeColor
                                                                                         : Colors.black,
-                                                                                    fontWeight: FontWeight.w600,
+                                                                                    fontWeight: FontWeight.w500,
                                                                                     fontSize: 19
                                                                                 ),
                                                                               ),
@@ -14732,7 +14735,7 @@ class HomePageState extends State<HomePage>
                                             ),
                                             SizedBox(height: 2.5),
                                             Text(textSetPrinting, textScaleFactor: 1, style: TextStyle(
-                                                fontWeight: FontWeight.w600,
+                                                fontWeight: FontWeight.w500,
                                                 fontSize: 19
                                             ),
                                                 strutStyle: StrutStyle(
@@ -14813,7 +14816,7 @@ class HomePageState extends State<HomePage>
                                                                           textAlign: TextAlign.center,
                                                                           style: TextStyle(
                                                                               fontSize: 18,
-                                                                              fontWeight: FontWeight.w600,
+                                                                              fontWeight: FontWeight.w500,
                                                                               color: Colors.black
                                                                           ),
                                                                         )
@@ -14863,7 +14866,7 @@ class HomePageState extends State<HomePage>
                                                                           textAlign: TextAlign.center,
                                                                           style: TextStyle(
                                                                               fontSize: 17.5,
-                                                                              fontWeight: FontWeight.w600,
+                                                                              fontWeight: FontWeight.w500,
                                                                               color: Colors.black
                                                                           ),
                                                                           strutStyle: StrutStyle(

@@ -26,7 +26,7 @@ class AddNewCategory extends StatelessWidget {
             categoryText,
             style: TextStyle(
                 fontSize: 16.5,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w500,
             ),
           ),
         ),

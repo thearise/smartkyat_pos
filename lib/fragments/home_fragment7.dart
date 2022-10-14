@@ -940,7 +940,7 @@ class HomeFragmentState extends State<HomeFragment>
           interval: 1,
           getTextStyles: (context, value) => const TextStyle(
             color: Color(0xff67727d),
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w500,
             fontSize: 13,
           ),
           getTitles: (value) {
@@ -1149,7 +1149,7 @@ class HomeFragmentState extends State<HomeFragment>
           interval: 1,
           getTextStyles: (context, value) => const TextStyle(
             color: Color(0xff67727d),
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w500,
             fontSize: 13,
           ),
           getTitles: (value) {
@@ -1362,7 +1362,7 @@ class HomeFragmentState extends State<HomeFragment>
           interval: 1,
           getTextStyles: (context, value) => const TextStyle(
             color: Color(0xff67727d),
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w500,
             fontSize: 13,
           ),
           getTitles: (value) {
@@ -1550,7 +1550,7 @@ class HomeFragmentState extends State<HomeFragment>
           interval: 1,
           getTextStyles: (context, value) => const TextStyle(
             color: Color(0xff67727d),
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w500,
             fontSize: 13,
           ),
           getTitles: (value) {
@@ -1920,7 +1920,7 @@ class HomeFragmentState extends State<HomeFragment>
                                                                     textStyle: TextStyle(
                                                                         letterSpacing: 1,
                                                                         fontSize: 30,
-                                                                        fontWeight: FontWeight.w600,
+                                                                        fontWeight: FontWeight.w500,
                                                                         color: Colors.Colors.black
                                                                     )
                                                                 ),
@@ -1933,7 +1933,7 @@ class HomeFragmentState extends State<HomeFragment>
                                                                       textStyle: TextStyle(
                                                                           letterSpacing: 1,
                                                                           fontSize: 16,
-                                                                          fontWeight: FontWeight.w600,
+                                                                          fontWeight: FontWeight.w500,
                                                                           color: Colors.Colors.black
                                                                       )
                                                                   ),
@@ -1958,7 +1958,7 @@ class HomeFragmentState extends State<HomeFragment>
                                                                   //     textScaleFactor: 1, textAlign: TextAlign.center,
                                                                   //     style: TextStyle(
                                                                   //         fontSize: 15,
-                                                                  //         fontWeight: FontWeight.w600,
+                                                                  //         fontWeight: FontWeight.w500,
                                                                   //         color: Colors.white),
                                                                   //   ),
                                                                   // ),
@@ -2066,7 +2066,7 @@ class HomeFragmentState extends State<HomeFragment>
                                                                                 textStyle: TextStyle(
                                                                                     letterSpacing: 1,
                                                                                     fontSize: 20,
-                                                                                    fontWeight: FontWeight.w600,
+                                                                                    fontWeight: FontWeight.w500,
                                                                                     color: Colors.Colors.black
                                                                                 )
                                                                             ),
@@ -2156,7 +2156,7 @@ class HomeFragmentState extends State<HomeFragment>
                                                                                 textStyle: TextStyle(
                                                                                     letterSpacing: 1,
                                                                                     fontSize: 20,
-                                                                                    fontWeight: FontWeight.w600,
+                                                                                    fontWeight: FontWeight.w500,
                                                                                     color: Colors.Colors.black
                                                                                 )
                                                                             ),
@@ -2247,7 +2247,7 @@ class HomeFragmentState extends State<HomeFragment>
                                                                                 textStyle: TextStyle(
                                                                                     letterSpacing: 1,
                                                                                     fontSize: 20,
-                                                                                    fontWeight: FontWeight.w600,
+                                                                                    fontWeight: FontWeight.w500,
                                                                                     color: Colors.Colors.black
                                                                                 )
                                                                             ),
@@ -2336,7 +2336,7 @@ class HomeFragmentState extends State<HomeFragment>
                                                                         //         textStyle: TextStyle(
                                                                         //             letterSpacing: 1,
                                                                         //             fontSize: 20,
-                                                                        //             fontWeight: FontWeight.w600,
+                                                                        //             fontWeight: FontWeight.w500,
                                                                         //             color: Colors.black
                                                                         //         )
                                                                         //     ),
@@ -3574,7 +3574,7 @@ class HomeFragmentState extends State<HomeFragment>
                         style: TextStyle(
                             height: 0.8,
                             fontSize: 14,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w500,
                             letterSpacing: 1.2,
                             color: Colors.Colors.black
                         ),
@@ -3592,7 +3592,7 @@ class HomeFragmentState extends State<HomeFragment>
                           style: TextStyle(
                             height: 0.8,
                             fontSize: 14,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w500,
                             letterSpacing: 1.2,
                             color: Colors.Colors.black,
                           ),

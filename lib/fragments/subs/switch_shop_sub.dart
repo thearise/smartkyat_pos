@@ -254,7 +254,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
                                       fontSize: 18,
-                                      fontWeight: FontWeight.w600,
+                                      fontWeight: FontWeight.w500,
                                       height: 1.3
                                     ),
                                     strutStyle: StrutStyle(
@@ -359,7 +359,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                                       textAlign: TextAlign.center,
                                                       style: TextStyle(
                                                           fontSize: 18,
-                                                          fontWeight: FontWeight.w600,
+                                                          fontWeight: FontWeight.w500,
                                                           letterSpacing:-0.1
                                                       ),
                                                     ),
@@ -1251,7 +1251,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
                                     fontSize: 18,
-                                    fontWeight: FontWeight.w600,
+                                    fontWeight: FontWeight.w500,
                                     height: 1.3
                                   ),
                                 ),
@@ -1434,7 +1434,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           fontSize: 18,
-                                          fontWeight: FontWeight.w600,
+                                          fontWeight: FontWeight.w500,
                                           letterSpacing:-0.1
                                       ),
                                     ),
@@ -1519,7 +1519,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
                                       fontSize: 13,
-                                      fontWeight: FontWeight.w600,color: Colors.grey,
+                                      fontWeight: FontWeight.w500,color: Colors.grey,
                                     ),
                                   ),
                                 ],
@@ -1529,7 +1529,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                   fontSize: 20,
-                                  fontWeight: FontWeight.w600,
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
                             ],
@@ -1587,7 +1587,7 @@ class _SwitchShopSubState extends State<SwitchShopSub>  with TickerProviderState
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontSize: 18,
-                                        fontWeight: FontWeight.w600,
+                                        fontWeight: FontWeight.w500,
                                         letterSpacing:-0.1
                                     ),
                                   ),

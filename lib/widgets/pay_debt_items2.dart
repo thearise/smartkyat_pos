@@ -175,7 +175,7 @@
 //     //                 textAlign: TextAlign.center,
 //     //                 style: TextStyle(
 //     //                     fontSize: 18,
-//     //                     fontWeight: FontWeight.w600,
+//     //                     fontWeight: FontWeight.w500,
 //     //                     letterSpacing:-0.1
 //     //                 ),
 //     //               ),
@@ -243,7 +243,7 @@
 //                                     widget.data.split('^')[1].toString() + ' - ' + widget.data.split('^')[3].split('&')[0].toString(),
 //                                   style: TextStyle(
 //                                     fontSize: 18,
-//                                     fontWeight: FontWeight.w600,
+//                                     fontWeight: FontWeight.w500,
 //                                   ),
 //                                 )
 //                               ],
@@ -681,7 +681,7 @@
 //                 //                 textAlign: TextAlign.center,
 //                 //                 style: TextStyle(
 //                 //                     fontSize: 18,
-//                 //                     fontWeight: FontWeight.w600,
+//                 //                     fontWeight: FontWeight.w500,
 //                 //                     letterSpacing:-0.1
 //                 //                 ),
 //                 //               ),
@@ -789,7 +789,7 @@
 //                               textAlign: TextAlign.center,
 //                               style: TextStyle(
 //                                   fontSize: 18,
-//                                   fontWeight: FontWeight.w600,
+//                                   fontWeight: FontWeight.w500,
 //                                   letterSpacing:-0.1
 //                               ),
 //                             ),

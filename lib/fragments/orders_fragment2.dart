@@ -1272,7 +1272,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                         textScaleFactor: 1, style: TextStyle(
                             height: 0.8,
                             fontSize: 14,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w500,
                             letterSpacing: 1.2,
                             color: Colors.black
                         ),
@@ -1288,7 +1288,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                             style: TextStyle(
                               height: 0.8,
                               fontSize: 14,
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.w500,
                               letterSpacing: 1.2,
                               color: Colors.black,
                             ),

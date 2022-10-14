@@ -3272,7 +3272,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
         style: TextStyle(
           height: 0.8,
           fontSize: 14,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w500,
           letterSpacing: 1.2,
           color: Colors.black,
         ),
@@ -3287,7 +3287,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
         style: TextStyle(
           height: 0.8,
           fontSize: 14,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w500,
           letterSpacing: 1.2,
           color: Colors.black,
         ),
@@ -4903,11 +4903,11 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                 children: [
                                                   Text(
                                                     // '',
-                                                    snapshot1.data!.docs[index]['cusName'],
+                                                    (snapshot1.data!.docs[index]['cusName']=='No customer'? (widget.isEnglish? 'Walk-in customer': 'အမည်မသိ ဖောက်သည်'): snapshot1.data!.docs[index]['cusName']),
                                                     style: TextStyle(
                                                       fontSize: 15,
                                                       fontWeight: FontWeight.w500,
-                                                      color: Colors.grey,
+                                                      color: snapshot1.data!.docs[index]['cusName']=='No customer'? Colors.grey: Colors.black,
                                                     ), textScaleFactor: 1,
                                                     strutStyle: StrutStyle(
                                                       height: 1.3,
@@ -5288,11 +5288,12 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                                 children: [
                                                   Text(
                                                     // '',
-                                                    snapshot2.data!.docs[index]['merName'], textScaleFactor: 1,
+                                                    (snapshot2.data!.docs[index]['merName']=='No merchant'? (widget.isEnglish? 'Walk-in merchant': 'အမည်မသိ ကုန်သည်'): snapshot2.data!.docs[index]['merName']),
+                                                    textScaleFactor: 1,
                                                     style: TextStyle(
                                                       fontSize: 15,
                                                       fontWeight: FontWeight.w500,
-                                                      color: Colors.grey,
+                                                      color: snapshot2.data!.docs[index]['merName']=='No merchant'? Colors.grey: Colors.black,
                                                     ),
                                                     strutStyle: StrutStyle(
                                                       height: 1.3,

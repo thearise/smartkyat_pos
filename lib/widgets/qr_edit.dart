@@ -294,7 +294,7 @@ class _QREditExampleState extends State<QREditExample> {
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
                                     fontSize: 18,
-                                    fontWeight: FontWeight.w600,
+                                    fontWeight: FontWeight.w500,
                                     overflow: TextOverflow.ellipsis,
                                     // height: 1.3
                                   ),

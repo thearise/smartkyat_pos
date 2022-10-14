@@ -142,7 +142,7 @@ class _EditMerchantState extends State<EditMerchant> {
                               textAlign: TextAlign.right,
                               style: TextStyle(
                                 fontSize: 13,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
                             Text(
@@ -150,7 +150,7 @@ class _EditMerchantState extends State<EditMerchant> {
                               textAlign: TextAlign.right,
                               style: TextStyle(
                                 fontSize: 20,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
                           ],
@@ -427,7 +427,7 @@ class _EditMerchantState extends State<EditMerchant> {
                           //             textAlign: TextAlign.center,
                           //             style: TextStyle(
                           //                 fontSize: 18,
-                          //                 fontWeight: FontWeight.w600,
+                          //                 fontWeight: FontWeight.w500,
                           //                 letterSpacing: -0.1
                           //             ),
                           //           ),
@@ -529,7 +529,7 @@ class _EditMerchantState extends State<EditMerchant> {
                                 style: TextStyle(
                                     height: 1.3,
                                     fontSize: 17.5,
-                                    fontWeight: FontWeight.w600,
+                                    fontWeight: FontWeight.w500,
                                     color: Colors.black
                                 ),
                                 strutStyle: StrutStyle(

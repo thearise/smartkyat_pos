@@ -491,7 +491,7 @@ class _AddMerchantState extends State<AddMerchant> {
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           fontSize: 18,
-                                          fontWeight: FontWeight.w600,
+                                          fontWeight: FontWeight.w500,
                                           letterSpacing:-0.1
                                       ),
                                     ),

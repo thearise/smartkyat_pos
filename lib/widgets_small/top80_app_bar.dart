@@ -64,7 +64,7 @@ class Top80AppBar extends StatelessWidget {
                         textScaleFactor: 1,
                         style: TextStyle(
                           fontSize: 18,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w500,
                           height: 1.3,
                         ),
                         strutStyle: StrutStyle(

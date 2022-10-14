@@ -406,7 +406,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                     title: Padding(
                                       padding: const EdgeInsets.only(top: 10.0),
                                       child: Text(isEnglish? 'Cloud sync (offline support)': 'Cloud sync (offline support)', textScaleFactor: 1, style: TextStyle(
-                                          fontWeight: FontWeight.w600,
+                                          fontWeight: FontWeight.w500,
                                           fontSize: 16,
                                           letterSpacing: -0.3,
                                       ),
@@ -467,7 +467,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                     title: Padding(
                                       padding: const EdgeInsets.only(top: 10.0),
                                       child: Text(isEnglish? 'Finance reports': 'ငွေစာရင်း reports',textScaleFactor: 1, style: TextStyle(
-                                          fontWeight: FontWeight.w600,
+                                          fontWeight: FontWeight.w500,
                                           fontSize: 16,
                                           letterSpacing: -0.3
                                       ),
@@ -528,7 +528,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                     title: Padding(
                                       padding: const EdgeInsets.only(top: 10.0),
                                       child: Text(isEnglish? 'Inventory status': 'ကုန်ပစ္စည်း အဝင်အထွက် စာရင်း', textScaleFactor: 1,style: TextStyle(
-                                          fontWeight: FontWeight.w600,
+                                          fontWeight: FontWeight.w500,
                                           fontSize: 16,
                                           letterSpacing: -0.3
                                       ),
@@ -588,7 +588,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                     title: Padding(
                                       padding: const EdgeInsets.only(top: 10.0),
                                       child: Text(isEnglish? 'Unlimited products': 'အကန့်အသတ်မရှိ ကုန်ပစ္စည်းများ', textScaleFactor: 1, style: TextStyle(
-                                          fontWeight: FontWeight.w600,
+                                          fontWeight: FontWeight.w500,
                                           fontSize: 16,
                                           letterSpacing: -0.3
                                       ),
@@ -647,7 +647,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                     title: Padding(
                                       padding: const EdgeInsets.only(top: 10.0),
                                       child: Text(isEnglish? 'Barcode scans (camera scanner)': 'Barcode scans (camera scanner)', textScaleFactor: 1, style: TextStyle(
-                                          fontWeight: FontWeight.w600,
+                                          fontWeight: FontWeight.w500,
                                           fontSize: 16,
                                           letterSpacing: -0.3
                                       ),
@@ -708,7 +708,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                     title: Padding(
                                       padding: const EdgeInsets.only(top: 10.0),
                                       child: Text(isEnglish? 'Print an invoice (PNG receipt supported)': 'ဘောင်ချာထုတ် service (ပုံနှင့်ရော, printer ပါ)', textScaleFactor: 1, style: TextStyle(
-                                          fontWeight: FontWeight.w600,
+                                          fontWeight: FontWeight.w500,
                                           fontSize: 16,
                                           letterSpacing: -0.3
                                       ),
@@ -768,7 +768,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                     title: Padding(
                                       padding: const EdgeInsets.only(top: 10.0),
                                       child: Text(isEnglish? 'POS staff roles and permissions': 'POS ဝန်းထမ်း roles and permissions', textScaleFactor: 1, style: TextStyle(
-                                          fontWeight: FontWeight.w600,
+                                          fontWeight: FontWeight.w500,
                                           fontSize: 16,
                                           letterSpacing: -0.3
                                       ),
@@ -826,7 +826,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                     title: Padding(
                                       padding: const EdgeInsets.only(top: 10.0),
                                       child: Text(isEnglish? 'Order refunds, discounts and debts': 'ပစ္စည်းပြန်လဲခြင်း, စျေးလျော့ခြင်း နှင့် အကြွေးဝယ်ခြင်း', textScaleFactor: 1, style: TextStyle(
-                                          fontWeight: FontWeight.w600,
+                                          fontWeight: FontWeight.w500,
                                           fontSize: 16,
                                           letterSpacing: -0.3
                                       ),
@@ -886,7 +886,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                     title: Padding(
                                       padding: const EdgeInsets.only(top: 10.0),
                                       child: Text(isEnglish? 'Rich customer profiles': 'Rich customer profiles',textScaleFactor: 1, style: TextStyle(
-                                          fontWeight: FontWeight.w600,
+                                          fontWeight: FontWeight.w500,
                                           fontSize: 16,
                                           letterSpacing: -0.3
                                       ),
@@ -1083,7 +1083,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                                           style: TextStyle(
                                               height: 1.3,
                                               fontSize: 17.5,
-                                              fontWeight: FontWeight.w600,
+                                              fontWeight: FontWeight.w500,
                                               color: Colors.black
                                           ),
                                           strutStyle: StrutStyle(

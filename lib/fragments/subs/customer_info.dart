@@ -84,7 +84,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
 
         textSetSaleCart = 'ရောင်းရန်\nစာရင်းထည့်';
         textSetPurchasedOrders = 'ရောင်းပြီး\norders များ';
-        textSetEdit = 'Edit customer';
+        textSetEdit = 'ပြင်ဆင်ရန်';
         textSetSaleInfo = 'အရောင်းဆိုင်ရာ';
         textSetContactInfo = 'ဆက်သွယ်ရန်';
         textSetInfo = 'ဖောက်သည် အချက်အလက်';
@@ -96,7 +96,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
         textSetDebts = 'ရရန် အော်ဒါ အရေအတွက်';
         textSetTtlOrders = 'ရောင်းထားသော အော်ဒါများ';
         textSetRefunds = 'ပြန်ပေးထားသော အော်ဒါများ';
-        textSetSaleTitle = 'အရောင်းဆိုင်ရာ အချက်အလက်';
+        textSetSaleTitle = 'SALE INFORMATION';
 
       });
     }
@@ -146,15 +146,15 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                   var debts = output?['cus'][widget.id]['de'];
                   var totalOrders = output?['cus'][widget.id]['or'];
                   var totalRefunds = output?['cus'][widget.id]['re'];
-                  if(widget.isEnglish) {
-                    if(customerName == 'No customer') {
-                      customerName = 'Walk-in customers';
-                    }
-                  } else {
-                    if(customerName == 'No customer') {
-                      customerName = 'အမည်မသိ ဖောက်သည်စာရင်း';
-                    }
-                  }
+                  // if(widget.isEnglish) {
+                  //   if(customerName == 'No customer') {
+                  //     customerName = 'Walk-in customers';
+                  //   }
+                  // } else {
+                  //   if(customerName == 'No customer') {
+                  //     customerName = 'အမည်မသိ ဖောက်သည်စာရင်း';
+                  //   }
+                  // }
                   return Column(crossAxisAlignment: CrossAxisAlignment.stretch,
                       // mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -215,11 +215,11 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                         ),
                                       ),
                                       Text(
-                                        customerName,  textScaleFactor: 1,
+                                        (customerName=='No customer'? (widget.isEnglish? 'Walk-in customer': 'အမည်မသိ ဖောက်သည်'): customerName),  textScaleFactor: 1,
                                         textAlign: TextAlign.right,
                                         style: TextStyle(
                                             fontSize: 18,
-                                            fontWeight: FontWeight.w600,
+                                            fontWeight: FontWeight.w500,
                                             height: 1.3
                                         ),
                                         strutStyle: StrutStyle(
@@ -362,7 +362,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                                   textSetSaleCart,  textScaleFactor: 1,
                                                                   style: TextStyle(
                                                                     fontWeight: FontWeight
-                                                                        .w600,
+                                                                        .w500,
                                                                     fontSize: 16,
                                                                   ),
                                                                   strutStyle: StrutStyle(
@@ -436,7 +436,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                             textSetPurchasedOrders,  textScaleFactor: 1,
                                                             style: TextStyle(
                                                               fontWeight: FontWeight
-                                                                  .w600,
+                                                                  .w500,
                                                               fontSize: 16,
                                                             ),
                                                             strutStyle: StrutStyle(
@@ -818,13 +818,13 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                           //       Text('Barcode', style:
                                                           //       TextStyle(
                                                           //         fontSize: 15,
-                                                          //         fontWeight: FontWeight.w600,
+                                                          //         fontWeight: FontWeight.w500,
                                                           //       ),),
                                                           //       Spacer(),
                                                           //       Text('3kro46456218', style:
                                                           //       TextStyle(
                                                           //         fontSize: 15,
-                                                          //         fontWeight: FontWeight.w600,
+                                                          //         fontWeight: FontWeight.w500,
                                                           //         color: Colors.grey,
                                                           //       ),),
                                                           //     ],
@@ -890,7 +890,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                                         .w500,
                                                                   ),),
                                                                 Spacer(),
-                                                                Text(customerName,  textScaleFactor: 1,
+                                                                Text((customerName=='No customer'? (widget.isEnglish? 'Walk-in customer': 'အမည်မသိ ဖောက်သည်'): customerName),  textScaleFactor: 1,
                                                                   style:
                                                                   TextStyle(
                                                                     fontSize: 15,
@@ -939,7 +939,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                                 border: Border(
                                                                     bottom: BorderSide(
                                                                         color: Colors
-                                                                            .white,
+                                                                            .transparent,
                                                                         width: 1.0))),
                                                             child: Row(
                                                               children: [
@@ -972,13 +972,13 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                           //       Text('Barcode', style:
                                                           //       TextStyle(
                                                           //         fontSize: 15,
-                                                          //         fontWeight: FontWeight.w600,
+                                                          //         fontWeight: FontWeight.w500,
                                                           //       ),),
                                                           //       Spacer(),
                                                           //       Text('3kro46456218', style:
                                                           //       TextStyle(
                                                           //         fontSize: 15,
-                                                          //         fontWeight: FontWeight.w600,
+                                                          //         fontWeight: FontWeight.w500,
                                                           //         color: Colors.grey,
                                                           //       ),),
                                                           //     ],
@@ -995,7 +995,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                         ),
                                       ),
                                     ),
-                                    SizedBox(height: 15,),
+                                    SizedBox(height: 0,),
                                     Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
@@ -1167,15 +1167,15 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                 var totalOrders = output2?['total_orders'];
                 var totalRefunds = output2?['total_refunds'];
 
-                if(widget.isEnglish) {
-                  if(customerName == 'No customer') {
-                    customerName = 'Walk-in customers';
-                  }
-                } else {
-                  if(customerName == 'No customer') {
-                    customerName = 'အမည်မသိ ဖောက်သည်စာရင်း';
-                  }
-                }
+                // if(widget.isEnglish) {
+                //   if(customerName == 'No customer') {
+                //     customerName = 'Walk-in customers';
+                //   }
+                // } else {
+                //   if(customerName == 'No customer') {
+                //     customerName = 'အမည်မသိ ဖောက်သည်စာရင်း';
+                //   }
+                // }
                 return Column(crossAxisAlignment: CrossAxisAlignment.stretch,
                     // mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -1236,11 +1236,11 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                       ),
                                     ),
                                     Text(
-                                      customerName,  textScaleFactor: 1,
+                                      (customerName=='No customer'? (widget.isEnglish? 'Walk-in customer': 'အမည်မသိ ဖောက်သည်'): customerName),  textScaleFactor: 1,
                                       textAlign: TextAlign.right,
                                       style: TextStyle(
                                           fontSize: 18,
-                                          fontWeight: FontWeight.w600,
+                                          fontWeight: FontWeight.w500,
                                           height: 1.3
                                       ),
                                       strutStyle: StrutStyle(
@@ -1369,7 +1369,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                           //                   textSetSaleCart,
                                           //                   style: TextStyle(
                                           //                     fontWeight: FontWeight
-                                          //                         .w600,
+                                          //                         .w500,
                                           //                     fontSize: 16,
                                           //                   ),
                                           //                   strutStyle: StrutStyle(
@@ -1821,13 +1821,13 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                         //       Text('Barcode', style:
                                                         //       TextStyle(
                                                         //         fontSize: 15,
-                                                        //         fontWeight: FontWeight.w600,
+                                                        //         fontWeight: FontWeight.w500,
                                                         //       ),),
                                                         //       Spacer(),
                                                         //       Text('3kro46456218', style:
                                                         //       TextStyle(
                                                         //         fontSize: 15,
-                                                        //         fontWeight: FontWeight.w600,
+                                                        //         fontWeight: FontWeight.w500,
                                                         //         color: Colors.grey,
                                                         //       ),),
                                                         //     ],
@@ -1893,7 +1893,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                                       .w500,
                                                                 ),),
                                                               Spacer(),
-                                                              Text(customerName,  textScaleFactor: 1,
+                                                              Text((customerName=='No customer'? (widget.isEnglish? 'Walk-in customer': 'အမည်မသိ ဖောက်သည်'): customerName),  textScaleFactor: 1,
                                                                 style:
                                                                 TextStyle(
                                                                   fontSize: 15,
@@ -1977,13 +1977,13 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                         //       Text('Barcode', style:
                                                         //       TextStyle(
                                                         //         fontSize: 15,
-                                                        //         fontWeight: FontWeight.w600,
+                                                        //         fontWeight: FontWeight.w500,
                                                         //       ),),
                                                         //       Spacer(),
                                                         //       Text('3kro46456218', style:
                                                         //       TextStyle(
                                                         //         fontSize: 15,
-                                                        //         fontWeight: FontWeight.w600,
+                                                        //         fontWeight: FontWeight.w500,
                                                         //         color: Colors.grey,
                                                         //       ),),
                                                         //     ],
@@ -2161,15 +2161,15 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
 
   loadingView() {
     var customerName = widget.custName;
-    if(widget.isEnglish) {
-      if(widget.custName == 'No customer') {
-        customerName = 'Walk-in customers';
-      }
-    } else {
-      if(widget.custName == 'No customer') {
-        customerName = 'အမည်မသိ ဖောက်သည်စာရင်း';
-      }
-    }
+    // if(widget.isEnglish) {
+    //   if(widget.custName == 'No customer') {
+    //     customerName = 'Walk-in customers';
+    //   }
+    // } else {
+    //   if(widget.custName == 'No customer') {
+    //     customerName = 'အမည်မသိ ဖောက်သည်စာရင်း';
+    //   }
+    // }
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch,
         // mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -2230,12 +2230,12 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                           ),
                         ),
                         Text(
-                          customerName,  textScaleFactor: 1,
+                          (customerName=='No customer'? (widget.isEnglish? 'Walk-in customer': 'အမည်မသိ ဖောက်သည်'): customerName),  textScaleFactor: 1,
                           textAlign: TextAlign.right,
                           style: TextStyle(
                             fontSize: 18,
                             height: 1.3,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w500,
                           ),
                           strutStyle: StrutStyle(
                             height: 1.5,

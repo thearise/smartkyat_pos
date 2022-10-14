@@ -149,7 +149,7 @@
 //                                             textAlign: TextAlign.right,
 //                                             style: TextStyle(
 //                                               fontSize: 13,
-//                                               fontWeight: FontWeight.w600,
+//                                               fontWeight: FontWeight.w500,
 //                                               color: Colors.grey,
 //                                             ),
 //                                           ),
@@ -160,7 +160,7 @@
 //                                         textAlign: TextAlign.right,
 //                                         style: TextStyle(
 //                                           fontSize: 20,
-//                                           fontWeight: FontWeight.w600,
+//                                           fontWeight: FontWeight.w500,
 //                                         ),
 //                                       ),
 //                                     ],
@@ -1580,7 +1580,7 @@
 //                         style: TextStyle(
 //                             height: 0.8,
 //                             fontSize: 14,
-//                             fontWeight: FontWeight.w600,
+//                             fontWeight: FontWeight.w500,
 //                             letterSpacing: 1.2,
 //                             color: Colors.black
 //                         ),
@@ -1596,7 +1596,7 @@
 //                             style: TextStyle(
 //                               height: 0.8,
 //                               fontSize: 14,
-//                               fontWeight: FontWeight.w600,
+//                               fontWeight: FontWeight.w500,
 //                               letterSpacing: 1.2,
 //                               color: Colors.black,
 //                             ),
