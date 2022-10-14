@@ -152,7 +152,7 @@ class PdfInvoiceApi {
 
             // SizedBox(height: 0.5 * PdfPageFormat.cm),
             // pw.Text('Thank you',style: pw.TextStyle(fontSize: fontSizeDesc+5, fontWeight: pw.FontWeight.bold)),
-            pw.Text(Rabbit.uni2zg('ကျေးဇူးတင်ပါသည်။'),
+            pw.Text(Rabbit.uni2zg(isEnglish? 'Thank you.': 'ကျေးဇူးတင်ပါသည်။'),
               textAlign: pw.TextAlign.center, style: pw.TextStyle(height: -0.7, fontSize: size == 'Roll-57'? fontSizeDesc+5: fontSizeDesc+8,font: ttfBold),
             ),
             SizedBox(height: size == 'Roll-80'? 0.17 * PdfPageFormat.cm: 0.15 * PdfPageFormat.cm),
