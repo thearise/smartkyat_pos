@@ -997,8 +997,10 @@ class _BuyListRefundState extends State<BuyListRefund>
                                               // debugPrint('prodList 5  2 ' + total.toString() + ' ' + prodList.toString());
                                               // debugPrint('prodListBef 2 ' + prodListBefore.toString());
                                               List prodRets = prodList;
+                                              double refNum = 0;
+
                                               for(int i=0; i < prodList.length; i++) {
-                                                double refNum = double.parse(prodList[i].split('^')[7]) - double.parse(prodListBefore[i].split('^')[7]);
+                                                 refNum = double.parse(prodList[i].split('^')[7]) - double.parse(prodListBefore[i].split('^')[7]);
                                                 if(refNum > 0) {
                                                   FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr')
                                                       .get()
@@ -1155,6 +1157,8 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                 }
 
                                                 try{
+                                                  print('refnum to s' + refNum.toString());
+                                                  if(refNum > 0) {
                                                   batch.commit();
                                                   Future.delayed(const Duration(milliseconds: 2000), () {
                                                     setState(() {
@@ -1164,7 +1168,23 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                     closeOverAllSubLoading();
                                                     Navigator.of(context).popUntil((route) => route.isFirst);
                                                     smartKyatFlash('$currencyUnit' + totalRefund().toString() + 'is successfully refunded to #' + widget.data.split('^')[1].toString(), 's');
-                                                  });
+                                                  }); } else {
+                                                    Future.delayed(
+                                                        const Duration(
+                                                            milliseconds: 2000), () {
+                                                      setState(() {
+                                                        loadingState = false;
+                                                        disableTouch = false;
+                                                      });
+                                                      closeOverAllSubLoading();
+                                                      // Navigator.of(context)
+                                                      //     .popUntil((route) =>
+                                                      // route.isFirst);
+                                                      smartKyatFlash(
+                                                          'To make a refund, please select an item first.',
+                                                          'w');
+                                                    });
+                                                  }
                                                 }
                                                 catch(error) {
                                                   smartKyatFlash('An error occurred while creating order. Please try again later.', 'e');
