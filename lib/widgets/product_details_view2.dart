@@ -581,7 +581,7 @@ class ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                           textAlign: TextAlign.right,
                                           style: TextStyle(
                                             fontSize: 18,
-                                            fontWeight: FontWeight.w600,
+                                            fontWeight: FontWeight.w500,
                                             overflow: TextOverflow.ellipsis,
                                             // height: 1.3
                                           ),
@@ -761,7 +761,7 @@ class ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                             child: Text(
                                                                 textSetAddtoCart, textScaleFactor: 1, overflow: TextOverflow.ellipsis,
                                                                 style: TextStyle(
-                                                                  fontWeight: FontWeight.w600,
+                                                                  fontWeight: FontWeight.w500,
                                                                   fontSize: 16,
                                                                 ),
                                                                 strutStyle: StrutStyle(
@@ -888,7 +888,7 @@ class ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                       child: Text(
                                                           textSetRefill, textScaleFactor: 1, overflow: TextOverflow.ellipsis,
                                                           style: TextStyle(
-                                                            fontWeight: FontWeight.w600,
+                                                            fontWeight: FontWeight.w500,
                                                             fontSize: 16,
                                                           ),
                                                           strutStyle: StrutStyle(
@@ -995,7 +995,7 @@ class ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                         child: Text(
                                                             textSetAddLoss, textScaleFactor: 1, overflow: TextOverflow.ellipsis,
                                                             style: TextStyle(
-                                                              fontWeight: FontWeight.w600,
+                                                              fontWeight: FontWeight.w500,
                                                               fontSize: 16,
                                                             ),
                                                             strutStyle: StrutStyle(
@@ -2179,7 +2179,7 @@ class ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                             textAlign: TextAlign.right,
                             style: TextStyle(
                               fontSize: 18,
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.w500,
                               overflow: TextOverflow.ellipsis,
                               // height: 1.3
                             ),

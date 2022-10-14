@@ -386,7 +386,7 @@
 //                                             textStyle: TextStyle(
 //                                                 letterSpacing: 1,
 //                                                 fontSize: 30,
-//                                                 fontWeight: FontWeight.w600,
+//                                                 fontWeight: FontWeight.w500,
 //                                                 color: Colors.black
 //                                             )
 //                                         ),
@@ -399,7 +399,7 @@
 //                                               textStyle: TextStyle(
 //                                                   letterSpacing: 1,
 //                                                   fontSize: 16,
-//                                                   fontWeight: FontWeight.w600,
+//                                                   fontWeight: FontWeight.w500,
 //                                                   color: Colors.black
 //                                               )
 //                                           ),
@@ -424,7 +424,7 @@
 //                                               textAlign: TextAlign.center,
 //                                               style: TextStyle(
 //                                                   fontSize: 15,
-//                                                   fontWeight: FontWeight.w600,
+//                                                   fontWeight: FontWeight.w500,
 //                                                   color: Colors.white),
 //                                             ),
 //                                           ),
@@ -532,7 +532,7 @@
 //                                                         textStyle: TextStyle(
 //                                                             letterSpacing: 1,
 //                                                             fontSize: 20,
-//                                                             fontWeight: FontWeight.w600,
+//                                                             fontWeight: FontWeight.w500,
 //                                                             color: Colors.black
 //                                                         )
 //                                                     ),
@@ -617,7 +617,7 @@
 //                                                         textStyle: TextStyle(
 //                                                             letterSpacing: 1,
 //                                                             fontSize: 20,
-//                                                             fontWeight: FontWeight.w600,
+//                                                             fontWeight: FontWeight.w500,
 //                                                             color: Colors.black
 //                                                         )
 //                                                     ),
@@ -703,7 +703,7 @@
 //                                                         textStyle: TextStyle(
 //                                                             letterSpacing: 1,
 //                                                             fontSize: 20,
-//                                                             fontWeight: FontWeight.w600,
+//                                                             fontWeight: FontWeight.w500,
 //                                                             color: Colors.black
 //                                                         )
 //                                                     ),
@@ -788,7 +788,7 @@
 //                                                         textStyle: TextStyle(
 //                                                             letterSpacing: 1,
 //                                                             fontSize: 20,
-//                                                             fontWeight: FontWeight.w600,
+//                                                             fontWeight: FontWeight.w500,
 //                                                             color: Colors.black
 //                                                         )
 //                                                     ),
@@ -1680,7 +1680,7 @@
 //           interval: 1,
 //           getTextStyles: (context, value) => const TextStyle(
 //             color: Color(0xff67727d),
-//             fontWeight: FontWeight.w600,
+//             fontWeight: FontWeight.w500,
 //             fontSize: 13,
 //           ),
 //           getTitles: (value) {
@@ -1889,7 +1889,7 @@
 //           interval: 1,
 //           getTextStyles: (context, value) => const TextStyle(
 //             color: Color(0xff67727d),
-//             fontWeight: FontWeight.w600,
+//             fontWeight: FontWeight.w500,
 //             fontSize: 13,
 //           ),
 //           getTitles: (value) {
@@ -2102,7 +2102,7 @@
 //           interval: 1,
 //           getTextStyles: (context, value) => const TextStyle(
 //             color: Color(0xff67727d),
-//             fontWeight: FontWeight.w600,
+//             fontWeight: FontWeight.w500,
 //             fontSize: 13,
 //           ),
 //           getTitles: (value) {
@@ -2290,7 +2290,7 @@
 //           interval: 1,
 //           getTextStyles: (context, value) => const TextStyle(
 //             color: Color(0xff67727d),
-//             fontWeight: FontWeight.w600,
+//             fontWeight: FontWeight.w500,
 //             fontSize: 13,
 //           ),
 //           getTitles: (value) {

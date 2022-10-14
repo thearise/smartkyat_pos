@@ -538,7 +538,7 @@
 //                                                   textAlign: TextAlign.right,
 //                                                   style: TextStyle(
 //                                                     fontSize: 18,
-//                                                     fontWeight: FontWeight.w600,
+//                                                     fontWeight: FontWeight.w500,
 //                                                     overflow: TextOverflow.ellipsis,
 //                                                     // height: 1.3
 //                                                   ),
@@ -675,7 +675,7 @@
 //                                                                     child: Text(
 //                                                                         textSetAddtoCart, overflow: TextOverflow.ellipsis,
 //                                                                         style: TextStyle(
-//                                                                           fontWeight: FontWeight.w600,
+//                                                                           fontWeight: FontWeight.w500,
 //                                                                           fontSize: 16,
 //                                                                         ),
 //                                                                         strutStyle: StrutStyle(
@@ -798,7 +798,7 @@
 //                                                               child: Text(
 //                                                                   textSetRefill,overflow: TextOverflow.ellipsis,
 //                                                                   style: TextStyle(
-//                                                                     fontWeight: FontWeight.w600,
+//                                                                     fontWeight: FontWeight.w500,
 //                                                                     fontSize: 16,
 //                                                                   ),
 //                                                                   strutStyle: StrutStyle(
@@ -905,7 +905,7 @@
 //                                                                 child: Text(
 //                                                                     textSetAddLoss,overflow: TextOverflow.ellipsis,
 //                                                                     style: TextStyle(
-//                                                                       fontWeight: FontWeight.w600,
+//                                                                       fontWeight: FontWeight.w500,
 //                                                                       fontSize: 16,
 //                                                                     ),
 //                                                                     strutStyle: StrutStyle(
@@ -2161,7 +2161,7 @@
 //                             textAlign: TextAlign.right,
 //                             style: TextStyle(
 //                               fontSize: 18,
-//                               fontWeight: FontWeight.w600,
+//                               fontWeight: FontWeight.w500,
 //                               overflow: TextOverflow.ellipsis,
 //                               // height: 1.3
 //                             ),

@@ -1182,7 +1182,7 @@
 //                                                               children: [
 //                                                                 SizedBox(height: 18),
 //                                                                 Text('1 month pro version', textScaleFactor: 1, style: TextStyle(
-//                                                                     fontWeight: FontWeight.w600,
+//                                                                     fontWeight: FontWeight.w500,
 //                                                                     fontSize: 18,
 //                                                                     letterSpacing: -0.3
 //                                                                 ),
@@ -1230,7 +1230,7 @@
 //                                                               children: [
 //                                                                 SizedBox(height: 18),
 //                                                                 Text('3 month pro version (save 20%)', textScaleFactor: 1, style: TextStyle(
-//                                                                     fontWeight: FontWeight.w600,
+//                                                                     fontWeight: FontWeight.w500,
 //                                                                     fontSize: 18,
 //                                                                     letterSpacing: -0.3
 //                                                                 ),
@@ -1278,7 +1278,7 @@
 //                                                               children: [
 //                                                                 SizedBox(height: 18),
 //                                                                 Text('5 month pro version (save 30%)', textScaleFactor: 1, style: TextStyle(
-//                                                                     fontWeight: FontWeight.w600,
+//                                                                     fontWeight: FontWeight.w500,
 //                                                                     fontSize: 18,
 //                                                                     letterSpacing: -0.3
 //                                                                 ),
@@ -1337,7 +1337,7 @@
 //                                                 title: Padding(
 //                                                   padding: const EdgeInsets.only(top: 10.0),
 //                                                   child: Text('Contact us via phone', textScaleFactor: 1, style: TextStyle(
-//                                                       fontWeight: FontWeight.w600,
+//                                                       fontWeight: FontWeight.w500,
 //                                                       fontSize: 18,
 //                                                       letterSpacing: -0.3
 //                                                   ),
@@ -1424,7 +1424,7 @@
 //                                                 title: Padding(
 //                                                   padding: const EdgeInsets.only(top: 10.0),
 //                                                   child: Text('Via messenger', textScaleFactor: 1, style: TextStyle(
-//                                                       fontWeight: FontWeight.w600,
+//                                                       fontWeight: FontWeight.w500,
 //                                                       fontSize: 18,
 //                                                       letterSpacing: -0.3
 //                                                   ),
@@ -1615,7 +1615,7 @@
 //                                       SizedBox(height: 2.5),
 //                                       Text('New merchant creation', textScaleFactor: 1,
 //                                           style: TextStyle(
-//                                               fontWeight: FontWeight.w600,
+//                                               fontWeight: FontWeight.w500,
 //                                               fontSize: 19
 //                                           ),
 //                                           strutStyle: StrutStyle(
@@ -1737,7 +1737,7 @@
 //                                         SizedBox(height: 2.5),
 //                                         Text('New customer creation', textScaleFactor: 1,
 //                                             style: TextStyle(
-//                                                 fontWeight: FontWeight.w600,
+//                                                 fontWeight: FontWeight.w500,
 //                                                 fontSize: 19
 //                                             ),
 //                                             strutStyle: StrutStyle(
@@ -1860,7 +1860,7 @@
 //                                         SizedBox(height: 2.5),
 //                                         Text('New product creation', textScaleFactor: 1,
 //                                             style: TextStyle(
-//                                                 fontWeight: FontWeight.w600,
+//                                                 fontWeight: FontWeight.w500,
 //                                                 fontSize: 19
 //                                             ),
 //                                             strutStyle: StrutStyle(
@@ -3462,7 +3462,7 @@
 //                                                                                                   .center,
 //                                                                                               style: TextStyle(
 //                                                                                                   fontSize: 17.5,
-//                                                                                                   fontWeight: FontWeight.w600,
+//                                                                                                   fontWeight: FontWeight.w500,
 //                                                                                                   color: Colors.black),
 //                                                                                               strutStyle: StrutStyle(
 //                                                                                                 height: 1.3,
@@ -3742,7 +3742,7 @@
 //                                                                                                 textScaleFactor: 1,
 //                                                                                                 style: TextStyle(
 //                                                                                                     fontSize: 17.5,
-//                                                                                                     fontWeight: FontWeight.w600,
+//                                                                                                     fontWeight: FontWeight.w500,
 //                                                                                                     color: Colors.black),
 //                                                                                                 strutStyle: StrutStyle(
 //                                                                                                   height: 1.3,
@@ -3863,7 +3863,7 @@
 //                                                                                                         textAlign: TextAlign.center,
 //                                                                                                         style: TextStyle(
 //                                                                                                             fontSize: 17.5,
-//                                                                                                             fontWeight: FontWeight.w600,
+//                                                                                                             fontWeight: FontWeight.w500,
 //                                                                                                             color: Colors.black),
 //                                                                                                         strutStyle: StrutStyle(
 //                                                                                                           height: 1.3,
@@ -3907,7 +3907,7 @@
 //                                                                                                         textAlign: TextAlign.center,
 //                                                                                                         style: TextStyle(
 //                                                                                                             fontSize: 17.5,
-//                                                                                                             fontWeight: FontWeight.w600,
+//                                                                                                             fontWeight: FontWeight.w500,
 //                                                                                                             color: Colors.black),
 //                                                                                                         strutStyle: StrutStyle(
 //                                                                                                           height: 1.3,
@@ -4154,7 +4154,7 @@
 //                                                                                                     child: Text( '$currencyUnit ' +
 //                                                                                                         TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'), textScaleFactor: 1,
 //                                                                                                       style: TextStyle(
-//                                                                                                           fontWeight: FontWeight.w600,
+//                                                                                                           fontWeight: FontWeight.w500,
 //                                                                                                           fontSize: 17
 //                                                                                                       ),
 //                                                                                                     ),
@@ -4204,7 +4204,7 @@
 //                                                                                     ),
 //                                                                                     Text('Cash acceptance', textScaleFactor: 1,
 //                                                                                         style: TextStyle(
-//                                                                                             fontWeight: FontWeight.w600,
+//                                                                                             fontWeight: FontWeight.w500,
 //                                                                                             fontSize: 18,
 //                                                                                             overflow: TextOverflow.ellipsis
 //                                                                                         ),
@@ -4319,7 +4319,7 @@
 //                                                                                                                 textAlign: TextAlign.center,
 //                                                                                                                 style: TextStyle(
 //                                                                                                                     fontSize: 18,
-//                                                                                                                     fontWeight: FontWeight.w600,
+//                                                                                                                     fontWeight: FontWeight.w500,
 //                                                                                                                     color: Colors.black
 //                                                                                                                 ),
 //                                                                                                               )
@@ -4597,7 +4597,7 @@
 //                                                                                                                 textAlign: TextAlign.center,
 //                                                                                                                 style: TextStyle(
 //                                                                                                                     fontSize: 17.5,
-//                                                                                                                     fontWeight: FontWeight.w600,
+//                                                                                                                     fontWeight: FontWeight.w500,
 //                                                                                                                     color: Colors.black
 //                                                                                                                 ),
 //                                                                                                                 strutStyle: StrutStyle(
@@ -4690,7 +4690,7 @@
 //                                                                                     Text(
 //                                                                                         productName, textScaleFactor: 1,
 //                                                                                         style: TextStyle(
-//                                                                                             fontWeight: FontWeight.w600,
+//                                                                                             fontWeight: FontWeight.w500,
 //                                                                                             fontSize: 18,
 //                                                                                             height: 1.3
 //                                                                                         ),
@@ -5248,7 +5248,7 @@
 //                                                                                                                   textAlign: TextAlign.center,
 //                                                                                                                   style: TextStyle(
 //                                                                                                                       fontSize: 18,
-//                                                                                                                       fontWeight: FontWeight.w600,
+//                                                                                                                       fontWeight: FontWeight.w500,
 //                                                                                                                       color: Colors.black
 //                                                                                                                   ),
 //                                                                                                                 )
@@ -5298,7 +5298,7 @@
 //                                                                                                                   textAlign: TextAlign.center,
 //                                                                                                                   style: TextStyle(
 //                                                                                                                       fontSize: 17.5,
-//                                                                                                                       fontWeight: FontWeight.w600,
+//                                                                                                                       fontWeight: FontWeight.w500,
 //                                                                                                                       color: Colors.black
 //                                                                                                                   ),
 //                                                                                                                   strutStyle: StrutStyle(
@@ -5376,7 +5376,7 @@
 //                                                                                     ),
 //                                                                                     Text(textSetInvoice, textScaleFactor: 1,
 //                                                                                         style: TextStyle(
-//                                                                                             fontWeight: FontWeight.w600,
+//                                                                                             fontWeight: FontWeight.w500,
 //                                                                                             fontSize: 18,
 //                                                                                             overflow: TextOverflow.ellipsis
 //                                                                                         ),
@@ -5487,7 +5487,7 @@
 //                                                                                                                   textAlign: TextAlign.center,
 //                                                                                                                   style: TextStyle(
 //                                                                                                                       fontSize: 17.5,
-//                                                                                                                       fontWeight: FontWeight.w600,
+//                                                                                                                       fontWeight: FontWeight.w500,
 //                                                                                                                       color: Colors.black
 //                                                                                                                   ),
 //                                                                                                                   strutStyle: StrutStyle(
@@ -5555,7 +5555,7 @@
 //                                                                                                               //   textAlign: TextAlign.center,
 //                                                                                                               //   style: TextStyle(
 //                                                                                                               //       fontSize: 18,
-//                                                                                                               //       fontWeight: FontWeight.w600,
+//                                                                                                               //       fontWeight: FontWeight.w500,
 //                                                                                                               //       color: Colors.black
 //                                                                                                               //   ),
 //                                                                                                               // )
@@ -5713,7 +5713,7 @@
 //                                                                                                                 textAlign: TextAlign.center,
 //                                                                                                                 style: TextStyle(
 //                                                                                                                     fontSize: 17.5,
-//                                                                                                                     fontWeight: FontWeight.w600,
+//                                                                                                                     fontWeight: FontWeight.w500,
 //                                                                                                                     color: Colors.black
 //                                                                                                                 ),
 //                                                                                                                 strutStyle: StrutStyle(
@@ -5779,7 +5779,7 @@
 //                                                                                   ),
 //                                                                                   Text(textSetPrinting, textScaleFactor: 1,
 //                                                                                       style: TextStyle(
-//                                                                                           fontWeight: FontWeight.w600,
+//                                                                                           fontWeight: FontWeight.w500,
 //                                                                                           fontSize: 18,
 //                                                                                           overflow: TextOverflow.ellipsis
 //                                                                                       ),
@@ -5838,7 +5838,7 @@
 //                                                                                                                           .address
 //                                                                                                                       ? AppTheme.themeColor
 //                                                                                                                       : Colors.black,
-//                                                                                                                   fontWeight: FontWeight.w600,
+//                                                                                                                   fontWeight: FontWeight.w500,
 //                                                                                                                   fontSize: 19
 //                                                                                                               ),
 //                                                                                                             ),
@@ -6040,7 +6040,7 @@
 //                                                                                                                 textAlign: TextAlign.center,
 //                                                                                                                 style: TextStyle(
 //                                                                                                                     fontSize: 17.5,
-//                                                                                                                     fontWeight: FontWeight.w600,
+//                                                                                                                     fontWeight: FontWeight.w500,
 //                                                                                                                     color: Colors.black
 //                                                                                                                 ),
 //                                                                                                                 strutStyle: StrutStyle(
@@ -6321,7 +6321,7 @@
 //                                                                               textAlign: TextAlign.center,
 //                                                                               style: TextStyle(
 //                                                                                   fontSize: 17.5,
-//                                                                                   fontWeight: FontWeight.w600,
+//                                                                                   fontWeight: FontWeight.w500,
 //                                                                                   color: Colors.black),
 //                                                                               strutStyle: StrutStyle(
 //                                                                                 height: 1.3,
@@ -6671,7 +6671,7 @@
 //                                         textAlign: TextAlign.center,
 //                                         style: TextStyle(
 //                                             fontSize: 18,
-//                                             fontWeight: FontWeight.w600,
+//                                             fontWeight: FontWeight.w500,
 //                                             letterSpacing:-0.1
 //                                         ),
 //                                       ),
@@ -6983,7 +6983,7 @@
 //                                                 ),
 //                                                 SizedBox(height: 2.5),
 //                                                 Text(result.split('^')[1], textScaleFactor: 1, style: TextStyle(
-//                                                     fontWeight: FontWeight.w600,
+//                                                     fontWeight: FontWeight.w500,
 //                                                     fontSize: 19
 //                                                 ),
 //                                                     strutStyle: StrutStyle(
@@ -7431,7 +7431,7 @@
 //                                                                     textAlign: TextAlign.center,
 //                                                                     style: TextStyle(
 //                                                                         fontSize: 18,
-//                                                                         fontWeight: FontWeight.w600,
+//                                                                         fontWeight: FontWeight.w500,
 //                                                                         color: Colors.black
 //                                                                     ),
 //                                                                   )
@@ -8531,7 +8531,7 @@
 //                                                                         .center,
 //                                                                     style: TextStyle(
 //                                                                         fontSize: 17.5,
-//                                                                         fontWeight: FontWeight.w600,
+//                                                                         fontWeight: FontWeight.w500,
 //                                                                         color: Colors.black),
 //                                                                     strutStyle: StrutStyle(
 //                                                                       height: 1.3,
@@ -8816,7 +8816,7 @@
 //                                                                         .center,
 //                                                                     style: TextStyle(
 //                                                                         fontSize: 17.5,
-//                                                                         fontWeight: FontWeight.w600,
+//                                                                         fontWeight: FontWeight.w500,
 //                                                                         color: Colors.black),
 //                                                                     strutStyle: StrutStyle(
 //                                                                       height: 1.3,
@@ -9120,7 +9120,7 @@
 //                                                                             style: TextStyle(
 //                                                                                 height: 1.3,
 //                                                                                 fontSize: 17.5,
-//                                                                                 fontWeight: FontWeight.w600,
+//                                                                                 fontWeight: FontWeight.w500,
 //                                                                                 color: Colors.black
 //                                                                             ),
 //                                                                             strutStyle: StrutStyle(
@@ -9164,7 +9164,7 @@
 //                                                                             style: TextStyle(
 //                                                                                 height: 1.3,
 //                                                                                 fontSize: 17.5,
-//                                                                                 fontWeight: FontWeight.w600,
+//                                                                                 fontWeight: FontWeight.w500,
 //                                                                                 color: Colors.black
 //                                                                             ),
 //                                                                             strutStyle: StrutStyle(
@@ -9231,7 +9231,7 @@
 //                                                             )),
 //                                                         SizedBox(height: 2.5),
 //                                                         Text('Cash acceptance', textScaleFactor: 1, style: TextStyle(
-//                                                             fontWeight: FontWeight.w600,
+//                                                             fontWeight: FontWeight.w500,
 //                                                             fontSize: 19
 //                                                         ),
 //                                                             strutStyle: StrutStyle(
@@ -9424,7 +9424,7 @@
 //                                                                           child: Text( '$currencyUnit ' +
 //                                                                               TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
 //                                                                             textScaleFactor: 1, style: TextStyle(
-//                                                                                 fontWeight: FontWeight.w600,
+//                                                                                 fontWeight: FontWeight.w500,
 //                                                                                 fontSize: 17
 //                                                                             ),
 //                                                                           ),
@@ -9544,7 +9544,7 @@
 //                                                                                       textScaleFactor: 1, textAlign: TextAlign.center,
 //                                                                                       style: TextStyle(
 //                                                                                           fontSize: 18,
-//                                                                                           fontWeight: FontWeight.w600,
+//                                                                                           fontWeight: FontWeight.w500,
 //                                                                                           color: Colors.black
 //                                                                                       ),
 //                                                                                     )
@@ -9877,7 +9877,7 @@
 //                                                                                         textScaleFactor: 1, textAlign: TextAlign.center,
 //                                                                                         style: TextStyle(
 //                                                                                             fontSize: 17.5,
-//                                                                                             fontWeight: FontWeight.w600,
+//                                                                                             fontWeight: FontWeight.w500,
 //                                                                                             color: Colors.black
 //                                                                                         ),
 //                                                                                         strutStyle: StrutStyle(
@@ -9954,7 +9954,7 @@
 //                                                         ),
 //                                                         SizedBox(height: 2.5),
 //                                                         Text(productName, textScaleFactor: 1, style: TextStyle(
-//                                                             fontWeight: FontWeight.w600,
+//                                                             fontWeight: FontWeight.w500,
 //                                                             fontSize: 19
 //                                                         ),
 //                                                             strutStyle: StrutStyle(
@@ -10506,7 +10506,7 @@
 //                                                                                           textScaleFactor: 1, textAlign: TextAlign.center,
 //                                                                                           style: TextStyle(
 //                                                                                               fontSize: 18,
-//                                                                                               fontWeight: FontWeight.w600,
+//                                                                                               fontWeight: FontWeight.w500,
 //                                                                                               color: Colors.black
 //                                                                                           ),
 //                                                                                         )
@@ -10557,7 +10557,7 @@
 //                                                                                           textScaleFactor: 1, textAlign: TextAlign.center,
 //                                                                                           style: TextStyle(
 //                                                                                               fontSize: 17.5,
-//                                                                                               fontWeight: FontWeight.w600,
+//                                                                                               fontWeight: FontWeight.w500,
 //                                                                                               color: Colors.black
 //                                                                                           ),
 //                                                                                           strutStyle: StrutStyle(
@@ -10639,7 +10639,7 @@
 //                                                         ),
 //                                                         SizedBox(height: 2.5),
 //                                                         Text(textSetInvoice, style: TextStyle(
-//                                                             fontWeight: FontWeight.w600,
+//                                                             fontWeight: FontWeight.w500,
 //                                                             fontSize: 19
 //                                                         ), textScaleFactor: 1,
 //                                                             strutStyle: StrutStyle(
@@ -10757,7 +10757,7 @@
 //                                                                                       textScaleFactor: 1, textAlign: TextAlign.center,
 //                                                                                       style: TextStyle(
 //                                                                                           fontSize: 17.5,
-//                                                                                           fontWeight: FontWeight.w600,
+//                                                                                           fontWeight: FontWeight.w500,
 //                                                                                           color: Colors.black
 //                                                                                       ),
 //                                                                                       strutStyle: StrutStyle(
@@ -10813,7 +10813,7 @@
 //                                                                                   //   textAlign: TextAlign.center,
 //                                                                                   //   style: TextStyle(
 //                                                                                   //       fontSize: 18,
-//                                                                                   //       fontWeight: FontWeight.w600,
+//                                                                                   //       fontWeight: FontWeight.w500,
 //                                                                                   //       color: Colors.black
 //                                                                                   //   ),
 //                                                                                   // )
@@ -10969,7 +10969,7 @@
 //                                                                                       textScaleFactor: 1, textAlign: TextAlign.center,
 //                                                                                       style: TextStyle(
 //                                                                                           fontSize: 17.5,
-//                                                                                           fontWeight: FontWeight.w600,
+//                                                                                           fontWeight: FontWeight.w500,
 //                                                                                           color: Colors.black
 //                                                                                       ),
 //                                                                                       strutStyle: StrutStyle(
@@ -11135,7 +11135,7 @@
 //                                                                                                               .address
 //                                                                                                           ? AppTheme.themeColor
 //                                                                                                           : Colors.black,
-//                                                                                                       fontWeight: FontWeight.w600,
+//                                                                                                       fontWeight: FontWeight.w500,
 //                                                                                                       fontSize: 19
 //                                                                                                   ),
 //                                                                                                 ),
@@ -11282,7 +11282,7 @@
 //                                                               ),
 //                                                               SizedBox(height: 2.5),
 //                                                               Text(textSetPrinting, textScaleFactor: 1, style: TextStyle(
-//                                                                   fontWeight: FontWeight.w600,
+//                                                                   fontWeight: FontWeight.w500,
 //                                                                   fontSize: 19
 //                                                               ),
 //                                                                   strutStyle: StrutStyle(
@@ -11363,7 +11363,7 @@
 //                                                                                             textScaleFactor: 1, textAlign: TextAlign.center,
 //                                                                                             style: TextStyle(
 //                                                                                                 fontSize: 18,
-//                                                                                                 fontWeight: FontWeight.w600,
+//                                                                                                 fontWeight: FontWeight.w500,
 //                                                                                                 color: Colors.black
 //                                                                                             ),
 //                                                                                           )
@@ -11413,7 +11413,7 @@
 //                                                                                             textScaleFactor: 1, textAlign: TextAlign.center,
 //                                                                                             style: TextStyle(
 //                                                                                                 fontSize: 17.5,
-//                                                                                                 fontWeight: FontWeight.w600,
+//                                                                                                 fontWeight: FontWeight.w500,
 //                                                                                                 color: Colors.black
 //                                                                                             ),
 //                                                                                             strutStyle: StrutStyle(
@@ -13117,7 +13117,7 @@
 //                                                                                             .address
 //                                                                                         ? AppTheme.themeColor
 //                                                                                         : Colors.black,
-//                                                                                     fontWeight: FontWeight.w600,
+//                                                                                     fontWeight: FontWeight.w500,
 //                                                                                     fontSize: 19
 //                                                                                 ),
 //                                                                               ),
@@ -13264,7 +13264,7 @@
 //                                             ),
 //                                             SizedBox(height: 2.5),
 //                                             Text(textSetPrinting, textScaleFactor: 1, style: TextStyle(
-//                                                 fontWeight: FontWeight.w600,
+//                                                 fontWeight: FontWeight.w500,
 //                                                 fontSize: 19
 //                                             ),
 //                                                 strutStyle: StrutStyle(
@@ -13345,7 +13345,7 @@
 //                                                                           textAlign: TextAlign.center,
 //                                                                           style: TextStyle(
 //                                                                               fontSize: 18,
-//                                                                               fontWeight: FontWeight.w600,
+//                                                                               fontWeight: FontWeight.w500,
 //                                                                               color: Colors.black
 //                                                                           ),
 //                                                                         )
@@ -13395,7 +13395,7 @@
 //                                                                           textAlign: TextAlign.center,
 //                                                                           style: TextStyle(
 //                                                                               fontSize: 17.5,
-//                                                                               fontWeight: FontWeight.w600,
+//                                                                               fontWeight: FontWeight.w500,
 //                                                                               color: Colors.black
 //                                                                           ),
 //                                                                           strutStyle: StrutStyle(

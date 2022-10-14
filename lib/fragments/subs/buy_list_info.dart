@@ -101,8 +101,8 @@ class _BuyListInfoState extends State<BuyListInfo>
         });
       } else {
         setState(() {
-          textSetPurchase = 'ဝယ်ယူထားသောပစ္စည်းများ';
-          textSetRefund = 'ပြန်ပေးပစ္စည်းများ';
+          textSetPurchase = 'PURCHASED ITEMS (ဝယ်ပြီး)';
+          textSetRefund = 'REFUNDED ITEMS (ပြန်ပေး)';
           textSetDebt = 'ကျန်ငွေ';
           textSetDiscount = 'လျှော့ငွေ';
           textSetAmount = 'Amount applied';
@@ -174,7 +174,7 @@ class _BuyListInfoState extends State<BuyListInfo>
             child: Column(crossAxisAlignment: CrossAxisAlignment.stretch,
                 // mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Top80AppBar('#' + widget.data.split('^')[1] + ' (' + widget.data.split('^')[3].split('&')[0] + ')', '$currencyUnit ' + (double.parse(result.split('^')[2]).toStringAsFixed(1)).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')),
+                  Top80AppBar('#' + widget.data.split('^')[1] + ' (' + (widget.data.split('^')[3].split('&')[0]=='No merchant'? (widget.isEnglish? 'Walk-in merchant': 'အမည်မသိ ကုန်သည်'): widget.data.split('^')[3].split('&')[0]) + ')', '$currencyUnit ' + (double.parse(result.split('^')[2]).toStringAsFixed(1)).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')),
 
                   // orderDateId(widget.data)
                   if (docId != null && docId != '')
@@ -423,7 +423,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                                     textSetRefBtn,  textScaleFactor: 1,
                                                                     style: TextStyle(
                                                                       fontWeight: FontWeight
-                                                                          .w600,
+                                                                          .w500,
                                                                       fontSize: 16,
                                                                     ),
                                                                     strutStyle: StrutStyle(
@@ -509,7 +509,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                                     textSetPayCashBtn,  textScaleFactor: 1,
                                                                     style: TextStyle(
                                                                       fontWeight: FontWeight
-                                                                          .w600,
+                                                                          .w500,
                                                                       fontSize: 16,
                                                                     ),
                                                                     strutStyle: StrutStyle(
@@ -596,7 +596,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                                     textSetPrint,  textScaleFactor: 1,
                                                                     style: TextStyle(
                                                                       fontWeight: FontWeight
-                                                                          .w600,
+                                                                          .w500,
                                                                       fontSize: 16,
                                                                     ),
                                                                     strutStyle: StrutStyle(

@@ -344,7 +344,7 @@ class _QRViewExampleState extends State<QRViewExample> {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontSize: 18,
-                                  fontWeight: FontWeight.w600,
+                                  fontWeight: FontWeight.w500,
                                   letterSpacing:-0.1
                               ),
                             ),

@@ -74,7 +74,7 @@ class _SupportFragmentState extends State<SupportFragment>  with TickerProviderS
     //                             'Search',
     //                             style: TextStyle(
     //                                 fontSize: 16.5,
-    //                                 fontWeight: FontWeight.w600,
+    //                                 fontWeight: FontWeight.w500,
     //                                 color: Colors.black.withOpacity(0.6)
     //                             ),
     //                           )

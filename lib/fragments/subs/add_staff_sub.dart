@@ -404,7 +404,7 @@ class _AddStaffSubState extends State<AddStaffSub> {
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
                                       fontSize: 20,
-                                      fontWeight: FontWeight.w600,
+                                      fontWeight: FontWeight.w500,
                                     ),
                                   ),
                                 ],
@@ -688,7 +688,7 @@ class _AddStaffSubState extends State<AddStaffSub> {
                                   style: TextStyle(
                                       height: 1.3,
                                       fontSize: 17.5,
-                                      fontWeight: FontWeight.w600,
+                                      fontWeight: FontWeight.w500,
                                       color: Colors.black
                                   ),
                                   strutStyle: StrutStyle(

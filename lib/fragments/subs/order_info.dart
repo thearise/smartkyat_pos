@@ -107,8 +107,8 @@ class _OrderInfoSubState extends State<OrderInfoSub>
       });
     } else  {
       setState(() {
-        textSetPurchase = 'ရောင်းထားသောပစ္စည်းများ';
-        textSetRefund = 'ပြန်ပေးပစ္စည်းများ';
+        textSetPurchase = 'PURCHASED ITEMS (ရောင်းပြီး)';
+        textSetRefund = 'REFUNDED ITEMS (ပြန်ပေး)';
         textSetDebt = 'ကျန်ငွေ';
         textSetDiscount = 'လျှော့ငွေ';
         textSetAmount = 'Amount applied';
@@ -180,7 +180,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
             child: Column(crossAxisAlignment: CrossAxisAlignment.stretch,
                 // mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Top80AppBar('#' + widget.data.split('^')[1] + ' (' + widget.data.split('^')[3].split('&')[0] + ')', '$currencyUnit ' + (double.parse(result.split('^')[2]).toStringAsFixed(1)).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')),
+                  Top80AppBar('#' + widget.data.split('^')[1] + ' (' + (widget.data.split('^')[3].split('&')[0]=='No customer'? (widget.isEnglish? 'Walk-in customer': 'အမည်မသိ ဖောက်သည်'): widget.data.split('^')[3].split('&')[0]) + ')', '$currencyUnit ' + (double.parse(result.split('^')[2]).toStringAsFixed(1)).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')),
 
                   // orderDateId(widget.data)
                   if (docId != null && docId != '')
@@ -411,7 +411,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                                     textSetRefBtn,  textScaleFactor: 1,
                                                                     style: TextStyle(
                                                                       fontWeight: FontWeight
-                                                                          .w600,
+                                                                          .w500,
                                                                       fontSize: 16,
                                                                     ),
                                                                     strutStyle: StrutStyle(
@@ -510,7 +510,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                                       textSetPayCashBtn,  textScaleFactor: 1,
                                                                       style: TextStyle(
                                                                         fontWeight: FontWeight
-                                                                            .w600,
+                                                                            .w500,
                                                                         fontSize: 16,
                                                                       ),
                                                                       strutStyle: StrutStyle(
@@ -593,7 +593,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                                     textSetPrint,  textScaleFactor: 1,
                                                                     style: TextStyle(
                                                                       fontWeight: FontWeight
-                                                                          .w600,
+                                                                          .w500,
                                                                       fontSize: 16,
                                                                     ),
                                                                     strutStyle: StrutStyle(

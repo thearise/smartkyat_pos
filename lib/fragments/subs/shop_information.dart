@@ -376,7 +376,7 @@ class _ShopInformationState extends State<ShopInformation>  with TickerProviderS
                                             style: TextStyle(
                                               fontSize: 13,
                                               height: 1.5,
-                                              fontWeight: FontWeight.w600,
+                                              fontWeight: FontWeight.w500,
                                             ),
                                             strutStyle: StrutStyle(
                                               height: 1.4,
@@ -390,7 +390,7 @@ class _ShopInformationState extends State<ShopInformation>  with TickerProviderS
                                             style: TextStyle(
                                               fontSize: 18,
                                               height: 1.3,
-                                              fontWeight: FontWeight.w600,
+                                              fontWeight: FontWeight.w500,
                                             ),
                                             strutStyle: StrutStyle(
                                               height: 1.7,
@@ -685,7 +685,7 @@ class _ShopInformationState extends State<ShopInformation>  with TickerProviderS
                                             style: TextStyle(
                                                 height: 1.3,
                                                 fontSize: 17.5,
-                                                fontWeight: FontWeight.w600,
+                                                fontWeight: FontWeight.w500,
                                                 color: Colors.black
                                             ),
                                             strutStyle: StrutStyle(
@@ -733,7 +733,7 @@ class _ShopInformationState extends State<ShopInformation>  with TickerProviderS
                           //             textAlign: TextAlign.center,
                           //             style: TextStyle(
                           //                 fontSize: 18,
-                          //                 fontWeight: FontWeight.w600,
+                          //                 fontWeight: FontWeight.w500,
                           //                 letterSpacing:-0.1
                           //             ),
                           //           ),
@@ -805,7 +805,7 @@ class _ShopInformationState extends State<ShopInformation>  with TickerProviderS
               //                   textAlign: TextAlign.center,
               //                   style: TextStyle(
               //                       fontSize: 18,
-              //                       fontWeight: FontWeight.w600,
+              //                       fontWeight: FontWeight.w500,
               //                       letterSpacing:-0.1
               //                   ),
               //                 ),

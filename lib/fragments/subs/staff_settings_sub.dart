@@ -437,7 +437,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                   fontSize: 18,
-                                  fontWeight: FontWeight.w600,
+                                  fontWeight: FontWeight.w500,
                                   height: 1.3
                                 ),
                                 strutStyle: StrutStyle(
@@ -1335,7 +1335,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                     style: TextStyle(
                         height: 1.3,
                         fontSize: 17.5,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w500,
                         color: Colors.black
                     ),
                     strutStyle: StrutStyle(
@@ -1395,7 +1395,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                     style: TextStyle(
                         height: 1.3,
                         fontSize: 17.5,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w500,
                         color: Colors.black
                     ),
                     strutStyle: StrutStyle(

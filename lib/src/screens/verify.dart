@@ -175,11 +175,11 @@ class _VerifyScreenState extends State<VerifyScreen> {
                                       textAlign: TextAlign.center,
                                       style: _start == 0 ?  TextStyle(
                                           fontSize: 18,
-                                          fontWeight: FontWeight.w600,
+                                          fontWeight: FontWeight.w500,
                                           letterSpacing:-0.1
                                       ) : TextStyle(
                                           fontSize: 18,
-                                          fontWeight: FontWeight.w600,
+                                          fontWeight: FontWeight.w500,
                                           letterSpacing:-0.1,
                                           color: Colors.black.withOpacity(0.3)
                                       ),
@@ -193,7 +193,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                                     textAlign: TextAlign.center,
                                     style:  TextStyle(
                                         fontSize: 13,
-                                        fontWeight: FontWeight.w600,
+                                        fontWeight: FontWeight.w500,
                                         letterSpacing:-0.1,
                                       color: Colors.black.withOpacity(0.3)
                                     )

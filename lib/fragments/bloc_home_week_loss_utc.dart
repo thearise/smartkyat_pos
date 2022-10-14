@@ -428,7 +428,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                             textStyle: TextStyle(
                                                 letterSpacing: 1,
                                                 fontSize: 30,
-                                                fontWeight: FontWeight.w600,
+                                                fontWeight: FontWeight.w500,
                                                 color: Colors.black
                                             )
                                         ),
@@ -441,7 +441,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                               textStyle: TextStyle(
                                                   letterSpacing: 1,
                                                   fontSize: 16,
-                                                  fontWeight: FontWeight.w600,
+                                                  fontWeight: FontWeight.w500,
                                                   color: Colors.black
                                               )
                                           ),
@@ -466,7 +466,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                               textScaleFactor: 1, textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontSize: 15,
-                                                  fontWeight: FontWeight.w600,
+                                                  fontWeight: FontWeight.w500,
                                                   color: Colors.white),
                                             ),
                                           ),
@@ -574,7 +574,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                                         textStyle: TextStyle(
                                                             letterSpacing: 1,
                                                             fontSize: 20,
-                                                            fontWeight: FontWeight.w600,
+                                                            fontWeight: FontWeight.w500,
                                                             color: Colors.black
                                                         )
                                                     ),
@@ -664,7 +664,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                                         textStyle: TextStyle(
                                                             letterSpacing: 1,
                                                             fontSize: 20,
-                                                            fontWeight: FontWeight.w600,
+                                                            fontWeight: FontWeight.w500,
                                                             color: Colors.black
                                                         )
                                                     ),
@@ -755,7 +755,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                                         textStyle: TextStyle(
                                                             letterSpacing: 1,
                                                             fontSize: 20,
-                                                            fontWeight: FontWeight.w600,
+                                                            fontWeight: FontWeight.w500,
                                                             color: Colors.black
                                                         )
                                                     ),
@@ -844,7 +844,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                                         textStyle: TextStyle(
                                                             letterSpacing: 1,
                                                             fontSize: 20,
-                                                            fontWeight: FontWeight.w600,
+                                                            fontWeight: FontWeight.w500,
                                                             color: Colors.black
                                                         )
                                                     ),
@@ -931,7 +931,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                                         textStyle: TextStyle(
                                                             letterSpacing: 1,
                                                             fontSize: 20,
-                                                            fontWeight: FontWeight.w600,
+                                                            fontWeight: FontWeight.w500,
                                                             color: Colors.black
                                                         )
                                                     ),
@@ -1021,7 +1021,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                                             textStyle: TextStyle(
                                                                 letterSpacing: 1,
                                                                 fontSize: 20,
-                                                                fontWeight: FontWeight.w600,
+                                                                fontWeight: FontWeight.w500,
                                                                 color: Colors.black
                                                             )
                                                         ),
@@ -1832,7 +1832,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
           interval: 1,
           getTextStyles: (context, value) =>  TextStyle(
             color: Color(0xff67727d),
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w500,
             fontSize: 13 / scaleFactor,
           ),
           getTitles: (value) {
@@ -2027,7 +2027,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
           interval: 1,
           getTextStyles: (context, value) =>  TextStyle(
             color: Color(0xff67727d),
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w500,
             fontSize: 13/scaleFactor,
           ),
           getTitles: (value) {

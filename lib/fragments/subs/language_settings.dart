@@ -43,7 +43,7 @@ class LanguageSettingsState extends State<LanguageSettings>  with TickerProvider
         setState(() {
           textSetDisplay = 'Display';
           textSetLanguage = 'Languages';
-          textSetChgLang = 'ဘာသာစကား ပြောင်းလဲရန်';
+          textSetChgLang = 'CHANGE LANGUAGE';
         });
       } else if(value=='english') {
         setState(() {
@@ -201,7 +201,7 @@ class LanguageSettingsState extends State<LanguageSettings>  with TickerProvider
                               style: TextStyle(
                                 fontSize: 18,
                                 height: 1.3,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w500,
                               ),
                               strutStyle: StrutStyle(
                                 height: 1.5,

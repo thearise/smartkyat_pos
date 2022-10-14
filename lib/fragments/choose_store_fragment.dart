@@ -751,7 +751,7 @@ class chooseStoreState extends State<chooseStore> {
                                                               style: TextStyle(
                                                                   height: 1.3,
                                                                   fontSize: 17.5,
-                                                                  fontWeight: FontWeight.w600,
+                                                                  fontWeight: FontWeight.w500,
                                                                   color: Colors.black
                                                               ),
                                                               strutStyle: StrutStyle(
@@ -798,7 +798,7 @@ class chooseStoreState extends State<chooseStore> {
                                                                 style: TextStyle(
                                                                     height: 1.3,
                                                                     fontSize: 17.5,
-                                                                    fontWeight: FontWeight.w600,
+                                                                    fontWeight: FontWeight.w500,
                                                                     color: Colors.black
                                                                 ),
                                                                 strutStyle: StrutStyle(
@@ -1300,7 +1300,7 @@ class chooseStoreState extends State<chooseStore> {
                                                                 style: TextStyle(
                                                                     height: 1.3,
                                                                     fontSize: 17.5,
-                                                                    fontWeight: FontWeight.w600,
+                                                                    fontWeight: FontWeight.w500,
                                                                     color: Colors.black
                                                                 ),
                                                                 strutStyle: StrutStyle(
@@ -1501,7 +1501,7 @@ class chooseStoreState extends State<chooseStore> {
                                                             style: TextStyle(
                                                                 height: 1.3,
                                                                 fontSize: 17.5,
-                                                                fontWeight: FontWeight.w600,
+                                                                fontWeight: FontWeight.w500,
                                                                 color: Colors.black
                                                             ),
                                                             strutStyle: StrutStyle(
@@ -1547,7 +1547,7 @@ class chooseStoreState extends State<chooseStore> {
                                                               style: TextStyle(
                                                                   height: 1.3,
                                                                   fontSize: 17.5,
-                                                                  fontWeight: FontWeight.w600,
+                                                                  fontWeight: FontWeight.w500,
                                                                   color: Colors.black
                                                               ),
                                                               strutStyle: StrutStyle(
@@ -1689,7 +1689,7 @@ class chooseStoreState extends State<chooseStore> {
                                                               style: TextStyle(
                                                                   height: 1.3,
                                                                   fontSize: 17.5,
-                                                                  fontWeight: FontWeight.w600,
+                                                                  fontWeight: FontWeight.w500,
                                                                   color: Colors.black
                                                               ),
                                                               strutStyle: StrutStyle(

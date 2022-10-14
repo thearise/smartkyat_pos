@@ -115,7 +115,7 @@
 //                                         textAlign: TextAlign.right,
 //                                         style: TextStyle(
 //                                           fontSize: 18,
-//                                           fontWeight: FontWeight.w600,
+//                                           fontWeight: FontWeight.w500,
 //                                         ),
 //                                       ),
 //                                     ],

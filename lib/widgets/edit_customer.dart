@@ -143,7 +143,7 @@ class _EditCustomerState extends State<EditCustomer> {
                               textAlign: TextAlign.right,
                               style: TextStyle(
                                 fontSize: 13,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
                             Text(
@@ -151,7 +151,7 @@ class _EditCustomerState extends State<EditCustomer> {
                               textAlign: TextAlign.right, textScaleFactor: 1,
                               style: TextStyle(
                                 fontSize: 20,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
                           ],
@@ -427,7 +427,7 @@ class _EditCustomerState extends State<EditCustomer> {
                             //             textAlign: TextAlign.center,
                             //             style: TextStyle(
                             //                 fontSize: 18,
-                            //                 fontWeight: FontWeight.w600,
+                            //                 fontWeight: FontWeight.w500,
                             //                 letterSpacing: -0.1
                             //             ),
                             //           ),
@@ -522,7 +522,7 @@ class _EditCustomerState extends State<EditCustomer> {
                                 style: TextStyle(
                                     height: 1.3,
                                     fontSize: 17.5,
-                                    fontWeight: FontWeight.w600,
+                                    fontWeight: FontWeight.w500,
                                     color: Colors.black
                                 ),
                                 strutStyle: StrutStyle(

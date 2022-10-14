@@ -394,7 +394,7 @@ class _WelcomeState extends State<Welcome>
                                                                       style: TextStyle(
                                                                           height: 1.3,
                                                                           fontSize: 17.5,
-                                                                          fontWeight: FontWeight.w600,
+                                                                          fontWeight: FontWeight.w500,
                                                                           color: Colors.black
                                                                       ),
                                                                       strutStyle: StrutStyle(
@@ -832,7 +832,7 @@ class _WelcomeState extends State<Welcome>
                                                                                 style: TextStyle(
                                                                                     height: 1.3,
                                                                                     fontSize: 17.5,
-                                                                                    fontWeight: FontWeight.w600,
+                                                                                    fontWeight: FontWeight.w500,
                                                                                     color: Colors.black
                                                                                 ),
                                                                                 strutStyle: StrutStyle(
@@ -1429,7 +1429,7 @@ class _WelcomeState extends State<Welcome>
                                                               style: TextStyle(
                                                                   height: 1.3,
                                                                   fontSize: 17.5,
-                                                                  fontWeight: FontWeight.w600,
+                                                                  fontWeight: FontWeight.w500,
                                                                   color: Colors.black
                                                               ),
                                                               strutStyle: StrutStyle(
@@ -1563,7 +1563,7 @@ class _WelcomeState extends State<Welcome>
                                       child: Text(isEnglish? 'New to smart kyat pos?': 'စတင်အသုံးပြုသူ ဖြစ်ပါသလား?',
                                         textScaleFactor: 1, style: TextStyle(
                                             fontSize: 16,
-                                            fontWeight: FontWeight.w600,
+                                            fontWeight: FontWeight.w500,
                                             letterSpacing: 0.02
                                         ),
                                         strutStyle: StrutStyle(
@@ -1620,7 +1620,7 @@ class _WelcomeState extends State<Welcome>
                                       child: Text(isEnglish? 'Have an account already?': 'အကောင့်ရှိပြီးသားဆိုရင်',
                                         textScaleFactor: 1, style: TextStyle(
                                             fontSize: 16,
-                                            fontWeight: FontWeight.w600,
+                                            fontWeight: FontWeight.w500,
                                             letterSpacing: 0.02
                                         ),
                                         strutStyle: StrutStyle(
@@ -1685,7 +1685,7 @@ class _WelcomeState extends State<Welcome>
                                       child: Text(isEnglish? 'New to smart kyat pos?': 'စတင်အသုံးပြုသူ ဖြစ်ပါသလား?',
                                         textScaleFactor: 1, style: TextStyle(
                                             fontSize: 16,
-                                            fontWeight: FontWeight.w600,
+                                            fontWeight: FontWeight.w500,
                                             letterSpacing: 0.02
                                         ),
                                         strutStyle: StrutStyle(
@@ -1742,7 +1742,7 @@ class _WelcomeState extends State<Welcome>
                                       child: Text(isEnglish? 'Have an account already?': 'အကောင့်ရှိပြီးသားဆိုရင်',
                                         textScaleFactor: 1, style: TextStyle(
                                             fontSize: 16,
-                                            fontWeight: FontWeight.w600,
+                                            fontWeight: FontWeight.w500,
                                             letterSpacing: 0.02
                                         ),
                                         strutStyle: StrutStyle(

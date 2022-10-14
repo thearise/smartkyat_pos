@@ -525,7 +525,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                                         ),
                                         Row(
                                           children: [
-                                            Text(widget.merchName,  textScaleFactor: 1, style: TextStyle(
+                                            Text((widget.merchName=='No merchant'? (widget.isEnglish? 'Walk-in merchant': 'အမည်မသိ ကုန်သည်'): widget.merchName),  textScaleFactor: 1, style: TextStyle(
                                               fontSize: 15,
                                               fontWeight: FontWeight.w500,
                                               color: Colors.grey,
@@ -786,11 +786,11 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                             ),
                           ),
                           Text(
-                            widget.merchName,  textScaleFactor: 1,
+                            (widget.merchName=='No merchant'? (widget.isEnglish? 'Walk-in merchant': 'အမည်မသိ ကုန်သည်'): widget.merchName),  textScaleFactor: 1,
                             textAlign: TextAlign.right,
                             style: TextStyle(
                                 fontSize: 18,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w500,
                                 height: 1.3
                             ),
                             strutStyle: StrutStyle(

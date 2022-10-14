@@ -158,7 +158,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
   int gloSeaProLeng = 0;
 
   String textSetReports = 'Reports';
-  String textSetSaleSummary = 'Sales summary detail';
+  String textSetSaleSummary = 'Sale in-out detail';
   String textSetStockCosts = 'Stock costs';
   String textSetUnpaid = 'Unpaid';
   String textSetBuys = 'Refund amount';
@@ -167,11 +167,11 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
   String textSetLastWeek = 'Weekly';
   String textSetLastMonth = 'Monthly';
   String textSetLastYear = 'Yearly';
-  String textSetInOut = 'SALES IN-OUT SUMMARY';
+  String textSetInOut = 'SALE IN-OUT SUMMARY';
   String textSetNetSales = 'Net sales';
   String textSetAvgProf = 'Avg profit';
   String textSetEarn = 'Debt to income';
-  String textSetCharts = 'SALES SUMMARY CHARTS';
+  String textSetCharts = 'SALE SUMMARY CHART';
   String textSetTotal = 'Total sales';
 
   var prodsSnap;
@@ -264,7 +264,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
 
       setState(() {
         textSetReports = 'Reports';
-        textSetSaleSummary = 'Sales summary detail';
+        textSetSaleSummary = 'Sale in-out detail';
         textSetStockCosts = 'Stock costs';
         textSetUnpaid = 'Unpaid';
         textSetBuys = 'Refund amount';
@@ -273,17 +273,17 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
         textSetLastWeek = 'Weekly';
         textSetLastMonth = 'Monthly';
         textSetLastYear = 'Yearly';
-        textSetInOut = 'SALES IN-OUT SUMMARY';
+        textSetInOut = 'SALE IN-OUT SUMMARY';
         textSetNetSales = 'Net sales';
         textSetAvgProf = 'Avg profit';
         textSetEarn = 'Debt to income';
-        textSetCharts = 'SALES SUMMARY CHARTS';
+        textSetCharts = 'SALE SUMMARY CHART';
         textSetTotal = 'Total sales';
       });
     } else {
       setState(() {
         textSetReports = 'အစီအရင်ခံစာ';
-        textSetSaleSummary = 'Sales summary detail';
+        textSetSaleSummary = 'Sale in-out detail';
         textSetStockCosts = 'ဝယ်ယူစရိတ်';
         textSetUnpaid = 'အကြွေးကျန်ငွေ';
         textSetBuys = 'ပြန်ပေးငွေ';
@@ -292,11 +292,11 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
         textSetLastWeek = 'အပတ်စဉ်';
         textSetLastMonth = 'လစဉ်';
         textSetLastYear = 'နှစ်စဉ်';
-        textSetInOut = 'အရောင်းအဝယ် စာရင်းများ';
+        textSetInOut = 'SALE IN-OUT SUMMARY';
         textSetNetSales = 'အသားတင် ရောင်းရငွေ';
         textSetAvgProf = 'ပျမ်းမျှအမြတ်ငွေ';
         textSetEarn = 'အကြွေးရငွေ';
-        textSetCharts = 'အရောင်းစာရင်းပြ ဇယား';
+        textSetCharts = 'SALE SUMMARY CHART';
         textSetTotal = 'စုစုပေါင်း အသားတင် ရောင်းရငွေ';
       });
     }
@@ -463,7 +463,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                                   textStyle: TextStyle(
                                                       letterSpacing: 1,
                                                       fontSize: 26,
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight: FontWeight.w500,
                                                       color: Colors.black
                                                   )
                                               )
@@ -477,7 +477,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                                       textStyle: TextStyle(
                                                           letterSpacing: 1,
                                                           fontSize: 14,
-                                                          fontWeight: FontWeight.w600,
+                                                          fontWeight: FontWeight.w500,
                                                           color: Colors.black
                                                       )
                                                   ) ) ),
@@ -485,68 +485,96 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                       ),
                                       Row(
                                         children: [
-                                          Text(
-                                             textSetNetSales + ' (',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          growthRateSale(lastMonthSale, thisMonthOrdersChart) == 1001 || growthRateSale(lastMonthSale, thisMonthOrdersChart) == 1000 ?
-                                          Text('') :
-                                          Text(
-                                            growthRateSale(lastMonthSale, thisMonthOrdersChart).abs().toString()+ '% ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                              fontSize: 13, height: 1.2,
-                                              fontWeight: FontWeight.w500,
-                                              color: growthRateSale(lastMonthSale, thisMonthOrdersChart) == 1001 || growthRateSale(lastMonthSale, thisMonthOrdersChart) == 1000 ? Colors.blue: growthRateSale(lastMonthSale, thisMonthOrdersChart) < 0? AppTheme.badgeFgDanger: Colors.green,),
-                                          ) ,
-                                          growthRateSale(lastMonthSale, thisMonthOrdersChart) == 1001 || growthRateSale(lastMonthSale, thisMonthOrdersChart) == 1000 ? Text(
-                                            'same as ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :  growthRateSale(lastMonthSale, thisMonthOrdersChart) < 0?
-                                          Text(
-                                            'lower than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :
-                                          Text(
-                                            'higher than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          Text(
-                                            yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
+                                          widget.isEnglish?
+                                          Flexible(
+                                            child: RichText(
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
+                                              textScaleFactor: 1,
+                                              text: new TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: textSetNetSales + ' ('
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: growthRateSale(lastMonthSale, thisMonthOrdersChart) == 1001 || growthRateSale(lastMonthSale, thisMonthOrdersChart) == 1000 ? '': growthRateSale(lastMonthSale, thisMonthOrdersChart).abs().toString()+ '% '
+                                                    ,
+                                                    style: TextStyle(
+                                                      fontSize: 13, height: 1.2,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: growthRateSale(lastMonthSale, thisMonthOrdersChart) == 1001 || growthRateSale(lastMonthSale, thisMonthOrdersChart) == 1000 ? Colors.blue: growthRateSale(lastMonthSale, thisMonthOrdersChart) < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                                  ),
+                                                  TextSpan(
+                                                    text: (
+                                                        growthRateSale(lastMonthSale, thisMonthOrdersChart) == 1001 || growthRateSale(lastMonthSale, thisMonthOrdersChart) == 1000 ? 'same as ' :  growthRateSale(lastMonthSale, thisMonthOrdersChart) < 0?
+                                                        'lower than ' :
+                                                        'higher than ') +
+                                                        yestWeekTitle().toString() + ')'
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ):
+                                          Flexible(
+                                            child: RichText(
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
+                                              textScaleFactor: 1,
+                                              text: new TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: textSetNetSales + ' ('
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: growthRateSale(lastMonthSale, thisMonthOrdersChart) == 1001 || growthRateSale(lastMonthSale, thisMonthOrdersChart) == 1000 ? '': growthRateSale(lastMonthSale, thisMonthOrdersChart).abs().toString()+ '% '
+                                                    ,
+                                                    style: TextStyle(
+                                                      fontSize: 13, height: 1.2,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: growthRateSale(lastMonthSale, thisMonthOrdersChart) == 1001 || growthRateSale(lastMonthSale, thisMonthOrdersChart) == 1000 ? Colors.blue: growthRateSale(lastMonthSale, thisMonthOrdersChart) < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                                  ),
+                                                  TextSpan(
+                                                    text: yestWeekTitle().toString()
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: (
+                                                        growthRateSale(lastMonthSale, thisMonthOrdersChart) == 1001 || growthRateSale(lastMonthSale, thisMonthOrdersChart) == 1000 ? 'ကအတိုင်း ရရှိသည်' :  growthRateSale(lastMonthSale, thisMonthOrdersChart) < 0?
+                                                        'ကအောက် နည်းသည်' :
+                                                        'ကထက် ပိုများသည်') + ')'
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          )
                                         ],
                                       ),
                                     ],
@@ -582,7 +610,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                                   textStyle: TextStyle(
                                                       letterSpacing: 1,
                                                       fontSize: 26,
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight: FontWeight.w500,
                                                       color: Colors.black
                                                   )
                                               )
@@ -594,7 +622,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                           //       textStyle: TextStyle(
                                           //           letterSpacing: 1,
                                           //           fontSize: 26,
-                                          //           fontWeight: FontWeight.w600,
+                                          //           fontWeight: FontWeight.w500,
                                           //           color: Colors.black
                                           //       )
                                           //   ),
@@ -608,7 +636,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                                       textStyle: TextStyle(
                                                           letterSpacing: 1,
                                                           fontSize: 14,
-                                                          fontWeight: FontWeight.w600,
+                                                          fontWeight: FontWeight.w500,
                                                           color: Colors.black
                                                       )
                                                   ) ) ),
@@ -616,68 +644,96 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                       ),
                                       Row(
                                         children: [
-                                          Text(
-                                            textSetUnpaid + ' (',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal) == 1001 || growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal) == 1000 ?
-                                          Text('') :
-                                          Text(
-                                            growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal).abs().toString()+ '% ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                              fontSize: 13, height: 1.2,
-                                              fontWeight: FontWeight.w500,
-                                              color: growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal) == 1001 || growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal) == 1000 ? Colors.blue: growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal) < 0? AppTheme.badgeFgDanger: Colors.green,),
-                                          ) ,
-                                          growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal) == 1001 || growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal) == 1000 ? Text(
-                                            'same as ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :  growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal) < 0?
-                                          Text(
-                                            'lower than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :
-                                          Text(
-                                            'higher than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          Text(
-                                            yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
+                                          widget.isEnglish?
+                                          Flexible(
+                                            child: RichText(
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
+                                              textScaleFactor: 1,
+                                              text: new TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: textSetUnpaid + ' ('
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal) == 1001 || growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal) == 1000 ? '': growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal).abs().toString()+ '% '
+                                                    ,
+                                                    style: TextStyle(
+                                                      fontSize: 13, height: 1.2,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal) == 1001 || growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal) == 1000 ? Colors.blue: growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal) < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                                  ),
+                                                  TextSpan(
+                                                    text: (
+                                                        growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal) == 1001 || growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal) == 1000 ? 'same as ' :  growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal) < 0?
+                                                        'lower than ' :
+                                                        'higher than ') +
+                                                        yestWeekTitle().toString() + ')'
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ):
+                                          Flexible(
+                                            child: RichText(
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
+                                              textScaleFactor: 1,
+                                              text: new TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: textSetUnpaid + ' ('
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal) == 1001 || growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal) == 1000 ? '': growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal).abs().toString()+ '% '
+                                                    ,
+                                                    style: TextStyle(
+                                                      fontSize: 13, height: 1.2,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal) == 1001 || growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal) == 1000 ? Colors.blue: growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal) < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                                  ),
+                                                  TextSpan(
+                                                    text: yestWeekTitle().toString()
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: (
+                                                        growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal) == 1001 || growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal) == 1000 ? 'ကအတိုင်း ရရှိသည်' :  growthRateUnpaid(lastMonthUnpaid, monthUnpaidTotal) < 0?
+                                                        'ကအောက် နည်းသည်' :
+                                                        'ကထက် ပိုများသည်') + ')'
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          )
                                         ],
                                       ),
                                     ],
@@ -713,7 +769,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                                   textStyle: TextStyle(
                                                       letterSpacing: 1,
                                                       fontSize: 26,
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight: FontWeight.w500,
                                                       color: Colors.black
                                                   )
                                               )
@@ -725,7 +781,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                           //       textStyle: TextStyle(
                                           //           letterSpacing: 1,
                                           //           fontSize: 26,
-                                          //           fontWeight: FontWeight.w600,
+                                          //           fontWeight: FontWeight.w500,
                                           //           color: Colors.black
                                           //       )
                                           //   ),
@@ -739,7 +795,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                                       textStyle: TextStyle(
                                                           letterSpacing: 1,
                                                           fontSize: 14,
-                                                          fontWeight: FontWeight.w600,
+                                                          fontWeight: FontWeight.w500,
                                                           color: Colors.black
                                                       )
                                                   ) ) ),
@@ -747,68 +803,96 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                       ),
                                       Row(
                                         children: [
-                                          Text(
-                                            textSetAvgProf + ' (',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          growthRateDayProfit(profitByLastMonth(), profitByMonth()) == 1001 || growthRateDayProfit(profitByLastMonth(), profitByMonth()) == 1000 ?
-                                          Text('') :
-                                          Text(
-                                            growthRateDayProfit(profitByLastMonth(), profitByMonth()).abs().toString()+ '% ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                              fontSize: 13, height: 1.2,
-                                              fontWeight: FontWeight.w500,
-                                              color: growthRateDayProfit(profitByLastMonth(), profitByMonth()) == 1001 || growthRateDayProfit(profitByLastMonth(), profitByMonth()) == 1000 ? Colors.blue: growthRateDayProfit(profitByLastMonth(), profitByMonth()) < 0? AppTheme.badgeFgDanger: Colors.green,),
-                                          ) ,
-                                          growthRateDayProfit(profitByLastMonth(), profitByMonth()) == 1001 || growthRateDayProfit(profitByLastMonth(), profitByMonth()) == 1000 ? Text(
-                                            'same as ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :  growthRateDayProfit(profitByLastMonth(), profitByMonth()) < 0?
-                                          Text(
-                                            'lower than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :
-                                          Text(
-                                            'higher than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          Text(
-                                            yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
+                                          widget.isEnglish?
+                                          Flexible(
+                                            child: RichText(
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
+                                              textScaleFactor: 1,
+                                              text: new TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: textSetAvgProf + ' ('
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: growthRateDayProfit(profitByLastMonth(), profitByMonth()) == 1001 || growthRateDayProfit(profitByLastMonth(), profitByMonth()) == 1000 ? '': growthRateDayProfit(profitByLastMonth(), profitByMonth()).abs().toString()+ '% '
+                                                    ,
+                                                    style: TextStyle(
+                                                      fontSize: 13, height: 1.2,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: growthRateDayProfit(profitByLastMonth(), profitByMonth()) == 1001 || growthRateDayProfit(profitByLastMonth(), profitByMonth()) == 1000 ? Colors.blue: growthRateDayProfit(profitByLastMonth(), profitByMonth()) < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                                  ),
+                                                  TextSpan(
+                                                    text: (
+                                                        growthRateDayProfit(profitByLastMonth(), profitByMonth()) == 1001 || growthRateDayProfit(profitByLastMonth(), profitByMonth()) == 1000 ? 'same as ' :  growthRateDayProfit(profitByLastMonth(), profitByMonth()) < 0?
+                                                        'lower than ' :
+                                                        'higher than ') +
+                                                        yestWeekTitle().toString() + ')'
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ):
+                                          Flexible(
+                                            child: RichText(
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
+                                              textScaleFactor: 1,
+                                              text: new TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: textSetAvgProf + ' ('
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: growthRateDayProfit(profitByLastMonth(), profitByMonth()) == 1001 || growthRateDayProfit(profitByLastMonth(), profitByMonth()) == 1000 ? '': growthRateDayProfit(profitByLastMonth(), profitByMonth()).abs().toString()+ '% '
+                                                    ,
+                                                    style: TextStyle(
+                                                      fontSize: 13, height: 1.2,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: growthRateDayProfit(profitByLastMonth(), profitByMonth()) == 1001 || growthRateDayProfit(profitByLastMonth(), profitByMonth()) == 1000 ? Colors.blue: growthRateDayProfit(profitByLastMonth(), profitByMonth()) < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                                  ),
+                                                  TextSpan(
+                                                    text: yestWeekTitle().toString()
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: (
+                                                        growthRateDayProfit(profitByLastMonth(), profitByMonth()) == 1001 || growthRateDayProfit(profitByLastMonth(), profitByMonth()) == 1000 ? 'ကအတိုင်း ရရှိသည်' :  growthRateDayProfit(profitByLastMonth(), profitByMonth()) < 0?
+                                                        'ကအောက် နည်းသည်' :
+                                                        'ကထက် ပိုများသည်') + ')'
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          )
                                         ],
                                       ),
                                     ],
@@ -945,7 +1029,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                                   textStyle: TextStyle(
                                                       letterSpacing: 1,
                                                       fontSize: 26,
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight: FontWeight.w500,
                                                       color: Colors.black
                                                   )
                                               )
@@ -957,7 +1041,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                           //       textStyle: TextStyle(
                                           //           letterSpacing: 1,
                                           //           fontSize: 26,
-                                          //           fontWeight: FontWeight.w600,
+                                          //           fontWeight: FontWeight.w500,
                                           //           color: Colors.black
                                           //       )
                                           //   ),
@@ -971,7 +1055,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                                       textStyle: TextStyle(
                                                           letterSpacing: 1,
                                                           fontSize: 14,
-                                                          fontWeight: FontWeight.w600,
+                                                          fontWeight: FontWeight.w500,
                                                           color: Colors.black
                                                       )
                                                   ) ) ),
@@ -979,68 +1063,96 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                       ),
                                       Row(
                                         children: [
-                                          Text(
-                                            textSetStockCosts + ' (',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          growthRateCost(lastMonthCost, monthCostsTotal2) == 1001 || growthRateCost(lastMonthCost, monthCostsTotal2) == 1000 ?
-                                          Text('') :
-                                          Text(
-                                            growthRateCost(lastMonthCost, monthCostsTotal2).abs().toString()+ '% ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                              fontSize: 13, height: 1.2,
-                                              fontWeight: FontWeight.w500,
-                                              color: growthRateCost(lastMonthCost, monthCostsTotal2) == 1001 || growthRateCost(lastMonthCost, monthCostsTotal2) == 1000 ? Colors.blue: growthRateCost(lastMonthCost, monthCostsTotal2) < 0? AppTheme.badgeFgDanger: Colors.green,),
-                                          ) ,
-                                          growthRateCost(lastMonthCost, monthCostsTotal2) == 1001 || growthRateCost(lastMonthCost, monthCostsTotal2) == 1000 ? Text(
-                                            'same as ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :  growthRateCost(lastMonthCost, monthCostsTotal2) < 0?
-                                          Text(
-                                            'lower than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :
-                                          Text(
-                                            'higher than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          Text(
-                                            yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
+                                          widget.isEnglish?
+                                          Flexible(
+                                            child: RichText(
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
+                                              textScaleFactor: 1,
+                                              text: new TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: textSetStockCosts + ' ('
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: growthRateCost(lastMonthCost, monthCostsTotal2) == 1001 || growthRateCost(lastMonthCost, monthCostsTotal2) == 1000 ? '': growthRateCost(lastMonthCost, monthCostsTotal2).abs().toString()+ '% '
+                                                    ,
+                                                    style: TextStyle(
+                                                      fontSize: 13, height: 1.2,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: growthRateCost(lastMonthCost, monthCostsTotal2) == 1001 || growthRateCost(lastMonthCost, monthCostsTotal2) == 1000 ? Colors.blue: growthRateCost(lastMonthCost, monthCostsTotal2) < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                                  ),
+                                                  TextSpan(
+                                                    text: (
+                                                        growthRateCost(lastMonthCost, monthCostsTotal2) == 1001 || growthRateCost(lastMonthCost, monthCostsTotal2) == 1000 ? 'same as ' :  growthRateCost(lastMonthCost, monthCostsTotal2) < 0?
+                                                        'lower than ' :
+                                                        'higher than ') +
+                                                        yestWeekTitle().toString() + ')'
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ):
+                                          Flexible(
+                                            child: RichText(
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
+                                              textScaleFactor: 1,
+                                              text: new TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: textSetStockCosts + ' ('
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: growthRateCost(lastMonthCost, monthCostsTotal2) == 1001 || growthRateCost(lastMonthCost, monthCostsTotal2) == 1000 ? '': growthRateCost(lastMonthCost, monthCostsTotal2).abs().toString()+ '% '
+                                                    ,
+                                                    style: TextStyle(
+                                                      fontSize: 13, height: 1.2,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: growthRateCost(lastMonthCost, monthCostsTotal2) == 1001 || growthRateCost(lastMonthCost, monthCostsTotal2) == 1000 ? Colors.blue: growthRateCost(lastMonthCost, monthCostsTotal2) < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                                  ),
+                                                  TextSpan(
+                                                    text: yestWeekTitle().toString()
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: (
+                                                        growthRateCost(lastMonthCost, monthCostsTotal2) == 1001 || growthRateCost(lastMonthCost, monthCostsTotal2) == 1000 ? 'ကအတိုင်း ရရှိသည်' :  growthRateCost(lastMonthCost, monthCostsTotal2) < 0?
+                                                        'ကအောက် နည်းသည်' :
+                                                        'ကထက် ပိုများသည်') + ')'
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          )
                                         ],
                                       ),
                                     ],
@@ -1076,7 +1188,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                                   textStyle: TextStyle(
                                                       letterSpacing: 1,
                                                       fontSize: 26,
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight: FontWeight.w500,
                                                       color: Colors.black
                                                   )
                                               )
@@ -1088,7 +1200,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                           //       textStyle: TextStyle(
                                           //           letterSpacing: 1,
                                           //           fontSize: 26,
-                                          //           fontWeight: FontWeight.w600,
+                                          //           fontWeight: FontWeight.w500,
                                           //           color: Colors.black
                                           //       )
                                           //   ),
@@ -1102,7 +1214,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                                       textStyle: TextStyle(
                                                           letterSpacing: 1,
                                                           fontSize: 14,
-                                                          fontWeight: FontWeight.w600,
+                                                          fontWeight: FontWeight.w500,
                                                           color: Colors.black
                                                       )
                                                   ) ) ),
@@ -1110,68 +1222,96 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                       ),
                                       Row(
                                         children: [
-                                          Text(
-                                            textSetBuys + ' (',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          growthRateRefund(lastMonthRefund, monthRefundTotal) == 1001 || growthRateRefund(lastMonthRefund, monthRefundTotal) == 1000 ?
-                                          Text('') :
-                                          Text(
-                                            growthRateRefund(lastMonthRefund, monthRefundTotal).abs().toString()+ '% ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                              fontSize: 13, height: 1.2,
-                                              fontWeight: FontWeight.w500,
-                                              color: growthRateRefund(lastMonthRefund, monthRefundTotal) == 1001 || growthRateRefund(lastMonthRefund, monthRefundTotal) == 1000 ? Colors.blue: growthRateRefund(lastMonthRefund, monthRefundTotal) < 0? AppTheme.badgeFgDanger: Colors.green,),
-                                          ) ,
-                                          growthRateRefund(lastMonthRefund, monthRefundTotal) == 1001 || growthRateRefund(lastMonthRefund, monthRefundTotal) == 1000 ? Text(
-                                            'same as ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :  growthRateRefund(lastMonthRefund, monthRefundTotal) < 0?
-                                          Text(
-                                            'lower than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :
-                                          Text(
-                                            'higher than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          Text(
-                                            yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
+                                          widget.isEnglish?
+                                          Flexible(
+                                            child: RichText(
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
+                                              textScaleFactor: 1,
+                                              text: new TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: textSetBuys + ' ('
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: growthRateRefund(lastMonthRefund, monthRefundTotal) == 1001 || growthRateRefund(lastMonthRefund, monthRefundTotal) == 1000 ? '': growthRateRefund(lastMonthRefund, monthRefundTotal).abs().toString()+ '% '
+                                                    ,
+                                                    style: TextStyle(
+                                                      fontSize: 13, height: 1.2,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: growthRateRefund(lastMonthRefund, monthRefundTotal) == 1001 || growthRateRefund(lastMonthRefund, monthRefundTotal) == 1000 ? Colors.blue: growthRateRefund(lastMonthRefund, monthRefundTotal) < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                                  ),
+                                                  TextSpan(
+                                                    text: (
+                                                        growthRateRefund(lastMonthRefund, monthRefundTotal) == 1001 || growthRateRefund(lastMonthRefund, monthRefundTotal) == 1000 ? 'same as ' :  growthRateRefund(lastMonthRefund, monthRefundTotal) < 0?
+                                                        'lower than ' :
+                                                        'higher than ') +
+                                                        yestWeekTitle().toString() + ')'
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ):
+                                          Flexible(
+                                            child: RichText(
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
+                                              textScaleFactor: 1,
+                                              text: new TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: textSetBuys + ' ('
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: growthRateRefund(lastMonthRefund, monthRefundTotal) == 1001 || growthRateRefund(lastMonthRefund, monthRefundTotal) == 1000 ? '': growthRateRefund(lastMonthRefund, monthRefundTotal).abs().toString()+ '% '
+                                                    ,
+                                                    style: TextStyle(
+                                                      fontSize: 13, height: 1.2,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: growthRateRefund(lastMonthRefund, monthRefundTotal) == 1001 || growthRateRefund(lastMonthRefund, monthRefundTotal) == 1000 ? Colors.blue: growthRateRefund(lastMonthRefund, monthRefundTotal) < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                                  ),
+                                                  TextSpan(
+                                                    text: yestWeekTitle().toString()
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: (
+                                                        growthRateRefund(lastMonthRefund, monthRefundTotal) == 1001 || growthRateRefund(lastMonthRefund, monthRefundTotal) == 1000 ? 'ကအတိုင်း ရရှိသည်' :  growthRateRefund(lastMonthRefund, monthRefundTotal) < 0?
+                                                        'ကအောက် နည်းသည်' :
+                                                        'ကထက် ပိုများသည်') + ')'
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          )
                                         ],
                                       ),
                                     ],
@@ -1207,7 +1347,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                                   textStyle: TextStyle(
                                                       letterSpacing: 1,
                                                       fontSize: 26,
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight: FontWeight.w500,
                                                       color: Colors.black
                                                   )
                                               )
@@ -1219,7 +1359,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                           //       textStyle: TextStyle(
                                           //           letterSpacing: 1,
                                           //           fontSize: 26,
-                                          //           fontWeight: FontWeight.w600,
+                                          //           fontWeight: FontWeight.w500,
                                           //           color: Colors.black
                                           //       )
                                           //   ),
@@ -1233,7 +1373,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                                       textStyle: TextStyle(
                                                           letterSpacing: 1,
                                                           fontSize: 14,
-                                                          fontWeight: FontWeight.w600,
+                                                          fontWeight: FontWeight.w500,
                                                           color: Colors.black
                                                       )
                                                   ) ) ),
@@ -1241,68 +1381,96 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                       ),
                                       Row(
                                         children: [
-                                          Text(
-                                            textSetLoss + ' (',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          growthRateLoss(lastMonthLoss, monthLossTotal) == 1001 || growthRateLoss(lastMonthLoss, monthLossTotal) == 1000 ?
-                                          Text('') :
-                                          Text(
-                                            growthRateLoss(lastMonthLoss, monthLossTotal).abs().toString()+ '% ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                              fontSize: 13, height: 1.2,
-                                              fontWeight: FontWeight.w500,
-                                              color: growthRateLoss(lastMonthLoss, monthLossTotal) == 1001 || growthRateLoss(lastMonthLoss, monthLossTotal) == 1000 ? Colors.blue: growthRateLoss(lastMonthLoss, monthLossTotal) < 0? AppTheme.badgeFgDanger: Colors.green,),
-                                          ) ,
-                                          growthRateLoss(lastMonthLoss, monthLossTotal) == 1001 || growthRateLoss(lastMonthLoss, monthLossTotal) == 1000 ? Text(
-                                            'same as ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :  growthRateLoss(lastMonthLoss, monthLossTotal) < 0?
-                                          Text(
-                                            'lower than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :
-                                          Text(
-                                            'higher than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          Text(
-                                            yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
+                                          widget.isEnglish?
+                                          Flexible(
+                                            child: RichText(
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
+                                              textScaleFactor: 1,
+                                              text: new TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: textSetLoss + ' ('
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: growthRateLoss(lastMonthLoss, monthLossTotal) == 1001 || growthRateLoss(lastMonthLoss, monthLossTotal) == 1000 ? '': growthRateLoss(lastMonthLoss, monthLossTotal).abs().toString()+ '% '
+                                                    ,
+                                                    style: TextStyle(
+                                                      fontSize: 13, height: 1.2,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: growthRateLoss(lastMonthLoss, monthLossTotal) == 1001 || growthRateLoss(lastMonthLoss, monthLossTotal) == 1000 ? Colors.blue: growthRateLoss(lastMonthLoss, monthLossTotal) < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                                  ),
+                                                  TextSpan(
+                                                    text: (
+                                                        growthRateLoss(lastMonthLoss, monthLossTotal) == 1001 || growthRateLoss(lastMonthLoss, monthLossTotal) == 1000 ? 'same as ' :  growthRateLoss(lastMonthLoss, monthLossTotal) < 0?
+                                                        'lower than ' :
+                                                        'higher than ') +
+                                                        yestWeekTitle().toString() + ')'
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ):
+                                          Flexible(
+                                            child: RichText(
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
+                                              textScaleFactor: 1,
+                                              text: new TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: textSetLoss + ' ('
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: growthRateLoss(lastMonthLoss, monthLossTotal) == 1001 || growthRateLoss(lastMonthLoss, monthLossTotal) == 1000 ? '': growthRateLoss(lastMonthLoss, monthLossTotal).abs().toString()+ '% '
+                                                    ,
+                                                    style: TextStyle(
+                                                      fontSize: 13, height: 1.2,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: growthRateLoss(lastMonthLoss, monthLossTotal) == 1001 || growthRateLoss(lastMonthLoss, monthLossTotal) == 1000 ? Colors.blue: growthRateLoss(lastMonthLoss, monthLossTotal) < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                                  ),
+                                                  TextSpan(
+                                                    text: yestWeekTitle().toString()
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: (
+                                                        growthRateLoss(lastMonthLoss, monthLossTotal) == 1001 || growthRateLoss(lastMonthLoss, monthLossTotal) == 1000 ? 'ကအတိုင်း ရရှိသည်' :  growthRateLoss(lastMonthLoss, monthLossTotal) < 0?
+                                                        'ကအောက် နည်းသည်' :
+                                                        'ကထက် ပိုများသည်') + ')'
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          )
                                         ],
                                       ),
                                     ],
@@ -2493,7 +2661,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
           interval: 1,
           getTextStyles: (context, value) => const TextStyle(
             color: Color(0xff67727d),
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w500,
             fontSize: 13,
           ),
           getTitles: (value) {
@@ -2703,7 +2871,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
           interval: 1,
           getTextStyles: (context, value) =>  TextStyle(
               color: Color(0xff67727d),
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w500,
               fontSize: 13/ scaleFactor
           ),
           getTitles: (value) {
@@ -2916,7 +3084,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
           interval: 1,
           getTextStyles: (context, value) => const TextStyle(
             color: Color(0xff67727d),
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w500,
             fontSize: 13,
           ),
           getTitles: (value) {
@@ -3104,7 +3272,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
           interval: 1,
           getTextStyles: (context, value) => const TextStyle(
             color: Color(0xff67727d),
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w500,
             fontSize: 13,
           ),
           getTitles: (value) {
@@ -3330,6 +3498,9 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
   String yestWeekTitle() {
     String title = '';
     if(_sliding == 2) {
+      if(!widget.isEnglish) {
+        return title = 'အရင်လ';
+      }
       return title = 'last month';
     } else  {return title = 'Yearly';}
   }

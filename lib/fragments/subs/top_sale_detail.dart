@@ -334,7 +334,7 @@
 //           interval: 1,
 //           getTextStyles: (context, value) => const TextStyle(
 //             color: Color(0xff67727d),
-//             fontWeight: FontWeight.w600,
+//             fontWeight: FontWeight.w500,
 //             fontSize: 13,
 //           ),
 //           getTitles: (value) {
@@ -508,7 +508,7 @@
 //           interval: 1,
 //           getTextStyles: (context, value) => const TextStyle(
 //             color: Color(0xff67727d),
-//             fontWeight: FontWeight.w600,
+//             fontWeight: FontWeight.w500,
 //             fontSize: 13,
 //           ),
 //           getTitles: (value) {
@@ -717,7 +717,7 @@
 //           interval: 1,
 //           getTextStyles: (context, value) => const TextStyle(
 //             color: Color(0xff67727d),
-//             fontWeight: FontWeight.w600,
+//             fontWeight: FontWeight.w500,
 //             fontSize: 13,
 //           ),
 //           getTitles: (value) {
@@ -893,7 +893,7 @@
 //           interval: 1,
 //           getTextStyles: (context, value) => const TextStyle(
 //             color: Color(0xff67727d),
-//             fontWeight: FontWeight.w600,
+//             fontWeight: FontWeight.w500,
 //             fontSize: 13,
 //           ),
 //           getTitles: (value) {
@@ -1174,7 +1174,7 @@
 //                                           textAlign: TextAlign.right,
 //                                           style: TextStyle(
 //                                               fontSize: 13,
-//                                               fontWeight: FontWeight.w600,
+//                                               fontWeight: FontWeight.w500,
 //                                               color: Colors.Colors.blue
 //                                           ),
 //                                         ),
@@ -1187,7 +1187,7 @@
 //                                         textAlign: TextAlign.right,
 //                                         style: TextStyle(
 //                                           fontSize: 13,
-//                                           fontWeight: FontWeight.w600,
+//                                           fontWeight: FontWeight.w500,
 //                                         ),
 //                                       ),
 //                                     ],
@@ -1197,7 +1197,7 @@
 //                                     textAlign: TextAlign.right,
 //                                     style: TextStyle(
 //                                       fontSize: 20,
-//                                       fontWeight: FontWeight.w600,
+//                                       fontWeight: FontWeight.w500,
 //                                     ),
 //                                   ),
 //                                 ],
@@ -1320,7 +1320,7 @@
 //                                     //                         'Add orders',
 //                                     //                         style: TextStyle(
 //                                     //                             fontSize: 18,
-//                                     //                             fontWeight: FontWeight.w600,
+//                                     //                             fontWeight: FontWeight.w500,
 //                                     //                             color: Colors.Colors.black.withOpacity(0.6)
 //                                     //                         ),
 //                                     //                       ),
@@ -1362,7 +1362,7 @@
 //                                     //                         child: Text('Add discount',
 //                                     //                           style: TextStyle(
 //                                     //                               fontSize: 18,
-//                                     //                               fontWeight: FontWeight.w600,
+//                                     //                               fontWeight: FontWeight.w500,
 //                                     //                               color: Colors.Colors.black.withOpacity(0.6)
 //                                     //                           ),),
 //                                     //                       ),
@@ -1389,7 +1389,7 @@
 //                                     //           textAlign: TextAlign.left,
 //                                     //           style: TextStyle(
 //                                     //               fontSize: 20,
-//                                     //               fontWeight: FontWeight.w600,
+//                                     //               fontWeight: FontWeight.w500,
 //                                     //               color: Colors.Colors.black),
 //                                     //         ),
 //                                     //         Expanded(
@@ -1401,7 +1401,7 @@
 //                                     //               textAlign: TextAlign.right,
 //                                     //               style: TextStyle(
 //                                     //                   fontSize: 20,
-//                                     //                   fontWeight: FontWeight.w600,
+//                                     //                   fontWeight: FontWeight.w500,
 //                                     //                   color: Colors.Colors.green),
 //                                     //             ),
 //                                     //           ),
@@ -1440,7 +1440,7 @@
 //                                                         textStyle: TextStyle(
 //                                                             letterSpacing: 1,
 //                                                             fontSize: 30,
-//                                                             fontWeight: FontWeight.w600,
+//                                                             fontWeight: FontWeight.w500,
 //                                                             color: Colors.Colors.black
 //                                                         )
 //                                                     ),
@@ -1453,7 +1453,7 @@
 //                                                           textStyle: TextStyle(
 //                                                               letterSpacing: 1,
 //                                                               fontSize: 16,
-//                                                               fontWeight: FontWeight.w600,
+//                                                               fontWeight: FontWeight.w500,
 //                                                               color: Colors.Colors.black
 //                                                           )
 //                                                       ),
@@ -1478,7 +1478,7 @@
 //                                                           textAlign: TextAlign.right,
 //                                                           style: TextStyle(
 //                                                               fontSize: 15,
-//                                                               fontWeight: FontWeight.w600,
+//                                                               fontWeight: FontWeight.w500,
 //                                                               color: Colors.Colors.white),
 //                                                         ),
 //                                                       ),
@@ -1549,7 +1549,7 @@
 //                                                                     textStyle: TextStyle(
 //                                                                         letterSpacing: 1,
 //                                                                         fontSize: 20,
-//                                                                         fontWeight: FontWeight.w600,
+//                                                                         fontWeight: FontWeight.w500,
 //                                                                         color: Colors.Colors.black
 //                                                                     )
 //                                                                 ),
@@ -1634,7 +1634,7 @@
 //                                                                     textStyle: TextStyle(
 //                                                                         letterSpacing: 1,
 //                                                                         fontSize: 20,
-//                                                                         fontWeight: FontWeight.w600,
+//                                                                         fontWeight: FontWeight.w500,
 //                                                                         color: Colors.Colors.black
 //                                                                     )
 //                                                                 ),
@@ -1719,7 +1719,7 @@
 //                                                                     textStyle: TextStyle(
 //                                                                         letterSpacing: 1,
 //                                                                         fontSize: 20,
-//                                                                         fontWeight: FontWeight.w600,
+//                                                                         fontWeight: FontWeight.w500,
 //                                                                         color: Colors.Colors.black
 //                                                                     )
 //                                                                 ),
@@ -1803,7 +1803,7 @@
 //                                                                     textStyle: TextStyle(
 //                                                                         letterSpacing: 1,
 //                                                                         fontSize: 20,
-//                                                                         fontWeight: FontWeight.w600,
+//                                                                         fontWeight: FontWeight.w500,
 //                                                                         color: Colors.Colors.black
 //                                                                     )
 //                                                                 ),

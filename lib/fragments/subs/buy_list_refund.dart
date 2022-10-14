@@ -322,7 +322,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                               widget.data.split('^')[1] +' - ' + mainUnit,
                                             style: TextStyle(
                                               fontSize: 18,
-                                              fontWeight: FontWeight.w600,
+                                              fontWeight: FontWeight.w500,
                                             ),
                                           );
                                         }

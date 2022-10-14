@@ -16,7 +16,7 @@ import 'rabbit.dart';
 class PdfInvoiceApi {
   static double fontSizeDesc = 0;
 
-  static Future<File> generate(Invoice invoice, String size) async {
+  static Future<File> generate(Invoice invoice, String size, bool isEnglish) async {
     if(size == 'Roll-57') {
       fontSizeDesc = 11.0;
     } else if(size == 'Roll-80') {
@@ -102,16 +102,17 @@ class PdfInvoiceApi {
                       crossAxisAlignment: size=='Roll-57' || size=='Roll-80'? CrossAxisAlignment.start: CrossAxisAlignment.end,
                       mainAxisAlignment: size=='Roll-57' || size=='Roll-80'? pw.MainAxisAlignment.start: pw.MainAxisAlignment.end,
                       children: [
-                        Text('Receipt info: ' + invoice.info.number,
-                            style: TextStyle(
-                              fontSize: fontSizeDesc-3,
+                        Text(Rabbit.uni2zg(isEnglish? 'Receipt info: ': 'ဘောင်ချာနံပါတ်: ') + invoice.info.number,
+                            style: pw.TextStyle(
+                              font: ttfBold,
+                              fontSize: fontSizeDesc-1,
                               fontWeight: FontWeight.bold,)
                         ),
                         SizedBox(height: size == 'Roll-80'? 0.15 * PdfPageFormat.cm: 0.1 * PdfPageFormat.cm),
                         invoice.customer.name != 'name'?
-                        pw.Text(Rabbit.uni2zg('Name: ' + invoice.customer.name),style: pw.TextStyle(fontSize: fontSizeDesc-3,font: ttfReg, color: PdfColors.grey800)) :
+                        pw.Text(Rabbit.uni2zg((isEnglish? 'Name: ': 'အမည်: ') + whatIsWhat(invoice.customer.name.toString(), isEnglish)),style: pw.TextStyle(fontSize: fontSizeDesc-3,font: ttfReg, color: PdfColors.grey800)) :
                         pw.Text(Rabbit.uni2zg('Name: no customer'),style: pw.TextStyle(fontSize: fontSizeDesc-3,font: ttfReg, color: PdfColors.grey800)),
-                        pw.Text(Rabbit.uni2zg('Date: ' + invoice.info.date.day.toString() + '-' + invoice.info.date.month.toString() + '-' + invoice.info.date.year.toString()),style: pw.TextStyle(fontSize: fontSizeDesc-3,font: ttfReg, color: PdfColors.grey800)),
+                        pw.Text(Rabbit.uni2zg((isEnglish? 'Date: ': 'ရက်စွဲ: ') + invoice.info.date.day.toString() + '-' + invoice.info.date.month.toString() + '-' + invoice.info.date.year.toString()),style: pw.TextStyle(fontSize: fontSizeDesc-3,font: ttfReg, color: PdfColors.grey800)),
                         // Text('ADDRESS: Sanfran cisco', style: TextStyle(
                         //     fontSize: fontSizeDesc-6, color: PdfColors.grey600)),
                         // Text('PHONE: (+959) 751133553', style: TextStyle(
@@ -121,7 +122,7 @@ class PdfInvoiceApi {
                     )
                 )
             ),
-            buildInvoice(invoice, ttfReg, size),
+            buildInvoice(invoice, ttfReg, ttfBold, size, isEnglish),
             SizedBox(height: size == 'Roll-80'? 0.25 * PdfPageFormat.cm: 0.2 * PdfPageFormat.cm),
             Padding(
               padding: new EdgeInsets.only(top: 5.0),
@@ -131,7 +132,7 @@ class PdfInvoiceApi {
                         width: 1.5, color: PdfColors.black, style: BorderStyle.dashed),
                   )),height: 1),
             ),
-            buildTotal(invoice, size, pageFormat, ttfReg),
+            buildTotal(invoice, size, pageFormat, ttfReg, isEnglish),
             // size == 'Roll-57' ? Row(
             //   mainAxisAlignment: MainAxisAlignment.center,
             //   crossAxisAlignment: pw.CrossAxisAlignment.center,
@@ -326,7 +327,7 @@ class PdfInvoiceApi {
       )
   );
 
-  static Widget buildInvoice(Invoice invoice, ttfReg, String size) {
+  static Widget buildInvoice(Invoice invoice, ttfReg, ttfBold, String size, bool isEnglish) {
     if(size!='Roll-57' && size!='Roll-80') {
       final headers = [
         'Name',
@@ -379,12 +380,12 @@ class PdfInvoiceApi {
       );
     } else {
       final headers = [
-        'Item',
+        Rabbit.uni2zg(isEnglish? 'Item': 'ပစ္စည်း'),
         // 'Date',
         // 'Qty',-
         // 'UNIT PRICE',
         // 'VAT',
-        'Total'
+        Rabbit.uni2zg(isEnglish? 'Total': 'စုစုပေါင်း'),
       ];
       final data = invoice.items.map((item) {
         final total = item.unitPrice * item.quantity;
@@ -406,7 +407,7 @@ class PdfInvoiceApi {
             headers: headers,
             data: data,
             border: null,
-            headerStyle: pw.TextStyle(fontWeight: FontWeight.bold, fontSize: fontSizeDesc-3),
+            headerStyle: pw.TextStyle(fontWeight: FontWeight.bold, fontSize: fontSizeDesc-2, font: ttfBold),
             cellStyle: pw.TextStyle(fontSize: fontSizeDesc-3, font: ttfReg),
             // headerDecoration: BoxDecoration(color: PdfColors.grey200),
             cellHeight: 0,
@@ -431,7 +432,7 @@ class PdfInvoiceApi {
 
   }
 
-  static Widget buildTotal(Invoice invoice, String size, PdfPageFormat pageFormat, ttfBold) {
+  static Widget buildTotal(Invoice invoice, String size, PdfPageFormat pageFormat, ttfBold, bool isEnglish) {
     final netTotal = invoice.items
         .map((item) => item.unitPrice * item.quantity)
         .reduce((item1, item2) => item1 + item2);
@@ -528,7 +529,7 @@ class PdfInvoiceApi {
                       Padding(
                         padding: EdgeInsets.only(left: size=='Roll-80'? 12: 10, right: size=='Roll-80'? 12: 10),
                         child: buildText(
-                            title:  Rabbit.uni2zg(totalDebtText),
+                            title:  Rabbit.uni2zg(totalDebtText + 'test1'),
                             //title: 'Debt',
 
                             value: Utils.formatPrice(debt) + ' $currency',
@@ -578,7 +579,7 @@ class PdfInvoiceApi {
                     Padding(
                       padding: EdgeInsets.only(left: size == 'Roll-80'? 12: 10, right: size == 'Roll-80'? 12: 10),
                       child: buildText(
-                         title: Rabbit.uni2zg(subTotalText),
+                         title: Rabbit.uni2zg(isEnglish? 'Sub total': 'ကျသင့်ငွေပေါင်း'),
                           //title: 'Sub Total',
                           value: Utils.formatPrice(netTotal) + ' $currency',
                           unite: true,
@@ -592,7 +593,7 @@ class PdfInvoiceApi {
                       padding: EdgeInsets.only(left: size == 'Roll-80'? 12: 10, right: size == 'Roll-80'? 12: 10),
                       child: buildText(
                           //title: 'Paid',
-                          title:   disType == '-p'? Rabbit.uni2zg('$discountText (${vatPercent * 1} %)') : Rabbit.uni2zg(discountText),
+                          title:   disType == '-p'? Rabbit.uni2zg((isEnglish? 'Discount': 'လျှော့ငွေ') + ' (${vatPercent * 1} %)') : Rabbit.uni2zg((isEnglish? 'Discount': 'လျှော့ငွေ')),
                           value: Utils.formatPrice(vat) + ' $currency',
                           unite: true,
                           titleStyle: TextStyle(
@@ -604,7 +605,7 @@ class PdfInvoiceApi {
                     Padding(
                       padding: EdgeInsets.only(left: size == 'Roll-80'? 12: 10, right: size == 'Roll-80'? 12: 10),
                       child: buildText(
-                         title: Rabbit.uni2zg(totalPriceText),
+                         title: Rabbit.uni2zg((isEnglish? 'Total price': 'စုစုပေါင်းကျငွေ')),
                           //title: 'Total',
                           value: Utils.formatPrice(total) + ' $currency',
                           unite: true,
@@ -617,7 +618,7 @@ class PdfInvoiceApi {
                     Padding(
                       padding: EdgeInsets.only(left: size == 'Roll-80'? 12: 10, right: size == 'Roll-80'? 12: 10),
                       child: buildText(
-                         title: Rabbit.uni2zg(paidText),
+                         title: Rabbit.uni2zg((isEnglish? 'Paid': 'ပေးငွေ')),
                           //title: 'Paid',
                           value: Utils.formatPrice(paid) + ' $currency',
                           unite: true,
@@ -630,7 +631,7 @@ class PdfInvoiceApi {
                     Padding(
                       padding: EdgeInsets.only(left: size == 'Roll-80'? 12: 10, right: size == 'Roll-80'? 12: 10),
                       child: buildText(
-                         title: Rabbit.uni2zg(totalDebtText),
+                         title: Rabbit.uni2zg((isEnglish? 'Debt': 'ကျန်ငွေ')),
                           //title: 'Debt',
                           value: Utils.formatPrice(debt) + ' $currency',
                           unite: true,
@@ -715,5 +716,25 @@ class PdfInvoiceApi {
         ],
       ),
     );
+  }
+
+  static whatIsWhat(String str, bool isEnglish) {
+    if (isEnglish) {
+      if (str == 'No customer') {
+        return 'Walk-in customer';
+      } else if(str == 'No merchant') {
+        return 'Walk-in merchant';
+      } else {
+        return str;
+      }
+    } else {
+      if (str == 'No customer') {
+        return 'အမည်မသိ ဖောက်သည်';
+      } else if(str == 'No merchant') {
+        return 'အမည်မသိ ကုန်သည်';
+      } else {
+        return str;
+      }
+    }
   }
 }

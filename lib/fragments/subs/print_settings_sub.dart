@@ -82,7 +82,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
       if(value=='burmese') {
         setState(() {
           textSetPrintSetting = 'Print setting';
-          textSetPaperSize = 'စာရွက် အရွယ်အစား';
+          textSetPaperSize = 'PAPER SIZE';
           textSetInfo = 'သင်၏ပရင်တာနှင့် ကောင်းမွန်စွာအလုပ်လုပ်ရန် စာရွက်အရွယ်အစားကို မှန်ကန်စွာရွေးချယ်ပါ။';
           textSetConnect = 'Always connect';
         });
@@ -301,7 +301,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
                               style: TextStyle(
                                 fontSize: 18,
                                 height: 1.3,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w500,
                               ),
                               strutStyle: StrutStyle(
                                 height: 1.5,
@@ -530,7 +530,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
                                       textAlign: TextAlign.right,
                                       style: TextStyle(
                                         fontSize: 13,
-                                        fontWeight: FontWeight.w600,color: Colors.grey,
+                                        fontWeight: FontWeight.w500,color: Colors.grey,
                                       ),
                                     ),
                                   ],
@@ -540,7 +540,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
                                     fontSize: 20,
-                                    fontWeight: FontWeight.w600,
+                                    fontWeight: FontWeight.w500,
                                   ),
                                 ),
                               ],
@@ -723,7 +723,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
                                       style: TextStyle(
                                           height: 1.3,
                                           fontSize: 17.5,
-                                          fontWeight: FontWeight.w600,
+                                          fontWeight: FontWeight.w500,
                                           color: Colors.black
                                       ),
                                       strutStyle: StrutStyle(
@@ -813,7 +813,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
                                       fontSize: 13,
-                                      fontWeight: FontWeight.w600,color: Colors.grey,
+                                      fontWeight: FontWeight.w500,color: Colors.grey,
                                     ),
                                   ),
                                 ],
@@ -823,7 +823,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                   fontSize: 20,
-                                  fontWeight: FontWeight.w600,
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
                             ],
@@ -881,7 +881,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontSize: 18,
-                                        fontWeight: FontWeight.w600,
+                                        fontWeight: FontWeight.w500,
                                         letterSpacing:-0.1
                                     ),
                                   ),

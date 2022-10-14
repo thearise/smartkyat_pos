@@ -95,7 +95,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
 
           textSetSaleCart = 'ဝယ်ရန်\nစာရင်းထည့်';
           textSetPurchasedOrders = 'ဝယ်ပြီး\norders များ';
-          textSetEdit = 'Edit merchant';
+          textSetEdit = 'ပြင်ဆင်ရန်';
           textSetSaleInfo = 'အဝယ်ဆိုင်ရာ';
           textSetContactInfo = 'ဆက်သွယ်ရန်';
           textSetInfo = 'ကုန်သည် အချက်အလက်';
@@ -107,7 +107,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
           textSetDebts = 'ပေးရန် အော်ဒါ အရေအတွက်';
           textSetTtlOrders = 'ဝယ်ယူထားသော အော်ဒါများ';
           textSetRefunds = 'ပြန်ပေးထားသော အော်ဒါများ';
-          textSetSaleTitle = 'အဝယ်ဆိုင်ရာ အချက်အလက်';
+          textSetSaleTitle = 'PURCHASED INFORMATION';
         });
       }
 
@@ -152,15 +152,15 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
         var debts = output?['mer'][widget.id]['de'];
         var totalOrders = output?['mer'][widget.id]['or'];
         var totalRefunds = output?['mer'][widget.id]['re'];
-        if(widget.isEnglish) {
-          if(merchantName == 'No merchant') {
-            merchantName = 'Walk-in merchants';
-          }
-        } else {
-          if(merchantName == 'No merchant') {
-            merchantName = 'အမည်မသိ ကုန်သည်စာရင်း';
-          }
-        }
+        // if(widget.isEnglish) {
+        //   if(merchantName == 'No merchant') {
+        //     merchantName = 'Walk-in merchants';
+        //   }
+        // } else {
+        //   if(merchantName == 'No merchant') {
+        //     merchantName = 'အမည်မသိ ကုန်သည်စာရင်း';
+        //   }
+        // }
         return Column(crossAxisAlignment: CrossAxisAlignment.stretch,
             // mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -220,11 +220,11 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                               ),
                             ),
                             Text(
-                              merchantName,  textScaleFactor: 1,
+                              (merchantName=='No merchant'? (widget.isEnglish? 'Walk-in merchant': 'အမည်မသိ ကုန်သည်'): merchantName),  textScaleFactor: 1,
                               textAlign: TextAlign.right,
                               style: TextStyle(
                                   fontSize: 18,
-                                  fontWeight: FontWeight.w600,
+                                  fontWeight: FontWeight.w500,
                                   height: 1.3
                               ),
                               strutStyle: StrutStyle(
@@ -312,7 +312,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                     child: Text(
                                                         textSetSaleCart,  textScaleFactor: 1,
                                                         style: TextStyle(
-                                                          fontWeight: FontWeight.w600,
+                                                          fontWeight: FontWeight.w500,
                                                           fontSize: 16,
                                                         ),
                                                         strutStyle: StrutStyle(
@@ -386,7 +386,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                               child: Text(
                                                   textSetPurchasedOrders,  textScaleFactor: 1,
                                                   style: TextStyle(
-                                                    fontWeight: FontWeight.w600,
+                                                    fontWeight: FontWeight.w500,
                                                     fontSize: 16,
                                                   ),
                                                   strutStyle: StrutStyle(
@@ -730,13 +730,13 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                 //       Text('Barcode', style:
                                                 //       TextStyle(
                                                 //         fontSize: 15,
-                                                //         fontWeight: FontWeight.w600,
+                                                //         fontWeight: FontWeight.w500,
                                                 //       ),),
                                                 //       Spacer(),
                                                 //       Text('3kro46456218', style:
                                                 //       TextStyle(
                                                 //         fontSize: 15,
-                                                //         fontWeight: FontWeight.w600,
+                                                //         fontWeight: FontWeight.w500,
                                                 //         color: Colors.grey,
                                                 //       ),),
                                                 //     ],
@@ -799,7 +799,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                             .w500,
                                                       ),),
                                                       Spacer(),
-                                                      Text(merchantName,  textScaleFactor: 1, style:
+                                                      Text((merchantName=='No merchant'? (widget.isEnglish? 'Walk-in merchant': 'အမည်မသိ ကုန်သည်'): merchantName),  textScaleFactor: 1, style:
                                                       TextStyle(
                                                         fontSize: 15,
                                                         fontWeight: FontWeight
@@ -842,7 +842,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                   decoration: BoxDecoration(
                                                       border: Border(
                                                           bottom: BorderSide(
-                                                              color: Colors.grey
+                                                              color: Colors.transparent
                                                                   .withOpacity(
                                                                   0.2),
                                                               width: 1.0))),
@@ -873,13 +873,13 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                 //       Text('Barcode', style:
                                                 //       TextStyle(
                                                 //         fontSize: 15,
-                                                //         fontWeight: FontWeight.w600,
+                                                //         fontWeight: FontWeight.w500,
                                                 //       ),),
                                                 //       Spacer(),
                                                 //       Text('3kro46456218', style:
                                                 //       TextStyle(
                                                 //         fontSize: 15,
-                                                //         fontWeight: FontWeight.w600,
+                                                //         fontWeight: FontWeight.w500,
                                                 //         color: Colors.grey,
                                                 //       ),),
                                                 //     ],
@@ -896,7 +896,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                               ),
                             ),
                           ),
-                          SizedBox(height: 15,),
+                          SizedBox(height: 0,),
                          Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -1055,15 +1055,15 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
     var debts = output2?['debts'];
     var totalOrders = output2?['total_orders'];
     var totalRefunds = output2?['total_refunds'];
-    if(widget.isEnglish) {
-      if(merchantName == 'No merchant') {
-        merchantName = 'Walk-in merchants';
-      }
-    } else {
-      if(merchantName == 'No merchant') {
-        merchantName = 'အမည်မသိ ကုန်သည်စာရင်း';
-      }
-    }
+    // if(widget.isEnglish) {
+    //   if(merchantName == 'No merchant') {
+    //     merchantName = 'Walk-in merchants';
+    //   }
+    // } else {
+    //   if(merchantName == 'No merchant') {
+    //     merchantName = 'အမည်မသိ ကုန်သည်စာရင်း';
+    //   }
+    // }
                   return Column(crossAxisAlignment: CrossAxisAlignment.stretch,
                       // mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -1123,11 +1123,11 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                         ),
                                       ),
                                       Text(
-                                        merchantName,  textScaleFactor: 1,
+                                        (merchantName=='No merchant'? (widget.isEnglish? 'Walk-in merchant': 'အမည်မသိ ကုန်သည်'): merchantName),  textScaleFactor: 1,
                                         textAlign: TextAlign.right,
                                         style: TextStyle(
                                             fontSize: 18,
-                                            fontWeight: FontWeight.w600,
+                                            fontWeight: FontWeight.w500,
                                             height: 1.3
                                         ),
                                         strutStyle: StrutStyle(
@@ -1201,7 +1201,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                             //               child: Text(
                                             //                   textSetSaleCart,
                                             //                   style: TextStyle(
-                                            //                     fontWeight: FontWeight.w600,
+                                            //                     fontWeight: FontWeight.w500,
                                             //                     fontSize: 16,
                                             //                   ),
                                             //                   strutStyle: StrutStyle(
@@ -1615,13 +1615,13 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                           //       Text('Barcode', style:
                                                           //       TextStyle(
                                                           //         fontSize: 15,
-                                                          //         fontWeight: FontWeight.w600,
+                                                          //         fontWeight: FontWeight.w500,
                                                           //       ),),
                                                           //       Spacer(),
                                                           //       Text('3kro46456218', style:
                                                           //       TextStyle(
                                                           //         fontSize: 15,
-                                                          //         fontWeight: FontWeight.w600,
+                                                          //         fontWeight: FontWeight.w500,
                                                           //         color: Colors.grey,
                                                           //       ),),
                                                           //     ],
@@ -1684,7 +1684,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                                       .w500,
                                                                 ),),
                                                                 Spacer(),
-                                                                Text(merchantName,   textScaleFactor: 1,style:
+                                                                Text((merchantName=='No merchant'? (widget.isEnglish? 'Walk-in merchant': 'အမည်မသိ ကုန်သည်'): merchantName),   textScaleFactor: 1,style:
                                                                 TextStyle(
                                                                   fontSize: 15,
                                                                   fontWeight: FontWeight
@@ -1758,13 +1758,13 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                           //       Text('Barcode', style:
                                                           //       TextStyle(
                                                           //         fontSize: 15,
-                                                          //         fontWeight: FontWeight.w600,
+                                                          //         fontWeight: FontWeight.w500,
                                                           //       ),),
                                                           //       Spacer(),
                                                           //       Text('3kro46456218', style:
                                                           //       TextStyle(
                                                           //         fontSize: 15,
-                                                          //         fontWeight: FontWeight.w600,
+                                                          //         fontWeight: FontWeight.w500,
                                                           //         color: Colors.grey,
                                                           //       ),),
                                                           //     ],
@@ -1926,15 +1926,15 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
 
   loadingView() {
     var merchantName = widget.mercName;
-    if(widget.isEnglish) {
-      if(widget.mercName == 'No merchant') {
-        merchantName = 'Walk-in merchants';
-      }
-    } else {
-      if(widget.mercName == 'No merchant') {
-        merchantName = 'အမည်မသိ ကုန်သည်စာရင်း';
-      }
-    }
+    // if(widget.isEnglish) {
+    //   if(widget.mercName == 'No merchant') {
+    //     merchantName = 'Walk-in merchants';
+    //   }
+    // } else {
+    //   if(widget.mercName == 'No merchant') {
+    //     merchantName = 'အမည်မသိ ကုန်သည်စာရင်း';
+    //   }
+    // }
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch,
         // mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -1994,11 +1994,11 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                           ),
                         ),
                         Text(
-                          merchantName,  textScaleFactor: 1,
+                          (merchantName=='No merchant'? (widget.isEnglish? 'Walk-in merchant': 'အမည်မသိ ကုန်သည်'): merchantName),  textScaleFactor: 1,
                           textAlign: TextAlign.right,
                           style: TextStyle(
                               fontSize: 18,
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.w500,
                               height: 1.3
                           ),
                           strutStyle: StrutStyle(

@@ -200,7 +200,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           fontSize: 18,
-                                          fontWeight: FontWeight.w600,
+                                          fontWeight: FontWeight.w500,
                                           letterSpacing:-0.1
                                       ),
                                     ),
@@ -235,7 +235,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           fontSize: 18,
-                                          fontWeight: FontWeight.w600,
+                                          fontWeight: FontWeight.w500,
                                           letterSpacing:-0.1
                                       ),
                                     ),
@@ -262,7 +262,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                             child: Text('Return to Login screen?',  textScaleFactor: 1,
                               style: TextStyle(
                                   fontSize: 16,
-                                  fontWeight: FontWeight.w600,
+                                  fontWeight: FontWeight.w500,
                                   letterSpacing: 0.02
                               ),),
                           ),

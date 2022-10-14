@@ -809,7 +809,7 @@ class OverviewPageState extends State<OverviewPage>
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
                                         fontSize: 18,
-                                        fontWeight: FontWeight.w600,
+                                        fontWeight: FontWeight.w500,
                                         overflow: TextOverflow.ellipsis,
                                         // height: 1.3
                                       ),
@@ -826,7 +826,7 @@ class OverviewPageState extends State<OverviewPage>
                             // child: Text(textSetTotalSales, textScaleFactor: 1,
                             //   style: TextStyle(
                             //     fontSize: 23,
-                            //     fontWeight: FontWeight.w600,
+                            //     fontWeight: FontWeight.w500,
                             //     overflow: TextOverflow.ellipsis,
                             //   ),),
                           ),
