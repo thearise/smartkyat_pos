@@ -287,7 +287,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
       });
     } else {
       setState(() {
-        textSetSaleSummary = 'အရောင်းအကျဉ်းချုပ်';
+        textSetSaleSummary = 'SALE IN-OUT OVERVIEW';
         textSetStockCosts = 'ဝယ်ယူစရိတ်';
         textSetNetSales = 'အသားတင် ရောင်းရငွေ';
         textSetUnpaid = 'အကြွေးကျန်ငွေ';
@@ -298,7 +298,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
         textSetLastYear = 'Yearly';
         textSetProfit = 'ပျမ်းမျှအမြတ်ငွေ';
         textSetMore = 'အသေးစိတ်ကြည့်ရန်';
-        textSetProdSale = 'ပစ္စည်းအရောင်းအကျဉ်းချုပ်';
+        textSetProdSale = 'PRODUCT SALE OVERVIEW';
         textSetTSales = 'ရောင်းပြီးကုန်အမျိုးများ';
         textSetTLoss = 'ဆုံးရှုံးကုန်အမျိုးများ';
         textSetTRef = 'ပြန်ပေးကုန်အမျိုးများ';
@@ -466,7 +466,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                                       textStyle: TextStyle(
                                                           letterSpacing: 1,
                                                           fontSize: 26,
-                                                          fontWeight: FontWeight.w600,
+                                                          fontWeight: FontWeight.w500,
                                                           color: Colors.black
                                                       )
                                                   ),
@@ -483,7 +483,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                                     textStyle: TextStyle(
                                                         letterSpacing: 1,
                                                         fontSize: 26,
-                                                        fontWeight: FontWeight.w600,
+                                                        fontWeight: FontWeight.w500,
                                                         color: Colors.black
                                                     )
                                                 ),
@@ -522,7 +522,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                                       textStyle: TextStyle(
                                                           letterSpacing: 1,
                                                           fontSize: 26,
-                                                          fontWeight: FontWeight.w600,
+                                                          fontWeight: FontWeight.w500,
                                                           color: Colors.black
                                                       )
                                                   ),
@@ -539,7 +539,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                                     textStyle: TextStyle(
                                                         letterSpacing: 1,
                                                         fontSize: 26,
-                                                        fontWeight: FontWeight.w600,
+                                                        fontWeight: FontWeight.w500,
                                                         color: Colors.black
                                                     )
                                                 ),
@@ -598,7 +598,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                                       textStyle: TextStyle(
                                                           letterSpacing: 1,
                                                           fontSize: 26,
-                                                          fontWeight: FontWeight.w600,
+                                                          fontWeight: FontWeight.w500,
                                                           color: Colors.black
                                                       )
                                                   ),
@@ -615,7 +615,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                                     textStyle: TextStyle(
                                                         letterSpacing: 1,
                                                         fontSize: 26,
-                                                        fontWeight: FontWeight.w600,
+                                                        fontWeight: FontWeight.w500,
                                                         color: Colors.black
                                                     )
                                                 ),
@@ -654,7 +654,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                                       textStyle: TextStyle(
                                                           letterSpacing: 1,
                                                           fontSize: 26,
-                                                          fontWeight: FontWeight.w600,
+                                                          fontWeight: FontWeight.w500,
                                                           color: Colors.black
                                                       )
                                                   ),
@@ -671,7 +671,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                                     textStyle: TextStyle(
                                                         letterSpacing: 1,
                                                         fontSize: 26,
-                                                        fontWeight: FontWeight.w600,
+                                                        fontWeight: FontWeight.w500,
                                                         color: Colors.black
                                                     )
                                                 ),
@@ -730,7 +730,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                                       textStyle: TextStyle(
                                                           letterSpacing: 1,
                                                           fontSize: 26,
-                                                          fontWeight: FontWeight.w600,
+                                                          fontWeight: FontWeight.w500,
                                                           color: Colors.black
                                                       )
                                                   ),
@@ -747,7 +747,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                                     textStyle: TextStyle(
                                                         letterSpacing: 1,
                                                         fontSize: 26,
-                                                        fontWeight: FontWeight.w600,
+                                                        fontWeight: FontWeight.w500,
                                                         color: Colors.black
                                                     )
                                                 ),
@@ -786,7 +786,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                                       textStyle: TextStyle(
                                                           letterSpacing: 1,
                                                           fontSize: 26,
-                                                          fontWeight: FontWeight.w600,
+                                                          fontWeight: FontWeight.w500,
                                                           color: Colors.black
                                                       )
                                                   ),
@@ -803,7 +803,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                                     textStyle: TextStyle(
                                                         letterSpacing: 1,
                                                         fontSize: 26,
-                                                        fontWeight: FontWeight.w600,
+                                                        fontWeight: FontWeight.w500,
                                                         color: Colors.black
                                                     )
                                                 ),
@@ -858,7 +858,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                               //                       textStyle: TextStyle(
                               //                           letterSpacing: 1,
                               //                           fontSize: 26,
-                              //                           fontWeight: FontWeight.w600,
+                              //                           fontWeight: FontWeight.w500,
                               //                           color: Colors.black
                               //                       )
                               //                   ),
@@ -872,7 +872,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                               //                   ),
                               //                     style: TextStyle(
                               //                         fontSize: 27, height: 1.2,
-                              //                         fontWeight: FontWeight.w600,
+                              //                         fontWeight: FontWeight.w500,
                               //                         color: Colors.black),
                               //                   ),
                               //                 )
@@ -934,7 +934,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 fontSize: 18,
-                                                fontWeight: FontWeight.w600,
+                                                fontWeight: FontWeight.w500,
                                                 letterSpacing:-0.1
                                             ),
                                             strutStyle: StrutStyle(
@@ -1084,14 +1084,14 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                                       tSale,
                                                       TextStyle(
                                                         fontSize: 16,
-                                                        fontWeight: FontWeight.w600, color: Colors.black,
+                                                        fontWeight: FontWeight.w500, color: Colors.black,
                                                       ),
                                                       0
                                                     ),
                                                     Text((widget.isEnglish? ' types': ' မျိုး'), textScaleFactor: 1, style:
                                                     TextStyle(
                                                       fontSize: 16,
-                                                      fontWeight: FontWeight.w600, color: Colors.black,
+                                                      fontWeight: FontWeight.w500, color: Colors.black,
                                                     ),
                                                     ),
                                                   ],
@@ -1131,14 +1131,14 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                                         tLoss,
                                                         TextStyle(
                                                           fontSize: 16,
-                                                          fontWeight: FontWeight.w600, color: Colors.black,
+                                                          fontWeight: FontWeight.w500, color: Colors.black,
                                                         ),
                                                       0
                                                     ),
                                                     Text((widget.isEnglish? ' types': ' မျိုး'), textScaleFactor: 1, style:
                                                     TextStyle(
                                                       fontSize: 16,
-                                                      fontWeight: FontWeight.w600, color: Colors.black,
+                                                      fontWeight: FontWeight.w500, color: Colors.black,
                                                     ),),
                                                   ],
                                                 ),
@@ -1175,14 +1175,14 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                                         tRef,
                                                         TextStyle(
                                                           fontSize: 16,
-                                                          fontWeight: FontWeight.w600, color: Colors.black,
+                                                          fontWeight: FontWeight.w500, color: Colors.black,
                                                         ),
                                                       0
                                                     ),
                                                     Text((widget.isEnglish? ' types': ' မျိုး'), textScaleFactor: 1, style:
                                                     TextStyle(
                                                       fontSize: 16,
-                                                      fontWeight: FontWeight.w600, color: Colors.black,
+                                                      fontWeight: FontWeight.w500, color: Colors.black,
                                                     ),),
                                                   ],
                                                 ),
@@ -1219,14 +1219,14 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                                         tSaleAmount,
                                                         TextStyle(
                                                           fontSize: 16,
-                                                          fontWeight: FontWeight.w600, color: Colors.black,
+                                                          fontWeight: FontWeight.w500, color: Colors.black,
                                                         ),
                                                       2
                                                     ),
                                                     Text(' ' +currencyUnit, textScaleFactor: 1, style:
                                                     TextStyle(
                                                       fontSize: 16,
-                                                      fontWeight: FontWeight.w600, color: Colors.black,
+                                                      fontWeight: FontWeight.w500, color: Colors.black,
                                                     ),),
                                                   ],
                                                 ),
@@ -1263,14 +1263,14 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                                         tBuyAmount,
                                                         TextStyle(
                                                           fontSize: 16,
-                                                          fontWeight: FontWeight.w600, color: Colors.black,
+                                                          fontWeight: FontWeight.w500, color: Colors.black,
                                                         ),
                                                       2
                                                     ),
                                                     Text(' ' +currencyUnit, textScaleFactor: 1, style:
                                                     TextStyle(
                                                       fontSize: 16,
-                                                      fontWeight: FontWeight.w600, color: Colors.black,
+                                                      fontWeight: FontWeight.w500, color: Colors.black,
                                                     ),),
                                                   ],
                                                 ),
@@ -1307,14 +1307,14 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                                         tDiscount,
                                                         TextStyle(
                                                           fontSize: 16,
-                                                          fontWeight: FontWeight.w600, color: Colors.black,
+                                                          fontWeight: FontWeight.w500, color: Colors.black,
                                                         ),
                                                       2
                                                     ),
                                                     Text(' ' +currencyUnit, textScaleFactor: 1, style:
                                                     TextStyle(
                                                       fontSize: 16,
-                                                      fontWeight: FontWeight.w600, color: Colors.black,
+                                                      fontWeight: FontWeight.w500, color: Colors.black,
                                                     ),),
                                                   ],
                                                 ),
@@ -1339,7 +1339,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                         //             Text('7,3454', textScaleFactor: 1, style:
                                         //             TextStyle(
                                         //               fontSize: 16,
-                                        //               fontWeight: FontWeight.w600, color: Colors.black,
+                                        //               fontWeight: FontWeight.w500, color: Colors.black,
                                         //             ),),
                                         //           ],
                                         //         ),
@@ -1390,7 +1390,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 fontSize: 18,
-                                                fontWeight: FontWeight.w600,
+                                                fontWeight: FontWeight.w500,
                                                 letterSpacing:-0.1
                                             ),
                                             strutStyle: StrutStyle(
@@ -2250,7 +2250,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
           interval: 1,
           getTextStyles: (context, value) => const TextStyle(
             color: Color(0xff67727d),
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w500,
             fontSize: 13,
           ),
           getTitles: (value) {

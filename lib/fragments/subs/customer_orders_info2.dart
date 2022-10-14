@@ -539,7 +539,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                         ),
                                         Row(
                                           children: [
-                                            Text(widget.custName,  textScaleFactor: 1, style: TextStyle(
+                                            Text((widget.custName=='No customer'? (widget.isEnglish? 'Walk-in customer': 'အမည်မသိ ဖောက်သည်'): widget.custName),  textScaleFactor: 1, style: TextStyle(
                                               fontSize: 15,
                                               fontWeight: FontWeight.w500,
                                               color: Colors.grey,
@@ -800,11 +800,11 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                             ),
                           ),
                           Text(
-                            widget.custName,  textScaleFactor: 1,
+                            (widget.custName=='No customer'? (widget.isEnglish? 'Walk-in customer': 'အမည်မသိ ဖောက်သည်'): widget.custName),  textScaleFactor: 1,
                             textAlign: TextAlign.right,
                             style: TextStyle(
                                 fontSize: 18,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w500,
                                 height: 1.3
                             ),
                             strutStyle: StrutStyle(

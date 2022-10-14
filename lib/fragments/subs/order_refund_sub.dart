@@ -201,7 +201,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                 widget.data.split('^')[1] +' - ' + mainUnit,
                                               style: TextStyle(
                                                 fontSize: 18,
-                                                fontWeight: FontWeight.w600,
+                                                fontWeight: FontWeight.w500,
                                               ),
                                             );
                                           }
@@ -738,7 +738,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontSize: 18,
-                                        fontWeight: FontWeight.w600,
+                                        fontWeight: FontWeight.w500,
                                         letterSpacing:-0.1
                                     ),
                                   ),

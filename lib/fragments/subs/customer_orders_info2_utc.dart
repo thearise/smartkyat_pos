@@ -800,7 +800,7 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                             style: TextStyle(
                               fontSize: 18,
                               height: 1.3,
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.w500,
                             ),
                             strutStyle: StrutStyle(
                               height: 1.5,

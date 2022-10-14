@@ -206,7 +206,7 @@
 //                                   textAlign: TextAlign.right,
 //                                   style: TextStyle(
 //                                     fontSize: 20,
-//                                     fontWeight: FontWeight.w600,
+//                                     fontWeight: FontWeight.w500,
 //                                   ),
 //                                   strutStyle: StrutStyle(
 //                                     height: widget.isEnglish? 1.4: 1.6,
@@ -832,7 +832,7 @@
 //                                   textAlign: TextAlign.center,
 //                                   style: TextStyle(
 //                                       fontSize: 18,
-//                                       fontWeight: FontWeight.w600,
+//                                       fontWeight: FontWeight.w500,
 //                                       letterSpacing:-0.1
 //                                   ),
 //                                   strutStyle: StrutStyle(

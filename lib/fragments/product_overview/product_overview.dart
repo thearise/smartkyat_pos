@@ -167,7 +167,7 @@
 //                       textAlign: TextAlign.start,
 //                       style: TextStyle(
 //                         color: textColor,
-//                         fontWeight: FontWeight.w600,
+//                         fontWeight: FontWeight.w500,
 //                       ),
 //                     ),
 //                   ),
@@ -249,7 +249,7 @@
 //                     "About This Product",
 //                     style: TextStyle(
 //                       fontSize: 18,
-//                       fontWeight: FontWeight.w600,
+//                       fontWeight: FontWeight.w500,
 //                     ),
 //                   ),
 //                   SizedBox(

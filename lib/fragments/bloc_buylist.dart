@@ -764,10 +764,10 @@ class _BlocBuyListState extends State<BlocBuyList> {
                                         child: Row(
                                           children: [
                                             Expanded(
-                                              child: Text(item.split('^')[3].split('&')[0],  textScaleFactor: 1,style: TextStyle(
+                                              child: Text((item.split('^')[3].split('&')[0]=='No merchant'? (widget.isEnglish? 'Walk-in merchant': 'အမည်မသိ ကုန်သည်'): item.split('^')[3].split('&')[0]),  textScaleFactor: 1,style: TextStyle(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.w500,
-                                                  color: Colors.grey,
+                                                  color: item.split('^')[3].split('&')[0]=='No merchant'? Colors.grey: Colors.black,
                                                   overflow: TextOverflow.ellipsis
                                               ),
                                                 maxLines: 1,
@@ -1038,10 +1038,10 @@ class _BlocBuyListState extends State<BlocBuyList> {
                                           child: Row(
                                             children: [
                                               Expanded(
-                                                child: Text(item.split('^')[3].split('&')[0], textScaleFactor: 1, style: TextStyle(
+                                                child: Text((item.split('^')[3].split('&')[0]=='No merchant'? (widget.isEnglish? 'Walk-in merchant': 'အမည်မသိ ကုန်သည်'): item.split('^')[3].split('&')[0]), textScaleFactor: 1, style: TextStyle(
                                                     fontSize: 15,
                                                     fontWeight: FontWeight.w500,
-                                                    color: Colors.grey,
+                                                    color: item.split('^')[3].split('&')[0]=='No merchant'? Colors.grey: Colors.black,
                                                     overflow: TextOverflow.ellipsis
                                                 ),
                                                   maxLines: 1,

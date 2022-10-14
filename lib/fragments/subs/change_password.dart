@@ -333,7 +333,7 @@ Widget build(BuildContext context) {
                                         textAlign: TextAlign.right,
                                         style: TextStyle(
                                           fontSize: 13,
-                                          fontWeight: FontWeight.w600,color: Colors.grey,
+                                          fontWeight: FontWeight.w500,color: Colors.grey,
                                         ),
                                       ),
                                     ],
@@ -343,7 +343,7 @@ Widget build(BuildContext context) {
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
                                       fontSize: 20,
-                                      fontWeight: FontWeight.w600,
+                                      fontWeight: FontWeight.w500,
                                     ),
                                   ),
                                 ],
@@ -677,7 +677,7 @@ Widget build(BuildContext context) {
                               //             textAlign: TextAlign.center,
                               //             style: TextStyle(
                               //                 fontSize: 18,
-                              //                 fontWeight: FontWeight.w600,
+                              //                 fontWeight: FontWeight.w500,
                               //                 letterSpacing:-0.1
                               //             ),
                               //           ),
@@ -781,7 +781,7 @@ Widget build(BuildContext context) {
                                           style: TextStyle(
                                               height: 1.3,
                                               fontSize: 17.5,
-                                              fontWeight: FontWeight.w600,
+                                              fontWeight: FontWeight.w500,
                                               color: Colors.black
                                           ),
                                           strutStyle: StrutStyle(

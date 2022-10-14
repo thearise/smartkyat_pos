@@ -183,7 +183,7 @@ class ProdSaleSumHomeState extends State<ProdSaleSumHome>
                                 Padding(
                                   padding: const EdgeInsets.only(left: 5.0),
                                   child: Text(
-                                    "Reports", textScaleFactor: 1,
+                                    widget.isEnglish? "Reports": 'တင်ပြချက်', textScaleFactor: 1,
                                     maxLines: 1,
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
@@ -202,12 +202,12 @@ class ProdSaleSumHomeState extends State<ProdSaleSumHome>
                                 Padding(
                                   padding: const EdgeInsets.only(left: 20.0, right: 0.0),
                                   child: Text(
-                                    "Sales summary detail", textScaleFactor: 1,
+                                    widget.isEnglish? "Product sale detail": 'ပစ္စည်းအရောင်းထွက်စာရင်း', textScaleFactor: 1,
                                     maxLines: 1,
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
                                       fontSize: 18,
-                                      fontWeight: FontWeight.w600,
+                                      fontWeight: FontWeight.w500,
                                       overflow: TextOverflow.ellipsis,
                                       // height: 1.3
                                     ),

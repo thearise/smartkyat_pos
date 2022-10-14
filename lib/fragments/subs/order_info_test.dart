@@ -282,7 +282,7 @@
 //                                   Text('#' + widget.data.split('^')[1] +' - ' + widget.data.split('^')[3].split('&')[0],
 //                                     style: TextStyle(
 //                                       fontSize: 18,
-//                                       fontWeight: FontWeight.w600,
+//                                       fontWeight: FontWeight.w500,
 //                                       height: 1.3,
 //                                     ),
 //                                     strutStyle: StrutStyle(

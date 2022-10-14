@@ -136,7 +136,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
   int gloSeaProLeng = 0;
 
   String textSetReports = 'Reports';
-  String textSetSaleSummary = 'Sales summary detail';
+  String textSetSaleSummary = 'Sale in-out detail';
   String textSetStockCosts = 'Stock costs';
   String textSetUnpaid = 'Unpaid';
   String textSetBuys = 'Refund amount';
@@ -145,11 +145,11 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
   String textSetLastWeek = 'Weekly';
   String textSetLastMonth = 'Monthly';
   String textSetLastYear = 'Yearly';
-  String textSetInOut = 'SALES IN-OUT SUMMARY';
+  String textSetInOut = 'SALE IN-OUT SUMMARY';
   String textSetNetSales = 'Net sales';
   String textSetAvgProf = 'Avg profit';
   String textSetEarn = 'Debt to income';
-  String textSetCharts = 'SALES SUMMARY CHARTS';
+  String textSetCharts = 'SALE SUMMARY CHART';
   String textSetTotal = 'Total sales';
 
   var prodsSnap;
@@ -285,7 +285,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
 
       setState(() {
          textSetReports = 'Reports';
-         textSetSaleSummary = 'Sales summary detail';
+         textSetSaleSummary = 'Sale in-out detail';
          textSetStockCosts = 'Stock costs';
          textSetUnpaid = 'Unpaid';
          textSetBuys = 'Refund amount';
@@ -294,17 +294,17 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
          textSetLastWeek = 'Weekly';
          textSetLastMonth = 'Monthly';
          textSetLastYear = 'Yearly';
-         textSetInOut = 'SALES IN-OUT SUMMARY';
+         textSetInOut = 'SALE IN-OUT SUMMARY';
          textSetNetSales = 'Net sales';
          textSetAvgProf = 'Avg profit';
          textSetEarn = 'Debt to income';
-         textSetCharts = 'SALES SUMMARY CHARTS';
+         textSetCharts = 'SALE SUMMARY CHART';
          textSetTotal = 'Total sales';
       });
     } else {
       setState(() {
          textSetReports = 'အစီအရင်ခံစာ';
-         textSetSaleSummary = 'Sales summary detail';
+         textSetSaleSummary = 'Sale in-out detail';
          textSetStockCosts = 'ဝယ်ယူစရိတ်';
          textSetUnpaid = 'အကြွေးကျန်ငွေ';
          textSetBuys = 'ပြန်ပေးငွေ';
@@ -313,11 +313,11 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
          textSetLastWeek = 'အပတ်စဉ်';
          textSetLastMonth = 'လစဉ်';
          textSetLastYear = 'နှစ်စဉ်';
-         textSetInOut = 'SALES IN-OUT SUMMARY';
+         textSetInOut = 'SALE IN-OUT SUMMARY';
          textSetNetSales = 'အသားတင် ရောင်းရငွေ';
          textSetAvgProf = 'ပျမ်းမျှအမြတ်ငွေ';
          textSetEarn = 'အကြွေးရငွေ';
-         textSetCharts = 'အရောင်းစာရင်းပြ ဇယား';
+         textSetCharts = 'SALE SUMMARY CHART';
          textSetTotal = 'စုစုပေါင်း အသားတင် ရောင်းရငွေ';
       });
     }
@@ -517,7 +517,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                                   textStyle: TextStyle(
                                                       letterSpacing: 1,
                                                       fontSize: 26,
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight: FontWeight.w500,
                                                       color: Colors.black
                                                   )
                                               )
@@ -529,7 +529,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                           //       textStyle: TextStyle(
                                           //           letterSpacing: 1,
                                           //           fontSize: 26,
-                                          //           fontWeight: FontWeight.w600,
+                                          //           fontWeight: FontWeight.w500,
                                           //           color: Colors.black
                                           //       )
                                           //   ),
@@ -543,7 +543,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                                     textStyle: TextStyle(
                                                         letterSpacing: 1,
                                                         fontSize: 14,
-                                                        fontWeight: FontWeight.w600,
+                                                        fontWeight: FontWeight.w500,
                                                         color: Colors.black
                                                     )
                                           ) ) ),
@@ -551,116 +551,117 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                       ),
                                       Row(
                                         children: [
-                                          Text(
-                                            textSetNetSales + ' (',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          percentBySale() == 1001 || percentBySale() == 1000 ?
-                                          Text('') :
-                                          Text(
-                                            percentBySale().abs().toString()+ '% ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                              color: percentBySale() == 1001 || percentBySale() == 1000 ? Colors.blue: percentBySale() < 0? AppTheme.badgeFgDanger: Colors.green,),
-                                          ),
+                                          // Text(
+                                          //   textSetNetSales + ' (',strutStyle: StrutStyle(
+                                          //     forceStrutHeight: true,
+                                          //     height: 1.2
+                                          // ), textScaleFactor: 1,
+                                          //   style: TextStyle(
+                                          //       fontSize: 13, height: 1.2,
+                                          //       fontWeight: FontWeight.w500,
+                                          //       color: Colors.black.withOpacity(0.6)),
+                                          // ),
+                                          // percentBySale() == 1001 || percentBySale() == 1000 ?
+                                          // Text('') :
+                                          // Text(
+                                          //   percentBySale().abs().toString()+ '% ',strutStyle: StrutStyle(
+                                          //     forceStrutHeight: true,
+                                          //     height: 1.2
+                                          // ), textScaleFactor: 1,
+                                          //   style: TextStyle(
+                                          //       fontSize: 13, height: 1.2,
+                                          //       fontWeight: FontWeight.w500,
+                                          //     color: percentBySale() == 1001 || percentBySale() == 1000 ? Colors.blue: percentBySale() < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                          // ),
                                           widget.isEnglish?
-                                          Row(
-                                            children: [
-                                              percentBySale() == 1001 || percentBySale() == 1000 ? Text(
-                                                'same as ',strutStyle: StrutStyle(
-                                                  forceStrutHeight: true,
-                                                  height: 1.2
-                                              ), textScaleFactor: 1,
-                                                style: TextStyle(
-                                                    fontSize: 13, height: 1.2,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black.withOpacity(0.6)),
-                                              ) :  percentBySale() < 0?
-                                              Text(
-                                                'lower than ',strutStyle: StrutStyle(
-                                                  forceStrutHeight: true,
-                                                  height: 1.2
-                                              ), textScaleFactor: 1,
-                                                style: TextStyle(
-                                                    fontSize: 13, height: 1.2,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black.withOpacity(0.6)),
-                                              ) :
-                                              Text(
-                                                'higher than ',strutStyle: StrutStyle(
-                                                  forceStrutHeight: true,
-                                                  height: 1.2
-                                              ), textScaleFactor: 1,
-                                                style: TextStyle(
-                                                    fontSize: 13, height: 1.2,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black.withOpacity(0.6)),
+                                          Flexible(
+                                            child: RichText(
+                                              strutStyle: StrutStyle(
+                                                forceStrutHeight: true,
+                                                height: 1.2
                                               ),
-                                              Text(
-                                                yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
-                                                  forceStrutHeight: true,
-                                                  height: 1.2
-                                              ), textScaleFactor: 1,
-                                                style: TextStyle(
-                                                    fontSize: 13, height: 1.2,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black.withOpacity(0.6)),
+                                              textScaleFactor: 1,
+                                              text: new TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: textSetNetSales + ' ('
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: percentBySale() == 1001 || percentBySale() == 1000 ? '': percentBySale().abs().toString()+ '% '
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                      color: percentBySale() == 1001 || percentBySale() == 1000 ? Colors.blue: percentBySale() < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                                  ),
+                                                  TextSpan(
+                                                    text: (
+                                                        percentBySale() == 1001 || percentBySale() == 1000 ? 'same as ' :  percentBySale() < 0?
+                                                        'lower than ' :
+                                                        'higher than ') +
+                                                        yestWeekTitle().toString() + ')'
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  )
+                                                ],
                                               ),
-                                            ],
+                                            ),
                                           ):
-                                          Row(
-                                            children: [
-                                              Text(
-                                                yestWeekTitle().toString(),strutStyle: StrutStyle(
+                                          Flexible(
+                                            child: RichText(
+                                              strutStyle: StrutStyle(
                                                   forceStrutHeight: true,
                                                   height: 1.2
-                                              ), textScaleFactor: 1,
-                                                style: TextStyle(
-                                                    fontSize: 13, height: 1.2,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black.withOpacity(0.6)),
                                               ),
-                                              percentBySale() == 1001 || percentBySale() == 1000 ? Text(
-                                                'ကအတိုင်း ရရှိသည်)',strutStyle: StrutStyle(
-                                                  forceStrutHeight: true,
-                                                  height: 1.2
-                                              ), textScaleFactor: 1,
-                                                style: TextStyle(
-                                                    fontSize: 13, height: 1.2,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black.withOpacity(0.6)),
-                                              ) :  percentBySale() < 0?
-                                              Text(
-                                                'ကအောက် လျော့ရသည်)',strutStyle: StrutStyle(
-                                                  forceStrutHeight: true,
-                                                  height: 1.2
-                                              ), textScaleFactor: 1,
-                                                style: TextStyle(
-                                                    fontSize: 13, height: 1.2,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black.withOpacity(0.6)),
-                                              ) :
-                                              Text(
-                                                'ကထက် ပိုရသည်)',strutStyle: StrutStyle(
-                                                  forceStrutHeight: true,
-                                                  height: 1.2
-                                              ), textScaleFactor: 1,
-                                                style: TextStyle(
-                                                    fontSize: 13, height: 1.2,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black.withOpacity(0.6)),
+                                              textScaleFactor: 1,
+                                              text: new TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: textSetNetSales + ' ('
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: percentBySale() == 1001 || percentBySale() == 1000 ? '': percentBySale().abs().toString()+ '% '
+                                                    ,
+                                                    style: TextStyle(
+                                                      fontSize: 13, height: 1.2,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: percentBySale() == 1001 || percentBySale() == 1000 ? Colors.blue: percentBySale() < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                                  ),
+                                                  TextSpan(
+                                                    text: yestWeekTitle().toString()
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: (
+                                                        percentBySale() == 1001 || percentBySale() == 1000 ? 'ကအတိုင်း ရရှိသည်' :  percentBySale() < 0?
+                                                        'ကအောက် နည်းသည်' :
+                                                        'ကထက် ပိုများသည်') + ')'
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  )
+                                                ],
                                               ),
-                                            ],
+                                            ),
                                           )
                                         ],
                                       ),
@@ -697,7 +698,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                                   textStyle: TextStyle(
                                                       letterSpacing: 1,
                                                       fontSize: 26,
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight: FontWeight.w500,
                                                       color: Colors.black
                                                   )
                                               )
@@ -709,7 +710,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                           //       textStyle: TextStyle(
                                           //           letterSpacing: 1,
                                           //           fontSize: 26,
-                                          //           fontWeight: FontWeight.w600,
+                                          //           fontWeight: FontWeight.w500,
                                           //           color: Colors.black
                                           //       )
                                           //   ),
@@ -723,7 +724,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                                       textStyle: TextStyle(
                                                           letterSpacing: 1,
                                                           fontSize: 14,
-                                                          fontWeight: FontWeight.w600,
+                                                          fontWeight: FontWeight.w500,
                                                           color: Colors.black
                                                       )
                                                   ) ) ),
@@ -731,68 +732,96 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                       ),
                                       Row(
                                         children: [
-                                          Text(
-                                            textSetUnpaid + ' (',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          percentByUnpaid() == 1001 || percentByUnpaid() == 1000 ?
-                                          Text('') :
-                                          Text(
-                                            percentByUnpaid().abs().toString()+ '% ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                              fontSize: 13, height: 1.2,
-                                              fontWeight: FontWeight.w500,
-                                              color: percentByUnpaid() == 1001 || percentByUnpaid() == 1000 ? Colors.blue: percentByUnpaid() < 0? AppTheme.badgeFgDanger: Colors.green,),
-                                          ) ,
-                                          percentByUnpaid() == 1001 || percentByUnpaid() == 1000 ? Text(
-                                            'same as ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :  percentByUnpaid() < 0?
-                                          Text(
-                                            'lower than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :
-                                          Text(
-                                            'higher than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          Text(
-                                            yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
+                                          widget.isEnglish?
+                                          Flexible(
+                                            child: RichText(
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
+                                              textScaleFactor: 1,
+                                              text: new TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: textSetUnpaid + ' ('
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: percentByUnpaid() == 1001 || percentByUnpaid() == 1000 ? '': percentByUnpaid().abs().toString()+ '% '
+                                                    ,
+                                                    style: TextStyle(
+                                                      fontSize: 13, height: 1.2,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: percentByUnpaid() == 1001 || percentByUnpaid() == 1000 ? Colors.blue: percentByUnpaid() < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                                  ),
+                                                  TextSpan(
+                                                    text: (
+                                                        percentByUnpaid() == 1001 || percentByUnpaid() == 1000 ? 'same as ' :  percentByUnpaid() < 0?
+                                                        'lower than ' :
+                                                        'higher than ') +
+                                                        yestWeekTitle().toString() + ')'
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ):
+                                          Flexible(
+                                            child: RichText(
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
+                                              textScaleFactor: 1,
+                                              text: new TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: textSetUnpaid + ' ('
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: percentByUnpaid() == 1001 || percentByUnpaid() == 1000 ? '': percentByUnpaid().abs().toString()+ '% '
+                                                    ,
+                                                    style: TextStyle(
+                                                      fontSize: 13, height: 1.2,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: percentByUnpaid() == 1001 || percentByUnpaid() == 1000 ? Colors.blue: percentByUnpaid() < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                                  ),
+                                                  TextSpan(
+                                                    text: yestWeekTitle().toString()
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: (
+                                                        percentByUnpaid() == 1001 || percentByUnpaid() == 1000 ? 'ကအတိုင်း ရရှိသည်' :  percentByUnpaid() < 0?
+                                                        'ကအောက် နည်းသည်' :
+                                                        'ကထက် ပိုများသည်') + ')'
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          )
                                         ],
                                       ),
                                     ],
@@ -828,7 +857,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                                   textStyle: TextStyle(
                                                       letterSpacing: 1,
                                                       fontSize: 26,
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight: FontWeight.w500,
                                                       color: Colors.black
                                                   )
                                               )
@@ -840,7 +869,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                           //       textStyle: TextStyle(
                                           //           letterSpacing: 1,
                                           //           fontSize: 26,
-                                          //           fontWeight: FontWeight.w600,
+                                          //           fontWeight: FontWeight.w500,
                                           //           color: Colors.black
                                           //       )
                                           //   ),
@@ -854,7 +883,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                                       textStyle: TextStyle(
                                                           letterSpacing: 1,
                                                           fontSize: 14,
-                                                          fontWeight: FontWeight.w600,
+                                                          fontWeight: FontWeight.w500,
                                                           color: Colors.black
                                                       )
                                                   ) ) ),
@@ -862,68 +891,96 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                       ),
                                       Row(
                                         children: [
-                                          Text(
-                                            textSetAvgProf + ' (',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          growthRateDayProfit(lastProfitBySlide(), profitBySlide()) == 1001 || growthRateDayProfit(lastProfitBySlide(), profitBySlide()) == 1000 ?
-                                          Text('') :
-                                          Text(
-                                            growthRateDayProfit(lastProfitBySlide(), profitBySlide()).abs().toString()+ '% ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                              fontSize: 13, height: 1.2,
-                                              fontWeight: FontWeight.w500,
-                                              color: growthRateDayProfit(lastProfitBySlide(), profitBySlide()) == 1001 || growthRateDayProfit(lastProfitBySlide(), profitBySlide()) == 1000 ? Colors.blue: growthRateDayProfit(lastProfitBySlide(), profitBySlide()) < 0? AppTheme.badgeFgDanger: Colors.green,),
-                                          ) ,
-                                          growthRateDayProfit(lastProfitBySlide(), profitBySlide()) == 1001 || growthRateDayProfit(lastProfitBySlide(), profitBySlide()) == 1000 ? Text(
-                                            'same as ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :  growthRateDayProfit(lastProfitBySlide(), profitBySlide()) < 0?
-                                          Text(
-                                            'lower than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :
-                                          Text(
-                                            'higher than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          Text(
-                                            yestWeekTitle().toString() + ')', strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
+                                          widget.isEnglish?
+                                          Flexible(
+                                            child: RichText(
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
+                                              textScaleFactor: 1,
+                                              text: new TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: textSetAvgProf + ' ('
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: growthRateDayProfit(lastProfitBySlide(), profitBySlide()) == 1001 || growthRateDayProfit(lastProfitBySlide(), profitBySlide()) == 1000 ? '': growthRateDayProfit(lastProfitBySlide(), profitBySlide()).abs().toString()+ '% '
+                                                    ,
+                                                    style: TextStyle(
+                                                      fontSize: 13, height: 1.2,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: growthRateDayProfit(lastProfitBySlide(), profitBySlide()) == 1001 || growthRateDayProfit(lastProfitBySlide(), profitBySlide()) == 1000 ? Colors.blue: growthRateDayProfit(lastProfitBySlide(), profitBySlide()) < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                                  ),
+                                                  TextSpan(
+                                                    text: (
+                                                        growthRateDayProfit(lastProfitBySlide(), profitBySlide()) == 1001 || growthRateDayProfit(lastProfitBySlide(), profitBySlide()) == 1000 ? 'same as ' :  growthRateDayProfit(lastProfitBySlide(), profitBySlide()) < 0?
+                                                        'lower than ' :
+                                                        'higher than ') +
+                                                        yestWeekTitle().toString() + ')'
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ):
+                                          Flexible(
+                                            child: RichText(
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
+                                              textScaleFactor: 1,
+                                              text: new TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: textSetAvgProf + ' ('
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: growthRateDayProfit(lastProfitBySlide(), profitBySlide()) == 1001 || growthRateDayProfit(lastProfitBySlide(), profitBySlide()) == 1000 ? '': growthRateDayProfit(lastProfitBySlide(), profitBySlide()).abs().toString()+ '% '
+                                                    ,
+                                                    style: TextStyle(
+                                                      fontSize: 13, height: 1.2,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: growthRateDayProfit(lastProfitBySlide(), profitBySlide()) == 1001 || growthRateDayProfit(lastProfitBySlide(), profitBySlide()) == 1000 ? Colors.blue: growthRateDayProfit(lastProfitBySlide(), profitBySlide()) < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                                  ),
+                                                  TextSpan(
+                                                    text: yestWeekTitle().toString()
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: (
+                                                        growthRateDayProfit(lastProfitBySlide(), profitBySlide()) == 1001 || growthRateDayProfit(lastProfitBySlide(), profitBySlide()) == 1000 ? 'ကအတိုင်း ရရှိသည်' :  growthRateDayProfit(lastProfitBySlide(), profitBySlide()) < 0?
+                                                        'ကအောက် နည်းသည်' :
+                                                        'ကထက် ပိုများသည်') + ')'
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          )
                                         ],
                                       ),
                                     ],
@@ -959,7 +1016,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                                   textStyle: TextStyle(
                                                       letterSpacing: 1,
                                                       fontSize: 26,
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight: FontWeight.w500,
                                                       color: Colors.black
                                                   )
                                               )
@@ -971,7 +1028,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                           //       textStyle: TextStyle(
                                           //           letterSpacing: 1,
                                           //           fontSize: 26,
-                                          //           fontWeight: FontWeight.w600,
+                                          //           fontWeight: FontWeight.w500,
                                           //           color: Colors.black
                                           //       )
                                           //   ),
@@ -985,7 +1042,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                                       textStyle: TextStyle(
                                                           letterSpacing: 1,
                                                           fontSize: 14,
-                                                          fontWeight: FontWeight.w600,
+                                                          fontWeight: FontWeight.w500,
                                                           color: Colors.black
                                                       )
                                                   ) ) ),
@@ -993,68 +1050,96 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                       ),
                                       Row(
                                         children: [
-                                          Text(
-                                            textSetEarn + ' (',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          percentByEarn() == 1001 || percentByEarn() == 1000 ?
-                                          Text('') :
-                                          Text(
-                                            percentByEarn().abs().toString()+ '% ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                              fontSize: 13, height: 1.2,
-                                              fontWeight: FontWeight.w500,
-                                              color: percentByEarn() == 1001 || percentByEarn() == 1000 ? Colors.blue: percentByEarn() < 0? AppTheme.badgeFgDanger: Colors.green,),
-                                          ) ,
-                                          percentByEarn() == 1001 || percentByEarn() == 1000 ? Text(
-                                            'same as ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :  percentByEarn() < 0?
-                                          Text(
-                                            'lower than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :
-                                          Text(
-                                            'higher than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          Text(
-                                            yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
+                                          widget.isEnglish?
+                                          Flexible(
+                                            child: RichText(
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
+                                              textScaleFactor: 1,
+                                              text: new TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: textSetEarn + ' ('
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: percentByEarn() == 1001 || percentByEarn() == 1000 ? '': percentByEarn().abs().toString()+ '% '
+                                                    ,
+                                                    style: TextStyle(
+                                                      fontSize: 13, height: 1.2,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: percentByEarn() == 1001 || percentByEarn() == 1000 ? Colors.blue: percentByEarn() < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                                  ),
+                                                  TextSpan(
+                                                    text: (
+                                                        percentByEarn() == 1001 || percentByEarn() == 1000 ? 'same as ' :  percentByEarn() < 0?
+                                                        'lower than ' :
+                                                        'higher than ') +
+                                                        yestWeekTitle().toString() + ')'
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ):
+                                          Flexible(
+                                            child: RichText(
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
+                                              textScaleFactor: 1,
+                                              text: new TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: textSetEarn + ' ('
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: percentByEarn() == 1001 || percentByEarn() == 1000 ? '': percentByEarn().abs().toString()+ '% '
+                                                    ,
+                                                    style: TextStyle(
+                                                      fontSize: 13, height: 1.2,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: percentByEarn() == 1001 || percentByEarn() == 1000 ? Colors.blue: percentByEarn() < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                                  ),
+                                                  TextSpan(
+                                                    text: yestWeekTitle().toString()
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: (
+                                                        percentByEarn() == 1001 || percentByEarn() == 1000 ? 'ကအတိုင်း ရရှိသည်' :  percentByEarn() < 0?
+                                                        'ကအောက် နည်းသည်' :
+                                                        'ကထက် ပိုများသည်') + ')'
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          )
                                         ],
                                       ),
                                     ],
@@ -1177,7 +1262,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                                   textStyle: TextStyle(
                                                       letterSpacing: 1,
                                                       fontSize: 26,
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight: FontWeight.w500,
                                                       color: Colors.black
                                                   )
                                               )
@@ -1189,7 +1274,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                           //       textStyle: TextStyle(
                                           //           letterSpacing: 1,
                                           //           fontSize: 26,
-                                          //           fontWeight: FontWeight.w600,
+                                          //           fontWeight: FontWeight.w500,
                                           //           color: Colors.black
                                           //       )
                                           //   ),
@@ -1203,7 +1288,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                                       textStyle: TextStyle(
                                                           letterSpacing: 1,
                                                           fontSize: 14,
-                                                          fontWeight: FontWeight.w600,
+                                                          fontWeight: FontWeight.w500,
                                                           color: Colors.black
                                                       )
                                                   ) ) ),
@@ -1211,68 +1296,96 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                       ),
                                       Row(
                                         children: [
-                                          Text(
-                                            textSetStockCosts + ' (',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          percentByCost() == 1001 || percentByCost() == 1000 ?
-                                          Text('') :
-                                          Text(
-                                            percentByCost().abs().toString()+ '% ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                              fontSize: 13, height: 1.2,
-                                              fontWeight: FontWeight.w500,
-                                              color: percentByCost() == 1001 || percentByCost() == 1000 ? Colors.blue: percentByCost() < 0? AppTheme.badgeFgDanger: Colors.green,),
-                                          ) ,
-                                          percentByCost() == 1001 || percentByCost() == 1000 ? Text(
-                                            'same as ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :  percentByCost() < 0?
-                                          Text(
-                                            'lower than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :
-                                          Text(
-                                            'higher than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          Text(
-                                            yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
+                                          widget.isEnglish?
+                                          Flexible(
+                                            child: RichText(
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
+                                              textScaleFactor: 1,
+                                              text: new TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: textSetStockCosts + ' ('
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: percentByCost() == 1001 || percentByCost() == 1000 ? '': percentByCost().abs().toString()+ '% '
+                                                    ,
+                                                    style: TextStyle(
+                                                      fontSize: 13, height: 1.2,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: percentByCost() == 1001 || percentByCost() == 1000 ? Colors.blue: percentByCost() < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                                  ),
+                                                  TextSpan(
+                                                    text: (
+                                                        percentByCost() == 1001 || percentByCost() == 1000 ? 'same as ' :  percentByCost() < 0?
+                                                        'lower than ' :
+                                                        'higher than ') +
+                                                        yestWeekTitle().toString() + ')'
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ):
+                                          Flexible(
+                                            child: RichText(
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
+                                              textScaleFactor: 1,
+                                              text: new TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: textSetStockCosts + ' ('
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: percentByCost() == 1001 || percentByCost() == 1000 ? '': percentByCost().abs().toString()+ '% '
+                                                    ,
+                                                    style: TextStyle(
+                                                      fontSize: 13, height: 1.2,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: percentByCost() == 1001 || percentByCost() == 1000 ? Colors.blue: percentByCost() < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                                  ),
+                                                  TextSpan(
+                                                    text: yestWeekTitle().toString()
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: (
+                                                        percentByCost() == 1001 || percentByCost() == 1000 ? 'ကအတိုင်း ရရှိသည်' :  percentByCost() < 0?
+                                                        'ကအောက် နည်းသည်' :
+                                                        'ကထက် ပိုများသည်') + ')'
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          )
                                         ],
                                       ),
                                     ],
@@ -1308,7 +1421,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                                   textStyle: TextStyle(
                                                       letterSpacing: 1,
                                                       fontSize: 26,
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight: FontWeight.w500,
                                                       color: Colors.black
                                                   )
                                               )
@@ -1320,7 +1433,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                           //       textStyle: TextStyle(
                                           //           letterSpacing: 1,
                                           //           fontSize: 26,
-                                          //           fontWeight: FontWeight.w600,
+                                          //           fontWeight: FontWeight.w500,
                                           //           color: Colors.black
                                           //       )
                                           //   ),
@@ -1334,7 +1447,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                                       textStyle: TextStyle(
                                                           letterSpacing: 1,
                                                           fontSize: 14,
-                                                          fontWeight: FontWeight.w600,
+                                                          fontWeight: FontWeight.w500,
                                                           color: Colors.black
                                                       )
                                                   ) ) ),
@@ -1342,68 +1455,96 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                       ),
                                       Row(
                                         children: [
-                                          Text(
-                                           textSetBuys + ' (',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          percentByRefund() == 1001 || percentByRefund() == 1000 ?
-                                          Text('') :
-                                          Text(
-                                            percentByRefund().abs().toString()+ '% ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                              fontSize: 13, height: 1.2,
-                                              fontWeight: FontWeight.w500,
-                                              color: percentByRefund() == 1001 || percentByRefund() == 1000 ? Colors.blue: percentByRefund() < 0? AppTheme.badgeFgDanger: Colors.green,),
-                                          ) ,
-                                          percentByRefund() == 1001 || percentByRefund() == 1000 ? Text(
-                                            'same as ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :  percentByRefund() < 0?
-                                          Text(
-                                            'lower than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :
-                                          Text(
-                                            'higher than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          Text(
-                                            yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
+                                          widget.isEnglish?
+                                          Flexible(
+                                            child: RichText(
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
+                                              textScaleFactor: 1,
+                                              text: new TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: textSetBuys + ' ('
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: percentByRefund() == 1001 || percentByRefund() == 1000 ? '': percentByRefund().abs().toString()+ '% '
+                                                    ,
+                                                    style: TextStyle(
+                                                      fontSize: 13, height: 1.2,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: percentByRefund() == 1001 || percentByRefund() == 1000 ? Colors.blue: percentByRefund() < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                                  ),
+                                                  TextSpan(
+                                                    text: (
+                                                        percentByRefund() == 1001 || percentByRefund() == 1000 ? 'same as ' :  percentByRefund() < 0?
+                                                        'lower than ' :
+                                                        'higher than ') +
+                                                        yestWeekTitle().toString() + ')'
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ):
+                                          Flexible(
+                                            child: RichText(
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
+                                              textScaleFactor: 1,
+                                              text: new TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: textSetBuys + ' ('
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: percentByRefund() == 1001 || percentByRefund() == 1000 ? '': percentByRefund().abs().toString()+ '% '
+                                                    ,
+                                                    style: TextStyle(
+                                                      fontSize: 13, height: 1.2,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: percentByRefund() == 1001 || percentByRefund() == 1000 ? Colors.blue: percentByRefund() < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                                  ),
+                                                  TextSpan(
+                                                    text: yestWeekTitle().toString()
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: (
+                                                        percentByRefund() == 1001 || percentByRefund() == 1000 ? 'ကအတိုင်း ရရှိသည်' :  percentByRefund() < 0?
+                                                        'ကအောက် နည်းသည်' :
+                                                        'ကထက် ပိုများသည်') + ')'
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          )
                                         ],
                                       ),
                                     ],
@@ -1439,7 +1580,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                                   textStyle: TextStyle(
                                                       letterSpacing: 1,
                                                       fontSize: 26,
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight: FontWeight.w500,
                                                       color: Colors.black
                                                   )
                                               )
@@ -1451,7 +1592,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                           //       textStyle: TextStyle(
                                           //           letterSpacing: 1,
                                           //           fontSize: 26,
-                                          //           fontWeight: FontWeight.w600,
+                                          //           fontWeight: FontWeight.w500,
                                           //           color: Colors.black
                                           //       )
                                           //   ),
@@ -1465,7 +1606,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                                       textStyle: TextStyle(
                                                           letterSpacing: 1,
                                                           fontSize: 14,
-                                                          fontWeight: FontWeight.w600,
+                                                          fontWeight: FontWeight.w500,
                                                           color: Colors.black
                                                       )
                                                   ) ) ),
@@ -1473,68 +1614,96 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
                                       ),
                                       Row(
                                         children: [
-                                          Text(
-                                            textSetLoss + ' (',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          percentByLoss() == 1001 || percentByLoss() == 1000 ?
-                                          Text('') :
-                                          Text(
-                                            percentByLoss().abs().toString()+ '% ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                              fontSize: 13, height: 1.2,
-                                              fontWeight: FontWeight.w500,
-                                              color: percentByLoss() == 1001 || percentByLoss() == 1000 ? Colors.blue: percentByLoss() < 0? AppTheme.badgeFgDanger: Colors.green,),
-                                          ) ,
-                                          percentByLoss() == 1001 || percentByLoss() == 1000 ? Text(
-                                            'same as ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :  percentByLoss() < 0?
-                                          Text(
-                                            'lower than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :
-                                          Text(
-                                            'higher than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          Text(
-                                            yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
+                                          widget.isEnglish?
+                                          Flexible(
+                                            child: RichText(
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
+                                              textScaleFactor: 1,
+                                              text: new TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: textSetLoss + ' ('
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: percentByLoss() == 1001 || percentByLoss() == 1000 ? '': percentByLoss().abs().toString()+ '% '
+                                                    ,
+                                                    style: TextStyle(
+                                                      fontSize: 13, height: 1.2,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: percentByLoss() == 1001 || percentByLoss() == 1000 ? Colors.blue: percentByLoss() < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                                  ),
+                                                  TextSpan(
+                                                    text: (
+                                                        percentByLoss() == 1001 || percentByLoss() == 1000 ? 'same as ' :  percentByLoss() < 0?
+                                                        'lower than ' :
+                                                        'higher than ') +
+                                                        yestWeekTitle().toString() + ')'
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ):
+                                          Flexible(
+                                            child: RichText(
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
+                                              textScaleFactor: 1,
+                                              text: new TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: textSetLoss + ' ('
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: percentByLoss() == 1001 || percentByLoss() == 1000 ? '': percentByLoss().abs().toString()+ '% '
+                                                    ,
+                                                    style: TextStyle(
+                                                      fontSize: 13, height: 1.2,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: percentByLoss() == 1001 || percentByLoss() == 1000 ? Colors.blue: percentByLoss() < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                                  ),
+                                                  TextSpan(
+                                                    text: yestWeekTitle().toString()
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: (
+                                                        percentByLoss() == 1001 || percentByLoss() == 1000 ? 'ကအတိုင်း ရရှိသည်' :  percentByLoss() < 0?
+                                                        'ကအောက် နည်းသည်' :
+                                                        'ကထက် ပိုများသည်') + ')'
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          )
                                         ],
                                       ),
                                     ],
@@ -2578,7 +2747,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
           interval: 1,
           getTextStyles: (context, value) =>  TextStyle(
             color: Color(0xff67727d),
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w500,
             fontSize: 13 / scaleFactor,
           ),
           getTitles: (value) {
@@ -2773,7 +2942,7 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
           interval: 1,
           getTextStyles: (context, value) =>  TextStyle(
             color: Color(0xff67727d),
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w500,
             fontSize: 13/scaleFactor,
           ),
           getTitles: (value) {

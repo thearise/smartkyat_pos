@@ -58,7 +58,7 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
     setState(() {
       textSetDisplay = 'Display';
       textSetCurrency = 'Currency';
-      textSetChgCurrency = 'ငွေကြေးယူနစ်ပြောင်းလဲရန်';
+      textSetChgCurrency = 'CHANGE CURRENCY';
       textSetInfo = 'ဤငွေကြေးယူနစ်ကို သင်၏ဘဏ္ဍာရေးဆိုင်ရာ ပမာဏအားလုံးကို ဖော်ပြခြင်းတွင် အသုံးပြုပါမည်။';
     });
     } else if(value=='english') {
@@ -296,7 +296,7 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
                               style: TextStyle(
                                 fontSize: 18,
                                 height: 1.3,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w500,
                               ),
                               strutStyle: StrutStyle(
                                 height: 1.5,
@@ -462,7 +462,7 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
 //                                       textAlign: TextAlign.right,
 //                                       style: TextStyle(
 //                                         fontSize: 13,
-//                                         fontWeight: FontWeight.w600,color: Colors.grey,
+//                                         fontWeight: FontWeight.w500,color: Colors.grey,
 //                                       ),
 //                                     ),
 //                                   ],
@@ -472,7 +472,7 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
 //                                   textAlign: TextAlign.right,
 //                                   style: TextStyle(
 //                                     fontSize: 20,
-//                                     fontWeight: FontWeight.w600,
+//                                     fontWeight: FontWeight.w500,
 //                                   ),
 //                                 ),
 //                               ],
@@ -654,7 +654,7 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
 //                                       textAlign: TextAlign.center,
 //                                       style: TextStyle(
 //                                           fontSize: 18,
-//                                           fontWeight: FontWeight.w600,
+//                                           fontWeight: FontWeight.w500,
 //                                           letterSpacing:-0.1
 //                                       ),
 //                                     ),
@@ -739,7 +739,7 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
 //                                     textAlign: TextAlign.right,
 //                                     style: TextStyle(
 //                                       fontSize: 13,
-//                                       fontWeight: FontWeight.w600,color: Colors.grey,
+//                                       fontWeight: FontWeight.w500,color: Colors.grey,
 //                                     ),
 //                                   ),
 //                                 ],
@@ -749,7 +749,7 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
 //                                 textAlign: TextAlign.right,
 //                                 style: TextStyle(
 //                                   fontSize: 20,
-//                                   fontWeight: FontWeight.w600,
+//                                   fontWeight: FontWeight.w500,
 //                                 ),
 //                               ),
 //                             ],
@@ -807,7 +807,7 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
 //                                     textAlign: TextAlign.center,
 //                                     style: TextStyle(
 //                                         fontSize: 18,
-//                                         fontWeight: FontWeight.w600,
+//                                         fontWeight: FontWeight.w500,
 //                                         letterSpacing:-0.1
 //                                     ),
 //                                   ),

@@ -155,7 +155,7 @@ class _BlocProdMonthState extends State<BlocProdMonth> {
 
   bool endOfResult = false;
 
-  final sortingList = [
+  List<Text> sortingList = [
     Text("Total sale",  textScaleFactor: 1, style: TextStyle(fontSize: 16, height: 1.7),),
     Text("Total profit",  textScaleFactor: 1, style: TextStyle(fontSize: 16, height: 1.7),),
     Text("Total costs",  textScaleFactor: 1, style: TextStyle(fontSize: 16, height: 1.7),),
@@ -452,6 +452,12 @@ class _BlocProdMonthState extends State<BlocProdMonth> {
     // }
 
 
+    sortingList = [
+      Text(widget.isEnglish? "Total sale": "ရောင်းရငွေ",  textScaleFactor: 1, style: TextStyle(fontSize: 16, height: 2.2),),
+      Text(widget.isEnglish? "Total profit": "အမြတ်ငွေ",  textScaleFactor: 1, style: TextStyle(fontSize: 16, height: 2.2),),
+      Text(widget.isEnglish? "Total costs": "ကုန်ကျငွေ",  textScaleFactor: 1, style: TextStyle(fontSize: 16, height: 2.2),),
+      Text(widget.isEnglish? "Total quantity": "အရေအတွက်",  textScaleFactor: 1, style: TextStyle(fontSize: 16, height: 2.2),),
+    ];
 
     // debugPrint('bloc_fire prod week3 ' + todayProds.entries.elementAt(0).value.toString());
     var listView = Scaffold(
@@ -516,7 +522,7 @@ class _BlocProdMonthState extends State<BlocProdMonth> {
                               children: [
                                 initProds==null?
                                 Expanded(
-                                  child: Text('PRODUCT', textScaleFactor: 1,
+                                  child: Text((widget.isEnglish? 'PRODUCT ': 'ကုန်ပစ္စည်း'), textScaleFactor: 1,
                                     style: TextStyle(
                                       height: 0.9,
                                       letterSpacing: 2,
@@ -525,7 +531,7 @@ class _BlocProdMonthState extends State<BlocProdMonth> {
                                     ),),
                                 ):
                                 Expanded(
-                                  child: Text('PRODUCT (' +  tSale.round().toString() + ')', textScaleFactor: 1,
+                                  child: Text((widget.isEnglish? 'PRODUCT ': 'ကုန်ပစ္စည်း') + '(' +  tSale.round().toString() + ')', textScaleFactor: 1,
                                     style: TextStyle(
                                       height: 0.9,
                                       letterSpacing: 2,
@@ -2284,7 +2290,7 @@ class _BlocProdMonthState extends State<BlocProdMonth> {
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                         fontSize: 18,
-                                                        fontWeight: FontWeight.w600,
+                                                        fontWeight: FontWeight.w500,
                                                         letterSpacing:-0.1
                                                     ),
                                                     strutStyle: StrutStyle(
@@ -2369,14 +2375,14 @@ class _BlocProdMonthState extends State<BlocProdMonth> {
   _openSimpleItemPicker(context, List<Text> items) {
     BottomPicker(
       // displayButtonIcon: false,
-      buttonText: 'Done',
+      buttonText: !widget.isEnglish? 'စဉ်ပါ': 'Done',
       displayButtonIcon: false,
       buttonSingleColor: Colors.grey,
       dismissable: true,
       items: items,
-      title: 'Sort items by',
+      title: widget.isEnglish? 'Sort items by': 'ကုန်ပစ္စည်း စဉ်ရန်',
       selectedItemIndex: initIndex,
-      buttonTextStyle: TextStyle(color: Colors.blue, fontWeight: FontWeight.w600, fontSize: 15),
+      buttonTextStyle: TextStyle(color: Colors.blue, fontWeight: FontWeight.w500, fontSize: 15),
       titleStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
       onSubmit: (index) {
         debugPrint('onSubmit id -> ' + index.toString());
@@ -3100,24 +3106,48 @@ class _BlocProdMonthState extends State<BlocProdMonth> {
 
   String sortBtnText() {
     if(initIndex == 0) {
-      return 'Sort by sale';
+      if(!widget.isEnglish) {
+        return 'ရောင်းရငွေဖြင့် စဉ်ပါ';
+      }
+      return 'sort by total sale';
     } else if(initIndex == 1) {
-      return 'Sort by profit';
+      if(!widget.isEnglish) {
+        return 'အမြတ်ငွေဖြင့် စဉ်ပါ';
+      }
+      return 'Sort by total profit';
     } else if(initIndex == 2) {
-      return 'Sort by cost';
+      if(!widget.isEnglish) {
+        return 'ကုန်ကျငွေဖြင့် စဉ်ပါ';
+      }
+      return 'Sort by total cost';
     } else {
-      return 'Sort by quantity';
+      if(!widget.isEnglish) {
+        return 'အရေတွက်ဖြင့် စဉ်ပါ';
+      }
+      return 'Sort by total quantity';
     }
   }
 
   String titleBarText() {
     if(initIndex == 0) {
+      if(!widget.isEnglish) {
+        return 'စုစုပေါင်း ရောင်းရငွေ';
+      }
       return 'TOTAL SALE';
     } else if(initIndex == 1) {
+      if(!widget.isEnglish) {
+        return 'စုစုပေါင်း အမြတ်ငွေ';
+      }
       return 'TOTAL PROFIT';
     } else if(initIndex == 2) {
+      if(!widget.isEnglish) {
+        return 'စုစုပေါင်း ကုန်ကျငွေ';
+      }
       return 'TOTAL COST';
     } else {
+      if(!widget.isEnglish) {
+        return 'စုစုပေါင်း အရေတွက်';
+      }
       return 'TOTAL QTY';
     }
   }

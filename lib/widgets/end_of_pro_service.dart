@@ -272,7 +272,7 @@ class _EndOfProServiceState extends State<EndOfProService>
                                                     children: [
                                                       SizedBox(height: 18),
                                                       Text('1 month pro version', textScaleFactor: 1, style: TextStyle(
-                                                          fontWeight: FontWeight.w600,
+                                                          fontWeight: FontWeight.w500,
                                                           fontSize: 18,
                                                           letterSpacing: -0.3
                                                       ),
@@ -320,7 +320,7 @@ class _EndOfProServiceState extends State<EndOfProService>
                                                     children: [
                                                       SizedBox(height: 18),
                                                       Text('3 month pro version (save 20%)', textScaleFactor: 1, style: TextStyle(
-                                                          fontWeight: FontWeight.w600,
+                                                          fontWeight: FontWeight.w500,
                                                           fontSize: 18,
                                                           letterSpacing: -0.3
                                                       ),
@@ -368,7 +368,7 @@ class _EndOfProServiceState extends State<EndOfProService>
                                                     children: [
                                                       SizedBox(height: 18),
                                                       Text('5 month pro version (save 30%)', textScaleFactor: 1, style: TextStyle(
-                                                          fontWeight: FontWeight.w600,
+                                                          fontWeight: FontWeight.w500,
                                                           fontSize: 18,
                                                           letterSpacing: -0.3
                                                       ),
@@ -427,7 +427,7 @@ class _EndOfProServiceState extends State<EndOfProService>
                                         title: Padding(
                                           padding: const EdgeInsets.only(top: 10.0),
                                           child: Text('Contact us via phone', textScaleFactor: 1, style: TextStyle(
-                                              fontWeight: FontWeight.w600,
+                                              fontWeight: FontWeight.w500,
                                               fontSize: 18,
                                               letterSpacing: -0.3
                                           ),
@@ -500,7 +500,7 @@ class _EndOfProServiceState extends State<EndOfProService>
                                         title: Padding(
                                           padding: const EdgeInsets.only(top: 10.0),
                                           child: Text('Via messenger', style: TextStyle(
-                                              fontWeight: FontWeight.w600,
+                                              fontWeight: FontWeight.w500,
                                               fontSize: 18,
                                               letterSpacing: -0.3
                                           ), textScaleFactor: 1,

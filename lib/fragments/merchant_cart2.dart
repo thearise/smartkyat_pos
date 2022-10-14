@@ -150,7 +150,7 @@ class MerchantCartState extends State<MerchantCart>
       else {
         setState(() {
           textSetMerchOrders = 'အ၀ယ်စာရင်း';
-          textSetClearCart = 'စာရင်းမလုပ်သေးပါ';
+          textSetClearCart = 'ပယ်ဖျက်ရန်';
           textSetDiscount = 'လျှော့ငွေ';
           textSetNoMerchant = 'ဝယ်ယူသူမရွေးရသေးပါ';
           textSetTotalSale = 'စုစုပေါင်းကျသင့်ငွေ';
@@ -424,7 +424,9 @@ class MerchantCartState extends State<MerchantCart>
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(merchId == 'name' ? 'No merchant' : merchId, textScaleFactor: 1,
+                              Text(
+                                (merchId=='name'? (widget.isEnglish? 'Walk-in merchant': 'အမည်မသိ ကုန်သည်'): merchId),
+                                textScaleFactor: 1,
                                 style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w500,
@@ -439,7 +441,7 @@ class MerchantCartState extends State<MerchantCart>
                               Text(textSetMerchOrders, textScaleFactor: 1,
                                 style: TextStyle(
                                     fontSize: 18,
-                                    fontWeight: FontWeight.w600,
+                                    fontWeight: FontWeight.w500,
                                     height: 1.3
                                 ),
                                 strutStyle: StrutStyle(
@@ -556,7 +558,7 @@ class MerchantCartState extends State<MerchantCart>
                                                 style: TextStyle(
                                                   // height: 1.3,
                                                     fontSize: 17.5,
-                                                    fontWeight: FontWeight.w600,
+                                                    fontWeight: FontWeight.w500,
                                                     color: Colors.black
                                                 ),
                                                 strutStyle: StrutStyle(
@@ -836,7 +838,7 @@ class MerchantCartState extends State<MerchantCart>
                                                 style: TextStyle(
                                                   // height: 1.3,
                                                     fontSize: 17.5,
-                                                    fontWeight: FontWeight.w600,
+                                                    fontWeight: FontWeight.w500,
                                                     color: Colors.black
                                                 ),
                                                 strutStyle: StrutStyle(
@@ -894,7 +896,9 @@ class MerchantCartState extends State<MerchantCart>
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 mainAxisAlignment: MainAxisAlignment.center,
                                                 children: [
-                                                  Text(merchId == 'name' ? 'No merchant' : merchId ,textScaleFactor: 1, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),),
+                                                  Text(
+                                                    (merchId=='name'? (widget.isEnglish? 'Walk-in merchant': 'အမည်မသိ ကုန်သည်'): merchId),
+                                                    textScaleFactor: 1, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),),
                                                   // Text(customerId.split('^')[1].toString() == 'name' ? 'Unknown' : address,
                                                   //     style: TextStyle(
                                                   //       fontSize: 14,
@@ -1116,7 +1120,7 @@ class MerchantCartState extends State<MerchantCart>
                                               style: TextStyle(
                                                  // height: 1.3,
                                                   fontSize: 17.5,
-                                                  fontWeight: FontWeight.w600,
+                                                  fontWeight: FontWeight.w500,
                                                   color: Colors.black
                                               ),
                                               strutStyle: StrutStyle(
@@ -1167,7 +1171,7 @@ class MerchantCartState extends State<MerchantCart>
                                               style: TextStyle(
                                                 // height: 1.3,
                                                   fontSize: 17.5,
-                                                  fontWeight: FontWeight.w600,
+                                                  fontWeight: FontWeight.w500,
                                                   color: Colors.black
                                               ),
                                               strutStyle: StrutStyle(
@@ -1377,7 +1381,7 @@ class MerchantCartState extends State<MerchantCart>
                                   Text(productName, textScaleFactor: 1,
                                     style: TextStyle(
                                         fontSize: 18,
-                                        fontWeight: FontWeight.w600,
+                                        fontWeight: FontWeight.w500,
                                         height: 1.3
                                     ),
                                     strutStyle: StrutStyle(
@@ -2223,7 +2227,7 @@ class MerchantCartState extends State<MerchantCart>
                                     Text(textSetCashAccept, textScaleFactor: 1,
                                       style: TextStyle(
                                           fontSize: 18,
-                                          fontWeight: FontWeight.w600,
+                                          fontWeight: FontWeight.w500,
                                           height: 1.3
                                       ),
                                       strutStyle: StrutStyle(
@@ -2430,7 +2434,7 @@ class MerchantCartState extends State<MerchantCart>
                                         child: Text( '$currencyUnit ' +
                                             TtlProdListPrice2().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                           textScaleFactor: 1, style: TextStyle(
-                                            fontWeight: FontWeight.w600,
+                                            fontWeight: FontWeight.w500,
                                             fontSize: 17,
                                           ),
                                         ),
@@ -2867,7 +2871,7 @@ class MerchantCartState extends State<MerchantCart>
                                             style: TextStyle(
                                               // height: 1.3,
                                                 fontSize: 17.5,
-                                                fontWeight: FontWeight.w600,
+                                                fontWeight: FontWeight.w500,
                                                 color: Colors.black
                                             ),
                                             strutStyle: StrutStyle(

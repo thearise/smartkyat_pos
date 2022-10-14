@@ -445,7 +445,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                             textStyle: TextStyle(
                                                 letterSpacing: 1,
                                                 fontSize: 30,
-                                                fontWeight: FontWeight.w600,
+                                                fontWeight: FontWeight.w500,
                                                 color: Colors.black
                                             )
                                         ),
@@ -458,7 +458,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                               textStyle: TextStyle(
                                                   letterSpacing: 1,
                                                   fontSize: 16,
-                                                  fontWeight: FontWeight.w600,
+                                                  fontWeight: FontWeight.w500,
                                                   color: Colors.black
                                               )
                                           ),
@@ -484,13 +484,13 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontSize: 15,
-                                                  fontWeight: FontWeight.w600,
+                                                  fontWeight: FontWeight.w500,
                                                   color: Colors.white),
                                             ) :  Text(' ' +  growthRateSale(lastMonthSale, thisMonthOrdersChart).toString() + '%  ',
                                               textAlign: TextAlign.center, textScaleFactor: 1,
                                               style: TextStyle(
                                                   fontSize: 15,
-                                                  fontWeight: FontWeight.w600,
+                                                  fontWeight: FontWeight.w500,
                                                   color: Colors.white),
                                             ),
                                           ),
@@ -598,7 +598,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                                         textStyle: TextStyle(
                                                             letterSpacing: 1,
                                                             fontSize: 20,
-                                                            fontWeight: FontWeight.w600,
+                                                            fontWeight: FontWeight.w500,
                                                             color: Colors.black
                                                         )
                                                     ),
@@ -687,7 +687,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                                         textStyle: TextStyle(
                                                             letterSpacing: 1,
                                                             fontSize: 20,
-                                                            fontWeight: FontWeight.w600,
+                                                            fontWeight: FontWeight.w500,
                                                             color: Colors.black
                                                         )
                                                     ),
@@ -777,7 +777,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                                         textStyle: TextStyle(
                                                             letterSpacing: 1,
                                                             fontSize: 20,
-                                                            fontWeight: FontWeight.w600,
+                                                            fontWeight: FontWeight.w500,
                                                             color: Colors.black
                                                         )
                                                     ),
@@ -866,7 +866,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                                         textStyle: TextStyle(
                                                             letterSpacing: 1,
                                                             fontSize: 20,
-                                                            fontWeight: FontWeight.w600,
+                                                            fontWeight: FontWeight.w500,
                                                             color: Colors.black
                                                         )
                                                     ),
@@ -952,7 +952,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
                                                         textStyle: TextStyle(
                                                             letterSpacing: 1,
                                                             fontSize: 20,
-                                                            fontWeight: FontWeight.w600,
+                                                            fontWeight: FontWeight.w500,
                                                             color: Colors.black
                                                         )
                                                     ),
@@ -1853,7 +1853,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
           interval: 1,
           getTextStyles: (context, value) => const TextStyle(
             color: Color(0xff67727d),
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w500,
             fontSize: 13,
           ),
           getTitles: (value) {
@@ -2063,7 +2063,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
           interval: 1,
           getTextStyles: (context, value) =>  TextStyle(
               color: Color(0xff67727d),
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w500,
               fontSize: 13/ scaleFactor
           ),
           getTitles: (value) {
@@ -2276,7 +2276,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
           interval: 1,
           getTextStyles: (context, value) => const TextStyle(
             color: Color(0xff67727d),
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w500,
             fontSize: 13,
           ),
           getTitles: (value) {
@@ -2464,7 +2464,7 @@ class _BlocHomeMonthState extends State<BlocHomeMonth> {
           interval: 1,
           getTextStyles: (context, value) => const TextStyle(
             color: Color(0xff67727d),
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w500,
             fontSize: 13,
           ),
           getTitles: (value) {

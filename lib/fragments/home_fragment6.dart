@@ -908,7 +908,7 @@ class HomeFragmentState extends State<HomeFragment>
           interval: 1,
           getTextStyles: (context, value) => const TextStyle(
             color: Color(0xff67727d),
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w500,
             fontSize: 13,
           ),
           getTitles: (value) {
@@ -1117,7 +1117,7 @@ class HomeFragmentState extends State<HomeFragment>
           interval: 1,
           getTextStyles: (context, value) => const TextStyle(
             color: Color(0xff67727d),
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w500,
             fontSize: 13,
           ),
           getTitles: (value) {
@@ -1330,7 +1330,7 @@ class HomeFragmentState extends State<HomeFragment>
           interval: 1,
           getTextStyles: (context, value) => const TextStyle(
             color: Color(0xff67727d),
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w500,
             fontSize: 13,
           ),
           getTitles: (value) {
@@ -1518,7 +1518,7 @@ class HomeFragmentState extends State<HomeFragment>
           interval: 1,
           getTextStyles: (context, value) => const TextStyle(
             color: Color(0xff67727d),
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w500,
             fontSize: 13,
           ),
           getTitles: (value) {
@@ -1814,7 +1814,7 @@ class HomeFragmentState extends State<HomeFragment>
                                 Padding(
                                   padding: const EdgeInsets.only(left: 5.0),
                                   child: Text(
-                                    "Reports", textScaleFactor: 1,
+                                    widget.isEnglish? "Reports": 'တင်ပြချက်', textScaleFactor: 1,
                                     maxLines: 1,
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
@@ -1833,12 +1833,12 @@ class HomeFragmentState extends State<HomeFragment>
                                 Padding(
                                   padding: const EdgeInsets.only(left: 20.0, right: 0.0),
                                   child: Text(
-                                    "Sales summary detail", textScaleFactor: 1,
+                                    widget.isEnglish? "Sale in-out detail": "အရောင်းအဝယ် စာရင်းချုပ်", textScaleFactor: 1,
                                     maxLines: 1,
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
                                       fontSize: 18,
-                                      fontWeight: FontWeight.w600,
+                                      fontWeight: FontWeight.w500,
                                       overflow: TextOverflow.ellipsis,
                                       // height: 1.3
                                     ),
@@ -2148,7 +2148,7 @@ class HomeFragmentState extends State<HomeFragment>
                         style: TextStyle(
                             height: 0.8,
                             fontSize: 14,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w500,
                             letterSpacing: 1.2,
                             color: Colors.Colors.black
                         ),
@@ -2166,7 +2166,7 @@ class HomeFragmentState extends State<HomeFragment>
                           style: TextStyle(
                             height: 0.8,
                             fontSize: 14,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w500,
                             letterSpacing: 1.2,
                             color: Colors.Colors.black,
                           ),

@@ -114,7 +114,7 @@ class _PaywallWidgetState extends State<PaywallWidget> {
                       textStyle: TextStyle(
                           letterSpacing: 1,
                           fontSize: 16,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w500,
                           color: Colors.white
                       )
                   ),
@@ -125,7 +125,7 @@ class _PaywallWidgetState extends State<PaywallWidget> {
           title: Padding(
             padding: const EdgeInsets.only(top: 10.0),
             child: Text(product.title, textScaleFactor: 1, style: TextStyle(
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w500,
                 fontSize: 18,
                 letterSpacing: -0.3
             ),
@@ -235,7 +235,7 @@ class _PaywallWidgetState extends State<PaywallWidget> {
     //             child: Text(
     //               product.title,
     //               style: TextStyle(
-    //                 fontWeight: FontWeight.w600,
+    //                 fontWeight: FontWeight.w500,
     //                 fontSize: 18,
     //                 letterSpacing: -0.3
     //               ),

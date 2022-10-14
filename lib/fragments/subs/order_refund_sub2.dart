@@ -156,7 +156,7 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                 // mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Top80AppBar('#' +
-                      widget.data.split('^')[1] + ' (' + widget.data.split('^')[3].split('&')[0] + ')', '$currencyUnit ' + (double.parse(widget.data.split('^')[2]).toStringAsFixed(1)).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')),
+                      widget.data.split('^')[1] + ' (' + (widget.data.split('^')[3].split('&')[0]=='No customer'? (widget.isEnglish? 'Walk-in customer': 'အမည်မသိ ဖောက်သည်'): widget.data.split('^')[3].split('&')[0]) + ')', '$currencyUnit ' + (double.parse(widget.data.split('^')[2]).toStringAsFixed(1)).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')),
 
                   // orderDateId(widget.data)
                   if (widget.docId != null && widget.docId != '')

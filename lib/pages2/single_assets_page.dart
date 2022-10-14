@@ -1533,7 +1533,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontSize: 18,
-                                                  fontWeight: FontWeight.w600,
+                                                  fontWeight: FontWeight.w500,
                                                   letterSpacing:-0.1
                                               ),
                                               strutStyle: StrutStyle(
@@ -2314,7 +2314,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                     fontSize: 18,
-                                                    fontWeight: FontWeight.w600,
+                                                    fontWeight: FontWeight.w500,
                                                     letterSpacing:-0.1
                                                 ),
                                                 strutStyle: StrutStyle(

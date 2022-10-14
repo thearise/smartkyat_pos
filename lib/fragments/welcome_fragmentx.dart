@@ -352,7 +352,7 @@
 // // //                                                             textAlign: TextAlign.center,
 // // //                                                             style: TextStyle(
 // // //                                                                 fontSize: 18,
-// // //                                                                 fontWeight: FontWeight.w600,
+// // //                                                                 fontWeight: FontWeight.w500,
 // // //                                                                 letterSpacing:-0.1
 // // //                                                             ),
 // // //                                                           ),
@@ -619,7 +619,7 @@
 // // //                                                                           textAlign: TextAlign.center,
 // // //                                                                           style: TextStyle(
 // // //                                                                               fontSize: 18,
-// // //                                                                               fontWeight: FontWeight.w600,
+// // //                                                                               fontWeight: FontWeight.w500,
 // // //                                                                               letterSpacing:-0.1
 // // //                                                                           ),
 // // //                                                                         ),
@@ -706,7 +706,7 @@
 // // //                                                                             textAlign: TextAlign.center,
 // // //                                                                             style: TextStyle(
 // // //                                                                                 fontSize: 18,
-// // //                                                                                 fontWeight: FontWeight.w600,
+// // //                                                                                 fontWeight: FontWeight.w500,
 // // //                                                                                 letterSpacing:-0.1
 // // //                                                                             ),
 // // //                                                                           ),
@@ -1168,7 +1168,7 @@
 // // //                                                 textAlign: TextAlign.center,
 // // //                                                 style: TextStyle(
 // // //                                                     fontSize: 18,
-// // //                                                     fontWeight: FontWeight.w600,
+// // //                                                     fontWeight: FontWeight.w500,
 // // //                                                     letterSpacing:-0.1
 // // //                                                 ),
 // // //                                               ),
@@ -1185,31 +1185,31 @@
 // // //                                           Text('By singing up, you agree to our ',
 // // //                                             style: TextStyle(
 // // //                                               fontSize: 12.5,
-// // //                                               fontWeight: FontWeight.w600,
+// // //                                               fontWeight: FontWeight.w500,
 // // //                                               color: Colors.grey,
 // // //                                             ),),
 // // //                                           Text('Terms',
 // // //                                             style: TextStyle(
 // // //                                               fontSize: 12.5,
-// // //                                               fontWeight: FontWeight.w600,
+// // //                                               fontWeight: FontWeight.w500,
 // // //                                               color: Colors.blue,
 // // //                                             ),),
 // // //                                           Text(', ',
 // // //                                             style: TextStyle(
 // // //                                               fontSize: 12.5,
-// // //                                               fontWeight: FontWeight.w600,
+// // //                                               fontWeight: FontWeight.w500,
 // // //                                               color: Colors.grey,
 // // //                                             ),),
 // // //                                           Text('Privacy Policy',
 // // //                                             style: TextStyle(
 // // //                                               fontSize: 12.5,
-// // //                                               fontWeight: FontWeight.w600,
+// // //                                               fontWeight: FontWeight.w500,
 // // //                                               color: Colors.blue,
 // // //                                             ),),
 // // //                                           Text(', ',
 // // //                                             style: TextStyle(
 // // //                                               fontSize: 12.5,
-// // //                                               fontWeight: FontWeight.w600,
+// // //                                               fontWeight: FontWeight.w500,
 // // //                                               color: Colors.grey,
 // // //                                             ),),
 // // //                                         ],
@@ -1222,13 +1222,13 @@
 // // //                                           Text('and ',
 // // //                                             style: TextStyle(
 // // //                                               fontSize: 12.5,
-// // //                                               fontWeight: FontWeight.w600,
+// // //                                               fontWeight: FontWeight.w500,
 // // //                                               color: Colors.grey,
 // // //                                             ),),
 // // //                                           Text('Cookie Use',
 // // //                                             style: TextStyle(
 // // //                                               fontSize: 12.5,
-// // //                                               fontWeight: FontWeight.w600,
+// // //                                               fontWeight: FontWeight.w500,
 // // //                                               color: Colors.blue,
 // // //                                             ),),
 // // //                                         ],
@@ -1690,7 +1690,7 @@
 // //                                                           textAlign: TextAlign.center,
 // //                                                           style: TextStyle(
 // //                                                               fontSize: 18,
-// //                                                               fontWeight: FontWeight.w600,
+// //                                                               fontWeight: FontWeight.w500,
 // //                                                               letterSpacing:-0.1
 // //                                                           ),
 // //                                                         ),
@@ -1793,7 +1793,7 @@
 //                                 child: Text('New to smart kyat pos?',
 //                                   style: TextStyle(
 //                                       fontSize: 16,
-//                                       fontWeight: FontWeight.w600,
+//                                       fontWeight: FontWeight.w500,
 //                                       letterSpacing: 0.02
 //                                   ),),
 //                               ),
@@ -1843,7 +1843,7 @@
 //                       //             child: Text('New to smart kyat pos?',
 //                       //               style: TextStyle(
 //                       //                   fontSize: 16,
-//                       //                   fontWeight: FontWeight.w600,
+//                       //                   fontWeight: FontWeight.w500,
 //                       //                   letterSpacing: 0.02
 //                       //               ),),
 //                       //           ),
@@ -1891,7 +1891,7 @@
 //                       //             child: Text('Have an account already?',
 //                       //               style: TextStyle(
 //                       //                   fontSize: 16,
-//                       //                   fontWeight: FontWeight.w600,
+//                       //                   fontWeight: FontWeight.w500,
 //                       //                   letterSpacing: 0.02
 //                       //               ),),
 //                       //           ),
@@ -1946,7 +1946,7 @@
 //                       //             child: Text('New to smart kyat pos?',
 //                       //               style: TextStyle(
 //                       //                   fontSize: 16,
-//                       //                   fontWeight: FontWeight.w600,
+//                       //                   fontWeight: FontWeight.w500,
 //                       //                   letterSpacing: 0.02
 //                       //               ),),
 //                       //           ),
@@ -1993,7 +1993,7 @@
 //                       //             child: Text('Have an account already?',
 //                       //               style: TextStyle(
 //                       //                   fontSize: 16,
-//                       //                   fontWeight: FontWeight.w600,
+//                       //                   fontWeight: FontWeight.w500,
 //                       //                   letterSpacing: 0.02
 //                       //               ),),
 //                       //           ),

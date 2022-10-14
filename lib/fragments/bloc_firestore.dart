@@ -771,10 +771,10 @@ class _BlocFirestoreState extends State<BlocFirestore> {
                                         child: Row(
                                           children: [
                                             Expanded(
-                                              child: Text(item.split('^')[3].split('&')[0],  textScaleFactor: 1,style: TextStyle(
+                                              child: Text((item.split('^')[3].split('&')[0]=='No customer'? (widget.isEnglish? 'Walk-in customer': 'အမည်မသိ ဖောက်သည်'): item.split('^')[3].split('&')[0]),  textScaleFactor: 1,style: TextStyle(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.w500,
-                                                  color: Colors.grey,
+                                                  color: item.split('^')[3].split('&')[0]=='No customer'? Colors.grey: Colors.black,
                                                   overflow: TextOverflow.ellipsis
                                               ),
                                                 maxLines: 1,
@@ -1045,10 +1045,10 @@ class _BlocFirestoreState extends State<BlocFirestore> {
                                           child: Row(
                                             children: [
                                               Expanded(
-                                                child: Text(item.split('^')[3].split('&')[0], textScaleFactor: 1, style: TextStyle(
+                                                child: Text((item.split('^')[3].split('&')[0]=='No customer'? (widget.isEnglish? 'Walk-in customer': 'အမည်မသိ ဖောက်သည်'): item.split('^')[3].split('&')[0]), textScaleFactor: 1, style: TextStyle(
                                                     fontSize: 15,
                                                     fontWeight: FontWeight.w500,
-                                                    color: Colors.grey,
+                                                    color: item.split('^')[3].split('&')[0]=='No customer'? Colors.grey: Colors.black,
                                                     overflow: TextOverflow.ellipsis
                                                 ),
                                                   maxLines: 1,

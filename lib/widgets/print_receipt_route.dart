@@ -73,13 +73,14 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
   }
 
   final _formKey = GlobalKey<FormState>();
-
+  bool isEnglish = true;
   @override
   void initState() {
 
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
+          isEnglish = false;
           totalVPrice = 'Total price';
           VPaid = 'Paid';
           VDebt = 'Total debt';
@@ -89,6 +90,7 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
       }
       else if(value=='english') {
         setState(() {
+          isEnglish = true;
           totalVPrice = 'စုစုပေါင်း';
           VPaid = 'ပေးငွေ';
           VDebt = 'ကျန်ငွေ';
@@ -144,7 +146,7 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
         ),
         customer: Customer(
           // name: customerId.split('^')[1],
-          name: widget.data.split('^')[3].split('&')[0],
+          name: whatIsWhat(widget.data.split('^')[3].split('&')[0]),
           address: '',
         ),
         info: InvoiceInfo(
@@ -182,8 +184,8 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
 
       getPaperId().then((value) async {
         debugPrint('VVAALLUUEE ' + value.toString());
-        pdfFile = await PdfInvoiceApi.generate(invoice, value);
-        pdfFilePRoll = await PdfInvoiceApi.generate(invoice, 'Roll-57');
+        pdfFile = await PdfInvoiceApi.generate(invoice, value, isEnglish);
+        pdfFilePRoll = await PdfInvoiceApi.generate(invoice, 'Roll-57', isEnglish);
 
         // Uint8List bytes = pdfFile!.readAsBytesSync();
 
@@ -289,7 +291,7 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
               Column(crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Top80AppBar('#' +
-                      widget.data.split('^')[1].toString() + ' (' + widget.data.split('^')[3].split('&')[0].toString() + ')', 'MMK ' + widget.data.split('^')[2].toString()),
+                      widget.data.split('^')[1].toString() + ' (' + (whatIsWhat(widget.data.split('^')[3].split('&')[0])) + ')', 'MMK ' + widget.data.split('^')[2].toString()),
                   // Column(
                   //   children: [
                   //     Padding(
@@ -344,7 +346,7 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
                   //                     widget.data.split('^')[1].toString() + ' (' + widget.data.split('^')[3].split('&')[0].toString() + ')',
                   //                   style: TextStyle(
                   //                     fontSize: 18,
-                  //                     fontWeight: FontWeight.w600,
+                  //                     fontWeight: FontWeight.w500,
                   //                     height: 1.3,
                   //                   ),
                   //                   strutStyle: StrutStyle(
@@ -465,11 +467,11 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
                                                           child: CupertinoActivityIndicator(radius: 15,)),
                                                     ) : Container(
                                                         child: Text(
-                                                          'Save as image', textScaleFactor: 1,
+                                                          isEnglish? 'Save as image': 'ဓာတ်ပုံအဖြစ် သိမ်းမည်', textScaleFactor: 1,
                                                           textAlign: TextAlign.center,
                                                           style: TextStyle(
                                                               fontSize: 17,
-                                                              fontWeight: FontWeight.w600,
+                                                              fontWeight: FontWeight.w500,
                                                               color: Colors.black
                                                           ),
                                                         )
@@ -520,7 +522,7 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
                                                       //   textAlign: TextAlign.center,
                                                       //   style: TextStyle(
                                                       //       fontSize: 18,
-                                                      //       fontWeight: FontWeight.w600,
+                                                      //       fontWeight: FontWeight.w500,
                                                       //       color: Colors.black
                                                       //   ),
                                                       // )
@@ -663,7 +665,7 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
                   //                 textAlign: TextAlign.center,
                   //                 style: TextStyle(
                   //                     fontSize: 18,
-                  //                     fontWeight: FontWeight.w600,
+                  //                     fontWeight: FontWeight.w500,
                   //                     letterSpacing:-0.1
                   //                 ),
                   //               ),
@@ -1061,5 +1063,25 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
     // setState(() {
     //   _result = success ? "Save to album success" : "Save to album failed";
     // });
+  }
+
+  whatIsWhat(String str) {
+    if (isEnglish) {
+      if (str == 'No customer') {
+        return 'Walk-in customer';
+      } else if(str == 'No merchant') {
+        return 'Walk-in merchant';
+      } else {
+        return str;
+      }
+    } else {
+      if (str == 'No customer') {
+        return 'အမည်မသိ ဖောက်သည်';
+      } else if(str == 'No merchant') {
+        return 'အမည်မသိ ကုန်သည်';
+      } else {
+        return str;
+      }
+    }
   }
 }

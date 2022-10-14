@@ -158,7 +158,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
   int gloSeaProLeng = 0;
 
   String textSetReports = 'Reports';
-  String textSetSaleSummary = 'Sales summary detail';
+  String textSetSaleSummary = 'Sale in-out detail';
   String textSetStockCosts = 'Stock costs';
   String textSetUnpaid = 'Unpaid';
   String textSetBuys = 'Refund amount';
@@ -167,11 +167,11 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
   String textSetLastWeek = 'Weekly';
   String textSetLastMonth = 'Monthly';
   String textSetLastYear = 'Yearly';
-  String textSetInOut = 'SALES IN-OUT SUMMARY';
+  String textSetInOut = 'SALE IN-OUT SUMMARY';
   String textSetNetSales = 'Net sales';
   String textSetAvgProf = 'Avg profit';
   String textSetEarn = 'Debt to income';
-  String textSetCharts = 'SALES SUMMARY CHARTS';
+  String textSetCharts = 'SALE SUMMARY CHART';
   String textSetTotal = 'Total sales';
 
   var prodsSnap;
@@ -263,7 +263,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
     if(widget.isEnglish == true) {
       setState(() {
         textSetReports = 'Reports';
-        textSetSaleSummary = 'Sales summary detail';
+        textSetSaleSummary = 'Sale in-out detail';
         textSetStockCosts = 'Stock costs';
         textSetUnpaid = 'Unpaid';
         textSetBuys = 'Refund amount';
@@ -272,17 +272,17 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
         textSetLastWeek = 'Weekly';
         textSetLastMonth = 'Monthly';
         textSetLastYear = 'Yearly';
-        textSetInOut = 'SALES IN-OUT SUMMARY';
+        textSetInOut = 'SALE IN-OUT SUMMARY';
         textSetNetSales = 'Net sales';
         textSetAvgProf = 'Avg profit';
         textSetEarn = 'Debt to income';
-        textSetCharts = 'SALES SUMMARY CHARTS';
+        textSetCharts = 'SALE SUMMARY CHART';
         textSetTotal = 'Total sales';
       });
     } else {
       setState(() {
         textSetReports = 'အစီအရင်ခံစာ';
-        textSetSaleSummary = 'Sales summary detail';
+        textSetSaleSummary = 'Sale in-out detail';
         textSetStockCosts = 'ဝယ်ယူစရိတ်';
         textSetUnpaid = 'အကြွေးကျန်ငွေ';
         textSetBuys = 'ပြန်ပေးငွေ';
@@ -291,11 +291,11 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
         textSetLastWeek = 'အပတ်စဉ်';
         textSetLastMonth = 'လစဉ်';
         textSetLastYear = 'နှစ်စဉ်';
-        textSetInOut = 'အရောင်းအဝယ် စာရင်းများ';
+        textSetInOut = 'SALE IN-OUT SUMMARY';
         textSetNetSales = 'အသားတင် ရောင်းရငွေ';
         textSetAvgProf = 'ပျမ်းမျှအမြတ်ငွေ';
         textSetEarn = 'အကြွေးရငွေ';
-        textSetCharts = 'အရောင်းစာရင်းပြ ဇယား';
+        textSetCharts = 'SALE SUMMARY CHART';
         textSetTotal = 'စုစုပေါင်း အသားတင် ရောင်းရငွေ';
       });
     }
@@ -461,7 +461,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                                   textStyle: TextStyle(
                                                       letterSpacing: 1,
                                                       fontSize: 26,
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight: FontWeight.w500,
                                                       color: Colors.black
                                                   )
                                               )
@@ -473,7 +473,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                           //       textStyle: TextStyle(
                                           //           letterSpacing: 1,
                                           //           fontSize: 26,
-                                          //           fontWeight: FontWeight.w600,
+                                          //           fontWeight: FontWeight.w500,
                                           //           color: Colors.black
                                           //       )
                                           //   ),
@@ -487,7 +487,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                                       textStyle: TextStyle(
                                                           letterSpacing: 1,
                                                           fontSize: 14,
-                                                          fontWeight: FontWeight.w600,
+                                                          fontWeight: FontWeight.w500,
                                                           color: Colors.black
                                                       )
                                                   ) ) ),
@@ -495,68 +495,96 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                       ),
                                       Row(
                                         children: [
-                                          Text(
-                                            textSetNetSales + ' (',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          growthRateSale(lastYearSale, thisYearOrdersChart) == 1001 || growthRateSale(lastYearSale, thisYearOrdersChart) == 1000 ?
-                                          Text('') :
-                                          Text(
-                                            growthRateSale(lastYearSale, thisYearOrdersChart).abs().toString()+ '% ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                              fontSize: 13, height: 1.2,
-                                              fontWeight: FontWeight.w500,
-                                              color: growthRateSale(lastYearSale, thisYearOrdersChart) == 1001 || growthRateSale(lastYearSale, thisYearOrdersChart) == 1000 ? Colors.blue: growthRateSale(lastYearSale, thisYearOrdersChart) < 0? AppTheme.badgeFgDanger: Colors.green,),
-                                          ) ,
-                                          growthRateSale(lastYearSale, thisYearOrdersChart) == 1001 || growthRateSale(lastYearSale, thisYearOrdersChart) == 1000 ? Text(
-                                            'same as ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) : growthRateSale(lastYearSale, thisYearOrdersChart) < 0?
-                                          Text(
-                                            'lower than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :
-                                          Text(
-                                            'higher than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          Text(
-                                            yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
+                                          widget.isEnglish?
+                                          Flexible(
+                                            child: RichText(
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
+                                              textScaleFactor: 1,
+                                              text: new TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: textSetNetSales + ' ('
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: growthRateSale(lastYearSale, thisYearOrdersChart) == 1001 || growthRateSale(lastYearSale, thisYearOrdersChart) == 1000 ? '': growthRateSale(lastYearSale, thisYearOrdersChart).abs().toString()+ '% '
+                                                    ,
+                                                    style: TextStyle(
+                                                      fontSize: 13, height: 1.2,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: growthRateSale(lastYearSale, thisYearOrdersChart) == 1001 || growthRateSale(lastYearSale, thisYearOrdersChart) == 1000 ? Colors.blue: growthRateSale(lastYearSale, thisYearOrdersChart) < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                                  ),
+                                                  TextSpan(
+                                                    text: (
+                                                        growthRateSale(lastYearSale, thisYearOrdersChart) == 1001 || growthRateSale(lastYearSale, thisYearOrdersChart) == 1000 ? 'same as ' :  growthRateSale(lastYearSale, thisYearOrdersChart) < 0?
+                                                        'lower than ' :
+                                                        'higher than ') +
+                                                        yestWeekTitle().toString() + ')'
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ):
+                                          Flexible(
+                                            child: RichText(
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
+                                              textScaleFactor: 1,
+                                              text: new TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: textSetNetSales + ' ('
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: growthRateSale(lastYearSale, thisYearOrdersChart) == 1001 || growthRateSale(lastYearSale, thisYearOrdersChart) == 1000 ? '': growthRateSale(lastYearSale, thisYearOrdersChart).abs().toString()+ '% '
+                                                    ,
+                                                    style: TextStyle(
+                                                      fontSize: 13, height: 1.2,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: growthRateSale(lastYearSale, thisYearOrdersChart) == 1001 || growthRateSale(lastYearSale, thisYearOrdersChart) == 1000 ? Colors.blue: growthRateSale(lastYearSale, thisYearOrdersChart) < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                                  ),
+                                                  TextSpan(
+                                                    text: yestWeekTitle().toString()
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: (
+                                                        growthRateSale(lastYearSale, thisYearOrdersChart) == 1001 || growthRateSale(lastYearSale, thisYearOrdersChart) == 1000 ? 'ကအတိုင်း ရရှိသည်' :  growthRateSale(lastYearSale, thisYearOrdersChart) < 0?
+                                                        'ကအောက် နည်းသည်' :
+                                                        'ကထက် ပိုများသည်') + ')'
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          )
                                         ],
                                       ),
                                     ],
@@ -592,7 +620,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                                   textStyle: TextStyle(
                                                       letterSpacing: 1,
                                                       fontSize: 26,
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight: FontWeight.w500,
                                                       color: Colors.black
                                                   )
                                               )
@@ -604,7 +632,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                           //       textStyle: TextStyle(
                                           //           letterSpacing: 1,
                                           //           fontSize: 26,
-                                          //           fontWeight: FontWeight.w600,
+                                          //           fontWeight: FontWeight.w500,
                                           //           color: Colors.black
                                           //       )
                                           //   ),
@@ -618,7 +646,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                                       textStyle: TextStyle(
                                                           letterSpacing: 1,
                                                           fontSize: 14,
-                                                          fontWeight: FontWeight.w600,
+                                                          fontWeight: FontWeight.w500,
                                                           color: Colors.black
                                                       )
                                                   ) ) ),
@@ -626,68 +654,96 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                       ),
                                       Row(
                                         children: [
-                                          Text(
-                                            textSetUnpaid + ' (',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal) == 1001 || growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal) == 1000 ?
-                                          Text('') :
-                                          Text(
-                                            growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal).abs().toString()+ '% ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                              fontSize: 13, height: 1.2,
-                                              fontWeight: FontWeight.w500,
-                                              color: growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal) == 1001 || growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal) == 1000 ? Colors.blue: growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal) < 0? AppTheme.badgeFgDanger: Colors.green,),
-                                          ) ,
-                                          growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal) == 1001 || growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal) == 1000 ? Text(
-                                            'same as ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :  growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal) < 0?
-                                          Text(
-                                            'lower than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :
-                                          Text(
-                                            'higher than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          Text(
-                                            yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
+                                          widget.isEnglish?
+                                          Flexible(
+                                            child: RichText(
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
+                                              textScaleFactor: 1,
+                                              text: new TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: textSetUnpaid + ' ('
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal) == 1001 || growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal) == 1000 ? '': growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal).abs().toString()+ '% '
+                                                    ,
+                                                    style: TextStyle(
+                                                      fontSize: 13, height: 1.2,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal) == 1001 || growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal) == 1000 ? Colors.blue: growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal) < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                                  ),
+                                                  TextSpan(
+                                                    text: (
+                                                        growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal) == 1001 || growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal) == 1000 ? 'same as ' :  growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal) < 0?
+                                                        'lower than ' :
+                                                        'higher than ') +
+                                                        yestWeekTitle().toString() + ')'
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ):
+                                          Flexible(
+                                            child: RichText(
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
+                                              textScaleFactor: 1,
+                                              text: new TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: textSetUnpaid + ' ('
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal) == 1001 || growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal) == 1000 ? '': growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal).abs().toString()+ '% '
+                                                    ,
+                                                    style: TextStyle(
+                                                      fontSize: 13, height: 1.2,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal) == 1001 || growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal) == 1000 ? Colors.blue: growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal) < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                                  ),
+                                                  TextSpan(
+                                                    text: yestWeekTitle().toString()
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: (
+                                                        growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal) == 1001 || growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal) == 1000 ? 'ကအတိုင်း ရရှိသည်' :  growthRateUnpaid(lastYearUnpaid, yearUnpaidTotal) < 0?
+                                                        'ကအောက် နည်းသည်' :
+                                                        'ကထက် ပိုများသည်') + ')'
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          )
                                         ],
                                       ),
                                     ],
@@ -723,7 +779,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                                   textStyle: TextStyle(
                                                       letterSpacing: 1,
                                                       fontSize: 26,
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight: FontWeight.w500,
                                                       color: Colors.black
                                                   )
                                               )
@@ -735,7 +791,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                           //       textStyle: TextStyle(
                                           //           letterSpacing: 1,
                                           //           fontSize: 26,
-                                          //           fontWeight: FontWeight.w600,
+                                          //           fontWeight: FontWeight.w500,
                                           //           color: Colors.black
                                           //       )
                                           //   ),
@@ -749,7 +805,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                                       textStyle: TextStyle(
                                                           letterSpacing: 1,
                                                           fontSize: 14,
-                                                          fontWeight: FontWeight.w600,
+                                                          fontWeight: FontWeight.w500,
                                                           color: Colors.black
                                                       )
                                                   ) ) ),
@@ -757,68 +813,96 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                       ),
                                       Row(
                                         children: [
-                                          Text(
-                                            textSetAvgProf + ' (',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          growthRateDayProfit(profitByLastYear(), profitByYear()) == 1001 || growthRateDayProfit(profitByLastYear(), profitByYear()) == 1000 ?
-                                          Text('') :
-                                          Text(
-                                            growthRateDayProfit(profitByLastYear(), profitByYear()).abs().toString()+ '% ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                              fontSize: 13, height: 1.2,
-                                              fontWeight: FontWeight.w500,
-                                              color: growthRateDayProfit(profitByLastYear(), profitByYear()) == 1001 || growthRateDayProfit(profitByLastYear(), profitByYear()) == 1000 ? Colors.blue: growthRateDayProfit(profitByLastYear(), profitByYear()) < 0? AppTheme.badgeFgDanger: Colors.green,),
-                                          ) ,
-                                          growthRateDayProfit(profitByLastYear(), profitByYear()) == 1001 || growthRateDayProfit(profitByLastYear(), profitByYear()) == 1000 ? Text(
-                                            'same as ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :  growthRateDayProfit(profitByLastYear(), profitByYear()) < 0?
-                                          Text(
-                                            'lower than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :
-                                          Text(
-                                            'higher than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          Text(
-                                            yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
+                                          widget.isEnglish?
+                                          Flexible(
+                                            child: RichText(
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
+                                              textScaleFactor: 1,
+                                              text: new TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: textSetAvgProf + ' ('
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: growthRateDayProfit(profitByLastYear(), profitByYear()) == 1001 || growthRateDayProfit(profitByLastYear(), profitByYear()) == 1000 ? '': growthRateDayProfit(profitByLastYear(), profitByYear()).abs().toString()+ '% '
+                                                    ,
+                                                    style: TextStyle(
+                                                      fontSize: 13, height: 1.2,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: growthRateDayProfit(profitByLastYear(), profitByYear()) == 1001 || growthRateDayProfit(profitByLastYear(), profitByYear()) == 1000 ? Colors.blue: growthRateDayProfit(profitByLastYear(), profitByYear()) < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                                  ),
+                                                  TextSpan(
+                                                    text: (
+                                                        growthRateDayProfit(profitByLastYear(), profitByYear()) == 1001 || growthRateDayProfit(profitByLastYear(), profitByYear()) == 1000 ? 'same as ' :  growthRateDayProfit(profitByLastYear(), profitByYear()) < 0?
+                                                        'lower than ' :
+                                                        'higher than ') +
+                                                        yestWeekTitle().toString() + ')'
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ):
+                                          Flexible(
+                                            child: RichText(
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
+                                              textScaleFactor: 1,
+                                              text: new TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: textSetAvgProf + ' ('
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: growthRateDayProfit(profitByLastYear(), profitByYear()) == 1001 || growthRateDayProfit(profitByLastYear(), profitByYear()) == 1000 ? '': growthRateDayProfit(profitByLastYear(), profitByYear()).abs().toString()+ '% '
+                                                    ,
+                                                    style: TextStyle(
+                                                      fontSize: 13, height: 1.2,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: growthRateDayProfit(profitByLastYear(), profitByYear()) == 1001 || growthRateDayProfit(profitByLastYear(), profitByYear()) == 1000 ? Colors.blue: growthRateDayProfit(profitByLastYear(), profitByYear()) < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                                  ),
+                                                  TextSpan(
+                                                    text: yestWeekTitle().toString()
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: (
+                                                        growthRateDayProfit(profitByLastYear(), profitByYear()) == 1001 || growthRateDayProfit(profitByLastYear(), profitByYear()) == 1000 ? 'ကအတိုင်း ရရှိသည်' :  growthRateDayProfit(profitByLastYear(), profitByYear()) < 0?
+                                                        'ကအောက် နည်းသည်' :
+                                                        'ကထက် ပိုများသည်') + ')'
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          )
                                         ],
                                       ),
                                     ],
@@ -941,7 +1025,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                                   textStyle: TextStyle(
                                                       letterSpacing: 1,
                                                       fontSize: 26,
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight: FontWeight.w500,
                                                       color: Colors.black
                                                   )
                                               )
@@ -953,7 +1037,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                           //       textStyle: TextStyle(
                                           //           letterSpacing: 1,
                                           //           fontSize: 26,
-                                          //           fontWeight: FontWeight.w600,
+                                          //           fontWeight: FontWeight.w500,
                                           //           color: Colors.black
                                           //       )
                                           //   ),
@@ -967,7 +1051,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                                       textStyle: TextStyle(
                                                           letterSpacing: 1,
                                                           fontSize: 14,
-                                                          fontWeight: FontWeight.w600,
+                                                          fontWeight: FontWeight.w500,
                                                           color: Colors.black
                                                       )
                                                   ) ) ),
@@ -975,68 +1059,96 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                       ),
                                       Row(
                                         children: [
-                                          Text(
-                                            textSetStockCosts + ' (',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          growthRateCost(lastYearCost, yearCostsTotal2) == 1001 || growthRateCost(lastYearCost, yearCostsTotal2) == 1000 ?
-                                          Text('') :
-                                          Text(
-                                            growthRateCost(lastYearCost, yearCostsTotal2).abs().toString()+ '% ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                              fontSize: 13, height: 1.2,
-                                              fontWeight: FontWeight.w500,
-                                              color: growthRateCost(lastYearCost, yearCostsTotal2) == 1001 || growthRateCost(lastYearCost, yearCostsTotal2) == 1000 ? Colors.blue: growthRateCost(lastYearCost, yearCostsTotal2) < 0? AppTheme.badgeFgDanger: Colors.green,),
-                                          ) ,
-                                          growthRateCost(lastYearCost, yearCostsTotal2) == 1001 || growthRateCost(lastYearCost, yearCostsTotal2) == 1000 ? Text(
-                                            'same as ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :  growthRateCost(lastYearCost, yearCostsTotal2) < 0?
-                                          Text(
-                                            'lower than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :
-                                          Text(
-                                            'higher than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          Text(
-                                            yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
+                                          widget.isEnglish?
+                                          Flexible(
+                                            child: RichText(
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
+                                              textScaleFactor: 1,
+                                              text: new TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: textSetStockCosts + ' ('
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: growthRateCost(lastYearCost, yearCostsTotal2) == 1001 || growthRateCost(lastYearCost, yearCostsTotal2) == 1000 ? '': growthRateCost(lastYearCost, yearCostsTotal2).abs().toString()+ '% '
+                                                    ,
+                                                    style: TextStyle(
+                                                      fontSize: 13, height: 1.2,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: growthRateCost(lastYearCost, yearCostsTotal2) == 1001 || growthRateCost(lastYearCost, yearCostsTotal2) == 1000 ? Colors.blue: growthRateCost(lastYearCost, yearCostsTotal2) < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                                  ),
+                                                  TextSpan(
+                                                    text: (
+                                                        growthRateCost(lastYearCost, yearCostsTotal2) == 1001 || growthRateCost(lastYearCost, yearCostsTotal2) == 1000 ? 'same as ' :  growthRateCost(lastYearCost, yearCostsTotal2) < 0?
+                                                        'lower than ' :
+                                                        'higher than ') +
+                                                        yestWeekTitle().toString() + ')'
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ):
+                                          Flexible(
+                                            child: RichText(
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
+                                              textScaleFactor: 1,
+                                              text: new TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: textSetStockCosts + ' ('
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: growthRateCost(lastYearCost, yearCostsTotal2) == 1001 || growthRateCost(lastYearCost, yearCostsTotal2) == 1000 ? '': growthRateCost(lastYearCost, yearCostsTotal2).abs().toString()+ '% '
+                                                    ,
+                                                    style: TextStyle(
+                                                      fontSize: 13, height: 1.2,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: growthRateCost(lastYearCost, yearCostsTotal2) == 1001 || growthRateCost(lastYearCost, yearCostsTotal2) == 1000 ? Colors.blue: growthRateCost(lastYearCost, yearCostsTotal2) < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                                  ),
+                                                  TextSpan(
+                                                    text: yestWeekTitle().toString()
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: (
+                                                        growthRateCost(lastYearCost, yearCostsTotal2) == 1001 || growthRateCost(lastYearCost, yearCostsTotal2) == 1000 ? 'ကအတိုင်း ရရှိသည်' :  growthRateCost(lastYearCost, yearCostsTotal2) < 0?
+                                                        'ကအောက် နည်းသည်' :
+                                                        'ကထက် ပိုများသည်') + ')'
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          )
                                         ],
                                       ),
                                     ],
@@ -1072,7 +1184,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                                   textStyle: TextStyle(
                                                       letterSpacing: 1,
                                                       fontSize: 26,
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight: FontWeight.w500,
                                                       color: Colors.black
                                                   )
                                               )
@@ -1084,7 +1196,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                           //       textStyle: TextStyle(
                                           //           letterSpacing: 1,
                                           //           fontSize: 26,
-                                          //           fontWeight: FontWeight.w600,
+                                          //           fontWeight: FontWeight.w500,
                                           //           color: Colors.black
                                           //       )
                                           //   ),
@@ -1098,7 +1210,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                                       textStyle: TextStyle(
                                                           letterSpacing: 1,
                                                           fontSize: 14,
-                                                          fontWeight: FontWeight.w600,
+                                                          fontWeight: FontWeight.w500,
                                                           color: Colors.black
                                                       )
                                                   ) ) ),
@@ -1106,68 +1218,96 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                       ),
                                       Row(
                                         children: [
-                                          Text(
-                                            textSetBuys + ' (',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          growthRateRefund(lastYearRefund, yearRefundTotal) == 1001 || growthRateRefund(lastYearRefund, yearRefundTotal) == 1000 ?
-                                          Text('') :
-                                          Text(
-                                            growthRateRefund(lastYearRefund, yearRefundTotal).abs().toString()+ '% ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                              fontSize: 13, height: 1.2,
-                                              fontWeight: FontWeight.w500,
-                                              color: growthRateRefund(lastYearRefund, yearRefundTotal) == 1001 || growthRateRefund(lastYearRefund, yearRefundTotal) == 1000 ? Colors.blue: growthRateRefund(lastYearRefund, yearRefundTotal) < 0? AppTheme.badgeFgDanger: Colors.green,),
-                                          ) ,
-                                          growthRateRefund(lastYearRefund, yearRefundTotal) == 1001 || growthRateRefund(lastYearRefund, yearRefundTotal) == 1000 ? Text(
-                                            'same as ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :  growthRateRefund(lastYearRefund, yearRefundTotal) < 0?
-                                          Text(
-                                            'lower than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :
-                                          Text(
-                                            'higher than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          Text(
-                                            yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
+                                          widget.isEnglish?
+                                          Flexible(
+                                            child: RichText(
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
+                                              textScaleFactor: 1,
+                                              text: new TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: textSetBuys + ' ('
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: growthRateRefund(lastYearRefund, yearRefundTotal) == 1001 || growthRateRefund(lastYearRefund, yearRefundTotal) == 1000 ? '': growthRateRefund(lastYearRefund, yearRefundTotal).abs().toString()+ '% '
+                                                    ,
+                                                    style: TextStyle(
+                                                      fontSize: 13, height: 1.2,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: growthRateRefund(lastYearRefund, yearRefundTotal) == 1001 || growthRateRefund(lastYearRefund, yearRefundTotal) == 1000 ? Colors.blue: growthRateRefund(lastYearRefund, yearRefundTotal) < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                                  ),
+                                                  TextSpan(
+                                                    text: (
+                                                        growthRateRefund(lastYearRefund, yearRefundTotal) == 1001 || growthRateRefund(lastYearRefund, yearRefundTotal) == 1000 ? 'same as ' :  growthRateRefund(lastYearRefund, yearRefundTotal) < 0?
+                                                        'lower than ' :
+                                                        'higher than ') +
+                                                        yestWeekTitle().toString() + ')'
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ):
+                                          Flexible(
+                                            child: RichText(
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
+                                              textScaleFactor: 1,
+                                              text: new TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: textSetBuys + ' ('
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: growthRateRefund(lastYearRefund, yearRefundTotal) == 1001 || growthRateRefund(lastYearRefund, yearRefundTotal) == 1000 ? '': growthRateRefund(lastYearRefund, yearRefundTotal).abs().toString()+ '% '
+                                                    ,
+                                                    style: TextStyle(
+                                                      fontSize: 13, height: 1.2,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: growthRateRefund(lastYearRefund, yearRefundTotal) == 1001 || growthRateRefund(lastYearRefund, yearRefundTotal) == 1000 ? Colors.blue: growthRateRefund(lastYearRefund, yearRefundTotal) < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                                  ),
+                                                  TextSpan(
+                                                    text: yestWeekTitle().toString()
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: (
+                                                        growthRateRefund(lastYearRefund, yearRefundTotal) == 1001 || growthRateRefund(lastYearRefund, yearRefundTotal) == 1000 ? 'ကအတိုင်း ရရှိသည်' :  growthRateRefund(lastYearRefund, yearRefundTotal) < 0?
+                                                        'ကအောက် နည်းသည်' :
+                                                        'ကထက် ပိုများသည်') + ')'
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          )
                                         ],
                                       ),
                                     ],
@@ -1203,7 +1343,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                                   textStyle: TextStyle(
                                                       letterSpacing: 1,
                                                       fontSize: 26,
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight: FontWeight.w500,
                                                       color: Colors.black
                                                   )
                                               )
@@ -1215,7 +1355,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                           //       textStyle: TextStyle(
                                           //           letterSpacing: 1,
                                           //           fontSize: 26,
-                                          //           fontWeight: FontWeight.w600,
+                                          //           fontWeight: FontWeight.w500,
                                           //           color: Colors.black
                                           //       )
                                           //   ),
@@ -1229,7 +1369,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                                       textStyle: TextStyle(
                                                           letterSpacing: 1,
                                                           fontSize: 14,
-                                                          fontWeight: FontWeight.w600,
+                                                          fontWeight: FontWeight.w500,
                                                           color: Colors.black
                                                       )
                                                   ) ) ),
@@ -1237,68 +1377,96 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
                                       ),
                                       Row(
                                         children: [
-                                          Text(
-                                            textSetLoss + ' (',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          growthRateLoss(lastYearLoss, yearLossTotal) == 1001 || growthRateLoss(lastYearLoss, yearLossTotal) == 1000 ?
-                                          Text('') :
-                                          Text(
-                                            growthRateLoss(lastYearLoss, yearLossTotal).abs().toString()+ '% ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                              fontSize: 13, height: 1.2,
-                                              fontWeight: FontWeight.w500,
-                                              color: growthRateLoss(lastYearLoss, yearLossTotal) == 1001 || growthRateLoss(lastYearLoss, yearLossTotal) == 1000 ? Colors.blue: growthRateLoss(lastYearLoss, yearLossTotal) < 0? AppTheme.badgeFgDanger: Colors.green,),
-                                          ) ,
-                                          growthRateLoss(lastYearLoss, yearLossTotal) == 1001 || growthRateLoss(lastYearLoss, yearLossTotal) == 1000 ? Text(
-                                            'same as ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :  growthRateLoss(lastYearLoss, yearLossTotal) < 0?
-                                          Text(
-                                            'lower than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ) :
-                                          Text(
-                                            'higher than ',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
-                                          Text(
-                                            yestWeekTitle().toString() + ')',strutStyle: StrutStyle(
-                                              forceStrutHeight: true,
-                                              height: 1.2
-                                          ), textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 13, height: 1.2,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black.withOpacity(0.6)),
-                                          ),
+                                          widget.isEnglish?
+                                          Flexible(
+                                            child: RichText(
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
+                                              textScaleFactor: 1,
+                                              text: new TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: textSetLoss + ' ('
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: growthRateLoss(lastYearLoss, yearLossTotal) == 1001 || growthRateLoss(lastYearLoss, yearLossTotal) == 1000 ? '': growthRateLoss(lastYearLoss, yearLossTotal).abs().toString()+ '% '
+                                                    ,
+                                                    style: TextStyle(
+                                                      fontSize: 13, height: 1.2,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: growthRateLoss(lastYearLoss, yearLossTotal) == 1001 || growthRateLoss(lastYearLoss, yearLossTotal) == 1000 ? Colors.blue: growthRateLoss(lastYearLoss, yearLossTotal) < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                                  ),
+                                                  TextSpan(
+                                                    text: (
+                                                        growthRateLoss(lastYearLoss, yearLossTotal) == 1001 || growthRateLoss(lastYearLoss, yearLossTotal) == 1000 ? 'same as ' :  growthRateLoss(lastYearLoss, yearLossTotal) < 0?
+                                                        'lower than ' :
+                                                        'higher than ') +
+                                                        yestWeekTitle().toString() + ')'
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ):
+                                          Flexible(
+                                            child: RichText(
+                                              strutStyle: StrutStyle(
+                                                  forceStrutHeight: true,
+                                                  height: 1.2
+                                              ),
+                                              textScaleFactor: 1,
+                                              text: new TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: textSetLoss + ' ('
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: growthRateLoss(lastYearLoss, yearLossTotal) == 1001 || growthRateLoss(lastYearLoss, yearLossTotal) == 1000 ? '': growthRateLoss(lastYearLoss, yearLossTotal).abs().toString()+ '% '
+                                                    ,
+                                                    style: TextStyle(
+                                                      fontSize: 13, height: 1.2,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: growthRateLoss(lastYearLoss, yearLossTotal) == 1001 || growthRateLoss(lastYearLoss, yearLossTotal) == 1000 ? Colors.blue: growthRateLoss(lastYearLoss, yearLossTotal) < 0? AppTheme.badgeFgDanger: Colors.green,),
+                                                  ),
+                                                  TextSpan(
+                                                    text: yestWeekTitle().toString()
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  ),
+                                                  TextSpan(
+                                                    text: (
+                                                        growthRateLoss(lastYearLoss, yearLossTotal) == 1001 || growthRateLoss(lastYearLoss, yearLossTotal) == 1000 ? 'ကအတိုင်း ရရှိသည်' :  growthRateLoss(lastYearLoss, yearLossTotal) < 0?
+                                                        'ကအောက် နည်းသည်' :
+                                                        'ကထက် ပိုများသည်') + ')'
+                                                    ,
+                                                    style: TextStyle(
+                                                        fontSize: 13, height: 1.2,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black.withOpacity(0.6)),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          )
                                         ],
                                       ),
                                     ],
@@ -2273,7 +2441,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
           interval: 1,
           getTextStyles: (context, value) => const TextStyle(
             color: Color(0xff67727d),
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w500,
             fontSize: 13,
           ),
           getTitles: (value) {
@@ -2482,7 +2650,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
           interval: 1,
           getTextStyles: (context, value) => const TextStyle(
             color: Color(0xff67727d),
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w500,
             fontSize: 13,
           ),
           getTitles: (value) {
@@ -2695,7 +2863,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
           interval: 1,
           getTextStyles: (context, value) => const TextStyle(
             color: Color(0xff67727d),
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w500,
             fontSize: 13,
           ),
           getTitles: (value) {
@@ -2884,7 +3052,7 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
           interval: 1,
           getTextStyles: (context, value) => TextStyle(
             color: Color(0xff67727d),
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w500,
             fontSize: 13/scaleFactor,
           ),
           getTitles: (value) {
@@ -3035,8 +3203,11 @@ class _BlocHomeYearState extends State<BlocHomeYear> {
   String yestWeekTitle() {
     String title = '';
     if(_sliding == 3) {
-      return title = 'Yearly';
-    } else  {return title = 'Yearly';}
+      if(!widget.isEnglish) {
+        return title = 'အရင်နှစ်';
+      }
+      return title = 'last year';
+    } else  {return title = 'last year';}
   }
 
   double funChange(max) {

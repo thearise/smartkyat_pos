@@ -105,7 +105,7 @@ class _PrinterCheckRouteState extends State<PrinterCheckRoute> {
                                       widget.data.split('^')[1].toString() + ' - ' + widget.data.split('^')[3].split('&')[0].toString(),
                                     textScaleFactor: 1, style: TextStyle(
                                       fontSize: 18,
-                                      fontWeight: FontWeight.w600,
+                                      fontWeight: FontWeight.w500,
                                     ),
                                   )
                                 ],
@@ -167,7 +167,7 @@ class _PrinterCheckRouteState extends State<PrinterCheckRoute> {
                                                                   .address
                                                               ? AppTheme.themeColor
                                                               : Colors.black,
-                                                          fontWeight: FontWeight.w600,
+                                                          fontWeight: FontWeight.w500,
                                                           fontSize: 19
                                                       ),
                                                     ),
@@ -384,7 +384,7 @@ class _PrinterCheckRouteState extends State<PrinterCheckRoute> {
                   //                 textAlign: TextAlign.center,
                   //                 style: TextStyle(
                   //                     fontSize: 18,
-                  //                     fontWeight: FontWeight.w600,
+                  //                     fontWeight: FontWeight.w500,
                   //                     letterSpacing:-0.1
                   //                 ),
                   //               ),

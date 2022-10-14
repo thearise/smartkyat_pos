@@ -62,7 +62,7 @@ class ReportsFragmentState extends State<ReportsFragment> {
                             textStyle: TextStyle(
                                 letterSpacing: 1,
                                 fontSize: 30,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w500,
                                 color: Colors.black
                             )
                         ),
@@ -95,7 +95,7 @@ class ReportsFragmentState extends State<ReportsFragment> {
                             textStyle: TextStyle(
                                 letterSpacing: 1,
                                 fontSize: 30,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w500,
                                 color: Colors.black
                             )
                         ),
@@ -147,7 +147,7 @@ class ReportsFragmentState extends State<ReportsFragment> {
                             textStyle: TextStyle(
                                 letterSpacing: 1,
                                 fontSize: 30,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w500,
                                 color: Colors.black
                             )
                         ),
@@ -180,7 +180,7 @@ class ReportsFragmentState extends State<ReportsFragment> {
                             textStyle: TextStyle(
                                 letterSpacing: 1,
                                 fontSize: 30,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w500,
                                 color: Colors.black
                             )
                         ),
@@ -232,7 +232,7 @@ class ReportsFragmentState extends State<ReportsFragment> {
                             textStyle: TextStyle(
                                 letterSpacing: 1,
                                 fontSize: 30,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w500,
                                 color: Colors.black
                             )
                         ),
@@ -265,7 +265,7 @@ class ReportsFragmentState extends State<ReportsFragment> {
                             textStyle: TextStyle(
                                 letterSpacing: 1,
                                 fontSize: 30,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w500,
                                 color: Colors.black
                             )
                         ),
@@ -315,7 +315,7 @@ class ReportsFragmentState extends State<ReportsFragment> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: 18,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w500,
                             letterSpacing:-0.1
                         ),
                         strutStyle: StrutStyle(
@@ -368,13 +368,13 @@ class ReportsFragmentState extends State<ReportsFragment> {
                   Text('Total products', textScaleFactor: 1, style:
                   TextStyle(
                     fontSize: 15,
-                    fontWeight: FontWeight.w600, color: Colors.grey,
+                    fontWeight: FontWeight.w500, color: Colors.grey,
                   ),),
                   Spacer(),
                   Text('7,345', textScaleFactor: 1, style:
                   TextStyle(
                     fontSize: 15,
-                    fontWeight: FontWeight.w600, color: Colors.black,
+                    fontWeight: FontWeight.w500, color: Colors.black,
                   ),),
                 ],
               ),
@@ -395,13 +395,13 @@ class ReportsFragmentState extends State<ReportsFragment> {
                   Text('Categories', textScaleFactor: 1, style:
                   TextStyle(
                     fontSize: 15,
-                    fontWeight: FontWeight.w600, color: Colors.grey,
+                    fontWeight: FontWeight.w500, color: Colors.grey,
                   ),),
                   Spacer(),
                   Text('1,345', textScaleFactor: 1, style:
                   TextStyle(
                     fontSize: 15,
-                    fontWeight: FontWeight.w600, color: Colors.black,
+                    fontWeight: FontWeight.w500, color: Colors.black,
                   ),),
                 ],
               ),
@@ -422,13 +422,13 @@ class ReportsFragmentState extends State<ReportsFragment> {
                   Text('Average items', textScaleFactor: 1, style:
                   TextStyle(
                     fontSize: 15,
-                    fontWeight: FontWeight.w600, color: Colors.grey,
+                    fontWeight: FontWeight.w500, color: Colors.grey,
                   ),),
                   Spacer(),
                   Text('453', textScaleFactor: 1, style:
                   TextStyle(
                     fontSize: 15,
-                    fontWeight: FontWeight.w600, color: Colors.black,
+                    fontWeight: FontWeight.w500, color: Colors.black,
                   ),),
                 ],
               ),
@@ -449,13 +449,13 @@ class ReportsFragmentState extends State<ReportsFragment> {
                   Text('Monthly sale', textScaleFactor: 1, style:
                   TextStyle(
                     fontSize: 15,
-                    fontWeight: FontWeight.w600, color: Colors.grey,
+                    fontWeight: FontWeight.w500, color: Colors.grey,
                   ),),
                   Spacer(),
                   Text('90,345', textScaleFactor: 1, style:
                   TextStyle(
                     fontSize: 15,
-                    fontWeight: FontWeight.w600, color: Colors.black,
+                    fontWeight: FontWeight.w500, color: Colors.black,
                   ),),
                 ],
               ),

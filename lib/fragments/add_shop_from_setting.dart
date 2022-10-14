@@ -296,7 +296,7 @@ class _AddShopFromSettingState extends State<AddShopFromSetting> {
                                       textAlign: TextAlign.right,
                                       style: TextStyle(
                                           fontSize: 18,
-                                          fontWeight: FontWeight.w600,
+                                          fontWeight: FontWeight.w500,
                                           height: 1.3
                                       ),
                                       strutStyle: StrutStyle(
@@ -812,7 +812,7 @@ class _AddShopFromSettingState extends State<AddShopFromSetting> {
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontSize: 17.5,
-                                      fontWeight: FontWeight.w600,
+                                      fontWeight: FontWeight.w500,
                                       letterSpacing:-0.1
                                   ),
                                 ),

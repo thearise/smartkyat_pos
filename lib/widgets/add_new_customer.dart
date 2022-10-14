@@ -491,7 +491,7 @@ class _AddCustomerState extends State<AddCustomer> {
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontSize: 18,
-                                              fontWeight: FontWeight.w600,
+                                              fontWeight: FontWeight.w500,
                                               letterSpacing:-0.1
                                           ),
                                         ),

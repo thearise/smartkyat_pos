@@ -248,7 +248,7 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                   fontSize: 18,
-                                  fontWeight: FontWeight.w600,
+                                  fontWeight: FontWeight.w500,
                                   height: 1.3
                                 ),
                                 strutStyle: StrutStyle(

@@ -149,7 +149,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
           child: Column(crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Top80AppBar('#' +
-                      widget.data.split('^')[1].toString() + ' (' + widget.data.split('^')[3].split('&')[0].toString() + ')', '$currencyUnit ' + (double.parse(widget.data.split('^')[2]).toStringAsFixed(1)).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')),
+                      widget.data.split('^')[1].toString() + ' (' + (widget.data.split('^')[3].split('&')[0]=='No customer'? (widget.isEnglish? 'Walk-in customer': 'အမည်မသိ ဖောက်သည်'): widget.data.split('^')[3].split('&')[0]) + ')', '$currencyUnit ' + (double.parse(widget.data.split('^')[2]).toStringAsFixed(1)).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')),
                   Expanded(
                     child: Container(
                       child: ListView(
@@ -297,7 +297,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                         child: Text( '$currencyUnit ' +
                                             widget.debt.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
                                           textScaleFactor: 1, style: TextStyle(
-                                            fontWeight: FontWeight.w600,
+                                            fontWeight: FontWeight.w500,
                                             fontSize: 17,
                                           ),
                                         ),
@@ -541,7 +541,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontSize: 18,
-                                        fontWeight: FontWeight.w600,
+                                        fontWeight: FontWeight.w500,
                                         letterSpacing:-0.1
                                     ),
                                   ),
