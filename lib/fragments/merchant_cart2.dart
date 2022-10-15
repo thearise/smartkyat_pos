@@ -130,7 +130,7 @@ class MerchantCartState extends State<MerchantCart>
       if(widget.isEnglish == true) {
 
         setState(() {
-          textSetMerchOrders = 'Merchant cart';
+          textSetMerchOrders = 'Merchant order cart';
           textSetClearCart = 'Clear cart';
           textSetDiscount = 'Discount';
           textSetNoMerchant = 'No merchant';
@@ -138,18 +138,18 @@ class MerchantCartState extends State<MerchantCart>
           textSetCheckout = 'Checkout';
           textSetAmountApplied = 'Amount applied';
           textSetPercent = 'Percentage';
-          textSetCashAccept = 'Payment';
-          textSetCashRev = 'CASH PAID';
-          textSetCustom = 'Custom amount';
+          textSetCashAccept = 'Purchase from merchant';
+          textSetCashRev = 'CASH TO MERCHANT';
+          textSetCustom = 'Offered price';
           textSetDebt = 'Unpaid amount';
-          textSetRefund = 'Cash refund';
+          textSetRefund = 'Take refunds';
           textSetDone = 'Done';
           textSetTSale = 'Total buy';
         });
       }
       else {
         setState(() {
-          textSetMerchOrders = 'အ၀ယ်စာရင်း';
+          textSetMerchOrders = 'ကုန်သည်ထံမှ အ၀ယ်စာရင်း';
           textSetClearCart = 'ပယ်ဖျက်ရန်';
           textSetDiscount = 'လျှော့ငွေ';
           textSetNoMerchant = 'ဝယ်ယူသူမရွေးရသေးပါ';
@@ -157,11 +157,11 @@ class MerchantCartState extends State<MerchantCart>
           textSetCheckout = 'ဝယ်မည်';
           textSetAmountApplied = 'Amount applied';
           textSetPercent = 'Percentage';
-          textSetCashAccept = 'ပေးချေရန်';
-          textSetCashRev = 'ငွေပေးချေ';
-          textSetCustom ='စိတ်ကြိုက် ပမာဏ';
+          textSetCashAccept = 'ကုန်သည်ဆီသို့ ငွေပေးချေရန်';
+          textSetCashRev = 'CASH TO MERCHANT';
+          textSetCustom ='မိမိပေးလိုက်သောငွေ';
           textSetDebt = 'ကျန်ငွေ';
-          textSetRefund = 'Cash refund';
+          textSetRefund = 'ပြန်အမ်း ရယူရန်';
           textSetDone = 'ငွေရှင်းမည်';
           textSetTSale = 'စုစုပေါင်း';
         });
@@ -626,16 +626,16 @@ class MerchantCartState extends State<MerchantCart>
 
                                               final result = await showModalActionSheet<String>(
                                                 context: context,
-                                                title: 'Choose discount type',
+                                                title: widget.isEnglish? 'Choose discount type': 'စျေးလျှော့ရန် အမျိုးအစားရွေးပါ',
                                                 actions: [
                                                   SheetAction(
-                                                    icon: Icons.error,
-                                                    label: 'Amount',
+                                                    icon: SmartKyat_POS.dis_amount,
+                                                    label: widget.isEnglish? 'Amount': 'ပမာဏ',
                                                     key: 'amount',
                                                   ),
                                                   SheetAction(
-                                                    icon: Icons.warning,
-                                                    label: 'Percent',
+                                                    icon: SmartKyat_POS.dis_percent,
+                                                    label: widget.isEnglish? 'Percent': 'ရာခိုင်နှုန်း',
                                                     key: 'percent',
                                                   ),
                                                 ],
@@ -657,16 +657,18 @@ class MerchantCartState extends State<MerchantCart>
                                                         hintText: '0',
                                                         suffixText: '$currencyUnit  ',
                                                         validator: (value) {
-                                                          if (value == null || value.isEmpty) {
+                                                          if(!isNumeric(value)) {
+                                                            return widget.isEnglish? 'invalid amount': 'မှားယွင်းနေပါသည်';
+                                                          } else if (value == null || value.isEmpty) {
                                                             // return '';
                                                             return 'this field is required ';
                                                           } else {
                                                             if(double.parse(TtlProdListPriceInit2()) <= 0) {
-                                                              return 'no item in cart';
+                                                              return widget.isEnglish? 'no item in cart': 'ဝယ်စာရင်းတွင် ပစ္စည်းမရှိပါ';
                                                             } else if(double.parse(value) > double.parse(TtlProdListPriceInit2())) {
-                                                              return 'much less than total sale';
+                                                              return widget.isEnglish? 'much less than total sale': 'စုစုပေါင်းစျေးထက် မများရပါ';
                                                             } else if(double.parse(value) < 0) {
-                                                              return 'invalid amount';
+                                                              return widget.isEnglish? 'invalid amount': 'မှားယွင်းနေပါသည်';
                                                             }
                                                           }
                                                           return null;
@@ -674,8 +676,8 @@ class MerchantCartState extends State<MerchantCart>
                                                         // initialText: 'mono0926@gmail.com',
                                                       ),
                                                     ],
-                                                    title: 'Discount',
-                                                    message: 'Add Discount Amount to Cart',
+                                                    title: widget.isEnglish? 'Discount': 'လျှော့ငွေ',
+                                                    message: widget.isEnglish? 'Add Discount Amount to Cart': 'လျှော့ငွေ ရာခိုင်နှုန်းထည့်ပါ',
                                                   );
                                                   setState(() {
                                                     discount2 =double.parse(amount![0].toString());
@@ -692,15 +694,17 @@ class MerchantCartState extends State<MerchantCart>
                                                         hintText: '0',
                                                         suffixText: '%  ',
                                                         validator: (value) {
-                                                          if (value == null || value.isEmpty) {
+                                                          if(!isNumeric(value)) {
+                                                            return widget.isEnglish? 'invalid amount': 'မှားယွင်းနေပါသည်';
+                                                          } else if (value == null || value.isEmpty) {
                                                             // return '';
                                                             return 'this field is required ';
                                                           } else {
                                                             if(double.parse(TtlProdListPriceInit2()) <= 0) {
-                                                              return 'no item in cart';
+                                                              return widget.isEnglish? 'no item in cart': 'ဝယ်စာရင်းတွင် ပစ္စည်းမရှိပါ';
                                                             }
                                                             if(double.parse(value) > 100 || double.parse(value) < 0) {
-                                                              return 'invalid amount';
+                                                              return widget.isEnglish? 'invalid amount': 'မှားယွင်းနေပါသည်';
                                                             }
                                                           }
                                                           return null;
@@ -708,8 +712,8 @@ class MerchantCartState extends State<MerchantCart>
                                                         // initialText: 'mono0926@gmail.com',
                                                       ),
                                                     ],
-                                                    title: 'Discount',
-                                                    message: 'Add Discount Percent to Cart',
+                                                    title: widget.isEnglish? 'Discount': 'လျှော့ငွေ',
+                                                    message: widget.isEnglish? 'Add discount percent to cart': 'လျှော့ငွေ ရာခိုင်နှုန်းထည့်ပါ',
                                                   );
                                                   setState(() {
                                                     discount2 =double.parse(percentage![0].toString());
@@ -726,16 +730,16 @@ class MerchantCartState extends State<MerchantCart>
                                           } else {
                                             final result = await showModalActionSheet<String>(
                                               context: context,
-                                              title: 'Choose discount type',
+                                              title: widget.isEnglish? 'Choose discount type': 'စျေးလျှော့ရန် အမျိုးအစားရွေးပါ',
                                               actions: [
                                                 SheetAction(
-                                                  icon: Icons.error,
-                                                  label: 'Amount',
+                                                  icon: SmartKyat_POS.dis_amount,
+                                                  label: widget.isEnglish? 'Amount': 'ပမာဏ',
                                                   key: 'amount',
                                                 ),
                                                 SheetAction(
-                                                  icon: Icons.warning,
-                                                  label: 'Percent',
+                                                  icon: SmartKyat_POS.dis_percent,
+                                                  label: widget.isEnglish? 'Percent': 'ရာခိုင်နှုန်း',
                                                   key: 'percent',
                                                 ),
                                               ],
@@ -757,16 +761,18 @@ class MerchantCartState extends State<MerchantCart>
                                                       hintText: '0',
                                                       suffixText: '$currencyUnit  ',
                                                       validator: (value) {
-                                                        if (value == null || value.isEmpty) {
+                                                        if(!isNumeric(value)) {
+                                                          return widget.isEnglish? 'invalid amount': 'မှားယွင်းနေပါသည်';
+                                                        } else if (value == null || value.isEmpty) {
                                                           // return '';
                                                           return 'this field is required ';
                                                         } else {
                                                           if(double.parse(TtlProdListPriceInit2()) <= 0) {
-                                                            return 'no item in cart';
+                                                            return widget.isEnglish? 'no item in cart': 'ဝယ်စာရင်းတွင် ပစ္စည်းမရှိပါ';
                                                           } else if(double.parse(value) > double.parse(TtlProdListPriceInit2())) {
-                                                            return 'much less than total sale';
+                                                            return widget.isEnglish? 'much less than total sale': 'စုစုပေါင်းစျေးထက် မများရပါ';
                                                           } else if(double.parse(value) < 0) {
-                                                            return 'invalid amount';
+                                                            return widget.isEnglish? 'invalid amount': 'မှားယွင်းနေပါသည်';
                                                           }
                                                         }
                                                         return null;
@@ -774,8 +780,8 @@ class MerchantCartState extends State<MerchantCart>
                                                       // initialText: 'mono0926@gmail.com',
                                                     ),
                                                   ],
-                                                  title: 'Discount',
-                                                  message: 'Add Discount Amount to Cart',
+                                                  title: widget.isEnglish? 'Discount': 'လျှော့ငွေ',
+                                                  message: widget.isEnglish? 'Add Discount Amount to Cart': 'လျှော့ငွေ ရာခိုင်နှုန်းထည့်ပါ',
                                                 );
                                                 setState(() {
                                                   discount2 =double.parse(amount![0].toString());
@@ -792,15 +798,17 @@ class MerchantCartState extends State<MerchantCart>
                                                       hintText: '0',
                                                       suffixText: '%  ',
                                                       validator: (value) {
-                                                        if (value == null || value.isEmpty) {
+                                                        if(!isNumeric(value)) {
+                                                          return widget.isEnglish? 'invalid amount': 'မှားယွင်းနေပါသည်';
+                                                        } else if (value == null || value.isEmpty) {
                                                           // return '';
                                                           return 'this field is required ';
                                                         } else {
                                                           if(double.parse(TtlProdListPriceInit2()) <= 0) {
-                                                            return 'no item in cart';
+                                                            return widget.isEnglish? 'no item in cart': 'ဝယ်စာရင်းတွင် ပစ္စည်းမရှိပါ';
                                                           }
                                                           if(double.parse(value) > 100 || double.parse(value) < 0) {
-                                                            return 'invalid amount';
+                                                            return widget.isEnglish? 'invalid amount': 'မှားယွင်းနေပါသည်';
                                                           }
                                                         }
                                                         return null;
@@ -808,8 +816,8 @@ class MerchantCartState extends State<MerchantCart>
                                                       // initialText: 'mono0926@gmail.com',
                                                     ),
                                                   ],
-                                                  title: 'Discount',
-                                                  message: 'Add Discount Percent to Cart',
+                                                  title: widget.isEnglish? 'Discount': 'လျှော့ငွေ',
+                                                  message: widget.isEnglish? 'Add discount percent to cart': 'လျှော့ငွေ ရာခိုင်နှုန်းထည့်ပါ',
                                                 );
                                                 setState(() {
                                                   discount2 =double.parse(percentage![0].toString());
@@ -1052,19 +1060,20 @@ class MerchantCartState extends State<MerchantCart>
                     children: [
                       ListTile(
                         title: Text(
-                          textSetTotalSale, textScaleFactor: 1,
+                          textSetTotalSale, textScaleFactor: 1, maxLines: 1,
                           style: TextStyle(
+                            overflow: TextOverflow.ellipsis,
                               fontSize: 17,
                               fontWeight:
                               FontWeight
                                   .w500),
                         ),
-                        subtitle: int.parse(totalItems2()) == 1? Text(totalItems2() + ' item set', textScaleFactor: 1,
+                        subtitle: int.parse(totalItems2()) == 1? Text(totalItems2() + ' item set', textScaleFactor: 1, maxLines: 1,
                             style: TextStyle(
-                              fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-                            )) : Text(totalItems2() + ' item sets', textScaleFactor: 1,
+                              fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, overflow: TextOverflow.ellipsis,
+                            )) : Text(totalItems2() + ' item sets', textScaleFactor: 1, maxLines: 1,
                             style: TextStyle(
-                              fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+                              fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey, overflow: TextOverflow.ellipsis,
                             )),
                         trailing: Text('$currencyUnit '+
                             TtlProdListPrice2().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
@@ -1524,9 +1533,9 @@ class MerchantCartState extends State<MerchantCart>
                                                     borderRadius: BorderRadius.circular(10),
                                                   ),
                                                 ),
-                                                keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                                inputFormatters: <TextInputFormatter>[
-                                                  FilteringTextInputFormatter.allow(RegExp(_getNum())),],
+                                                keyboardType: TextInputType.numberWithOptions(decimal: false),
+                                                inputFormatters: <TextInputFormatter>[  LengthLimitingTextInputFormatter(6),
+                                                  FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
                                                 onChanged: (value) {
                                                   setState(() {
                                                     myState(() {
@@ -1580,7 +1589,7 @@ class MerchantCartState extends State<MerchantCart>
                                           ],
                                         ),
                                         SizedBox(height: 15,),
-                                        Text('COST PER UNIT', textScaleFactor: 1, style: TextStyle(
+                                        Text(widget.isEnglish? 'BUY PRICE PER UNIT': 'BUY PRICE PER UNIT (တစ်ယူနစ်ဝယ်စျေး)', textScaleFactor: 1, style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 14,
                                           letterSpacing: 2,
@@ -1589,7 +1598,7 @@ class MerchantCartState extends State<MerchantCart>
                                         SizedBox(height: 15,),
                                         TextFormField(
                                           keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                          inputFormatters: <TextInputFormatter>[
+                                          inputFormatters: <TextInputFormatter>[  LengthLimitingTextInputFormatter(15),
                                             FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
                                           controller: buyPriceController,
                                           validator: (value) {
@@ -1645,7 +1654,7 @@ class MerchantCartState extends State<MerchantCart>
                                               color: Colors.black,
                                             ),
 // errorText: 'Error message',
-                                            labelText: 'Custom Buy Price',
+                                            labelText: widget.isEnglish? 'Custom buy price': 'စိတ်ကြိုက်ဝယ်စျေး',
                                             floatingLabelBehavior:
                                             FloatingLabelBehavior.auto,
 //filled: true,
@@ -1681,7 +1690,7 @@ class MerchantCartState extends State<MerchantCart>
                                                       width: 1.0))),
                                                   child: Row(
                                                     children: [
-                                                      Text('Sell price', textScaleFactor: 1, style:
+                                                      Text(widget.isEnglish? 'Sale price': 'ရောင်းစျေး', textScaleFactor: 1, style:
                                                       TextStyle(
                                                         fontSize: 15,
                                                         fontWeight: FontWeight.w500,
@@ -1717,7 +1726,7 @@ class MerchantCartState extends State<MerchantCart>
                                                               width: 1.0))),
                                                   child: Row(
                                                     children: [
-                                                      Text('In stock', textScaleFactor: 1, style:
+                                                      Text(widget.isEnglish? 'In stock items': 'လက်ကျန်ပစ္စည်း', textScaleFactor: 1, style:
                                                       TextStyle(
                                                         fontSize: 15,
                                                         fontWeight: FontWeight.w500,
@@ -1752,7 +1761,7 @@ class MerchantCartState extends State<MerchantCart>
                                                               width: 1.0))),
                                                   child: Row(
                                                     children: [
-                                                      Text('Loss', textScaleFactor: 1, style:
+                                                      Text(widget.isEnglish? 'Loss items': 'ဆုံးရှုံးပစ္စည်း', textScaleFactor: 1, style:
                                                       TextStyle(
                                                         fontSize: 15,
                                                         fontWeight: FontWeight.w500,
@@ -1781,7 +1790,7 @@ class MerchantCartState extends State<MerchantCart>
                                                   height: 55,
                                                   child: Row(
                                                     children: [
-                                                      Text('Barcode', textScaleFactor: 1, style:
+                                                      Text(widget.isEnglish? 'Barcode': 'ဘားကုဒ်', textScaleFactor: 1, style:
                                                       TextStyle(
                                                         fontSize: 15,
                                                         fontWeight: FontWeight.w500,
@@ -1873,8 +1882,9 @@ class MerchantCartState extends State<MerchantCart>
                             child: Center(
                               child: ListTile(
                                 title: Text(
-                                  'Total', textScaleFactor: 1,
+                                  widget.isEnglish? 'Total': 'စုစုပေါင်း', textScaleFactor: 1, maxLines: 1,
                                   style: TextStyle(
+                                    overflow: TextOverflow.ellipsis,
                                       fontSize: 17,
                                       fontWeight:
                                       FontWeight
@@ -1931,7 +1941,7 @@ class MerchantCartState extends State<MerchantCart>
                                             padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
                                             child: Container(
                                                 child: Text(
-                                                  'Save', textScaleFactor: 1,
+                                                  widget.isEnglish? 'Set & done': 'ဆက်ရန်', textScaleFactor: 1,
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                       fontSize: 18,
@@ -2340,7 +2350,7 @@ class MerchantCartState extends State<MerchantCart>
                                       focusedBorder: const OutlineInputBorder(
                                         // width: 0.0 produces a thin "hairline" border
                                           borderSide: const BorderSide(
-                                              color: AppTheme.skThemeColor2, width: 2.0),
+                                              color: AppTheme.themeColor, width: 2.0),
                                           borderRadius: BorderRadius.all(Radius.circular(10.0))),
                                       contentPadding: const EdgeInsets.only(
                                           left: 15.0, right: 15.0, top: 18.0, bottom: 18.0),
@@ -2362,7 +2372,7 @@ class MerchantCartState extends State<MerchantCart>
                                       ),
                                     ),
                                     keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                    inputFormatters: <TextInputFormatter>[
+                                    inputFormatters: <TextInputFormatter>[  LengthLimitingTextInputFormatter(15),
                                       FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
                                     onChanged: (value) {
                                       setState(() {
@@ -2470,6 +2480,24 @@ class MerchantCartState extends State<MerchantCart>
                             Container(
                                 height: 72,
                                 child: Center(
+                                  // child: ListTile(
+                                  //   title: Text(
+                                  //     textSetDebt, textScaleFactor: 1,
+                                  //     style: TextStyle(
+                                  //         fontSize: 17,
+                                  //         fontWeight:
+                                  //         FontWeight
+                                  //             .w500),
+                                  //   ),
+                                  //   trailing: Text('- $currencyUnit '+
+                                  //       debt2.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                  //     textScaleFactor: 1, style: TextStyle(
+                                  //         fontSize: 17,
+                                  //         fontWeight:
+                                  //         FontWeight
+                                  //             .w500),
+                                  //   ),
+                                  // ),
                                   child: debt2!= 0 ? ListTile(
                                     title: Text(
                                       textSetDebt, textScaleFactor: 1,
@@ -2489,8 +2517,9 @@ class MerchantCartState extends State<MerchantCart>
                                     ),
                                   ) : ListTile(
                                     title: Text(
-                                      textSetRefund, textScaleFactor: 1,
+                                      textSetRefund, textScaleFactor: 1, maxLines: 1,
                                       style: TextStyle(
+                                        overflow: TextOverflow.ellipsis,
                                           fontSize: 17,
                                           fontWeight:
                                           FontWeight
@@ -3017,6 +3046,13 @@ class MerchantCartState extends State<MerchantCart>
       'merName' : merchantName,
     });
     return batch;
+  }
+
+  RegExp _numeric = RegExp(r'^-?[0-9]+$');
+
+  /// check if the string contains only numbers
+  bool isNumeric(str) {
+    return _numeric.hasMatch(str);
   }
 
 }

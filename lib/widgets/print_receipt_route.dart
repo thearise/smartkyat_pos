@@ -14,6 +14,7 @@ import 'package:pdf_render/pdf_render_widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/api/pdf_api.dart';
 import 'package:smartkyat_pos/api/pdf_invoice_api.dart';
+import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/model/customer.dart';
 import 'package:smartkyat_pos/model/invoice.dart';
 import 'package:smartkyat_pos/model/supplier.dart';
@@ -513,8 +514,8 @@ class _PrintReceiptRouteState extends State<PrintReceiptRoute> {
                                                     padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 2.0),
                                                     child: Container(
                                                         child: Icon(
-                                                          Icons.print_rounded,
-                                                          size: 25,
+                                                          SmartKyat_POS.printer,
+                                                          size: 17,
                                                           color: Colors.black,
                                                         )
                                                       // child: Text(

@@ -304,7 +304,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
         textSetTRef = 'ပြန်ပေးကုန်အမျိုးများ';
         textSetSaleAmt = 'စုစုပေါင်းရောင်းငွေ';
         textSetBuyAmt = 'ရောင်းပြီးကုန်များ ဝယ်စျေး';
-        textSetDiscount = 'အဝယ်အားလုံး လျှော့ငွေ';
+        textSetDiscount = 'အရောင်းအားလုံး လျှော့ငွေ';
       });
     }
 
