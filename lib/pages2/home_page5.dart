@@ -4258,17 +4258,8 @@ class HomePageState extends State<HomePage>
                                                                                                           ),
                                                                                                         ),
                                                                                                         SizedBox(width: 15),
-                                                                                                        Column(
-                                                                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                                          mainAxisAlignment: MainAxisAlignment.center,
-                                                                                                          children: [
-                                                                                                            Text(customerId.split('^')[1].toString() == 'name' ? textSetNoCust : customerId.split('^')[1] ,textScaleFactor: 1, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),),
-                                                                                                            // Text(customerId.split('^')[1].toString() == 'name' ? 'Unknown' : address,
-                                                                                                            //     style: TextStyle(
-                                                                                                            //       fontSize: 14,
-                                                                                                            //       color: Colors.grey
-                                                                                                            //     )),
-                                                                                                          ],
+                                                                                                        Expanded(
+                                                                                                          child: Text(customerId.split('^')[1].toString() == 'name' ? textSetNoCust : customerId.split('^')[1] ,textScaleFactor: 1, maxLines: 1, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, height: 0.9, overflow: TextOverflow.ellipsis),),
                                                                                                         )
                                                                                                       ],
                                                                                                     ),
@@ -5193,7 +5184,7 @@ class HomePageState extends State<HomePage>
                                                                                   mainAxisAlignment: MainAxisAlignment.start,
                                                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                                                   children: [
-                                                                                    Text(customerId.split('^')[1] == 'name'? textSetNoCust :customerId.split('^')[1], textScaleFactor: 1,
+                                                                                    Text(customerId.split('^')[1] == 'name'? textSetNoCust :customerId.split('^')[1], textScaleFactor: 1, maxLines: 1,
                                                                                       style: TextStyle(
                                                                                           fontSize: 13,
                                                                                           fontWeight: FontWeight.w500,
@@ -5206,7 +5197,7 @@ class HomePageState extends State<HomePage>
                                                                                         forceStrutHeight: true,
                                                                                       ),
                                                                                     ),
-                                                                                    Text(isEnglish? 'Cash acceptance': 'ဖောက်သည်ဆီမှ ငွေလက်ခံခြင်း', textScaleFactor: 1,
+                                                                                    Text(isEnglish? 'Cash acceptance': 'ဖောက်သည်ဆီမှ ငွေလက်ခံခြင်း', textScaleFactor: 1, maxLines: 1,
                                                                                         style: TextStyle(
                                                                                             fontWeight: FontWeight.w500,
                                                                                             fontSize: 18,
@@ -6580,7 +6571,7 @@ class HomePageState extends State<HomePage>
                                                                                   mainAxisAlignment: MainAxisAlignment.start,
                                                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                                                   children: [
-                                                                                    Text(custPrintTitle == 'name'? textSetNoCust :custPrintTitle, textScaleFactor: 1,
+                                                                                    Text(custPrintTitle == 'name'? textSetNoCust :custPrintTitle, textScaleFactor: 1, maxLines: 1,
                                                                                       style: TextStyle(
                                                                                           fontSize: 13,
                                                                                           fontWeight: FontWeight.w500,
@@ -6593,7 +6584,7 @@ class HomePageState extends State<HomePage>
                                                                                         forceStrutHeight: true,
                                                                                       ),
                                                                                     ),
-                                                                                    Text(textSetInvoice, textScaleFactor: 1,
+                                                                                    Text(textSetInvoice, textScaleFactor: 1, maxLines: 1,
                                                                                         style: TextStyle(
                                                                                             fontWeight: FontWeight.w500,
                                                                                             fontSize: 18,
@@ -7540,7 +7531,9 @@ class HomePageState extends State<HomePage>
                                                                             child: Text(
                                                                               customerId == 'name^name' ? textSetGotoCart : customerId.split('^')[1].toString(), textScaleFactor: 1,
                                                                               textAlign: TextAlign.center,
+                                                                              maxLines: 1,
                                                                               style: TextStyle(
+                                                                                  overflow: TextOverflow.ellipsis,
                                                                                   fontSize: 17.5,
                                                                                   fontWeight: FontWeight.w500,
                                                                                   color: Colors.black),
@@ -10211,18 +10204,7 @@ class HomePageState extends State<HomePage>
                                                                             ),
                                                                           ),
                                                                           SizedBox(width: 15),
-                                                                          Column(
-                                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                                            mainAxisAlignment: MainAxisAlignment.center,
-                                                                            children: [
-                                                                              Text(customerId.split('^')[1].toString() == 'name' ? textSetNoCust : customerId.split('^')[1] , textScaleFactor: 1, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),),
-                                                                              // Text(customerId.split('^')[1].toString() == 'name' ? 'Unknown' : address,
-                                                                              //     style: TextStyle(
-                                                                              //       fontSize: 14,
-                                                                              //       color: Colors.grey
-                                                                              //     )),
-                                                                            ],
-                                                                          )
+                                                                          Expanded(child: Text(customerId.split('^')[1].toString() == 'name' ? textSetNoCust : customerId.split('^')[1] , textScaleFactor: 1, maxLines: 1,style: TextStyle(overflow: TextOverflow.ellipsis, fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),))
                                                                         ],
                                                                       ),
                                                                     ),
@@ -10542,18 +10524,20 @@ class HomePageState extends State<HomePage>
                                                     child: Column(
                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
-                                                        Text(customerId.split('^')[1] == 'name'? textSetNoCust : customerId.split('^')[1], textScaleFactor: 1, style: TextStyle(
+                                                        Text(customerId.split('^')[1] == 'name'? textSetNoCust : customerId.split('^')[1], textScaleFactor: 1, maxLines: 1, style: TextStyle(
                                                             fontWeight: FontWeight.w500,
-                                                            color: Colors.grey
+                                                            color: Colors.grey,
+                                                            overflow: TextOverflow.ellipsis
                                                         ),
                                                             strutStyle: StrutStyle(
                                                                 forceStrutHeight: true,
                                                                 height: 1.2
                                                             )),
                                                         SizedBox(height: 2.5),
-                                                        Text(isEnglish? 'Cash acceptance': 'ဖောက်သည်ဆီမှ ငွေလက်ခံခြင်း', textScaleFactor: 1, style: TextStyle(
+                                                        Text(isEnglish? 'Cash acceptance': 'ဖောက်သည်ဆီမှ ငွေလက်ခံခြင်း', textScaleFactor: 1, maxLines: 1, style: TextStyle(
                                                             fontWeight: FontWeight.w500,
-                                                            fontSize: 19
+                                                            fontSize: 19,
+                                                            overflow: TextOverflow.ellipsis
                                                         ),
                                                             strutStyle: StrutStyle(
                                                                 forceStrutHeight: true,
@@ -12108,7 +12092,8 @@ class HomePageState extends State<HomePage>
                                                         Text(customerId.split('^')[1] == 'name'? textSetNoCust :customerId.split('^')[1], style: TextStyle(
                                                           fontWeight: FontWeight.w500,
                                                           color: Colors.grey,
-                                                        ),textScaleFactor: 1,
+                                                          overflow: TextOverflow.ellipsis
+                                                        ),textScaleFactor: 1, maxLines: 1,
                                                             strutStyle: StrutStyle(
                                                                 forceStrutHeight: true,
                                                                 height: 1.2
@@ -12117,8 +12102,9 @@ class HomePageState extends State<HomePage>
                                                         SizedBox(height: 2.5),
                                                         Text(textSetInvoice, style: TextStyle(
                                                             fontWeight: FontWeight.w500,
-                                                            fontSize: 19
-                                                        ), textScaleFactor: 1,
+                                                            fontSize: 19,
+                                                            overflow: TextOverflow.ellipsis
+                                                        ), textScaleFactor: 1, maxLines: 1,
                                                             strutStyle: StrutStyle(
                                                                 forceStrutHeight: true,
                                                                 height: 1.6
