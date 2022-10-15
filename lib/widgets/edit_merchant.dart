@@ -105,7 +105,7 @@ class _EditMerchantState extends State<EditMerchant> {
                             color: Colors.grey.withOpacity(0.3),
                             width: 1.0))),
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 18.0, right: 15.0),
+                  padding: const EdgeInsets.only(left: 14.0, right: 15.0),
                   child: Row(
                     children: [
                       Padding(
@@ -134,23 +134,44 @@ class _EditMerchantState extends State<EditMerchant> {
                       ),
                       Expanded(
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            Text(
-                              widget.merchName, textScaleFactor: 1,
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w500,
+                            SizedBox(height: 15.5),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: Text(
+                                widget.isEnglish ? 'Edit Merchant' : 'ကုန်သည် ပြင်ဆင်ရန်', textScaleFactor: 1,
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  overflow: TextOverflow.ellipsis,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                  height: 1.5,
+                                ),
+                                strutStyle: StrutStyle(
+                                  height: 1.4,
+                                  // fontSize:,
+                                  forceStrutHeight: true,
+                                ),
                               ),
                             ),
-                            Text(
-                              widget.isEnglish ? 'Edit Merchant' : 'ကုန်သည် ပြင်ဆင်ရန်', textScaleFactor: 1,
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: Text(
+                                widget.merchName, textScaleFactor: 1,
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                    overflow: TextOverflow.ellipsis,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500,
+                                    height: 1.3
+                                ),
+                                strutStyle: StrutStyle(
+                                  height: 1.7,
+                                  // fontSize:,
+                                  forceStrutHeight: true,
+                                ),
                               ),
                             ),
                           ],

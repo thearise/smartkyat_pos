@@ -537,21 +537,37 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                                         SizedBox(
                                           height: 6,
                                         ),
-                                        Row(
-                                          children: [
-                                            Text((widget.custName=='No customer'? (widget.isEnglish? 'Walk-in customer': 'အမည်မသိ ဖောက်သည်'): widget.custName),  textScaleFactor: 1, style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.grey,
-                                            ),
-                                              strutStyle: StrutStyle(
-                                                height: 1.3,
-                                                // fontSize:,
-                                                forceStrutHeight: true,
-                                              ),
-                                            ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(right: 25.0),
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                child: Text((widget.custName=='No customer'? (widget.isEnglish? 'Walk-in customer': 'အမည်မသိ ဖောက်သည်'): widget.custName),  textScaleFactor: 1,style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.grey,
+                                                    overflow: TextOverflow.ellipsis
+                                                ),
+                                                  maxLines: 1,
+                                                  strutStyle: StrutStyle(
+                                                    height: 1.3,
+                                                    // fontSize:,
+                                                    forceStrutHeight: true,
+                                                  ),
 
-                                          ],
+                                                ),
+                                              ),
+
+                                              Padding(
+                                                padding: const EdgeInsets.only(left: 8.0),
+                                                child: Text('$currencyUnit ' + double.parse(data['total']).toStringAsFixed(2), textScaleFactor: 1, style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w500,
+                                                )),
+                                              ),
+
+                                            ],
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -708,11 +724,11 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                Text('$currencyUnit ' + double.parse(data['total']).toStringAsFixed(2),  textScaleFactor: 1, style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
-                                )),
-                                SizedBox(width: 10),
+                                // Text('$currencyUnit ' + double.parse(data['total']).toStringAsFixed(2),  textScaleFactor: 1, style: TextStyle(
+                                //   fontSize: 15,
+                                //   fontWeight: FontWeight.w500,
+                                // )),
+                                // SizedBox(width: 10),
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 2.0),
                                   child: Icon(
@@ -785,32 +801,40 @@ class _CustomerOrdersInfoSubsState extends State<CustomerOrdersInfoSubs> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           SizedBox(height: 15.5),
-                          Text(
-                            widget.custAddress,  textScaleFactor: 1,
-                            textAlign: TextAlign.right,
-                            style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                              height: 1.5,
-                            ),
-                            strutStyle: StrutStyle(
-                              height: 1.4,
-                              // fontSize:,
-                              forceStrutHeight: true,
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Text(
+                              widget.custAddress,  textScaleFactor: 1,
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                overflow: TextOverflow.ellipsis,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                height: 1.5,
+                              ),
+                              strutStyle: StrutStyle(
+                                height: 1.4,
+                                // fontSize:,
+                                forceStrutHeight: true,
+                              ),
                             ),
                           ),
-                          Text(
-                            (widget.custName=='No customer'? (widget.isEnglish? 'Walk-in customer': 'အမည်မသိ ဖောက်သည်'): widget.custName),  textScaleFactor: 1,
-                            textAlign: TextAlign.right,
-                            style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                                height: 1.3
-                            ),
-                            strutStyle: StrutStyle(
-                              height: 1.7,
-                              // fontSize:,
-                              forceStrutHeight: true,
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Text(
+                              (widget.custName=='No customer'? (widget.isEnglish? 'Walk-in customer': 'အမည်မသိ ဖောက်သည်'): widget.custName),  textScaleFactor: 1,
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                overflow: TextOverflow.ellipsis,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                  height: 1.3
+                              ),
+                              strutStyle: StrutStyle(
+                                height: 1.7,
+                                // fontSize:,
+                                forceStrutHeight: true,
+                              ),
                             ),
                           ),
                         ],
