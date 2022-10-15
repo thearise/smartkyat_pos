@@ -525,16 +525,29 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                                         ),
                                         Row(
                                           children: [
-                                            Text((widget.merchName=='No merchant'? (widget.isEnglish? 'Walk-in merchant': 'အမည်မသိ ကုန်သည်'): widget.merchName),  textScaleFactor: 1, style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.grey,
-                                            ),
-                                              strutStyle: StrutStyle(
-                                                height: 1.3,
-                                                // fontSize:,
-                                                forceStrutHeight: true,
+                                            Expanded(
+                                              child: Text((widget.merchName=='No merchant'? (widget.isEnglish? 'Walk-in merchant': 'အမည်မသိ ကုန်သည်'): widget.merchName),  textScaleFactor: 1,style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.grey,
+                                                  overflow: TextOverflow.ellipsis
                                               ),
+                                                maxLines: 1,
+                                                strutStyle: StrutStyle(
+                                                  height: 1.3,
+                                                  // fontSize:,
+                                                  forceStrutHeight: true,
+                                                ),
+
+                                              ),
+                                            ),
+
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 8.0),
+                                              child: Text('$currencyUnit ' + double.parse(data['total']).toStringAsFixed(2), textScaleFactor: 1, style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w500,
+                                              )),
                                             ),
 
                                           ],
@@ -694,11 +707,11 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                Text('$currencyUnit ' + double.parse(data['total']).toStringAsFixed(2),  textScaleFactor: 1, style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
-                                )),
-                                SizedBox(width: 10),
+                                // Text('$currencyUnit ' + double.parse(data['total']).toStringAsFixed(2),  textScaleFactor: 1, style: TextStyle(
+                                //   fontSize: 15,
+                                //   fontWeight: FontWeight.w500,
+                                // )),
+                                // SizedBox(width: 10),
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 2.0),
                                   child: Icon(
@@ -771,32 +784,40 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           SizedBox(height: 15.5),
-                          Text(
-                            widget.merchAddress,  textScaleFactor: 1,
-                            textAlign: TextAlign.right,
-                            style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                              height: 1.5,
-                            ),
-                            strutStyle: StrutStyle(
-                              height: 1.4,
-                              // fontSize:,
-                              forceStrutHeight: true,
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Text(
+                              widget.merchAddress,  textScaleFactor: 1,
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                overflow: TextOverflow.ellipsis,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                height: 1.5,
+                              ),
+                              strutStyle: StrutStyle(
+                                height: 1.4,
+                                // fontSize:,
+                                forceStrutHeight: true,
+                              ),
                             ),
                           ),
-                          Text(
-                            (widget.merchName=='No merchant'? (widget.isEnglish? 'Walk-in merchant': 'အမည်မသိ ကုန်သည်'): widget.merchName),  textScaleFactor: 1,
-                            textAlign: TextAlign.right,
-                            style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                                height: 1.3
-                            ),
-                            strutStyle: StrutStyle(
-                              height: 1.7,
-                              // fontSize:,
-                              forceStrutHeight: true,
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Text(
+                              (widget.merchName=='No merchant'? (widget.isEnglish? 'Walk-in merchant': 'အမည်မသိ ကုန်သည်'): widget.merchName),  textScaleFactor: 1,
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                overflow: TextOverflow.ellipsis,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                  height: 1.3
+                              ),
+                              strutStyle: StrutStyle(
+                                height: 1.7,
+                                // fontSize:,
+                                forceStrutHeight: true,
+                              ),
                             ),
                           ),
                         ],

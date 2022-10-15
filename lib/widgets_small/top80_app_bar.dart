@@ -47,30 +47,38 @@ class Top80AppBar extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       SizedBox(height: 15.8,),
-                      Text(subtitle,
-                        textScaleFactor: 1,
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          height: 1.5,
-                        ),
-                        strutStyle: StrutStyle(
-                          height: 1.4,
-                          // fontSize:,
-                          forceStrutHeight: true,
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Text(subtitle,
+                          textScaleFactor: 1,
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                            height: 1.5,
+                              overflow: TextOverflow.ellipsis
+                          ),
+                          strutStyle: StrutStyle(
+                            height: 1.4,
+                            // fontSize:,
+                            forceStrutHeight: true,
+                          ),
                         ),
                       ),
-                      Text(title,
-                        textScaleFactor: 1,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          height: 1.3,
-                        ),
-                        strutStyle: StrutStyle(
-                          height: 1.7,
-                          // fontSize:,
-                          forceStrutHeight: true,
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Text(title,
+                          textScaleFactor: 1,
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                            height: 1.3,
+                            overflow: TextOverflow.ellipsis
+                          ),
+                          strutStyle: StrutStyle(
+                            height: 1.7,
+                            // fontSize:,
+                            forceStrutHeight: true,
+                          ),
                         ),
                       ),
                       // Text(widget.selectedDev.toString())
