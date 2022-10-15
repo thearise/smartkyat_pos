@@ -182,7 +182,7 @@ class HomePageState extends State<HomePage>
       r'[0-9]+[,.]{0,1}[0-9]*';
 
   String _getNum() =>
-      r'[0-9]';
+      r'[1-9]+[0-9]*';
 
   List<String> subList = [];
 //bool saleLoadingState = false;
@@ -5923,10 +5923,10 @@ class HomePageState extends State<HomePage>
                                                                                                     onTap: () {
                                                                                                       setState(() {
                                                                                                         quantity = double.parse(myControllerTablet.text) -1; });
-                                                                                                      if(quantity.isNegative) {
+                                                                                                      if(quantity < 1) {
                                                                                                         setState((){
-                                                                                                          quantity = 0;
-                                                                                                          myControllerTablet.text = '0';
+                                                                                                          quantity = 1;
+                                                                                                          myControllerTablet.text = '1';
                                                                                                         });
 
                                                                                                       } else {
@@ -8380,10 +8380,10 @@ class HomePageState extends State<HomePage>
                                                               stateful(() {
                                                                 qty = double.parse(barcodeCtrl.text) - 1;
                                                               });
-                                                              if(qty.isNegative) {
+                                                              if(qty < 1) {
                                                                 stateful((){
-                                                                  qty = 0;
-                                                                  barcodeCtrl.text = '0';
+                                                                  qty = 1;
+                                                                  barcodeCtrl.text = '1';
                                                                 });
 
                                                               } else {
@@ -9426,9 +9426,10 @@ class HomePageState extends State<HomePage>
               });
 
               myController.addListener((){
+                if(mounted) {
                 mystate((){
                   (myController.text != '' && sellPriceController.text != '') ? totalFixAmount =double.parse(myController.text) * double.parse(sellPriceController.text) : totalFixAmount = 0.0;
-                });
+                }); }
               });
 
               sellPriceController.addListener((){
@@ -11469,10 +11470,10 @@ class HomePageState extends State<HomePage>
                                                                             onTap: () {
                                                                               mystate(() {
                                                                                 quantity = double.parse(myController.text) -1; });
-                                                                              if(quantity.isNegative) {
+                                                                              if(quantity < 1) {
                                                                                 mystate((){
-                                                                                  quantity = 0;
-                                                                                  myController.text = '0';
+                                                                                  quantity = 1;
+                                                                                  myController.text = '1';
                                                                                 });
 
                                                                               } else {

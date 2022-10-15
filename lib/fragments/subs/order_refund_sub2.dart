@@ -834,9 +834,11 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                 DocumentReference prodsMonthly = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodMthData').doc(widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6));
                                                 DocumentReference prodsYearly = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodYearData').doc(widget.data.split('^')[0].substring(0,4));
                                                  double refNum = 0;
+                                                 bool refCondition = false;
                                                 for(int i=0; i < prodList.length; i++) {
                                                    refNum = double.parse(prodList[i].split('^')[7]) - double.parse(prodListBefore[i].split('^')[7]);
-                                                  if(refNum > 0) {
+                                                   if(refNum > 0) {
+                                                     refCondition = true;
                                                     FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr')
                                                         .get()
                                                         .then((DocumentSnapshot documentSnapshot) async {
@@ -1059,7 +1061,9 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                   }
 
                                                   try{
-                                                    if(refNum > 0 ) {
+
+                                                    print('refNum ' + refCondition.toString());
+                                                    if(refCondition) {
                                                       batch.commit();
                                                       Future.delayed(
                                                           const Duration(
