@@ -4899,24 +4899,37 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                               SizedBox(
                                                 height: 6,
                                               ),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    // '',
-                                                    (snapshot1.data!.docs[index]['cusName']=='No customer'? (widget.isEnglish? 'Walk-in customer': 'အမည်မသိ ဖောက်သည်'): snapshot1.data!.docs[index]['cusName']),
-                                                    style: TextStyle(
-                                                      fontSize: 15,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: snapshot1.data!.docs[index]['cusName']=='No customer'? Colors.grey: Colors.black,
-                                                    ), textScaleFactor: 1,
-                                                    strutStyle: StrutStyle(
-                                                      height: 1.3,
-                                                      // fontSize:,
-                                                      forceStrutHeight: true,
-                                                    ),
-                                                  ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(right: 25.0),
+                                                child: Row(
+                                                  children: [
+                                                    Expanded(
+                                                      child: Text((snapshot1.data!.docs[index]['cusName']=='No customer'? (widget.isEnglish? 'Walk-in customer': 'အမည်မသိ ဖောက်သည်'): snapshot1.data!.docs[index]['cusName']),  textScaleFactor: 1,style: TextStyle(
+                                                          fontSize: 15,
+                                                          fontWeight: FontWeight.w500,
+                                                          color: snapshot1.data!.docs[index]['cusName']=='No customer'? Colors.grey: Colors.black,
+                                                          overflow: TextOverflow.ellipsis
+                                                      ),
+                                                        maxLines: 1,
+                                                        strutStyle: StrutStyle(
+                                                          height: 1.3,
+                                                          // fontSize:,
+                                                          forceStrutHeight: true,
+                                                        ),
 
-                                                ],
+                                                      ),
+                                                    ),
+
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(left: 8.0),
+                                                      child: Text('MMK ' + double.parse(snapshot1.data!.docs[index]['total'],).toStringAsFixed(2), textScaleFactor: 1, style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight: FontWeight.w500,
+                                                      )),
+                                                    ),
+
+                                                  ],
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -5091,15 +5104,15 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    Text(
-                                      // 'MMK ',
-                                        'MMK ' + double.parse(snapshot1.data!.docs[index]['total'],).toStringAsFixed(2),
-                                        textScaleFactor: 1,
-                                        style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w500,
-                                        )),
-                                    SizedBox(width: 10),
+                                    // Text(
+                                    //   // 'MMK ',
+                                    //     'MMK ' + double.parse(snapshot1.data!.docs[index]['total'],).toStringAsFixed(2),
+                                    //     textScaleFactor: 1,
+                                    //     style: TextStyle(
+                                    //       fontSize: 15,
+                                    //       fontWeight: FontWeight.w500,
+                                    //     )),
+                                    // SizedBox(width: 10),
                                     Padding(
                                       padding: const EdgeInsets.only(bottom: 2.0),
                                       child: Icon(
@@ -5284,25 +5297,37 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                               SizedBox(
                                                 height: 6,
                                               ),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    // '',
-                                                    (snapshot2.data!.docs[index]['merName']=='No merchant'? (widget.isEnglish? 'Walk-in merchant': 'အမည်မသိ ကုန်သည်'): snapshot2.data!.docs[index]['merName']),
-                                                    textScaleFactor: 1,
-                                                    style: TextStyle(
-                                                      fontSize: 15,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: snapshot2.data!.docs[index]['merName']=='No merchant'? Colors.grey: Colors.black,
-                                                    ),
-                                                    strutStyle: StrutStyle(
-                                                      height: 1.3,
-                                                      // fontSize:,
-                                                      forceStrutHeight: true,
-                                                    ),
-                                                  ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(right: 25.0),
+                                                child: Row(
+                                                  children: [
+                                                    Expanded(
+                                                      child: Text((snapshot2.data!.docs[index]['merName']=='No merchant'? (widget.isEnglish? 'Walk-in merchant': 'အမည်မသိ ကုန်သည်'): snapshot2.data!.docs[index]['merName']),  textScaleFactor: 1,style: TextStyle(
+                                                          fontSize: 15,
+                                                          fontWeight: FontWeight.w500,
+                                                          color: snapshot2.data!.docs[index]['merName']=='No merchant'? Colors.grey: Colors.black,
+                                                          overflow: TextOverflow.ellipsis
+                                                      ),
+                                                        maxLines: 1,
+                                                        strutStyle: StrutStyle(
+                                                          height: 1.3,
+                                                          // fontSize:,
+                                                          forceStrutHeight: true,
+                                                        ),
 
-                                                ],
+                                                      ),
+                                                    ),
+
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(left: 8.0),
+                                                      child: Text('MMK ' + double.parse(snapshot2.data!.docs[index]['total'],).toStringAsFixed(2), textScaleFactor: 1, style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight: FontWeight.w500,
+                                                      )),
+                                                    ),
+
+                                                  ],
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -5472,14 +5497,14 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    Text(
-                                      // 'MMK ',
-                                        'MMK ' + double.parse(snapshot2.data!.docs[index]['total'],).toStringAsFixed(2),
-                                        textScaleFactor: 1, style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500,
-                                    )),
-                                    SizedBox(width: 10),
+                                    // Text(
+                                    //   // 'MMK ',
+                                    //     'MMK ' + double.parse(snapshot2.data!.docs[index]['total'],).toStringAsFixed(2),
+                                    //     textScaleFactor: 1, style: TextStyle(
+                                    //   fontSize: 15,
+                                    //   fontWeight: FontWeight.w500,
+                                    // )),
+                                    // SizedBox(width: 10),
                                     Padding(
                                       padding: const EdgeInsets.only(bottom: 2.0),
                                       child: Icon(
