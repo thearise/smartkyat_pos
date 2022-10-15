@@ -310,7 +310,7 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
         textSetTRef = 'ပြန်ပေးကုန်အမျိုးများ';
         textSetSaleAmt = 'စုစုပေါင်းရောင်းငွေ';
         textSetBuyAmt = 'ရောင်းပြီးကုန်များ ဝယ်စျေး';
-        textSetDiscount = 'အဝယ်အာလုံး လျှော့ငွေ';
+        textSetDiscount = 'အရောင်းအာလုံး လျှော့ငွေ';
       });
     }
 
