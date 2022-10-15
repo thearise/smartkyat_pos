@@ -70,7 +70,7 @@ class MerchantCartState extends State<MerchantCart>
       r'[0-9]+[,.]{0,1}[0-9]*';
 
   String _getNum() =>
-      r'[0-9]';
+      r'[1-9]+[0-9]*';
 
 
   late BuildContext dialogContext;
@@ -420,39 +420,51 @@ class MerchantCartState extends State<MerchantCart>
                       child:
                       Row(
                         children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                (merchId=='name'? (widget.isEnglish? 'Walk-in merchant': 'အမည်မသိ ကုန်သည်'): merchId),
-                                textScaleFactor: 1,
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w500,
-                                  height: 1.5,
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 8.0),
+                                  child: Text(
+                                    (merchId=='name'? (widget.isEnglish? 'Walk-in merchant': 'အမည်မသိ ကုန်သည်'): merchId),
+                                    textScaleFactor: 1,
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                      overflow: TextOverflow.ellipsis,
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w500,
+                                      height: 1.5,
+                                    ),
+                                    strutStyle: StrutStyle(
+                                      height: 1.4,
+                                      // fontSize:,
+                                      forceStrutHeight: true,
+                                    ),
+                                  ),
                                 ),
-                                strutStyle: StrutStyle(
-                                  height: 1.4,
-                                  // fontSize:,
-                                  forceStrutHeight: true,
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 8.0),
+                                  child: Text(textSetMerchOrders, textScaleFactor: 1,
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                      overflow: TextOverflow.ellipsis,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500,
+                                        height: 1.3
+                                    ),
+                                    strutStyle: StrutStyle(
+                                      height: 1.7,
+                                      // fontSize:,
+                                      forceStrutHeight: true,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              Text(textSetMerchOrders, textScaleFactor: 1,
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w500,
-                                    height: 1.3
-                                ),
-                                strutStyle: StrutStyle(
-                                  height: 1.7,
-                                  // fontSize:,
-                                  forceStrutHeight: true,
-                                ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                          Spacer(),
+                          SizedBox(width: 15,),
                           Stack(
                             alignment: AlignmentDirectional.center,
                             children: [
@@ -900,19 +912,10 @@ class MerchantCartState extends State<MerchantCart>
                                                 ),
                                               ),
                                               SizedBox(width: 15),
-                                              Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    (merchId=='name'? (widget.isEnglish? 'Walk-in merchant': 'အမည်မသိ ကုန်သည်'): merchId),
-                                                    textScaleFactor: 1, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),),
-                                                  // Text(customerId.split('^')[1].toString() == 'name' ? 'Unknown' : address,
-                                                  //     style: TextStyle(
-                                                  //       fontSize: 14,
-                                                  //       color: Colors.grey
-                                                  //     )),
-                                                ],
+                                              Expanded(
+                                                child: Text(
+                                                  (merchId=='name'? (widget.isEnglish? 'Walk-in merchant': 'အမည်မသိ ကုန်သည်'): merchId),
+                                                  textScaleFactor: 1, style: TextStyle(overflow: TextOverflow.ellipsis, fontWeight: FontWeight.w500, fontSize: 16, height: 0.9),),
                                               )
                                             ],
                                           ),
@@ -1310,15 +1313,18 @@ class MerchantCartState extends State<MerchantCart>
 
           buyPriceController.addListener((){
             setState(() {
-              myState((){
-                (myController.text != '' && buyPriceController.text != '') ? totalFixAmount =double.parse(myController.text) * double.parse(buyPriceController.text) : totalFixAmount = 0.0;
-                if( buyPriceController.text != '') {
-                  titlePrice = double.parse(buyPriceController.text);
-                  price2 = double.parse(buyPriceController.text); } else {
-                  titlePrice = 0.0;
-                  price2 = 0;
-                }
-              });});
+              if(mounted) {
+                myState((){
+                  (myController.text != '' && buyPriceController.text != '') ? totalFixAmount =double.parse(myController.text) * double.parse(buyPriceController.text) : totalFixAmount = 0.0;
+                  if( buyPriceController.text != '') {
+                    titlePrice = double.parse(buyPriceController.text);
+                    price2 = double.parse(buyPriceController.text); } else {
+                    titlePrice = 0.0;
+                    price2 = 0;
+                  }
+                });
+              }
+            });
           });
           return Scaffold(
             resizeToAvoidBottomInset: false,
@@ -1453,10 +1459,10 @@ class MerchantCartState extends State<MerchantCart>
                                                 setState(() {
                                                   myState((){
                                                     quantity2 = double.parse(myController.text) - 1;  });});
-                                                    if(quantity2.isNegative) {
+                                                    if(quantity2 < 1) {
                                                       myState((){
-                                                        quantity2 = 0;
-                                                        myController.text = '0';
+                                                        quantity2 = 1;
+                                                        myController.text = '1';
                                                       });
 
                                                     } else {
@@ -1535,7 +1541,7 @@ class MerchantCartState extends State<MerchantCart>
                                                 ),
                                                 keyboardType: TextInputType.numberWithOptions(decimal: false),
                                                 inputFormatters: <TextInputFormatter>[  LengthLimitingTextInputFormatter(6),
-                                                  FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+                                                  FilteringTextInputFormatter.allow(RegExp(_getNum())),],
                                                 onChanged: (value) {
                                                   setState(() {
                                                     myState(() {
@@ -2218,34 +2224,38 @@ class MerchantCartState extends State<MerchantCart>
                                         }),
                                   ),
                                 ),
-                                Spacer(),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(merchId == 'name' ? 'No merchant' : merchId, textScaleFactor: 1,
-                                      style: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w500,
-                                          height: 1.5
+                                SizedBox(width: 15,),
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(merchId == 'name' ? 'No merchant' : merchId, textScaleFactor: 1,
+                                        style: TextStyle(
+                                          overflow: TextOverflow.ellipsis,
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500,
+                                            height: 1.5
+                                        ),
+                                        strutStyle: StrutStyle(
+                                          height: 1.4,
+                                          forceStrutHeight: true,
+                                        ),
                                       ),
-                                      strutStyle: StrutStyle(
-                                        height: 1.4,
-                                        forceStrutHeight: true,
+                                      Text(textSetCashAccept, textScaleFactor: 1,
+                                        style: TextStyle(
+                                            overflow: TextOverflow.ellipsis,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500,
+                                            height: 1.3
+                                        ),
+                                        strutStyle: StrutStyle(
+                                          height: 1.7,
+                                          forceStrutHeight: true,
+                                        ),
                                       ),
-                                    ),
-                                    Text(textSetCashAccept, textScaleFactor: 1,
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w500,
-                                          height: 1.3
-                                      ),
-                                      strutStyle: StrutStyle(
-                                        height: 1.7,
-                                        forceStrutHeight: true,
-                                      ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
