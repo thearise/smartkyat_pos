@@ -998,10 +998,12 @@ class _BuyListRefundState extends State<BuyListRefund>
                                               // debugPrint('prodListBef 2 ' + prodListBefore.toString());
                                               List prodRets = prodList;
                                               double refNum = 0;
+                                              bool refCondition = false;
 
                                               for(int i=0; i < prodList.length; i++) {
                                                  refNum = double.parse(prodList[i].split('^')[7]) - double.parse(prodListBefore[i].split('^')[7]);
                                                 if(refNum > 0) {
+                                                  refCondition = true;
                                                   FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr')
                                                       .get()
                                                       .then((DocumentSnapshot documentSnapshot) async {
@@ -1157,8 +1159,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                                 }
 
                                                 try{
-                                                  print('refnum to s' + refNum.toString());
-                                                  if(refNum > 0) {
+                                                  if(refCondition) {
                                                   batch.commit();
                                                   Future.delayed(const Duration(milliseconds: 2000), () {
                                                     setState(() {
