@@ -370,12 +370,12 @@ class HomePageState extends State<HomePage>
   String textSetItemSet = 'item set';
   String textSetItemSets = 'item sets';
   String textSetNoCust = 'No customer';
-  String textSetCashRec = 'CASH RECEIVED';
-  String textSetCusPrice = 'Custom price';
-  String textSetCashRef = 'Cash refund';
+  String textSetCashRec = 'CUSTOMER CASH';
+  String textSetCusPrice = 'Cash received';
+  String textSetCashRef = 'Give refunds';
   String textSetDebtAmt = 'Debt amount';
   String textSetBack = 'Back';
-  String textSetDone = 'Done';
+  String textSetDone = 'Set & done';
   String textSetInvoice = 'Invoice receipt';
   String textSetSaveImage = 'Save as image';
   String textSetReceipt = 'RECEIPT VOUCHER';
@@ -384,7 +384,7 @@ class HomePageState extends State<HomePage>
   String textSetScan = 'Scan';
   String textSetClose = 'Close';
   String textSetQty = 'QUANTITY';
-  String textSetCostPerUnit = 'COST PER UNIT';
+  String textSetCostPerUnit = 'SALE PRICE PER UNIT';
   String textSetCustSale = 'Custom sale price';
   String textSetUnitPrice = 'PRODUCT INFORMATION';
   String textSetSalePrice = 'Sale price';
@@ -441,9 +441,9 @@ class HomePageState extends State<HomePage>
           textSetItemSet = 'item set';
           textSetItemSets = 'item sets';
           textSetNoCust = 'အမည်မသိ';
-          textSetCashRec = 'လက်ခံရရှိငွေ‌';
-          textSetCusPrice = 'စိတ်ကြိုက် ပမာဏ';
-          textSetCashRef = 'ပြန်အမ်းငွေ';
+          textSetCashRec = 'CASH FROM CUSTOMER';
+          textSetCusPrice = 'လက်ခံရရှိငွေ‌';
+          textSetCashRef = 'ပြန်အမ်းငွေ ပေးရန်';
           textSetDebtAmt = 'ကျန်ငွေ';
           textSetBack = 'နောက်သို့';
           textSetDone = 'ဆက်ရန်';
@@ -454,10 +454,10 @@ class HomePageState extends State<HomePage>
           textSetPrinting = 'ပရင့် ထုတ်ရန်';
           textSetScan = 'ရှာရန်';
           textSetClose = 'ပိတ်ရန်';
-          textSetQty = 'အရေအတွက်';
-          textSetCostPerUnit = 'တစ်ယူနစ်ရောင်းစျေး';
+          textSetQty = 'QUANTITY';
+          textSetCostPerUnit = 'SALE PRICE PER UNIT (တစ်ယူနစ်ရောင်းစျေး)';
           textSetCustSale = 'စိတ်ကြိုက်ရောင်းဈေး';
-          textSetUnitPrice = 'ပစ္စည်းအချက်အလက်';
+          textSetUnitPrice = 'PRODUCT INFORMATION';
           textSetSalePrice = 'ရောင်းဈေး';
           textSetInStock = 'လက်ကျန်ပစ္စည်း';
           textSetLoss = 'ဆုံးရှုံးပစ္စည်း';
@@ -489,8 +489,8 @@ class HomePageState extends State<HomePage>
           textSetItemSet = 'item set';
           textSetItemSets = 'item sets';
           textSetNoCust = 'No customer';
-          textSetCashRec = 'CASH RECEIVED';
-          textSetCusPrice = 'Custom price';
+          textSetCashRec = 'CASH FROM CUSTOMER';
+          textSetCusPrice = 'Cash received';
           textSetCashRef = 'Cash refund';
           textSetDebtAmt = 'Debt amount';
           textSetBack = 'Back';
@@ -4507,16 +4507,16 @@ class HomePageState extends State<HomePage>
 
                                                                                           final result = await showModalActionSheet<String>(
                                                                                             context: context,
-                                                                                            title: 'Choose discount type',
+                                                                                            title: isEnglish? 'Choose discount type': 'စျေးလျှော့ရန် အမျိုးအစားရွေးပါ',
                                                                                             actions: [
                                                                                               SheetAction(
-                                                                                                icon: Icons.warning,
-                                                                                                label: 'Amount',
+                                                                                                icon: SmartKyat_POS.dis_amount,
+                                                                                                label: isEnglish? 'Amount': 'ပမာဏ',
                                                                                                 key: 'amount',
                                                                                               ),
                                                                                               SheetAction(
-                                                                                                icon: Icons.warning,
-                                                                                                label: 'Percent',
+                                                                                                icon: SmartKyat_POS.dis_percent,
+                                                                                                label: isEnglish? 'Percent': 'ရာခိုင်နှုန်း',
                                                                                                 key: 'percent',
                                                                                               ),
                                                                                             ],
@@ -4536,16 +4536,18 @@ class HomePageState extends State<HomePage>
                                                                                                   hintText: '0',
                                                                                                   suffixText: '$currencyUnit  ',
                                                                                                   validator: (value) {
-                                                                                                    if (value == null || value.isEmpty) {
+                                                                                                    if(!isNumeric(value)) {
+                                                                                                      return isEnglish? 'invalid amount': 'မှားယွင်းနေပါသည်';
+                                                                                                    } else if (value == null || value.isEmpty) {
                                                                                                       // return '';
                                                                                                       return 'this field is required ';
                                                                                                     } else {
                                                                                                       if(double.parse(TtlProdListPriceReal()) <= 0) {
-                                                                                                        return 'no item in cart';
+                                                                                                        return isEnglish? 'no item in cart': 'ရောင်းစာရင်းတွင် ပစ္စည်းမရှိပါ';
                                                                                                       } else if(double.parse(value) > double.parse(TtlProdListPriceReal())) {
-                                                                                                        return 'much less than total sale';
+                                                                                                        return isEnglish? 'much less than total sale': 'စုစုပေါင်းစျေးထက် မများရပါ';
                                                                                                       } else if(double.parse(value) < 0) {
-                                                                                                        return 'invalid amount';
+                                                                                                        return isEnglish? 'invalid amount': 'မှားယွင်းနေပါသည်';
                                                                                                       }
                                                                                                     }
                                                                                                     return null;
@@ -4554,7 +4556,7 @@ class HomePageState extends State<HomePage>
                                                                                                 ),
                                                                                               ],
                                                                                               title: VDiscount,
-                                                                                              message: 'Add Discount Amount to Cart',
+                                                                                              message: isEnglish? 'Add discount amount to sale cart': 'လျှော့ငွေ ပမာဏထည့်ပါ',
                                                                                             );
                                                                                             setState(() {
                                                                                               discount =double.parse(amount![0].toString());
@@ -4572,15 +4574,17 @@ class HomePageState extends State<HomePage>
                                                                                                   hintText: '0',
                                                                                                   suffixText: '%  ',
                                                                                                   validator: (value) {
-                                                                                                    if (value == null || value.isEmpty) {
+                                                                                                    if(!isNumeric(value)) {
+                                                                                                      return isEnglish? 'invalid amount': 'မှားယွင်းနေပါသည်';
+                                                                                                    } else if (value == null || value.isEmpty) {
                                                                                                       // return '';
                                                                                                       return 'this field is required ';
                                                                                                     } else {
                                                                                                       if(double.parse(TtlProdListPriceReal()) <= 0) {
-                                                                                                        return 'no item in cart';
+                                                                                                        return isEnglish? 'no item in cart': 'ရောင်းစာရင်းတွင် ပစ္စည်းမရှိပါ';
                                                                                                       }
                                                                                                       if(double.parse(value) > 100 || double.parse(value) < 0) {
-                                                                                                        return 'invalid amount';
+                                                                                                        return isEnglish? 'invalid amount': 'မှားယွင်းနေပါသည်';
                                                                                                       }
                                                                                                     }
                                                                                                     return null;
@@ -4589,7 +4593,7 @@ class HomePageState extends State<HomePage>
                                                                                                 ),
                                                                                               ],
                                                                                               title: VDiscount,
-                                                                                              message: 'Add Discount Percent to Cart',
+                                                                                              message: isEnglish? 'Add discount percent to sale cart': 'လျှောငွေ ရာခိုင်နှုန်းထည့်ပါ',
                                                                                             );
                                                                                             // mystate(() {
 
@@ -4607,16 +4611,16 @@ class HomePageState extends State<HomePage>
                                                                                       } else {
                                                                                         final result = await showModalActionSheet<String>(
                                                                                           context: context,
-                                                                                          title: 'Choose discount type',
+                                                                                          title: isEnglish? 'Choose discount type': 'စျေးလျှော့ရန် အမျိုးအစားရွေးပါ',
                                                                                           actions: [
                                                                                             SheetAction(
-                                                                                              icon: Icons.monetization_on_rounded,
-                                                                                              label: 'Amount',
+                                                                                              icon: SmartKyat_POS.dis_amount,
+                                                                                              label: isEnglish? 'Amount': 'ပမာဏ',
                                                                                               key: 'amount',
                                                                                             ),
                                                                                             SheetAction(
-                                                                                              icon: Icons.watch_later_rounded,
-                                                                                              label: 'Percent',
+                                                                                              icon: SmartKyat_POS.dis_percent,
+                                                                                              label: isEnglish? 'Percent': 'ရာခိုင်နှုန်း',
                                                                                               key: 'percent',
                                                                                             ),
                                                                                           ],
@@ -4636,16 +4640,18 @@ class HomePageState extends State<HomePage>
                                                                                                 hintText: '0',
                                                                                                 suffixText: '$currencyUnit  ',
                                                                                                 validator: (value) {
-                                                                                                  if (value == null || value.isEmpty) {
+                                                                                                  if(!isNumeric(value)) {
+                                                                                                    return isEnglish? 'invalid amount': 'မှားယွင်းနေပါသည်';
+                                                                                                  } else if (value == null || value.isEmpty) {
                                                                                                     // return '';
                                                                                                     return 'this field is required ';
                                                                                                   } else {
                                                                                                     if(double.parse(TtlProdListPriceReal()) <= 0) {
-                                                                                                      return 'no item in cart';
+                                                                                                      return isEnglish? 'no item in cart': 'ရောင်းစာရင်းတွင် ပစ္စည်းမရှိပါ';
                                                                                                     } else if(double.parse(value) > double.parse(TtlProdListPriceReal())) {
-                                                                                                      return 'much less than total sale';
+                                                                                                      return isEnglish? 'much less than total sale': 'စုစုပေါင်းစျေးထက် မများရပါ';
                                                                                                     } else if(double.parse(value) < 0) {
-                                                                                                      return 'invalid amount';
+                                                                                                      return isEnglish? 'invalid amount': 'မှားယွင်းနေပါသည်';
                                                                                                     }
                                                                                                   }
                                                                                                   return null;
@@ -4654,7 +4660,7 @@ class HomePageState extends State<HomePage>
                                                                                               ),
                                                                                             ],
                                                                                             title: VDiscount,
-                                                                                            message: 'Add Discount Amount to Cart',
+                                                                                            message: isEnglish? 'Add discount amount to sale cart': 'လျှော့ငွေ ပမာဏထည့်ပါ',
                                                                                           );
                                                                                           setState(() {
                                                                                             discount =double.parse(amount![0].toString());
@@ -4672,15 +4678,17 @@ class HomePageState extends State<HomePage>
                                                                                                 hintText: '0',
                                                                                                 suffixText: '%  ',
                                                                                                 validator: (value) {
-                                                                                                  if (value == null || value.isEmpty) {
+                                                                                                  if(!isNumeric(value)) {
+                                                                                                    return isEnglish? 'invalid amount': 'မှားယွင်းနေပါသည်';
+                                                                                                  } else if (value == null || value.isEmpty) {
                                                                                                     // return '';
                                                                                                     return 'this field is required ';
                                                                                                   } else {
                                                                                                     if(double.parse(TtlProdListPriceReal()) <= 0) {
-                                                                                                      return 'no item in cart';
+                                                                                                      return isEnglish? 'no item in cart': 'ရောင်းစာရင်းတွင် ပစ္စည်းမရှိပါ';
                                                                                                     }
                                                                                                     if(double.parse(value) > 100 || double.parse(value) < 0) {
-                                                                                                      return 'invalid amount';
+                                                                                                      return isEnglish? 'invalid amount': 'မှားယွင်းနေပါသည်';
                                                                                                     }
                                                                                                   }
                                                                                                   return null;
@@ -4689,7 +4697,7 @@ class HomePageState extends State<HomePage>
                                                                                               ),
                                                                                             ],
                                                                                             title: VDiscount,
-                                                                                            message: 'Add Discount Percent to Cart',
+                                                                                            message: isEnglish? 'Add discount percent to sale cart': 'လျှောငွေ ရာခိုင်နှုန်းထည့်ပါ',
                                                                                           );
                                                                                           // mystate(() {
 
@@ -4774,27 +4782,29 @@ class HomePageState extends State<HomePage>
                                                                                     title: Text(
                                                                                       textSetTotalSale,
                                                                                       textScaleFactor: 1,
+                                                                                      maxLines: 1,
                                                                                       style: TextStyle(
-                                                                                          fontSize: 17,
-                                                                                          fontWeight:
-                                                                                          FontWeight
-                                                                                              .w500),
+                                                                                        overflow: TextOverflow.ellipsis,
+                                                                                        fontSize: 17,
+                                                                                        fontWeight:
+                                                                                        FontWeight
+                                                                                            .w500),
                                                                                       strutStyle: StrutStyle(
                                                                                         height: isEnglish? 1.4: 1.6,
                                                                                         forceStrutHeight: true,
                                                                                       ),
                                                                                     ),
                                                                                     subtitle: double.parse(totalItems()) == 1? Text(totalItems() + ' $textSetItemSet',
-                                                                                      textScaleFactor: 1, style: TextStyle(
-                                                                                        fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
+                                                                                      textScaleFactor: 1, maxLines: 1, style: TextStyle(
+                                                                                        fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey, overflow: TextOverflow.ellipsis,
                                                                                       ),
                                                                                       strutStyle: StrutStyle(
                                                                                           forceStrutHeight: true,
                                                                                           height: 1
                                                                                       ),
-                                                                                    ) : Text(totalItems() + ' $textSetItemSets', textScaleFactor: 1,
+                                                                                    ) : Text(totalItems() + ' $textSetItemSets', textScaleFactor: 1, maxLines: 1,
                                                                                       style: TextStyle(
-                                                                                          fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey
+                                                                                          fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey, overflow: TextOverflow.ellipsis,
                                                                                       ),
                                                                                       strutStyle: StrutStyle(
                                                                                           forceStrutHeight: true,
@@ -5044,10 +5054,10 @@ class HomePageState extends State<HomePage>
                                                                                                   ),
                                                                                                 ),
                                                                                                 keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                                                                                inputFormatters: <TextInputFormatter>[
+                                                                                                inputFormatters: <TextInputFormatter>[  LengthLimitingTextInputFormatter(15),
                                                                                                   FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
                                                                                                 onChanged: (value) {
-                                                                                                  setState(() async {
+                                                                                                  setState(() {
                                                                                                     // String ttlProdListPriceFut = await TtlProdListPrice();
                                                                                                     totalAmount = double.parse( TtlProdListPrice());
                                                                                                     value != '' ? paidAmount = double.parse(value) : paidAmount = 0.0;
@@ -5077,7 +5087,7 @@ class HomePageState extends State<HomePage>
                                                                                                     borderRadius: BorderRadius.circular(7.0),
                                                                                                   ),
                                                                                                   onPressed: () async {
-                                                                                                    setState(() async {
+                                                                                                    setState(() {
                                                                                                       // mystate(() {
                                                                                                       //   totalAmount =
                                                                                                       //       double
@@ -5196,7 +5206,7 @@ class HomePageState extends State<HomePage>
                                                                                         forceStrutHeight: true,
                                                                                       ),
                                                                                     ),
-                                                                                    Text('Cash acceptance', textScaleFactor: 1,
+                                                                                    Text(isEnglish? 'Cash acceptance': 'ဖောက်သည်ဆီမှ ငွေလက်ခံခြင်း', textScaleFactor: 1,
                                                                                         style: TextStyle(
                                                                                             fontWeight: FontWeight.w500,
                                                                                             fontSize: 18,
@@ -5253,8 +5263,9 @@ class HomePageState extends State<HomePage>
                                                                                       ),
                                                                                     ) : ListTile(
                                                                                       title: Text(
-                                                                                        textSetCashRef, textScaleFactor: 1,
+                                                                                        textSetCashRef, textScaleFactor: 1, maxLines: 1,
                                                                                         style: TextStyle(
+                                                                                            overflow: TextOverflow.ellipsis,
                                                                                             fontSize: 17,
                                                                                             fontWeight:
                                                                                             FontWeight
@@ -5963,12 +5974,9 @@ class HomePageState extends State<HomePage>
                                                                                                       keyboardType: TextInputType
                                                                                                           .numberWithOptions(
                                                                                                           decimal: false),
-                                                                                                      inputFormatters: <
-                                                                                                          TextInputFormatter>[
-                                                                                                        FilteringTextInputFormatter
-                                                                                                            .allow(
-                                                                                                            RegExp(
-                                                                                                                _getNum())),
+                                                                                                      inputFormatters: <TextInputFormatter>[
+                                                                                                        LengthLimitingTextInputFormatter(6),
+                                                                                                        FilteringTextInputFormatter.allow(RegExp(_getNum())),
                                                                                                       ],
                                                                                                       textAlign: TextAlign.center,
                                                                                                       style: TextStyle(
@@ -6064,7 +6072,7 @@ class HomePageState extends State<HomePage>
                                                                                               SizedBox(height: 15,),
                                                                                               TextFormField(
                                                                                                 keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                                                                                inputFormatters: <TextInputFormatter>[
+                                                                                                inputFormatters: <TextInputFormatter>[  LengthLimitingTextInputFormatter(15),
                                                                                                   FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
                                                                                                 controller: sellPriceControllerTablet,
                                                                                                 validator: (value) {
@@ -6373,7 +6381,7 @@ class HomePageState extends State<HomePage>
                                                                                           children: [
                                                                                             Expanded(
                                                                                               child: Text(
-                                                                                                textSetTotal, textScaleFactor: 1,
+                                                                                                textSetTotal, textScaleFactor: 1, maxLines: 1,
                                                                                                 style: TextStyle(
                                                                                                     overflow: TextOverflow.ellipsis,
                                                                                                     fontSize: 17,
@@ -6758,8 +6766,8 @@ class HomePageState extends State<HomePage>
                                                                                                               padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 2.0),
                                                                                                               child: Container(
                                                                                                                   child: Icon(
-                                                                                                                    Icons.print_rounded,
-                                                                                                                    size: 25,
+                                                                                                                    SmartKyat_POS.printer,
+                                                                                                                    size: 17,
                                                                                                                     color: Colors.black,
                                                                                                                   )
                                                                                                                 // child: Text(
@@ -7111,8 +7119,8 @@ class HomePageState extends State<HomePage>
                                                                                                     child: Padding(
                                                                                                       padding: const EdgeInsets.only(top: 3.0, bottom: 3.0, left: 20.0, right: 20.0),
                                                                                                       child: Icon(
-                                                                                                        Icons.print_rounded,
-                                                                                                        size: 25,
+                                                                                                        SmartKyat_POS.printer,
+                                                                                                        size: 17,
                                                                                                         color: Colors.black,
                                                                                                       ),
                                                                                                     ),
@@ -7571,31 +7579,37 @@ class HomePageState extends State<HomePage>
                                                                                 mainAxisAlignment: MainAxisAlignment.center,
                                                                                 crossAxisAlignment: CrossAxisAlignment.center,
                                                                                 children: [
-                                                                                  Text(
-                                                                                    totalItems(),
-                                                                                    textScaleFactor: 1, textAlign: TextAlign.center,
-                                                                                    style: TextStyle(
-                                                                                        fontSize: 18,
-                                                                                        fontWeight: FontWeight.w500,
-                                                                                        color: Colors.black),
+                                                                                  Expanded(
+                                                                                    child: Text(
+                                                                                      totalItems() + (totalItems() == '1'? ' item - ': ' items - '),
+                                                                                      textScaleFactor: 1, textAlign: TextAlign.right, maxLines: 1,
+                                                                                      style: TextStyle(
+                                                                                          overflow: TextOverflow.ellipsis,
+                                                                                          fontSize: 18,
+                                                                                          fontWeight: FontWeight.w500,
+                                                                                          color: Colors.black),
+                                                                                    ),
                                                                                   ),
-                                                                                  Text(
-                                                                                    totalItems() == '1'? ' item - ': ' items - ',
-                                                                                    textScaleFactor: 1, textAlign: TextAlign.center,
-                                                                                    style: TextStyle(
-                                                                                        fontSize: 18,
-                                                                                        fontWeight: FontWeight.w500,
-                                                                                        color: Colors.black),
-                                                                                  ),
+                                                                                  // Text(
+                                                                                  //   totalItems() == '1'? ' item - ': ' items - ',
+                                                                                  //   textScaleFactor: 1, textAlign: TextAlign.center,
+                                                                                  //   style: TextStyle(
+                                                                                  //       fontSize: 18,
+                                                                                  //       fontWeight: FontWeight.w500,
+                                                                                  //       color: Colors.black),
+                                                                                  // ),
                                                                                   animatedTtlPrice(),
-                                                                                  Text(
-                                                                                    ' $currencyUnit',
-                                                                                    textScaleFactor: 1, textAlign: TextAlign.center,
-                                                                                    style: TextStyle(
-                                                                                        fontSize: 18,
-                                                                                        fontWeight: FontWeight.w500,
-                                                                                        color: Colors.black),
-                                                                                  ),
+                                                                                  Expanded(
+                                                                                    child: Text(
+                                                                                      ' $currencyUnit',
+                                                                                      textScaleFactor: 1, textAlign: TextAlign.left, maxLines: 1,
+                                                                                      style: TextStyle(
+                                                                                          overflow: TextOverflow.ellipsis,
+                                                                                          fontSize: 18,
+                                                                                          fontWeight: FontWeight.w500,
+                                                                                          color: Colors.black),
+                                                                                    ),
+                                                                                  )
                                                                                 ],
                                                                               )
                                                                             // child: double.parse(totalItems()) == 1? Container(
@@ -8402,12 +8416,9 @@ class HomePageState extends State<HomePage>
                                                                 keyboardType: TextInputType
                                                                     .numberWithOptions(
                                                                     decimal: false),
-                                                                inputFormatters: <
-                                                                    TextInputFormatter>[
-                                                                  FilteringTextInputFormatter
-                                                                      .allow(
-                                                                      RegExp(
-                                                                          _getNum())),
+                                                                inputFormatters: <TextInputFormatter>[
+                                                                  LengthLimitingTextInputFormatter(6),
+                                                                  FilteringTextInputFormatter.allow(RegExp(_getNum())),
                                                                 ],
                                                                 style: TextStyle(
                                                                   height: 0.95, fontSize: 15/scaleFactor,
@@ -9397,19 +9408,22 @@ class HomePageState extends State<HomePage>
 
               _textFieldController.addListener((){
                 debugPrint("value: ${_textFieldController.text}");
-                setState(()  {
-                  //String ttlProdListPriceFut = await TtlProdListPriceFut();
-                  totalAmount = double.parse(TtlProdListPrice().toString());
-                  _textFieldController.text != '' ? paidAmount = double.parse(_textFieldController.text) : paidAmount = 0.0;
-                  if((totalAmount - paidAmount).isNegative){
-                    debt = 0;
-                  } else { debt = (totalAmount - paidAmount);
-                  }
-                  if((paidAmount - totalAmount).isNegative){
-                    refund = 0;
-                  } else { refund = (paidAmount - totalAmount);
-                  }
-                });       });
+                setState(() {
+                  mystate(()  {
+                    //String ttlProdListPriceFut = await TtlProdListPriceFut();
+                    totalAmount = double.parse(TtlProdListPrice().toString());
+                    _textFieldController.text != '' ? paidAmount = double.parse(_textFieldController.text) : paidAmount = 0.0;
+                    if((totalAmount - paidAmount).isNegative){
+                      debt = 0;
+                    } else { debt = (totalAmount - paidAmount);
+                    }
+                    if((paidAmount - totalAmount).isNegative){
+                      refund = 0;
+                    } else { refund = (paidAmount - totalAmount);
+                    }
+                  });
+                });
+              });
 
               myController.addListener((){
                 mystate((){
@@ -9895,16 +9909,16 @@ class HomePageState extends State<HomePage>
 
                                                               final result = await showModalActionSheet<String>(
                                                                 context: context,
-                                                                title: 'Choose discount type',
+                                                                title: isEnglish? 'Choose discount type': 'စျေးလျှော့ရန် အမျိုးအစားရွေးပါ',
                                                                 actions: [
                                                                   SheetAction(
-                                                                    icon: Icons.error,
-                                                                    label: 'Amount',
+                                                                    icon: SmartKyat_POS.dis_amount,
+                                                                    label: isEnglish? 'Amount': 'ပမာဏ',
                                                                     key: 'amount',
                                                                   ),
                                                                   SheetAction(
-                                                                    icon: Icons.warning,
-                                                                    label: 'Percent',
+                                                                    icon: SmartKyat_POS.dis_percent,
+                                                                    label: isEnglish? 'Percent': 'ရာခိုင်နှုန်း',
                                                                     key: 'percent',
                                                                   ),
                                                                 ],
@@ -9926,16 +9940,18 @@ class HomePageState extends State<HomePage>
                                                                         hintText: '0',
                                                                         suffixText: '$currencyUnit  ',
                                                                         validator: (value) {
-                                                                          if (value == null || value.isEmpty) {
+                                                                          if(!isNumeric(value)) {
+                                                                            return isEnglish? 'invalid amount': 'မှားယွင်းနေပါသည်';
+                                                                          } else if (value == null || value.isEmpty) {
                                                                             // return '';
                                                                             return 'this field is required ';
                                                                           } else {
                                                                             if(double.parse(TtlProdListPriceReal()) <= 0) {
-                                                                              return 'no item in cart';
+                                                                              return isEnglish? 'no item in cart': 'ရောင်းစာရင်းတွင် ပစ္စည်းမရှိပါ';
                                                                             } else if(double.parse(value) > double.parse(TtlProdListPriceReal())) {
-                                                                              return 'much less than total sale';
+                                                                              return isEnglish? 'much less than total sale': 'စုစုပေါင်းစျေးထက် မများရပါ';
                                                                             } else if(double.parse(value) < 0) {
-                                                                              return 'invalid amount';
+                                                                              return isEnglish? 'invalid amount': 'မှားယွင်းနေပါသည်';
                                                                             }
                                                                           }
                                                                           return null;
@@ -9944,7 +9960,7 @@ class HomePageState extends State<HomePage>
                                                                       ),
                                                                     ],
                                                                     title: VDiscount,
-                                                                    message: 'Add Discount Amount to Cart',
+                                                                    message: isEnglish? 'Add discount amount to sale cart': 'လျှော့ငွေ ပမာဏထည့်ပါ',
                                                                   );
                                                                   mystate(() {
                                                                     discount =double.parse(amount![0].toString());
@@ -9962,15 +9978,17 @@ class HomePageState extends State<HomePage>
                                                                         hintText: '0',
                                                                         suffixText: '%  ',
                                                                         validator: (value) {
-                                                                          if (value == null || value.isEmpty) {
+                                                                          if(!isNumeric(value)) {
+                                                                            return isEnglish? 'invalid amount': 'မှားယွင်းနေပါသည်';
+                                                                          } else if (value == null || value.isEmpty) {
                                                                             // return '';
                                                                             return 'this field is required ';
                                                                           } else {
                                                                             if(double.parse(TtlProdListPriceReal()) <= 0) {
-                                                                              return 'no item in cart';
+                                                                              return isEnglish? 'no item in cart': 'ရောင်းစာရင်းတွင် ပစ္စည်းမရှိပါ';
                                                                             }
                                                                             if(double.parse(value) > 100 || double.parse(value) < 0) {
-                                                                              return 'invalid amount';
+                                                                              return isEnglish? 'invalid amount': 'မှားယွင်းနေပါသည်';
                                                                             }
                                                                           }
                                                                           return null;
@@ -9979,7 +9997,7 @@ class HomePageState extends State<HomePage>
                                                                       ),
                                                                     ],
                                                                     title: VDiscount,
-                                                                    message: 'Add Discount Percent to Cart',
+                                                                    message: isEnglish? 'Add discount percent to sale cart': 'လျှောငွေ ရာခိုင်နှုန်းထည့်ပါ',
                                                                   );
                                                                   mystate(() {
                                                                     discount =double.parse(percentage![0].toString());
@@ -9997,16 +10015,16 @@ class HomePageState extends State<HomePage>
                                                           } else {
                                                             final result = await showModalActionSheet<String>(
                                                               context: context,
-                                                              title: 'Choose discount type',
+                                                              title: isEnglish? 'Choose discount type': 'စျေးလျှော့ရန် အမျိုးအစားရွေးပါ',
                                                               actions: [
                                                                 SheetAction(
-                                                                  icon: Icons.error,
-                                                                  label: 'Amount',
+                                                                  icon: SmartKyat_POS.dis_amount,
+                                                                  label: isEnglish? 'Amount': 'ပမာဏ',
                                                                   key: 'amount',
                                                                 ),
                                                                 SheetAction(
-                                                                  icon: Icons.warning,
-                                                                  label: 'Percent',
+                                                                  icon: SmartKyat_POS.dis_percent,
+                                                                  label: isEnglish? 'Percent': 'ရာခိုင်နှုန်း',
                                                                   key: 'percent',
                                                                 ),
                                                               ],
@@ -10028,16 +10046,18 @@ class HomePageState extends State<HomePage>
                                                                       hintText: '0',
                                                                       suffixText: '$currencyUnit  ',
                                                                       validator: (value) {
-                                                                        if (value == null || value.isEmpty) {
+                                                                        if(!isNumeric(value)) {
+                                                                          return isEnglish? 'invalid amount': 'မှားယွင်းနေပါသည်';
+                                                                        } else if (value == null || value.isEmpty) {
                                                                           // return '';
                                                                           return 'this field is required ';
                                                                         } else {
                                                                           if(double.parse(TtlProdListPriceReal()) <= 0) {
-                                                                            return 'no item in cart';
+                                                                            return isEnglish? 'no item in cart': 'ရောင်းစာရင်းတွင် ပစ္စည်းမရှိပါ';
                                                                           } else if(double.parse(value) > double.parse(TtlProdListPriceReal())) {
-                                                                            return 'much less than total sale';
+                                                                            return isEnglish? 'much less than total sale': 'စုစုပေါင်းစျေးထက် မများရပါ';
                                                                           } else if(double.parse(value) < 0) {
-                                                                            return 'invalid amount';
+                                                                            return isEnglish? 'invalid amount': 'မှားယွင်းနေပါသည်';
                                                                           }
                                                                         }
                                                                         return null;
@@ -10046,7 +10066,7 @@ class HomePageState extends State<HomePage>
                                                                     ),
                                                                   ],
                                                                   title: VDiscount,
-                                                                  message: 'Add Discount Amount to Cart',
+                                                                  message: isEnglish? 'Add discount amount to sale cart': 'လျှော့ငွေ ပမာဏထည့်ပါ',
                                                                 );
                                                                 mystate(() {
                                                                   discount =double.parse(amount![0].toString());
@@ -10064,15 +10084,17 @@ class HomePageState extends State<HomePage>
                                                                       hintText: '0',
                                                                       suffixText: '%  ',
                                                                       validator: (value) {
-                                                                        if (value == null || value.isEmpty) {
+                                                                        if(!isNumeric(value)) {
+                                                                          return isEnglish? 'invalid amount': 'မှားယွင်းနေပါသည်';
+                                                                        } else if (value == null || value.isEmpty) {
                                                                           // return '';
                                                                           return 'this field is required ';
                                                                         } else {
                                                                           if(double.parse(TtlProdListPriceReal()) <= 0) {
-                                                                            return 'no item in cart';
+                                                                            return isEnglish? 'no item in cart': 'ရောင်းစာရင်းတွင် ပစ္စည်းမရှိပါ';
                                                                           }
                                                                           if(double.parse(value) > 100 || double.parse(value) < 0) {
-                                                                            return 'invalid amount';
+                                                                            return isEnglish? 'invalid amount': 'မှားယွင်းနေပါသည်';
                                                                           }
                                                                         }
                                                                         return null;
@@ -10081,7 +10103,7 @@ class HomePageState extends State<HomePage>
                                                                     ),
                                                                   ],
                                                                   title: VDiscount,
-                                                                  message: 'Add Discount Percent to Cart',
+                                                                  message: isEnglish? 'Add discount percent to sale cart': 'လျှောငွေ ရာခိုင်နှုန်းထည့်ပါ',
                                                                 );
                                                                 mystate(() {
                                                                   discount =double.parse(percentage![0].toString());
@@ -10341,8 +10363,9 @@ class HomePageState extends State<HomePage>
                                                       children: [
                                                         ListTile(
                                                           title: Text(
-                                                            textSetTotalSale,textScaleFactor: 1,
+                                                            textSetTotalSale,textScaleFactor: 1, maxLines: 1,
                                                             style: TextStyle(
+                                                                overflow: TextOverflow.ellipsis,
                                                                 fontSize: 17,
                                                                 fontWeight:
                                                                 FontWeight
@@ -10352,17 +10375,17 @@ class HomePageState extends State<HomePage>
                                                               forceStrutHeight: true,
                                                             ),
                                                           ),
-                                                          subtitle: double.parse(totalItems()) == 1? Text(totalItems() + ' $textSetItemSet',textScaleFactor: 1,
+                                                          subtitle: double.parse(totalItems()) == 1? Text(totalItems() + ' $textSetItemSet',textScaleFactor: 1, maxLines: 1,
                                                             style: TextStyle(
-                                                                fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey
+                                                                fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey, overflow: TextOverflow.ellipsis,
                                                             ),
                                                             strutStyle: StrutStyle(
                                                                 forceStrutHeight: true,
                                                                 height: 1
                                                             ),
                                                           ) : Text(totalItems() + ' $textSetItemSets',
-                                                            textScaleFactor: 1, style: TextStyle(
-                                                                fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey
+                                                            textScaleFactor: 1, maxLines: 1, style: TextStyle(
+                                                                fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey, overflow: TextOverflow.ellipsis,
                                                             ),
                                                             strutStyle: StrutStyle(
                                                                 forceStrutHeight: true,
@@ -10527,7 +10550,7 @@ class HomePageState extends State<HomePage>
                                                                 height: 1.2
                                                             )),
                                                         SizedBox(height: 2.5),
-                                                        Text('Cash acceptance', textScaleFactor: 1, style: TextStyle(
+                                                        Text(isEnglish? 'Cash acceptance': 'ဖောက်သည်ဆီမှ ငွေလက်ခံခြင်း', textScaleFactor: 1, style: TextStyle(
                                                             fontWeight: FontWeight.w500,
                                                             fontSize: 19
                                                         ),
@@ -10651,10 +10674,10 @@ class HomePageState extends State<HomePage>
                                                                         ),
                                                                       ),
                                                                       keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                                                      inputFormatters: <TextInputFormatter>[
+                                                                      inputFormatters: <TextInputFormatter>[  LengthLimitingTextInputFormatter(15),
                                                                         FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
                                                                       onChanged: (value) {
-                                                                        mystate(() async {
+                                                                        mystate(() {
                                                                           //  String ttlProdListPriceFut = await TtlProdListPriceFut();
                                                                           totalAmount = double.parse(TtlProdListPrice().toString());
                                                                           value != '' ? paidAmount = double.parse(value) : paidAmount = 0.0;
@@ -10781,8 +10804,9 @@ class HomePageState extends State<HomePage>
                                                             ),
                                                           ) : ListTile(
                                                             title: Text(
-                                                              textSetCashRef,textScaleFactor: 1,
+                                                              textSetCashRef,textScaleFactor: 1, maxLines: 1,
                                                               style: TextStyle(
+                                                                  overflow: TextOverflow.ellipsis,
                                                                   fontSize: 17,
                                                                   fontWeight:
                                                                   FontWeight
@@ -11499,12 +11523,9 @@ class HomePageState extends State<HomePage>
                                                                               keyboardType: TextInputType
                                                                                   .numberWithOptions(
                                                                                   decimal: false),
-                                                                              inputFormatters: <
-                                                                                  TextInputFormatter>[
-                                                                                FilteringTextInputFormatter
-                                                                                    .allow(
-                                                                                    RegExp(
-                                                                                        _getNum())),
+                                                                              inputFormatters: <TextInputFormatter>[
+                                                                                LengthLimitingTextInputFormatter(6),
+                                                                                FilteringTextInputFormatter.allow(RegExp(_getNum())),
                                                                               ],
                                                                               textAlign: TextAlign.center,
                                                                               style: TextStyle(
@@ -11600,7 +11621,7 @@ class HomePageState extends State<HomePage>
                                                                       SizedBox(height: 15,),
                                                                       TextFormField(
                                                                         keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                                                        inputFormatters: <TextInputFormatter>[
+                                                                        inputFormatters: <TextInputFormatter>[  LengthLimitingTextInputFormatter(15),
                                                                           FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
                                                                         controller: sellPriceController,
                                                                         validator: (value) {
@@ -11899,8 +11920,9 @@ class HomePageState extends State<HomePage>
                                                             children: [
                                                               ListTile(
                                                                 title: Text(
-                                                                  textSetTotal,textScaleFactor: 1,
+                                                                  textSetTotal, textScaleFactor: 1, maxLines: 1,
                                                                   style: TextStyle(
+                                                                      overflow: TextOverflow.ellipsis,
                                                                       fontSize: 17,
                                                                       fontWeight:
                                                                       FontWeight
@@ -11927,7 +11949,7 @@ class HomePageState extends State<HomePage>
                                                                         GestureDetector(
                                                                           onTap: () {
                                                                             setState((){
-                                                                              mystate(() async {
+                                                                              mystate(() {
                                                                                 //  String ttlProdListPriceFut = await TtlProdListPriceFut();
                                                                                 _controller.animateTo(0);
                                                                                 _textFieldController.clear();
@@ -12258,8 +12280,8 @@ class HomePageState extends State<HomePage>
                                                                                 padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 2.0),
                                                                                 child: Container(
                                                                                     child: Icon(
-                                                                                      Icons.print_rounded,
-                                                                                      size: 25,
+                                                                                      SmartKyat_POS.printer,
+                                                                                      size: 17,
                                                                                       color: Colors.black,
                                                                                     )
                                                                                   // child: Text(
@@ -12503,8 +12525,8 @@ class HomePageState extends State<HomePage>
                                                                                     children: [
                                                                                       SizedBox(width: 15),
                                                                                       Icon(
-                                                                                        Icons.print_rounded,
-                                                                                        size: 25,
+                                                                                        SmartKyat_POS.printer,
+                                                                                        size: 17,
                                                                                         color: Color(0xff5786DB),
                                                                                       ),
                                                                                       SizedBox(width: 8),
@@ -12649,8 +12671,8 @@ class HomePageState extends State<HomePage>
                                                                                         child: Padding(
                                                                                           padding: const EdgeInsets.only(top: 3.0, bottom: 3.0, left: 20.0, right: 20.0),
                                                                                           child: Icon(
-                                                                                            Icons.print_rounded,
-                                                                                            size: 25,
+                                                                                            SmartKyat_POS.printer,
+                                                                                            size: 17,
                                                                                             color: Colors.black,
                                                                                           ),
                                                                                         ),
@@ -13033,6 +13055,13 @@ class HomePageState extends State<HomePage>
       return false;
     }
 
+  }
+
+  RegExp _numeric = RegExp(r'^-?[0-9]+$');
+
+  /// check if the string contains only numbers
+  bool isNumeric(str) {
+    return _numeric.hasMatch(str);
   }
 
 
@@ -14502,8 +14531,8 @@ class HomePageState extends State<HomePage>
                                                                   children: [
                                                                     SizedBox(width: 15),
                                                                     Icon(
-                                                                      Icons.print_rounded,
-                                                                      size: 25,
+                                                                      SmartKyat_POS.printer,
+                                                                      size: 17,
                                                                       color: Color(0xff5786DB),
                                                                     ),
                                                                     SizedBox(width: 8),
@@ -14648,8 +14677,8 @@ class HomePageState extends State<HomePage>
                                                                       child: Padding(
                                                                         padding: const EdgeInsets.only(top: 3.0, bottom: 3.0, left: 20.0, right: 20.0),
                                                                         child: Icon(
-                                                                          Icons.print_rounded,
-                                                                          size: 25,
+                                                                          SmartKyat_POS.printer,
+                                                                          size: 17,
                                                                           color: Colors.black,
                                                                         ),
                                                                       ),

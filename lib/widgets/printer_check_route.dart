@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:esc_pos_utils_plus/esc_pos_utils.dart' as posUtils;
+import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 
 import '../app_theme.dart';
 
@@ -227,8 +228,8 @@ class _PrinterCheckRouteState extends State<PrinterCheckRoute> {
                                             child: Padding(
                                               padding: const EdgeInsets.only(top: 3.0, bottom: 3.0, left: 20.0, right: 20.0),
                                               child: Icon(
-                                                Icons.print_rounded,
-                                                size: 25,
+                                                SmartKyat_POS.printer,
+                                                size: 17,
                                                 color: Colors.black,
                                               ),
                                             ),

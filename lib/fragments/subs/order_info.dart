@@ -580,8 +580,8 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                               top: 15,
                                                               left: 0,
                                                               child: Icon(
-                                                                Icons.print_rounded,
-                                                                size: 23,
+                                                                SmartKyat_POS.printer,
+                                                                size: 17,
                                                               ),
                                                             ),
                                                             Positioned(
