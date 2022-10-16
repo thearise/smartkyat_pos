@@ -833,10 +833,9 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                 DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodSaleData').doc(widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8));
                                                 DocumentReference prodsMonthly = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodMthData').doc(widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6));
                                                 DocumentReference prodsYearly = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodYearData').doc(widget.data.split('^')[0].substring(0,4));
-                                                 double refNum = 0;
                                                  bool refCondition = false;
                                                 for(int i=0; i < prodList.length; i++) {
-                                                   refNum = double.parse(prodList[i].split('^')[7]) - double.parse(prodListBefore[i].split('^')[7]);
+                                                double refNum = double.parse(prodList[i].split('^')[7]) - double.parse(prodListBefore[i].split('^')[7]);
                                                    if(refNum > 0) {
                                                      refCondition = true;
                                                     FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr')
@@ -858,10 +857,8 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
                                                               }
                                                             }
 
-                                                           // print('chgDiscount ' + chgDiscount.toString());
-
-
                                                             batch = await updateProduct(batch, prodList[i].split('^')[0], prodList[i].split('^')[5], refNum);
+
                                                             batch.set(
                                                                 prodsArr,
                                                                 {
