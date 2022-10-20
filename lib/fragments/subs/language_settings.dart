@@ -42,7 +42,7 @@ class LanguageSettingsState extends State<LanguageSettings>  with TickerProvider
       if(value=='burmese') {
         setState(() {
           textSetDisplay = 'Display';
-          textSetLanguage = 'Languages';
+          textSetLanguage = 'ဘာသာစကား';
           textSetChgLang = 'CHANGE LANGUAGE';
         });
       } else if(value=='english') {

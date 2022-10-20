@@ -2028,7 +2028,7 @@ class ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                                   });
                                                                 }
                                                               } on SocketException catch (_) {
-                                                                smartKyatFMod(context,'Internet connection is required if this product has image.', 'w');
+                                                                smartKyatFMod(context,widget.isEnglish? 'Internet connection is required if this product has image.': 'ဒီပစ္စည်းတွင် ပုံထည့်ထားပါက အင်တာနက်ရှိရန် လိုအပ်ပါသည်။', 'w');
                                                               }
                                                             } else {
                                                               debugPrint('all set no img');

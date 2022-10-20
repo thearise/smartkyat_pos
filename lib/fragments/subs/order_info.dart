@@ -199,7 +199,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                             debugPrint('phyophyo' + result.toString());
                             // debugPrint(output1?['subs'].toString());
                             if(output1?['subs'] == null) {
-                              //smartKyatFlash('Internet connection is required to take this action.', 'w');
+                              //smartKyatFlash(widget.isEnglish? 'Internet connection is required to take this action.': 'ဒီလုပ်ဆောင်ချက်ကို လုပ်ဆောင်ရန် အင်တာနက်လိုပါသည်။', 'w');
                               return Expanded(
                                 child: Center(
                                   child: Padding(
@@ -382,7 +382,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                             loadingState = false;
                                                             disableTouch = false;
                                                           });
-                                                          smartKyatFMod(context,'Internet connection is required to take this action.', 'w');
+                                                          smartKyatFMod(context,widget.isEnglish? 'Internet connection is required to take this action.': 'ဒီလုပ်ဆောင်ချက်ကို လုပ်ဆောင်ရန် အင်တာနက်လိုပါသည်။', 'w');
 
                                                         }
                                                       },
@@ -482,7 +482,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                               loadingState = false;
                                                               disableTouch = false;
                                                             });
-                                                            smartKyatFMod(context, 'Internet connection is required to take this action.', 'w');
+                                                            smartKyatFMod(context, widget.isEnglish? 'Internet connection is required to take this action.': 'ဒီလုပ်ဆောင်ချက်ကို လုပ်ဆောင်ရန် အင်တာနက်လိုပါသည်။', 'w');
                                                           }
                                                         },
                                                         child: Container(
@@ -1242,7 +1242,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                               ),
                             );
                           }
-                          // smartKyatFlash('Internet connection is required to take this action.', 'w');
+                          // smartKyatFlash(widget.isEnglish? 'Internet connection is required to take this action.': 'ဒီလုပ်ဆောင်ချက်ကို လုပ်ဆောင်ရန် အင်တာနက်လိုပါသည်။', 'w');
                           return Expanded(
                             child: Center(
                               child: Padding(

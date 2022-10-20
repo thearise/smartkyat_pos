@@ -19,8 +19,9 @@ import 'package:smartkyat_pos/pages2/home_page5.dart';
 import '../app_theme.dart';
 
 class AddShopFirst extends StatefulWidget {
-  const AddShopFirst({Key? key}) : super(key: key);
+  const AddShopFirst({Key? key, required this.isEnglish}) : super(key: key);
 
+  final bool isEnglish;
   @override
   _AddShopFirstState createState() => _AddShopFirstState();
 }
@@ -347,7 +348,7 @@ class _AddShopFirstState extends State<AddShopFirst> {
                                         color: Colors.black,
                                       ),
 // errorText: 'Error message',
-                                      labelText: 'Shop name',
+                                      labelText: widget.isEnglish? 'Shop name': 'ဆိုင်အမည်',
                                       floatingLabelBehavior:
                                       FloatingLabelBehavior.auto,
 //filled: true,
@@ -415,7 +416,7 @@ class _AddShopFirstState extends State<AddShopFirst> {
                                         color: Colors.black,
                                       ),
 // errorText: 'Error message',
-                                      labelText: 'Shop address',
+                                      labelText: widget.isEnglish? 'Shop address': 'ဆိုင်လိပ်စာ',
                                       floatingLabelBehavior:
                                       FloatingLabelBehavior.auto,
 //filled: true,
@@ -483,7 +484,7 @@ class _AddShopFirstState extends State<AddShopFirst> {
                                         color: Colors.black,
                                       ),
 // errorText: 'Error message',
-                                      labelText: 'Phone number',
+                                      labelText: widget.isEnglish? 'Phone number': 'ဖုန်းနံပါတ်',
                                       floatingLabelBehavior:
                                       FloatingLabelBehavior.auto,
 //filled: true,
@@ -563,7 +564,7 @@ class _AddShopFirstState extends State<AddShopFirst> {
                                           color: Colors.black,
                                         ),
 // errorText: 'Error message',
-                                        labelText: 'Time zone',
+                                        labelText: widget.isEnglish? 'Time zone': 'အချိန်ဇုန်/ဒေသ',
                                         floatingLabelBehavior:
                                         FloatingLabelBehavior.auto,
 //filled: true,
@@ -581,7 +582,7 @@ class _AddShopFirstState extends State<AddShopFirst> {
                                     child: Padding(
                                       padding: const EdgeInsets.only(left: 1.0, right: 5.0),
                                       child: Text(
-                                        'Time zone information can\'t be changed later.',
+                                        widget.isEnglish? 'Time zone information can\'t be changed later.': 'အချိန်ဇုန်/ဒေသ သည်နောက်မှ ပြောင်းလဲမရနိုင်ပါ။',
                                         textScaleFactor: 1,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
@@ -601,7 +602,7 @@ class _AddShopFirstState extends State<AddShopFirst> {
                               child: Padding(
                                 padding: const EdgeInsets.only(top: 20.0),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     ButtonTheme(
                                       minWidth: (MediaQuery.of(context).size.width)/3 - 22.5,
@@ -641,7 +642,7 @@ class _AddShopFirstState extends State<AddShopFirst> {
                                               bottom: 2.0),
                                           child: Container(
                                             child: Text(
-                                              'Logout',  textScaleFactor: 1,
+                                              widget.isEnglish? 'Logout': 'ထွက်မည်',  textScaleFactor: 1,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                 fontSize: 18,
@@ -652,207 +653,210 @@ class _AddShopFirstState extends State<AddShopFirst> {
                                         ),
                                       ),
                                     ),
-                                    ButtonTheme(
-                                      minWidth: (MediaQuery.of(context).size.width - 22.5) - (MediaQuery.of(context).size.width)/3,
-                                      splashColor: Colors.transparent,
-                                      height: 53,
-                                      child: FlatButton(
-                                        color: AppTheme.themeColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                          BorderRadius.circular(10.0),
-                                          side: BorderSide(
-                                            color: AppTheme.themeColor,
+                                    SizedBox(width: 15),
+                                    Expanded(
+                                      child: ButtonTheme(
+                                        // minWidth: (MediaQuery.of(context).size.width - 22.5) - (MediaQuery.of(context).size.width)/3,
+                                        splashColor: Colors.transparent,
+                                        height: 53,
+                                        child: FlatButton(
+                                          color: AppTheme.themeColor,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                            BorderRadius.circular(10.0),
+                                            side: BorderSide(
+                                              color: AppTheme.themeColor,
+                                            ),
                                           ),
-                                        ),
-                                        onPressed: () async {
-                                          try {
-                                            final result = await InternetAddress.lookup('google.com');
-                                            if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-                                              shopFieldsValue = [];
-                                              User? user = auth.currentUser;
-                                              var uid = user!.uid;
-                                              var email = user.email;
-                                              if (_formKey.currentState!.validate()) {
-                                                WriteBatch batch = FirebaseFirestore.instance.batch();
-                                                setState(() {
-                                                  loadingState = true;
-                                                  disableTouch = true;
-                                                });
-                                                CollectionReference shops = await FirebaseFirestore.instance.collection('shops');
-                                                shops.add(
-                                                    {
-                                                      'owner_id' : uid.toString(),
-                                                      'shop_name': shopFieldsValue[0],
-                                                      'shop_address' : shopFieldsValue[1],
-                                                      'plan_type' : 'basic',
-                                                      'shop_phone': shopFieldsValue[2],
-                                                      'users': FieldValue.arrayUnion([email.toString()]),
-                                                      'orders_length': 1000,
-                                                      'buyOrders_length': 1000,
-                                                      'is_pro' :  {'start': DateTime.now(), 'end': DateTime.now().add(const Duration(days: 10))},
-                                                      'devices': [await _getId()],
-                                                      'timezone': offsetStore
-                                                    }
-                                                ).then((value) async {
-                                                  await user.reload();
-                                                  debugPrint('wworked here 0');
-                                                  shops.doc(value.id).collection('users').doc(email).set({
-                                                    'email': email.toString(),
-                                                    'role' : 'owner',
-                                                    'device0': await _getId()
-                                                  }).catchError((error) => debugPrint("Failed to update user1: $error"));
-                                                  debugPrint('wworked here 1');
-                                                  shops.doc(value.id).collection('users_ver').doc(uid).set({
-                                                    'email': email.toString(),
-                                                    'role' : 'owner',
-                                                    'device0': await _getId()
-                                                  }).catchError((error) => debugPrint("Failed to update user2: $error"));
-                                                  // setStoreId(value.id.toString());
-                                                  debugPrint('wworked here 2');
-                                                  addMapData(batch, value.id, 'imgArr', 'prodsArr', 'prods');
+                                          onPressed: () async {
+                                            try {
+                                              final result = await InternetAddress.lookup('google.com');
+                                              if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                                                shopFieldsValue = [];
+                                                User? user = auth.currentUser;
+                                                var uid = user!.uid;
+                                                var email = user.email;
+                                                if (_formKey.currentState!.validate()) {
+                                                  WriteBatch batch = FirebaseFirestore.instance.batch();
+                                                  setState(() {
+                                                    loadingState = true;
+                                                    disableTouch = true;
+                                                  });
+                                                  CollectionReference shops = await FirebaseFirestore.instance.collection('shops');
+                                                  shops.add(
+                                                      {
+                                                        'owner_id' : uid.toString(),
+                                                        'shop_name': shopFieldsValue[0],
+                                                        'shop_address' : shopFieldsValue[1],
+                                                        'plan_type' : 'basic',
+                                                        'shop_phone': shopFieldsValue[2],
+                                                        'users': FieldValue.arrayUnion([email.toString()]),
+                                                        'orders_length': 1000,
+                                                        'buyOrders_length': 1000,
+                                                        'is_pro' :  {'start': DateTime.now(), 'end': DateTime.now().add(const Duration(days: 10))},
+                                                        'devices': [await _getId()],
+                                                        'timezone': offsetStore
+                                                      }
+                                                  ).then((value) async {
+                                                    await user.reload();
+                                                    debugPrint('wworked here 0');
+                                                    shops.doc(value.id).collection('users').doc(email).set({
+                                                      'email': email.toString(),
+                                                      'role' : 'owner',
+                                                      'device0': await _getId()
+                                                    }).catchError((error) => debugPrint("Failed to update user1: $error"));
+                                                    debugPrint('wworked here 1');
+                                                    shops.doc(value.id).collection('users_ver').doc(uid).set({
+                                                      'email': email.toString(),
+                                                      'role' : 'owner',
+                                                      'device0': await _getId()
+                                                    }).catchError((error) => debugPrint("Failed to update user2: $error"));
+                                                    // setStoreId(value.id.toString());
+                                                    debugPrint('wworked here 2');
+                                                    addMapData(batch, value.id, 'imgArr', 'prodsArr', 'prods');
 
-                                                  addMapData(batch, value.id, 'collArr', 'prodsArr', 'prods');
+                                                    addMapData(batch, value.id, 'collArr', 'prodsArr', 'prods');
 
-                                                  addMapData(batch, value.id, 'collArr', 'cusArr', 'cus');
+                                                    addMapData(batch, value.id, 'collArr', 'cusArr', 'cus');
 
-                                                  addMapData(batch, value.id, 'collArr', 'merArr', 'mer');
+                                                    addMapData(batch, value.id, 'collArr', 'merArr', 'mer');
 
-                                                  addCountData(batch, value.id, 'prodsCnt', 0);
+                                                    addCountData(batch, value.id, 'prodsCnt', 0);
 
-                                                  addCountData(batch, value.id, 'cusCnt', 0);
+                                                    addCountData(batch, value.id, 'cusCnt', 0);
 
-                                                  addCountData(batch, value.id, 'merCnt', 0);
+                                                    addCountData(batch, value.id, 'merCnt', 0);
 
-                                                  addCountData(batch, value.id, 'ordsCnt', 1000);
+                                                    addCountData(batch, value.id, 'ordsCnt', 1000);
 
-                                                  addCountData(batch, value.id, 'buyOrdsCnt', 1000);
+                                                    addCountData(batch, value.id, 'buyOrdsCnt', 1000);
 
-                                                  addNoCus(batch, value.id);
+                                                    addNoCus(batch, value.id);
 
-                                                  addNoMer(batch, value.id);
-                                                  debugPrint('wworked here 3');
+                                                    addNoMer(batch, value.id);
+                                                    debugPrint('wworked here 3');
 
-                                                  try {
-                                                    FocusScope.of(context).unfocus();
-                                                    await batch.commit();
-                                                    setStoreId(value.id.toString());
-                                                    debugPrint('shop added');
-                                                    Future.delayed(const Duration(milliseconds: 2000), () async {
+                                                    try {
+                                                      FocusScope.of(context).unfocus();
+                                                      await batch.commit();
+                                                      setStoreId(value.id.toString());
+                                                      debugPrint('shop added');
+                                                      Future.delayed(const Duration(milliseconds: 2000), () async {
+                                                        setState(() {
+                                                          loadingState = false;
+                                                          disableTouch = false;
+                                                        });
+                                                        var resultPop = await Navigator.of(context).pushReplacement(FadeRoute(page: HomePage(deviceId: deviceId,)));
+                                                      });
+
+                                                      //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+
+                                                    } catch (error) {
+                                                      debugPrint('shop adding error');
                                                       setState(() {
                                                         loadingState = false;
                                                         disableTouch = false;
                                                       });
-                                                      var resultPop = await Navigator.of(context).pushReplacement(FadeRoute(page: HomePage(deviceId: deviceId,)));
-                                                    });
+                                                    }
+
+                                                    // CollectionReference imageArr = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('imgArr');
+                                                    // imageArr.doc('prodsArr').set({
+                                                    //   'prods' : {}
+                                                    // }).then((value) {})
+                                                    //     .catchError((error) => debugPrint("Failed to update user: $error"));
+                                                    //
+                                                    // CollectionReference collectionArr = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('collArr');
+                                                    // collectionArr.doc('cusArr').set({
+                                                    //   'cus' : {}
+                                                    // }).then((value) {})
+                                                    //     .catchError((error) => debugPrint("Failed to update user: $error"));
+                                                    //
+                                                    // collectionArr.doc('merArr').set({
+                                                    //   'mer' : {}
+                                                    // }).then((value) {})
+                                                    //     .catchError((error) => debugPrint("Failed to update user: $error"));
+                                                    //
+                                                    // collectionArr.doc('prodsArr').set({
+                                                    //   'prods' : {}
+                                                    // }).then((value) {})
+                                                    //     .catchError((error) => debugPrint("Failed to update user: $error"));
+                                                    //
+                                                    // CollectionReference countColl = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('countColl');
+                                                    // countColl.doc('prodsCnt').set({
+                                                    //   'count' : 0
+                                                    // }).then((value) {})
+                                                    //     .catchError((error) => debugPrint("Failed to update user: $error"));
+                                                    //
+                                                    // countColl.doc('cusCnt').set({
+                                                    //   'count' : 0
+                                                    // }).then((value) {})
+                                                    //     .catchError((error) => debugPrint("Failed to update user: $error"));
+                                                    //
+                                                    // countColl.doc('merCnt').set({
+                                                    //   'count' : 0
+                                                    // }).then((value) {})
+                                                    //     .catchError((error) => debugPrint("Failed to update user: $error"));
+                                                    //
+                                                    // countColl.doc('ordsCnt').set({
+                                                    //   'count' : 1000
+                                                    // }).then((value) {})
+                                                    //     .catchError((error) => debugPrint("Failed to update user: $error"));
+                                                    //
+                                                    // countColl.doc('buyOrdsCnt').set({
+                                                    //   'count' : 1000
+                                                    // }).then((value) {})
+                                                    //     .catchError((error) => debugPrint("Failed to update user: $error"));
+                                                    //
+                                                    // CollectionReference cusName = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('customers');
+                                                    // cusName.doc('name').set({
+                                                    //   'customer_name': 'No customer',
+                                                    //   'customer_address': 'unknown',
+                                                    //   'customer_phone': '',
+                                                    //   'total_orders' : 0,
+                                                    //   'debts' : 0,
+                                                    //   'debtAmount' : 0,
+                                                    //   'total_refunds' : 0,
+                                                    // }).then((value) {})
+                                                    //     .catchError((error) => debugPrint("Failed to update user: $error"));
+                                                    //
+                                                    // CollectionReference merchName = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('merchants');
+                                                    // merchName.doc('name').set({
+                                                    //   'merchant_name': 'No merchant',
+                                                    //   'merchant_address': 'unknown',
+                                                    //   'merchant_phone': '',
+                                                    //   'total_orders' : 0,
+                                                    //   'debts' : 0,
+                                                    //   'debtAmount' : 0,
+                                                    //   'total_refunds' : 0,
+                                                    // }).then((value) {})
+                                                    //     .catchError((error) => debugPrint("Failed to update user: $error"));
+
 
                                                     //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
-
-                                                  } catch (error) {
-                                                    debugPrint('shop adding error');
-                                                    setState(() {
-                                                      loadingState = false;
-                                                      disableTouch = false;
-                                                    });
-                                                  }
-
-                                                  // CollectionReference imageArr = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('imgArr');
-                                                  // imageArr.doc('prodsArr').set({
-                                                  //   'prods' : {}
-                                                  // }).then((value) {})
-                                                  //     .catchError((error) => debugPrint("Failed to update user: $error"));
-                                                  //
-                                                  // CollectionReference collectionArr = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('collArr');
-                                                  // collectionArr.doc('cusArr').set({
-                                                  //   'cus' : {}
-                                                  // }).then((value) {})
-                                                  //     .catchError((error) => debugPrint("Failed to update user: $error"));
-                                                  //
-                                                  // collectionArr.doc('merArr').set({
-                                                  //   'mer' : {}
-                                                  // }).then((value) {})
-                                                  //     .catchError((error) => debugPrint("Failed to update user: $error"));
-                                                  //
-                                                  // collectionArr.doc('prodsArr').set({
-                                                  //   'prods' : {}
-                                                  // }).then((value) {})
-                                                  //     .catchError((error) => debugPrint("Failed to update user: $error"));
-                                                  //
-                                                  // CollectionReference countColl = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('countColl');
-                                                  // countColl.doc('prodsCnt').set({
-                                                  //   'count' : 0
-                                                  // }).then((value) {})
-                                                  //     .catchError((error) => debugPrint("Failed to update user: $error"));
-                                                  //
-                                                  // countColl.doc('cusCnt').set({
-                                                  //   'count' : 0
-                                                  // }).then((value) {})
-                                                  //     .catchError((error) => debugPrint("Failed to update user: $error"));
-                                                  //
-                                                  // countColl.doc('merCnt').set({
-                                                  //   'count' : 0
-                                                  // }).then((value) {})
-                                                  //     .catchError((error) => debugPrint("Failed to update user: $error"));
-                                                  //
-                                                  // countColl.doc('ordsCnt').set({
-                                                  //   'count' : 1000
-                                                  // }).then((value) {})
-                                                  //     .catchError((error) => debugPrint("Failed to update user: $error"));
-                                                  //
-                                                  // countColl.doc('buyOrdsCnt').set({
-                                                  //   'count' : 1000
-                                                  // }).then((value) {})
-                                                  //     .catchError((error) => debugPrint("Failed to update user: $error"));
-                                                  //
-                                                  // CollectionReference cusName = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('customers');
-                                                  // cusName.doc('name').set({
-                                                  //   'customer_name': 'No customer',
-                                                  //   'customer_address': 'unknown',
-                                                  //   'customer_phone': '',
-                                                  //   'total_orders' : 0,
-                                                  //   'debts' : 0,
-                                                  //   'debtAmount' : 0,
-                                                  //   'total_refunds' : 0,
-                                                  // }).then((value) {})
-                                                  //     .catchError((error) => debugPrint("Failed to update user: $error"));
-                                                  //
-                                                  // CollectionReference merchName = await FirebaseFirestore.instance.collection('shops').doc(value.id).collection('merchants');
-                                                  // merchName.doc('name').set({
-                                                  //   'merchant_name': 'No merchant',
-                                                  //   'merchant_address': 'unknown',
-                                                  //   'merchant_phone': '',
-                                                  //   'total_orders' : 0,
-                                                  //   'debts' : 0,
-                                                  //   'debtAmount' : 0,
-                                                  //   'total_refunds' : 0,
-                                                  // }).then((value) {})
-                                                  //     .catchError((error) => debugPrint("Failed to update user: $error"));
-
-
-                                                  //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
-                                                  // debugPrint('shop added');
-                                                });
+                                                    // debugPrint('shop added');
+                                                  });
+                                                }
                                               }
+                                            } on SocketException catch (_) {
+                                              setState(() {
+                                                smartKyatFlash(widget.isEnglish? 'Internet connection is required to take this action.': 'ဒီလုပ်ဆောင်ချက်ကို လုပ်ဆောင်ရန် အင်တာနက်လိုပါသည်။', 'w');
+                                              });
                                             }
-                                          } on SocketException catch (_) {
-                                            setState(() {
-                                              smartKyatFlash('Internet connection is required to take this action.', 'w');
-                                            });
-                                          }
-                                        },
-                                        child: loadingState? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                            child: CupertinoActivityIndicator(radius: 10,)) : Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 5.0,
-                                              right: 5.0,
-                                              bottom: 2.0),
-                                          child: Container(
-                                            child: Text(
-                                              'Create shop',  textScaleFactor: 1,
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold,
+                                          },
+                                          child: loadingState? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                              child: CupertinoActivityIndicator(radius: 10,)) : Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 5.0,
+                                                right: 5.0,
+                                                bottom: 2.0),
+                                            child: Container(
+                                              child: Text(
+                                                widget.isEnglish? 'Create shop': 'ဆိုင်ထည့်မည်',  textScaleFactor: 1,
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -873,7 +877,7 @@ class _AddShopFirstState extends State<AddShopFirst> {
                               text: new TextSpan(
                                 children: [
                                   new TextSpan(
-                                    text: 'Set up some information about your shop later in shop settings.',
+                                    text: widget.isEnglish? 'Set up some information about your shop later in shop settings.': 'ဆိုင်နှင့်ပတ်သက်ပြီး အချက်အလက်အချို့ကို နောက်ပြီးပြန်လည် ပြင်ဆိုင်နိုင်ပါသည်။',
                                     style: new TextStyle(
                                       fontSize: 12.5,
                                       color: Colors.grey,
@@ -2416,7 +2420,7 @@ class _AddShopFirstState extends State<AddShopFirst> {
       buttonSingleColor: Colors.grey,
       dismissable: true,
       items: timezoneLists,
-      title: 'Select timezone',
+      title: widget.isEnglish? 'Select timezone': 'အချိန်ဇုန်/ဒေသ ရွေးပါ',
       selectedItemIndex: _selectedItemIndex,
       buttonTextStyle: TextStyle(color: Colors.blue),
       titleStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),

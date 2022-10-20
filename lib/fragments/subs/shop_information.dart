@@ -36,8 +36,8 @@ class _ShopInformationState extends State<ShopInformation>  with TickerProviderS
   final _address = TextEditingController();
   final _phone = TextEditingController();
 
-  String textSetEdit = 'Edit shop';
-  String textSetShopInfo = 'Shop info';
+  String textSetEdit = 'Shop info';
+  String textSetShopInfo = 'Edit shop information';
   String textSetInformation = 'SHOP INFORMATION';
   String textSetName = 'Shop name';
   String textSetAddress = 'Shop address';
@@ -52,15 +52,16 @@ class _ShopInformationState extends State<ShopInformation>  with TickerProviderS
     }
     return prefs.getString('lang');
   }
-
+  bool isEnglish = true;
   @override
   initState() {
 
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
-          textSetEdit = 'Edit shop';
-          textSetShopInfo = 'Shop info';
+          isEnglish = false;
+          textSetEdit = 'information';
+          textSetShopInfo = 'ဆိုင်အချက်အလက် ပြင်ဆင်ရန်';
           textSetInformation = 'SHOP INFORMATION';
           textSetName = 'ဆိုင်အမည်';
           textSetAddress = 'ဆိုင်လိပ်စာ';
@@ -69,8 +70,9 @@ class _ShopInformationState extends State<ShopInformation>  with TickerProviderS
         });
       } else if(value=='english') {
         setState(() {
-          textSetEdit = 'Edit shop';
-          textSetShopInfo = 'Shop info';
+          isEnglish = true;
+          textSetEdit = 'information';
+          textSetShopInfo = 'Edit shop information';
           textSetInformation = 'SHOP INFORMATION';
           textSetName = 'Shop name';
           textSetAddress = 'Shop address';
@@ -666,7 +668,7 @@ class _ShopInformationState extends State<ShopInformation>  with TickerProviderS
                                               });
                                               }
                                           } on SocketException catch (_) {
-                                            smartKyatFMod(context, 'Internet connection is required to take this action.', 'w');
+                                            smartKyatFMod(context, isEnglish? 'Internet connection is required to take this action.': 'ဒီလုပ်ဆောင်ချက်ကို လုပ်ဆောင်ရန် အင်တာနက်လိုပါသည်။', 'w');
                                           }
 
 

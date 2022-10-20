@@ -47,9 +47,25 @@ class _VerifyScreenState extends State<VerifyScreen> {
     );
   }
 
+  bool isEnglish = true;
+
   @override
   void initState() {
     print('initstate verify');
+
+    getLangId().then((value) {
+      if(value=='burmese') {
+        setState(() {
+          isEnglish = false;
+        });
+      }
+      else if(value=='english') {
+        setState(() {
+          isEnglish = true;
+        });
+      }
+    });
+
     // jiggleCtl.toggle();
 
     startTimer();
@@ -95,7 +111,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                       Padding(
                         padding: const EdgeInsets.only(left: 15, right: 15, top: 15.0, bottom: 15.0),
                         child: Text(
-                          'Waiting your verification...',textScaleFactor: 1,
+                          isEnglish? 'Waiting your verification...': 'အီးမေးလ်တွင် verify လင့်နှိပ်မည်ကို စောင့်နေသည်...',textScaleFactor: 1,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               color: Colors.black,
@@ -107,7 +123,8 @@ class _VerifyScreenState extends State<VerifyScreen> {
                       Padding(
                         padding: const EdgeInsets.only(left: 15, right: 15, top: 70.0, bottom: 90.0),
                         child: Text(
-                          'We have sent an email to ' + auth.currentUser!.email.toString() + ' so that you can activate your account.',
+                          isEnglish? ('We have sent an email to ' + auth.currentUser!.email.toString() + ' so that you can activate your account.'):
+                          auth.currentUser!.email.toString() + 'သို့ လူကြီးမင်းရဲ့ အကောင့်စစ်မှန်ကြောင်း သက်သေပြရန် အီးမေးလ်လင့် ပို့လိုက်ပြီးပါပြီ။',
                           textScaleFactor: 1, textAlign: TextAlign.center,
                           style: TextStyle(
                               color: Colors.black,
@@ -125,7 +142,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                         child: Padding(
                           padding: const EdgeInsets.only(left: 15, right: 15, top: 15.0, bottom: 15.0),
                           child: Text(
-                            'Terminate to change user',
+                            isEnglish? 'Terminate to change user': 'ရပ်တန့်ပြီး အခြားအကောင်းဝင်မည်',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Colors.blue,
@@ -171,7 +188,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                                   padding: const EdgeInsets.only(left: 90.0),
                                   child: Container(
                                     child: Text(
-                                      'Resend email',
+                                      isEnglish? 'Resend email': 'အီးမေးလ် ပြန်ပို့ပါ',
                                       textAlign: TextAlign.center,
                                       style: _start == 0 ?  TextStyle(
                                           fontSize: 18,
@@ -207,7 +224,11 @@ class _VerifyScreenState extends State<VerifyScreen> {
                       SizedBox(
                         height: 20,
                       ),
-                      Text('After clicking the link or button in the email, you will be automatically directed to dashboard.',
+                      Text(
+                        isEnglish?
+                        'After clicking the link or button in the email, you will be automatically directed to dashboard.':
+                        'ကျွန်ုပ်တို့ပို့လိုက်သော အီးမေးလ်မှ လင့်(သို့)ခလုတ်ကို နှိပ်ပြီးပြီဆိုပါက ဘာမှလုပ်စရာမလိုပဲ အလျိုလျောက် ဝင်သွားမည်ဖြစ်သည်။'
+                        ,
                         style: TextStyle(
                           fontSize: 12.5,
                           fontWeight: FontWeight.w500,
@@ -259,7 +280,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
 
         if(shopExists) {
           Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
-        } else Navigator.of(context).pushReplacement(FadeRoute(page: AddNewShop()));
+        } else Navigator.of(context).pushReplacement(FadeRoute(page: AddNewShop(isEnglish: isEnglish,)));
 
       });
     }
@@ -274,6 +295,14 @@ class _VerifyScreenState extends State<VerifyScreen> {
       var androidDeviceInfo = await deviceInfo.androidInfo;
       return androidDeviceInfo.androidId; // unique ID on Android
     }
+  }
+
+  getLangId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('lang') == null) {
+      return 'english';
+    }
+    return prefs.getString('lang');
   }
 }
 

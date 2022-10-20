@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/app_theme.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
+import 'package:smartkyat_pos/fragments/welcome_fragment.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:metooltip/metooltip.dart';
 import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
@@ -33,7 +34,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
   List<DropdownMenuItem<Object?>> _dropdownTestItems = [];
   var _selectedTest;
 
-  bool isEnglish = true;
+  bool isEnglish = false;
 
   int priProgVal = 5000;
 
@@ -46,8 +47,9 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
 
     Future.delayed(const Duration(milliseconds: 1000), () {
       final dynamic tooltip = tTkey.currentState;
-      tooltip.handleLongPress();
+      // tooltip.handleLongPress();
     });
+    setLanguage("burmese");
 
     getLangId().then((val) {
       setState(() {
@@ -1059,7 +1061,10 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                         padding: const EdgeInsets.only(top: 20, left: 15.0, right: 15.0, bottom: 27.0),
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.of(context).pop();
+                            // Navigator.of(context).pop();
+                            Navigator.of(context).pushReplacement(
+                                FadeRoute(page: Welcome(),)
+                            );
                           },
                           child: Container(
                             width: MediaQuery.of(context).size.width - 30,

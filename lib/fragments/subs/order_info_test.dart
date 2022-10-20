@@ -328,7 +328,7 @@
 //                           debugPrint('phyophyo' + result.toString());
 //                           // debugPrint(output1?['subs'].toString());
 //                           if(output1?['subs'] == null) {
-//                             //smartKyatFlash('Internet connection is required to take this action.', 'w');
+//                             //smartKyatFlash(widget.isEnglish? 'Internet connection is required to take this action.': 'ဒီလုပ်ဆောင်ချက်ကို လုပ်ဆောင်ရန် အင်တာနက်လိုပါသည်။', 'w');
 //                             return Expanded(
 //                               child: Center(
 //                                 child: Padding(
@@ -684,7 +684,7 @@
 //                                                       ),
 //                                                     ),
 //                                                     onPressed: () {
-//                                                       smartKyatFlash('Internet connection is required to take this action.', 'w');
+//                                                       smartKyatFlash(widget.isEnglish? 'Internet connection is required to take this action.': 'ဒီလုပ်ဆောင်ချက်ကို လုပ်ဆောင်ရန် အင်တာနက်လိုပါသည်။', 'w');
 //                                                     },
 //                                                     child: Container(
 //                                                       width: 100,
@@ -2055,7 +2055,7 @@
 //                             ),
 //                           );
 //                         }
-//                         // smartKyatFlash('Internet connection is required to take this action.', 'w');
+//                         // smartKyatFlash(widget.isEnglish? 'Internet connection is required to take this action.': 'ဒီလုပ်ဆောင်ချက်ကို လုပ်ဆောင်ရန် အင်တာနက်လိုပါသည်။', 'w');
 //                         return Expanded(
 //                           child: Center(
 //                             child: Padding(
