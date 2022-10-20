@@ -11,6 +11,7 @@ class PaywallWidget extends StatefulWidget {
   final String description;
   final List<Package> packages;
   final ValueChanged<Package> onClickedPackage;
+  final bool isEnglish;
 
   const PaywallWidget({
     Key? key,
@@ -18,6 +19,7 @@ class PaywallWidget extends StatefulWidget {
     required this.description,
     required this.packages,
     required this.onClickedPackage,
+    required this.isEnglish,
   }) : super(key: key);
 
   @override
@@ -150,7 +152,13 @@ class _PaywallWidgetState extends State<PaywallWidget> {
                             width: 1.0))),
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 10.0),
-                  child: Text(product.currencyCode.toString() + ' ' + disCal(product.price, index).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},') + ' /month - ' + product.description, textScaleFactor: 1, style: TextStyle(
+                  child: Text(
+                    widget.isEnglish?
+                    product.currencyCode.toString() + ' ' + disCal(product.price, index).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},') + ' /month - ' + product.description:
+                    index == 0? 'တစ်လလျှင် MMK 10,000.0 နှုန်းဖြင့်တစ်လစာ - ယခု ဝင်ရောက်ထားသော ဆိုင်အတွက် (၁) လစာ အသုံးပြုခွင့်ရရှိမှာဖြစ်ပါသည်။':
+                    index == 1? 'တစ်လလျှင် MMK 9,000.0 နှုန်းဖြင့်သုံးလစာ - ယခု ဝင်ရောက်ထားသော ဆိုင်အတွက် (၃) လစာ အသုံးပြုခွင့်ရရှိမှာဖြစ်ပါသည်။':
+                    'တစ်လလျှင် MMK 8,000.0 နှုန်းဖြင့်ငါးလစာ - ယခု ဝင်ရောက်ထားသော ဆိုင်အတွက် (၅) လစာ အသုံးပြုခွင့်ရရှိမှာဖြစ်ပါသည်။'
+                    , textScaleFactor: 1, style: TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 15, color: Colors.grey,
                   ),
@@ -178,7 +186,10 @@ class _PaywallWidgetState extends State<PaywallWidget> {
                 onTap: () {
                   widget.onClickedPackage(package);
                 },
-                child: Text('Buy now ' + (index==0? '': index==1? '(save 20%)': '(save 30%)'), textScaleFactor: 1, style: TextStyle(
+                child: Text(widget.isEnglish?
+                  ('Buy now ' + (index==0? '': index==1? '(save 10%)': '(save 20%)')):
+                  ('ဝယ်မည် ' + (index==0? '': index==1? '(10% သက်သာ)': '(20% သက်သာ)'))
+                  , textScaleFactor: 1, style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 17, color: Colors.blue,
                 ),

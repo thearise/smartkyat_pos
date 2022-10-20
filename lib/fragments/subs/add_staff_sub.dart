@@ -15,7 +15,10 @@ import 'change_password.dart';
 class AddStaffSub extends StatefulWidget {
   AddStaffSub({
     Key? key,
+    required this.isEnglish,
   });
+
+  final bool isEnglish;
 
   @override
   _AddStaffSubState createState() => _AddStaffSubState();
@@ -486,7 +489,7 @@ class _AddStaffSubState extends State<AddStaffSub> {
                                 color: Colors.black,
                               ),
 // errorText: 'Error message',
-                              labelText: 'Email address',
+                              labelText: widget.isEnglish? 'Email address': 'အီးမေးလ်',
                               floatingLabelBehavior:
                               FloatingLabelBehavior.auto,
 //filled: true,
@@ -532,7 +535,8 @@ class _AddStaffSubState extends State<AddStaffSub> {
                           text: new TextSpan(
                             children: [
                               new TextSpan(
-                                text: 'Please enter the exact email address of your staff to add properly in your shop.',
+                                text: widget.isEnglish? 'Please enter the exact email address of your staff (Staff email must be already signed in at SmartKyat POS) to add properly in your shop.':
+                                'ခန့်အပ်မည့် ဝန်ထမ်းသည် SmartKyat POS တွင် အကောင့်ပြုလုပ်ထားသူ ဖြစ်ရမည်ဖြစ်ပြီး အီးမေးလ်ကို မှန်ကန်စွာ ရိုက်ထည့်ပြီးပါက ဝန်ထမ်းစာရင်းတွင် အမည်မှန်မမှန် ပြန်လည်စစ်နိုင်ပါသည်။',
                                 style: new TextStyle(
                                     fontSize: 12.5,
                                     color: Colors.grey,
@@ -671,7 +675,7 @@ class _AddStaffSubState extends State<AddStaffSub> {
                                     });
                                   }
                                 } on SocketException catch (_) {
-                                  smartKyatFMod(context, 'Internet connection is required to take this action.', 'w');
+                                  smartKyatFMod(context, widget.isEnglish? 'Internet connection is required to take this action.': 'ဒီလုပ်ဆောင်ချက်ကို လုပ်ဆောင်ရန် အင်တာနက်လိုပါသည်။', 'w');
                                 }
                               }
                             },

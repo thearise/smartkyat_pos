@@ -142,7 +142,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
         setState(() {
           languageId = 'English';
           textSetTitle = 'Settings';
-          textSetAccount = 'Account';
+          textSetAccount = 'Account setting';
           textSetShopSetting = 'Shop setting';
           textSetLanguage = 'Languages';
           textSetPrint = 'Print setting';
@@ -153,11 +153,11 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
       } else  {
         setState(() {
           languageId = 'Burmese';
-          textSetTitle = 'အပြင်အဆင်';
-          textSetAccount = 'အကောင့်';
+          textSetTitle = 'ဆက်တင်';
+          textSetAccount = 'အကောင့်ဆက်တင်';
           textSetShopSetting = 'ဆိုင်အပြင်အဆင်';
           textSetLanguage = 'ဘာသာစကား';
-          textSetPrint = 'ပရင်တာအပြင်အဆင်';
+          textSetPrint = 'ပရင်တာဆက်တင်';
           textInfo = 'INFORMATION';
           textDisplay = 'DISPLAY';
           textSetCur = 'ငွေကြေးအမျိုးအမည်';
@@ -371,11 +371,17 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
                         GestureDetector(
                           onTap: () async {
                             closeDrawerFrom();
+                            bool isEnglish = true;
+                            if(languageId == 'English') {
+                              isEnglish = true;
+                            } else {
+                              isEnglish = false;
+                            }
                             await Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      AccountSetting(email: email, name: name, id: version.toString(),)),
+                                      AccountSetting(email: email, name: name, id: version.toString(), isEnglish: isEnglish)),
                             );
                             openDrawerFrom();
                           },
@@ -385,6 +391,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
                                 if(snapshot.hasData) {
                                   return Container(
                                     height: 72,
+                                    color: Colors.blue,
                                     child: ListView(
                                       physics: NeverScrollableScrollPhysics(),
                                       children: snapshot.data!.docs.map((DocumentSnapshot document) {
@@ -397,7 +404,11 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
                                     ),
                                   );
                                 }
-                                return eachTile(textSetAccount, '...');
+                                return Container(
+                                  height: 72,
+                                  color: Colors.green,
+                                  // child: eachTile(textSetAccount, '...'),
+                                );
                               }
                           ),
                         ),

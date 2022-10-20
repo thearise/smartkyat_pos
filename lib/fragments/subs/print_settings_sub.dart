@@ -81,7 +81,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
-          textSetPrintSetting = 'Print setting';
+          textSetPrintSetting = 'ပရင်တာဆက်တင်';
           textSetPaperSize = 'PAPER SIZE';
           textSetInfo = 'သင်၏ပရင်တာနှင့် ကောင်းမွန်စွာအလုပ်လုပ်ရန် စာရွက်အရွယ်အစားကို မှန်ကန်စွာရွေးချယ်ပါ။';
           textSetConnect = 'Always connect';

@@ -57,6 +57,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
   String textSetStaff = 'Staff setting';
   String textSetList = 'Staff list';
   String textSetAdd = 'Add new staff';
+  bool isEnglish = true;
 
   getLangId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -73,9 +74,10 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
       if(value=='burmese') {
         setState(() {
           textSetInfo = 'Information';
-          textSetStaff = 'Staff setting';
+          textSetStaff = 'ဝန်ထမ်းများ';
           textSetList = 'STAFF LIST';
           textSetAdd = 'ဝန်ထမ်း ထည့်ရန်';
+          isEnglish = false;
         });
       } else if(value=='english') {
         setState(() {
@@ -83,6 +85,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
            textSetStaff = 'Staff setting';
            textSetList = 'STAFF LIST';
            textSetAdd = 'Add new staff';
+           isEnglish = true;
         });
       }
     });
@@ -684,7 +687,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                                                     });
                                                                                   }
                                                                                 } on SocketException catch (_) {
-                                                                                  smartKyatFMod(context, 'Internet connection is required to take this action.', 'w');
+                                                                                  smartKyatFMod(context, isEnglish? 'Internet connection is required to take this action.': 'ဒီလုပ်ဆောင်ချက်ကို လုပ်ဆောင်ရန် အင်တာနက်လိုပါသည်။', 'w');
                                                                                 }
                                                                               }
                                                                           ),
@@ -739,7 +742,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                                                       _openSimpleItemPicker(context, permissionList, userDocId, usersList[i].toString(), role, 'Unknown');
                                                                                     }
                                                                                   } on SocketException catch (_) {
-                                                                                    smartKyatFMod(context, 'Internet connection is required to take this action.', 'w');
+                                                                                    smartKyatFMod(context, isEnglish? 'Internet connection is required to take this action.': 'ဒီလုပ်ဆောင်ချက်ကို လုပ်ဆောင်ရန် အင်တာနက်လိုပါသည်။', 'w');
                                                                                   }
                                                                                 },
                                                                                 child: Container(
@@ -878,7 +881,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                                                   );
                                                                                 }
                                                                               } on SocketException catch (_) {
-                                                                                smartKyatFMod( context, 'Internet connection is required to take this action.', 'w');
+                                                                                smartKyatFMod( context, isEnglish? 'Internet connection is required to take this action.': 'ဒီလုပ်ဆောင်ချက်ကို လုပ်ဆောင်ရန် အင်တာနက်လိုပါသည်။', 'w');
                                                                               }
 
                                                                             }
@@ -940,7 +943,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                                                     _openSimpleItemPicker(OneContext().context, permissionList, userDocId, usersList[i].toString(), role, data['name']);
                                                                                   }
                                                                                 } on SocketException catch (_) {
-                                                                                  smartKyatFMod(context, 'Internet connection is required to take this action.', 'w');
+                                                                                  smartKyatFMod(context, isEnglish? 'Internet connection is required to take this action.': 'ဒီလုပ်ဆောင်ချက်ကို လုပ်ဆောင်ရန် အင်တာနက်လိုပါသည်။', 'w');
                                                                                 }
 
                                                                                 // debugPrint('resultPicker ' + resultPicker.toString());
@@ -1315,11 +1318,11 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                   if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => AddStaffSub()),
+                      MaterialPageRoute(builder: (context) => AddStaffSub(isEnglish: isEnglish)),
                     );
                   }
                 } on SocketException catch (_) {
-                  smartKyatFMod(context, 'Internet connection is required to take this action.', 'w');
+                  smartKyatFMod(context, isEnglish? 'Internet connection is required to take this action.': 'ဒီလုပ်ဆောင်ချက်ကို လုပ်ဆောင်ရန် အင်တာနက်လိုပါသည်။', 'w');
                 }
 
               },
@@ -1375,11 +1378,11 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                   if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => AddStaffSub()),
+                      MaterialPageRoute(builder: (context) => AddStaffSub(isEnglish: isEnglish)),
                     );
                   }
                 } on SocketException catch (_) {
-                  smartKyatFMod(context, 'Internet connection is required to take this action.', 'w');
+                  smartKyatFMod(context, isEnglish? 'Internet connection is required to take this action.': 'ဒီလုပ်ဆောင်ချက်ကို လုပ်ဆောင်ရန် အင်တာနက်လိုပါသည်။', 'w');
                 }
 
               },

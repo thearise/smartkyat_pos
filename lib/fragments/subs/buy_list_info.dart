@@ -193,7 +193,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                             debugPrint('phyophyo' + result.toString());
                             // debugPrint(output1?['subs'].toString());
                             if(output1?['subs'] == null) {
-                              //smartKyatFlash('Internet connection is required to take this action.', 'w');
+                              //smartKyatFlash(widget.isEnglish? 'Internet connection is required to take this action.': 'ဒီလုပ်ဆောင်ချက်ကို လုပ်ဆောင်ရန် အင်တာနက်လိုပါသည်။', 'w');
                               return Expanded(
                                 child: Center(
                                   child: Padding(
@@ -392,9 +392,9 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                             disableTouch = false;
                                                           });
                                                           smartKyatFMod(context,
-                                                          'Internet connection is required to take this action.', 'w');
+                                                          widget.isEnglish? 'Internet connection is required to take this action.': 'ဒီလုပ်ဆောင်ချက်ကို လုပ်ဆောင်ရန် အင်တာနက်လိုပါသည်။', 'w');
                                                           // setState(() {
-                                                          //   smartKyatFlash('Internet connection is required to take this action.', 'w');
+                                                          //   smartKyatFlash(widget.isEnglish? 'Internet connection is required to take this action.': 'ဒီလုပ်ဆောင်ချက်ကို လုပ်ဆောင်ရန် အင်တာနက်လိုပါသည်။', 'w');
                                                           // });
                                                         }
                                                       },
@@ -481,9 +481,9 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                             widget._openCartBtn();
                                                           }
                                                         } on SocketException catch (_) {
-                                                          smartKyatFMod(context,'Internet connection is required to take this action.', 'w');
+                                                          smartKyatFMod(context,widget.isEnglish? 'Internet connection is required to take this action.': 'ဒီလုပ်ဆောင်ချက်ကို လုပ်ဆောင်ရန် အင်တာနက်လိုပါသည်။', 'w');
                                                           // setState(() {
-                                                          //   smartKyatFlash('Internet connection is required to take this action.', 'w');
+                                                          //   smartKyatFlash(widget.isEnglish? 'Internet connection is required to take this action.': 'ဒီလုပ်ဆောင်ချက်ကို လုပ်ဆောင်ရန် အင်တာနက်လိုပါသည်။', 'w');
                                                           // });
                                                         }
                                                       },
@@ -1244,7 +1244,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                               ),
                             );
                           }
-                          // smartKyatFlash('Internet connection is required to take this action.', 'w');
+                          // smartKyatFlash(widget.isEnglish? 'Internet connection is required to take this action.': 'ဒီလုပ်ဆောင်ချက်ကို လုပ်ဆောင်ရန် အင်တာနက်လိုပါသည်။', 'w');
                           return Expanded(
                             child: Center(
                               child: Padding(

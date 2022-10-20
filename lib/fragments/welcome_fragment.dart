@@ -80,6 +80,15 @@ class _WelcomeState extends State<Welcome>
       );
       await prefs.setBool('seen', true);
     }
+    getLangId().then((val) {
+      debugPrint('ffirs ' + val.toString());
+      lang = val;
+      if(lang == 'english') {
+        isEnglish = true;
+      } else {
+        isEnglish = false;
+      }
+    });
   }
 
   getLangId() async {
@@ -92,6 +101,16 @@ class _WelcomeState extends State<Welcome>
 
   @override
   initState() {
+    getLangId().then((val) {
+      debugPrint('ffirs ' + val.toString());
+      lang = val;
+      if(lang == 'english') {
+        isEnglish = true;
+      } else {
+        isEnglish = false;
+      }
+    });
+
     if(Platform.isIOS)
       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
     if(Platform.isAndroid)
@@ -104,7 +123,7 @@ class _WelcomeState extends State<Welcome>
 
     FirebaseAuth.instance
         .authStateChanges()
-        .listen((User? user) {
+        .listen((User? user) async {
       if (user == null) {
         debugPrint('User is currently signed out!');
         Future.delayed(const Duration(milliseconds: 1000), () {
@@ -127,62 +146,116 @@ class _WelcomeState extends State<Welcome>
           //     FadeRoute(page: FirstLaunchPage(),)
           // );
 
-          getLangId().then((val) {
-            debugPrint('ffirs ' + val.toString());
-            lang = val;
-            if(lang == 'english') {
-              isEnglish = true;
-            } else {
-              isEnglish = false;
-            }
-          });
-
           // setState(() {
           //   debugPrint('setting state ' + lang.toString());
           // });
 
         });
       } else {
-        getStoreId().then((value) {
-          if(!auth.currentUser!.emailVerified) {
-            Navigator.of(context).pushReplacement(FadeRoute(page: VerifyScreen()),);
-          }
-          else {
-            isLoading = true;
+        bool usersInSys = false;
+        await FirebaseFirestore.instance
+            .collection('users')
+            .where('email', isEqualTo: auth.currentUser!.email)
+            .get()
+            .then((QuerySnapshot querySnapshot) {
+          querySnapshot.docs.forEach((doc) {
+            usersInSys = true;
+          });
 
-            Future.delayed(const Duration(milliseconds: 1000), () async {
+          if(usersInSys) {
+            getStoreId().then((value) {
+              if(!auth.currentUser!.emailVerified) {
+                Navigator.of(context).pushReplacement(FadeRoute(page: VerifyScreen()),);
+              }
+              else {
+                isLoading = true;
 
-              if(value.toString() != '' && value.toString() != 'idk') {
-                // Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));
+                Future.delayed(const Duration(milliseconds: 1000), () async {
 
-                _getId().then((val) {
-                  String deviceId = val!;
-                  if(this.mounted) {
-                    Navigator.of(context).pushReplacement(FadeRoute(page: HomePage(deviceId: deviceId)),);
-                  }
-                });
-              } else {
-                bool shopExists = false;
-                FirebaseFirestore.instance
-                    .collection('shops')
-                    .where('users', arrayContains: auth.currentUser!.email.toString())
-                    .get()
-                    .then((QuerySnapshot querySnapshot) {
-                  querySnapshot.docs.forEach((doc) {
-                    shopExists = true;
-                  });
-                  if(shopExists) {
-                    if(this.mounted) {
-                      Navigator.of(context).popUntil((_) => true);
-                      Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
-                    }
+                  if(value.toString() != '' && value.toString() != 'idk') {
+                    // Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));
+
+                    _getId().then((val) {
+                      String deviceId = val!;
+                      if(this.mounted) {
+                        Navigator.of(context).pushReplacement(FadeRoute(page: HomePage(deviceId: deviceId)),);
+                      }
+                    });
                   } else {
-                    if(this.mounted) {
-                      Navigator.of(context).pushReplacement(FadeRoute(page: AddShopFirst()));
-                    }
+                    bool shopExists = false;
+                    FirebaseFirestore.instance
+                        .collection('shops')
+                        .where('users', arrayContains: auth.currentUser!.email.toString())
+                        .get()
+                        .then((QuerySnapshot querySnapshot) {
+                      querySnapshot.docs.forEach((doc) {
+                        shopExists = true;
+                      });
+                      if(shopExists) {
+                        if(this.mounted) {
+                          Navigator.of(context).popUntil((_) => true);
+                          Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
+                        }
+                      } else {
+                        if(this.mounted) {
+                          Navigator.of(context).pushReplacement(FadeRoute(page: AddShopFirst(isEnglish: isEnglish)));
+                        }
+                      }
+                    });
                   }
                 });
               }
+            });
+          } else {
+            FirebaseFirestore.instance.collection('users').add({
+              'user_id' : auth.currentUser!.uid.toString(),
+              'name': auth.currentUser!.displayName.toString(),
+              'email': auth.currentUser!.email.toString(),
+              'plan_type' : 'basic',
+            }).then((val) {
+              getStoreId().then((value) {
+                if(!auth.currentUser!.emailVerified) {
+                  Navigator.of(context).pushReplacement(FadeRoute(page: VerifyScreen()),);
+                }
+                else {
+                  isLoading = true;
+
+                  Future.delayed(const Duration(milliseconds: 1000), () async {
+
+                    if(value.toString() != '' && value.toString() != 'idk') {
+                      // Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));
+
+                      _getId().then((val) {
+                        String deviceId = val!;
+                        if(this.mounted) {
+                          Navigator.of(context).pushReplacement(FadeRoute(page: HomePage(deviceId: deviceId)),);
+                        }
+                      });
+                    } else {
+                      bool shopExists = false;
+                      FirebaseFirestore.instance
+                          .collection('shops')
+                          .where('users', arrayContains: auth.currentUser!.email.toString())
+                          .get()
+                          .then((QuerySnapshot querySnapshot) {
+                        querySnapshot.docs.forEach((doc) {
+                          shopExists = true;
+                        });
+                        if(shopExists) {
+                          if(this.mounted) {
+                            Navigator.of(context).popUntil((_) => true);
+                            Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
+                          }
+                        } else {
+                          if(this.mounted) {
+                            Navigator.of(context).pushReplacement(FadeRoute(page: AddShopFirst(isEnglish: isEnglish)));
+                          }
+                        }
+                      });
+                    }
+                  });
+                }
+              });
             });
           }
         });
@@ -336,6 +409,7 @@ class _WelcomeState extends State<Welcome>
                                                                 ),
                                                               ),
                                                               onPressed: () async {
+
                                                                 final GoogleSignInAccount? googleUser = await GoogleSignIn(
                                                                     scopes: <String> ["email"]).signIn();
 
@@ -349,7 +423,6 @@ class _WelcomeState extends State<Welcome>
                                                                   isLoading = true;
                                                                 });
                                                                 await FirebaseAuth.instance.signInWithCredential(credential);
-
                                                               },
                                                               child: loadingState? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
                                                                   child: CupertinoActivityIndicator(radius: 10,)) : Padding(
@@ -767,7 +840,7 @@ class _WelcomeState extends State<Welcome>
                                                                                         if(shopExists) {
                                                                                           Navigator.of(context).popUntil((_) => true);
                                                                                           Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
-                                                                                        } else Navigator.of(context).pushReplacement(FadeRoute(page: AddNewShop()));
+                                                                                        } else Navigator.of(context).pushReplacement(FadeRoute(page: AddNewShop(isEnglish: isEnglish)));
                                                                                       });
                                                                                     }
 
@@ -813,7 +886,7 @@ class _WelcomeState extends State<Welcome>
                                                                               }
                                                                             } on SocketException catch (_) {
                                                                               setState(() {
-                                                                                smartKyatFMod(context,'Internet connection is required to take this action.', 'w');
+                                                                                smartKyatFMod(context, isEnglish? 'Internet connection is required to take this action.': 'ဒီလုပ်ဆောင်ချက်ကို လုပ်ဆောင်ရန် အင်တာနက်လိုပါသည်။', 'w');
                                                                                 loadingState = false;
                                                                                 overLoading = false;
                                                                               });
@@ -936,7 +1009,7 @@ class _WelcomeState extends State<Welcome>
                                                                 Center(
                                                                   child: TextButton(
                                                                     onPressed: ()  {
-                                                                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => ForgotPassword()));
+                                                                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => ForgotPassword(isEnglish: isEnglish)));
                                                                     },
                                                                     child: Padding(
                                                                       padding: const EdgeInsets.only(
@@ -1370,7 +1443,7 @@ class _WelcomeState extends State<Welcome>
 
                                                                           if(shopExists) {
                                                                             Navigator.of(context).pushReplacement(FadeRoute(page: chooseStore()));
-                                                                          } else Navigator.of(context).pushReplacement(FadeRoute(page: AddNewShop()));
+                                                                          } else Navigator.of(context).pushReplacement(FadeRoute(page: AddNewShop(isEnglish: isEnglish)));
 
                                                                           debugPrint('username' + mail.toString() + uid.toString());
                                                                         });
@@ -1409,7 +1482,7 @@ class _WelcomeState extends State<Welcome>
                                                             }
                                                           } on SocketException catch (_) {
                                                             setState(() {
-                                                              smartKyatFMod(context, 'Internet connection is required to take this action.', 'w');
+                                                              smartKyatFMod(context, isEnglish? 'Internet connection is required to take this action.': 'ဒီလုပ်ဆောင်ချက်ကို လုပ်ဆောင်ရန် အင်တာနက်လိုပါသည်။', 'w');
                                                               loadingState = false;
                                                               overLoading = false;
                                                             });

@@ -15,7 +15,9 @@ import '../../app_theme.dart';
 
 
 class ForgotPassword extends StatefulWidget {
-  const ForgotPassword({Key? key}) : super(key: key);
+  const ForgotPassword({Key? key, required this.isEnglish}) : super(key: key);
+
+  final bool isEnglish;
 
   @override
   _ForgotPasswordState createState() => _ForgotPasswordState();
@@ -33,6 +35,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
   @override
   initState() {
+    text = widget.isEnglish? 'Enter the email address you\'ve used to register with us and we\'ll send you a reset link!':
+        'ကျွန်ုပ်တို့ SmartKyat POS တွင် အသုံးပြုခဲ့သော အီးမေးလ်လိပ်စာကို စကားဝှက် reset ချမည့် လင့်ပို့ရန် ထည့်ပါ။';
     super.initState();
   }
 
@@ -143,7 +147,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                             color: Colors.black,
                                           ),
 // errorText: 'Error message',
-                                          labelText: 'Type your Email address',
+                                          labelText: widget.isEnglish? 'Email address': 'အီးမေးလ်',
                                           floatingLabelBehavior:
                                           FloatingLabelBehavior.auto,
 //filled: true,
@@ -184,7 +188,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                     }
                                   } on SocketException catch (_) {
                                     setState(() {
-                                      smartKyatFMod(context, 'Internet connection is required to take this action.', 'w');
+                                      smartKyatFMod(context, widget.isEnglish? 'Internet connection is required to take this action.': 'ဒီလုပ်ဆောင်ချက်ကို လုပ်ဆောင်ရန် အင်တာနက်လိုပါသည်။', 'w');
                                     });
                                   }
                                 },
@@ -196,7 +200,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                       bottom: 3.0),
                                   child: Container(
                                     child: Text(
-                                      'Reset password',  textScaleFactor: 1,
+                                      widget.isEnglish? 'Reset password': 'စကားဝှက် reset ချပါ',  textScaleFactor: 1,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           fontSize: 18,
@@ -231,7 +235,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                       bottom: 3.0),
                                   child: Container(
                                     child: Text(
-                                      'Return to login',  textScaleFactor: 1,
+                                      widget.isEnglish? 'Return to login screen?': 'လော့ခ်ရင်သို့ ပြန်သွားမလား?',  textScaleFactor: 1,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           fontSize: 18,
@@ -259,7 +263,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(bottom: 2.0),
-                            child: Text('Return to Login screen?',  textScaleFactor: 1,
+                            child: Text(widget.isEnglish? 'Return to login screen?': 'လော့ခ်ရင်သို့ ပြန်သွားမလား?',  textScaleFactor: 1,
                               style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500,
@@ -285,7 +289,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                               },
                               child: Container(
                                 child: Text(
-                                  'Login',  textScaleFactor: 1,
+                                  widget.isEnglish? 'Login': 'လော့ခ်အင်',  textScaleFactor: 1,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontSize: 13,
