@@ -11,12 +11,13 @@ import 'change_password.dart';
 
 class AccountSetting extends StatefulWidget {
   AccountSetting({
-    required this.email, required this.name, required this.id,
+    required this.email, required this.name, required this.id, required this.isEnglish,
     Key? key,
   });
   final String email;
   final String name;
   final String id;
+  final bool isEnglish;
 
   @override
   _AccountSettingState createState() => _AccountSettingState();
@@ -53,7 +54,7 @@ class _AccountSettingState extends State<AccountSetting> {
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
-          textSetAccountSetting = 'Account setting';
+          textSetAccountSetting = 'အကောင့်ဆက်တငင်';
           textSetAccountName = 'နာမည်';
           textSetInfo = 'သင့်အကောင့်အမည်ကို အခြားစတိုးဆိုင်များမှ ဝန်ထမ်းများကို စာရင်းသွင်းရန်အတွက်လည်း အသုံးပြုမည်ဖြစ်သည်။';
           textSetSave = 'သိမ်းမည်';
@@ -564,7 +565,7 @@ class _AccountSettingState extends State<AccountSetting> {
 
                                                   }
                                                 } on SocketException catch (_) {
-                                                  smartKyatFMod(context, 'Internet connection is required to take this action.', 'w');
+                                                  smartKyatFMod(context, widget.isEnglish? 'Internet connection is required to take this action.': 'ဒီလုပ်ဆောင်ချက်ကို လုပ်ဆောင်ရန် အင်တာနက်လိုပါသည်။', 'w');
                                                 }
                                               }
                                             },
@@ -686,11 +687,11 @@ class _AccountSettingState extends State<AccountSetting> {
                                             if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
                                               Navigator.push(
                                                 context,
-                                                MaterialPageRoute(builder: (context) => ChangePassword()),
+                                                MaterialPageRoute(builder: (context) => ChangePassword(isEnglish: widget.isEnglish)),
                                               );
                                             }
                                           } on SocketException catch (_) {
-                                            smartKyatFMod(context, 'Internet connection is required to take this action.', 'w');
+                                            smartKyatFMod(context, widget.isEnglish? 'Internet connection is required to take this action.': 'ဒီလုပ်ဆောင်ချက်ကို လုပ်ဆောင်ရန် အင်တာနက်လိုပါသည်။', 'w');
                                           }
 
                                         },

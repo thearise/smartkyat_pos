@@ -1362,7 +1362,7 @@ class _EditProductState extends State<EditProduct> {
                                                   }
                                                 }
                                               } on SocketException catch (_) {
-                                                smartKyatFMod(context,'Internet connection is required to take this action.', 'w');
+                                                smartKyatFMod(context,widget.isEnglish? 'Internet connection is required to take this action.': 'ဒီလုပ်ဆောင်ချက်ကို လုပ်ဆောင်ရန် အင်တာနက်လိုပါသည်။', 'w');
                                                 closeOverAllSubLoading();
                                                 setState(() {
                                                   disableTouch = false;

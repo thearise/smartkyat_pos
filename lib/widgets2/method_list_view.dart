@@ -119,7 +119,7 @@ class MethodListView extends StatelessWidget {
                               title: Padding(
                                 padding: const EdgeInsets.only(top: 15, bottom: 16.3),
                                 child: Container(
-                                  child: Text('Internet connection is required to take this action.', textScaleFactor: 1, overflow: TextOverflow.visible, style: TextStyle(
+                                  child: Text(isEnglish? 'Internet connection is required to take this action.': 'ဒီလုပ်ဆောင်ချက်ကို လုပ်ဆောင်ရန် အင်တာနက်လိုပါသည်။', textScaleFactor: 1, overflow: TextOverflow.visible, style: TextStyle(
                                       fontWeight: FontWeight.w400, fontSize: 15, height: 1.2)),
                                 ),
                               ),
@@ -136,7 +136,7 @@ class MethodListView extends StatelessWidget {
                     },
                   );
                   debugPrint('Internet connection');
-                 // smartKyatFlash('Internet connection is required to take this action.', 'w');
+                 // smartKyatFlash(widget.isEnglish? 'Internet connection is required to take this action.': 'ဒီလုပ်ဆောင်ချက်ကို လုပ်ဆောင်ရန် အင်တာနက်လိုပါသည်။', 'w');
                 }
 
 

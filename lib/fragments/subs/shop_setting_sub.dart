@@ -49,20 +49,22 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
   String textSetStaffSetting = 'Staff setting';
   String textSetShopInfo = 'Shop info';
 
-
+  bool isEnglish = true;
 
   @override
   void initState() {
     getLangId().then((value) {
       if(value=='burmese') {
         setState(() {
-          textSetShopSetting = 'Shop setting';
+          isEnglish = false;
+          textSetShopSetting = 'ဆိုင်အပြင်အဆင်';
           textSetSwitchShop = 'ဆိုင်များ';
           textSetStaffSetting = 'ဝန်ထမ်းများ';
           textSetShopInfo = 'အချက်အလက်';
         });
       } else if(value=='english') {
         setState(() {
+          isEnglish = false;
           textSetShopSetting = 'Shop setting';
           textSetSwitchShop = 'Switch shop';
           textSetStaffSetting = 'Staff setting';
@@ -291,7 +293,7 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
                                 );
                               }
                             } on SocketException catch (_) {
-                              smartKyatFMod(context, 'Internet connection is required to take this action.', 'w');
+                              smartKyatFMod(context, isEnglish? 'Internet connection is required to take this action.': 'ဒီလုပ်ဆောင်ချက်ကို လုပ်ဆောင်ရန် အင်တာနက်လိုပါသည်။', 'w');
                             }
 
                           },
@@ -347,7 +349,7 @@ class _ShopSettingsSubState extends State<ShopSettingsSub>  with TickerProviderS
                                         );
                                       }
                                     } on SocketException catch (_) {
-                                      smartKyatFMod(context, 'Internet connection is required to take this action.', 'w');
+                                      smartKyatFMod(context, isEnglish? 'Internet connection is required to take this action.': 'ဒီလုပ်ဆောင်ချက်ကို လုပ်ဆောင်ရန် အင်တာနက်လိုပါသည်။', 'w');
                                     }
 
                                   },

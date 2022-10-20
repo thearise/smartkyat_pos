@@ -1109,504 +1109,552 @@ class HomePageState extends State<HomePage>
                             width: double.infinity,
                             child: Stack(
                               children: [
-                                Column(
+                                ListView(
                                   children: [
-                                    Expanded(
-                                      child: ListView(
-                                        children: [
-                                          Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(15.0),
-                                                topRight: Radius.circular(15.0),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(15.0),
+                                          topRight: Radius.circular(15.0),
+                                        ),
+                                        color: Colors.white,
+                                      ),
+                                      child: Container(
+                                        child: Column(
+                                          children: [
+                                            SizedBox(height: 55),
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                              child: Center(
+                                                child: Text(
+                                                  isEnglish? 'Support videos from YouTube to learn our Powerful POS': 'YouTube မှ အသုံပြုနည်း လမ်းညွှန်များ',
+                                                  textAlign: TextAlign.center,
+                                                  textScaleFactor: 1, style: TextStyle(
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize: 22,
+                                                    letterSpacing: -0.4
+                                                ),
+                                                  strutStyle: StrutStyle(
+                                                    height: 2.2,
+                                                    // fontSize:,
+                                                    forceStrutHeight: true,
+                                                  ),
+                                                ),
                                               ),
-                                              color: Colors.white,
                                             ),
-                                            child: Column(
-                                                children: [
-                                                  Container(
-                                                    child: Column(
-                                                      children: [
-                                                        SizedBox(height: 55),
-                                                        Padding(
-                                                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                                          child: Center(
-                                                            child: Text(
-                                                              'Tips and tricks to use our Powerful POS',
-                                                              textAlign: TextAlign.center,
-                                                              textScaleFactor: 1, style: TextStyle(
-                                                                fontWeight: FontWeight.w700,
-                                                                fontSize: 26,
-                                                                letterSpacing: -0.4
-                                                            ),
-                                                              strutStyle: StrutStyle(
-                                                                height: 2.2,
-                                                                // fontSize:,
-                                                                forceStrutHeight: true,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        // Padding(
-                                                        //   padding: const EdgeInsets.only(left: 15, right: 15, top: 20.0),
-                                                        //   child: Text('All of our videos are organized to learn more clearly and also uploaded on our own YouTube channel.',
-                                                        //     textScaleFactor: 1, style: TextStyle( fontSize: 14),
-                                                        //     strutStyle: StrutStyle(
-                                                        //       height: 1.2,
-                                                        //       // fontSize:,
-                                                        //       forceStrutHeight: true,
-                                                        //     ),
-                                                        //   ),
-                                                        // ),
-                                                        StreamBuilder<DocumentSnapshot<Map<String,dynamic>>>(
-                                                          stream: FirebaseFirestore.instance.collection('videos').doc('how_to').snapshots(),
-                                                            builder: (BuildContext context, snapshot2) {
-                                                              if (snapshot2.data != null) {
-                                                                var output3 = snapshot2.data!.data();
-                                                                var zero = output3?['0'];
-                                                                var one = output3?['1'];
-                                                                var two = output3?['2'];
-                                                                var three = output3?['3'];
-                                                                if(snapshot2.hasData) {
-                                                                  return  SizedBox(
-                                                                    height: 615,
-                                                                    child: Padding(
-                                                                      padding: const EdgeInsets.only(top: 15.0),
+                                            // Padding(
+                                            //   padding: const EdgeInsets.only(left: 15, right: 15, top: 20.0),
+                                            //   child: Text('All of our videos are organized to learn more clearly and also uploaded on our own YouTube channel.',
+                                            //     textScaleFactor: 1, style: TextStyle( fontSize: 14),
+                                            //     strutStyle: StrutStyle(
+                                            //       height: 1.2,
+                                            //       // fontSize:,
+                                            //       forceStrutHeight: true,
+                                            //     ),
+                                            //   ),
+                                            // ),
+                                            StreamBuilder<DocumentSnapshot<Map<String,dynamic>>>(
+                                              stream: FirebaseFirestore.instance.collection('videos').doc('how_to').snapshots(),
+                                                builder: (BuildContext context, snapshot2) {
+                                                  if (snapshot2.data != null) {
+                                                    var output3 = snapshot2.data!.data();
+                                                    var zero = output3?['0'];
+                                                    var one = output3?['1'];
+                                                    var two = output3?['2'];
+                                                    var three = output3?['3'];
+                                                    double height = 213;
+                                                    if(one[0].toString() != '') {
+                                                      height += 237;
+                                                    }
+                                                    if(two[0].toString() != '') {
+                                                      height += 237;
+                                                    }
+                                                    if(three[0].toString() != '') {
+                                                      height += 237;
+                                                    }
+                                                    if(snapshot2.hasData) {
+                                                      return  Container(
+                                                        // height: height,
+                                                        child: Padding(
+                                                          padding: const EdgeInsets.only(top: 15.0),
+                                                          child: Column(
+                                                            // scrollDirection: Axis.vertical,
+                                                            children: [
+                                                              zero[0].toString() != '' ?  Container(
+                                                                // color: Colors.green,
+                                                                // height: 213,
+                                                                child: Column(
+                                                                  children: [
+                                                                    Padding(
+                                                                      padding: const EdgeInsets.only(top: 10.0, left: 15.0, right: 15.0, bottom: 15.0),
+                                                                      child: Align(
+                                                                        alignment: Alignment.centerLeft,
+                                                                        child: Container(
+                                                                          child: Text(zero[0].toString(), textScaleFactor: 1,
+                                                                            style: TextStyle(
+                                                                              height: 0.9,
+                                                                              letterSpacing: 2,
+                                                                              fontWeight: FontWeight.bold,
+                                                                              fontSize: 14,color: Colors.grey,
+                                                                            ),),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height: 175,
                                                                       child: ListView(
-                                                                        scrollDirection: Axis.vertical,
+                                                                        scrollDirection: Axis.horizontal,
                                                                         children: [
-                                                                          zero[0].toString() != '' ?  Column(
-                                                                            children: [
-                                                                              Padding(
-                                                                                padding: const EdgeInsets.only(top: 10.0, left: 15.0, right: 15.0, bottom: 15.0),
-                                                                                child: Align(
-                                                                                  alignment: Alignment.centerLeft,
-                                                                                  child: Container(
-                                                                                    child: Text(zero[0].toString(), textScaleFactor: 1,
-                                                                                      style: TextStyle(
-                                                                                        height: 0.9,
-                                                                                        letterSpacing: 2,
-                                                                                        fontWeight: FontWeight.bold,
-                                                                                        fontSize: 14,color: Colors.grey,
-                                                                                      ),),
-                                                                                  ),
-                                                                                ),
+                                                                          zero[1].toString() != '' ? Padding(
+                                                                            padding: const EdgeInsets.only(left: 15.0),
+                                                                            child: GestureDetector(
+                                                                              onTap: () {
+                                                                                launch(zero[1]);
+                                                                              },
+                                                                              child: FutureBuilder(
+                                                                                  future: getDetail(zero[1].toString()),
+                                                                                  builder: (context, AsyncSnapshot<Items?> snapshot){
+                                                                                    if(snapshot.hasData)
+                                                                                      return ClipRRect(
+                                                                                        borderRadius:
+                                                                                        BorderRadius
+                                                                                            .circular(
+                                                                                            10.0),
+                                                                                        child: Container(
+
+                                                                                            height: 175,
+                                                                                            width: 200,
+                                                                                            decoration: BoxDecoration(
+                                                                                              // borderRadius: BorderRadius.all(
+                                                                                              //   Radius.circular(10.0),
+                                                                                              // ),
+                                                                                              color: Colors.grey.withOpacity(0.2),
+                                                                                            ),
+                                                                                            child: Column(
+                                                                                              children: [
+                                                                                                CachedNetworkImage(
+                                                                                                  imageUrl: snapshot.data!.thumbnail_url,
+                                                                                                  height: 112.5,
+                                                                                                  width: 200,
+                                                                                                  // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                                                  errorWidget: (context,
+                                                                                                      url,
+                                                                                                      error) =>
+                                                                                                      Icon(Icons
+                                                                                                          .error),
+                                                                                                  fadeInDuration:
+                                                                                                  Duration(
+                                                                                                      milliseconds:
+                                                                                                      100),
+                                                                                                  fadeOutDuration:
+                                                                                                  Duration(
+                                                                                                      milliseconds:
+                                                                                                      10),
+                                                                                                  fadeInCurve:
+                                                                                                  Curves
+                                                                                                      .bounceIn,
+                                                                                                  fit: BoxFit
+                                                                                                      .cover,
+                                                                                                ),
+                                                                                                Padding(
+                                                                                                  padding: const EdgeInsets.only(left:8.0, right: 8.0, top: 10),
+                                                                                                  child: Text(snapshot.data!.title,
+                                                                                                    maxLines: 2,
+                                                                                                    textScaleFactor: 1, style:
+                                                                                                    TextStyle(
+                                                                                                        fontSize: 13,
+                                                                                                        overflow: TextOverflow.ellipsis,
+                                                                                                        height: 1.3
+                                                                                                    ),
+                                                                                                    strutStyle: StrutStyle(
+                                                                                                      height: 1.3,
+                                                                                                      // fontSize:,
+                                                                                                      forceStrutHeight: true,
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ],
+                                                                                            )
+                                                                                        ),
+                                                                                      );
+
+                                                                                    return Container(child: ClipRRect(
+                                                                                      borderRadius:
+                                                                                      BorderRadius
+                                                                                          .circular(
+                                                                                          10.0),
+                                                                                      child: Container(
+
+                                                                                          height: 175,
+                                                                                          width: 200,
+                                                                                          decoration: BoxDecoration(
+                                                                                            // borderRadius: BorderRadius.all(
+                                                                                            //   Radius.circular(10.0),
+                                                                                            // ),
+                                                                                            color: Colors.grey.withOpacity(0.2),
+                                                                                          ),
+                                                                                          child: Column(
+                                                                                            children: [
+                                                                                              Container(
+                                                                                                  height: 112.5,
+                                                                                                  width: 200,
+                                                                                                  // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                                                  child: FadeShimmer(
+                                                                                                    height: 112.5,
+                                                                                                    width: 200,
+                                                                                                    radius: 0,
+                                                                                                    highlightColor: Colors.grey.withOpacity(0.1),
+                                                                                                    baseColor: Colors.grey.withOpacity(0.5),
+                                                                                                  )
+                                                                                              ),
+                                                                                              Padding(
+                                                                                                padding: const EdgeInsets.only(left:15.0, right: 15.0, top: 13),
+                                                                                                child: Column(
+                                                                                                  children: [
+                                                                                                    FadeShimmer(
+                                                                                                      height: 12,
+                                                                                                      width: 184,
+                                                                                                      radius: 2,
+                                                                                                      highlightColor: Colors.grey.withOpacity(0.1),
+                                                                                                      baseColor: Colors.grey.withOpacity(0.5),
+                                                                                                    ),
+                                                                                                    SizedBox(height: 8),
+                                                                                                    FadeShimmer(
+                                                                                                      height: 12,
+                                                                                                      width: 184,
+                                                                                                      radius: 2,
+                                                                                                      highlightColor: Colors.grey.withOpacity(0.1),
+                                                                                                      baseColor: Colors.grey.withOpacity(0.5),
+                                                                                                    )
+                                                                                                  ],
+                                                                                                ),
+                                                                                              ),
+                                                                                            ],
+                                                                                          )
+                                                                                      ),
+                                                                                    ));
+                                                                                  }
                                                                               ),
-                                                                              SizedBox(
-                                                                                height: 175,
-                                                                                child: ListView(
-                                                                                  scrollDirection: Axis.horizontal,
-                                                                                  children: [
-                                                                                    zero[1].toString() != '' ? Padding(
-                                                                                      padding: const EdgeInsets.only(left: 15.0),
-                                                                                      child: FutureBuilder(
-                                                                                          future: getDetail(zero[1].toString()),
-                                                                                          builder: (context, AsyncSnapshot<Items?> snapshot){
-                                                                                            if(snapshot.hasData)
-                                                                                              return ClipRRect(
-                                                                                                borderRadius:
-                                                                                                BorderRadius
-                                                                                                    .circular(
-                                                                                                    10.0),
-                                                                                                child: Container(
-
-                                                                                                    height: 175,
-                                                                                                    width: 200,
-                                                                                                    decoration: BoxDecoration(
-                                                                                                      // borderRadius: BorderRadius.all(
-                                                                                                      //   Radius.circular(10.0),
-                                                                                                      // ),
-                                                                                                      color: Colors.grey.withOpacity(0.2),
-                                                                                                    ),
-                                                                                                    child: Column(
-                                                                                                      children: [
-                                                                                                        CachedNetworkImage(
-                                                                                                          imageUrl: snapshot.data!.thumbnail_url,
-                                                                                                          height: 112.5,
-                                                                                                          width: 200,
-                                                                                                          // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                                                                          errorWidget: (context,
-                                                                                                              url,
-                                                                                                              error) =>
-                                                                                                              Icon(Icons
-                                                                                                                  .error),
-                                                                                                          fadeInDuration:
-                                                                                                          Duration(
-                                                                                                              milliseconds:
-                                                                                                              100),
-                                                                                                          fadeOutDuration:
-                                                                                                          Duration(
-                                                                                                              milliseconds:
-                                                                                                              10),
-                                                                                                          fadeInCurve:
-                                                                                                          Curves
-                                                                                                              .bounceIn,
-                                                                                                          fit: BoxFit
-                                                                                                              .cover,
-                                                                                                        ),
-                                                                                                        Padding(
-                                                                                                          padding: const EdgeInsets.only(left:8.0, right: 8.0, top: 10),
-                                                                                                          child: Text(snapshot.data!.title,
-                                                                                                            maxLines: 2,
-                                                                                                            textScaleFactor: 1, style:
-                                                                                                            TextStyle(
-                                                                                                                fontSize: 13,
-                                                                                                                overflow: TextOverflow.ellipsis,
-                                                                                                                height: 1.3
-                                                                                                            ),
-                                                                                                            strutStyle: StrutStyle(
-                                                                                                              height: 1.3,
-                                                                                                              // fontSize:,
-                                                                                                              forceStrutHeight: true,
-                                                                                                            ),
-                                                                                                          ),
-                                                                                                        ),
-                                                                                                      ],
-                                                                                                    )
-                                                                                                ),
-                                                                                              );
-
-                                                                                            return Container(child: ClipRRect(
-                                                                                              borderRadius:
-                                                                                              BorderRadius
-                                                                                                  .circular(
-                                                                                                  10.0),
-                                                                                              child: Container(
-
-                                                                                                  height: 175,
-                                                                                                  width: 200,
-                                                                                                  decoration: BoxDecoration(
-                                                                                                    // borderRadius: BorderRadius.all(
-                                                                                                    //   Radius.circular(10.0),
-                                                                                                    // ),
-                                                                                                    color: Colors.grey.withOpacity(0.2),
-                                                                                                  ),
-                                                                                                  child: Column(
-                                                                                                    children: [
-                                                                                                      Container(
-                                                                                                          height: 112.5,
-                                                                                                          width: 200,
-                                                                                                          // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                                                                          child: FadeShimmer(
-                                                                                                            height: 112.5,
-                                                                                                            width: 200,
-                                                                                                            radius: 0,
-                                                                                                            highlightColor: Colors.grey.withOpacity(0.1),
-                                                                                                            baseColor: Colors.grey.withOpacity(0.5),
-                                                                                                          )
-                                                                                                      ),
-                                                                                                      Padding(
-                                                                                                        padding: const EdgeInsets.only(left:15.0, right: 15.0, top: 13),
-                                                                                                        child: Column(
-                                                                                                          children: [
-                                                                                                            FadeShimmer(
-                                                                                                              height: 12,
-                                                                                                              width: 184,
-                                                                                                              radius: 2,
-                                                                                                              highlightColor: Colors.grey.withOpacity(0.1),
-                                                                                                              baseColor: Colors.grey.withOpacity(0.5),
-                                                                                                            ),
-                                                                                                            SizedBox(height: 8),
-                                                                                                            FadeShimmer(
-                                                                                                              height: 12,
-                                                                                                              width: 184,
-                                                                                                              radius: 2,
-                                                                                                              highlightColor: Colors.grey.withOpacity(0.1),
-                                                                                                              baseColor: Colors.grey.withOpacity(0.5),
-                                                                                                            )
-                                                                                                          ],
-                                                                                                        ),
-                                                                                                      ),
-                                                                                                    ],
-                                                                                                  )
-                                                                                              ),
-                                                                                            ));
-                                                                                          }
-                                                                                      ),
-                                                                                    ) : Container(),
-                                                                                    zero[2].toString() != '' ? Padding(
-                                                                                      padding: const EdgeInsets.only(left: 15.0),
-                                                                                      child: FutureBuilder(
-                                                                                          future: getDetail(zero[2].toString()),
-                                                                                          builder: (context, AsyncSnapshot<Items?> snapshot){
-                                                                                            if(snapshot.hasData)
-                                                                                              return ClipRRect(
-                                                                                                borderRadius:
-                                                                                                BorderRadius
-                                                                                                    .circular(
-                                                                                                    10.0),
-                                                                                                child: Container(
-
-                                                                                                    height: 175,
-                                                                                                    width: 200,
-                                                                                                    decoration: BoxDecoration(
-                                                                                                      // borderRadius: BorderRadius.all(
-                                                                                                      //   Radius.circular(10.0),
-                                                                                                      // ),
-                                                                                                      color: Colors.grey.withOpacity(0.2),
-                                                                                                    ),
-                                                                                                    child: Column(
-                                                                                                      children: [
-                                                                                                        CachedNetworkImage(
-                                                                                                          imageUrl: snapshot.data!.thumbnail_url,
-                                                                                                          height: 112.5,
-                                                                                                          width: 200,
-                                                                                                          // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                                                                          errorWidget: (context,
-                                                                                                              url,
-                                                                                                              error) =>
-                                                                                                              Icon(Icons
-                                                                                                                  .error),
-                                                                                                          fadeInDuration:
-                                                                                                          Duration(
-                                                                                                              milliseconds:
-                                                                                                              100),
-                                                                                                          fadeOutDuration:
-                                                                                                          Duration(
-                                                                                                              milliseconds:
-                                                                                                              10),
-                                                                                                          fadeInCurve:
-                                                                                                          Curves
-                                                                                                              .bounceIn,
-                                                                                                          fit: BoxFit
-                                                                                                              .cover,
-                                                                                                        ),
-                                                                                                        Padding(
-                                                                                                          padding: const EdgeInsets.only(left:8.0, right: 8.0, top: 10),
-                                                                                                          child: Text(snapshot.data!.title,
-                                                                                                            maxLines: 2,
-                                                                                                            textScaleFactor: 1, style:
-                                                                                                            TextStyle(
-                                                                                                                fontSize: 13,
-                                                                                                                overflow: TextOverflow.ellipsis,
-                                                                                                                height: 1.3
-                                                                                                            ),
-                                                                                                            strutStyle: StrutStyle(
-                                                                                                              height: 1.3,
-                                                                                                              // fontSize:,
-                                                                                                              forceStrutHeight: true,
-                                                                                                            ),
-                                                                                                          ),
-                                                                                                        ),
-                                                                                                      ],
-                                                                                                    )
-                                                                                                ),
-                                                                                              );
-
-                                                                                            return Container(child: ClipRRect(
-                                                                                              borderRadius:
-                                                                                              BorderRadius
-                                                                                                  .circular(
-                                                                                                  10.0),
-                                                                                              child: Container(
-
-                                                                                                  height: 175,
-                                                                                                  width: 200,
-                                                                                                  decoration: BoxDecoration(
-                                                                                                    // borderRadius: BorderRadius.all(
-                                                                                                    //   Radius.circular(10.0),
-                                                                                                    // ),
-                                                                                                    color: Colors.grey.withOpacity(0.2),
-                                                                                                  ),
-                                                                                                  child: Column(
-                                                                                                    children: [
-                                                                                                      Container(
-                                                                                                          height: 112.5,
-                                                                                                          width: 200,
-                                                                                                          // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                                                                          child: FadeShimmer(
-                                                                                                            height: 112.5,
-                                                                                                            width: 200,
-                                                                                                            radius: 0,
-                                                                                                            highlightColor: Colors.grey.withOpacity(0.1),
-                                                                                                            baseColor: Colors.grey.withOpacity(0.5),
-                                                                                                          )
-                                                                                                      ),
-                                                                                                      Padding(
-                                                                                                        padding: const EdgeInsets.only(left:15.0, right: 15.0, top: 13),
-                                                                                                        child: Column(
-                                                                                                          children: [
-                                                                                                            FadeShimmer(
-                                                                                                              height: 12,
-                                                                                                              width: 184,
-                                                                                                              radius: 2,
-                                                                                                              highlightColor: Colors.grey.withOpacity(0.1),
-                                                                                                              baseColor: Colors.grey.withOpacity(0.5),
-                                                                                                            ),
-                                                                                                            SizedBox(height: 8),
-                                                                                                            FadeShimmer(
-                                                                                                              height: 12,
-                                                                                                              width: 184,
-                                                                                                              radius: 2,
-                                                                                                              highlightColor: Colors.grey.withOpacity(0.1),
-                                                                                                              baseColor: Colors.grey.withOpacity(0.5),
-                                                                                                            )
-                                                                                                          ],
-                                                                                                        ),
-                                                                                                      ),
-                                                                                                    ],
-                                                                                                  )
-                                                                                              ),
-                                                                                            ));
-                                                                                          }
-                                                                                      ),
-                                                                                    ) : Container(),
-                                                                                    zero[3].toString() != '' ? Padding(
-                                                                                      padding: const EdgeInsets.only(left: 15.0),
-                                                                                      child: FutureBuilder(
-                                                                                          future: getDetail(zero[3].toString()),
-                                                                                          builder: (context, AsyncSnapshot<Items?> snapshot){
-                                                                                            if(snapshot.hasData)
-                                                                                              return ClipRRect(
-                                                                                                borderRadius:
-                                                                                                BorderRadius
-                                                                                                    .circular(
-                                                                                                    10.0),
-                                                                                                child: Container(
-
-                                                                                                    height: 175,
-                                                                                                    width: 200,
-                                                                                                    decoration: BoxDecoration(
-                                                                                                      // borderRadius: BorderRadius.all(
-                                                                                                      //   Radius.circular(10.0),
-                                                                                                      // ),
-                                                                                                      color: Colors.grey.withOpacity(0.2),
-                                                                                                    ),
-                                                                                                    child: Column(
-                                                                                                      children: [
-                                                                                                        CachedNetworkImage(
-                                                                                                          imageUrl: snapshot.data!.thumbnail_url,
-                                                                                                          height: 112.5,
-                                                                                                          width: 200,
-                                                                                                          // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                                                                          errorWidget: (context,
-                                                                                                              url,
-                                                                                                              error) =>
-                                                                                                              Icon(Icons
-                                                                                                                  .error),
-                                                                                                          fadeInDuration:
-                                                                                                          Duration(
-                                                                                                              milliseconds:
-                                                                                                              100),
-                                                                                                          fadeOutDuration:
-                                                                                                          Duration(
-                                                                                                              milliseconds:
-                                                                                                              10),
-                                                                                                          fadeInCurve:
-                                                                                                          Curves
-                                                                                                              .bounceIn,
-                                                                                                          fit: BoxFit
-                                                                                                              .cover,
-                                                                                                        ),
-                                                                                                        Padding(
-                                                                                                          padding: const EdgeInsets.only(left:8.0, right: 8.0, top: 10),
-                                                                                                          child: Text(snapshot.data!.title,
-                                                                                                            maxLines: 2,
-                                                                                                            textScaleFactor: 1, style:
-                                                                                                            TextStyle(
-                                                                                                                fontSize: 13,
-                                                                                                                overflow: TextOverflow.ellipsis,
-                                                                                                                height: 1.3
-                                                                                                            ),
-                                                                                                            strutStyle: StrutStyle(
-                                                                                                              height: 1.3,
-                                                                                                              // fontSize:,
-                                                                                                              forceStrutHeight: true,
-                                                                                                            ),
-                                                                                                          ),
-                                                                                                        ),
-                                                                                                      ],
-                                                                                                    )
-                                                                                                ),
-                                                                                              );
-
-                                                                                            return Container(child: ClipRRect(
-                                                                                              borderRadius:
-                                                                                              BorderRadius
-                                                                                                  .circular(
-                                                                                                  10.0),
-                                                                                              child: Container(
-
-                                                                                                  height: 175,
-                                                                                                  width: 200,
-                                                                                                  decoration: BoxDecoration(
-                                                                                                    // borderRadius: BorderRadius.all(
-                                                                                                    //   Radius.circular(10.0),
-                                                                                                    // ),
-                                                                                                    color: Colors.grey.withOpacity(0.2),
-                                                                                                  ),
-                                                                                                  child: Column(
-                                                                                                    children: [
-                                                                                                      Container(
-                                                                                                          height: 112.5,
-                                                                                                          width: 200,
-                                                                                                          // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                                                                          child: FadeShimmer(
-                                                                                                            height: 112.5,
-                                                                                                            width: 200,
-                                                                                                            radius: 0,
-                                                                                                            highlightColor: Colors.grey.withOpacity(0.1),
-                                                                                                            baseColor: Colors.grey.withOpacity(0.5),
-                                                                                                          )
-                                                                                                      ),
-                                                                                                      Padding(
-                                                                                                        padding: const EdgeInsets.only(left:15.0, right: 15.0, top: 13),
-                                                                                                        child: Column(
-                                                                                                          children: [
-                                                                                                            FadeShimmer(
-                                                                                                              height: 12,
-                                                                                                              width: 184,
-                                                                                                              radius: 2,
-                                                                                                              highlightColor: Colors.grey.withOpacity(0.1),
-                                                                                                              baseColor: Colors.grey.withOpacity(0.5),
-                                                                                                            ),
-                                                                                                            SizedBox(height: 8),
-                                                                                                            FadeShimmer(
-                                                                                                              height: 12,
-                                                                                                              width: 184,
-                                                                                                              radius: 2,
-                                                                                                              highlightColor: Colors.grey.withOpacity(0.1),
-                                                                                                              baseColor: Colors.grey.withOpacity(0.5),
-                                                                                                            )
-                                                                                                          ],
-                                                                                                        ),
-                                                                                                      ),
-                                                                                                    ],
-                                                                                                  )
-                                                                                              ),
-                                                                                            ));
-                                                                                          }
-                                                                                      ),
-                                                                                    ) : Container(),
-                                                                                  ],
-                                                                                ),
-                                                                              ),
-                                                                            ],
+                                                                            ),
                                                                           ) : Container(),
-                                                                          one[0].toString() != '' ?  Column(
-                                                                            children: [
-                                                                              Padding(
-                                                                                padding: const EdgeInsets.only(top: 10.0, left: 15.0, right: 15.0, bottom: 15.0),
-                                                                                child: Align(
-                                                                                  alignment: Alignment.centerLeft,
-                                                                                  child: Container(
-                                                                                    child: Text(one[0].toString(), textScaleFactor: 1,
-                                                                                      style: TextStyle(
-                                                                                        height: 0.9,
-                                                                                        letterSpacing: 2,
-                                                                                        fontWeight: FontWeight.bold,
-                                                                                        fontSize: 14,color: Colors.grey,
-                                                                                      ),),
-                                                                                  ),
+                                                                          zero[2].toString() != '' ? Padding(
+                                                                            padding: const EdgeInsets.only(left: 15.0),
+                                                                            child: GestureDetector(
+                                                                              onTap: () {
+                                                                                launch(zero[2]);
+                                                                              },
+                                                                              child: FutureBuilder(
+                                                                                  future: getDetail(zero[2].toString()),
+                                                                                  builder: (context, AsyncSnapshot<Items?> snapshot){
+                                                                                    if(snapshot.hasData)
+                                                                                      return ClipRRect(
+                                                                                        borderRadius:
+                                                                                        BorderRadius
+                                                                                            .circular(
+                                                                                            10.0),
+                                                                                        child: Container(
+
+                                                                                            height: 175,
+                                                                                            width: 200,
+                                                                                            decoration: BoxDecoration(
+                                                                                              // borderRadius: BorderRadius.all(
+                                                                                              //   Radius.circular(10.0),
+                                                                                              // ),
+                                                                                              color: Colors.grey.withOpacity(0.2),
+                                                                                            ),
+                                                                                            child: Column(
+                                                                                              children: [
+                                                                                                CachedNetworkImage(
+                                                                                                  imageUrl: snapshot.data!.thumbnail_url,
+                                                                                                  height: 112.5,
+                                                                                                  width: 200,
+                                                                                                  // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                                                  errorWidget: (context,
+                                                                                                      url,
+                                                                                                      error) =>
+                                                                                                      Icon(Icons
+                                                                                                          .error),
+                                                                                                  fadeInDuration:
+                                                                                                  Duration(
+                                                                                                      milliseconds:
+                                                                                                      100),
+                                                                                                  fadeOutDuration:
+                                                                                                  Duration(
+                                                                                                      milliseconds:
+                                                                                                      10),
+                                                                                                  fadeInCurve:
+                                                                                                  Curves
+                                                                                                      .bounceIn,
+                                                                                                  fit: BoxFit
+                                                                                                      .cover,
+                                                                                                ),
+                                                                                                Padding(
+                                                                                                  padding: const EdgeInsets.only(left:8.0, right: 8.0, top: 10),
+                                                                                                  child: Text(snapshot.data!.title,
+                                                                                                    maxLines: 2,
+                                                                                                    textScaleFactor: 1, style:
+                                                                                                    TextStyle(
+                                                                                                        fontSize: 13,
+                                                                                                        overflow: TextOverflow.ellipsis,
+                                                                                                        height: 1.3
+                                                                                                    ),
+                                                                                                    strutStyle: StrutStyle(
+                                                                                                      height: 1.3,
+                                                                                                      // fontSize:,
+                                                                                                      forceStrutHeight: true,
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ],
+                                                                                            )
+                                                                                        ),
+                                                                                      );
+
+                                                                                    return Container(child: ClipRRect(
+                                                                                      borderRadius:
+                                                                                      BorderRadius
+                                                                                          .circular(
+                                                                                          10.0),
+                                                                                      child: Container(
+
+                                                                                          height: 175,
+                                                                                          width: 200,
+                                                                                          decoration: BoxDecoration(
+                                                                                            // borderRadius: BorderRadius.all(
+                                                                                            //   Radius.circular(10.0),
+                                                                                            // ),
+                                                                                            color: Colors.grey.withOpacity(0.2),
+                                                                                          ),
+                                                                                          child: Column(
+                                                                                            children: [
+                                                                                              Container(
+                                                                                                  height: 112.5,
+                                                                                                  width: 200,
+                                                                                                  // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                                                  child: FadeShimmer(
+                                                                                                    height: 112.5,
+                                                                                                    width: 200,
+                                                                                                    radius: 0,
+                                                                                                    highlightColor: Colors.grey.withOpacity(0.1),
+                                                                                                    baseColor: Colors.grey.withOpacity(0.5),
+                                                                                                  )
+                                                                                              ),
+                                                                                              Padding(
+                                                                                                padding: const EdgeInsets.only(left:15.0, right: 15.0, top: 13),
+                                                                                                child: Column(
+                                                                                                  children: [
+                                                                                                    FadeShimmer(
+                                                                                                      height: 12,
+                                                                                                      width: 184,
+                                                                                                      radius: 2,
+                                                                                                      highlightColor: Colors.grey.withOpacity(0.1),
+                                                                                                      baseColor: Colors.grey.withOpacity(0.5),
+                                                                                                    ),
+                                                                                                    SizedBox(height: 8),
+                                                                                                    FadeShimmer(
+                                                                                                      height: 12,
+                                                                                                      width: 184,
+                                                                                                      radius: 2,
+                                                                                                      highlightColor: Colors.grey.withOpacity(0.1),
+                                                                                                      baseColor: Colors.grey.withOpacity(0.5),
+                                                                                                    )
+                                                                                                  ],
+                                                                                                ),
+                                                                                              ),
+                                                                                            ],
+                                                                                          )
+                                                                                      ),
+                                                                                    ));
+                                                                                  }
+                                                                              ),
+                                                                            ),
+                                                                          ) : Container(),
+                                                                          zero[3].toString() != '' ? Padding(
+                                                                            padding: const EdgeInsets.only(left: 15.0),
+                                                                            child: GestureDetector(
+                                                                              onTap: () {
+                                                                                launch(zero[3]);
+                                                                              },
+                                                                              child: FutureBuilder(
+                                                                                  future: getDetail(zero[3].toString()),
+                                                                                  builder: (context, AsyncSnapshot<Items?> snapshot){
+                                                                                    if(snapshot.hasData)
+                                                                                      return ClipRRect(
+                                                                                        borderRadius:
+                                                                                        BorderRadius
+                                                                                            .circular(
+                                                                                            10.0),
+                                                                                        child: Container(
+
+                                                                                            height: 175,
+                                                                                            width: 200,
+                                                                                            decoration: BoxDecoration(
+                                                                                              // borderRadius: BorderRadius.all(
+                                                                                              //   Radius.circular(10.0),
+                                                                                              // ),
+                                                                                              color: Colors.grey.withOpacity(0.2),
+                                                                                            ),
+                                                                                            child: Column(
+                                                                                              children: [
+                                                                                                CachedNetworkImage(
+                                                                                                  imageUrl: snapshot.data!.thumbnail_url,
+                                                                                                  height: 112.5,
+                                                                                                  width: 200,
+                                                                                                  // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                                                  errorWidget: (context,
+                                                                                                      url,
+                                                                                                      error) =>
+                                                                                                      Icon(Icons
+                                                                                                          .error),
+                                                                                                  fadeInDuration:
+                                                                                                  Duration(
+                                                                                                      milliseconds:
+                                                                                                      100),
+                                                                                                  fadeOutDuration:
+                                                                                                  Duration(
+                                                                                                      milliseconds:
+                                                                                                      10),
+                                                                                                  fadeInCurve:
+                                                                                                  Curves
+                                                                                                      .bounceIn,
+                                                                                                  fit: BoxFit
+                                                                                                      .cover,
+                                                                                                ),
+                                                                                                Padding(
+                                                                                                  padding: const EdgeInsets.only(left:8.0, right: 8.0, top: 10),
+                                                                                                  child: Text(snapshot.data!.title,
+                                                                                                    maxLines: 2,
+                                                                                                    textScaleFactor: 1, style:
+                                                                                                    TextStyle(
+                                                                                                        fontSize: 13,
+                                                                                                        overflow: TextOverflow.ellipsis,
+                                                                                                        height: 1.3
+                                                                                                    ),
+                                                                                                    strutStyle: StrutStyle(
+                                                                                                      height: 1.3,
+                                                                                                      // fontSize:,
+                                                                                                      forceStrutHeight: true,
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ],
+                                                                                            )
+                                                                                        ),
+                                                                                      );
+
+                                                                                    return Container(child: ClipRRect(
+                                                                                      borderRadius:
+                                                                                      BorderRadius
+                                                                                          .circular(
+                                                                                          10.0),
+                                                                                      child: Container(
+
+                                                                                          height: 175,
+                                                                                          width: 200,
+                                                                                          decoration: BoxDecoration(
+                                                                                            // borderRadius: BorderRadius.all(
+                                                                                            //   Radius.circular(10.0),
+                                                                                            // ),
+                                                                                            color: Colors.grey.withOpacity(0.2),
+                                                                                          ),
+                                                                                          child: Column(
+                                                                                            children: [
+                                                                                              Container(
+                                                                                                  height: 112.5,
+                                                                                                  width: 200,
+                                                                                                  // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                                                  child: FadeShimmer(
+                                                                                                    height: 112.5,
+                                                                                                    width: 200,
+                                                                                                    radius: 0,
+                                                                                                    highlightColor: Colors.grey.withOpacity(0.1),
+                                                                                                    baseColor: Colors.grey.withOpacity(0.5),
+                                                                                                  )
+                                                                                              ),
+                                                                                              Padding(
+                                                                                                padding: const EdgeInsets.only(left:15.0, right: 15.0, top: 13),
+                                                                                                child: Column(
+                                                                                                  children: [
+                                                                                                    FadeShimmer(
+                                                                                                      height: 12,
+                                                                                                      width: 184,
+                                                                                                      radius: 2,
+                                                                                                      highlightColor: Colors.grey.withOpacity(0.1),
+                                                                                                      baseColor: Colors.grey.withOpacity(0.5),
+                                                                                                    ),
+                                                                                                    SizedBox(height: 8),
+                                                                                                    FadeShimmer(
+                                                                                                      height: 12,
+                                                                                                      width: 184,
+                                                                                                      radius: 2,
+                                                                                                      highlightColor: Colors.grey.withOpacity(0.1),
+                                                                                                      baseColor: Colors.grey.withOpacity(0.5),
+                                                                                                    )
+                                                                                                  ],
+                                                                                                ),
+                                                                                              ),
+                                                                                            ],
+                                                                                          )
+                                                                                      ),
+                                                                                    ));
+                                                                                  }
+                                                                              ),
+                                                                            ),
+                                                                          ) : Container(),
+                                                                          SizedBox(width: 15.0)
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ) : Container(),
+                                                              one[0].toString() != '' ?  Container(
+                                                                height: 237,
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets.only(top: 15.0),
+                                                                  child: Column(
+                                                                    children: [
+                                                                      Padding(
+                                                                        padding: const EdgeInsets.only(left: 15.0, right: 0.0),
+                                                                        child: Container(
+                                                                          decoration: BoxDecoration(
+                                                                              border: Border(
+                                                                                top: BorderSide(
+                                                                                    color: AppTheme.skBorderColor2,
+                                                                                    width: 1.0),
+                                                                              )),
+                                                                        ),
+                                                                      ),
+                                                                      Padding(
+                                                                        padding: const EdgeInsets.only(top: 8.0),
+                                                                        child: Column(
+                                                                          children: [
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.only(top: 10.0, left: 15.0, right: 15.0, bottom: 15.0),
+                                                                              child: Align(
+                                                                                alignment: Alignment.centerLeft,
+                                                                                child: Container(
+                                                                                  child: Text(one[0].toString(), textScaleFactor: 1,
+                                                                                    style: TextStyle(
+                                                                                      height: 0.9,
+                                                                                      letterSpacing: 2,
+                                                                                      fontWeight: FontWeight.bold,
+                                                                                      fontSize: 14,color: Colors.grey,
+                                                                                    ),),
                                                                                 ),
                                                                               ),
-                                                                              SizedBox(
-                                                                                height: 175,
-                                                                                child: ListView(
-                                                                                  scrollDirection: Axis.horizontal,
-                                                                                  children: [
-                                                                                    one[1].toString() != '' ? Padding(
-                                                                                      padding: const EdgeInsets.only(left: 15.0),
+                                                                            ),
+                                                                            SizedBox(
+                                                                              height: 175,
+                                                                              child: ListView(
+                                                                                scrollDirection: Axis.horizontal,
+                                                                                children: [
+                                                                                  one[1].toString() != '' ? Padding(
+                                                                                    padding: const EdgeInsets.only(left: 15.0),
+                                                                                    child: GestureDetector(
+                                                                                      onTap: () {
+                                                                                        launch(one[1]);
+                                                                                      },
                                                                                       child: FutureBuilder(
                                                                                           future: getDetail(one[1].toString()),
                                                                                           builder: (context, AsyncSnapshot<Items?> snapshot){
@@ -1731,9 +1779,14 @@ class HomePageState extends State<HomePage>
                                                                                             ));
                                                                                           }
                                                                                       ),
-                                                                                    ) : Container(),
-                                                                                    one[2].toString() != '' ? Padding(
-                                                                                      padding: const EdgeInsets.only(left: 15.0),
+                                                                                    ),
+                                                                                  ) : Container(),
+                                                                                  one[2].toString() != '' ? Padding(
+                                                                                    padding: const EdgeInsets.only(left: 15.0),
+                                                                                    child: GestureDetector(
+                                                                                      onTap: () {
+                                                                                        launch(one[2]);
+                                                                                      },
                                                                                       child: FutureBuilder(
                                                                                           future: getDetail(one[2].toString()),
                                                                                           builder: (context, AsyncSnapshot<Items?> snapshot){
@@ -1858,9 +1911,14 @@ class HomePageState extends State<HomePage>
                                                                                             ));
                                                                                           }
                                                                                       ),
-                                                                                    ) : Container(),
-                                                                                    one[3].toString() != '' ? Padding(
-                                                                                      padding: const EdgeInsets.only(left: 15.0),
+                                                                                    ),
+                                                                                  ) : Container(),
+                                                                                  one[3].toString() != '' ? Padding(
+                                                                                    padding: const EdgeInsets.only(left: 15.0),
+                                                                                    child: GestureDetector(
+                                                                                      onTap: () {
+                                                                                        launch(one[3]);
+                                                                                      },
                                                                                       child: FutureBuilder(
                                                                                           future: getDetail(one[3].toString()),
                                                                                           builder: (context, AsyncSnapshot<Items?> snapshot){
@@ -1985,104 +2043,201 @@ class HomePageState extends State<HomePage>
                                                                                             ));
                                                                                           }
                                                                                       ),
-                                                                                    ) : Container(),
-                                                                                  ],
-                                                                                ),
+                                                                                    ),
+                                                                                  ) : Container(),
+                                                                                  SizedBox(width: 15.0)
+                                                                                ],
                                                                               ),
-                                                                            ],
-                                                                          ) : Container(),
-                                                                          two[0].toString() != '' ?  Column(
-                                                                            children: [
-                                                                              Padding(
-                                                                                padding: const EdgeInsets.only(top: 10.0, left: 15.0, right: 15.0, bottom: 15.0),
-                                                                                child: Align(
-                                                                                  alignment: Alignment.centerLeft,
-                                                                                  child: Container(
-                                                                                    child: Text(two[0].toString(), textScaleFactor: 1,
-                                                                                      style: TextStyle(
-                                                                                        height: 0.9,
-                                                                                        letterSpacing: 2,
-                                                                                        fontWeight: FontWeight.bold,
-                                                                                        fontSize: 14,color: Colors.grey,
-                                                                                      ),),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ) : Container(),
+                                                              two[0].toString() != '' ?  Padding(
+                                                                padding: const EdgeInsets.only(top: 15.0),
+                                                                child: Column(
+                                                                  children: [
+                                                                    Padding(
+                                                                      padding: const EdgeInsets.only(left: 15.0, right: 0.0),
+                                                                      child: Container(
+                                                                        decoration: BoxDecoration(
+                                                                            border: Border(
+                                                                              top: BorderSide(
+                                                                                  color: AppTheme.skBorderColor2,
+                                                                                  width: 1.0),
+                                                                            )),
+                                                                      ),
+                                                                    ),
+                                                                    Padding(
+                                                                      padding: const EdgeInsets.only(top: 8.0),
+                                                                      child: Column(
+                                                                        children: [
+                                                                          Padding(
+                                                                            padding: const EdgeInsets.only(top: 10.0, left: 15.0, right: 15.0, bottom: 15.0),
+                                                                            child: Align(
+                                                                              alignment: Alignment.centerLeft,
+                                                                              child: Container(
+                                                                                child: Text(two[0].toString(), textScaleFactor: 1,
+                                                                                  style: TextStyle(
+                                                                                    height: 0.9,
+                                                                                    letterSpacing: 2,
+                                                                                    fontWeight: FontWeight.bold,
+                                                                                    fontSize: 14,color: Colors.grey,
+                                                                                  ),),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                          SizedBox(
+                                                                            height: 175,
+                                                                            child: ListView(
+                                                                              scrollDirection: Axis.horizontal,
+                                                                              children: [
+                                                                                two[1].toString() != '' ? Padding(
+                                                                                  padding: const EdgeInsets.only(left: 15.0),
+                                                                                  child: GestureDetector(
+                                                                                    onTap: () {
+                                                                                      launch(two[1]);
+                                                                                    },
+                                                                                    child: FutureBuilder(
+                                                                                        future: getDetail(two[1].toString()),
+                                                                                        builder: (context, AsyncSnapshot<Items?> snapshot){
+                                                                                          if(snapshot.hasData)
+                                                                                            return ClipRRect(
+                                                                                              borderRadius:
+                                                                                              BorderRadius
+                                                                                                  .circular(
+                                                                                                  10.0),
+                                                                                              child: Container(
+
+                                                                                                  height: 175,
+                                                                                                  width: 200,
+                                                                                                  decoration: BoxDecoration(
+                                                                                                    // borderRadius: BorderRadius.all(
+                                                                                                    //   Radius.circular(10.0),
+                                                                                                    // ),
+                                                                                                    color: Colors.grey.withOpacity(0.2),
+                                                                                                  ),
+                                                                                                  child: Column(
+                                                                                                    children: [
+                                                                                                      CachedNetworkImage(
+                                                                                                        imageUrl: snapshot.data!.thumbnail_url,
+                                                                                                        height: 112.5,
+                                                                                                        width: 200,
+                                                                                                        // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                                                        errorWidget: (context,
+                                                                                                            url,
+                                                                                                            error) =>
+                                                                                                            Icon(Icons
+                                                                                                                .error),
+                                                                                                        fadeInDuration:
+                                                                                                        Duration(
+                                                                                                            milliseconds:
+                                                                                                            100),
+                                                                                                        fadeOutDuration:
+                                                                                                        Duration(
+                                                                                                            milliseconds:
+                                                                                                            10),
+                                                                                                        fadeInCurve:
+                                                                                                        Curves
+                                                                                                            .bounceIn,
+                                                                                                        fit: BoxFit
+                                                                                                            .cover,
+                                                                                                      ),
+                                                                                                      Padding(
+                                                                                                        padding: const EdgeInsets.only(left:8.0, right: 8.0, top: 10),
+                                                                                                        child: Text(snapshot.data!.title,
+                                                                                                          maxLines: 2,
+                                                                                                          textScaleFactor: 1, style:
+                                                                                                          TextStyle(
+                                                                                                              fontSize: 13,
+                                                                                                              overflow: TextOverflow.ellipsis,
+                                                                                                              height: 1.3
+                                                                                                          ),
+                                                                                                          strutStyle: StrutStyle(
+                                                                                                            height: 1.3,
+                                                                                                            // fontSize:,
+                                                                                                            forceStrutHeight: true,
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                    ],
+                                                                                                  )
+                                                                                              ),
+                                                                                            );
+
+                                                                                          return Container(child: ClipRRect(
+                                                                                            borderRadius:
+                                                                                            BorderRadius
+                                                                                                .circular(
+                                                                                                10.0),
+                                                                                            child: Container(
+
+                                                                                                height: 175,
+                                                                                                width: 200,
+                                                                                                decoration: BoxDecoration(
+                                                                                                  // borderRadius: BorderRadius.all(
+                                                                                                  //   Radius.circular(10.0),
+                                                                                                  // ),
+                                                                                                  color: Colors.grey.withOpacity(0.2),
+                                                                                                ),
+                                                                                                child: Column(
+                                                                                                  children: [
+                                                                                                    Container(
+                                                                                                        height: 112.5,
+                                                                                                        width: 200,
+                                                                                                        // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                                                        child: FadeShimmer(
+                                                                                                          height: 112.5,
+                                                                                                          width: 200,
+                                                                                                          radius: 0,
+                                                                                                          highlightColor: Colors.grey.withOpacity(0.1),
+                                                                                                          baseColor: Colors.grey.withOpacity(0.5),
+                                                                                                        )
+                                                                                                    ),
+                                                                                                    Padding(
+                                                                                                      padding: const EdgeInsets.only(left:15.0, right: 15.0, top: 13),
+                                                                                                      child: Column(
+                                                                                                        children: [
+                                                                                                          FadeShimmer(
+                                                                                                            height: 12,
+                                                                                                            width: 184,
+                                                                                                            radius: 2,
+                                                                                                            highlightColor: Colors.grey.withOpacity(0.1),
+                                                                                                            baseColor: Colors.grey.withOpacity(0.5),
+                                                                                                          ),
+                                                                                                          SizedBox(height: 8),
+                                                                                                          FadeShimmer(
+                                                                                                            height: 12,
+                                                                                                            width: 184,
+                                                                                                            radius: 2,
+                                                                                                            highlightColor: Colors.grey.withOpacity(0.1),
+                                                                                                            baseColor: Colors.grey.withOpacity(0.5),
+                                                                                                          )
+                                                                                                        ],
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                  ],
+                                                                                                )
+                                                                                            ),
+                                                                                          ));
+                                                                                        }
+                                                                                    ),
                                                                                   ),
-                                                                                ),
-                                                                              ),
-                                                                              SizedBox(
-                                                                                height: 175,
-                                                                                child: ListView(
-                                                                                  scrollDirection: Axis.horizontal,
-                                                                                  children: [
-                                                                                    two[1].toString() != '' ? Padding(
-                                                                                      padding: const EdgeInsets.only(left: 15.0),
-                                                                                      child: FutureBuilder(
-                                                                                          future: getDetail(two[1].toString()),
-                                                                                          builder: (context, AsyncSnapshot<Items?> snapshot){
-                                                                                            if(snapshot.hasData)
-                                                                                              return ClipRRect(
-                                                                                                borderRadius:
-                                                                                                BorderRadius
-                                                                                                    .circular(
-                                                                                                    10.0),
-                                                                                                child: Container(
-
-                                                                                                    height: 175,
-                                                                                                    width: 200,
-                                                                                                    decoration: BoxDecoration(
-                                                                                                      // borderRadius: BorderRadius.all(
-                                                                                                      //   Radius.circular(10.0),
-                                                                                                      // ),
-                                                                                                      color: Colors.grey.withOpacity(0.2),
-                                                                                                    ),
-                                                                                                    child: Column(
-                                                                                                      children: [
-                                                                                                        CachedNetworkImage(
-                                                                                                          imageUrl: snapshot.data!.thumbnail_url,
-                                                                                                          height: 112.5,
-                                                                                                          width: 200,
-                                                                                                          // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                                                                          errorWidget: (context,
-                                                                                                              url,
-                                                                                                              error) =>
-                                                                                                              Icon(Icons
-                                                                                                                  .error),
-                                                                                                          fadeInDuration:
-                                                                                                          Duration(
-                                                                                                              milliseconds:
-                                                                                                              100),
-                                                                                                          fadeOutDuration:
-                                                                                                          Duration(
-                                                                                                              milliseconds:
-                                                                                                              10),
-                                                                                                          fadeInCurve:
-                                                                                                          Curves
-                                                                                                              .bounceIn,
-                                                                                                          fit: BoxFit
-                                                                                                              .cover,
-                                                                                                        ),
-                                                                                                        Padding(
-                                                                                                          padding: const EdgeInsets.only(left:8.0, right: 8.0, top: 10),
-                                                                                                          child: Text(snapshot.data!.title,
-                                                                                                            maxLines: 2,
-                                                                                                            textScaleFactor: 1, style:
-                                                                                                            TextStyle(
-                                                                                                                fontSize: 13,
-                                                                                                                overflow: TextOverflow.ellipsis,
-                                                                                                                height: 1.3
-                                                                                                            ),
-                                                                                                            strutStyle: StrutStyle(
-                                                                                                              height: 1.3,
-                                                                                                              // fontSize:,
-                                                                                                              forceStrutHeight: true,
-                                                                                                            ),
-                                                                                                          ),
-                                                                                                        ),
-                                                                                                      ],
-                                                                                                    )
-                                                                                                ),
-                                                                                              );
-
-                                                                                            return Container(child: ClipRRect(
+                                                                                ) : Container(),
+                                                                                two[2].toString() != '' ? Padding(
+                                                                                  padding: const EdgeInsets.only(left: 15.0),
+                                                                                  child: GestureDetector(
+                                                                                    onTap: () {
+                                                                                      launch(two[2]);
+                                                                                    },
+                                                                                    child: FutureBuilder(
+                                                                                        future: getDetail(two[2].toString()),
+                                                                                        builder: (context, AsyncSnapshot<Items?> snapshot){
+                                                                                          if(snapshot.hasData)
+                                                                                            return ClipRRect(
                                                                                               borderRadius:
                                                                                               BorderRadius
                                                                                                   .circular(
@@ -2099,398 +2254,122 @@ class HomePageState extends State<HomePage>
                                                                                                   ),
                                                                                                   child: Column(
                                                                                                     children: [
-                                                                                                      Container(
-                                                                                                          height: 112.5,
-                                                                                                          width: 200,
-                                                                                                          // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                                                                          child: FadeShimmer(
-                                                                                                            height: 112.5,
-                                                                                                            width: 200,
-                                                                                                            radius: 0,
-                                                                                                            highlightColor: Colors.grey.withOpacity(0.1),
-                                                                                                            baseColor: Colors.grey.withOpacity(0.5),
-                                                                                                          )
+                                                                                                      CachedNetworkImage(
+                                                                                                        imageUrl: snapshot.data!.thumbnail_url,
+                                                                                                        height: 112.5,
+                                                                                                        width: 200,
+                                                                                                        // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                                                        errorWidget: (context,
+                                                                                                            url,
+                                                                                                            error) =>
+                                                                                                            Icon(Icons
+                                                                                                                .error),
+                                                                                                        fadeInDuration:
+                                                                                                        Duration(
+                                                                                                            milliseconds:
+                                                                                                            100),
+                                                                                                        fadeOutDuration:
+                                                                                                        Duration(
+                                                                                                            milliseconds:
+                                                                                                            10),
+                                                                                                        fadeInCurve:
+                                                                                                        Curves
+                                                                                                            .bounceIn,
+                                                                                                        fit: BoxFit
+                                                                                                            .cover,
                                                                                                       ),
                                                                                                       Padding(
-                                                                                                        padding: const EdgeInsets.only(left:15.0, right: 15.0, top: 13),
-                                                                                                        child: Column(
-                                                                                                          children: [
-                                                                                                            FadeShimmer(
-                                                                                                              height: 12,
-                                                                                                              width: 184,
-                                                                                                              radius: 2,
-                                                                                                              highlightColor: Colors.grey.withOpacity(0.1),
-                                                                                                              baseColor: Colors.grey.withOpacity(0.5),
-                                                                                                            ),
-                                                                                                            SizedBox(height: 8),
-                                                                                                            FadeShimmer(
-                                                                                                              height: 12,
-                                                                                                              width: 184,
-                                                                                                              radius: 2,
-                                                                                                              highlightColor: Colors.grey.withOpacity(0.1),
-                                                                                                              baseColor: Colors.grey.withOpacity(0.5),
-                                                                                                            )
-                                                                                                          ],
-                                                                                                        ),
-                                                                                                      ),
-                                                                                                    ],
-                                                                                                  )
-                                                                                              ),
-                                                                                            ));
-                                                                                          }
-                                                                                      ),
-                                                                                    ) : Container(),
-                                                                                    two[2].toString() != '' ? Padding(
-                                                                                      padding: const EdgeInsets.only(left: 15.0),
-                                                                                      child: FutureBuilder(
-                                                                                          future: getDetail(two[2].toString()),
-                                                                                          builder: (context, AsyncSnapshot<Items?> snapshot){
-                                                                                            if(snapshot.hasData)
-                                                                                              return ClipRRect(
-                                                                                                borderRadius:
-                                                                                                BorderRadius
-                                                                                                    .circular(
-                                                                                                    10.0),
-                                                                                                child: Container(
-
-                                                                                                    height: 175,
-                                                                                                    width: 200,
-                                                                                                    decoration: BoxDecoration(
-                                                                                                      // borderRadius: BorderRadius.all(
-                                                                                                      //   Radius.circular(10.0),
-                                                                                                      // ),
-                                                                                                      color: Colors.grey.withOpacity(0.2),
-                                                                                                    ),
-                                                                                                    child: Column(
-                                                                                                      children: [
-                                                                                                        CachedNetworkImage(
-                                                                                                          imageUrl: snapshot.data!.thumbnail_url,
-                                                                                                          height: 112.5,
-                                                                                                          width: 200,
-                                                                                                          // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                                                                          errorWidget: (context,
-                                                                                                              url,
-                                                                                                              error) =>
-                                                                                                              Icon(Icons
-                                                                                                                  .error),
-                                                                                                          fadeInDuration:
-                                                                                                          Duration(
-                                                                                                              milliseconds:
-                                                                                                              100),
-                                                                                                          fadeOutDuration:
-                                                                                                          Duration(
-                                                                                                              milliseconds:
-                                                                                                              10),
-                                                                                                          fadeInCurve:
-                                                                                                          Curves
-                                                                                                              .bounceIn,
-                                                                                                          fit: BoxFit
-                                                                                                              .cover,
-                                                                                                        ),
-                                                                                                        Padding(
-                                                                                                          padding: const EdgeInsets.only(left:8.0, right: 8.0, top: 10),
-                                                                                                          child: Text(snapshot.data!.title,
-                                                                                                            maxLines: 2,
-                                                                                                            textScaleFactor: 1, style:
-                                                                                                            TextStyle(
-                                                                                                                fontSize: 13,
-                                                                                                                overflow: TextOverflow.ellipsis,
-                                                                                                                height: 1.3
-                                                                                                            ),
-                                                                                                            strutStyle: StrutStyle(
-                                                                                                              height: 1.3,
-                                                                                                              // fontSize:,
-                                                                                                              forceStrutHeight: true,
-                                                                                                            ),
+                                                                                                        padding: const EdgeInsets.only(left:8.0, right: 8.0, top: 10),
+                                                                                                        child: Text(snapshot.data!.title,
+                                                                                                          maxLines: 2,
+                                                                                                          textScaleFactor: 1, style:
+                                                                                                          TextStyle(
+                                                                                                              fontSize: 13,
+                                                                                                              overflow: TextOverflow.ellipsis,
+                                                                                                              height: 1.3
+                                                                                                          ),
+                                                                                                          strutStyle: StrutStyle(
+                                                                                                            height: 1.3,
+                                                                                                            // fontSize:,
+                                                                                                            forceStrutHeight: true,
                                                                                                           ),
                                                                                                         ),
-                                                                                                      ],
-                                                                                                    )
-                                                                                                ),
-                                                                                              );
-
-                                                                                            return Container(child: ClipRRect(
-                                                                                              borderRadius:
-                                                                                              BorderRadius
-                                                                                                  .circular(
-                                                                                                  10.0),
-                                                                                              child: Container(
-
-                                                                                                  height: 175,
-                                                                                                  width: 200,
-                                                                                                  decoration: BoxDecoration(
-                                                                                                    // borderRadius: BorderRadius.all(
-                                                                                                    //   Radius.circular(10.0),
-                                                                                                    // ),
-                                                                                                    color: Colors.grey.withOpacity(0.2),
-                                                                                                  ),
-                                                                                                  child: Column(
-                                                                                                    children: [
-                                                                                                      Container(
-                                                                                                          height: 112.5,
-                                                                                                          width: 200,
-                                                                                                          // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                                                                          child: FadeShimmer(
-                                                                                                            height: 112.5,
-                                                                                                            width: 200,
-                                                                                                            radius: 0,
-                                                                                                            highlightColor: Colors.grey.withOpacity(0.1),
-                                                                                                            baseColor: Colors.grey.withOpacity(0.5),
-                                                                                                          )
-                                                                                                      ),
-                                                                                                      Padding(
-                                                                                                        padding: const EdgeInsets.only(left:15.0, right: 15.0, top: 13),
-                                                                                                        child: Column(
-                                                                                                          children: [
-                                                                                                            FadeShimmer(
-                                                                                                              height: 12,
-                                                                                                              width: 184,
-                                                                                                              radius: 2,
-                                                                                                              highlightColor: Colors.grey.withOpacity(0.1),
-                                                                                                              baseColor: Colors.grey.withOpacity(0.5),
-                                                                                                            ),
-                                                                                                            SizedBox(height: 8),
-                                                                                                            FadeShimmer(
-                                                                                                              height: 12,
-                                                                                                              width: 184,
-                                                                                                              radius: 2,
-                                                                                                              highlightColor: Colors.grey.withOpacity(0.1),
-                                                                                                              baseColor: Colors.grey.withOpacity(0.5),
-                                                                                                            )
-                                                                                                          ],
-                                                                                                        ),
                                                                                                       ),
                                                                                                     ],
                                                                                                   )
                                                                                               ),
-                                                                                            ));
-                                                                                          }
-                                                                                      ),
-                                                                                    ) : Container(),
-                                                                                    two[3].toString() != '' ? Padding(
-                                                                                      padding: const EdgeInsets.only(left: 15.0),
-                                                                                      child: FutureBuilder(
-                                                                                          future: getDetail(two[3].toString()),
-                                                                                          builder: (context, AsyncSnapshot<Items?> snapshot){
-                                                                                            if(snapshot.hasData)
-                                                                                              return ClipRRect(
-                                                                                                borderRadius:
-                                                                                                BorderRadius
-                                                                                                    .circular(
-                                                                                                    10.0),
-                                                                                                child: Container(
+                                                                                            );
 
-                                                                                                    height: 175,
-                                                                                                    width: 200,
-                                                                                                    decoration: BoxDecoration(
-                                                                                                      // borderRadius: BorderRadius.all(
-                                                                                                      //   Radius.circular(10.0),
-                                                                                                      // ),
-                                                                                                      color: Colors.grey.withOpacity(0.2),
+                                                                                          return Container(child: ClipRRect(
+                                                                                            borderRadius:
+                                                                                            BorderRadius
+                                                                                                .circular(
+                                                                                                10.0),
+                                                                                            child: Container(
+
+                                                                                                height: 175,
+                                                                                                width: 200,
+                                                                                                decoration: BoxDecoration(
+                                                                                                  // borderRadius: BorderRadius.all(
+                                                                                                  //   Radius.circular(10.0),
+                                                                                                  // ),
+                                                                                                  color: Colors.grey.withOpacity(0.2),
+                                                                                                ),
+                                                                                                child: Column(
+                                                                                                  children: [
+                                                                                                    Container(
+                                                                                                        height: 112.5,
+                                                                                                        width: 200,
+                                                                                                        // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                                                        child: FadeShimmer(
+                                                                                                          height: 112.5,
+                                                                                                          width: 200,
+                                                                                                          radius: 0,
+                                                                                                          highlightColor: Colors.grey.withOpacity(0.1),
+                                                                                                          baseColor: Colors.grey.withOpacity(0.5),
+                                                                                                        )
                                                                                                     ),
-                                                                                                    child: Column(
-                                                                                                      children: [
-                                                                                                        CachedNetworkImage(
-                                                                                                          imageUrl: snapshot.data!.thumbnail_url,
-                                                                                                          height: 112.5,
-                                                                                                          width: 200,
-                                                                                                          // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                                                                          errorWidget: (context,
-                                                                                                              url,
-                                                                                                              error) =>
-                                                                                                              Icon(Icons
-                                                                                                                  .error),
-                                                                                                          fadeInDuration:
-                                                                                                          Duration(
-                                                                                                              milliseconds:
-                                                                                                              100),
-                                                                                                          fadeOutDuration:
-                                                                                                          Duration(
-                                                                                                              milliseconds:
-                                                                                                              10),
-                                                                                                          fadeInCurve:
-                                                                                                          Curves
-                                                                                                              .bounceIn,
-                                                                                                          fit: BoxFit
-                                                                                                              .cover,
-                                                                                                        ),
-                                                                                                        Padding(
-                                                                                                          padding: const EdgeInsets.only(left:8.0, right: 8.0, top: 10),
-                                                                                                          child: Text(snapshot.data!.title,
-                                                                                                            maxLines: 2,
-                                                                                                            textScaleFactor: 1, style:
-                                                                                                            TextStyle(
-                                                                                                                fontSize: 13,
-                                                                                                                overflow: TextOverflow.ellipsis,
-                                                                                                                height: 1.3
-                                                                                                            ),
-                                                                                                            strutStyle: StrutStyle(
-                                                                                                              height: 1.3,
-                                                                                                              // fontSize:,
-                                                                                                              forceStrutHeight: true,
-                                                                                                            ),
+                                                                                                    Padding(
+                                                                                                      padding: const EdgeInsets.only(left:15.0, right: 15.0, top: 13),
+                                                                                                      child: Column(
+                                                                                                        children: [
+                                                                                                          FadeShimmer(
+                                                                                                            height: 12,
+                                                                                                            width: 184,
+                                                                                                            radius: 2,
+                                                                                                            highlightColor: Colors.grey.withOpacity(0.1),
+                                                                                                            baseColor: Colors.grey.withOpacity(0.5),
                                                                                                           ),
-                                                                                                        ),
-                                                                                                      ],
-                                                                                                    )
-                                                                                                ),
-                                                                                              );
-
-                                                                                            return Container(child: ClipRRect(
-                                                                                              borderRadius:
-                                                                                              BorderRadius
-                                                                                                  .circular(
-                                                                                                  10.0),
-                                                                                              child: Container(
-
-                                                                                                  height: 175,
-                                                                                                  width: 200,
-                                                                                                  decoration: BoxDecoration(
-                                                                                                    // borderRadius: BorderRadius.all(
-                                                                                                    //   Radius.circular(10.0),
-                                                                                                    // ),
-                                                                                                    color: Colors.grey.withOpacity(0.2),
-                                                                                                  ),
-                                                                                                  child: Column(
-                                                                                                    children: [
-                                                                                                      Container(
-                                                                                                          height: 112.5,
-                                                                                                          width: 200,
-                                                                                                          // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                                                                          child: FadeShimmer(
-                                                                                                            height: 112.5,
-                                                                                                            width: 200,
-                                                                                                            radius: 0,
+                                                                                                          SizedBox(height: 8),
+                                                                                                          FadeShimmer(
+                                                                                                            height: 12,
+                                                                                                            width: 184,
+                                                                                                            radius: 2,
                                                                                                             highlightColor: Colors.grey.withOpacity(0.1),
                                                                                                             baseColor: Colors.grey.withOpacity(0.5),
                                                                                                           )
+                                                                                                        ],
                                                                                                       ),
-                                                                                                      Padding(
-                                                                                                        padding: const EdgeInsets.only(left:15.0, right: 15.0, top: 13),
-                                                                                                        child: Column(
-                                                                                                          children: [
-                                                                                                            FadeShimmer(
-                                                                                                              height: 12,
-                                                                                                              width: 184,
-                                                                                                              radius: 2,
-                                                                                                              highlightColor: Colors.grey.withOpacity(0.1),
-                                                                                                              baseColor: Colors.grey.withOpacity(0.5),
-                                                                                                            ),
-                                                                                                            SizedBox(height: 8),
-                                                                                                            FadeShimmer(
-                                                                                                              height: 12,
-                                                                                                              width: 184,
-                                                                                                              radius: 2,
-                                                                                                              highlightColor: Colors.grey.withOpacity(0.1),
-                                                                                                              baseColor: Colors.grey.withOpacity(0.5),
-                                                                                                            )
-                                                                                                          ],
-                                                                                                        ),
-                                                                                                      ),
-                                                                                                    ],
-                                                                                                  )
-                                                                                              ),
-                                                                                            ));
-                                                                                          }
-                                                                                      ),
-                                                                                    ) : Container(),
-                                                                                  ],
-                                                                                ),
-                                                                              ),
-                                                                            ],
-                                                                          ) : Container(),
-                                                                          three[0].toString() != '' ?  Column(
-                                                                            children: [
-                                                                              Padding(
-                                                                                padding: const EdgeInsets.only(top: 10.0, left: 15.0, right: 15.0, bottom: 15.0),
-                                                                                child: Align(
-                                                                                  alignment: Alignment.centerLeft,
-                                                                                  child: Container(
-                                                                                    child: Text(three[0].toString(), textScaleFactor: 1,
-                                                                                      style: TextStyle(
-                                                                                        height: 0.9,
-                                                                                        letterSpacing: 2,
-                                                                                        fontWeight: FontWeight.bold,
-                                                                                        fontSize: 14,color: Colors.grey,
-                                                                                      ),),
+                                                                                                    ),
+                                                                                                  ],
+                                                                                                )
+                                                                                            ),
+                                                                                          ));
+                                                                                        }
+                                                                                    ),
                                                                                   ),
-                                                                                ),
-                                                                              ),
-                                                                              SizedBox(
-                                                                                height: 175,
-                                                                                child: ListView(
-                                                                                  scrollDirection: Axis.horizontal,
-                                                                                  children: [
-                                                                                    three[1].toString() != '' ? Padding(
-                                                                                      padding: const EdgeInsets.only(left: 15.0),
-                                                                                      child: FutureBuilder(
-                                                                                          future: getDetail(three[1].toString()),
-                                                                                          builder: (context, AsyncSnapshot<Items?> snapshot){
-                                                                                            if(snapshot.hasData)
-                                                                                              return ClipRRect(
-                                                                                                borderRadius:
-                                                                                                BorderRadius
-                                                                                                    .circular(
-                                                                                                    10.0),
-                                                                                                child: Container(
-
-                                                                                                    height: 175,
-                                                                                                    width: 200,
-                                                                                                    decoration: BoxDecoration(
-                                                                                                      // borderRadius: BorderRadius.all(
-                                                                                                      //   Radius.circular(10.0),
-                                                                                                      // ),
-                                                                                                      color: Colors.grey.withOpacity(0.2),
-                                                                                                    ),
-                                                                                                    child: Column(
-                                                                                                      children: [
-                                                                                                        CachedNetworkImage(
-                                                                                                          imageUrl: snapshot.data!.thumbnail_url,
-                                                                                                          height: 112.5,
-                                                                                                          width: 200,
-                                                                                                          // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                                                                          errorWidget: (context,
-                                                                                                              url,
-                                                                                                              error) =>
-                                                                                                              Icon(Icons
-                                                                                                                  .error),
-                                                                                                          fadeInDuration:
-                                                                                                          Duration(
-                                                                                                              milliseconds:
-                                                                                                              100),
-                                                                                                          fadeOutDuration:
-                                                                                                          Duration(
-                                                                                                              milliseconds:
-                                                                                                              10),
-                                                                                                          fadeInCurve:
-                                                                                                          Curves
-                                                                                                              .bounceIn,
-                                                                                                          fit: BoxFit
-                                                                                                              .cover,
-                                                                                                        ),
-                                                                                                        Padding(
-                                                                                                          padding: const EdgeInsets.only(left:8.0, right: 8.0, top: 10),
-                                                                                                          child: Text(snapshot.data!.title,
-                                                                                                            maxLines: 2,
-                                                                                                            textScaleFactor: 1, style:
-                                                                                                            TextStyle(
-                                                                                                                fontSize: 13,
-                                                                                                                overflow: TextOverflow.ellipsis,
-                                                                                                                height: 1.3
-                                                                                                            ),
-                                                                                                            strutStyle: StrutStyle(
-                                                                                                              height: 1.3,
-                                                                                                              // fontSize:,
-                                                                                                              forceStrutHeight: true,
-                                                                                                            ),
-                                                                                                          ),
-                                                                                                        ),
-                                                                                                      ],
-                                                                                                    )
-                                                                                                ),
-                                                                                              );
-
-                                                                                            return Container(child: ClipRRect(
+                                                                                ) : Container(),
+                                                                                two[3].toString() != '' ? Padding(
+                                                                                  padding: const EdgeInsets.only(left: 15.0),
+                                                                                  child: GestureDetector(
+                                                                                    onTap: () {
+                                                                                      launch(two[3]);
+                                                                                    },
+                                                                                    child: FutureBuilder(
+                                                                                        future: getDetail(two[3].toString()),
+                                                                                        builder: (context, AsyncSnapshot<Items?> snapshot){
+                                                                                          if(snapshot.hasData)
+                                                                                            return ClipRRect(
                                                                                               borderRadius:
                                                                                               BorderRadius
                                                                                                   .circular(
@@ -2507,323 +2386,579 @@ class HomePageState extends State<HomePage>
                                                                                                   ),
                                                                                                   child: Column(
                                                                                                     children: [
-                                                                                                      Container(
-                                                                                                          height: 112.5,
-                                                                                                          width: 200,
-                                                                                                          // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                                                                          child: FadeShimmer(
-                                                                                                            height: 112.5,
-                                                                                                            width: 200,
-                                                                                                            radius: 0,
-                                                                                                            highlightColor: Colors.grey.withOpacity(0.1),
-                                                                                                            baseColor: Colors.grey.withOpacity(0.5),
-                                                                                                          )
+                                                                                                      CachedNetworkImage(
+                                                                                                        imageUrl: snapshot.data!.thumbnail_url,
+                                                                                                        height: 112.5,
+                                                                                                        width: 200,
+                                                                                                        // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                                                        errorWidget: (context,
+                                                                                                            url,
+                                                                                                            error) =>
+                                                                                                            Icon(Icons
+                                                                                                                .error),
+                                                                                                        fadeInDuration:
+                                                                                                        Duration(
+                                                                                                            milliseconds:
+                                                                                                            100),
+                                                                                                        fadeOutDuration:
+                                                                                                        Duration(
+                                                                                                            milliseconds:
+                                                                                                            10),
+                                                                                                        fadeInCurve:
+                                                                                                        Curves
+                                                                                                            .bounceIn,
+                                                                                                        fit: BoxFit
+                                                                                                            .cover,
                                                                                                       ),
                                                                                                       Padding(
-                                                                                                        padding: const EdgeInsets.only(left:15.0, right: 15.0, top: 13),
-                                                                                                        child: Column(
-                                                                                                          children: [
-                                                                                                            FadeShimmer(
-                                                                                                              height: 12,
-                                                                                                              width: 184,
-                                                                                                              radius: 2,
-                                                                                                              highlightColor: Colors.grey.withOpacity(0.1),
-                                                                                                              baseColor: Colors.grey.withOpacity(0.5),
-                                                                                                            ),
-                                                                                                            SizedBox(height: 8),
-                                                                                                            FadeShimmer(
-                                                                                                              height: 12,
-                                                                                                              width: 184,
-                                                                                                              radius: 2,
-                                                                                                              highlightColor: Colors.grey.withOpacity(0.1),
-                                                                                                              baseColor: Colors.grey.withOpacity(0.5),
-                                                                                                            )
-                                                                                                          ],
-                                                                                                        ),
-                                                                                                      ),
-                                                                                                    ],
-                                                                                                  )
-                                                                                              ),
-                                                                                            ));
-                                                                                          }
-                                                                                      ),
-                                                                                    ) : Container(),
-                                                                                    three[2].toString() != '' ? Padding(
-                                                                                      padding: const EdgeInsets.only(left: 15.0),
-                                                                                      child: FutureBuilder(
-                                                                                          future: getDetail(three[2].toString()),
-                                                                                          builder: (context, AsyncSnapshot<Items?> snapshot){
-                                                                                            if(snapshot.hasData)
-                                                                                              return ClipRRect(
-                                                                                                borderRadius:
-                                                                                                BorderRadius
-                                                                                                    .circular(
-                                                                                                    10.0),
-                                                                                                child: Container(
-
-                                                                                                    height: 175,
-                                                                                                    width: 200,
-                                                                                                    decoration: BoxDecoration(
-                                                                                                      // borderRadius: BorderRadius.all(
-                                                                                                      //   Radius.circular(10.0),
-                                                                                                      // ),
-                                                                                                      color: Colors.grey.withOpacity(0.2),
-                                                                                                    ),
-                                                                                                    child: Column(
-                                                                                                      children: [
-                                                                                                        CachedNetworkImage(
-                                                                                                          imageUrl: snapshot.data!.thumbnail_url,
-                                                                                                          height: 112.5,
-                                                                                                          width: 200,
-                                                                                                          // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                                                                          errorWidget: (context,
-                                                                                                              url,
-                                                                                                              error) =>
-                                                                                                              Icon(Icons
-                                                                                                                  .error),
-                                                                                                          fadeInDuration:
-                                                                                                          Duration(
-                                                                                                              milliseconds:
-                                                                                                              100),
-                                                                                                          fadeOutDuration:
-                                                                                                          Duration(
-                                                                                                              milliseconds:
-                                                                                                              10),
-                                                                                                          fadeInCurve:
-                                                                                                          Curves
-                                                                                                              .bounceIn,
-                                                                                                          fit: BoxFit
-                                                                                                              .cover,
-                                                                                                        ),
-                                                                                                        Padding(
-                                                                                                          padding: const EdgeInsets.only(left:8.0, right: 8.0, top: 10),
-                                                                                                          child: Text(snapshot.data!.title,
-                                                                                                            maxLines: 2,
-                                                                                                            textScaleFactor: 1, style:
-                                                                                                            TextStyle(
-                                                                                                                fontSize: 13,
-                                                                                                                overflow: TextOverflow.ellipsis,
-                                                                                                                height: 1.3
-                                                                                                            ),
-                                                                                                            strutStyle: StrutStyle(
-                                                                                                              height: 1.3,
-                                                                                                              // fontSize:,
-                                                                                                              forceStrutHeight: true,
-                                                                                                            ),
+                                                                                                        padding: const EdgeInsets.only(left:8.0, right: 8.0, top: 10),
+                                                                                                        child: Text(snapshot.data!.title,
+                                                                                                          maxLines: 2,
+                                                                                                          textScaleFactor: 1, style:
+                                                                                                          TextStyle(
+                                                                                                              fontSize: 13,
+                                                                                                              overflow: TextOverflow.ellipsis,
+                                                                                                              height: 1.3
+                                                                                                          ),
+                                                                                                          strutStyle: StrutStyle(
+                                                                                                            height: 1.3,
+                                                                                                            // fontSize:,
+                                                                                                            forceStrutHeight: true,
                                                                                                           ),
                                                                                                         ),
-                                                                                                      ],
-                                                                                                    )
-                                                                                                ),
-                                                                                              );
-
-                                                                                            return Container(child: ClipRRect(
-                                                                                              borderRadius:
-                                                                                              BorderRadius
-                                                                                                  .circular(
-                                                                                                  10.0),
-                                                                                              child: Container(
-
-                                                                                                  height: 175,
-                                                                                                  width: 200,
-                                                                                                  decoration: BoxDecoration(
-                                                                                                    // borderRadius: BorderRadius.all(
-                                                                                                    //   Radius.circular(10.0),
-                                                                                                    // ),
-                                                                                                    color: Colors.grey.withOpacity(0.2),
-                                                                                                  ),
-                                                                                                  child: Column(
-                                                                                                    children: [
-                                                                                                      Container(
-                                                                                                          height: 112.5,
-                                                                                                          width: 200,
-                                                                                                          // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                                                                          child: FadeShimmer(
-                                                                                                            height: 112.5,
-                                                                                                            width: 200,
-                                                                                                            radius: 0,
-                                                                                                            highlightColor: Colors.grey.withOpacity(0.1),
-                                                                                                            baseColor: Colors.grey.withOpacity(0.5),
-                                                                                                          )
-                                                                                                      ),
-                                                                                                      Padding(
-                                                                                                        padding: const EdgeInsets.only(left:15.0, right: 15.0, top: 13),
-                                                                                                        child: Column(
-                                                                                                          children: [
-                                                                                                            FadeShimmer(
-                                                                                                              height: 12,
-                                                                                                              width: 184,
-                                                                                                              radius: 2,
-                                                                                                              highlightColor: Colors.grey.withOpacity(0.1),
-                                                                                                              baseColor: Colors.grey.withOpacity(0.5),
-                                                                                                            ),
-                                                                                                            SizedBox(height: 8),
-                                                                                                            FadeShimmer(
-                                                                                                              height: 12,
-                                                                                                              width: 184,
-                                                                                                              radius: 2,
-                                                                                                              highlightColor: Colors.grey.withOpacity(0.1),
-                                                                                                              baseColor: Colors.grey.withOpacity(0.5),
-                                                                                                            )
-                                                                                                          ],
-                                                                                                        ),
                                                                                                       ),
                                                                                                     ],
                                                                                                   )
                                                                                               ),
-                                                                                            ));
-                                                                                          }
-                                                                                      ),
-                                                                                    ) : Container(),
-                                                                                    three[3].toString() != '' ? Padding(
-                                                                                      padding: const EdgeInsets.only(left: 15.0),
-                                                                                      child: FutureBuilder(
-                                                                                          future: getDetail(three[3].toString()),
-                                                                                          builder: (context, AsyncSnapshot<Items?> snapshot){
-                                                                                            if(snapshot.hasData)
-                                                                                              return ClipRRect(
-                                                                                                borderRadius:
-                                                                                                BorderRadius
-                                                                                                    .circular(
-                                                                                                    10.0),
-                                                                                                child: Container(
+                                                                                            );
 
-                                                                                                    height: 175,
-                                                                                                    width: 200,
-                                                                                                    decoration: BoxDecoration(
-                                                                                                      // borderRadius: BorderRadius.all(
-                                                                                                      //   Radius.circular(10.0),
-                                                                                                      // ),
-                                                                                                      color: Colors.grey.withOpacity(0.2),
+                                                                                          return Container(child: ClipRRect(
+                                                                                            borderRadius:
+                                                                                            BorderRadius
+                                                                                                .circular(
+                                                                                                10.0),
+                                                                                            child: Container(
+
+                                                                                                height: 175,
+                                                                                                width: 200,
+                                                                                                decoration: BoxDecoration(
+                                                                                                  // borderRadius: BorderRadius.all(
+                                                                                                  //   Radius.circular(10.0),
+                                                                                                  // ),
+                                                                                                  color: Colors.grey.withOpacity(0.2),
+                                                                                                ),
+                                                                                                child: Column(
+                                                                                                  children: [
+                                                                                                    Container(
+                                                                                                        height: 112.5,
+                                                                                                        width: 200,
+                                                                                                        // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                                                        child: FadeShimmer(
+                                                                                                          height: 112.5,
+                                                                                                          width: 200,
+                                                                                                          radius: 0,
+                                                                                                          highlightColor: Colors.grey.withOpacity(0.1),
+                                                                                                          baseColor: Colors.grey.withOpacity(0.5),
+                                                                                                        )
                                                                                                     ),
-                                                                                                    child: Column(
-                                                                                                      children: [
-                                                                                                        CachedNetworkImage(
-                                                                                                          imageUrl: snapshot.data!.thumbnail_url,
-                                                                                                          height: 112.5,
-                                                                                                          width: 200,
-                                                                                                          // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                                                                          errorWidget: (context,
-                                                                                                              url,
-                                                                                                              error) =>
-                                                                                                              Icon(Icons
-                                                                                                                  .error),
-                                                                                                          fadeInDuration:
-                                                                                                          Duration(
-                                                                                                              milliseconds:
-                                                                                                              100),
-                                                                                                          fadeOutDuration:
-                                                                                                          Duration(
-                                                                                                              milliseconds:
-                                                                                                              10),
-                                                                                                          fadeInCurve:
-                                                                                                          Curves
-                                                                                                              .bounceIn,
-                                                                                                          fit: BoxFit
-                                                                                                              .cover,
-                                                                                                        ),
-                                                                                                        Padding(
-                                                                                                          padding: const EdgeInsets.only(left:8.0, right: 8.0, top: 10),
-                                                                                                          child: Text(snapshot.data!.title,
-                                                                                                            maxLines: 2,
-                                                                                                            textScaleFactor: 1, style:
-                                                                                                            TextStyle(
-                                                                                                                fontSize: 13,
-                                                                                                                overflow: TextOverflow.ellipsis,
-                                                                                                                height: 1.3
-                                                                                                            ),
-                                                                                                            strutStyle: StrutStyle(
-                                                                                                              height: 1.3,
-                                                                                                              // fontSize:,
-                                                                                                              forceStrutHeight: true,
-                                                                                                            ),
+                                                                                                    Padding(
+                                                                                                      padding: const EdgeInsets.only(left:15.0, right: 15.0, top: 13),
+                                                                                                      child: Column(
+                                                                                                        children: [
+                                                                                                          FadeShimmer(
+                                                                                                            height: 12,
+                                                                                                            width: 184,
+                                                                                                            radius: 2,
+                                                                                                            highlightColor: Colors.grey.withOpacity(0.1),
+                                                                                                            baseColor: Colors.grey.withOpacity(0.5),
                                                                                                           ),
-                                                                                                        ),
-                                                                                                      ],
-                                                                                                    )
-                                                                                                ),
-                                                                                              );
-
-                                                                                            return Container(child: ClipRRect(
-                                                                                              borderRadius:
-                                                                                              BorderRadius
-                                                                                                  .circular(
-                                                                                                  10.0),
-                                                                                              child: Container(
-
-                                                                                                  height: 175,
-                                                                                                  width: 200,
-                                                                                                  decoration: BoxDecoration(
-                                                                                                    // borderRadius: BorderRadius.all(
-                                                                                                    //   Radius.circular(10.0),
-                                                                                                    // ),
-                                                                                                    color: Colors.grey.withOpacity(0.2),
-                                                                                                  ),
-                                                                                                  child: Column(
-                                                                                                    children: [
-                                                                                                      Container(
-                                                                                                          height: 112.5,
-                                                                                                          width: 200,
-                                                                                                          // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
-                                                                                                          child: FadeShimmer(
-                                                                                                            height: 112.5,
-                                                                                                            width: 200,
-                                                                                                            radius: 0,
+                                                                                                          SizedBox(height: 8),
+                                                                                                          FadeShimmer(
+                                                                                                            height: 12,
+                                                                                                            width: 184,
+                                                                                                            radius: 2,
                                                                                                             highlightColor: Colors.grey.withOpacity(0.1),
                                                                                                             baseColor: Colors.grey.withOpacity(0.5),
                                                                                                           )
+                                                                                                        ],
                                                                                                       ),
-                                                                                                      Padding(
-                                                                                                        padding: const EdgeInsets.only(left:15.0, right: 15.0, top: 13),
-                                                                                                        child: Column(
-                                                                                                          children: [
-                                                                                                            FadeShimmer(
-                                                                                                              height: 12,
-                                                                                                              width: 184,
-                                                                                                              radius: 2,
-                                                                                                              highlightColor: Colors.grey.withOpacity(0.1),
-                                                                                                              baseColor: Colors.grey.withOpacity(0.5),
-                                                                                                            ),
-                                                                                                            SizedBox(height: 8),
-                                                                                                            FadeShimmer(
-                                                                                                              height: 12,
-                                                                                                              width: 184,
-                                                                                                              radius: 2,
-                                                                                                              highlightColor: Colors.grey.withOpacity(0.1),
-                                                                                                              baseColor: Colors.grey.withOpacity(0.5),
-                                                                                                            )
-                                                                                                          ],
-                                                                                                        ),
-                                                                                                      ),
-                                                                                                    ],
-                                                                                                  )
-                                                                                              ),
-                                                                                            ));
-                                                                                          }
-                                                                                      ),
-                                                                                    ) : Container(),
-                                                                                  ],
-                                                                                ),
-                                                                              ),
-                                                                            ],
-                                                                          ) : Container(),
+                                                                                                    ),
+                                                                                                  ],
+                                                                                                )
+                                                                                            ),
+                                                                                          ));
+                                                                                        }
+                                                                                    ),
+                                                                                  ),
+                                                                                ) : Container(),
+                                                                                SizedBox(width: 15.0)
+                                                                              ],
+                                                                            ),
+                                                                          ),
                                                                         ],
                                                                       ),
                                                                     ),
-                                                                  );
-                                                                } return Container();
-                                                              }
-                                                              return Container();
-                                                          }
+                                                                  ],
+                                                                ),
+                                                              ) : Container(),
+                                                              three[0].toString() != '' ?  Padding(
+                                                                padding: const EdgeInsets.only(top: 15.0),
+                                                                child: Column(
+                                                                  children: [
+                                                                    Padding(
+                                                                      padding: const EdgeInsets.only(left: 15.0, right: 0.0),
+                                                                      child: Container(
+                                                                        decoration: BoxDecoration(
+                                                                            border: Border(
+                                                                              top: BorderSide(
+                                                                                  color: AppTheme.skBorderColor2,
+                                                                                  width: 1.0),
+                                                                            )),
+                                                                      ),
+                                                                    ),
+                                                                    Padding(
+                                                                      padding: const EdgeInsets.only(top: 8.0),
+                                                                      child: Column(
+                                                                        children: [
+                                                                          Padding(
+                                                                            padding: const EdgeInsets.only(top: 10.0, left: 15.0, right: 15.0, bottom: 15.0),
+                                                                            child: Align(
+                                                                              alignment: Alignment.centerLeft,
+                                                                              child: Container(
+                                                                                child: Text(three[0].toString(), textScaleFactor: 1,
+                                                                                  style: TextStyle(
+                                                                                    height: 0.9,
+                                                                                    letterSpacing: 2,
+                                                                                    fontWeight: FontWeight.bold,
+                                                                                    fontSize: 14,color: Colors.grey,
+                                                                                  ),),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                          SizedBox(
+                                                                            height: 175,
+                                                                            child: ListView(
+                                                                              scrollDirection: Axis.horizontal,
+                                                                              children: [
+                                                                                three[1].toString() != '' ? Padding(
+                                                                                  padding: const EdgeInsets.only(left: 15.0),
+                                                                                  child: GestureDetector(
+                                                                                    onTap: () {
+                                                                                      launch(three[1]);
+                                                                                    },
+                                                                                    child: FutureBuilder(
+                                                                                        future: getDetail(three[1].toString()),
+                                                                                        builder: (context, AsyncSnapshot<Items?> snapshot){
+                                                                                          if(snapshot.hasData)
+                                                                                            return ClipRRect(
+                                                                                              borderRadius:
+                                                                                              BorderRadius
+                                                                                                  .circular(
+                                                                                                  10.0),
+                                                                                              child: Container(
 
+                                                                                                  height: 175,
+                                                                                                  width: 200,
+                                                                                                  decoration: BoxDecoration(
+                                                                                                    // borderRadius: BorderRadius.all(
+                                                                                                    //   Radius.circular(10.0),
+                                                                                                    // ),
+                                                                                                    color: Colors.grey.withOpacity(0.2),
+                                                                                                  ),
+                                                                                                  child: Column(
+                                                                                                    children: [
+                                                                                                      CachedNetworkImage(
+                                                                                                        imageUrl: snapshot.data!.thumbnail_url,
+                                                                                                        height: 112.5,
+                                                                                                        width: 200,
+                                                                                                        // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                                                        errorWidget: (context,
+                                                                                                            url,
+                                                                                                            error) =>
+                                                                                                            Icon(Icons
+                                                                                                                .error),
+                                                                                                        fadeInDuration:
+                                                                                                        Duration(
+                                                                                                            milliseconds:
+                                                                                                            100),
+                                                                                                        fadeOutDuration:
+                                                                                                        Duration(
+                                                                                                            milliseconds:
+                                                                                                            10),
+                                                                                                        fadeInCurve:
+                                                                                                        Curves
+                                                                                                            .bounceIn,
+                                                                                                        fit: BoxFit
+                                                                                                            .cover,
+                                                                                                      ),
+                                                                                                      Padding(
+                                                                                                        padding: const EdgeInsets.only(left:8.0, right: 8.0, top: 10),
+                                                                                                        child: Text(snapshot.data!.title,
+                                                                                                          maxLines: 2,
+                                                                                                          textScaleFactor: 1, style:
+                                                                                                          TextStyle(
+                                                                                                              fontSize: 13,
+                                                                                                              overflow: TextOverflow.ellipsis,
+                                                                                                              height: 1.3
+                                                                                                          ),
+                                                                                                          strutStyle: StrutStyle(
+                                                                                                            height: 1.3,
+                                                                                                            // fontSize:,
+                                                                                                            forceStrutHeight: true,
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                    ],
+                                                                                                  )
+                                                                                              ),
+                                                                                            );
+
+                                                                                          return Container(child: ClipRRect(
+                                                                                            borderRadius:
+                                                                                            BorderRadius
+                                                                                                .circular(
+                                                                                                10.0),
+                                                                                            child: Container(
+
+                                                                                                height: 175,
+                                                                                                width: 200,
+                                                                                                decoration: BoxDecoration(
+                                                                                                  // borderRadius: BorderRadius.all(
+                                                                                                  //   Radius.circular(10.0),
+                                                                                                  // ),
+                                                                                                  color: Colors.grey.withOpacity(0.2),
+                                                                                                ),
+                                                                                                child: Column(
+                                                                                                  children: [
+                                                                                                    Container(
+                                                                                                        height: 112.5,
+                                                                                                        width: 200,
+                                                                                                        // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                                                        child: FadeShimmer(
+                                                                                                          height: 112.5,
+                                                                                                          width: 200,
+                                                                                                          radius: 0,
+                                                                                                          highlightColor: Colors.grey.withOpacity(0.1),
+                                                                                                          baseColor: Colors.grey.withOpacity(0.5),
+                                                                                                        )
+                                                                                                    ),
+                                                                                                    Padding(
+                                                                                                      padding: const EdgeInsets.only(left:15.0, right: 15.0, top: 13),
+                                                                                                      child: Column(
+                                                                                                        children: [
+                                                                                                          FadeShimmer(
+                                                                                                            height: 12,
+                                                                                                            width: 184,
+                                                                                                            radius: 2,
+                                                                                                            highlightColor: Colors.grey.withOpacity(0.1),
+                                                                                                            baseColor: Colors.grey.withOpacity(0.5),
+                                                                                                          ),
+                                                                                                          SizedBox(height: 8),
+                                                                                                          FadeShimmer(
+                                                                                                            height: 12,
+                                                                                                            width: 184,
+                                                                                                            radius: 2,
+                                                                                                            highlightColor: Colors.grey.withOpacity(0.1),
+                                                                                                            baseColor: Colors.grey.withOpacity(0.5),
+                                                                                                          )
+                                                                                                        ],
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                  ],
+                                                                                                )
+                                                                                            ),
+                                                                                          ));
+                                                                                        }
+                                                                                    ),
+                                                                                  ),
+                                                                                ) : Container(),
+                                                                                three[2].toString() != '' ? Padding(
+                                                                                  padding: const EdgeInsets.only(left: 15.0),
+                                                                                  child: GestureDetector(
+                                                                                    onTap: () {
+                                                                                      launch(three[2]);
+                                                                                    },
+                                                                                    child: FutureBuilder(
+                                                                                        future: getDetail(three[2].toString()),
+                                                                                        builder: (context, AsyncSnapshot<Items?> snapshot){
+                                                                                          if(snapshot.hasData)
+                                                                                            return ClipRRect(
+                                                                                              borderRadius:
+                                                                                              BorderRadius
+                                                                                                  .circular(
+                                                                                                  10.0),
+                                                                                              child: Container(
+
+                                                                                                  height: 175,
+                                                                                                  width: 200,
+                                                                                                  decoration: BoxDecoration(
+                                                                                                    // borderRadius: BorderRadius.all(
+                                                                                                    //   Radius.circular(10.0),
+                                                                                                    // ),
+                                                                                                    color: Colors.grey.withOpacity(0.2),
+                                                                                                  ),
+                                                                                                  child: Column(
+                                                                                                    children: [
+                                                                                                      CachedNetworkImage(
+                                                                                                        imageUrl: snapshot.data!.thumbnail_url,
+                                                                                                        height: 112.5,
+                                                                                                        width: 200,
+                                                                                                        // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                                                        errorWidget: (context,
+                                                                                                            url,
+                                                                                                            error) =>
+                                                                                                            Icon(Icons
+                                                                                                                .error),
+                                                                                                        fadeInDuration:
+                                                                                                        Duration(
+                                                                                                            milliseconds:
+                                                                                                            100),
+                                                                                                        fadeOutDuration:
+                                                                                                        Duration(
+                                                                                                            milliseconds:
+                                                                                                            10),
+                                                                                                        fadeInCurve:
+                                                                                                        Curves
+                                                                                                            .bounceIn,
+                                                                                                        fit: BoxFit
+                                                                                                            .cover,
+                                                                                                      ),
+                                                                                                      Padding(
+                                                                                                        padding: const EdgeInsets.only(left:8.0, right: 8.0, top: 10),
+                                                                                                        child: Text(snapshot.data!.title,
+                                                                                                          maxLines: 2,
+                                                                                                          textScaleFactor: 1, style:
+                                                                                                          TextStyle(
+                                                                                                              fontSize: 13,
+                                                                                                              overflow: TextOverflow.ellipsis,
+                                                                                                              height: 1.3
+                                                                                                          ),
+                                                                                                          strutStyle: StrutStyle(
+                                                                                                            height: 1.3,
+                                                                                                            // fontSize:,
+                                                                                                            forceStrutHeight: true,
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                    ],
+                                                                                                  )
+                                                                                              ),
+                                                                                            );
+
+                                                                                          return Container(child: ClipRRect(
+                                                                                            borderRadius:
+                                                                                            BorderRadius
+                                                                                                .circular(
+                                                                                                10.0),
+                                                                                            child: Container(
+
+                                                                                                height: 175,
+                                                                                                width: 200,
+                                                                                                decoration: BoxDecoration(
+                                                                                                  // borderRadius: BorderRadius.all(
+                                                                                                  //   Radius.circular(10.0),
+                                                                                                  // ),
+                                                                                                  color: Colors.grey.withOpacity(0.2),
+                                                                                                ),
+                                                                                                child: Column(
+                                                                                                  children: [
+                                                                                                    Container(
+                                                                                                        height: 112.5,
+                                                                                                        width: 200,
+                                                                                                        // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                                                        child: FadeShimmer(
+                                                                                                          height: 112.5,
+                                                                                                          width: 200,
+                                                                                                          radius: 0,
+                                                                                                          highlightColor: Colors.grey.withOpacity(0.1),
+                                                                                                          baseColor: Colors.grey.withOpacity(0.5),
+                                                                                                        )
+                                                                                                    ),
+                                                                                                    Padding(
+                                                                                                      padding: const EdgeInsets.only(left:15.0, right: 15.0, top: 13),
+                                                                                                      child: Column(
+                                                                                                        children: [
+                                                                                                          FadeShimmer(
+                                                                                                            height: 12,
+                                                                                                            width: 184,
+                                                                                                            radius: 2,
+                                                                                                            highlightColor: Colors.grey.withOpacity(0.1),
+                                                                                                            baseColor: Colors.grey.withOpacity(0.5),
+                                                                                                          ),
+                                                                                                          SizedBox(height: 8),
+                                                                                                          FadeShimmer(
+                                                                                                            height: 12,
+                                                                                                            width: 184,
+                                                                                                            radius: 2,
+                                                                                                            highlightColor: Colors.grey.withOpacity(0.1),
+                                                                                                            baseColor: Colors.grey.withOpacity(0.5),
+                                                                                                          )
+                                                                                                        ],
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                  ],
+                                                                                                )
+                                                                                            ),
+                                                                                          ));
+                                                                                        }
+                                                                                    ),
+                                                                                  ),
+                                                                                ) : Container(),
+                                                                                three[3].toString() != '' ? Padding(
+                                                                                  padding: const EdgeInsets.only(left: 15.0),
+                                                                                  child: GestureDetector(
+                                                                                    onTap: () {
+                                                                                      launch(three[3]);
+                                                                                    },
+                                                                                    child: FutureBuilder(
+                                                                                        future: getDetail(three[3].toString()),
+                                                                                        builder: (context, AsyncSnapshot<Items?> snapshot){
+                                                                                          if(snapshot.hasData)
+                                                                                            return ClipRRect(
+                                                                                              borderRadius:
+                                                                                              BorderRadius
+                                                                                                  .circular(
+                                                                                                  10.0),
+                                                                                              child: Container(
+
+                                                                                                  height: 175,
+                                                                                                  width: 200,
+                                                                                                  decoration: BoxDecoration(
+                                                                                                    // borderRadius: BorderRadius.all(
+                                                                                                    //   Radius.circular(10.0),
+                                                                                                    // ),
+                                                                                                    color: Colors.grey.withOpacity(0.2),
+                                                                                                  ),
+                                                                                                  child: Column(
+                                                                                                    children: [
+                                                                                                      CachedNetworkImage(
+                                                                                                        imageUrl: snapshot.data!.thumbnail_url,
+                                                                                                        height: 112.5,
+                                                                                                        width: 200,
+                                                                                                        // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                                                        errorWidget: (context,
+                                                                                                            url,
+                                                                                                            error) =>
+                                                                                                            Icon(Icons
+                                                                                                                .error),
+                                                                                                        fadeInDuration:
+                                                                                                        Duration(
+                                                                                                            milliseconds:
+                                                                                                            100),
+                                                                                                        fadeOutDuration:
+                                                                                                        Duration(
+                                                                                                            milliseconds:
+                                                                                                            10),
+                                                                                                        fadeInCurve:
+                                                                                                        Curves
+                                                                                                            .bounceIn,
+                                                                                                        fit: BoxFit
+                                                                                                            .cover,
+                                                                                                      ),
+                                                                                                      Padding(
+                                                                                                        padding: const EdgeInsets.only(left:8.0, right: 8.0, top: 10),
+                                                                                                        child: Text(snapshot.data!.title,
+                                                                                                          maxLines: 2,
+                                                                                                          textScaleFactor: 1, style:
+                                                                                                          TextStyle(
+                                                                                                              fontSize: 13,
+                                                                                                              overflow: TextOverflow.ellipsis,
+                                                                                                              height: 1.3
+                                                                                                          ),
+                                                                                                          strutStyle: StrutStyle(
+                                                                                                            height: 1.3,
+                                                                                                            // fontSize:,
+                                                                                                            forceStrutHeight: true,
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                    ],
+                                                                                                  )
+                                                                                              ),
+                                                                                            );
+
+                                                                                          return Container(child: ClipRRect(
+                                                                                            borderRadius:
+                                                                                            BorderRadius
+                                                                                                .circular(
+                                                                                                10.0),
+                                                                                            child: Container(
+
+                                                                                                height: 175,
+                                                                                                width: 200,
+                                                                                                decoration: BoxDecoration(
+                                                                                                  // borderRadius: BorderRadius.all(
+                                                                                                  //   Radius.circular(10.0),
+                                                                                                  // ),
+                                                                                                  color: Colors.grey.withOpacity(0.2),
+                                                                                                ),
+                                                                                                child: Column(
+                                                                                                  children: [
+                                                                                                    Container(
+                                                                                                        height: 112.5,
+                                                                                                        width: 200,
+                                                                                                        // placeholder: (context, url) => Image(image: AssetImage('assets/images/system/black-square.png')),
+                                                                                                        child: FadeShimmer(
+                                                                                                          height: 112.5,
+                                                                                                          width: 200,
+                                                                                                          radius: 0,
+                                                                                                          highlightColor: Colors.grey.withOpacity(0.1),
+                                                                                                          baseColor: Colors.grey.withOpacity(0.5),
+                                                                                                        )
+                                                                                                    ),
+                                                                                                    Padding(
+                                                                                                      padding: const EdgeInsets.only(left:15.0, right: 15.0, top: 13),
+                                                                                                      child: Column(
+                                                                                                        children: [
+                                                                                                          FadeShimmer(
+                                                                                                            height: 12,
+                                                                                                            width: 184,
+                                                                                                            radius: 2,
+                                                                                                            highlightColor: Colors.grey.withOpacity(0.1),
+                                                                                                            baseColor: Colors.grey.withOpacity(0.5),
+                                                                                                          ),
+                                                                                                          SizedBox(height: 8),
+                                                                                                          FadeShimmer(
+                                                                                                            height: 12,
+                                                                                                            width: 184,
+                                                                                                            radius: 2,
+                                                                                                            highlightColor: Colors.grey.withOpacity(0.1),
+                                                                                                            baseColor: Colors.grey.withOpacity(0.5),
+                                                                                                          )
+                                                                                                        ],
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                  ],
+                                                                                                )
+                                                                                            ),
+                                                                                          ));
+                                                                                        }
+                                                                                    ),
+                                                                                  ),
+                                                                                ) : Container(),
+                                                                                SizedBox(width: 15.0)
+                                                                              ],
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ) : Container(),
+                                                              SizedBox(height: MediaQuery.of(context).padding.bottom + 25)
+                                                            ],
+                                                          ),
                                                         ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ]
+                                                      );
+                                                    } return Container();
+                                                  }
+                                                  return Container();
+                                              }
+
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -2987,6 +3122,7 @@ class HomePageState extends State<HomePage>
                                                   if(snapshot.hasData) {
                                                     var output = snapshot.data != null? snapshot.data!.data(): null;
                                                     var isPro = output?['is_pro'];
+                                                    var shopName = output?['shop_name'];
                                                     Timestamp isProStart = isPro['start'];
                                                     Timestamp isProEnd = isPro['end'];
 
@@ -3016,7 +3152,9 @@ class HomePageState extends State<HomePage>
                                                                   ),
                                                                   Padding(
                                                                     padding: const EdgeInsets.only(top: 20.0),
-                                                                    child: Text( isEnglish ? 'Your plan purchased (updated at ' + start.day.toString() + ' ' + convertToDate(zeroToTen(start.month.toString())) + ' ' + start.year.toString() + ') will end at '  + end.day.toString() + ' ' + convertToDate(zeroToTen(end.month.toString())) + ' ' + end.year.toString() +  '.' : '(' + start.day.toString() + ' ' + convertToDate(zeroToTen(start.month.toString())) + ' ' + start.year.toString() + ') မှ ဝယ်ယူထားသော အစီအစဉ်သည် ('   + end.day.toString() + ' ' + convertToDate(zeroToTen(end.month.toString())) + ' ' + end.year.toString() +  ') တွင် ကုန်ဆုံးမည် ဖြစ်ပါသည်။',
+                                                                    child: Text( isEnglish ?
+                                                                     'Your plan purchased for \'' + shopName + '\' (updated at ' + start.day.toString() + ' ' + convertToDate(zeroToTen(start.month.toString())) + ' ' + start.year.toString() + ') will end at '  + end.day.toString() + ' ' + convertToDate(zeroToTen(end.month.toString())) + ' ' + end.year.toString() +  '.' :
+                                                                     'ယခုဝင်ရောက်ထားသော ဆိုင် \'' + shopName + '\'အတွက် (' + start.day.toString() + ' ' + convertToDate(zeroToTen(start.month.toString())) + ' ' + start.year.toString() + ') မှ ဝယ်ယူထားသော အစီအစဉ်သည် ('   + end.day.toString() + ' ' + convertToDate(zeroToTen(end.month.toString())) + ' ' + end.year.toString() +  ') တွင် ကုန်ဆုံးမည် ဖြစ်ပါသည်။',
                                                                       textScaleFactor: 1, style: TextStyle( fontSize: 14),
                                                                       strutStyle: StrutStyle(
                                                                         height: 1.2,
@@ -3176,6 +3314,7 @@ class HomePageState extends State<HomePage>
                                                           // ),
                                                           SizedBox(height: 10),
                                                           offPackages.length!=0?PaywallWidget(
+                                                            isEnglish: isEnglish,
                                                             packages: offPackages,
                                                             title: 'Upgrade your plan',
                                                             description: 'Upgrade to new plan to enjoy',
@@ -3265,7 +3404,11 @@ class HomePageState extends State<HomePage>
                                                                                           width: 1.0))),
                                                                               child: Padding(
                                                                                 padding: const EdgeInsets.only(bottom: 10.0),
-                                                                                child: Text('MMK 15,000.0 /month - Access to all features for 1 month with this package for the selected shop.', textScaleFactor: 1, style: TextStyle(
+                                                                                child: Text(
+                                                                                  isEnglish?
+                                                                                  'MMK 10,000.0 /month - Access to all features for 1 month with this package for the selected shop.':
+                                                                                  'တစ်လလျှင် MMK 10,000.0 နှုန်းဖြင့်တစ်လစာ - ယခု ဝင်ရောက်ထားသော ဆိုင်အတွက် (၁) လစာ အသုံးပြုခွင့်ရရှိမှာဖြစ်ပါသည်။',
+                                                                                  textScaleFactor: 1, style: TextStyle(
                                                                                   fontWeight: FontWeight.w500,
                                                                                   fontSize: 15, color: Colors.black.withOpacity(0.6),
                                                                                 ),
@@ -3293,7 +3436,7 @@ class HomePageState extends State<HomePage>
                                                                               onTap: () {
                                                                                 // widget.onClickedPackage(package);
                                                                               },
-                                                                              child: Text('Buy now ', textScaleFactor: 1, style: TextStyle(
+                                                                              child: Text(isEnglish? 'Buy now ': 'ဝယ်မည်', textScaleFactor: 1, style: TextStyle(
                                                                                 fontWeight: FontWeight.w500,
                                                                                 fontSize: 17, color: Colors.blue.withOpacity(0.3),
                                                                               ),
@@ -3388,7 +3531,11 @@ class HomePageState extends State<HomePage>
                                                                                           width: 1.0))),
                                                                               child: Padding(
                                                                                 padding: const EdgeInsets.only(bottom: 10.0),
-                                                                                child: Text('MMK 12,000.0 /month - Access to all features for 3 months with this package for the selected shop.', textScaleFactor: 1, style: TextStyle(
+                                                                                child: Text(
+                                                                                  isEnglish?
+                                                                                  'MMK 9,000.0 /month - Access to all features for 3 months with this package for the selected shop.':
+                                                                                  'တစ်လလျှင် MMK 9,000.0 နှုန်းဖြင့်သုံးလစာ - ယခု ဝင်ရောက်ထားသော ဆိုင်အတွက် (၃) လစာ အသုံးပြုခွင့်ရရှိမှာဖြစ်ပါသည်။'
+                                                                                  , textScaleFactor: 1, style: TextStyle(
                                                                                   fontWeight: FontWeight.w500,
                                                                                   fontSize: 15, color: Colors.black.withOpacity(0.6),
                                                                                 ),
@@ -3416,7 +3563,7 @@ class HomePageState extends State<HomePage>
                                                                               onTap: () {
                                                                                 // widget.onClickedPackage(package);
                                                                               },
-                                                                              child: Text('Buy now (save 20%)', textScaleFactor: 1, style: TextStyle(
+                                                                              child: Text(isEnglish? 'Buy now (save 10%)': 'ဝယ်မည် (10% သက်သာ)', textScaleFactor: 1, style: TextStyle(
                                                                                 fontWeight: FontWeight.w500,
                                                                                 fontSize: 17, color: Colors.blue.withOpacity(0.3),
                                                                               ),
@@ -3511,7 +3658,11 @@ class HomePageState extends State<HomePage>
                                                                                           width: 1.0))),
                                                                               child: Padding(
                                                                                 padding: const EdgeInsets.only(bottom: 10.0),
-                                                                                child: Text('MMK 10,500.0 /month - Access to all features for 5 months with this package for the selected shop.', textScaleFactor: 1, style: TextStyle(
+                                                                                child: Text(
+                                                                                  isEnglish?
+                                                                                  'MMK 8,000.0 /month - Access to all features for 5 months with this package for the selected shop.':
+                                                                                  'တစ်လလျှင် MMK 8,000.0 နှုန်းဖြင့်ငါးလစာ - ယခု ဝင်ရောက်ထားသော ဆိုင်အတွက် (၅) လစာ အသုံးပြုခွင့်ရရှိမှာဖြစ်ပါသည်။'
+                                                                                  , textScaleFactor: 1, style: TextStyle(
                                                                                   fontWeight: FontWeight.w500,
                                                                                   fontSize: 15, color: Colors.black.withOpacity(0.6),
                                                                                 ),
@@ -3539,7 +3690,7 @@ class HomePageState extends State<HomePage>
                                                                               onTap: () {
                                                                                 // widget.onClickedPackage(package);
                                                                               },
-                                                                              child: Text('Buy now (save 30%)', textScaleFactor: 1, style: TextStyle(
+                                                                              child: Text(isEnglish? 'Buy now (save 20%)': 'ဝယ်မည် (20% သက်သာ)', textScaleFactor: 1, style: TextStyle(
                                                                                 fontWeight: FontWeight.w500,
                                                                                 fontSize: 17, color: Colors.blue.withOpacity(0.3),
                                                                               ),
@@ -3592,7 +3743,7 @@ class HomePageState extends State<HomePage>
                                                       ),
                                                       title: Padding(
                                                         padding: const EdgeInsets.only(top: 10.0),
-                                                        child: Text('Contact us via phone', textScaleFactor: 1, style: TextStyle(
+                                                        child: Text(isEnglish? 'Contact us via phone': 'ဖုန်းဖြင့်ဆက်သွယ်ရန်', textScaleFactor: 1, style: TextStyle(
                                                             fontWeight: FontWeight.w500,
                                                             fontSize: 18,
                                                             letterSpacing: -0.3
@@ -3618,7 +3769,7 @@ class HomePageState extends State<HomePage>
                                                                         width: 1.0))),
                                                             child: Padding(
                                                               padding: const EdgeInsets.only(bottom: 10.0),
-                                                              child: Text('You can contact us now to purchase above plans.', textScaleFactor: 1, style: TextStyle(
+                                                              child: Text(isEnglish? 'You can contact us now to purchase above plans. (09794335708)': 'အပေါ်မှ plan များအားဝယ်ယူရန် ဖုန်းဖြင့်ဆက်သွယ် မေးမြန်းနိုင်ပါသည်။ (09794335708)', textScaleFactor: 1, style: TextStyle(
                                                                 fontWeight: FontWeight.w500,
                                                                 fontSize: 15, color: Colors.black.withOpacity(0.6),
                                                               ),
@@ -3644,7 +3795,7 @@ class HomePageState extends State<HomePage>
                                                           //   ),)),
                                                           GestureDetector(
                                                             onTap: () => launch("tel://+959794335708"),
-                                                            child: Text('Call now', textScaleFactor: 1, style: TextStyle(
+                                                            child: Text(isEnglish? 'Call now': 'ခေါ်ဆိုမည်', textScaleFactor: 1, style: TextStyle(
                                                               fontWeight: FontWeight.w500,
                                                               fontSize: 17, color: Colors.blue,
                                                             ),
@@ -3679,7 +3830,7 @@ class HomePageState extends State<HomePage>
                                                       ),
                                                       title: Padding(
                                                         padding: const EdgeInsets.only(top: 10.0),
-                                                        child: Text('Via messenger', textScaleFactor: 1, style: TextStyle(
+                                                        child: Text(isEnglish? 'Via messenger': 'Messenger မှဆက်သွယ်ရန်', textScaleFactor: 1, style: TextStyle(
                                                             fontWeight: FontWeight.w500,
                                                             fontSize: 18,
                                                             letterSpacing: -0.3
@@ -3705,7 +3856,9 @@ class HomePageState extends State<HomePage>
                                                                         width: 1.0))),
                                                             child: Padding(
                                                               padding: const EdgeInsets.only(bottom: 10.0),
-                                                              child: Text('You can contact us now to purchase above plans (delay response).', textScaleFactor: 1, style: TextStyle(
+                                                              child: Text(isEnglish? 'You can contact us now to purchase above plans (delay response).':
+                                                              'အပေါ်မှ plan များအားဝယ်ယူရန် Facebook/ Messenger မှလည်းဆက်သွယ် မေးမြန်းနိုင်ပါသည်။ (reply အနည်းငယ် ကြာနိုင်ပါသည်).',
+                                                                textScaleFactor: 1, style: TextStyle(
                                                                 fontWeight: FontWeight.w500,
                                                                 fontSize: 15, color: Colors.black.withOpacity(0.6),
                                                               ),
@@ -14854,7 +15007,8 @@ class HomePageState extends State<HomePage>
       'refund_filter' : reF,
       'debt_filter' : deF,
       'dateTime' : dateTime.toString(),
-      'cusName' : customerName
+      'cusName' : customerName,
+      // 'cashier' : auth.currentUser!.email,
       //'search_name': textSplitFunction(length.toString()),
     });
     return batch;

@@ -18,7 +18,9 @@ import 'package:smartkyat_pos/pages2/home_page5.dart';
 import '../app_theme.dart';
 
 class AddShopFromSetting extends StatefulWidget {
-  const AddShopFromSetting({Key? key}) : super(key: key);
+  const AddShopFromSetting({Key? key, required this.isEnglish}) : super(key: key);
+
+  final bool isEnglish;
 
   @override
   _AddShopFromSettingState createState() => _AddShopFromSettingState();
@@ -382,7 +384,7 @@ class _AddShopFromSettingState extends State<AddShopFromSetting> {
                                   color: Colors.black,
                                 ),
 // errorText: 'Error message',
-                                labelText: 'Shop name',
+                                labelText: widget.isEnglish? 'Shop name': 'ဆိုင်အမည်',
                                 floatingLabelBehavior:
                                 FloatingLabelBehavior.auto,
 //filled: true,
@@ -449,7 +451,7 @@ class _AddShopFromSettingState extends State<AddShopFromSetting> {
                                   color: Colors.black,
                                 ),
 // errorText: 'Error message',
-                                labelText: 'Shop address',
+                                labelText: widget.isEnglish? 'Shop address': 'ဆိုင်လိပ်စာ',
                                 floatingLabelBehavior:
                                 FloatingLabelBehavior.auto,
 //filled: true,
@@ -516,7 +518,7 @@ class _AddShopFromSettingState extends State<AddShopFromSetting> {
                                   color: Colors.black,
                                 ),
 // errorText: 'Error message',
-                                labelText: 'Phone number',
+                                labelText: widget.isEnglish? 'Phone number': 'ဖုန်းနံပါတ်',
                                 floatingLabelBehavior:
                                 FloatingLabelBehavior.auto,
 //filled: true,
@@ -596,7 +598,7 @@ class _AddShopFromSettingState extends State<AddShopFromSetting> {
                                     color: Colors.black,
                                   ),
 // errorText: 'Error message',
-                                  labelText: 'Time zone',
+                                  labelText: widget.isEnglish? 'Time zone': 'အချိန်ဇုန်/ဒေသ',
                                   floatingLabelBehavior:
                                   FloatingLabelBehavior.auto,
 //filled: true,
@@ -614,7 +616,7 @@ class _AddShopFromSettingState extends State<AddShopFromSetting> {
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 1.0, right: 5.0),
                                 child: Text(
-                                  'Time zone information can\'t be changed later.',
+                                  widget.isEnglish? 'Time zone information can\'t be changed later.': 'အချိန်ဇုန်/ဒေသ သည်နောက်မှ ပြောင်းလဲမရနိုင်ပါ။',
                                   textScaleFactor: 1,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
@@ -795,7 +797,7 @@ class _AddShopFromSettingState extends State<AddShopFromSetting> {
                                 }
                               } on SocketException catch (_) {
                                 setState(() {
-                                  smartKyatFlash('Internet connection is required to take this action.', 'w');
+                                  smartKyatFlash(widget.isEnglish? 'Internet connection is required to take this action.': 'ဒီလုပ်ဆောင်ချက်ကို လုပ်ဆောင်ရန် အင်တာနက်လိုပါသည်။', 'w');
                                 });
                               }
 
@@ -808,7 +810,7 @@ class _AddShopFromSettingState extends State<AddShopFromSetting> {
                                   bottom: 2.0),
                               child: Container(
                                 child: Text(
-                                  'Create shop', textScaleFactor: 1,
+                                  widget.isEnglish? 'Create shop': 'ဆိုင်ထည့်မည်', textScaleFactor: 1,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontSize: 17.5,
@@ -835,7 +837,7 @@ class _AddShopFromSettingState extends State<AddShopFromSetting> {
                         text: new TextSpan(
                           children: [
                             new TextSpan(
-                              text: 'Set up some information about your shop later in shop settings.',
+                              text: widget.isEnglish? 'Set up some information about your shop later in shop settings.': 'ဆိုင်နှင့်ပတ်သက်ပြီး အချက်အလက်အချို့ကို နောက်ပြီးပြန်လည် ပြင်ဆိုင်နိုင်ပါသည်။',
                               style: new TextStyle(
                                 fontSize: 12.5,
                                 color: Colors.grey,
@@ -2373,7 +2375,7 @@ class _AddShopFromSettingState extends State<AddShopFromSetting> {
       buttonSingleColor: Colors.grey,
       dismissable: true,
       items: timezoneLists,
-      title: 'Select timezone',
+      title: widget.isEnglish? 'Select timezone': 'အချိန်ဇုန်/ဒေသ ရွေးပါ',
       selectedItemIndex: _selectedItemIndex,
       buttonTextStyle: TextStyle(color: Colors.blue),
       titleStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),

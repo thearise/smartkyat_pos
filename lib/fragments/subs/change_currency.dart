@@ -57,7 +57,7 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
     if(value=='burmese') {
     setState(() {
       textSetDisplay = 'Display';
-      textSetCurrency = 'Currency';
+      textSetCurrency = 'ငွေကြေးအမျိုးအမည်';
       textSetChgCurrency = 'CHANGE CURRENCY';
       textSetInfo = 'ဤငွေကြေးယူနစ်ကို သင်၏ဘဏ္ဍာရေးဆိုင်ရာ ပမာဏအားလုံးကို ဖော်ပြခြင်းတွင် အသုံးပြုပါမည်။';
     });

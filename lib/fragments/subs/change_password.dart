@@ -10,7 +10,9 @@ import '../../app_theme.dart';
 
 
 class ChangePassword extends StatefulWidget {
-  const ChangePassword({Key? key}) : super(key: key);
+  const ChangePassword({Key? key, required this.isEnglish}) : super(key: key);
+
+  final bool isEnglish;
 
   @override
   _ChangePasswordState createState() => _ChangePasswordState();
@@ -763,7 +765,7 @@ Widget build(BuildContext context) {
                                             });
                                           }
                                         } on SocketException catch (_) {
-                                          smartKyatFMod(context, 'Internet connection is required to take this action.', 'w');
+                                          smartKyatFMod(context, widget.isEnglish? 'Internet connection is required to take this action.': 'ဒီလုပ်ဆောင်ချက်ကို လုပ်ဆောင်ရန် အင်တာနက်လိုပါသည်။', 'w');
                                         }
 
                                       }
