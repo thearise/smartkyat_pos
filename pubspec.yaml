@@ -119,6 +119,8 @@ dependencies:
   countup: ^0.1.4
   purchases_flutter: ^4.0.0
   fade_shimmer: ^2.0.1
+  objectbox: ^1.6.2
+  faker: ^2.0.0
 
 
 

@@ -510,7 +510,7 @@ class _WelcomeState extends State<Welcome>
                                                                 height: 1.2,
                                                               ),
                                                               recognizer: new TapGestureRecognizer()
-                                                                ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                                                                ..onTap = () { launch('https://smartkyatpos.com/privacy.html');
                                                                 },
                                                             ),
                                                             new TextSpan(
@@ -531,7 +531,7 @@ class _WelcomeState extends State<Welcome>
                                                                 height: 1.2,
                                                               ),
                                                               recognizer: new TapGestureRecognizer()
-                                                                ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                                                                ..onTap = () { launch('https://smartkyatpos.com/privacy.html');
                                                                 },
                                                             ),
                                                             new TextSpan(
@@ -552,7 +552,7 @@ class _WelcomeState extends State<Welcome>
                                                                 height: 1.2,
                                                               ),
                                                               recognizer: new TapGestureRecognizer()
-                                                                ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                                                                ..onTap = () { launch('https://smartkyatpos.com/privacy.html');
                                                                 },
                                                             ),
                                                             if(!isEnglish)
@@ -948,7 +948,7 @@ class _WelcomeState extends State<Welcome>
                                                                           height: 1.2,
                                                                         ),
                                                                         recognizer: new TapGestureRecognizer()
-                                                                          ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                                                                          ..onTap = () { launch('https://smartkyatpos.com/privacy.html');
                                                                           },
                                                                       ),
                                                                       new TextSpan(
@@ -969,7 +969,7 @@ class _WelcomeState extends State<Welcome>
                                                                           height: 1.2,
                                                                         ),
                                                                         recognizer: new TapGestureRecognizer()
-                                                                          ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                                                                          ..onTap = () { launch('https://smartkyatpos.com/privacy.html');
                                                                           },
                                                                       ),
                                                                       new TextSpan(
@@ -990,7 +990,7 @@ class _WelcomeState extends State<Welcome>
                                                                           height: 1.2,
                                                                         ),
                                                                         recognizer: new TapGestureRecognizer()
-                                                                          ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                                                                          ..onTap = () { launch('https://smartkyatpos.com/privacy.html');
                                                                           },
                                                                       ),
                                                                       if(!isEnglish)
@@ -1542,7 +1542,7 @@ class _WelcomeState extends State<Welcome>
                                                               height: 1.2,
                                                             ),
                                                             recognizer: new TapGestureRecognizer()
-                                                              ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                                                              ..onTap = () { launch('https://smartkyatpos.com/privacy.html');
                                                               },
                                                           ),
                                                           new TextSpan(
@@ -1563,7 +1563,7 @@ class _WelcomeState extends State<Welcome>
                                                               height: 1.2,
                                                             ),
                                                             recognizer: new TapGestureRecognizer()
-                                                              ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                                                              ..onTap = () { launch('https://smartkyatpos.com/privacy.html');
                                                               },
                                                           ),
                                                           new TextSpan(
@@ -1584,7 +1584,7 @@ class _WelcomeState extends State<Welcome>
                                                               height: 1.2,
                                                             ),
                                                             recognizer: new TapGestureRecognizer()
-                                                              ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                                                              ..onTap = () { launch('https://smartkyatpos.com/privacy.html');
                                                               },
                                                           ),
                                                           if(!isEnglish)
