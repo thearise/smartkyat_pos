@@ -1012,7 +1012,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                       //               fontWeight: FontWeight.w500
                       //           ),
                       //           recognizer: new TapGestureRecognizer()
-                      //             ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                      //             ..onTap = () { launch('https://smartkyatpos.com/privacy.html');
                       //             },
                       //         ),
                       //         new TextSpan(
@@ -1031,7 +1031,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                       //               fontWeight: FontWeight.w500
                       //           ),
                       //           recognizer: new TapGestureRecognizer()
-                      //             ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                      //             ..onTap = () { launch('https://smartkyatpos.com/privacy.html');
                       //             },
                       //         ),
                       //         new TextSpan(
@@ -1050,7 +1050,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                       //               fontWeight: FontWeight.w500
                       //           ),
                       //           recognizer: new TapGestureRecognizer()
-                      //             ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                      //             ..onTap = () { launch('https://smartkyatpos.com/privacy.html');
                       //             },
                       //         ),
                       //       ],
