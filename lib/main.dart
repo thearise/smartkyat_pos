@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:one_context/one_context.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:smartkyat_pos/api/purchase_api.dart';
+// import 'package:smartkyat_pos/fragments/warmly_welcome.dart';
 import 'package:smartkyat_pos/pages2/home_page5.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:smartkyat_pos/pages2/notificationservice.dart';
@@ -87,6 +88,7 @@ class MyApp extends StatelessWidget {
       // home: HomePage(),
       // home: LoaderOverlay(child: Welcome()),
       home: Welcome(),
+      // home: WarmlyWelcome(),
     );
   }
 }

@@ -155,7 +155,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
           languageId = 'Burmese';
           textSetTitle = 'ဆက်တင်';
           textSetAccount = 'အကောင့်ဆက်တင်';
-          textSetShopSetting = 'ဆိုင်အပြင်အဆင်';
+          textSetShopSetting = 'ဆိုင်ဆက်တင်';
           textSetLanguage = 'ဘာသာစကား';
           textSetPrint = 'ပရင်တာဆက်တင်';
           textInfo = 'INFORMATION';

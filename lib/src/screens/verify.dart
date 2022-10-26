@@ -142,7 +142,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                         child: Padding(
                           padding: const EdgeInsets.only(left: 15, right: 15, top: 15.0, bottom: 15.0),
                           child: Text(
-                            isEnglish? 'Terminate to change user': 'ရပ်တန့်ပြီး အခြားအကောင်းဝင်မည်',
+                            isEnglish? 'Terminate to change user': 'ရပ်တန့်ပြီး အခြားအကောင့်ဝင်မည်',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Colors.blue,
