@@ -3313,14 +3313,89 @@ class HomePageState extends State<HomePage>
                                                           //       )),
                                                           // ),
                                                           SizedBox(height: 10),
-                                                          offPackages.length!=0?PaywallWidget(
+                                                          offPackages.length!=0? PaywallWidget(
                                                             isEnglish: isEnglish,
                                                             packages: offPackages,
                                                             title: 'Upgrade your plan',
                                                             description: 'Upgrade to new plan to enjoy',
                                                             onClickedPackage: (package) async {
                                                               final success = await PurchaseApi.purchasePackage(package);
-                                                              debugPrint('wtha ' + success.toString() + ' ---> ' + package.storeProduct.identifier.toString());
+                                                              if(success) {
+                                                                if(package.storeProduct.identifier.toString() == 'sk_0999_1m_1w') {
+                                                                  if(DateTime.now().compareTo(end) > 0) {
+                                                                    FirebaseFirestore.instance.collection('shops').doc(shopId)
+                                                                        .update({
+                                                                      'is_pro' :  {'start': start, 'end': DateTime.now().add(const Duration(days: 30))},
+
+                                                                    })
+                                                                        .then((value) => debugPrint("Plan Updated"))
+                                                                        .catchError((error) => debugPrint("Failed to update Plan: $error"));
+
+                                                                    debugPrint('date kyaw nay p');
+                                                                  } else
+                                                                  {
+                                                                    FirebaseFirestore.instance.collection('shops').doc(shopId)
+                                                                        .update({
+                                                                      'is_pro' :  {'start': start, 'end': end.add(const Duration(days: 30))},
+
+                                                                    })
+                                                                        .then((value) => debugPrint("Plan Updated"))
+                                                                  .catchError((error) => debugPrint("Failed to update Plan: $error"));
+                                                                    debugPrint('date kyaw thae bu');
+                                                                  }
+                                                                  debugPrint('1 month added');
+                                                                }
+                                                                else if(package.storeProduct.identifier.toString() == 'sk_0999_3m_1w') {
+                                                                  if(DateTime.now().compareTo(end) > 0) {
+                                                                    FirebaseFirestore.instance.collection('shops').doc(shopId)
+                                                                        .update({
+                                                                      'is_pro' :  {'start': start, 'end': DateTime.now().add(const Duration(days: 90))},
+
+                                                                    })
+                                                                        .then((value) => debugPrint("Plan Updated"))
+                                                                        .catchError((error) => debugPrint("Failed to update Plan: $error"));
+
+                                                                    debugPrint('date kyaw nay p');
+                                                                  } else
+                                                                  {
+                                                                    FirebaseFirestore.instance.collection('shops').doc(shopId)
+                                                                        .update({
+                                                                      'is_pro' :  {'start': start, 'end': end.add(const Duration(days: 90))},
+
+                                                                    })
+                                                                        .then((value) => debugPrint("Plan Updated"))
+                                                                        .catchError((error) => debugPrint("Failed to update Plan: $error"));
+                                                                    debugPrint('date kyaw thae bu');
+                                                                  }
+                                                                  debugPrint('3 month added');
+                                                                }
+                                                                else {
+                                                                  if(DateTime.now().compareTo(end) > 0) {
+                                                                    FirebaseFirestore.instance.collection('shops').doc(shopId)
+                                                                        .update({
+                                                                      'is_pro' :  {'start': start, 'end': DateTime.now().add(const Duration(days: 150))},
+
+                                                                    })
+                                                                        .then((value) => debugPrint("Plan Updated"))
+                                                                        .catchError((error) => debugPrint("Failed to update Plan: $error"));
+
+                                                                    debugPrint('date kyaw nay p');
+                                                                  } else
+                                                                  {
+                                                                    FirebaseFirestore.instance.collection('shops').doc(shopId)
+                                                                        .update({
+                                                                      'is_pro' :  {'start': start, 'end': end.add(const Duration(days: 150))},
+
+                                                                    })
+                                                                        .then((value) => debugPrint("Plan Updated"))
+                                                                        .catchError((error) => debugPrint("Failed to update Plan: $error"));
+                                                                    debugPrint('date kyaw thae bu');
+                                                                  }
+                                                                  debugPrint('5 month added');
+                                                                }
+                                                              } else {
+                                                                debugPrint('success is equal false ' + end.toString());
+                                                              }
                                                               Navigator.pop(context);
                                                             },
                                                           ):
