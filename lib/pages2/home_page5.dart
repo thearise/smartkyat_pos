@@ -3319,84 +3319,105 @@ class HomePageState extends State<HomePage>
                                                             title: 'Upgrade your plan',
                                                             description: 'Upgrade to new plan to enjoy',
                                                             onClickedPackage: (package) async {
-                                                              final success = await PurchaseApi.purchasePackage(package);
-                                                              if(success) {
-                                                                if(package.storeProduct.identifier.toString() == 'sk_0999_1m_1w') {
-                                                                  if(DateTime.now().compareTo(end) > 0) {
-                                                                    FirebaseFirestore.instance.collection('shops').doc(shopId)
-                                                                        .update({
-                                                                      'is_pro' :  {'start': start, 'end': DateTime.now().add(const Duration(days: 30))},
-
-                                                                    })
-                                                                        .then((value) => debugPrint("Plan Updated"))
-                                                                        .catchError((error) => debugPrint("Failed to update Plan: $error"));
-
-                                                                    debugPrint('date kyaw nay p');
-                                                                  } else
-                                                                  {
-                                                                    FirebaseFirestore.instance.collection('shops').doc(shopId)
-                                                                        .update({
-                                                                      'is_pro' :  {'start': start, 'end': end.add(const Duration(days: 30))},
-
-                                                                    })
-                                                                        .then((value) => debugPrint("Plan Updated"))
-                                                                  .catchError((error) => debugPrint("Failed to update Plan: $error"));
-                                                                    debugPrint('date kyaw thae bu');
-                                                                  }
-                                                                  debugPrint('1 month added');
-                                                                }
-                                                                else if(package.storeProduct.identifier.toString() == 'sk_0999_3m_1w') {
-                                                                  if(DateTime.now().compareTo(end) > 0) {
-                                                                    FirebaseFirestore.instance.collection('shops').doc(shopId)
-                                                                        .update({
-                                                                      'is_pro' :  {'start': start, 'end': DateTime.now().add(const Duration(days: 90))},
-
-                                                                    })
-                                                                        .then((value) => debugPrint("Plan Updated"))
-                                                                        .catchError((error) => debugPrint("Failed to update Plan: $error"));
-
-                                                                    debugPrint('date kyaw nay p');
-                                                                  } else
-                                                                  {
-                                                                    FirebaseFirestore.instance.collection('shops').doc(shopId)
-                                                                        .update({
-                                                                      'is_pro' :  {'start': start, 'end': end.add(const Duration(days: 90))},
-
-                                                                    })
-                                                                        .then((value) => debugPrint("Plan Updated"))
-                                                                        .catchError((error) => debugPrint("Failed to update Plan: $error"));
-                                                                    debugPrint('date kyaw thae bu');
-                                                                  }
-                                                                  debugPrint('3 month added');
-                                                                }
-                                                                else {
-                                                                  if(DateTime.now().compareTo(end) > 0) {
-                                                                    FirebaseFirestore.instance.collection('shops').doc(shopId)
-                                                                        .update({
-                                                                      'is_pro' :  {'start': start, 'end': DateTime.now().add(const Duration(days: 150))},
-
-                                                                    })
-                                                                        .then((value) => debugPrint("Plan Updated"))
-                                                                        .catchError((error) => debugPrint("Failed to update Plan: $error"));
-
-                                                                    debugPrint('date kyaw nay p');
-                                                                  } else
-                                                                  {
-                                                                    FirebaseFirestore.instance.collection('shops').doc(shopId)
-                                                                        .update({
-                                                                      'is_pro' :  {'start': start, 'end': end.add(const Duration(days: 150))},
-
-                                                                    })
-                                                                        .then((value) => debugPrint("Plan Updated"))
-                                                                        .catchError((error) => debugPrint("Failed to update Plan: $error"));
-                                                                    debugPrint('date kyaw thae bu');
-                                                                  }
-                                                                  debugPrint('5 month added');
-                                                                }
-                                                              } else {
-                                                                debugPrint('success is equal false ' + end.toString());
-                                                              }
-                                                              Navigator.pop(context);
+                                                              debugPrint('running? ');
+                                                              setState(() {
+                                                                disableTouch = true;
+                                                              });
+                                                              purcState(() {
+                                                                setState(() {
+                                                                  disableTouch = true;
+                                                                });
+                                                              });
+                                                              // final success = await PurchaseApi.purchasePackage(package);
+                                                              // Navigator.pop(context);
+                                                              //
+                                                              // if(success) {
+                                                              //
+                                                              //   if(package.storeProduct.identifier.toString() == 'sk_0999_1m_1w') {
+                                                              //     if(DateTime.now().compareTo(end) > 0) {
+                                                              //       FirebaseFirestore.instance.collection('shops').doc(shopId)
+                                                              //           .update({
+                                                              //         'is_pro' :  {'start': start, 'end': DateTime.now().add(const Duration(days: 30))},
+                                                              //
+                                                              //       })
+                                                              //           .then((value) => debugPrint("Plan Updated"))
+                                                              //           .catchError((error) => debugPrint("Failed to update Plan: $error"));
+                                                              //
+                                                              //       debugPrint('date kyaw nay p');
+                                                              //     } else
+                                                              //     {
+                                                              //       FirebaseFirestore.instance.collection('shops').doc(shopId)
+                                                              //           .update({
+                                                              //         'is_pro' :  {'start': start, 'end': end.add(const Duration(days: 30))},
+                                                              //
+                                                              //       })
+                                                              //           .then((value) => debugPrint("Plan Updated"))
+                                                              //     .catchError((error) => debugPrint("Failed to update Plan: $error"));
+                                                              //       debugPrint('date kyaw thae bu');
+                                                              //     }
+                                                              //     debugPrint('1 month added');
+                                                              //   }
+                                                              //   else if(package.storeProduct.identifier.toString() == 'sk_0999_3m_1w') {
+                                                              //     if(DateTime.now().compareTo(end) > 0) {
+                                                              //       FirebaseFirestore.instance.collection('shops').doc(shopId)
+                                                              //           .update({
+                                                              //         'is_pro' :  {'start': start, 'end': DateTime.now().add(const Duration(days: 90))},
+                                                              //
+                                                              //       })
+                                                              //           .then((value) => debugPrint("Plan Updated"))
+                                                              //           .catchError((error) => debugPrint("Failed to update Plan: $error"));
+                                                              //
+                                                              //       debugPrint('date kyaw nay p');
+                                                              //     } else
+                                                              //     {
+                                                              //       FirebaseFirestore.instance.collection('shops').doc(shopId)
+                                                              //           .update({
+                                                              //         'is_pro' :  {'start': start, 'end': end.add(const Duration(days: 90))},
+                                                              //
+                                                              //       })
+                                                              //           .then((value) => debugPrint("Plan Updated"))
+                                                              //           .catchError((error) => debugPrint("Failed to update Plan: $error"));
+                                                              //       debugPrint('date kyaw thae bu');
+                                                              //     }
+                                                              //     debugPrint('3 month added');
+                                                              //   }
+                                                              //   else {
+                                                              //     if(DateTime.now().compareTo(end) > 0) {
+                                                              //       FirebaseFirestore.instance.collection('shops').doc(shopId)
+                                                              //           .update({
+                                                              //         'is_pro' :  {'start': start, 'end': DateTime.now().add(const Duration(days: 150))},
+                                                              //
+                                                              //       })
+                                                              //           .then((value) => debugPrint("Plan Updated"))
+                                                              //           .catchError((error) => debugPrint("Failed to update Plan: $error"));
+                                                              //
+                                                              //       debugPrint('date kyaw nay p');
+                                                              //     } else
+                                                              //     {
+                                                              //       FirebaseFirestore.instance.collection('shops').doc(shopId)
+                                                              //           .update({
+                                                              //         'is_pro' :  {'start': start, 'end': end.add(const Duration(days: 150))},
+                                                              //
+                                                              //       })
+                                                              //           .then((value) => debugPrint("Plan Updated"))
+                                                              //           .catchError((error) => debugPrint("Failed to update Plan: $error"));
+                                                              //       debugPrint('date kyaw thae bu');
+                                                              //     }
+                                                              //     debugPrint('5 month added');
+                                                              //   }
+                                                              //
+                                                              // } else {
+                                                              //   debugPrint('success is equal false ' + end.toString());
+                                                              // }
+                                                              // purcState(() {
+                                                              //   setState(() {
+                                                              //     disableTouch = false;
+                                                              //   });
+                                                              // });
+                                                              //
+                                                              // setState(() {
+                                                              //   disableTouch = false;
+                                                              // });
                                                             },
                                                           ):
                                                           Padding(
@@ -4001,7 +4022,42 @@ class HomePageState extends State<HomePage>
                                       ),
                                     ),
                                   ),
-                                )
+                                ),
+                                disableTouch? Expanded(
+                                  child: Container(
+                                    color: Colors.black.withOpacity(0.4),
+                                    child: Center(
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(10.0),
+                                            ),
+                                            color: Colors.white),
+                                        width: 250,
+                                        height: 160,
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                                child: CupertinoActivityIndicator(radius: 15,)),
+                                            SizedBox(height: 20),
+                                            Text(isEnglish? 'Processing request...': 'လုပ်ဆောင်နေပါသည်...', textScaleFactor: 1, style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 15, color: Colors.grey,
+                                            ),
+                                              strutStyle: StrutStyle(
+                                                height: 1.3,
+                                                // fontSize:,
+                                                forceStrutHeight: true,
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                  )
+                                ): Container()
                               ],
                             ),
                           ),
