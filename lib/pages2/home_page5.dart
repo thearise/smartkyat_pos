@@ -108,6 +108,8 @@ class HomePageState extends State<HomePage>
 
   bool orderCreating = false;
 
+  bool _willPopCallback = true;
+
   bool closeGoToCart = false;
 
   double _goToCartHeight = 142;
@@ -1154,7 +1156,7 @@ class HomePageState extends State<HomePage>
                                             //   ),
                                             // ),
                                             StreamBuilder<DocumentSnapshot<Map<String,dynamic>>>(
-                                              stream: FirebaseFirestore.instance.collection('videos').doc('how_to').snapshots(),
+                                                stream: FirebaseFirestore.instance.collection('videos').doc('how_to').snapshots(),
                                                 builder: (BuildContext context, snapshot2) {
                                                   if (snapshot2.data != null) {
                                                     var output3 = snapshot2.data!.data();
@@ -2954,7 +2956,7 @@ class HomePageState extends State<HomePage>
                                                     } return Container();
                                                   }
                                                   return Container();
-                                              }
+                                                }
 
                                             ),
                                           ],
@@ -3153,8 +3155,8 @@ class HomePageState extends State<HomePage>
                                                                   Padding(
                                                                     padding: const EdgeInsets.only(top: 20.0),
                                                                     child: Text( isEnglish ?
-                                                                     'Your plan purchased for \'' + shopName + '\' (updated at ' + start.day.toString() + ' ' + convertToDate(zeroToTen(start.month.toString())) + ' ' + start.year.toString() + ') will end at '  + end.day.toString() + ' ' + convertToDate(zeroToTen(end.month.toString())) + ' ' + end.year.toString() +  '.' :
-                                                                     'ယခုဝင်ရောက်ထားသော ဆိုင် \'' + shopName + '\'အတွက် (' + start.day.toString() + ' ' + convertToDate(zeroToTen(start.month.toString())) + ' ' + start.year.toString() + ') မှ ဝယ်ယူထားသော အစီအစဉ်သည် ('   + end.day.toString() + ' ' + convertToDate(zeroToTen(end.month.toString())) + ' ' + end.year.toString() +  ') တွင် ကုန်ဆုံးမည် ဖြစ်ပါသည်။',
+                                                                    'Your plan purchased for \'' + shopName + '\' (updated at ' + start.day.toString() + ' ' + convertToDate(zeroToTen(start.month.toString())) + ' ' + start.year.toString() + ') will end at '  + end.day.toString() + ' ' + convertToDate(zeroToTen(end.month.toString())) + ' ' + end.year.toString() +  '.' :
+                                                                    'ယခုဝင်ရောက်ထားသော ဆိုင် \'' + shopName + '\'အတွက် (' + start.day.toString() + ' ' + convertToDate(zeroToTen(start.month.toString())) + ' ' + start.year.toString() + ') မှ ဝယ်ယူထားသော အစီအစဉ်သည် ('   + end.day.toString() + ' ' + convertToDate(zeroToTen(end.month.toString())) + ' ' + end.year.toString() +  ') တွင် ကုန်ဆုံးမည် ဖြစ်ပါသည်။',
                                                                       textScaleFactor: 1, style: TextStyle( fontSize: 14),
                                                                       strutStyle: StrutStyle(
                                                                         height: 1.2,
@@ -3956,9 +3958,9 @@ class HomePageState extends State<HomePage>
                                                               child: Text(isEnglish? 'You can contact us now to purchase above plans (delay response).':
                                                               'အပေါ်မှ plan များအားဝယ်ယူရန် Facebook/ Messenger မှလည်းဆက်သွယ် မေးမြန်းနိုင်ပါသည်။ (reply အနည်းငယ် ကြာနိုင်ပါသည်).',
                                                                 textScaleFactor: 1, style: TextStyle(
-                                                                fontWeight: FontWeight.w500,
-                                                                fontSize: 15, color: Colors.black.withOpacity(0.6),
-                                                              ),
+                                                                  fontWeight: FontWeight.w500,
+                                                                  fontSize: 15, color: Colors.black.withOpacity(0.6),
+                                                                ),
                                                                 strutStyle: StrutStyle(
                                                                   height: 1.35,
                                                                   // fontSize:,
@@ -4024,39 +4026,39 @@ class HomePageState extends State<HomePage>
                                   ),
                                 ),
                                 disableTouch? Expanded(
-                                  child: Container(
-                                    color: Colors.black.withOpacity(0.4),
-                                    child: Center(
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(10.0),
+                                    child: Container(
+                                        color: Colors.black.withOpacity(0.4),
+                                        child: Center(
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(10.0),
+                                                ),
+                                                color: Colors.white),
+                                            width: 250,
+                                            height: 160,
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                                    child: CupertinoActivityIndicator(radius: 15,)),
+                                                SizedBox(height: 20),
+                                                Text(isEnglish? 'Processing request...': 'လုပ်ဆောင်နေပါသည်...', textScaleFactor: 1, style: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 15, color: Colors.grey,
+                                                ),
+                                                  strutStyle: StrutStyle(
+                                                    height: 1.3,
+                                                    // fontSize:,
+                                                    forceStrutHeight: true,
+                                                  ),
+                                                )
+                                              ],
                                             ),
-                                            color: Colors.white),
-                                        width: 250,
-                                        height: 160,
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          children: [
-                                            Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                                child: CupertinoActivityIndicator(radius: 15,)),
-                                            SizedBox(height: 20),
-                                            Text(isEnglish? 'Processing request...': 'လုပ်ဆောင်နေပါသည်...', textScaleFactor: 1, style: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 15, color: Colors.grey,
-                                            ),
-                                              strutStyle: StrutStyle(
-                                                height: 1.3,
-                                                // fontSize:,
-                                                forceStrutHeight: true,
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
+                                          ),
+                                        )
                                     )
-                                  )
                                 ): Container()
                               ],
                             ),
@@ -6314,11 +6316,11 @@ class HomePageState extends State<HomePage>
                                                                                       textScaleFactor: 1,
                                                                                       maxLines: 1,
                                                                                       style: TextStyle(
-                                                                                        overflow: TextOverflow.ellipsis,
-                                                                                        fontSize: 17,
-                                                                                        fontWeight:
-                                                                                        FontWeight
-                                                                                            .w500),
+                                                                                          overflow: TextOverflow.ellipsis,
+                                                                                          fontSize: 17,
+                                                                                          fontWeight:
+                                                                                          FontWeight
+                                                                                              .w500),
                                                                                       strutStyle: StrutStyle(
                                                                                         height: isEnglish? 1.4: 1.6,
                                                                                         forceStrutHeight: true,
@@ -6334,7 +6336,7 @@ class HomePageState extends State<HomePage>
                                                                                       ),
                                                                                     ) : Text(totalItems() + ' $textSetItemSets', textScaleFactor: 1, maxLines: 1,
                                                                                       style: TextStyle(
-                                                                                          fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey, overflow: TextOverflow.ellipsis,
+                                                                                        fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey, overflow: TextOverflow.ellipsis,
                                                                                       ),
                                                                                       strutStyle: StrutStyle(
                                                                                           forceStrutHeight: true,
@@ -7257,7 +7259,7 @@ class HomePageState extends State<HomePage>
                                                                                                                   // _controller.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
 
                                                                                                                   _textFieldControllerTablet.clear();
-                                                                                                                  _controllerTablet.animateTo(0);
+                                                                                                                 // _controllerTablet.animateTo(0);
                                                                                                                   // Navigator.pop(context);
                                                                                                                   // sellDone = true;
                                                                                                                   //setting new design
@@ -10699,6 +10701,7 @@ class HomePageState extends State<HomePage>
 
   saleCart(priContext, storeTimeZone) async {
     int orderLength = 0;
+
     mainLoss = 0;
     sub1Loss=0;
     sub2Loss = 0;
@@ -10717,6 +10720,7 @@ class HomePageState extends State<HomePage>
     sell1 = '';
     sell2 = '';
     sell3 = '';
+
 
     //String ttlProdListPriceFut = await TtlProdListPriceFut();
     totalAmount = double.parse(TtlProdListPrice().toString());
@@ -10940,8 +10944,6 @@ class HomePageState extends State<HomePage>
 
               _textFieldController.addListener((){
                 debugPrint("value: ${_textFieldController.text}");
-                setState(() {
-                  mystate(()  {
                     //String ttlProdListPriceFut = await TtlProdListPriceFut();
                     totalAmount = double.parse(TtlProdListPrice().toString());
                     _textFieldController.text != '' ? paidAmount = double.parse(_textFieldController.text) : paidAmount = 0.0;
@@ -10953,15 +10955,14 @@ class HomePageState extends State<HomePage>
                       refund = 0;
                     } else { refund = (paidAmount - totalAmount);
                     }
-                  });
-                });
+
               });
 
               myController.addListener((){
                 if(mounted) {
-                mystate((){
-                  (myController.text != '' && sellPriceController.text != '') ? totalFixAmount =double.parse(myController.text) * double.parse(sellPriceController.text) : totalFixAmount = 0.0;
-                }); }
+                  mystate((){
+                    (myController.text != '' && sellPriceController.text != '') ? totalFixAmount =double.parse(myController.text) * double.parse(sellPriceController.text) : totalFixAmount = 0.0;
+                  }); }
               });
 
               sellPriceController.addListener((){
@@ -11899,7 +11900,7 @@ class HomePageState extends State<HomePage>
                                                           ),
                                                           subtitle: double.parse(totalItems()) == 1? Text(totalItems() + ' $textSetItemSet',textScaleFactor: 1, maxLines: 1,
                                                             style: TextStyle(
-                                                                fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey, overflow: TextOverflow.ellipsis,
+                                                              fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey, overflow: TextOverflow.ellipsis,
                                                             ),
                                                             strutStyle: StrutStyle(
                                                                 forceStrutHeight: true,
@@ -11907,7 +11908,7 @@ class HomePageState extends State<HomePage>
                                                             ),
                                                           ) : Text(totalItems() + ' $textSetItemSets',
                                                             textScaleFactor: 1, maxLines: 1, style: TextStyle(
-                                                                fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey, overflow: TextOverflow.ellipsis,
+                                                              fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey, overflow: TextOverflow.ellipsis,
                                                             ),
                                                             strutStyle: StrutStyle(
                                                                 forceStrutHeight: true,
@@ -12030,869 +12031,874 @@ class HomePageState extends State<HomePage>
                                             ],
                                           ),
                                         ),
-                                        Container(
-                                          // height: MediaQuery.of(priContext).size.height - MediaQuery.of(priContext).padding.top - 20 - 100,
-                                          width: double.infinity,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(20.0),
-                                              topRight: Radius.circular(20.0),
-                                            ),
-                                            color: Colors.white,
-                                          ),
+                                        WillPopScope(
+                                          onWillPop: () async => _willPopCallback,
                                           child: Container(
+                                            // height: MediaQuery.of(priContext).size.height - MediaQuery.of(priContext).padding.top - 20 - 100,
                                             width: double.infinity,
-                                            child: Stack(
-                                              children: [
-                                                Container(
-                                                  height: 67,
-                                                  width: double.infinity,
-                                                  decoration: BoxDecoration(
-                                                      border: Border(
-                                                          bottom: BorderSide(
-                                                              color: Colors.grey
-                                                                  .withOpacity(0.3),
-                                                              width: 1.0))),
-                                                  child: Padding(
-                                                    padding: EdgeInsets.only(
-                                                        left: 15.0,
-                                                        right: 15.0,
-                                                        top: 5.0,
-                                                        bottom: 0.0
-                                                    ),
-                                                    child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        Text(customerId.split('^')[1] == 'name'? textSetNoCust : customerId.split('^')[1], textScaleFactor: 1, maxLines: 1, style: TextStyle(
-                                                            fontWeight: FontWeight.w500,
-                                                            color: Colors.grey,
-                                                            overflow: TextOverflow.ellipsis
-                                                        ),
-                                                            strutStyle: StrutStyle(
-                                                                forceStrutHeight: true,
-                                                                height: 1.2
-                                                            )),
-                                                        SizedBox(height: 2.5),
-                                                        Text(isEnglish? 'Cash acceptance': 'ဖောက်သည်ဆီမှ ငွေလက်ခံခြင်း', textScaleFactor: 1, maxLines: 1, style: TextStyle(
-                                                            fontWeight: FontWeight.w500,
-                                                            fontSize: 19,
-                                                            overflow: TextOverflow.ellipsis
-                                                        ),
-                                                            strutStyle: StrutStyle(
-                                                                forceStrutHeight: true,
-                                                                height: 1.6
-                                                            )
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                      top: 67.0,
-                                                      left: 0.0,
-                                                      right: 0.0,
-                                                      bottom: homeBotPadding + 129
-                                                  ),
-                                                  child: Container(
-                                                      child: ListView(
-                                                        children: [
-                                                          Container(
-                                                            child: Padding(
-                                                              padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                                                              child: Column(
-                                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                                  children: [
-                                                                    SizedBox(height: 15),
-                                                                    Container(
-                                                                        decoration: BoxDecoration(
-                                                                            borderRadius: BorderRadius.all(
-                                                                              Radius.circular(10.0),
-                                                                            ),
-                                                                            border: Border.all(
-                                                                                color: Colors.grey.withOpacity(0.2),
-                                                                                width: 1.0),
-                                                                            color: AppTheme.lightBgColor),
-                                                                        height:  133,
-                                                                        width: MediaQuery.of(context).size.width,
-                                                                        child: Column(
-                                                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                                                          mainAxisAlignment: MainAxisAlignment.center,
-                                                                          children: [
-                                                                            Text('$textSetTotalSale - $currencyUnit',
-                                                                              textAlign: TextAlign.center,
-                                                                              textScaleFactor: 1, style: TextStyle(
-                                                                                fontSize: 20,
-                                                                                fontWeight: FontWeight.w500,
-                                                                                color: Colors.grey,
-                                                                              ),
-                                                                              strutStyle: StrutStyle(
-                                                                                height: isEnglish? 1.4: 1.6,
-                                                                                forceStrutHeight: true,
-                                                                              ),
-                                                                            ),
-                                                                            SizedBox(height: 8),
-                                                                            Text(TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                                                textAlign: TextAlign.center,
-                                                                                textScaleFactor: 1, style: TextStyle(
-                                                                                  fontSize: 23, fontWeight: FontWeight.w500,
-                                                                                )),
-                                                                          ],
-                                                                        )),
-                                                                    SizedBox(height: 15),
-                                                                    Text(textSetCashRec, textScaleFactor: 1, style: TextStyle(
-                                                                      letterSpacing: 2,
-                                                                      fontWeight: FontWeight.bold,
-                                                                      fontSize: 14,color: Colors.grey,
-                                                                    ),),
-                                                                    SizedBox(height: 15),
-                                                                    TextField(
-                                                                      style: TextStyle(
-                                                                        height: 0.95, fontSize: 15/scaleFactor,
-                                                                      ),
-                                                                      decoration: InputDecoration(
-                                                                        enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                                            borderSide: const BorderSide(
-                                                                                color: AppTheme.skBorderColor,
-                                                                                width: 2.0),
-                                                                            borderRadius: BorderRadius.all(
-                                                                                Radius.circular(10.0))),
-
-                                                                        focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                                            borderSide: const BorderSide(
-                                                                                color: AppTheme.themeColor,
-                                                                                width: 2.0),
-                                                                            borderRadius: BorderRadius.all(
-                                                                                Radius.circular(10.0))),
-                                                                        contentPadding: const EdgeInsets.only(
-                                                                            left: 15.0,
-                                                                            right: 15.0,
-                                                                            top: 20.0,
-                                                                            bottom: 20.0),
-                                                                        suffixText: '$currencyUnit' ,
-                                                                        // tooltip: 'Increase volume by 10',
-                                                                        suffixStyle: TextStyle(
-                                                                          color: Colors.grey,
-                                                                          fontSize: 12/scaleFactor,
-                                                                          fontFamily: 'capsulesans',
-                                                                        ),
-                                                                        errorStyle: TextStyle(
-                                                                            backgroundColor: Colors.white,
-                                                                            fontSize: 12/scaleFactor,
-                                                                            fontFamily: 'capsulesans',
-                                                                            height: 0.1
-                                                                        ),
-                                                                        labelStyle: TextStyle(
-                                                                          fontWeight: FontWeight.w500,
-                                                                          color: Colors.black,
-                                                                        ),
-// errorText: 'Error message',
-                                                                        labelText: textSetCusPrice,
-                                                                        floatingLabelBehavior:
-                                                                        FloatingLabelBehavior.auto,
-//filled: true,
-                                                                        border: OutlineInputBorder(
-                                                                          borderRadius: BorderRadius.circular(10),
-                                                                        ),
-                                                                      ),
-                                                                      keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                                                      inputFormatters: <TextInputFormatter>[  LengthLimitingTextInputFormatter(15),
-                                                                        FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
-                                                                      onChanged: (value) {
-                                                                        mystate(() {
-                                                                          //  String ttlProdListPriceFut = await TtlProdListPriceFut();
-                                                                          totalAmount = double.parse(TtlProdListPrice().toString());
-                                                                          value != '' ? paidAmount = double.parse(value) : paidAmount = 0.0;
-                                                                          if((totalAmount - paidAmount).isNegative){
-                                                                            debt = 0;
-                                                                          } else { debt = (totalAmount - paidAmount);
-                                                                          }
-                                                                          if((paidAmount - totalAmount).isNegative){
-                                                                            refund = 0;
-                                                                          } else { refund = (paidAmount - totalAmount);
-                                                                          }
-                                                                        });
-                                                                      },
-                                                                      controller: _textFieldController,
-                                                                    ),
-                                                                    SizedBox(height: 15),
-                                                                    ButtonTheme(
-                                                                      minWidth: double.infinity,
-                                                                      //minWidth: 50,
-                                                                      splashColor: AppTheme.buttonColor2,
-                                                                      height: 50,
-                                                                      child: FlatButton(
-                                                                        color: AppTheme.buttonColor2,
-                                                                        shape: RoundedRectangleBorder(
-                                                                          borderRadius: BorderRadius.circular(7.0),
-                                                                        ),
-                                                                        onPressed: () async {
-                                                                          setState(() {
-                                                                            mystate(() {
-                                                                              //String ttlProdListPriceFut = await TtlProdListPriceFut();
-                                                                              totalAmount =
-                                                                                  double
-                                                                                      .parse(
-                                                                                      TtlProdListPrice().toString());
-                                                                              _textFieldController
-                                                                                  .text =
-                                                                                  totalAmount
-                                                                                      .toString();
-                                                                              paidAmount =
-                                                                                  totalAmount;
-                                                                              if ((totalAmount -
-                                                                                  paidAmount)
-                                                                                  .isNegative) {
-                                                                                debt = 0;
-                                                                              } else {
-                                                                                debt =
-                                                                                (totalAmount -
-                                                                                    paidAmount);
-                                                                              }
-                                                                              if ((paidAmount -
-                                                                                  totalAmount)
-                                                                                  .isNegative) {
-                                                                                refund =
-                                                                                0;
-                                                                              } else {
-                                                                                refund =
-                                                                                (paidAmount -
-                                                                                    totalAmount);
-                                                                              }
-                                                                            });
-                                                                          });
-                                                                        },
-                                                                        child: Container(
-                                                                          child: Text( '$currencyUnit ' +
-                                                                              TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                                            textScaleFactor: 1, style: TextStyle(
-                                                                                fontWeight: FontWeight.w500,
-                                                                                fontSize: 17
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                    SizedBox(height: 20),
-                                                                  ]
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          // orderLoading?Text('Loading'):Text('')
-                                                        ],
-                                                      )),
-                                                ),
-                                                Align(
-                                                  alignment: Alignment.bottomCenter,
-                                                  child: Padding(
-                                                    padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                          color: Colors.white,
-                                                          border: Border(
-                                                            top: BorderSide(
-                                                                color:
-                                                                AppTheme.skBorderColor2,
-                                                                width: 1.0),
-                                                          )),
-                                                      width: double.infinity,
-                                                      height: 138,
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(20.0),
+                                                topRight: Radius.circular(20.0),
+                                              ),
+                                              color: Colors.white,
+                                            ),
+                                            child: Container(
+                                              width: double.infinity,
+                                              child: Stack(
+                                                children: [
+                                                  Container(
+                                                    height: 67,
+                                                    width: double.infinity,
+                                                    decoration: BoxDecoration(
+                                                        border: Border(
+                                                            bottom: BorderSide(
+                                                                color: Colors.grey
+                                                                    .withOpacity(0.3),
+                                                                width: 1.0))),
+                                                    child: Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: 15.0,
+                                                          right: 15.0,
+                                                          top: 5.0,
+                                                          bottom: 0.0
+                                                      ),
                                                       child: Column(
-                                                        mainAxisAlignment:
-                                                        MainAxisAlignment.end,
-                                                        crossAxisAlignment:
-                                                        CrossAxisAlignment.end,
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: [
-                                                          debt!= 0 ? ListTile(
-                                                            title: Text(
-                                                              textSetDebtAmt,textScaleFactor: 1,
-                                                              style: TextStyle(
-                                                                  fontSize: 17,
-                                                                  fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
-                                                              strutStyle: StrutStyle(
-                                                                  forceStrutHeight: true,
-                                                                  height: 1.3
-                                                              ),
-                                                            ),
-                                                            trailing: Text('- $currencyUnit '+
-                                                                debt.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                              textScaleFactor: 1, style: TextStyle(
-                                                                  fontSize: 17,
-                                                                  fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
-                                                            ),
-                                                          ) : ListTile(
-                                                            title: Text(
-                                                              textSetCashRef,textScaleFactor: 1, maxLines: 1,
-                                                              style: TextStyle(
-                                                                  overflow: TextOverflow.ellipsis,
-                                                                  fontSize: 17,
-                                                                  fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
-                                                              strutStyle: StrutStyle(
-                                                                  forceStrutHeight: true,
-                                                                  height: 1.3
-                                                              ),
-                                                            ),
-                                                            trailing: Text('$currencyUnit '+
-                                                                refund.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                                              textScaleFactor: 1, style: TextStyle(
-                                                                  fontSize: 17,
-                                                                  fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
-                                                            ),
+                                                          Text(customerId.split('^')[1] == 'name'? textSetNoCust : customerId.split('^')[1], textScaleFactor: 1, maxLines: 1, style: TextStyle(
+                                                              fontWeight: FontWeight.w500,
+                                                              color: Colors.grey,
+                                                              overflow: TextOverflow.ellipsis
                                                           ),
-                                                          SizedBox(height: 10),
-                                                          Padding(
-                                                              padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
-                                                              child: Row(
-                                                                  children: [
-                                                                    GestureDetector(
-                                                                      onTap: () {
-                                                                        setState((){
-                                                                          mystate(()  {
-                                                                            //String ttlProdListPriceFut = await TtlProdListPriceFut();
-                                                                            _controller.animateTo(0);
-                                                                            _textFieldController.clear();
-                                                                            paidAmount = 0;
-                                                                            debt = 0;
-                                                                            refund = 0;
-                                                                            totalAmount = double.parse(TtlProdListPrice().toString());
-                                                                          });
-                                                                        });
-                                                                      },
-                                                                      child: Container(
-                                                                        width: (MediaQuery.of(context).size.width - 45)/2,
-                                                                        height: 50,
-                                                                        decoration: BoxDecoration(
-                                                                            borderRadius:
-                                                                            BorderRadius.circular(10.0),
-                                                                            color: AppTheme.secButtonColor),
-                                                                        child: Row(
-                                                                          mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .center,
-                                                                          children: [
-                                                                            Expanded(
-                                                                              child: Padding(
-                                                                                padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                                                                child: Container(
-                                                                                    child: Text(
-                                                                                      textSetBack,
-                                                                                      textScaleFactor: 1, textAlign: TextAlign.center,
-                                                                                      style: TextStyle(
-                                                                                          fontSize: 18,
-                                                                                          fontWeight: FontWeight.w500,
-                                                                                          color: Colors.black
-                                                                                      ),
-                                                                                    )
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                    Spacer(),
-                                                                    GestureDetector(
-                                                                      onTap: () async {
-                                                                        WriteBatch batch = FirebaseFirestore.instance.batch();
-                                                                        DateTime now = DateTime.now();
-                                                                        if ((today.timeZoneOffset.inMinutes/60) != storeTimeZone) {
-                                                                          setStoreId('').then((_) {
-                                                                            showOkAlertDialog(
-                                                                                context: OneContext().context!,
-                                                                                title: 'Timezone mismatched',
-                                                                                message: 'Your store timezone and you current local timezone are not match. Please change it first and restart.'
-                                                                            ).then((result) async {
-                                                                              if (Platform.isAndroid) {
-                                                                                SystemNavigator.pop();
-                                                                              } else if (Platform.isIOS) {
-                                                                                exit(0);
-                                                                              }
-                                                                            });
-                                                                          });
-                                                                        } else {
-                                                                          discountAmount = discount;
-                                                                          //now = now.subtract(Duration(minutes: calHourFromTZ(now)));
-                                                                          int length = 0;
-                                                                          int totalOrders = 0;
-                                                                          int debts = 0;
-                                                                          String ttlPrice = '0';
-                                                                          bool reFilter = false;
-                                                                          bool deFilter = false;
-                                                                          double ttlDiscount = 0;
-                                                                          double debtAmounts = 0 ;
-                                                                          mystate(() {
-                                                                            setState(() {
-                                                                              orderCreating = true;
-                                                                              disableTouch = true;
-                                                                              //    saleCartDrag = false;
-                                                                            });
-                                                                          });
-
-                                                                          Navigator.of(context).push(
-                                                                              FadeRoute(page: Transparent(key: tranGlobalKey),)
-                                                                          );
-
-                                                                          debugPrint('order creating');
-
-                                                                          DocumentReference nonceRef = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('nonce_doc').collection('nonce_col').doc();
-                                                                          batch.set(nonceRef, {
-                                                                            'time': FieldValue.serverTimestamp(),
-                                                                          });
-
-                                                                          FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('ordsCnt')
-                                                                              .get().then((value) async {
-                                                                            length = int.parse(value.data()!['count'].toString());
-                                                                            debugPrint('lengthsss' + length.toString());
-                                                                            length = length + 1;
-
-                                                                            orderLength = length;
-
-                                                                            debugPrint('CHECK POINT 0' + deviceIdNum.toString());
-                                                                            debugPrint('CHECK POINT 1');
-
-                                                                            // batch = await updateOrderLength(batch);
-
-                                                                            debugPrint('datacheck' + prodList.toString());
-                                                                            ttlPrice = TtlProdListPrice();
-                                                                            subList = [];
-                                                                            DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('prodSaleData').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()));
-                                                                            DocumentReference prodsMonthly = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('prodMthData').doc(now.year.toString() + zeroToTen(now.month.toString()));
-                                                                            DocumentReference prodsYearly = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('prodYearData').doc(now.year.toString());
-
-                                                                            for (int k=0; k< prodList.length;  k++) {
-                                                                              if(isDiscount == 'amount') {
-                                                                                ttlDiscount = (double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())) * (discountAmount / double.parse(TtlProdListPriceInit().toString()));
-                                                                              } else if(isDiscount == 'percent') {
-                                                                                ttlDiscount = (double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())) * (discountAmount / 100);
-                                                                              } else {
-                                                                                ttlDiscount = 0;
-                                                                              }
-                                                                              subList.add(prodList[k].split('^')[0] + '^' + prodList[k].split('^')[6] + '^' + prodList[k].split('^')[7] + '^' + prodList[k].split('^')[4] +'^' + prodList[k].split('^')[2] + '^' + prodList[k].split('^')[3] +'^' + prodList[k].split('^')[1] + '^0^' + prodList[k].split('^')[8]);
-
-                                                                              if(prodList[k].split('^')[3] == 'unit_name') {
-                                                                                batch = await decStockFromInv(batch, prodList[k].split('^')[0], 'im', prodList[k].split('^')[4]);
-                                                                                debugPrint('Total Wrong2 '+ TtlProdListPriceInit().toString()+ ', ' + ttlDiscount.toString());
-                                                                                batch.set(
-                                                                                    prodsArr,
-                                                                                    {
-                                                                                      'date' : now,
-                                                                                      'prods': {
-                                                                                        prodList[k].split('^')[0].toString(): {
-                                                                                          'dm' : FieldValue.increment(ttlDiscount),
-                                                                                          'im': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
-                                                                                          'sm' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
-                                                                                          'bm' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString())),
-                                                                                        }
-                                                                                      }
-                                                                                    },SetOptions(merge: true)
-                                                                                );
-
-                                                                                batch.set(
-                                                                                    prodsMonthly,
-                                                                                    {
-                                                                                      'date' : now,
-                                                                                      'prods': {
-                                                                                        prodList[k].split('^')[0].toString(): {
-                                                                                          'dm' : FieldValue.increment(ttlDiscount),
-                                                                                          'im': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
-                                                                                          'sm' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
-                                                                                          'bm' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
-                                                                                        }
-                                                                                      }
-                                                                                    },SetOptions(merge: true)
-                                                                                );
-
-                                                                                batch.set(
-                                                                                    prodsYearly,
-                                                                                    {
-                                                                                      'date' : now,
-                                                                                      'prods': {
-                                                                                        prodList[k].split('^')[0].toString(): {
-                                                                                          'dm' : FieldValue.increment(ttlDiscount),
-                                                                                          'im': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
-                                                                                          'sm' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
-                                                                                          'bm' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
-
-                                                                                        }
-                                                                                      }
-                                                                                    },SetOptions(merge: true)
-                                                                                );
-                                                                                debugPrint('decStock ' + prodList[k].split('^')[0].toString());
-                                                                                //decStockFromInv(str.split('^')[0], 'main', str.split('^')[4]);
-                                                                                //batch = await updateB2(batch, prodList[k].split('^')[0], double.parse(prodList[k].split('^')[4].toString()));
-                                                                                // if ( k == prodList.length-1) {
-                                                                                //   batch.commit();
-                                                                                // }
-                                                                                //debugPrint('batch complete');
-                                                                                // prodSaleData(str.split('^')[0], double.parse(str.split('^')[4].toString()));
-                                                                              }
-                                                                              else if(prodList[k].split('^')[3] == 'sub1_name') {
-                                                                                debugPrint('decStock1 ' + prodList[k].split('^')[9].toString());
-                                                                                batch = await sub1Execution(batch, prodList[k].split('^')[9], prodList[k].split('^')[10], prodList[k].split('^')[0], prodList[k].split('^')[4]);
-                                                                                batch.set(
-                                                                                    prodsArr,
-                                                                                    {
-                                                                                      'date' : now,
-                                                                                      'prods': {
-                                                                                        prodList[k].split('^')[0].toString(): {
-                                                                                          'd1' : FieldValue.increment(ttlDiscount),
-                                                                                          'i1': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
-                                                                                          's1' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
-                                                                                          'b1' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
-
-                                                                                        }
-                                                                                      }
-                                                                                    },SetOptions(merge: true)
-                                                                                );
-                                                                                batch.set(
-                                                                                    prodsMonthly,
-                                                                                    {
-                                                                                      'date' : now,
-                                                                                      'prods': {
-                                                                                        prodList[k].split('^')[0].toString(): {
-                                                                                          'd1' : FieldValue.increment(ttlDiscount),
-                                                                                          'i1': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
-                                                                                          's1' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
-                                                                                          'b1' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
-
-                                                                                        }
-                                                                                      }
-                                                                                    },SetOptions(merge: true)
-                                                                                );
-
-                                                                                batch.set(
-                                                                                    prodsYearly,
-                                                                                    {
-                                                                                      'date' : now,
-                                                                                      'prods': {
-                                                                                        prodList[k].split('^')[0].toString(): {
-                                                                                          'd1' : FieldValue.increment(ttlDiscount),
-                                                                                          'i1': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
-                                                                                          's1' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
-                                                                                          'b1' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
-
-                                                                                        }
-                                                                                      }
-                                                                                    },SetOptions(merge: true)
-                                                                                );
-                                                                                // productsFire.doc(prodList[k].split('^')[0]).update({
-                                                                                //   'sub1SellUnit' : FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
-                                                                                //});
-                                                                              }
-                                                                              else if(prodList[k].split('^')[3] == 'sub2_name') {
-                                                                                batch = await sub2Execution(batch, prodList[k].split('^')[9], prodList[k].split('^')[10], prodList[k].split('^')[0], prodList[k].split('^')[4]);
-                                                                                batch.set(
-                                                                                    prodsArr,
-                                                                                    {
-                                                                                      'date' : now,
-                                                                                      'prods': {
-                                                                                        prodList[k].split('^')[0].toString(): {
-                                                                                          'd2' : FieldValue.increment(ttlDiscount),
-                                                                                          'i2': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
-                                                                                          's2' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
-                                                                                          'b2' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
-
-                                                                                        }
-                                                                                      }
-                                                                                    },SetOptions(merge: true)
-                                                                                );
-                                                                                batch.set(
-                                                                                    prodsMonthly,
-                                                                                    {
-                                                                                      'date' : now,
-                                                                                      'prods': {
-                                                                                        prodList[k].split('^')[0].toString(): {
-                                                                                          'd2' : FieldValue.increment(ttlDiscount),
-                                                                                          'i2': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
-                                                                                          's2' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
-                                                                                          'b2' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
-
-                                                                                        }
-                                                                                      }
-                                                                                    },SetOptions(merge: true)
-                                                                                );
-
-                                                                                batch.set(
-                                                                                    prodsYearly,
-                                                                                    {
-                                                                                      'date' : now,
-                                                                                      'prods': {
-                                                                                        prodList[k].split('^')[0].toString(): {
-                                                                                          'd2' : FieldValue.increment(ttlDiscount),
-                                                                                          'i2': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
-                                                                                          's2' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
-                                                                                          'b2' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
-
-                                                                                        }
-                                                                                      }
-                                                                                    },SetOptions(merge: true)
-                                                                                );
-                                                                                // productsFire.doc(str.split('^')[0]).update({
-                                                                                //   'sub2SellUnit' : FieldValue.increment(double.parse(str.split('^')[4].toString())),
-                                                                                // });
-                                                                              }
-                                                                            }
-
-                                                                            batch = await updateOrderLength(batch);
-
-                                                                            if( debt.toString() != '0.0') {
-                                                                              debts = 1;
-                                                                              debtAmounts = debt;
-                                                                              deFilter = true;
-                                                                            } else {
-                                                                              debts = 0;
-                                                                              debtAmounts = 0;
-                                                                              deFilter = false;
-                                                                            }
-
-                                                                            debugPrint('subList ' + subList.toString());
-
-                                                                            totalOrders = totalOrders + 1;
-                                                                            //CusOrder(totalOrders, debts, debtAmounts);
-
-                                                                            batch = await updateCusOrder(batch, totalOrders, debts, debtAmounts);
-
-                                                                            DateTime ordCntDate = DateFormat("yyyy-MM-dd HH:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 12:00:00');
-                                                                            //notworking
-                                                                            batch = await updateMonthlyData(batch, now.year.toString() + zeroToTen(now.month.toString()),  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'capital',ttlPrice.toString(), debtAmounts, TtlProdListBuyPrice().toString(), ordCntDate);
-                                                                            //notworking
-                                                                            batch = await updateYearlyData(batch, now.year.toString(),  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'capital', ttlPrice.toString(), debtAmounts, TtlProdListBuyPrice().toString(), ordCntDate);
-
-                                                                            //notworking
-                                                                            batch = await updateDetail(batch, now, length.toString(), subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, ttlPrice.toString(), customerId.split('^')[0].toString());
-                                                                            batch = await DatenotExist(batch, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + ttlPrice.toString() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, now, length.toString());
-
-
-                                                                            // if (dateExist) {
-                                                                            //   //   String ttlProdListPriceFut = await TtlProdListPriceFut();
-                                                                            //   batch = await updateDateExist(batch,dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), length.toString());
-                                                                            //   batch = await updateDetail(batch,now, length.toString(), subList, dateId, reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, TtlProdListPrice().toString(), customerId.split('^')[0].toString());
-                                                                            //
-                                                                            //   //addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
-                                                                            //   //Detail(now, length.toString(), subList, dateId, reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
-                                                                            //   debugPrint('adddateexist added');
-                                                                            // }
-                                                                            // else {
-                                                                            //   // String ttlProdListPriceFut = await TtlProdListPriceFut();
-                                                                            //   batch = await updateDetail(batch, now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, TtlProdListPrice().toString(), customerId.split('^')[0].toString());
-                                                                            //   DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), now, length.toString());
-                                                                            //   //Detail(now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
-                                                                            //   debugPrint('adddateexist not');
-                                                                            // }
-                                                                            debugPrint('prodList--' + prodList.toString());
-                                                                            try {
-                                                                              batch.commit();
-                                                                              Future.delayed(const Duration(milliseconds: 2000), () {
-                                                                                if(searchGlobalKey.currentState != null) {
-                                                                                  searchGlobalKey.currentState!.navigatorPop();
-                                                                                }
-                                                                                if(prodGlobalKey.currentState != null) {
-                                                                                  prodGlobalKey.currentState!.navigatorPop();
-                                                                                }
-                                                                                List<String> subNameList = [];
-                                                                                int subNameListLength = 0;
-                                                                                for (String str in prodList) {
-                                                                                  subNameListLength = subNameListLength + 1;
-                                                                                  subNameList.add(str.split('^')[7]);
-                                                                                  if(prodList.length == subNameListLength) {
-                                                                                    debugPrint('fianlize : ' + subNameList.toString());
-                                                                                    // final date = DateTime.now();
-                                                                                    final date = now;
-                                                                                    final dueDate = date.add(Duration(days: 7));
-                                                                                    debugPrint('CUZMER CHECK ' + customerId.toString());
-                                                                                    for(int i=0; i<prodList.length; i++) {
-                                                                                      productSale.add(prodList[i].split('^')[6].toString() + '^' +subNameList[i].toString() + '^' + prodList[i].split('^')[2].toString() + '^' + prodList[i].split('^')[4].toString());
-                                                                                    }
-                                                                                    saleInfo = discountAmount.toString()  + '^' + disText.toString()  + '^' + debt.toString() + '^' + customerId.split('^')[1].toString();
-                                                                                    final invoice = Invoice(
-                                                                                      supplier: Supplier(
-                                                                                        name: shopGloName,
-                                                                                        address: shopGloAddress,
-                                                                                        phone: shopGloPhone,
-                                                                                        paymentInfo: '',
-                                                                                      ),
-                                                                                      customer: Customer(
-                                                                                        name: customerId.split('^')[1] == 'name'? 'No customer' :customerId.split('^')[1],
-                                                                                        address: '',
-                                                                                      ),
-                                                                                      info: InvoiceInfo(
-                                                                                          date: date,
-                                                                                          dueDate: dueDate,
-                                                                                          description: 'My description...',
-                                                                                          // number: '${DateTime.now().year}-9999',
-                                                                                          number: deviceIdNum.toString() + '-' + length.toString()
-                                                                                      ),
-                                                                                      items: [
-
-                                                                                        for(int i=0; i<prodList.length; i++)
-                                                                                          InvoiceItem(
-                                                                                            description: prodList[i].split('^')[6],
-                                                                                            // date: prodList[i].split('^')[3] + '^' + subNameList[i].toString(),
-                                                                                            date: subNameList[i].toString(),
-                                                                                            quantity: double.parse(prodList[i].split('^')[4]),
-                                                                                            vat: discountAmount,
-                                                                                            debt: debt,
-                                                                                            type: disText,
-                                                                                            unitPrice: double.parse(prodList[i].split('^')[2]),
-                                                                                            currencyUnit: currencyUnit,
-                                                                                            totalPriceText: totalVPrice,
-                                                                                            paidText: VPaid,
-                                                                                            totalDebtText: VDebt,
-                                                                                            subTotalText: subVTotal,
-                                                                                            discountText: VDiscount,
-                                                                                          )
-
-                                                                                        // InvoiceItem(
-                                                                                        //   description: 'Water',
-                                                                                        //   date: DateTime.now(),
-                                                                                        //   quantity: 8,
-                                                                                        //   vat: 0.19,
-                                                                                        //   unitPrice: 0.99,
-                                                                                        // ),
-                                                                                        // InvoiceItem(
-                                                                                        //   description: 'Orange',
-                                                                                        //   date: DateTime.now(),
-                                                                                        //   quantity: 3,
-                                                                                        //   vat: 0.19,
-                                                                                        //   unitPrice: 2.99,
-                                                                                        // ),
-                                                                                        // InvoiceItem(
-                                                                                        //   description: 'Apple',
-                                                                                        //   date: DateTime.now(),
-                                                                                        //   quantity: 8,
-                                                                                        //   vat: 0.19,
-                                                                                        //   unitPrice: 3.99,
-                                                                                        // ),
-                                                                                        // InvoiceItem(
-                                                                                        //   description: 'Mango',
-                                                                                        //   date: DateTime.now(),
-                                                                                        //   quantity: 1,
-                                                                                        //   vat: 0.19,
-                                                                                        //   unitPrice: 1.59,
-                                                                                        // ),
-                                                                                        // InvoiceItem(
-                                                                                        //   description: 'Blue Berries',
-                                                                                        //   date: DateTime.now(),
-                                                                                        //   quantity: 5,
-                                                                                        //   vat: 0.19,
-                                                                                        //   unitPrice: 0.99,
-                                                                                        // ),
-                                                                                        // InvoiceItem(
-                                                                                        //   description: 'Black',
-                                                                                        //   date: DateTime.now(),
-                                                                                        //   quantity: 4,
-                                                                                        //   vat: 0.19,
-                                                                                        //   unitPrice: 1.29,
-                                                                                        // ),
-                                                                                      ],
-                                                                                    );
-                                                                                    sellDone = true;
-                                                                                    _controllerTablet.animateTo(0);
-
-                                                                                    getPaperId().then((value) async {
-                                                                                      debugPrint('VVAALLUUEE ' + value.toString());
-                                                                                      pdfFile = await PdfInvoiceApi.generate(invoice, value, isEnglish);
-
-                                                                                      Uint8List bytes = pdfFile!.readAsBytesSync();
-
-
-                                                                                      Future.delayed(const Duration(milliseconds: 1000), () {
-                                                                                        setState(() {
-                                                                                          mystate(() {
-                                                                                            // setState(() {
-                                                                                            pdfText = pdfFile!.path.toString();
-                                                                                            // });
-
-                                                                                            orderCreating = false;
-                                                                                            disableTouch = false;
-                                                                                            // saleCartDrag = false;
-                                                                                          });
-                                                                                        });
-                                                                                        // debugPrint('saleCartDrag ' + saleCartDrag.toString());
-                                                                                        tranGlobalKey.currentState!.disLoading();
-                                                                                        _controller.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
-                                                                                      });
-                                                                                    });
-                                                                                  }
-                                                                                }
-                                                                              });
-                                                                            } catch(error) {
-                                                                              debugPrint('error while creating orders');
-                                                                              smartKyatFlash('An error occurred while creating order. Please try again later.', 'e');
-                                                                              setState(() {
-                                                                                mystate(() {
-                                                                                  orderCreating = false;
-                                                                                  disableTouch = false;
-                                                                                  // saleCartDrag = false;
-                                                                                });
-                                                                              });
-                                                                            }
-
-
-
-
-
-
-                                                                          });
-                                                                        }
-                                                                      },
-                                                                      child: Container(
-                                                                        width: (MediaQuery.of(context).size.width - 45)/2,
-                                                                        height: 50,
-                                                                        decoration: BoxDecoration(
-                                                                            borderRadius:
-                                                                            BorderRadius.circular(10.0),
-                                                                            color: AppTheme.themeColor),
-                                                                        child: Row(
-                                                                          mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .center,
-                                                                          children: [
-                                                                            Expanded(
-                                                                                child: orderCreating? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                                                                    child: CupertinoActivityIndicator(radius: 10,)): Padding(
-                                                                                  padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
-                                                                                  child: Container(
-                                                                                      child: Text(
-                                                                                        textSetDone,
-                                                                                        textScaleFactor: 1, textAlign: TextAlign.center,
-                                                                                        style: TextStyle(
-                                                                                            fontSize: 17.5,
-                                                                                            fontWeight: FontWeight.w500,
-                                                                                            color: Colors.black
-                                                                                        ),
-                                                                                        strutStyle: StrutStyle(
-                                                                                          height: 1.3,
-                                                                                          // fontSize:,
-                                                                                          forceStrutHeight: true,
-                                                                                        ),
-                                                                                      )
-                                                                                  ),
-                                                                                )
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ]
+                                                              strutStyle: StrutStyle(
+                                                                  forceStrutHeight: true,
+                                                                  height: 1.2
+                                                              )),
+                                                          SizedBox(height: 2.5),
+                                                          Text(isEnglish? 'Cash acceptance': 'ဖောက်သည်ဆီမှ ငွေလက်ခံခြင်း', textScaleFactor: 1, maxLines: 1, style: TextStyle(
+                                                              fontWeight: FontWeight.w500,
+                                                              fontSize: 19,
+                                                              overflow: TextOverflow.ellipsis
+                                                          ),
+                                                              strutStyle: StrutStyle(
+                                                                  forceStrutHeight: true,
+                                                                  height: 1.6
                                                               )
-                                                          )
+                                                          ),
                                                         ],
                                                       ),
                                                     ),
                                                   ),
-                                                ),
-                                              ],
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 67.0,
+                                                        left: 0.0,
+                                                        right: 0.0,
+                                                        bottom: homeBotPadding + 129
+                                                    ),
+                                                    child: Container(
+                                                        child: ListView(
+                                                          children: [
+                                                            Container(
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                                                                child: Column(
+                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                    children: [
+                                                                      SizedBox(height: 15),
+                                                                      Container(
+                                                                          decoration: BoxDecoration(
+                                                                              borderRadius: BorderRadius.all(
+                                                                                Radius.circular(10.0),
+                                                                              ),
+                                                                              border: Border.all(
+                                                                                  color: Colors.grey.withOpacity(0.2),
+                                                                                  width: 1.0),
+                                                                              color: AppTheme.lightBgColor),
+                                                                          height:  133,
+                                                                          width: MediaQuery.of(context).size.width,
+                                                                          child: Column(
+                                                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                                            children: [
+                                                                              Text('$textSetTotalSale - $currencyUnit',
+                                                                                textAlign: TextAlign.center,
+                                                                                textScaleFactor: 1, style: TextStyle(
+                                                                                  fontSize: 20,
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                  color: Colors.grey,
+                                                                                ),
+                                                                                strutStyle: StrutStyle(
+                                                                                  height: isEnglish? 1.4: 1.6,
+                                                                                  forceStrutHeight: true,
+                                                                                ),
+                                                                              ),
+                                                                              SizedBox(height: 8),
+                                                                              Text(TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                                                  textAlign: TextAlign.center,
+                                                                                  textScaleFactor: 1, style: TextStyle(
+                                                                                    fontSize: 23, fontWeight: FontWeight.w500,
+                                                                                  )),
+                                                                            ],
+                                                                          )),
+                                                                      SizedBox(height: 15),
+                                                                      Text(textSetCashRec, textScaleFactor: 1, style: TextStyle(
+                                                                        letterSpacing: 2,
+                                                                        fontWeight: FontWeight.bold,
+                                                                        fontSize: 14,color: Colors.grey,
+                                                                      ),),
+                                                                      SizedBox(height: 15),
+                                                                      TextField(
+                                                                        style: TextStyle(
+                                                                          height: 0.95, fontSize: 15/scaleFactor,
+                                                                        ),
+                                                                        decoration: InputDecoration(
+                                                                          enabledBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                                              borderSide: const BorderSide(
+                                                                                  color: AppTheme.skBorderColor,
+                                                                                  width: 2.0),
+                                                                              borderRadius: BorderRadius.all(
+                                                                                  Radius.circular(10.0))),
+
+                                                                          focusedBorder: const OutlineInputBorder(
+// width: 0.0 produces a thin "hairline" border
+                                                                              borderSide: const BorderSide(
+                                                                                  color: AppTheme.themeColor,
+                                                                                  width: 2.0),
+                                                                              borderRadius: BorderRadius.all(
+                                                                                  Radius.circular(10.0))),
+                                                                          contentPadding: const EdgeInsets.only(
+                                                                              left: 15.0,
+                                                                              right: 15.0,
+                                                                              top: 20.0,
+                                                                              bottom: 20.0),
+                                                                          suffixText: '$currencyUnit' ,
+                                                                          // tooltip: 'Increase volume by 10',
+                                                                          suffixStyle: TextStyle(
+                                                                            color: Colors.grey,
+                                                                            fontSize: 12/scaleFactor,
+                                                                            fontFamily: 'capsulesans',
+                                                                          ),
+                                                                          errorStyle: TextStyle(
+                                                                              backgroundColor: Colors.white,
+                                                                              fontSize: 12/scaleFactor,
+                                                                              fontFamily: 'capsulesans',
+                                                                              height: 0.1
+                                                                          ),
+                                                                          labelStyle: TextStyle(
+                                                                            fontWeight: FontWeight.w500,
+                                                                            color: Colors.black,
+                                                                          ),
+// errorText: 'Error message',
+                                                                          labelText: textSetCusPrice,
+                                                                          floatingLabelBehavior:
+                                                                          FloatingLabelBehavior.auto,
+//filled: true,
+                                                                          border: OutlineInputBorder(
+                                                                            borderRadius: BorderRadius.circular(10),
+                                                                          ),
+                                                                        ),
+                                                                        keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                                                        inputFormatters: <TextInputFormatter>[  LengthLimitingTextInputFormatter(15),
+                                                                          FilteringTextInputFormatter.allow(RegExp(_getRegexString())),],
+                                                                        onChanged: (value) {
+                                                                          mystate(() {
+                                                                            //  String ttlProdListPriceFut = await TtlProdListPriceFut();
+                                                                            totalAmount = double.parse(TtlProdListPrice().toString());
+                                                                            value != '' ? paidAmount = double.parse(value) : paidAmount = 0.0;
+                                                                            if((totalAmount - paidAmount).isNegative){
+                                                                              debt = 0;
+                                                                            } else { debt = (totalAmount - paidAmount);
+                                                                            }
+                                                                            if((paidAmount - totalAmount).isNegative){
+                                                                              refund = 0;
+                                                                            } else { refund = (paidAmount - totalAmount);
+                                                                            }
+                                                                          });
+                                                                        },
+                                                                        controller: _textFieldController,
+                                                                      ),
+                                                                      SizedBox(height: 15),
+                                                                      ButtonTheme(
+                                                                        minWidth: double.infinity,
+                                                                        //minWidth: 50,
+                                                                        splashColor: AppTheme.buttonColor2,
+                                                                        height: 50,
+                                                                        child: FlatButton(
+                                                                          color: AppTheme.buttonColor2,
+                                                                          shape: RoundedRectangleBorder(
+                                                                            borderRadius: BorderRadius.circular(7.0),
+                                                                          ),
+                                                                          onPressed: () async {
+                                                                            setState(() {
+                                                                              mystate(() {
+                                                                                //String ttlProdListPriceFut = await TtlProdListPriceFut();
+                                                                                totalAmount =
+                                                                                    double
+                                                                                        .parse(
+                                                                                        TtlProdListPrice().toString());
+                                                                                _textFieldController
+                                                                                    .text =
+                                                                                    totalAmount
+                                                                                        .toString();
+                                                                                paidAmount =
+                                                                                    totalAmount;
+                                                                                if ((totalAmount -
+                                                                                    paidAmount)
+                                                                                    .isNegative) {
+                                                                                  debt = 0;
+                                                                                } else {
+                                                                                  debt =
+                                                                                  (totalAmount -
+                                                                                      paidAmount);
+                                                                                }
+                                                                                if ((paidAmount -
+                                                                                    totalAmount)
+                                                                                    .isNegative) {
+                                                                                  refund =
+                                                                                  0;
+                                                                                } else {
+                                                                                  refund =
+                                                                                  (paidAmount -
+                                                                                      totalAmount);
+                                                                                }
+                                                                              });
+                                                                            });
+                                                                          },
+                                                                          child: Container(
+                                                                            child: Text( '$currencyUnit ' +
+                                                                                TtlProdListPrice().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                                              textScaleFactor: 1, style: TextStyle(
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                  fontSize: 17
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(height: 20),
+                                                                    ]
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            // orderLoading?Text('Loading'):Text('')
+                                                          ],
+                                                        )),
+                                                  ),
+                                                  Align(
+                                                    alignment: Alignment.bottomCenter,
+                                                    child: Padding(
+                                                      padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+                                                      child: Container(
+                                                        decoration: BoxDecoration(
+                                                            color: Colors.white,
+                                                            border: Border(
+                                                              top: BorderSide(
+                                                                  color:
+                                                                  AppTheme.skBorderColor2,
+                                                                  width: 1.0),
+                                                            )),
+                                                        width: double.infinity,
+                                                        height: 138,
+                                                        child: Column(
+                                                          mainAxisAlignment:
+                                                          MainAxisAlignment.end,
+                                                          crossAxisAlignment:
+                                                          CrossAxisAlignment.end,
+                                                          children: [
+                                                            debt!= 0 ? ListTile(
+                                                              title: Text(
+                                                                textSetDebtAmt,textScaleFactor: 1,
+                                                                style: TextStyle(
+                                                                    fontSize: 17,
+                                                                    fontWeight:
+                                                                    FontWeight
+                                                                        .w500),
+                                                                strutStyle: StrutStyle(
+                                                                    forceStrutHeight: true,
+                                                                    height: 1.3
+                                                                ),
+                                                              ),
+                                                              trailing: Text('- $currencyUnit '+
+                                                                  debt.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                                textScaleFactor: 1, style: TextStyle(
+                                                                    fontSize: 17,
+                                                                    fontWeight:
+                                                                    FontWeight
+                                                                        .w500),
+                                                              ),
+                                                            ) : ListTile(
+                                                              title: Text(
+                                                                textSetCashRef,textScaleFactor: 1, maxLines: 1,
+                                                                style: TextStyle(
+                                                                    overflow: TextOverflow.ellipsis,
+                                                                    fontSize: 17,
+                                                                    fontWeight:
+                                                                    FontWeight
+                                                                        .w500),
+                                                                strutStyle: StrutStyle(
+                                                                    forceStrutHeight: true,
+                                                                    height: 1.3
+                                                                ),
+                                                              ),
+                                                              trailing: Text('$currencyUnit '+
+                                                                  refund.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+                                                                textScaleFactor: 1, style: TextStyle(
+                                                                    fontSize: 17,
+                                                                    fontWeight:
+                                                                    FontWeight
+                                                                        .w500),
+                                                              ),
+                                                            ),
+                                                            SizedBox(height: 10),
+                                                            Padding(
+                                                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
+                                                                child: Row(
+                                                                    children: [
+                                                                      GestureDetector(
+                                                                        onTap: () {
+                                                                          setState((){
+                                                                            mystate(()  {
+                                                                              //String ttlProdListPriceFut = await TtlProdListPriceFut();
+                                                                              _controller.animateTo(0);
+                                                                              _textFieldController.clear();
+                                                                              paidAmount = 0;
+                                                                              debt = 0;
+                                                                              refund = 0;
+                                                                              totalAmount = double.parse(TtlProdListPrice().toString());
+                                                                            });
+                                                                          });
+                                                                        },
+                                                                        child: Container(
+                                                                          width: (MediaQuery.of(context).size.width - 45)/2,
+                                                                          height: 50,
+                                                                          decoration: BoxDecoration(
+                                                                              borderRadius:
+                                                                              BorderRadius.circular(10.0),
+                                                                              color: AppTheme.secButtonColor),
+                                                                          child: Row(
+                                                                            mainAxisAlignment:
+                                                                            MainAxisAlignment
+                                                                                .center,
+                                                                            children: [
+                                                                              Expanded(
+                                                                                child: Padding(
+                                                                                  padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                                                                  child: Container(
+                                                                                      child: Text(
+                                                                                        textSetBack,
+                                                                                        textScaleFactor: 1, textAlign: TextAlign.center,
+                                                                                        style: TextStyle(
+                                                                                            fontSize: 18,
+                                                                                            fontWeight: FontWeight.w500,
+                                                                                            color: Colors.black
+                                                                                        ),
+                                                                                      )
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      Spacer(),
+                                                                      GestureDetector(
+                                                                        onTap: () async {
+                                                                          WriteBatch batch = FirebaseFirestore.instance.batch();
+                                                                          DateTime now = DateTime.now();
+                                                                          if ((today.timeZoneOffset.inMinutes/60) != storeTimeZone) {
+                                                                            setStoreId('').then((_) {
+                                                                              showOkAlertDialog(
+                                                                                  context: OneContext().context!,
+                                                                                  title: 'Timezone mismatched',
+                                                                                  message: 'Your store timezone and you current local timezone are not match. Please change it first and restart.'
+                                                                              ).then((result) async {
+                                                                                if (Platform.isAndroid) {
+                                                                                  SystemNavigator.pop();
+                                                                                } else if (Platform.isIOS) {
+                                                                                  exit(0);
+                                                                                }
+                                                                              });
+                                                                            });
+                                                                          } else {
+                                                                            discountAmount = discount;
+                                                                            //now = now.subtract(Duration(minutes: calHourFromTZ(now)));
+                                                                            int length = 0;
+                                                                            int totalOrders = 0;
+                                                                            int debts = 0;
+                                                                            String ttlPrice = '0';
+                                                                            bool reFilter = false;
+                                                                            bool deFilter = false;
+                                                                            double ttlDiscount = 0;
+                                                                            double debtAmounts = 0 ;
+                                                                            mystate(() {
+                                                                              setState(() {
+                                                                                orderCreating = true;
+                                                                                _willPopCallback = false;
+                                                                                disableTouch = true;
+                                                                                //    saleCartDrag = false;
+                                                                              });
+                                                                            });
+
+                                                                            Navigator.of(context).push(
+                                                                                FadeRoute(page: Transparent(key: tranGlobalKey),)
+                                                                            );
+
+                                                                            debugPrint('order creating');
+
+                                                                            DocumentReference nonceRef = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('nonce_doc').collection('nonce_col').doc();
+                                                                            batch.set(nonceRef, {
+                                                                              'time': FieldValue.serverTimestamp(),
+                                                                            });
+
+                                                                            FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('ordsCnt')
+                                                                                .get().then((value) async {
+                                                                              length = int.parse(value.data()!['count'].toString());
+                                                                              debugPrint('lengthsss' + length.toString());
+                                                                              length = length + 1;
+
+                                                                              orderLength = length;
+
+                                                                              debugPrint('CHECK POINT 0' + deviceIdNum.toString());
+                                                                              debugPrint('CHECK POINT 1');
+
+                                                                              // batch = await updateOrderLength(batch);
+
+                                                                              debugPrint('datacheck' + prodList.toString());
+                                                                              ttlPrice = TtlProdListPrice();
+                                                                              subList = [];
+                                                                              DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('prodSaleData').doc(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()));
+                                                                              DocumentReference prodsMonthly = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('prodMthData').doc(now.year.toString() + zeroToTen(now.month.toString()));
+                                                                              DocumentReference prodsYearly = FirebaseFirestore.instance.collection('shops').doc(shopId).collection('prodYearData').doc(now.year.toString());
+
+                                                                              for (int k=0; k< prodList.length;  k++) {
+                                                                                if(isDiscount == 'amount') {
+                                                                                  ttlDiscount = (double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())) * (discountAmount / double.parse(TtlProdListPriceInit().toString()));
+                                                                                } else if(isDiscount == 'percent') {
+                                                                                  ttlDiscount = (double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())) * (discountAmount / 100);
+                                                                                } else {
+                                                                                  ttlDiscount = 0;
+                                                                                }
+                                                                                subList.add(prodList[k].split('^')[0] + '^' + prodList[k].split('^')[6] + '^' + prodList[k].split('^')[7] + '^' + prodList[k].split('^')[4] +'^' + prodList[k].split('^')[2] + '^' + prodList[k].split('^')[3] +'^' + prodList[k].split('^')[1] + '^0^' + prodList[k].split('^')[8]);
+
+                                                                                if(prodList[k].split('^')[3] == 'unit_name') {
+                                                                                  batch = await decStockFromInv(batch, prodList[k].split('^')[0], 'im', prodList[k].split('^')[4]);
+                                                                                  debugPrint('Total Wrong2 '+ TtlProdListPriceInit().toString()+ ', ' + ttlDiscount.toString());
+                                                                                  batch.set(
+                                                                                      prodsArr,
+                                                                                      {
+                                                                                        'date' : now,
+                                                                                        'prods': {
+                                                                                          prodList[k].split('^')[0].toString(): {
+                                                                                            'dm' : FieldValue.increment(ttlDiscount),
+                                                                                            'im': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                            'sm' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                            'bm' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                          }
+                                                                                        }
+                                                                                      },SetOptions(merge: true)
+                                                                                  );
+
+                                                                                  batch.set(
+                                                                                      prodsMonthly,
+                                                                                      {
+                                                                                        'date' : now,
+                                                                                        'prods': {
+                                                                                          prodList[k].split('^')[0].toString(): {
+                                                                                            'dm' : FieldValue.increment(ttlDiscount),
+                                                                                            'im': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                            'sm' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                            'bm' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
+                                                                                          }
+                                                                                        }
+                                                                                      },SetOptions(merge: true)
+                                                                                  );
+
+                                                                                  batch.set(
+                                                                                      prodsYearly,
+                                                                                      {
+                                                                                        'date' : now,
+                                                                                        'prods': {
+                                                                                          prodList[k].split('^')[0].toString(): {
+                                                                                            'dm' : FieldValue.increment(ttlDiscount),
+                                                                                            'im': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                            'sm' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                            'bm' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
+
+                                                                                          }
+                                                                                        }
+                                                                                      },SetOptions(merge: true)
+                                                                                  );
+                                                                                  debugPrint('decStock ' + prodList[k].split('^')[0].toString());
+                                                                                  //decStockFromInv(str.split('^')[0], 'main', str.split('^')[4]);
+                                                                                  //batch = await updateB2(batch, prodList[k].split('^')[0], double.parse(prodList[k].split('^')[4].toString()));
+                                                                                  // if ( k == prodList.length-1) {
+                                                                                  //   batch.commit();
+                                                                                  // }
+                                                                                  //debugPrint('batch complete');
+                                                                                  // prodSaleData(str.split('^')[0], double.parse(str.split('^')[4].toString()));
+                                                                                }
+                                                                                else if(prodList[k].split('^')[3] == 'sub1_name') {
+                                                                                  debugPrint('decStock1 ' + prodList[k].split('^')[9].toString());
+                                                                                  batch = await sub1Execution(batch, prodList[k].split('^')[9], prodList[k].split('^')[10], prodList[k].split('^')[0], prodList[k].split('^')[4]);
+                                                                                  batch.set(
+                                                                                      prodsArr,
+                                                                                      {
+                                                                                        'date' : now,
+                                                                                        'prods': {
+                                                                                          prodList[k].split('^')[0].toString(): {
+                                                                                            'd1' : FieldValue.increment(ttlDiscount),
+                                                                                            'i1': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                            's1' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                            'b1' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
+
+                                                                                          }
+                                                                                        }
+                                                                                      },SetOptions(merge: true)
+                                                                                  );
+                                                                                  batch.set(
+                                                                                      prodsMonthly,
+                                                                                      {
+                                                                                        'date' : now,
+                                                                                        'prods': {
+                                                                                          prodList[k].split('^')[0].toString(): {
+                                                                                            'd1' : FieldValue.increment(ttlDiscount),
+                                                                                            'i1': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                            's1' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                            'b1' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
+
+                                                                                          }
+                                                                                        }
+                                                                                      },SetOptions(merge: true)
+                                                                                  );
+
+                                                                                  batch.set(
+                                                                                      prodsYearly,
+                                                                                      {
+                                                                                        'date' : now,
+                                                                                        'prods': {
+                                                                                          prodList[k].split('^')[0].toString(): {
+                                                                                            'd1' : FieldValue.increment(ttlDiscount),
+                                                                                            'i1': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                            's1' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                            'b1' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
+
+                                                                                          }
+                                                                                        }
+                                                                                      },SetOptions(merge: true)
+                                                                                  );
+                                                                                  // productsFire.doc(prodList[k].split('^')[0]).update({
+                                                                                  //   'sub1SellUnit' : FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                  //});
+                                                                                }
+                                                                                else if(prodList[k].split('^')[3] == 'sub2_name') {
+                                                                                  batch = await sub2Execution(batch, prodList[k].split('^')[9], prodList[k].split('^')[10], prodList[k].split('^')[0], prodList[k].split('^')[4]);
+                                                                                  batch.set(
+                                                                                      prodsArr,
+                                                                                      {
+                                                                                        'date' : now,
+                                                                                        'prods': {
+                                                                                          prodList[k].split('^')[0].toString(): {
+                                                                                            'd2' : FieldValue.increment(ttlDiscount),
+                                                                                            'i2': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                            's2' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                            'b2' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
+
+                                                                                          }
+                                                                                        }
+                                                                                      },SetOptions(merge: true)
+                                                                                  );
+                                                                                  batch.set(
+                                                                                      prodsMonthly,
+                                                                                      {
+                                                                                        'date' : now,
+                                                                                        'prods': {
+                                                                                          prodList[k].split('^')[0].toString(): {
+                                                                                            'd2' : FieldValue.increment(ttlDiscount),
+                                                                                            'i2': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                            's2' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                            'b2' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
+
+                                                                                          }
+                                                                                        }
+                                                                                      },SetOptions(merge: true)
+                                                                                  );
+
+                                                                                  batch.set(
+                                                                                      prodsYearly,
+                                                                                      {
+                                                                                        'date' : now,
+                                                                                        'prods': {
+                                                                                          prodList[k].split('^')[0].toString(): {
+                                                                                            'd2' : FieldValue.increment(ttlDiscount),
+                                                                                            'i2': FieldValue.increment(double.parse(prodList[k].split('^')[4].toString())),
+                                                                                            's2' : FieldValue.increment(double.parse(prodList[k].split('^')[2].toString()) * double.parse(prodList[k].split('^')[4].toString())),
+                                                                                            'b2' : FieldValue.increment(double.parse(prodList[k].split('^')[1].toString()) * double.parse(prodList[k].split('^')[4].toString()))
+
+                                                                                          }
+                                                                                        }
+                                                                                      },SetOptions(merge: true)
+                                                                                  );
+                                                                                  // productsFire.doc(str.split('^')[0]).update({
+                                                                                  //   'sub2SellUnit' : FieldValue.increment(double.parse(str.split('^')[4].toString())),
+                                                                                  // });
+                                                                                }
+                                                                              }
+
+                                                                              batch = await updateOrderLength(batch);
+
+                                                                              if( debt.toString() != '0.0') {
+                                                                                debts = 1;
+                                                                                debtAmounts = debt;
+                                                                                deFilter = true;
+                                                                              } else {
+                                                                                debts = 0;
+                                                                                debtAmounts = 0;
+                                                                                deFilter = false;
+                                                                              }
+
+                                                                              debugPrint('subList ' + subList.toString());
+
+                                                                              totalOrders = totalOrders + 1;
+                                                                              //CusOrder(totalOrders, debts, debtAmounts);
+
+                                                                              batch = await updateCusOrder(batch, totalOrders, debts, debtAmounts);
+
+                                                                              DateTime ordCntDate = DateFormat("yyyy-MM-dd HH:mm:ss").parse(now.year.toString() + '-' + zeroToTen(now.month.toString()) + '-' + zeroToTen(now.day.toString()) + ' 12:00:00');
+                                                                              //notworking
+                                                                              batch = await updateMonthlyData(batch, now.year.toString() + zeroToTen(now.month.toString()),  now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'debt_cust', now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + 'capital',ttlPrice.toString(), debtAmounts, TtlProdListBuyPrice().toString(), ordCntDate);
+                                                                              //notworking
+                                                                              batch = await updateYearlyData(batch, now.year.toString(),  now.year.toString() +  zeroToTen(now.month.toString())  + 'cash_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'debt_cust', now.year.toString() +  zeroToTen(now.month.toString())  + 'capital', ttlPrice.toString(), debtAmounts, TtlProdListBuyPrice().toString(), ordCntDate);
+
+                                                                              //notworking
+                                                                              batch = await updateDetail(batch, now, length.toString(), subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, ttlPrice.toString(), customerId.split('^')[0].toString());
+                                                                              batch = await DatenotExist(batch, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + ttlPrice.toString() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, now, length.toString());
+
+
+                                                                              // if (dateExist) {
+                                                                              //   //   String ttlProdListPriceFut = await TtlProdListPriceFut();
+                                                                              //   batch = await updateDateExist(batch,dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), length.toString());
+                                                                              //   batch = await updateDetail(batch,now, length.toString(), subList, dateId, reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, TtlProdListPrice().toString(), customerId.split('^')[0].toString());
+                                                                              //
+                                                                              //   //addDateExist(dateId, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()) + '^' + deviceIdNum.toString() + '-' + length.toString() + '^' + TtlProdListPrice() + '^' + customerId.split('^')[0]+ '<>' + customerId.split('^')[1] + '^F' + '^' + debt.toString() + '^' + discountAmount.toString() + disText, length.toString());
+                                                                              //   //Detail(now, length.toString(), subList, dateId, reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
+                                                                              //   debugPrint('adddateexist added');
+                                                                              // }
+                                                                              // else {
+                                                                              //   // String ttlProdListPriceFut = await TtlProdListPriceFut();
+                                                                              //   batch = await updateDetail(batch, now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), discountAmount.toString() + disText.toString(), debt, TtlProdListPrice().toString(), customerId.split('^')[0].toString());
+                                                                              //   DatenotExist(now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()), now, length.toString());
+                                                                              //   //Detail(now, length.toString(),subList, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) +  deviceIdNum.toString(), reFilter, deFilter, now.year.toString() + zeroToTen(now.month.toString()) + zeroToTen(now.day.toString()) + zeroToTen(now.hour.toString()) + zeroToTen(now.minute.toString()));
+                                                                              //   debugPrint('adddateexist not');
+                                                                              // }
+                                                                              debugPrint('prodList--' + prodList.toString());
+                                                                              try {
+                                                                                batch.commit();
+                                                                                Future.delayed(const Duration(milliseconds: 2000), () {
+                                                                                  if(searchGlobalKey.currentState != null) {
+                                                                                    searchGlobalKey.currentState!.navigatorPop();
+                                                                                  }
+                                                                                  if(prodGlobalKey.currentState != null) {
+                                                                                    prodGlobalKey.currentState!.navigatorPop();
+                                                                                  }
+                                                                                  List<String> subNameList = [];
+                                                                                  int subNameListLength = 0;
+                                                                                  for (String str in prodList) {
+                                                                                    subNameListLength = subNameListLength + 1;
+                                                                                    subNameList.add(str.split('^')[7]);
+                                                                                    if(prodList.length == subNameListLength) {
+                                                                                      debugPrint('fianlize : ' + subNameList.toString());
+                                                                                      // final date = DateTime.now();
+                                                                                      final date = now;
+                                                                                      final dueDate = date.add(Duration(days: 7));
+                                                                                      debugPrint('CUZMER CHECK ' + customerId.toString());
+                                                                                      for(int i=0; i<prodList.length; i++) {
+                                                                                        productSale.add(prodList[i].split('^')[6].toString() + '^' +subNameList[i].toString() + '^' + prodList[i].split('^')[2].toString() + '^' + prodList[i].split('^')[4].toString());
+                                                                                      }
+                                                                                      saleInfo = discountAmount.toString()  + '^' + disText.toString()  + '^' + debt.toString() + '^' + customerId.split('^')[1].toString();
+                                                                                      final invoice = Invoice(
+                                                                                        supplier: Supplier(
+                                                                                          name: shopGloName,
+                                                                                          address: shopGloAddress,
+                                                                                          phone: shopGloPhone,
+                                                                                          paymentInfo: '',
+                                                                                        ),
+                                                                                        customer: Customer(
+                                                                                          name: customerId.split('^')[1] == 'name'? 'No customer' :customerId.split('^')[1],
+                                                                                          address: '',
+                                                                                        ),
+                                                                                        info: InvoiceInfo(
+                                                                                            date: date,
+                                                                                            dueDate: dueDate,
+                                                                                            description: 'My description...',
+                                                                                            // number: '${DateTime.now().year}-9999',
+                                                                                            number: deviceIdNum.toString() + '-' + length.toString()
+                                                                                        ),
+                                                                                        items: [
+
+                                                                                          for(int i=0; i<prodList.length; i++)
+                                                                                            InvoiceItem(
+                                                                                              description: prodList[i].split('^')[6],
+                                                                                              // date: prodList[i].split('^')[3] + '^' + subNameList[i].toString(),
+                                                                                              date: subNameList[i].toString(),
+                                                                                              quantity: double.parse(prodList[i].split('^')[4]),
+                                                                                              vat: discountAmount,
+                                                                                              debt: debt,
+                                                                                              type: disText,
+                                                                                              unitPrice: double.parse(prodList[i].split('^')[2]),
+                                                                                              currencyUnit: currencyUnit,
+                                                                                              totalPriceText: totalVPrice,
+                                                                                              paidText: VPaid,
+                                                                                              totalDebtText: VDebt,
+                                                                                              subTotalText: subVTotal,
+                                                                                              discountText: VDiscount,
+                                                                                            )
+
+                                                                                          // InvoiceItem(
+                                                                                          //   description: 'Water',
+                                                                                          //   date: DateTime.now(),
+                                                                                          //   quantity: 8,
+                                                                                          //   vat: 0.19,
+                                                                                          //   unitPrice: 0.99,
+                                                                                          // ),
+                                                                                          // InvoiceItem(
+                                                                                          //   description: 'Orange',
+                                                                                          //   date: DateTime.now(),
+                                                                                          //   quantity: 3,
+                                                                                          //   vat: 0.19,
+                                                                                          //   unitPrice: 2.99,
+                                                                                          // ),
+                                                                                          // InvoiceItem(
+                                                                                          //   description: 'Apple',
+                                                                                          //   date: DateTime.now(),
+                                                                                          //   quantity: 8,
+                                                                                          //   vat: 0.19,
+                                                                                          //   unitPrice: 3.99,
+                                                                                          // ),
+                                                                                          // InvoiceItem(
+                                                                                          //   description: 'Mango',
+                                                                                          //   date: DateTime.now(),
+                                                                                          //   quantity: 1,
+                                                                                          //   vat: 0.19,
+                                                                                          //   unitPrice: 1.59,
+                                                                                          // ),
+                                                                                          // InvoiceItem(
+                                                                                          //   description: 'Blue Berries',
+                                                                                          //   date: DateTime.now(),
+                                                                                          //   quantity: 5,
+                                                                                          //   vat: 0.19,
+                                                                                          //   unitPrice: 0.99,
+                                                                                          // ),
+                                                                                          // InvoiceItem(
+                                                                                          //   description: 'Black',
+                                                                                          //   date: DateTime.now(),
+                                                                                          //   quantity: 4,
+                                                                                          //   vat: 0.19,
+                                                                                          //   unitPrice: 1.29,
+                                                                                          // ),
+                                                                                        ],
+                                                                                      );
+                                                                                      sellDone = true;
+                                                                                      //_controllerTablet.animateTo(0);
+
+                                                                                      getPaperId().then((value) async {
+                                                                                        debugPrint('VVAALLUUEE ' + value.toString());
+                                                                                        pdfFile = await PdfInvoiceApi.generate(invoice, value, isEnglish);
+
+                                                                                        Uint8List bytes = pdfFile!.readAsBytesSync();
+
+
+                                                                                        Future.delayed(const Duration(milliseconds: 1000), () {
+                                                                                          _controller.animateTo(3, duration: Duration(milliseconds: 0), curve: Curves.ease);
+                                                                                          setState(() {
+                                                                                            mystate(() {
+                                                                                              pdfText = pdfFile!.path.toString();
+                                                                                              orderCreating = false;
+                                                                                              disableTouch = false;
+                                                                                              _willPopCallback = true;
+                                                                                              // saleCartDrag = false;
+                                                                                            });
+                                                                                          });
+
+                                                                                          if(tranGlobalKey.currentState != null) {
+                                                                                            tranGlobalKey.currentState!.disLoading();
+                                                                                          }
+                                                                                        });
+                                                                                      });
+                                                                                    }
+                                                                                  }
+                                                                                });
+                                                                              } catch(error) {
+                                                                                debugPrint('error while creating orders');
+                                                                                smartKyatFlash('An error occurred while creating order. Please try again later.', 'e');
+                                                                                setState(() {
+                                                                                  mystate(() {
+                                                                                    orderCreating = false;
+                                                                                    disableTouch = false;
+                                                                                    _willPopCallback = true;
+                                                                                    // saleCartDrag = false;
+                                                                                  });
+                                                                                });
+                                                                              }
+
+
+
+
+
+
+                                                                            });
+                                                                          }
+                                                                        },
+                                                                        child: Container(
+                                                                          width: (MediaQuery.of(context).size.width - 45)/2,
+                                                                          height: 50,
+                                                                          decoration: BoxDecoration(
+                                                                              borderRadius:
+                                                                              BorderRadius.circular(10.0),
+                                                                              color: AppTheme.themeColor),
+                                                                          child: Row(
+                                                                            mainAxisAlignment:
+                                                                            MainAxisAlignment
+                                                                                .center,
+                                                                            children: [
+                                                                              Expanded(
+                                                                                  child: orderCreating? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+                                                                                      child: CupertinoActivityIndicator(radius: 10,)): Padding(
+                                                                                    padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 3.0),
+                                                                                    child: Container(
+                                                                                        child: Text(
+                                                                                          textSetDone,
+                                                                                          textScaleFactor: 1, textAlign: TextAlign.center,
+                                                                                          style: TextStyle(
+                                                                                              fontSize: 17.5,
+                                                                                              fontWeight: FontWeight.w500,
+                                                                                              color: Colors.black
+                                                                                          ),
+                                                                                          strutStyle: StrutStyle(
+                                                                                            height: 1.3,
+                                                                                            // fontSize:,
+                                                                                            forceStrutHeight: true,
+                                                                                          ),
+                                                                                        )
+                                                                                    ),
+                                                                                  )
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ]
+                                                                )
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -13629,9 +13635,9 @@ class HomePageState extends State<HomePage>
                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
                                                         Text(customerId.split('^')[1] == 'name'? textSetNoCust :customerId.split('^')[1], style: TextStyle(
-                                                          fontWeight: FontWeight.w500,
-                                                          color: Colors.grey,
-                                                          overflow: TextOverflow.ellipsis
+                                                            fontWeight: FontWeight.w500,
+                                                            color: Colors.grey,
+                                                            overflow: TextOverflow.ellipsis
                                                         ),textScaleFactor: 1, maxLines: 1,
                                                             strutStyle: StrutStyle(
                                                                 forceStrutHeight: true,
@@ -16526,8 +16532,8 @@ class Items {
 
   factory Items.fromJson(Map<String, dynamic> json){
     return Items(
-        title: json['title'],
-        thumbnail_url: json['thumbnail_url'],
+      title: json['title'],
+      thumbnail_url: json['thumbnail_url'],
     );
   }
 }
