@@ -195,10 +195,18 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
     widget._openDrawer('home');
   }
 
+  bool firstTime = true;
+  double homeBotPadding = 0;
+
 
 
   @override
   Widget build(BuildContext context) {
+    if(firstTime) {
+      homeBotPadding = MediaQuery.of(context).padding.bottom;
+      firstTime = false;
+    }
+
     return BlocBuilder<PaginationCubit, PaginationState>(
       bloc: _cubit,
       builder: (context, state) {
@@ -235,7 +243,22 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
           //     ),
           //   );
           // }
-          return _buildListView(loadedState);
+          return Column(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.width > 900 ? 0 + 20: homeBotPadding),
+                  child: _buildListView(loadedState),
+                ),
+              ),
+              Container(
+                color: Colors.white,
+                // height: MediaQuery.of(context).viewInsets.bottom,
+                // height: MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding,
+                height: MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding < 0? 0:  MediaQuery.of(context).viewInsets.bottom - 60 - homeBotPadding,
+              ),
+            ],
+          );
         }
       },
     );
@@ -405,6 +428,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
           // Display a placeholder widget to visualize the shrinking size.
           // Make the initial height of the SliverAppBar larger than normal.
           expandedHeight: 20,
+          automaticallyImplyLeading: false
         ),
         SliverList(
           // Use a delegate to build items as they're scrolled on screen.
@@ -1352,7 +1376,7 @@ class _BlocDayOverviewState extends State<BlocDayOverview> {
                                   }
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 25.0, top: 10),
+                                padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 16.0, top: 10),
                                 child: ButtonTheme(
                                   minWidth: width,
                                   splashColor: Colors.transparent,
