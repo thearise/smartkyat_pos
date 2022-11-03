@@ -132,7 +132,7 @@ class ProdSaleSumHomeState extends State<ProdSaleSumHome>
           color: Colors.Colors.white,
           child: SafeArea(
             top: true,
-            bottom: true,
+            bottom: false,
             child: Container(
               // width: MediaQuery.of(context).size.width > 900
               //     ? MediaQuery.of(context).size.width * (2 / 3.5)

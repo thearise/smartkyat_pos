@@ -743,207 +743,195 @@ class OverviewPageState extends State<OverviewPage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        brightness: Brightness.light,
-        toolbarHeight: 0,
-        backgroundColor: Colors.Colors.white,
-        elevation: 0,
-      ),
-      body: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).unfocus();
-        },
-        child: Container(
-          color: Colors.Colors.white,
-          child: SafeArea(
-            top: true,
-            bottom: true,
-            child: Container(
-              child: Stack(
-                children: [
-                  Container(
-                    height: 81,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                        border: Border(
-                            bottom: BorderSide(
-                                color: Colors.Colors.grey.withOpacity(0.3),
-                                width: 1.0))),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(height: 16),
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 10.0),
-                                    child: Text(
-                                      selectDaysCast(), textScaleFactor: 1,
-                                      maxLines: 1,
-                                      textAlign: TextAlign.right,
-                                      style: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w500,
-                                          overflow: TextOverflow.ellipsis
-                                        // height: 1.5
-                                      ),
-                                      strutStyle: StrutStyle(
-                                        height: 1.4,
-                                        // fontSize:,
-                                        forceStrutHeight: true,
-                                      ),
-                                    ),
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Container(
+        color: Colors.Colors.white,
+        child: SafeArea(
+          top: true,
+          bottom: false,
+          child: Column(
+            children: [
+              Container(
+                height: 81,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(
+                            color: Colors.Colors.grey.withOpacity(0.3),
+                            width: 1.0))),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 16),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 10.0),
+                                child: Text(
+                                  selectDaysCast(), textScaleFactor: 1,
+                                  maxLines: 1,
+                                  textAlign: TextAlign.right,
+                                  style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w500,
+                                      overflow: TextOverflow.ellipsis
+                                    // height: 1.5
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 0.0, right: 10.0),
-                                    child: Text(
-                                      widget.isEnglish? "Ongoing sale reports": "လက်ရှိ ရောင်းဝယ် အချုပ်", textScaleFactor: 1,
-                                      maxLines: 1,
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w500,
-                                        overflow: TextOverflow.ellipsis,
-                                        // height: 1.3
-                                      ),
-                                      strutStyle: StrutStyle(
-                                        height: 1.7,
-                                        // fontSize:,
-                                        forceStrutHeight: true,
-                                      ),
-                                    ),
+                                  strutStyle: StrutStyle(
+                                    height: 1.4,
+                                    // fontSize:,
+                                    forceStrutHeight: true,
                                   ),
-                                ],
+                                ),
                               ),
-                            ),
-                            // child: Text(textSetTotalSales, textScaleFactor: 1,
-                            //   style: TextStyle(
-                            //     fontSize: 23,
-                            //     fontWeight: FontWeight.w500,
-                            //     overflow: TextOverflow.ellipsis,
-                            //   ),),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 0.0, left:15.0),
-                            child: GestureDetector(
-                              onTap: () {
-                                widget._howToCart();
-                              },
-                              child: Container(
-                                height: 30,
-                                width: 80,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(8.0),
-                                    ),
-                                    color: Colors.Colors.grey.withOpacity(0.3)),
-                                child: Text(widget.isEnglish? 'How to ?': 'လမ်းညွှန်' + ' ?', style: TextStyle(
+                              Padding(
+                                padding: const EdgeInsets.only(left: 0.0, right: 10.0),
+                                child: Text(
+                                  widget.isEnglish? "Ongoing sale reports": "လက်ရှိ ရောင်းဝယ် အချုပ်", textScaleFactor: 1,
+                                  maxLines: 1,
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    fontSize: 18,
                                     fontWeight: FontWeight.w500,
-                                    fontSize: 13
-                                ),textScaleFactor: 1, ),
+                                    overflow: TextOverflow.ellipsis,
+                                    // height: 1.3
+                                  ),
+                                  strutStyle: StrutStyle(
+                                    height: 1.7,
+                                    // fontSize:,
+                                    forceStrutHeight: true,
+                                  ),
+                                ),
                               ),
-                            ),
+                            ],
                           ),
-                        ],
+                        ),
+                        // child: Text(textSetTotalSales, textScaleFactor: 1,
+                        //   style: TextStyle(
+                        //     fontSize: 23,
+                        //     fontWeight: FontWeight.w500,
+                        //     overflow: TextOverflow.ellipsis,
+                        //   ),),
                       ),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 81.0),
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: 0.0, left: 0.0, right: 0.0),
-
-                        child: cateScIndex == 0 ? BlocDayOverviewImp.BlocDayOverview(
-                          isEnglish: widget.isEnglish,
-                          dateTime: today,
-                          key: valueKeyTog(),
-                          shopId: widget.shopId,
-                          openDrawer : widget._openDrawerBtn,
-                          closeDrawer : widget._closeDrawerBtn,
-                          query: ordersQueryMonth(),
-                          itemBuilder: (context1, documentSnapshots, index) {
-                            Map<String, dynamic> data = documentSnapshots[index].data() as Map<String, dynamic>;
-
-                            String item = zeroToTen(data['date'].toDate().year.toString()) + ' ' + zeroToTen(data['date'].toDate().month.toString()) + ' ' + zeroToTen(data['date'].toDate().day.toString()) + ' ' + zeroToTen(data['date'].toDate().hour.toString()) + ' ' + zeroToTen(data['date'].toDate().minute.toString());
-                            return Container(child: Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: Text('items ' + item.toString()),
-                            ));
+                      Padding(
+                        padding: const EdgeInsets.only(top: 0.0, left:15.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            widget._howToCart();
                           },
-                          resetState: resetState,
-                          selectedIntVal: selectedIntVal,
-                          intValIni : cateScIndex,
-                          itemBuilderType:
-                          BlocDayOverviewImp.PaginateBuilderType.listView,
-                          isLive: true,
-                        ):
-                            cateScIndex == 1 ? Container(
-                              child: BlocDayOverviewImp.BlocDayOverview(
-                                isEnglish: widget.isEnglish,
-                                dateTime: today,
-                                key: valueKeyTog(),
-                                shopId: widget.shopId,
-                                openDrawer : widget._openDrawerBtn,
-                                closeDrawer : widget._closeDrawerBtn,
-                                query: ordersQueryMonth(),
-                                itemBuilder: (context1, documentSnapshots, index) {
-                                  Map<String, dynamic> data = documentSnapshots[index].data() as Map<String, dynamic>;
-
-                                  String item = zeroToTen(data['date'].toDate().year.toString()) + ' ' + zeroToTen(data['date'].toDate().month.toString()) + ' ' + zeroToTen(data['date'].toDate().day.toString()) + ' ' + zeroToTen(data['date'].toDate().hour.toString()) + ' ' + zeroToTen(data['date'].toDate().minute.toString());
-                                  return Container(child: Padding(
-                                    padding: const EdgeInsets.all(20.0),
-                                    child: Text('items ' + item.toString()),
-                                  ));
-                                },
-                                resetState: resetState,
-                                selectedIntVal: selectedIntVal,
-                                intValIni : cateScIndex,
-                                itemBuilderType:
-                                BlocDayOverviewImp.PaginateBuilderType.listView,
-                                isLive: true,
-                              ),
-                            ):
-                        BlocYearOverviewImp.BlocYearOverview(
-                          isEnglish: widget.isEnglish,
-                          dateTime: today,
-                          key: valueKeyTog(),
-                          shopId: widget.shopId,
-                          openDrawer : widget._openDrawerBtn,
-                          closeDrawer : widget._closeDrawerBtn,
-                          query: ordersQueryYear(),
-                          itemBuilder: (context1, documentSnapshots, index) {
-                            Map<String, dynamic> data = documentSnapshots[index].data() as Map<String, dynamic>;
-
-                            String item = zeroToTen(data['date'].toDate().year.toString()) + ' ' + zeroToTen(data['date'].toDate().month.toString()) + ' ' + zeroToTen(data['date'].toDate().day.toString()) + ' ' + zeroToTen(data['date'].toDate().hour.toString()) + ' ' + zeroToTen(data['date'].toDate().minute.toString());
-                            return Container(child: Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: Text('items ' + item.toString()),
-                            ));
-                          },
-                          resetState: resetState,
-                          selectedIntVal: selectedIntVal,
-                          intValIni : cateScIndex,
-                          itemBuilderType:
-                          BlocYearOverviewImp.PaginateBuilderType.listView,
-                          isLive: true,
+                          child: Container(
+                            height: 30,
+                            width: 80,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(8.0),
+                                ),
+                                color: Colors.Colors.grey.withOpacity(0.3)),
+                            child: Text(widget.isEnglish? 'How to ?': 'လမ်းညွှန်' + ' ?', style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 13
+                            ),textScaleFactor: 1, ),
+                          ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      top: 0.0, left: 0.0, right: 0.0),
+
+                  child: cateScIndex == 0 ? BlocDayOverviewImp.BlocDayOverview(
+                    isEnglish: widget.isEnglish,
+                    dateTime: today,
+                    key: valueKeyTog(),
+                    shopId: widget.shopId,
+                    openDrawer : widget._openDrawerBtn,
+                    closeDrawer : widget._closeDrawerBtn,
+                    query: ordersQueryMonth(),
+                    itemBuilder: (context1, documentSnapshots, index) {
+                      Map<String, dynamic> data = documentSnapshots[index].data() as Map<String, dynamic>;
+
+                      String item = zeroToTen(data['date'].toDate().year.toString()) + ' ' + zeroToTen(data['date'].toDate().month.toString()) + ' ' + zeroToTen(data['date'].toDate().day.toString()) + ' ' + zeroToTen(data['date'].toDate().hour.toString()) + ' ' + zeroToTen(data['date'].toDate().minute.toString());
+                      return Container(child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Text('items ' + item.toString()),
+                      ));
+                    },
+                    resetState: resetState,
+                    selectedIntVal: selectedIntVal,
+                    intValIni : cateScIndex,
+                    itemBuilderType:
+                    BlocDayOverviewImp.PaginateBuilderType.listView,
+                    isLive: true,
+                  ):
+                  cateScIndex == 1 ? Container(
+                    child: BlocDayOverviewImp.BlocDayOverview(
+                      isEnglish: widget.isEnglish,
+                      dateTime: today,
+                      key: valueKeyTog(),
+                      shopId: widget.shopId,
+                      openDrawer : widget._openDrawerBtn,
+                      closeDrawer : widget._closeDrawerBtn,
+                      query: ordersQueryMonth(),
+                      itemBuilder: (context1, documentSnapshots, index) {
+                        Map<String, dynamic> data = documentSnapshots[index].data() as Map<String, dynamic>;
+
+                        String item = zeroToTen(data['date'].toDate().year.toString()) + ' ' + zeroToTen(data['date'].toDate().month.toString()) + ' ' + zeroToTen(data['date'].toDate().day.toString()) + ' ' + zeroToTen(data['date'].toDate().hour.toString()) + ' ' + zeroToTen(data['date'].toDate().minute.toString());
+                        return Container(child: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Text('items ' + item.toString()),
+                        ));
+                      },
+                      resetState: resetState,
+                      selectedIntVal: selectedIntVal,
+                      intValIni : cateScIndex,
+                      itemBuilderType:
+                      BlocDayOverviewImp.PaginateBuilderType.listView,
+                      isLive: true,
+                    ),
+                  ):
+                  BlocYearOverviewImp.BlocYearOverview(
+                    isEnglish: widget.isEnglish,
+                    dateTime: today,
+                    key: valueKeyTog(),
+                    shopId: widget.shopId,
+                    openDrawer : widget._openDrawerBtn,
+                    closeDrawer : widget._closeDrawerBtn,
+                    query: ordersQueryYear(),
+                    itemBuilder: (context1, documentSnapshots, index) {
+                      Map<String, dynamic> data = documentSnapshots[index].data() as Map<String, dynamic>;
+
+                      String item = zeroToTen(data['date'].toDate().year.toString()) + ' ' + zeroToTen(data['date'].toDate().month.toString()) + ' ' + zeroToTen(data['date'].toDate().day.toString()) + ' ' + zeroToTen(data['date'].toDate().hour.toString()) + ' ' + zeroToTen(data['date'].toDate().minute.toString());
+                      return Container(child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Text('items ' + item.toString()),
+                      ));
+                    },
+                    resetState: resetState,
+                    selectedIntVal: selectedIntVal,
+                    intValIni : cateScIndex,
+                    itemBuilderType:
+                    BlocYearOverviewImp.PaginateBuilderType.listView,
+                    isLive: true,
+                  ),
+                ),
+              ),
+              // Container(
+              //   height: MediaQuery.of(context).padding.bottom,
+              // )
+            ],
           ),
         ),
       ),
