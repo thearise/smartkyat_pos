@@ -352,7 +352,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
                             icon: Icon(
                               Icons.keyboard_arrow_down_rounded, size: 20, color: Colors.black,
                             ),
-                            hint: Text(paperType),
+                            hint: Text(paperType, textScaleFactor: 1,),
                             value: _selectedTest,
                             items: _dropdownTestItems,
                             onChanged: onChangeDropdownTests,

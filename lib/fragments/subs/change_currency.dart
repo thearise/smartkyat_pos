@@ -888,7 +888,7 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
                             icon: Icon(
                               Icons.keyboard_arrow_down_rounded, size: 20, color: Colors.black,
                             ),
-                            hint: Text(currencyType),
+                            hint: Text(currencyType, textScaleFactor: 1,),
                             value: _selectedTest,
                             items: _dropdownTestItems,
                             onChanged: onChangeDropdownTests,
