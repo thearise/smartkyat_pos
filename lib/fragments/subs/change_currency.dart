@@ -29,7 +29,7 @@ class ChangeCurrency extends StatefulWidget {
 }
 
 class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<ChangeCurrency>{
-  String currencyType = 'Myanmar Kyat (MMK)';
+  String currencyType = 'MMK';
 
   @override
   bool get wantKeepAlive => true;
@@ -665,7 +665,7 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
   onChangeDropdownTests(selectedTest) {
     showOkCancelAlertDialog(
       context: context,
-      title: 'Are you sure you want to change to ' + selectedTest['code'].toString() +'?',
+      title: 'Are you sure you want to change to ' + selectedTest['description'].toString() + ' (' + selectedTest['code'].toString() + ')' +'?',
       message: 'This action will restart the application',
       defaultType: OkCancelAlertDefaultType.cancel,
     ).then((result) async {
