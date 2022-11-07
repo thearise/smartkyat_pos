@@ -95,17 +95,11 @@ class _BuyListRefundState extends State<BuyListRefund>
         });
       }
 
-    getCurrency().then((value){
-      if(value == 'US Dollar (USD)') {
+      getCurrency().then((value){
         setState(() {
-          currencyUnit = 'USD';
+          currencyUnit = value.toString();
         });
-      } else if(value == 'Myanmar Kyat (MMK)') {
-        setState(() {
-          currencyUnit = 'MMK';
-        });
-      }
-    });
+      });
     for(int i=0; i<widget.data2.length; i++) {
       quantityCtrlList.add(TextEditingController());
       quantityCtrlList[i].text = double.parse(widget.data2[i].split('^')[7]).round().toString();

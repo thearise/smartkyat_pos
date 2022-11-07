@@ -204,17 +204,7 @@
 //     _sliding = widget.intValIni;
 //     today = widget.dateTime!;
 //     _dateTime = today;
-//     getCurrency().then((value){
-//       if(value == 'US Dollar (USD)') {
-//         setState(() {
-//           currencyUnit = 'USD';
-//         });
-//       } else if(value == 'Myanmar Kyat (MMK)') {
-//         setState(() {
-//           currencyUnit = 'MMK';
-//         });
-//       }
-//     });
+
 //
 //     if (widget.listeners != null) {
 //       for (var listener in widget.listeners!) {
