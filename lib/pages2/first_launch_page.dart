@@ -22,7 +22,7 @@ class FirstLaunchPage extends StatefulWidget {
 class FirstLaunchPageState extends State<FirstLaunchPage>
     with TickerProviderStateMixin<FirstLaunchPage>{
 
-  String currencyType = 'Myanmar Kyat (MMK)';
+  String currencyType = 'MMK';
   var _result;
   var _shop ;
   bool firstTime = true;
