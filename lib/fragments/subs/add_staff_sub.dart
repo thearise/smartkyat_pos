@@ -522,7 +522,7 @@ class _AddStaffSubState extends State<AddStaffSub> {
                           icon: Icon(
                             Icons.keyboard_arrow_down_rounded, size: 20, color: Colors.black,
                           ),
-                          hint: Text('Cashier'),
+                          hint: Text('Cashier', textScaleFactor: 1,),
                           value: _selectedTest,
                           items: _dropdownTestItems,
                           onChanged: onChangeDropdownTests,

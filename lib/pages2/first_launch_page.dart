@@ -1514,7 +1514,8 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                           itemTextstyle: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
                           boxTextstyle: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
+                              fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black,
+                          ),
                           boxPadding: EdgeInsets.fromLTRB(15, 12, 13, 12),
                           boxWidth: double.infinity,
                           boxHeight: 50,
@@ -1526,7 +1527,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                           icon: Icon(
                             Icons.keyboard_arrow_down_rounded, size: 20, color: Colors.black,
                           ),
-                          hint: Text(currencyType),
+                          hint: Text(currencyType, textScaleFactor: 1,),
                           value: _selectedTest,
                           items: _dropdownTestItems,
                           onChanged: onChangeDropdownTests,
