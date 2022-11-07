@@ -97,15 +97,9 @@ class _PayDebtBuyListState extends State<PayDebtBuyList> {
       }
 
     getCurrency().then((value){
-      if(value == 'US Dollar (USD)') {
-        setState(() {
-          currencyUnit = 'USD';
-        });
-      } else if(value == 'Myanmar Kyat (MMK)') {
-        setState(() {
-          currencyUnit = 'MMK';
-        });
-      }
+   setState(() {
+     currencyUnit = value.toString();
+   });
     });
     debtAmount = double.parse(widget.debt.toString());
     SystemChannels.textInput.invokeMethod('TextInput.hide');

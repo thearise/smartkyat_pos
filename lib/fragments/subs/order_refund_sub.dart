@@ -85,15 +85,9 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
       }
     });
     getCurrency().then((value){
-      if(value == 'US Dollar (USD)') {
-        setState(() {
-          currencyUnit = 'USD';
-        });
-      } else if(value == 'Myanmar Kyat (MMK)') {
-        setState(() {
-          currencyUnit = 'MMK';
-        });
-      }
+      setState(() {
+        currencyUnit = value.toString();
+      });
     });
     for(int i=0; i<widget.data2.length; i++) {
       quantityCtrlList.add(TextEditingController());

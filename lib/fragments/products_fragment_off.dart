@@ -212,15 +212,9 @@ class ProductsFragmentState extends State<ProductsFragment>
     //   });
     // }
     getCurrency().then((value){
-      if(value == 'US Dollar (USD)') {
-        setState(() {
-          currencyUnit = 'USD';
-        });
-      } else if(value == 'Myanmar Kyat (MMK)') {
-        setState(() {
-          currencyUnit = 'MMK';
-        });
-      }
+      setState(() {
+        currencyUnit = value.toString();
+      });
     });
     // _bannerAd = BannerAd(
     //   // Change Banner Size According to Ur Need

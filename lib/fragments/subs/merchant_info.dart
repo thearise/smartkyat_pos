@@ -49,6 +49,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
   int _sliding = 0;
   late TabController _controller;
 
+  String currencyUnit = 'MMK';
   String textSetSaleCart = 'Add to\nbuy cart';
   String textSetPurchasedOrders = 'Purchased\norders';
   String textSetEdit = 'Edit merchant';
@@ -111,6 +112,12 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
         });
       }
 
+      getCurrency().then((value){
+        setState(() {
+          currencyUnit = value.toString();
+        });
+      });
+
     _controller = new TabController(length: 2, vsync: this);
     _controller.addListener((){
       debugPrint('my index is'+ _controller.index.toString());
@@ -125,6 +132,11 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
       }
     });
     super.initState();
+  }
+
+  getCurrency() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('currency');
   }
 
   @override
@@ -683,7 +695,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                             .w500,
                                                       ),),
                                                       Spacer(),
-                                                      Text('MMK ' +
+                                                      Text('$currencyUnit ' +
                                                           debtAmount.toString()
                                                               .replaceAllMapped(
                                                               RegExp(
@@ -1576,7 +1588,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                                       .w500,
                                                                 ),),
                                                                 Spacer(),
-                                                                Text('MMK ' +
+                                                                Text('$currencyUnit ' +
                                                                     debtAmount.toString()
                                                                         .replaceAllMapped(
                                                                         RegExp(

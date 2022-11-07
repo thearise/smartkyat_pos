@@ -99,17 +99,11 @@ class _PayDebtItemsState extends State<PayDebtItems> {
         });
       }
 
-    getCurrency().then((value){
-      if(value == 'US Dollar (USD)') {
+      getCurrency().then((value){
         setState(() {
-          currencyUnit = 'USD';
+          currencyUnit = value.toString();
         });
-      } else if(value == 'Myanmar Kyat (MMK)') {
-        setState(() {
-          currencyUnit = 'MMK';
-        });
-      }
-    });
+      });
     debtAmount = double.parse(widget.debt.toString());
     SystemChannels.textInput.invokeMethod('TextInput.hide');
     _textFieldController.addListener((){

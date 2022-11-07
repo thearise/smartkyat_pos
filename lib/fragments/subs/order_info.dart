@@ -123,15 +123,9 @@ class _OrderInfoSubState extends State<OrderInfoSub>
 
 
     getCurrency().then((value){
-      if(value == 'US Dollar (USD)') {
-        setState(() {
-          currencyUnit = 'USD';
-        });
-      } else if(value == 'Myanmar Kyat (MMK)') {
-        setState(() {
-          currencyUnit = 'MMK';
-        });
-      }
+      setState(() {
+        currencyUnit = value.toString();
+      });
     });
     result = widget.data
         .split('^')[0] +

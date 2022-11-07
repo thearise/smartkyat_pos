@@ -126,15 +126,9 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
     getStoreId().then((value) => shopId = value);
 
     getCurrency().then((value){
-      if(value == 'US Dollar (USD)') {
-        setState(() {
-          currencyUnit = 'USD';
-        });
-      } else if(value == 'Myanmar Kyat (MMK)') {
-        setState(() {
-          currencyUnit = 'MMK';
-        });
-      }
+      setState(() {
+        currencyUnit = value.toString();
+      });
     });
 
       if(widget.isEnglish == true) {

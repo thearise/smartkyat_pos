@@ -169,18 +169,11 @@
 //       }
 //     });
 //
-//     getCurrency().then((value){
-//       if(value == 'US Dollar (USD)') {
-//         setState(() {
-//           currencyUnit = 'USD';
-//         });
-//       } else if(value == 'Myanmar Kyat (MMK)') {
-//         setState(() {
-//           currencyUnit = 'MMK';
-//         });
-//       }
-//     });
-//     initConnectivity();
+// getCurrency().then((value){
+// setState(() {
+// currencyUnit = value.toString();
+// });
+// });//     initConnectivity();
 //     _connectivitySubscription =
 //         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
 //     // debugPrint('WIDGET-' + widget.data);

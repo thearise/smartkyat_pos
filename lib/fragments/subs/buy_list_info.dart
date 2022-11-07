@@ -116,17 +116,11 @@ class _BuyListInfoState extends State<BuyListInfo>
         });
       }
 
-    getCurrency().then((value){
-      if(value == 'US Dollar (USD)') {
+      getCurrency().then((value){
         setState(() {
-          currencyUnit = 'USD';
+          currencyUnit = value.toString();
         });
-      } else if(value == 'Myanmar Kyat (MMK)') {
-        setState(() {
-          currencyUnit = 'MMK';
-        });
-      }
-    });
+      });
     result = widget.data
         .split('^')[0] +
         '^' +

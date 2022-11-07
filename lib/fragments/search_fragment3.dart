@@ -428,15 +428,9 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
 
     // _futureSnapshot = _getDocs();
     getCurrency().then((value){
-      if(value == 'US Dollar (USD)') {
-        setState(() {
-          currencyUnit = 'USD';
-        });
-      } else if(value == 'Myanmar Kyat (MMK)') {
-        setState(() {
-          currencyUnit = 'MMK';
-        });
-      }
+      setState(() {
+        currencyUnit = value.toString();
+      });
     });
     getStoreId().then((value) => shopId = value);
     _searchController.addListener(_onSearchChanged);

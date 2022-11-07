@@ -160,7 +160,6 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
       }
     });
 
-    //debugPrint(selectedTest['keyword'].toString() + ({'no': 1, 'keyword': 'US Dollar (USD)'}).toString() + selectedTest.toString() + ' ' + selectedTest.runtimeType.toString() + ' __ ' + _selectedTest.runtimeType.toString());
   }
 
   addShop(shopName) {
