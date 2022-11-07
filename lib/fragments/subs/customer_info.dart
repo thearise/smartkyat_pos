@@ -39,7 +39,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
 
   int _sliding = 0;
   late TabController _controller;
-
+  String currencyUnit = 'MMK';
 
   String textSetSaleCart = 'Add to\nsale cart';
   String textSetPurchasedOrders = 'Purchased\norders';
@@ -101,6 +101,12 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
       });
     }
 
+    getCurrency().then((value){
+      setState(() {
+        currencyUnit = value.toString();
+      });
+    });
+
     _controller = new TabController(length: 2, vsync: this);
     _controller.addListener((){
       debugPrint('my index is'+ _controller.index.toString());
@@ -119,6 +125,12 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
 
   void printFromOrdersFun(File file, var prodListPR) {
     widget._printFromOrders(file, prodListPR);
+  }
+
+
+  getCurrency() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('currency');
   }
 
   @override
@@ -764,7 +776,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                                         .w500,
                                                                   ),),
                                                                 Spacer(),
-                                                                Text('MMK ' +
+                                                                Text('$currencyUnit ' +
                                                                     debtAmount
                                                                         .toString()
                                                                         .replaceAllMapped(
@@ -1775,7 +1787,7 @@ class _CustomerInfoSubsState extends State<CustomerInfoSubs> with
                                                                       .w500,
                                                                 ),),
                                                               Spacer(),
-                                                              Text('MMK ' +
+                                                              Text('$currencyUnit ' +
                                                                   debtAmount
                                                                       .toString()
                                                                       .replaceAllMapped(

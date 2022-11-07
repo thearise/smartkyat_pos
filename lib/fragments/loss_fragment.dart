@@ -83,15 +83,9 @@ class _LossProductState extends State<LossProduct> {
       }
 
     getCurrency().then((value){
-      if(value == 'US Dollar (USD)') {
-        setState(() {
-          currencyUnit = 'USD';
-        });
-      } else if(value == 'Myanmar Kyat (MMK)') {
-        setState(() {
-          currencyUnit = 'MMK';
-        });
-      }
+      setState(() {
+        currencyUnit = value.toString();
+      });
     });
     priceAmount.text = widget.price.toString();
     // TODO: implement initState

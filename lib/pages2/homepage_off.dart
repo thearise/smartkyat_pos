@@ -551,15 +551,9 @@ class HomePageOffState extends State<HomePageOff>
     });
 
     getCurrency().then((value){
-      if(value == 'US Dollar (USD)') {
-        setState(() {
-          currencyUnit = 'USD';
-        });
-      } else if(value == 'Myanmar Kyat (MMK)') {
-        setState(() {
-          currencyUnit = 'MMK';
-        });
-      }
+      setState(() {
+        currencyUnit = value.toString();
+      });
     });
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       // isProFreePage();

@@ -259,15 +259,9 @@ class _BlocProdMonthState extends State<BlocProdMonth> {
     initIndex = widget.initialIndex;
     _dateTime = today;
     getCurrency().then((value){
-      if(value == 'US Dollar (USD)') {
-        setState(() {
-          currencyUnit = 'USD';
-        });
-      } else if(value == 'Myanmar Kyat (MMK)') {
-        setState(() {
-          currencyUnit = 'MMK';
-        });
-      }
+      setState(() {
+        currencyUnit = value.toString();
+      });
     });
 
     if(widget.isEnglish == true) {

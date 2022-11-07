@@ -390,7 +390,7 @@
 //     });
 //
 //     getCurrency().then((value){
-//       if(value == 'US Dollar (USD)') {
+
 //         setState(() {
 //           currencyUnit = 'USD';
 //         });

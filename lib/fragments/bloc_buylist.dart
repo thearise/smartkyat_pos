@@ -239,15 +239,9 @@ class _BlocBuyListState extends State<BlocBuyList> {
 
     today = widget.dateTime!;
     getCurrency().then((value){
-      if(value == 'US Dollar (USD)') {
-        setState(() {
-          currencyUnit = 'USD';
-        });
-      } else if(value == 'Myanmar Kyat (MMK)') {
-        setState(() {
-          currencyUnit = 'MMK';
-        });
-      }
+      setState(() {
+        currencyUnit = value.toString();
+      });
     });
 
     if(widget.isEnglish == true) {

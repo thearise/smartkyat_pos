@@ -211,15 +211,9 @@ class _BlocHomeWeekLossState extends State<BlocHomeWeekLoss> {
     _dateTime = today;
     _dateMod = DateFormat("yyyy-MM-dd HH:mm:ss").parse(_dateTime!.year.toString() + '-' + zeroToTen(_dateTime!.month.toString()) + '-' + zeroToTen(_dateTime!.day.toString()) + ' 23:59:59');
     getCurrency().then((value){
-      if(value == 'US Dollar (USD)') {
-        setState(() {
-          currencyUnit = 'USD';
-        });
-      } else if(value == 'Myanmar Kyat (MMK)') {
-        setState(() {
-          currencyUnit = 'MMK';
-        });
-      }
+      setState(() {
+        currencyUnit = value.toString();
+      });
     });
 
     if(widget.isEnglish == true) {

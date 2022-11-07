@@ -408,15 +408,9 @@ class ProductDetailsViewState2 extends State<ProductDetailsView2>  with
     image = widget.imgUrl;
 
     getCurrency().then((value){
-      if(value == 'US Dollar (USD)') {
-        setState(() {
-          currencyUnit = 'USD';
-        });
-      } else if(value == 'Myanmar Kyat (MMK)') {
-        setState(() {
-          currencyUnit = 'MMK';
-        });
-      }
+      setState(() {
+        currencyUnit = value.toString();
+      });
     });
     getDeviceId().then((value) {
       deviceIdNum = value;

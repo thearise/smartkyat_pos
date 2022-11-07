@@ -343,15 +343,9 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
     _dateTime = today;
 
     getCurrency().then((value){
-      if(value == 'US Dollar (USD)') {
-        setState(() {
-          currencyUnit = 'USD';
-        });
-      } else if(value == 'Myanmar Kyat (MMK)') {
-        setState(() {
-          currencyUnit = 'MMK';
-        });
-      }
+      setState(() {
+        currencyUnit = value.toString();
+      });
     });
 
     if (widget.listeners != null) {
