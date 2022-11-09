@@ -4,6 +4,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
 import 'package:fade_shimmer/fade_shimmer.dart';
+import 'package:flutter_barcode_listener/flutter_barcode_listener.dart';
 import 'package:http/http.dart' as http;
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:blue_print_pos/blue_print_pos.dart';
@@ -66,6 +67,7 @@ import 'package:smartkyat_pos/widgets/add_new_merchant.dart';
 import 'package:smartkyat_pos/widgets/barcode_search.dart';
 import 'package:smartkyat_pos/widgets/end_of_pro_service.dart';
 import 'package:smartkyat_pos/widgets/paywall_widget.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 import '../app_theme.dart';
 import '../fragments/search_fragment3.dart';
 import 'TabItem.dart';
@@ -4591,6 +4593,9 @@ class HomePageState extends State<HomePage>
 
   String pageType = 'Roll-57';
 
+  String? _barcode;
+  late bool visible;
+
   final auth = FirebaseAuth.instance;
   String ayinHar = '';
   bool firstTime = true;
@@ -4620,6 +4625,7 @@ class HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
+
     final double scaleFactor = MediaQuery.of(context).textScaleFactor;
     openOrHideCart();
     if(firstTime) {
@@ -4632,6 +4638,52 @@ class HomePageState extends State<HomePage>
       ),
       child: Stack(
         children: [
+          VisibilityDetector(
+            onVisibilityChanged: (VisibilityInfo info) {
+              visible = info.visibleFraction > 0;
+            },
+            key: Key('visible-detector-key'),
+            child: BarcodeKeyboardListener(
+              bufferDuration: Duration(milliseconds: 200),
+              onBarcodeScanned: (barcode) {
+                if (!visible) return;
+                print(barcode);
+                setState(() {
+                  _barcode = barcode;
+                });
+                if(_barcode != null && _barcode != '') {
+                  FirebaseFirestore.instance.collection('shops').doc(shopId).collection('collArr').doc('prodsArr')
+                      .get()
+                      .then((DocumentSnapshot documentSnapshot) async {
+                    if (documentSnapshot.exists) {
+                      documentSnapshot['prods'].forEach((key, value) {
+                        if(value['co'].toString() == _barcode.toString()) {
+
+                          scannedResult(key.toString() + '^' + value['na'] + '^' + value['sm'].toString() + '^' + value['s1'].toString()
+                              + '^' + value['s2'].toString() + '^' + value['im'].toString() + '^' + value['i1'].toString() + '^' + value['i2'].toString()
+                              + '^' +value['se'].toString() + '^' +
+                              value['nm'] + '^' + value['n1'] + '^' + value['n2'] + '^' + value['co'] + '^' + '' + '^' + value['c1'].toString() +
+                              '^' + value['c2'].toString() +  '^' + value['bm'].toString()
+                              +  '^' + value['b1'].toString()
+                              +  '^' + value['b2'].toString());
+
+                          value['n1'] != ''  && value['n2'] == '' ? _testList = [{'no': 1, 'keyword': value['nm']}, {'no': 2, 'keyword': value['n1']}]:
+                          value['n1'].toString() != ''  && value['n2'] != '' ? _testList = [{'no': 1, 'keyword': value['nm']}, {'no': 2, 'keyword': value['n1']}, {'no': 3, 'keyword': value['n2']}] :
+                          _testList = [{'no': 1, 'keyword': value['nm']}];
+                          qty = 1;
+                          price4 =  value['sm'];
+                          buyPriceController.text = price4.toString();
+                          barcodeCtrl.text = qty.round().toString();
+                          _dropdownTestItems = buildDropdownTestItems(_testList);
+                        }
+                      });
+                    }
+                  });
+                }
+              },
+              child: Container(),
+            ),
+          ),
           Container(
             color: Colors.white,
             child: IgnorePointer(
