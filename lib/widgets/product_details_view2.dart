@@ -1496,7 +1496,7 @@ class ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                 ],
                                               ),
                                             ),
-                                            Padding(
+                                            sub1Name != '' ? Padding(
                                               padding: const EdgeInsets.symmetric(horizontal: 15.0),
                                               child: Column(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -1771,8 +1771,8 @@ class ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                   // ),
                                                 ],
                                               ),
-                                            ),
-                                            Padding(
+                                            ) : Container(),
+                                            sub2Name != '' ? Padding(
                                               padding: const EdgeInsets.symmetric(horizontal: 15.0),
                                               child: Column(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -1915,7 +1915,7 @@ class ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                   ),
                                                 ],
                                               ),
-                                            ),
+                                            ) : Container(),
                                           ],
                                         ),
                                       ),
