@@ -584,6 +584,7 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
 
   @override
   initState() {
+    setCurrency('MMK');
     _dropdownTestItems = buildDropdownTestItems(_testList);
     super.initState();
 
@@ -1603,7 +1604,6 @@ class FirstLaunchPageState extends State<FirstLaunchPage>
                         padding: const EdgeInsets.only(top: 20, left: 15.0, right: 15.0, bottom: 27.0),
                         child: GestureDetector(
                           onTap: () {
-                            // Navigator.of(context).pop();
                             Navigator.of(context).pushReplacement(
                                 FadeRoute(page: Welcome(),)
                             );
