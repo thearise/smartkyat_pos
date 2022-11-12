@@ -43,14 +43,14 @@ import 'package:smartkyat_pos/api/pdf_invoice_api.dart';
 import 'package:smartkyat_pos/api/purchase_api.dart';
 import 'package:smartkyat_pos/fragments/buy_list_fragment.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
-import 'package:smartkyat_pos/fragments/buylist_fragment2.dart';
+import 'package:smartkyat_pos/fragments/buylist_fragment_off.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
-import 'package:smartkyat_pos/fragments/customers_fragment2.dart';
+import 'package:smartkyat_pos/fragments/customers_fragment_off.dart';
 import 'package:smartkyat_pos/fragments/home_fragment6.dart';
 import 'package:smartkyat_pos/fragments/home_fragment_off.dart';
 import 'package:smartkyat_pos/fragments/merchant_cart2.dart';
 import 'package:smartkyat_pos/fragments/merchants_fragment2.dart';
-import 'package:smartkyat_pos/fragments/orders_fragment2.dart';
+import 'package:smartkyat_pos/fragments/orders_fragment_off.dart';
 import 'package:smartkyat_pos/fragments/products_fragment_off.dart';
 import 'package:smartkyat_pos/fragments/settings_fragment.dart';
 import 'package:smartkyat_pos/fragments/support_fragment.dart';
@@ -68,7 +68,7 @@ import 'package:smartkyat_pos/widgets/end_of_pro_service.dart';
 import 'package:smartkyat_pos/widgets/paywall_widget.dart';
 import '../app_theme.dart';
 import '../fragments/search_fragment3.dart';
-import '../main3.dart';
+import '../main.dart';
 import 'TabItem.dart';
 import 'package:url_launcher/link.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -278,12 +278,12 @@ class HomePageOffState extends State<HomePageOff>
 
   GlobalKey<OverviewPageState> homeGlobalKey = GlobalKey();
   GlobalKey<ProductsFragmentState> prodGlobalKey = GlobalKey();
-  // GlobalKey<BuyListFragmentState> bordGlobalKey = GlobalKey();
-  // GlobalKey<OrdersFragmentState> sordGlobalKey = GlobalKey();
-  // GlobalKey<CustomersFragmentState> custGlobalKey = GlobalKey();
-  // GlobalKey<MerchantsFragmentState> mercGlobalKey = GlobalKey();
-  // GlobalKey<SettingsFragmentState> settGlobalKey = GlobalKey();
-  // GlobalKey<SearchFragmentState> searchGlobalKey = GlobalKey();
+  GlobalKey<BuyListFragmentState> bordGlobalKey = GlobalKey();
+  GlobalKey<OrdersFragmentState> sordGlobalKey = GlobalKey();
+  GlobalKey<CustomersFragmentState> custGlobalKey = GlobalKey();
+  GlobalKey<MerchantsFragmentState> mercGlobalKey = GlobalKey();
+  GlobalKey<SettingsFragmentState> settGlobalKey = GlobalKey();
+  GlobalKey<SearchFragmentState> searchGlobalKey = GlobalKey();
   // GlobalKey<TransparentState> tranGlobalKey = GlobalKey();
 
   Future<String?> _getId() async {
@@ -913,11 +913,11 @@ class HomePageOffState extends State<HomePageOff>
         // homeGlobalKey.currentState!.changeSearchOpening(false);
         homeGlobalKey.currentState!.changeSearchOpening(false);
         prodGlobalKey.currentState!.changeSearchOpening(false);
-        // sordGlobalKey.currentState!.changeSearchOpening(false);
-        // bordGlobalKey.currentState!.changeSearchOpening(false);
-        // custGlobalKey.currentState!.changeSearchOpening(false);
-        // mercGlobalKey.currentState!.changeSearchOpening(false);
-        // settGlobalKey.currentState!.changeSearchOpening(false);
+        sordGlobalKey.currentState!.changeSearchOpening(false);
+        bordGlobalKey.currentState!.changeSearchOpening(false);
+        custGlobalKey.currentState!.changeSearchOpening(false);
+        mercGlobalKey.currentState!.changeSearchOpening(false);
+        settGlobalKey.currentState!.changeSearchOpening(false);
       });
       // _selectIndex = 0;
     });
@@ -931,11 +931,11 @@ class HomePageOffState extends State<HomePageOff>
     // searchGlobalKey.currentState!.focusSearch();
     // homeGlobalKey.currentState!.changeSearchOpening(true);
     // prodGlobalKey.currentState!.changeSearchOpening(true);
-    // sordGlobalKey.currentState!.changeSearchOpening(true);
-    // bordGlobalKey.currentState!.changeSearchOpening(true);
-    // custGlobalKey.currentState!.changeSearchOpening(true);
-    // mercGlobalKey.currentState!.changeSearchOpening(true);
-    // settGlobalKey.currentState!.changeSearchOpening(true);
+    sordGlobalKey.currentState!.changeSearchOpening(true);
+    bordGlobalKey.currentState!.changeSearchOpening(true);
+    custGlobalKey.currentState!.changeSearchOpening(true);
+    mercGlobalKey.currentState!.changeSearchOpening(true);
+    settGlobalKey.currentState!.changeSearchOpening(true);
     setState(() {
 
     });
@@ -4811,11 +4811,11 @@ class HomePageOffState extends State<HomePageOff>
                                                       // homeGlobalKey.currentState!.changeSearchOpening(false);
                                                       homeGlobalKey.currentState!.changeSearchOpening(false);
                                                       prodGlobalKey.currentState!.changeSearchOpening(false);
-                                                      // sordGlobalKey.currentState!.changeSearchOpening(false);
-                                                      // bordGlobalKey.currentState!.changeSearchOpening(false);
-                                                      // custGlobalKey.currentState!.changeSearchOpening(false);
-                                                      // mercGlobalKey.currentState!.changeSearchOpening(false);
-                                                      // settGlobalKey.currentState!.changeSearchOpening(false);
+                                                      sordGlobalKey.currentState!.changeSearchOpening(false);
+                                                      bordGlobalKey.currentState!.changeSearchOpening(false);
+                                                      custGlobalKey.currentState!.changeSearchOpening(false);
+                                                      mercGlobalKey.currentState!.changeSearchOpening(false);
+                                                      settGlobalKey.currentState!.changeSearchOpening(false);
                                                     });
                                                   }
                                                   globalSearching = false;
@@ -4879,11 +4879,11 @@ class HomePageOffState extends State<HomePageOff>
                                                     // homeGlobalKey.currentState!.changeSearchOpening(false);
                                                     homeGlobalKey.currentState!.changeSearchOpening(false);
                                                     prodGlobalKey.currentState!.changeSearchOpening(false);
-                                                    // sordGlobalKey.currentState!.changeSearchOpening(false);
-                                                    // bordGlobalKey.currentState!.changeSearchOpening(false);
-                                                    // custGlobalKey.currentState!.changeSearchOpening(false);
-                                                    // mercGlobalKey.currentState!.changeSearchOpening(false);
-                                                    // settGlobalKey.currentState!.changeSearchOpening(false);
+                                                    sordGlobalKey.currentState!.changeSearchOpening(false);
+                                                    bordGlobalKey.currentState!.changeSearchOpening(false);
+                                                    custGlobalKey.currentState!.changeSearchOpening(false);
+                                                    mercGlobalKey.currentState!.changeSearchOpening(false);
+                                                    settGlobalKey.currentState!.changeSearchOpening(false);
                                                   });
                                                 }
                                                 globalSearching = false;
@@ -4963,7 +4963,7 @@ class HomePageOffState extends State<HomePageOff>
                                             GestureDetector(
                                               onTap: () {
                                                 setState(() {
-                                                  _selectTab(1);
+                                                  _selectTab(2);
                                                   _selectIndex = 2;
                                                 });
                                                 closeByClick();
@@ -4972,11 +4972,11 @@ class HomePageOffState extends State<HomePageOff>
                                                     // homeGlobalKey.currentState!.changeSearchOpening(false);
                                                     homeGlobalKey.currentState!.changeSearchOpening(false);
                                                     prodGlobalKey.currentState!.changeSearchOpening(false);
-                                                    // sordGlobalKey.currentState!.changeSearchOpening(false);
-                                                    // bordGlobalKey.currentState!.changeSearchOpening(false);
-                                                    // custGlobalKey.currentState!.changeSearchOpening(false);
-                                                    // mercGlobalKey.currentState!.changeSearchOpening(false);
-                                                    // settGlobalKey.currentState!.changeSearchOpening(false);
+                                                    sordGlobalKey.currentState!.changeSearchOpening(false);
+                                                    bordGlobalKey.currentState!.changeSearchOpening(false);
+                                                    custGlobalKey.currentState!.changeSearchOpening(false);
+                                                    mercGlobalKey.currentState!.changeSearchOpening(false);
+                                                    settGlobalKey.currentState!.changeSearchOpening(false);
                                                   });
                                                 }
                                                 globalSearching = false;
@@ -5016,7 +5016,7 @@ class HomePageOffState extends State<HomePageOff>
                                               GestureDetector(
                                                 onTap: () {
                                                   setState(() {
-                                                    _selectTab(7);
+                                                    _selectTab(3);
                                                     _selectIndex = 3;
                                                   });
                                                   closeByClick();
@@ -5025,11 +5025,11 @@ class HomePageOffState extends State<HomePageOff>
                                                       // homeGlobalKey.currentState!.changeSearchOpening(false);
                                                       homeGlobalKey.currentState!.changeSearchOpening(false);
                                                       prodGlobalKey.currentState!.changeSearchOpening(false);
-                                                      // sordGlobalKey.currentState!.changeSearchOpening(false);
-                                                      // bordGlobalKey.currentState!.changeSearchOpening(false);
-                                                      // custGlobalKey.currentState!.changeSearchOpening(false);
-                                                      // mercGlobalKey.currentState!.changeSearchOpening(false);
-                                                      // settGlobalKey.currentState!.changeSearchOpening(false);
+                                                      sordGlobalKey.currentState!.changeSearchOpening(false);
+                                                      bordGlobalKey.currentState!.changeSearchOpening(false);
+                                                      custGlobalKey.currentState!.changeSearchOpening(false);
+                                                      mercGlobalKey.currentState!.changeSearchOpening(false);
+                                                      settGlobalKey.currentState!.changeSearchOpening(false);
                                                     });
                                                   }
                                                   globalSearching = false;
@@ -5068,7 +5068,7 @@ class HomePageOffState extends State<HomePageOff>
                                             GestureDetector(
                                               onTap: () {
                                                 setState(() {
-                                                  _selectTab(2);
+                                                  _selectTab(4);
                                                   _selectIndex = 4;
                                                 });
                                                 closeByClick();
@@ -5077,11 +5077,11 @@ class HomePageOffState extends State<HomePageOff>
                                                     // homeGlobalKey.currentState!.changeSearchOpening(false);
                                                     homeGlobalKey.currentState!.changeSearchOpening(false);
                                                     prodGlobalKey.currentState!.changeSearchOpening(false);
-                                                    // sordGlobalKey.currentState!.changeSearchOpening(false);
-                                                    // bordGlobalKey.currentState!.changeSearchOpening(false);
-                                                    // custGlobalKey.currentState!.changeSearchOpening(false);
-                                                    // mercGlobalKey.currentState!.changeSearchOpening(false);
-                                                    // settGlobalKey.currentState!.changeSearchOpening(false);
+                                                    sordGlobalKey.currentState!.changeSearchOpening(false);
+                                                    bordGlobalKey.currentState!.changeSearchOpening(false);
+                                                    custGlobalKey.currentState!.changeSearchOpening(false);
+                                                    mercGlobalKey.currentState!.changeSearchOpening(false);
+                                                    settGlobalKey.currentState!.changeSearchOpening(false);
                                                   });
                                                 }
                                                 globalSearching = false;
@@ -5169,11 +5169,11 @@ class HomePageOffState extends State<HomePageOff>
                                                       // homeGlobalKey.currentState!.changeSearchOpening(false);
                                                       homeGlobalKey.currentState!.changeSearchOpening(false);
                                                       prodGlobalKey.currentState!.changeSearchOpening(false);
-                                                      // sordGlobalKey.currentState!.changeSearchOpening(false);
-                                                      // bordGlobalKey.currentState!.changeSearchOpening(false);
-                                                      // custGlobalKey.currentState!.changeSearchOpening(false);
-                                                      // mercGlobalKey.currentState!.changeSearchOpening(false);
-                                                      // settGlobalKey.currentState!.changeSearchOpening(false);
+                                                      sordGlobalKey.currentState!.changeSearchOpening(false);
+                                                      bordGlobalKey.currentState!.changeSearchOpening(false);
+                                                      custGlobalKey.currentState!.changeSearchOpening(false);
+                                                      mercGlobalKey.currentState!.changeSearchOpening(false);
+                                                      settGlobalKey.currentState!.changeSearchOpening(false);
                                                     });
                                                   }
                                                   globalSearching = false;
@@ -5226,11 +5226,11 @@ class HomePageOffState extends State<HomePageOff>
                                                     // homeGlobalKey.currentState!.changeSearchOpening(false);
                                                     homeGlobalKey.currentState!.changeSearchOpening(false);
                                                     prodGlobalKey.currentState!.changeSearchOpening(false);
-                                                    // sordGlobalKey.currentState!.changeSearchOpening(false);
-                                                    // bordGlobalKey.currentState!.changeSearchOpening(false);
-                                                    // custGlobalKey.currentState!.changeSearchOpening(false);
-                                                    // mercGlobalKey.currentState!.changeSearchOpening(false);
-                                                    // settGlobalKey.currentState!.changeSearchOpening(false);
+                                                    sordGlobalKey.currentState!.changeSearchOpening(false);
+                                                    bordGlobalKey.currentState!.changeSearchOpening(false);
+                                                    custGlobalKey.currentState!.changeSearchOpening(false);
+                                                    mercGlobalKey.currentState!.changeSearchOpening(false);
+                                                    settGlobalKey.currentState!.changeSearchOpening(false);
                                                   });
                                                 }
                                                 globalSearching = false;
@@ -5577,6 +5577,14 @@ class HomePageOffState extends State<HomePageOff>
                                                 toggleCoinCallback: addNewProd2,
                                                 toggleCoinCallback2: addProduct,
                                                 toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), productsSnapshot: productSnapshot, searchBtn: openSearchFromFrag, lowStockSnapshot: lowStockSnapshot, closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom,),
+                                              OrdersFragment(key: sordGlobalKey, searchBtn: openSearchFromFrag, selectedDev: _selectedDevice, printFromOrders: printFromOrders, isEnglish: isEnglish,
+                                                toggleCoinCallback2: addProduct,
+                                                toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(),  closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom,),
+                                              BuyListFragment2(isEnglish: isEnglish, selectedDev: _selectedDevice, printFromOrders: printFromOrders,
+                                                key: bordGlobalKey, searchBtn: openSearchFromFrag,
+                                                toggleCoinCallback2: addProduct,
+                                                toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(),closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom,),
+                                              CustomersFragment(isEnglish: isEnglish, selectedDev: _selectedDevice, printFromOrders: printFromOrders, searchBtn: openSearchFromFrag, key: custGlobalKey, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback4: addProduct, toggleCoinCallback: addProduct3, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), customersSnapshot: customerSnapshot, toggleCoinCallback6: addCust, closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom,)
                                             ]
                                           ),
                                         ),
