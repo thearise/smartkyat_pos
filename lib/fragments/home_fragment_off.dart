@@ -15,6 +15,8 @@ import 'package:flutter/src/material/colors.dart' as Colors;
 import '../a11y/a11y_gallery.dart' as a11y show buildGallery;
 import '../bar_chart/bar_gallery.dart' as bar show buildGallery;
 import '../gallery_scaffold.dart';
+import '../main3.dart';
+import '../model.dart';
 import '../time_series_chart/time_series_gallery.dart' as time_series
     show buildGallery;
 import '../line_chart/line_gallery.dart' as line show buildGallery;
@@ -572,27 +574,13 @@ class OverviewPageState extends State<OverviewPage>
                         padding: const EdgeInsets.only(
                             top: 0.0, left: 0.0, right: 0.0),
 
-                        child: Scaffold(
-                          appBar: AppBar(
-                            title: Text('Orders App'),
-                            actions: [
-                              IconButton(
-                                icon: Icon(Icons.person_add_alt),
-                                onPressed: setNewCustomer,
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.attach_money),
-                                onPressed: addFakeOrderForCurrentCustomer,
-                              ),
-                            ],
-                          ),
-                          body: OrderDataTable(
-                            // TODO: Pass in the orders
-                            onSort: (columnIndex, ascending) {
-                              // TODO: Query the database and sort the data
-                            },
-                          ),
-                        ),
+                        child: StreamBuilder<List<Note>>(
+                            stream: objectbox.getNotes(),
+                            builder: (context, snapshot) => ListView.builder(
+                                shrinkWrap: true,
+                                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                                itemCount: snapshot.hasData ? snapshot.data!.length : 0,
+                                itemBuilder: _itemBuilder(snapshot.data ?? []))),
                       ),
                     ),
                   ),
@@ -734,4 +722,46 @@ class OverviewPageState extends State<OverviewPage>
     // TODO: Implement properly
     print('Price: ${faker.randomGenerator.integer(500, min: 10)}');
   }
+
+  GestureDetector Function(BuildContext, int) _itemBuilder(List<Note> notes) =>
+          (BuildContext context, int index) => GestureDetector(
+        onTap: () => objectbox.noteBox.remove(notes[index].id),
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: Container(
+                decoration: const BoxDecoration(
+                    border:
+                    Border(bottom: BorderSide(color: Colors.Colors.black12))),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 18.0, horizontal: 10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        notes[index].text,
+                        style: const TextStyle(
+                          fontSize: 15.0,
+                        ),
+                        // Provide a Key for the integration test
+                        key: Key('list_item_$index'),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 5.0),
+                        child: Text(
+                          'Added on ${notes[index].dateFormat}',
+                          style: const TextStyle(
+                            fontSize: 12.0,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
 }

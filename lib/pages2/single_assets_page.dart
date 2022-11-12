@@ -131,50 +131,50 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
       });
     });
 
-      if(widget.isEnglish == true) {
+    if(widget.isEnglish == true) {
 
-        setState(() {
-          textSetProductInfo = 'PRODUCT INFORMATION';
-          textSetProdName = 'Product name';
-          textSetBarcode = 'Barcode';
-          textSetMainUnitQty = 'MAIN UNIT INFORMATION';
-          textSetUnitQty = 'Unit quantity';
-          textSetUnitName = 'Unit name';
-          textSetBuyPrice = 'Buy price per unit';
-          textSetSalePrice = 'Sale price per unit';
-          textSetSub1UnitQty = '#1 SUB UNIT INFORMATION';
-          textSetSub2UnitQty = '#2 SUB UNIT INFORMATION';
-          textSetWarning = 'e.g, If this item were \"Cigarette 10 packs per 1 carton box\" then it could break down into \"10 / main carton box\".';
-          textSetWarning2 = 'e.g, If this item were \"20 cigarettes per 1 pack\" then it could break down into \"20 / #1 sub pack\".';
-          textSetRemove = 'REMOVE';
-          textSetUnitMain = 'Qty/ main unit';
-          textSetSaveProd = 'Add product';
-          textSetMoreUnit = 'More unit?';
-          textSetUnitSub = 'Unit/#1 unit';
-        });
-      } else {
-        setState(() {
-          textSetProductInfo = 'PRODUCT INFORMATION';
-          // textSetProductInfo = 'ပစ္စည်း အချက်အလက်';
-          textSetProdName = 'ပစ္စည်းအမည်';
-          textSetBarcode = 'ဘားကုဒ်';
-          textSetMainUnitQty = 'MAIN UNIT INFORMATION';
-          // textSetMainUnitQty = 'အဓိကယူနစ် အချက်အလက်';
-          textSetUnitQty = 'လက်ကျန် အရေအတွက်';
-          textSetUnitName = 'ယူနစ်အမည်';
-          textSetBuyPrice = 'တစ်ယူနစ် ဝယ်ဈေး';
-          textSetSalePrice = 'တစ်ယူနစ် ရောင်းဈေး';
-          textSetSub1UnitQty = '#1 ယူနစ် အချက်အလက်';
-          textSetSub2UnitQty = '#2 ယူနစ် အချက်အလက်';
-          textSetWarning = 'e.g, If this item were \"Cigarette 10 packs per 1 carton box\" then it could break down into \"10 / main carton box\".';
-          textSetWarning2 = 'e.g, If this item were \"20 cigarettes per 1 pack\" then it could break down into \"20 / #1 sub pack\".';
-          textSetRemove = 'ပယ်ဖျက်မည်';
-          textSetUnitMain = 'အရေတွက်/ အဓိကယူနစ်';
-          textSetSaveProd = 'သိမ်းဆည်းမည်';
-          textSetMoreUnit = 'ယူနစ်?';
-          textSetUnitSub = 'အရေတွက်/ #1ယူနစ်';
-        });
-      }
+      setState(() {
+        textSetProductInfo = 'PRODUCT INFORMATION';
+        textSetProdName = 'Product name';
+        textSetBarcode = 'Barcode';
+        textSetMainUnitQty = 'MAIN UNIT INFORMATION';
+        textSetUnitQty = 'Unit quantity';
+        textSetUnitName = 'Unit name';
+        textSetBuyPrice = 'Buy price per unit';
+        textSetSalePrice = 'Sale price per unit';
+        textSetSub1UnitQty = '#1 SUB UNIT INFORMATION';
+        textSetSub2UnitQty = '#2 SUB UNIT INFORMATION';
+        textSetWarning = 'e.g, If this item were \"Cigarette 10 packs per 1 carton box\" then it could break down into \"10 / main carton box\".';
+        textSetWarning2 = 'e.g, If this item were \"20 cigarettes per 1 pack\" then it could break down into \"20 / #1 sub pack\".';
+        textSetRemove = 'REMOVE';
+        textSetUnitMain = 'Qty/ main unit';
+        textSetSaveProd = 'Add product';
+        textSetMoreUnit = 'More unit?';
+        textSetUnitSub = 'Unit/#1 unit';
+      });
+    } else {
+      setState(() {
+        textSetProductInfo = 'PRODUCT INFORMATION';
+        // textSetProductInfo = 'ပစ္စည်း အချက်အလက်';
+        textSetProdName = 'ပစ္စည်းအမည်';
+        textSetBarcode = 'ဘားကုဒ်';
+        textSetMainUnitQty = 'MAIN UNIT INFORMATION';
+        // textSetMainUnitQty = 'အဓိကယူနစ် အချက်အလက်';
+        textSetUnitQty = 'လက်ကျန် အရေအတွက်';
+        textSetUnitName = 'ယူနစ်အမည်';
+        textSetBuyPrice = 'တစ်ယူနစ် ဝယ်ဈေး';
+        textSetSalePrice = 'တစ်ယူနစ် ရောင်းဈေး';
+        textSetSub1UnitQty = '#1 ယူနစ် အချက်အလက်';
+        textSetSub2UnitQty = '#2 ယူနစ် အချက်အလက်';
+        textSetWarning = 'e.g, If this item were \"Cigarette 10 packs per 1 carton box\" then it could break down into \"10 / main carton box\".';
+        textSetWarning2 = 'e.g, If this item were \"20 cigarettes per 1 pack\" then it could break down into \"20 / #1 sub pack\".';
+        textSetRemove = 'ပယ်ဖျက်မည်';
+        textSetUnitMain = 'အရေတွက်/ အဓိကယူနစ်';
+        textSetSaveProd = 'သိမ်းဆည်းမည်';
+        textSetMoreUnit = 'ယူနစ်?';
+        textSetUnitSub = 'အရေတွက်/ #1ယူနစ်';
+      });
+    }
 
 
     getDeviceId().then((value) {
@@ -948,7 +948,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                               prodFieldsValue.add(value);
                                               return null;
                                             },
-                                              style: TextStyle(height: 0.95, fontSize: 15/scaleFactor),
+                                            style: TextStyle(height: 0.95, fontSize: 15/scaleFactor),
                                             decoration: InputDecoration(
                                               enabledBorder: const OutlineInputBorder(
 
@@ -1027,12 +1027,12 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                             style: TextStyle(height: 0.95, fontSize: 15/scaleFactor),
                                             decoration: InputDecoration(
                                               enabledBorder: const OutlineInputBorder(
-                                              // width: 0.0 produces a thin "hairline" border
-                                              borderSide: const BorderSide(
-                                                  color: AppTheme.skBorderColor,
-                                                  width: 2.0),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10.0))),
+                                                // width: 0.0 produces a thin "hairline" border
+                                                  borderSide: const BorderSide(
+                                                      color: AppTheme.skBorderColor,
+                                                      width: 2.0),
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(10.0))),
 
                                               focusedBorder: const OutlineInputBorder(
 // width: 0.0 produces a thin "hairline" border
@@ -1132,10 +1132,10 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                           fontWeight: FontWeight.bold,
                                           fontSize: 14,color: Colors.grey,
                                         ),
-                                        strutStyle: StrutStyle(
-                                          height: widget.isEnglish? 1.4: 1.6,
-                                          forceStrutHeight: true,
-                                        )),
+                                            strutStyle: StrutStyle(
+                                              height: widget.isEnglish? 1.4: 1.6,
+                                              forceStrutHeight: true,
+                                            )),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: 15.0),
@@ -1797,7 +1797,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                       },SetOptions(merge: true)
                                                   );
 
-                                                   batch.update(
+                                                  batch.update(
                                                       FirebaseFirestore.instance.collection('shops').doc(shopId).collection('countColl').doc('prodsCnt'),
                                                       {'count': FieldValue.increment(1)}
                                                   );
@@ -1834,7 +1834,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                         widget
                                                             .endProdLoadingState(); });
                                                       closeOverAllSubLoading();
-                                                        Navigator.pop(context);
+                                                      Navigator.pop(context);
 
 
                                                       smartKyatFlash(
@@ -2156,7 +2156,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                                     .endProdLoadingState();
                                                               });
                                                               closeOverAllSubLoading();
-                                                                Navigator.pop(context);
+                                                              Navigator.pop(context);
 
                                                               smartKyatFlash(
                                                                   prodFieldsValue[0]
