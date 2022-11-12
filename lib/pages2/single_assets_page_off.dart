@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fragments/loss_fragment.dart';
-import 'package:smartkyat_pos/main3.dart';
+import 'package:smartkyat_pos/main.dart';
 import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
 import 'package:smartkyat_pos/widgets2/method_list_view.dart';
 import 'package:smartkyat_pos/widgets2/selected_assets_list_view.dart';
