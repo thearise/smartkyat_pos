@@ -68,6 +68,7 @@ import 'package:smartkyat_pos/widgets/end_of_pro_service.dart';
 import 'package:smartkyat_pos/widgets/paywall_widget.dart';
 import '../app_theme.dart';
 import '../fragments/search_fragment3.dart';
+import '../main3.dart';
 import 'TabItem.dart';
 import 'package:url_launcher/link.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -9100,6 +9101,7 @@ class HomePageOffState extends State<HomePageOff>
                                                     //SizedBox(width:15),
                                                     GestureDetector(
                                                       onTap: () async {
+                                                        await objectbox.addNote('Shwe Shwe');
                                                         // smartKyatFlash('Wait a second, fucker', 'w');
                                                         //
                                                         // await FirebaseFirestore.instance.collection('shops').doc(shopId)

@@ -4648,6 +4648,7 @@ class HomePageState extends State<HomePage>
               onBarcodeScanned: (barcode) {
                 if (!visible) return;
                 print(barcode);
+
                 setState(() {
                   _barcode = barcode;
                 });
@@ -4658,7 +4659,6 @@ class HomePageState extends State<HomePage>
                     if (documentSnapshot.exists) {
                       documentSnapshot['prods'].forEach((key, value) {
                         if(value['co'].toString() == _barcode.toString()) {
-
                           scannedResult(key.toString() + '^' + value['na'] + '^' + value['sm'].toString() + '^' + value['s1'].toString()
                               + '^' + value['s2'].toString() + '^' + value['im'].toString() + '^' + value['i1'].toString() + '^' + value['i2'].toString()
                               + '^' +value['se'].toString() + '^' +
@@ -9729,6 +9729,7 @@ class HomePageState extends State<HomePage>
       });
     }
   }
+
   TextEditingController buyPriceController = TextEditingController();
   double qty = 0;
   double totalFixAmount2 = 0;

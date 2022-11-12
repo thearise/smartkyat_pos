@@ -1,236 +1,161 @@
-import 'dart:io';
+import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-// import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:one_context/one_context.dart';
-import 'package:package_info_plus/package_info_plus.dart';
-import 'package:smartkyat_pos/api/purchase_api.dart';
-// import 'package:smartkyat_pos/fragments/warmly_welcome.dart';
-import 'package:smartkyat_pos/pages2/home_page5.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:smartkyat_pos/pages2/notificationservice.dart';
-import 'fragments/welcome_fragment.dart';
-import 'src/app.dart';
-import 'package:smartkyat_pos/src/app.dart';
-import 'package:smartkyat_pos/widgets/product_versions_view.dart';
-import 'package:timezone/data/latest.dart' as tz;
 
-final themeMode = ValueNotifier(2);
+import 'model.dart';
+import 'objectbox.dart';
 
-PackageInfo? packageInfo;
+// ignore_for_file: public_member_api_docs
+
+/// Provides access to the ObjectBox Store throughout the app.
+late ObjectBox objectbox;
 
 Future<void> main() async {
+  // This is required so ObjectBox can get the application directory
+  // to store the database in.
   WidgetsFlutterBinding.ensureInitialized();
-  PurchaseApi.init();
-  NotificationService().initNotification();
-  tz.initializeTimeZones();
-  // MobileAds.instance.initialize();
-  await Firebase.initializeApp();
-  // FirebaseFirestore.instance.settings = Settings(
-  //     persistenceEnabled: true, cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
-  FirebaseFirestore.instance.settings = Settings(
-      persistenceEnabled: true, cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
 
-  // FirebaseDatabase.instance.setPersistenceEnabled(true);
-  // FirebaseDatabase.instance.setPersistenceCacheSizeBytes(100 * 1000 * 1000);
-  // final scoresRef = FirebaseDatabase.instance.ref("products");
-  // scoresRef.keepSynced(true);
-  // FirebaseFirestore.instance.disableNetwork().then((_) {
-  //   runApp(MyApp());
-  // });
-  runApp(MyApp());
+  objectbox = await ObjectBox.create();
+
+  runApp(const MyApp());
 }
-
 
 class MyApp extends StatelessWidget {
-  final navigatorKey = GlobalKey<NavigatorState>();
+  const MyApp({Key? key}) : super(key: key);
+
   @override
-  void initState() {
-    HttpOverrides.global = MyHttpOverrides();
-    // SystemChrome.setPreferredOrientations([
-    //   DeviceOrientation.portraitUp,
-    //   DeviceOrientation.portraitDown,
-    // ]);
+  Widget build(BuildContext context) => MaterialApp(
+    title: 'OB Example (sync)',
+    theme: ThemeData(primarySwatch: Colors.blue),
+    home: const MyHomePage(title: 'OB Example (sync)'),
+  );
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  final _noteInputController = TextEditingController();
+
+  Future<void> _addNote() async {
+    if (_noteInputController.text.isEmpty) return;
+    await objectbox.addNote(_noteInputController.text);
+    _noteInputController.text = '';
   }
 
-  // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
-    if(Platform.isAndroid) {
-      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        systemNavigationBarColor: Colors.white, // navigation bar color
-        statusBarColor: Colors.white, // status bar color
-      ));
-    } else {
-      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-    }
+  void dispose() {
+    _noteInputController.dispose();
+    super.dispose();
+  }
 
-    // SystemChrome.setPreferredOrientations([
-    //   DeviceOrientation.portraitUp,
-    //   DeviceOrientation.portraitDown,
-    // ]);
+  GestureDetector Function(BuildContext, int) _itemBuilder(List<Note> notes) =>
+          (BuildContext context, int index) => GestureDetector(
+        onTap: () => objectbox.noteBox.remove(notes[index].id),
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: Container(
+                decoration: const BoxDecoration(
+                    border:
+                    Border(bottom: BorderSide(color: Colors.black12))),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 18.0, horizontal: 10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        notes[index].text,
+                        style: const TextStyle(
+                          fontSize: 15.0,
+                        ),
+                        // Provide a Key for the integration test
+                        key: Key('list_item_$index'),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 5.0),
+                        child: Text(
+                          'Added on ${notes[index].dateFormat}',
+                          style: const TextStyle(
+                            fontSize: 12.0,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
 
-
-    return MaterialApp(
-      navigatorKey: OneContext().key,
-      title: 'Smart Kyat',
-      debugShowCheckedModeBanner: false,
-
-      theme: new ThemeData(
-        canvasColor: Colors.transparent,
-        bottomSheetTheme: BottomSheetThemeData(backgroundColor: Colors.white),
+  @override
+  Widget build(BuildContext context) => Scaffold(
+    appBar: AppBar(
+      title: Text(widget.title),
+    ),
+    body: Column(children: <Widget>[
+      Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: Column(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: TextField(
+                      decoration: const InputDecoration(
+                          hintText: 'Enter a new note'),
+                      controller: _noteInputController,
+                      onSubmitted: (value) => _addNote(),
+                      // Provide a Key for the integration test
+                      key: const Key('input'),
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 10.0, right: 10.0),
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        'Tap a note to remove it',
+                        style: TextStyle(
+                          fontSize: 11.0,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
-      navigatorObservers: [OneContext().heroController],
-      builder: OneContext().builder,
-      // home: HomePage(),
-      // home: LoaderOverlay(child: Welcome()),
-      home: Welcome(),
-      // home: WarmlyWelcome(),
-    );
-  }
+      Expanded(
+          child: StreamBuilder<List<Note>>(
+              stream: objectbox.getNotes(),
+              builder: (context, snapshot) => ListView.builder(
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  itemCount: snapshot.hasData ? snapshot.data!.length : 0,
+                  itemBuilder: _itemBuilder(snapshot.data ?? []))))
+    ]),
+    // We need a separate submit button because flutter_driver integration
+    // test doesn't support submitting a TextField using "enter" key.
+    // See https://github.com/flutter/flutter/issues/9383
+    floatingActionButton: FloatingActionButton(
+      key: const Key('submit'),
+      onPressed: _addNote,
+      child: const Icon(Icons.add),
+    ),
+  );
 }
-
-class MyHttpOverrides extends HttpOverrides{
-  @override
-  HttpClient createHttpClient(SecurityContext? context){
-    return super.createHttpClient(context)
-      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
-  }
-}
-
-
-
-// import 'package:flutter/material.dart';
-//
-// void main() {
-//   runApp(App());
-// }
-//
-// class App extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       home: Home(),
-//     );
-//   }
-// }
-//
-// class Home extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Center(
-//         child: RaisedButton(
-//           child: Text('Add entries'),
-//           onPressed: () async {
-//             List<PersonEntry> persons = await Navigator.push(
-//               context,
-//               MaterialPageRoute(
-//                 builder: (context) => SOF(),
-//               ),
-//             );
-//             if (persons != null) persons.forEach(print);
-//           },
-//         ),
-//       ),
-//     );
-//   }
-// }
-//
-// class SOF extends StatefulWidget {
-//   @override
-//   _SOFState createState() => _SOFState();
-// }
-//
-// class _SOFState extends State<SOF> {
-//   var nameTECs = <TextEditingController>[];
-//   var ageTECs = <TextEditingController>[];
-//   var jobTECs = <TextEditingController>[];
-//   var cards = <Card>[];
-//
-//   Card createCard() {
-//     var nameController = TextEditingController();
-//     var ageController = TextEditingController();
-//     var jobController = TextEditingController();
-//     nameTECs.add(nameController);
-//     ageTECs.add(ageController);
-//     jobTECs.add(jobController);
-//     return Card(
-//       child: Column(
-//         mainAxisSize: MainAxisSize.min,
-//         children: <Widget>[
-//           Text('Person ${cards.length + 1}'),
-//           TextField(
-//               controller: nameController,
-//               decoration: InputDecoration(labelText: 'Full Name')),
-//           TextField(
-//               controller: ageController,
-//               decoration: InputDecoration(labelText: 'Age')),
-//           TextField(
-//               controller: jobController,
-//               decoration: InputDecoration(labelText: 'Study/ job')),
-//         ],
-//       ),
-//     );
-//   }
-//
-//   @override
-//   void initState() {
-//     super.initState();
-//     cards.add(createCard());
-//   }
-//
-//   _onDone() {
-//     List<PersonEntry> entries = [];
-//     for (int i = 0; i < cards.length; i++) {
-//       var name = nameTECs[i].text;
-//       var age = ageTECs[i].text;
-//       var job = jobTECs[i].text;
-//       entries.add(PersonEntry(name, age, job));
-//     }
-//     Navigator.pop(context, entries);
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(),
-//       body: Column(
-//         children: <Widget>[
-//           Expanded(
-//             child: ListView.builder(
-//               itemCount: cards.length,
-//               itemBuilder: (BuildContext context, int index) {
-//                 return cards[index];
-//               },
-//             ),
-//           ),
-//           Padding(
-//             padding: const EdgeInsets.all(16.0),
-//             child: RaisedButton(
-//               child: Text('add new'),
-//               onPressed: () => setState(() => cards.add(createCard())),
-//             ),
-//           )
-//         ],
-//       ),
-//       floatingActionButton:
-//       FloatingActionButton(child: Icon(Icons.done), onPressed: _onDone),
-//     );
-//   }
-// }
-//
-// class PersonEntry {
-//   final String name;
-//   final String age;
-//   final String studyJob;
-//
-//   PersonEntry(this.name, this.age, this.studyJob);
-//   @override
-//   String toString() {
-//     return 'Person: name= $name, age= $age, study job= $studyJob';
-//   }
-// }
