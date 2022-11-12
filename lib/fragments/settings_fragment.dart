@@ -79,7 +79,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
   getCurrency() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if(prefs.getString('currency') == null) {
-      return 'Myanmar Kyat (MMK)';
+      return 'MMK';
     }
     return prefs.getString('currency');
   }
