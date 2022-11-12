@@ -15,7 +15,7 @@ import 'package:flutter/src/material/colors.dart' as Colors;
 import '../a11y/a11y_gallery.dart' as a11y show buildGallery;
 import '../bar_chart/bar_gallery.dart' as bar show buildGallery;
 import '../gallery_scaffold.dart';
-import '../main3.dart';
+import '../main.dart';
 import '../model.dart';
 import '../time_series_chart/time_series_gallery.dart' as time_series
     show buildGallery;
