@@ -49,7 +49,7 @@ import 'package:smartkyat_pos/fragments/customers_fragment_off.dart';
 import 'package:smartkyat_pos/fragments/home_fragment6.dart';
 import 'package:smartkyat_pos/fragments/home_fragment_off.dart';
 import 'package:smartkyat_pos/fragments/merchant_cart2.dart';
-import 'package:smartkyat_pos/fragments/merchants_fragment2.dart';
+import 'package:smartkyat_pos/fragments/merchant_fragment_off.dart';
 import 'package:smartkyat_pos/fragments/orders_fragment_off.dart';
 import 'package:smartkyat_pos/fragments/products_fragment_off.dart';
 import 'package:smartkyat_pos/fragments/settings_fragment.dart';
@@ -61,8 +61,8 @@ import 'package:smartkyat_pos/model/invoice.dart';
 import 'package:smartkyat_pos/model/supplier.dart';
 import 'package:smartkyat_pos/pages2/single_assets_page_off.dart';
 import 'package:smartkyat_pos/src/screens/loading.dart';
-import 'package:smartkyat_pos/widgets/add_new_customer.dart';
-import 'package:smartkyat_pos/widgets/add_new_merchant.dart';
+import 'package:smartkyat_pos/widgets/add_new_customer_off.dart';
+import 'package:smartkyat_pos/widgets/add_new_merchant_off.dart';
 import 'package:smartkyat_pos/widgets/barcode_search.dart';
 import 'package:smartkyat_pos/widgets/end_of_pro_service.dart';
 import 'package:smartkyat_pos/widgets/paywall_widget.dart';
@@ -5160,7 +5160,7 @@ class HomePageOffState extends State<HomePageOff>
                                               GestureDetector(
                                                 onTap: () {
                                                   setState(() {
-                                                    _selectTab(4);
+                                                    _selectTab(5);
                                                     _selectIndex = 5;
                                                   });
                                                   closeByClick();
@@ -5584,7 +5584,8 @@ class HomePageOffState extends State<HomePageOff>
                                                 key: bordGlobalKey, searchBtn: openSearchFromFrag,
                                                 toggleCoinCallback2: addProduct,
                                                 toggleCoinCallback3: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback5: addMerchant2Cart, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(),closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom,),
-                                              CustomersFragment(isEnglish: isEnglish, selectedDev: _selectedDevice, printFromOrders: printFromOrders, searchBtn: openSearchFromFrag, key: custGlobalKey, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback4: addProduct, toggleCoinCallback: addProduct3, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), customersSnapshot: customerSnapshot, toggleCoinCallback6: addCust, closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom,)
+                                              CustomersFragment(isEnglish: isEnglish, selectedDev: _selectedDevice, printFromOrders: printFromOrders, searchBtn: openSearchFromFrag, key: custGlobalKey, toggleCoinCallback2: addCustomer2Cart, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback4: addProduct, toggleCoinCallback: addProduct3, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), customersSnapshot: customerSnapshot, toggleCoinCallback6: addCust, closeCartBtn: closeCartFrom, openCartBtn: openCartFrom,openDrawerBtn: openDrawerFrom, closeDrawerBtn: closeDrawerFrom,),
+                                              MerchantsFragment(isEnglish: isEnglish, selectedDev: _selectedDevice, printFromOrders: printFromOrders,searchBtn: openSearchFromFrag, key: mercGlobalKey, toggleCoinCallback3: addMerchant2Cart, toggleCoinCallback2: addProduct3, toggleCoinCallback4: addCustomer2Cart, toggleCoinCallback: addProduct, barcodeBtn: openBarcodeSearch, shopId: shopId.toString(), merchantsSnapshot: merchantSnapshot, toggleCoinCallback6: addMerch, closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, closeDrawerBtn: closeDrawerFrom, openDrawerBtn: openDrawerFrom),
                                             ]
                                           ),
                                         ),

@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:objectbox_sync_flutter_libs/objectbox_sync_flutter_libs.dart';
+import 'package:smartkyat_pos/models/customer_model.dart';
 import 'package:smartkyat_pos/models/product.dart';
 
 import 'model.dart';
+import 'models/merchant_mode.dart';
 import 'objectbox.g.dart'; // created by `flutter pub run build_runner build`
 
 /// Provides access to the ObjectBox Store throughout the app.
@@ -16,10 +18,14 @@ class ObjectBox {
   /// A Box of notes.
   late final Box<Note> noteBox;
   late final Box<Product> productBox;
+  late final Box<CustomerModel> customerBox;
+  late final Box<MerchantModel> merchantBox;
 
   ObjectBox._create(this.store) {
     noteBox = Box<Note>(store);
     productBox = Box<Product>(store);
+    customerBox = Box<CustomerModel>(store);
+    merchantBox = Box<MerchantModel>(store);
 
     // TODO configure actual sync server address and authentication
     // For configuration and docs, see objectbox/lib/src/sync.dart
@@ -85,6 +91,33 @@ class ObjectBox {
         .map((query) => query.find());
   }
 
+  Stream<List<CustomerModel>> getCustomers() {
+    // Query for all notes, sorted by their date.
+    // https://docs.objectbox.io/queries
+    final builder = customerBox.query().order(CustomerModel_.date, flags: Order.descending);
+    // Query<Product> query = productBox.query().build();
+    // double sumSum = query.property(Product_.im).sum() + query.property(Product_.im).sum();
+    // Build and watch the query,
+    // set triggerImmediately to emit the query immediately on listen.
+    return builder
+        .watch(triggerImmediately: true)
+    // Map it to a list of notes to be used by a StreamBuilder.
+        .map((query) => query.find());
+  }
+
+  Stream<List<MerchantModel>> getMerchants() {
+    // Query for all notes, sorted by their date.
+    // https://docs.objectbox.io/queries
+    final builder = merchantBox.query().order(MerchantModel_.date, flags: Order.descending);
+    // Query<Product> query = productBox.query().build();
+    // double sumSum = query.property(Product_.im).sum() + query.property(Product_.im).sum();
+    // Build and watch the query,
+    // set triggerImmediately to emit the query immediately on listen.
+    return builder
+        .watch(triggerImmediately: true)
+    // Map it to a list of notes to be used by a StreamBuilder.
+        .map((query) => query.find());
+  }
   /// Add a note within a transaction.
   ///
   /// To avoid frame drops, run ObjectBox operations that take longer than a
@@ -118,6 +151,35 @@ class ObjectBox {
 
       ) =>
       productBox.put(Product(ar,b1,b2,bm,c1,c2,co,i1,i2,im,n1,n2,na,nm,s1,s2,se,sm,l1,l2,lm, text));
+
+
+  void addCustomer(
+  bool ar,
+  String ad,
+  double da,
+  double de,
+  String na,
+  double or,
+  String ph,
+  double re,
+  String text,
+
+      ) =>
+      customerBox.put(CustomerModel(ar, ad, da, de, na, or, ph, re, text));
+
+  void addMerchant(
+      bool ar,
+      String ad,
+      double da,
+      double de,
+      String na,
+      double or,
+      String ph,
+      double re,
+      String text,
+
+      ) =>
+      merchantBox.put(MerchantModel(ar, ad, da, de, na, or, ph, re, text));
       // store.runInTransactionAsync(TxMode.write, _addProductInTx, na);
 
   /// Note: due to [dart-lang/sdk#36983](https://github.com/dart-lang/sdk/issues/36983)

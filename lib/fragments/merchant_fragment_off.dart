@@ -1,57 +1,44 @@
-
 import 'dart:io';
-
-import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:blue_print_pos/models/blue_device.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
-import 'package:smartkyat_pos/fragments/subs/customer_info.dart';
-import 'package:smartkyat_pos/main.dart';
-import 'package:smartkyat_pos/models/customer_model.dart';
+import 'package:smartkyat_pos/fragments/subs/merchant_info.dart';
+import 'package:smartkyat_pos/models/merchant_mode.dart';
 
 import '../app_theme.dart';
+import '../main.dart';
 
-class CustomersFragment extends StatefulWidget {
-  final _callback2;
-  final _callback;
+class MerchantsFragment extends StatefulWidget {
   final _callback3;
+  final _callback;
+  final _callback2;
   final _callback4;
   final _barcodeBtn;
   final _searchBtn;
-  final addCust;
+  final addMerch;
+  final _closeDrawerBtn;
+  final _openDrawerBtn;
   final _closeCartBtn;
   final _openCartBtn;
-  final _openDrawerBtn;
-  final _closeDrawerBtn;
   final _printFromOrders;
-  CustomersFragment({
-    this.selectedDev, required void printFromOrders(File file, var prodListPR),
-    required void closeDrawerBtn(String str),
-    required void openDrawerBtn(String str),
-    required void closeCartBtn(String str),
-    required void openCartBtn(String str),
-    required void toggleCoinCallback6(),
-    required void searchBtn(),
-    required this.customersSnapshot,
-    required this.shopId,
-    required this.isEnglish,
-    required void barcodeBtn(), required void toggleCoinCallback2(String str), required void toggleCoinCallback(String str), required void toggleCoinCallback3(String str), required void toggleCoinCallback4(String str),Key? key,
-  }) : _openDrawerBtn = openDrawerBtn, _closeDrawerBtn = closeDrawerBtn, _closeCartBtn = closeCartBtn ,addCust = toggleCoinCallback6, _searchBtn = searchBtn, _barcodeBtn = barcodeBtn, _callback2 = toggleCoinCallback2,_callback = toggleCoinCallback,_callback3 = toggleCoinCallback3, _callback4 = toggleCoinCallback4, _openCartBtn = openCartBtn,_printFromOrders = printFromOrders, super(key: key);
+
+  MerchantsFragment( {this.selectedDev, required this.isEnglish, required void printFromOrders(File file, var prodListPR),required void closeCartBtn(String str), required void openCartBtn(String str), required void closeDrawerBtn(String str), required void openDrawerBtn(String str),required void toggleCoinCallback6(), required void searchBtn(), required this.merchantsSnapshot, required this.shopId, required void barcodeBtn(), required void toggleCoinCallback3(String str), required void toggleCoinCallback(String str),required void toggleCoinCallback2(String str),required void toggleCoinCallback4(String str), Key? key,} ) :
+        _printFromOrders = printFromOrders, _openDrawerBtn = openDrawerBtn, _closeDrawerBtn = closeDrawerBtn, addMerch = toggleCoinCallback6 ,_searchBtn = searchBtn, _barcodeBtn = barcodeBtn, _callback3 = toggleCoinCallback3, _callback = toggleCoinCallback, _callback2 = toggleCoinCallback2,_callback4 = toggleCoinCallback4, _closeCartBtn = closeCartBtn, _openCartBtn = openCartBtn,super(key: key);
   final String shopId;
-  final customersSnapshot;
+  final merchantsSnapshot;
   final BlueDevice? selectedDev;
   final bool isEnglish;
+
   @override
-  CustomersFragmentState createState() => CustomersFragmentState();
+  MerchantsFragmentState createState() => MerchantsFragmentState();
 }
 
-class CustomersFragmentState extends State<CustomersFragment> with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<CustomersFragment>{
+
+class MerchantsFragmentState extends State<MerchantsFragment> with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<MerchantsFragment>{
 
   TextEditingController _searchController = TextEditingController();
   bool loadingSearch = false;
@@ -61,8 +48,6 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
   String searchProdCount = '0';
 
   bool buySellerStatus = false;
-
-  int custsNumber = 0;
 
   @override
   bool get wantKeepAlive => true;
@@ -81,17 +66,15 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
   String gloSearchText = '';
   int gloSeaProLeng = 0;
 
-  String textSetNewCus = 'Customer 2';
-  String textSetAll = 'All';
-  String textSetUnpaids = 'Unpaids';
-  String textSetSearch = 'Search';
-
   List<List> orderList = [];
   var orders;
   var docId;
   var innerId;
 
-  // Stream<QuerySnapshot>? customerSnapshot;
+  String textSetNewMerch = 'Merchant';
+  String textSetAll = 'All';
+  String textSetDebts = 'Debts';
+  String textSetSearch = 'Search';
 
   bool searchOpening = false;
 
@@ -108,28 +91,24 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
     });
   }
 
-  // getLangId() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   if(prefs.getString('lang') == null) {
-  //     return 'english';
-  //   }
-  //   return prefs.getString('lang');
-  // }
+  void printFromOrdersFun(File file, var prodListPR) {
+    widget._printFromOrders(file, prodListPR);
+  }
 
   void closeCartFrom() {
-    widget._closeCartBtn('customers');
+    widget._closeCartBtn('merchants');
   }
 
   void openCartFrom() {
-    widget._openCartBtn('customers');
+    widget._openCartBtn('merchants');
   }
 
   void closeDrawerFrom() {
-    widget._closeDrawerBtn('customers');
+    widget._closeDrawerBtn('merchants');
   }
 
   void openDrawerFrom() {
-    widget._openDrawerBtn('customers');
+    widget._openDrawerBtn('merchants');
   }
 
   var prodsSnap;
@@ -137,8 +116,17 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
   bool i0Clicked = true;
   bool i1Clicked = true;
 
+  bool endOfResult = false;
+
+  ScrollController _scrollController = ScrollController();
+  int itemPerPage = 10;
+
+  Map<dynamic, dynamic> resProds = {};
+
+
   @override
   initState() {
+    prodsSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('merArr').snapshots();
 
     _scrollController.addListener(() {
       if (_scrollController.position.maxScrollExtent ==
@@ -152,50 +140,43 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
       }
     });
 
-    prodsSnap =  FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('cusArr').snapshots();
 
-    if(widget.isEnglish == true){
+    if(widget.isEnglish == true) {
+
       setState(() {
-        textSetNewCus = 'Customer';
+        textSetNewMerch = 'Merchant';
         textSetAll = 'All';
-        textSetUnpaids = 'Unpaids';
+        textSetDebts = 'Unpaids';
         textSetSearch = 'Search';
       });
     }
     else {
       setState(() {
-        textSetNewCus = 'ဝယ်သူ';
+        textSetNewMerch = 'ကုန်သည်';
         textSetAll = 'အားလုံး';
-        textSetUnpaids = 'မရှင်းသေး';
+        textSetDebts = 'မရှင်းသေး';
         textSetSearch = 'ရှာဖွေရန်';
       });
     }
-
     super.initState();
   }
 
-  void printFromOrdersFun(File file, var prodListPR) {
-    widget._printFromOrders(file, prodListPR);
-  }
 
   @override
   void dispose() {
     super.dispose();
   }
 
-  addCustomer2Cart1(data) {
+  addProduct3(data) {
     widget._callback2(data);
   }
 
-  closeNewProduct() {
-    Navigator.pop(context);
-  }
-
-  addProduct3(data) {
+  addProduct1(data) {
     widget._callback(data);
   }
 
-  addProduct1(data) {
+
+  addCustomer2Cart1(data) {
     widget._callback4(data);
   }
 
@@ -242,16 +223,10 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
     return Map.fromIterable(sortedKeys, key: (k) => k, value: (k) => map[k]);
   }
 
+
   final cateScCtler = ScrollController();
   final _width = 10.0;
   int cateScIndex = 0;
-
-  Map<dynamic, dynamic> resProds = {};
-
-  bool endOfResult = false;
-
-  ScrollController _scrollController = ScrollController();
-  int itemPerPage = 10;
 
   @override
   Widget build(BuildContext context) {
@@ -281,11 +256,11 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                     child: Padding(
                       padding: const EdgeInsets.only(top: 81.0),
                       // padding: const EdgeInsets.only(top: 137.0),
-                      child: StreamBuilder<List<CustomerModel>>(
-                          stream: objectbox.getCustomers(),
+                      child: StreamBuilder<List<MerchantModel>>(
+                          stream: objectbox.getMerchants(),
                           builder: (context, snapshot) {
                             if (snapshot.data?.isNotEmpty ?? false) {
-                              List<CustomerModel> prods = snapshot.data ?? [];
+                              List<MerchantModel> prods = snapshot.data ?? [];
                               resProds = {};
                               // prods = snapshot.data ?? [];
                               debugPrint('prods length' + itemPerPage.toString() + ' ' + prods.length.toString());
@@ -348,7 +323,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                                     ),
                                                   ),
                                                   onPressed: () async {
-                                                    widget.addCust();
+                                                    widget.addMerch();
                                                   },
                                                   child: Container(
                                                     child: Row(
@@ -362,7 +337,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                                           ),
                                                         ),
                                                         Text(
-                                                          textSetNewCus, textScaleFactor: 1,
+                                                          textSetNewMerch, textScaleFactor: 1,
                                                           textAlign: TextAlign.center,
                                                           style: TextStyle(
                                                               fontSize: 14,
@@ -463,7 +438,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                                       },
                                                       child: Container(
                                                         child: Text(
-                                                          textSetUnpaids, textScaleFactor: 1,
+                                                          textSetDebts, textScaleFactor: 1,
                                                           textAlign: TextAlign.center,
                                                           style: TextStyle(
                                                               fontSize: 14,
@@ -504,9 +479,9 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                               MaterialPageRoute(
                                                   builder: (
                                                       context) =>
-                                                      CustomerInfoSubs(isEnglish: widget.isEnglish, fromSearch: false,
-                                                        id: prodKey.toString(), custName: prodVal.na, custAddress:  prodVal.ad,
-                                                        toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
+                                                      MerchantInfoSubs(isEnglish: widget.isEnglish, fromSearch: false,
+                                                        id: 'name', mercName: 'No merchant', mercAddress: 'Default buy orders',
+                                                        toggleCoinCallback: addMerchant2Cart, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
                                             );
                                             openDrawerFrom();
                                           },
@@ -728,7 +703,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                                     ),
                                                   ),
                                                   onPressed: () async {
-                                                    widget.addCust();
+                                                    widget.addMerch();
                                                   },
                                                   child: Container(
                                                     child: Row(
@@ -742,7 +717,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                                           ),
                                                         ),
                                                         Text(
-                                                          textSetNewCus, textScaleFactor: 1,
+                                                          textSetNewMerch, textScaleFactor: 1,
                                                           textAlign: TextAlign.center,
                                                           style: TextStyle(
                                                               fontSize: 14,
@@ -843,7 +818,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
                                                       },
                                                       child: Container(
                                                         child: Text(
-                                                          textSetUnpaids, textScaleFactor: 1,
+                                                          textSetDebts, textScaleFactor: 1,
                                                           textAlign: TextAlign.center,
                                                           style: TextStyle(
                                                               fontSize: 14,
@@ -864,10 +839,10 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
 
                                       ),
                                     ),),
-                                  resProds.length == 0? SliverFillRemaining(
-                                    child: Center(
-                                      child: Text('No customer found', textScaleFactor: 1, style: TextStyle(fontSize: 15),),
-                                    ), ) : Container()
+                            resProds.length == 0? SliverFillRemaining(
+                            child: Center(
+                            child: Text('No merchant found', textScaleFactor: 1, style: TextStyle(fontSize: 15),),
+                            ), ) : Container()
                                 ],
                               );
                             }
@@ -1043,12 +1018,6 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
 
   unpaidCount(int index) {
     return orderList;
-  }
-
-  void add2OrderList(int index, int orderLength) {
-    setState(() {
-      orderList[index].add(orderLength);
-    });
   }
 }
 
