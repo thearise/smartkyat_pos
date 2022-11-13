@@ -8,7 +8,7 @@ import 'ordprod.dart';
 
 @Entity()
 @Sync()
-class BOrder {
+class BuyOrder {
   int id;
   int cid;
   double debt;
@@ -23,7 +23,7 @@ class BOrder {
   /// Note: Stored in milliseconds without time zone info.
   DateTime date;
 
-  BOrder(
+  BuyOrder(
       this.cid,
       this.debt,
       this.deviceId,
