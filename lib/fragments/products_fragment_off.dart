@@ -22,7 +22,7 @@ import 'package:smartkyat_pos/pages2/single_assets_page.dart';
 import 'package:smartkyat_pos/widgets/add_new_category_button.dart';
 import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
 import 'package:smartkyat_pos/widgets/fill_product.dart';
-import 'package:smartkyat_pos/widgets/product_details_view2.dart';
+import 'package:smartkyat_pos/widgets/product_details_view_off.dart';
 import 'package:smartkyat_pos/widgets/version_detatils_view.dart';
 import 'package:sticky_and_expandable_list/sticky_and_expandable_list.dart';
 import 'package:sticky_headers/sticky_headers.dart';
