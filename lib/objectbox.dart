@@ -121,6 +121,22 @@ class ObjectBox {
         .map((query) => query.find());
   }
 
+  Stream<CustomerModel?> getCustomer(int id) {
+    // Query for all notes, sorted by their date.
+    // https://docs.objectbox.io/queries
+    final builder = customerBox.query(CustomerModel_.id.equals(id));
+    // Query<Product> query = productBox.query().build();
+    // double sumSum = query.property(Product.im).sum() + query.property(Product_.im).sum();
+    // Build and watch the query,
+    // set triggerImmediately to emit the query immediately on listen.
+    return builder
+        .watch(triggerImmediately: true)
+    // Map it to a list of notes to be used by a StreamBuilder.
+        .map((query) {
+      return query.findUnique();
+    });
+  }
+
   Stream<List<MerchantModel>> getMerchants() {
     // Query for all notes, sorted by their date.
     // https://docs.objectbox.io/queries
@@ -133,6 +149,23 @@ class ObjectBox {
         .watch(triggerImmediately: true)
     // Map it to a list of notes to be used by a StreamBuilder.
         .map((query) => query.find());
+  }
+
+
+  Stream<MerchantModel?> getMerchant(int id) {
+    // Query for all notes, sorted by their date.
+    // https://docs.objectbox.io/queries
+    final builder = merchantBox.query(MerchantModel_.id.equals(id));
+    // Query<Product> query = productBox.query().build();
+    // double sumSum = query.property(Product.im).sum() + query.property(Product_.im).sum();
+    // Build and watch the query,
+    // set triggerImmediately to emit the query immediately on listen.
+    return builder
+        .watch(triggerImmediately: true)
+    // Map it to a list of notes to be used by a StreamBuilder.
+        .map((query) {
+      return query.findUnique();
+    });
   }
   /// Add a note within a transaction.
   ///
