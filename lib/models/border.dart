@@ -33,7 +33,7 @@ class BuyOrder {
       this.text,
       {this.id = 0, DateTime? date})
       : date = date ?? DateTime.now();
-  final ordProd = ToOne<OrdProd>();
+  final ordProds = ToMany<OrdProd>();
   String get dateFormat => DateFormat('dd.MM.yyyy hh:mm:ss').format(date);
 
 }

@@ -123,6 +123,16 @@ class _WarmlyWelcomeState extends State<WarmlyWelcome>
           statusBarIconBrightness: Brightness.dark// status bar color
       ));
 
+    debugPrint('get off 0 ');
+    getOffline().then((value) {
+      debugPrint('get off ' + value.toString());
+      if(value=='true') {
+        Navigator.of(context).pushReplacement(FadeRoute(page: HomePageOff()),);
+      } else if(value=='false') {
+        Navigator.of(context).pushReplacement(FadeRoute(page: Welcome()),);
+      }
+    });
+
     FirebaseAuth.instance
         .authStateChanges()
         .listen((User? user) async {
@@ -294,6 +304,24 @@ class _WarmlyWelcomeState extends State<WarmlyWelcome>
     prefs.setString('store', id);
   }
 
+  setOffline(String set) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // return(prefs.getString('store'));
+
+    prefs.setString('offline', set);
+  }
+
+  Future<String> getOffline() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var index = prefs.getString('offline');
+    debugPrint(index.toString());
+    if (index == null) {
+      return 'notset';
+    } else {
+      return index.toString();
+    }
+  }
+
   @override
   void dispose() {
     _loginTabController.dispose();
@@ -358,7 +386,8 @@ class _WarmlyWelcomeState extends State<WarmlyWelcome>
                                         Padding(
                                           padding: const EdgeInsets.symmetric(horizontal: 15.0),
                                           child: GestureDetector(
-                                            onTap: () {
+                                            onTap: () async {
+                                              await setOffline('true');
                                               Navigator.of(context).pushReplacement(FadeRoute(page: HomePageOff()),);
                                             },
                                             child: Container(

@@ -8,6 +8,7 @@ import '../objectbox.g.dart';
 @Entity()
 @Sync()
 class Product {
+  @Id()
   int id;
   bool ar;
   double b1;
@@ -30,6 +31,7 @@ class Product {
   double l1;
   double l2;
   double lm;
+  double wt;
 
 
   String text;
@@ -60,6 +62,7 @@ class Product {
       this.l1,
       this.l2,
       this.lm,
+      this.wt,
       this.text,
     {this.id = 0, DateTime? date})
     : date = date ?? DateTime.now();
@@ -89,6 +92,7 @@ class Product {
       'l1': l1,
       'l2': l2,
       'lm': lm,
+      'wt': wt,
       'text': text,
     };
   }

@@ -7,17 +7,14 @@ import '../objectbox.g.dart';
 
 @Entity()
 @Sync()
-class OrdProd {
+class BordProd {
   int id;
-  int pid;
   String name;
-  String uname;
+  double uname;
   double quantity;
   double sale;
   double buy;
-  double refquant;
-  int oid;
-
+  double ref;
 
   String text;
   String? comment;
@@ -25,15 +22,13 @@ class OrdProd {
   /// Note: Stored in milliseconds without time zone info.
   DateTime date;
 
-  OrdProd(
-      this.pid,
+  BordProd(
       this.name,
       this.uname,
       this.quantity,
       this.sale,
       this.buy,
-      this.refquant,
-      this.oid,
+      this.ref,
       this.text,
       {this.id = 0, DateTime? date})
       : date = date ?? DateTime.now();

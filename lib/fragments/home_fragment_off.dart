@@ -12,6 +12,7 @@ import 'package:smartkyat_pos/fragments/order_data_table.dart';
 import 'package:smartkyat_pos/fragments/widgets_bloc/bloc_day_overview.dart' as BlocDayOverviewImp;
 import 'package:smartkyat_pos/fragments/widgets_bloc/bloc_year_overview.dart' as BlocYearOverviewImp;
 import 'package:flutter/src/material/colors.dart' as Colors;
+import 'package:smartkyat_pos/models/order.dart';
 import '../a11y/a11y_gallery.dart' as a11y show buildGallery;
 import '../bar_chart/bar_gallery.dart' as bar show buildGallery;
 import '../gallery_scaffold.dart';
@@ -574,8 +575,8 @@ class OverviewPageState extends State<OverviewPage>
                         padding: const EdgeInsets.only(
                             top: 0.0, left: 0.0, right: 0.0),
 
-                        child: StreamBuilder<List<Note>>(
-                            stream: objectbox.getNotes(),
+                        child: StreamBuilder<List<SaleOrder>>(
+                            stream: objectbox.getOrders(),
                             builder: (context, snapshot) => ListView.builder(
                                 shrinkWrap: true,
                                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -723,9 +724,9 @@ class OverviewPageState extends State<OverviewPage>
     print('Price: ${faker.randomGenerator.integer(500, min: 10)}');
   }
 
-  GestureDetector Function(BuildContext, int) _itemBuilder(List<Note> notes) =>
+  GestureDetector Function(BuildContext, int) _itemBuilder(List<SaleOrder> saleOrders) =>
           (BuildContext context, int index) => GestureDetector(
-        onTap: () => objectbox.noteBox.remove(notes[index].id),
+        onTap: () => objectbox.noteBox.remove(saleOrders[index].id),
         child: Row(
           children: <Widget>[
             Expanded(
@@ -740,7 +741,7 @@ class OverviewPageState extends State<OverviewPage>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        notes[index].text,
+                        saleOrders[index].total.toString(),
                         style: const TextStyle(
                           fontSize: 15.0,
                         ),
@@ -750,7 +751,7 @@ class OverviewPageState extends State<OverviewPage>
                       Padding(
                         padding: const EdgeInsets.only(top: 5.0),
                         child: Text(
-                          'Added on ${notes[index].dateFormat}',
+                          'Added on ${saleOrders[index].dateFormat}',
                           style: const TextStyle(
                             fontSize: 12.0,
                           ),

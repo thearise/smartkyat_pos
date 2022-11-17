@@ -1,11 +1,15 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:objectbox_sync_flutter_libs/objectbox_sync_flutter_libs.dart';
+import 'package:smartkyat_pos/models/border.dart';
 import 'package:smartkyat_pos/models/customer_model.dart';
+import 'package:smartkyat_pos/models/order.dart';
 import 'package:smartkyat_pos/models/product.dart';
 
 import 'model.dart';
 import 'models/merchant_mode.dart';
+import 'models/ordprod.dart';
 import 'objectbox.g.dart'; // created by `flutter pub run build_runner build`
 
 /// Provides access to the ObjectBox Store throughout the app.
@@ -20,12 +24,16 @@ class ObjectBox {
   late final Box<Product> productBox;
   late final Box<CustomerModel> customerBox;
   late final Box<MerchantModel> merchantBox;
+  late final Box<SaleOrder> saleorderBox;
+  late final Box<OrdProd> ordProdBox;
 
   ObjectBox._create(this.store) {
     noteBox = Box<Note>(store);
     productBox = Box<Product>(store);
     customerBox = Box<CustomerModel>(store);
     merchantBox = Box<MerchantModel>(store);
+    saleorderBox = Box<SaleOrder>(store);
+    ordProdBox = Box<OrdProd>(store);
 
     // TODO configure actual sync server address and authentication
     // For configuration and docs, see objectbox/lib/src/sync.dart
@@ -58,6 +66,34 @@ class ObjectBox {
         .map((query) => query.find());
   }
 
+  Stream<List<SaleOrder>> getOrders() {
+    // Query for all notes, sorted by their date.
+    // https://docs.objectbox.io/queries
+    final builder = saleorderBox.query().order(SaleOrder_.date, flags: Order.descending);
+    // Build and watch the query,
+    // set triggerImmediately to emit the query immediately on listen.
+    return builder
+        .watch(triggerImmediately: true)
+    // Map it to a list of notes to be used by a StreamBuilder.
+        .map((query) => query.find());
+  }
+
+  Stream<SaleOrder?> getOrder(int id) {
+    // Query for all notes, sorted by their date.
+    // https://docs.objectbox.io/queries
+    final builder = saleorderBox.query(SaleOrder_.id.equals(id));
+    // Query<Product> query = productBox.query().build();
+    // double sumSum = query.property(Product.im).sum() + query.property(Product_.im).sum();
+    // Build and watch the query,
+    // set triggerImmediately to emit the query immediately on listen.
+    return builder
+        .watch(triggerImmediately: true)
+    // Map it to a list of notes to be used by a StreamBuilder.
+        .map((query) {
+      return query.findUnique();
+    });
+  }
+
   /// Add a note within a transaction.
   ///
   /// To avoid frame drops, run ObjectBox operations that take longer than a
@@ -77,6 +113,12 @@ class ObjectBox {
     store.box<Note>().put(Note(text));
   }
 
+  static void _addNoteInTx2(Store store, String text) {
+    // Perform ObjectBox operations that take longer than a few milliseconds
+    // here. To keep it simple, this example just puts a single object.
+    store.box().putMany([]);
+  }
+
   Stream<List<Product>> getProducts() {
     // Query for all notes, sorted by their date.
     // https://docs.objectbox.io/queries
@@ -88,6 +130,13 @@ class ObjectBox {
     return builder
         .watch(triggerImmediately: true)
     // Map it to a list of notes to be used by a StreamBuilder.
+        .map((query) => query.find());
+  }
+
+  Stream<List<OrdProd>> getOrdProds(int parse) {
+    final builder = ordProdBox.query(OrdProd_.oid.equals(parse)).order(OrdProd_.date, flags: Order.descending);
+    return builder
+        .watch(triggerImmediately: true)
         .map((query) => query.find());
   }
 
@@ -105,6 +154,25 @@ class ObjectBox {
         .map((query) {
       return query.findUnique();
     });
+  }
+
+  List<Product> getProdByIds(List<int> ids) {
+    List<Product> prods = [];
+    try {
+      store.runInTransaction(TxMode.read, () {
+        for(int i=0; i < ids.length; i++) {
+          Product prod = productBox.get(ids[i]) ?? Product(
+              false, 1000,1000,1000,1000,1000, '', 1000,1000,1000,'','','','',1000,1000,1000,1000,1000,100,100,100,''
+          );
+          prods.add(prod);
+        }
+      });
+      debugPrint('prods goingfine');
+      return prods;
+    } catch (e) {
+      debugPrint('prods catching');
+      return [];
+    }
   }
 
   Stream<List<CustomerModel>> getCustomers() {
@@ -196,11 +264,42 @@ class ObjectBox {
       double l1,
       double l2,
       double lm,
+      double wt,
       String text,
 
       ) =>
-      productBox.put(Product(ar,b1,b2,bm,c1,c2,co,i1,i2,im,n1,n2,na,nm,s1,s2,se,sm,l1,l2,lm, text));
+      productBox.put(Product(ar,b1,b2,bm,c1,c2,co,i1,i2,im,n1,n2,na,nm,s1,s2,se,sm,l1,l2,lm,wt, text));
 
+  void addOrder(List<OrdProd> prods, int cid, double debt, int deviceId, double discount, bool refund, double total, String text) {
+    SaleOrder saleOrder = SaleOrder(0, debt, deviceId, discount, refund, total, text);
+    saleOrder.ordProds.addAll(prods);
+    saleorderBox.put(saleOrder);
+    // saleorderBox.pu
+  }
+
+  bool addSaleOrder(List<Product> orgProds, List<OrdProd> prods, int cid, double debt, int deviceId, double discount, bool refund, double total, String text) {
+
+    SaleOrder saleOrder = SaleOrder(0, debt, deviceId, discount, refund, total, text);
+    // store.runInTransaction(TxMode.write, () {
+    //   saleorderBox.put(saleOrder);
+    // });
+    // store.box().putMany([saleOrder]);
+    try {
+      store.runInTransaction(TxMode.write, () {
+        // existing code
+        int orderId = saleorderBox.put(saleOrder);
+        for(int i = 0; i< prods.length; i++) {
+          prods[i].oid = orderId;
+        }
+        ordProdBox.putMany(prods);
+        productBox.putMany(orgProds);
+      });
+      return true;
+    } catch (e) {
+      return false;
+    }
+
+  }
 
   void addCustomer(
   bool ar,
@@ -256,10 +355,13 @@ class ObjectBox {
       double l1,
       double l2,
       double lm,
+      double wt,
       String text,
     ) {
     // Perform ObjectBox operations that take longer than a few milliseconds
     // here. To keep it simple, this example just puts a single object.
-    store.box<Product>().put(Product(ar,b1,b2,bm,c1,c2,co,i1,i2,im,n1,n2,na,nm,s1,s2,se,sm,l1,l2,lm, text));
+    store.box<Product>().put(Product(ar,b1,b2,bm,c1,c2,co,i1,i2,im,n1,n2,na,nm,s1,s2,se,sm,l1,l2,lm,wt, text));
   }
+
+
 }
