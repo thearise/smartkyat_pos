@@ -15,7 +15,9 @@ import 'package:smartkyat_pos/fragments/subs/buy_list_info.dart';
 import 'package:smartkyat_pos/fragments/subs/customer_info.dart';
 import 'package:smartkyat_pos/fragments/subs/language_settings.dart';
 import 'package:smartkyat_pos/fragments/subs/merchant_info.dart';
-import 'package:smartkyat_pos/fragments/subs/order_info.dart';
+import 'package:smartkyat_pos/fragments/subs/order_info_offline.dart';
+import 'package:smartkyat_pos/main.dart';
+import 'package:smartkyat_pos/models/order.dart';
 import 'package:smartkyat_pos/pages2/home_page5.dart';
 import 'package:smartkyat_pos/widgets/product_details_view2.dart';
 import 'package:sticky_and_expandable_list/sticky_and_expandable_list.dart';
@@ -294,6 +296,13 @@ class OrdersFragmentState extends State<OrdersFragment>
                           height: MediaQuery.of(context).size.height-MediaQuery.of(context).padding.top-MediaQuery.of(context).padding.bottom,
                           width: MediaQuery.of(context).size.width,
                           color: Colors.white,
+                        child: StreamBuilder<List<SaleOrder>>(
+                            stream: objectbox.getOrders(),
+                            builder: (context, snapshot) => ListView.builder(
+                                shrinkWrap: true,
+                                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                                itemCount: snapshot.hasData ? snapshot.data!.length : 0,
+                                itemBuilder: _itemBuilder(snapshot.data ?? []))),
                       ),
                     ),
                   ),
@@ -1584,6 +1593,65 @@ class OrdersFragmentState extends State<OrdersFragment>
     // }
 
   }
+  // objectbox.noteBox.remove(saleOrders[index].id),
+  GestureDetector Function(BuildContext, int) _itemBuilder(List<SaleOrder> saleOrders) =>
+          (BuildContext context, int index) => GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => OrderInfoSub(isEnglish: widget.isEnglish, fromSearch: false, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, data:
+                    (
+                        saleOrders[index].date.toString() + '^' +
+                        saleOrders[index].id.toString() + '^' +
+                        saleOrders[index].total.toString() + '^' +
+                        saleOrders[index].cid.toString() + '&' + '^' +
+                        'F' + '^' +
+                        saleOrders[index].debt.toString() + '^' +
+                        '0.0'
+                        // saleOrders[index].discount.toString() + '-p'
+                    ),
+                    toggleCoinCallback: () {}, shopId: widget.shopId.toString(),)),
+              );
+            },
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: Container(
+                    decoration: const BoxDecoration(
+                        border:
+                        Border(bottom: BorderSide(color: Colors.black12))),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 18.0, horizontal: 10.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            saleOrders[index].total.toString(),
+                            style: const TextStyle(
+                              fontSize: 15.0,
+                            ),
+                            // Provide a Key for the integration test
+                            key: Key('list_item_$index'),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 5.0),
+                            child: Text(
+                              'Added on ${saleOrders[index].dateFormat}',
+                              style: const TextStyle(
+                                fontSize: 12.0,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
 // List<String> orderItems(String id) {}
 }
 
