@@ -8,13 +8,13 @@ import 'ordprod.dart';
 
 @Entity()
 @Sync()
-class BOrder {
+class SaleOrder {
   int id;
   int cid;
   double debt;
   int deviceId;
   double discount;
-  String refund;
+  bool refund;
   double total;
 
   String text;
@@ -23,7 +23,7 @@ class BOrder {
   /// Note: Stored in milliseconds without time zone info.
   DateTime date;
 
-  BOrder(
+  SaleOrder(
       this.cid,
       this.debt,
       this.deviceId,
@@ -33,7 +33,7 @@ class BOrder {
       this.text,
       {this.id = 0, DateTime? date})
       : date = date ?? DateTime.now();
-  final ordProd = ToOne<OrdProd>();
+  final ordProds = ToMany<OrdProd>();
   String get dateFormat => DateFormat('dd.MM.yyyy hh:mm:ss').format(date);
 
 }

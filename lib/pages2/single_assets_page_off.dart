@@ -1706,6 +1706,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                                 0,
                                                 0,
                                                 0,
+                                                0,
                                                 "text"
                                             );
                                             debugPrint('doning off prod');

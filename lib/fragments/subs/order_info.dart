@@ -89,7 +89,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
 
   @override
   initState() {
-
+    debugPrint('widget data ' + widget.data.toString());
     if(widget.isEnglish == true) {
 
       setState(() {
@@ -127,6 +127,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
         currencyUnit = value.toString();
       });
     });
+
     result = widget.data
         .split('^')[0] +
         '^' +
@@ -218,6 +219,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                 prodList.toString());
 
                             for (int j=0;j< prodList.length; j++) {
+                              debugPrint('prod list latest ' + prodList[j]);
                               totalNPrice += double.parse(prodList[j].split('^')[4]) * (double.parse(prodList[j].split('^')[3]) - double.parse(prodList[j].split('^')[7]));
                               totalPrice += double.parse(prodList[j].split('^')[4]) * (double.parse(prodList[j].split('^')[3]) - double.parse(prodList[j].split('^')[7]));
                             }

@@ -588,12 +588,12 @@ class ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                 ),
                 Expanded(
                   child: StreamBuilder<Product?>(
-                    stream: objectbox.getProduct(1),
+                    stream: objectbox.getProduct(int.parse(widget.idString)),
                     builder: (context, snapshot) {
                       print('snapshotting ' + snapshot.data.toString());
                       if(snapshot.data!=null) {
                         Product product = snapshot.data ?? Product(
-                          false, 1000,1000,1000,1000,1000, '', 1000,1000,1000,'','','','',1000,1000,1000,1000,1000,100,100,''
+                          false, 1000,1000,1000,1000,1000, '', 1000,1000,1000,'','','','',1000,1000,1000,1000,1000,100,100,100,''
                         );
                         debugPrint('checking prod ' + product.na);
                         prodName = product.na;
@@ -606,13 +606,13 @@ class ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                         sub2Price = product.s2;
                         sub1Unit = product.c1;
                         sub2Unit = product.c2;
-                        subExist = 0;
+                        subExist = product.se;
                         mainLoss = 0;
                         sub1Loss = 0;
                         sub2Loss = 0;
-                        mainQty = 0;
-                        sub1Qty = 0;
-                        sub2Qty = 0;
+                        mainQty = product.im;
+                        sub1Qty = product.i1;
+                        sub2Qty = product.i2;
                         buyPrice1 = product.b1;
                         buyPrice2 = product.b2;
                         buyPrice3 = product.bm;
