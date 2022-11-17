@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
-import 'package:smartkyat_pos/fragments/subs/merchant_info.dart';
+import 'package:smartkyat_pos/fragments/subs/merchant_info_off.dart';
 import 'package:smartkyat_pos/models/merchant_mode.dart';
 
 import '../app_theme.dart';
