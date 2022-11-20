@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_picker.dart';
 import 'package:one_context/one_context.dart';
@@ -92,6 +93,8 @@ class OrdersFragmentState extends State<OrdersFragment>
 
   bool buySellerStatus = false;
 
+  String currencyUnit = 'MMK';
+
   @override
   bool get wantKeepAlive => true;
 
@@ -159,6 +162,23 @@ class OrdersFragmentState extends State<OrdersFragment>
 
   @override
   initState() {
+    _scrollController.addListener(() {
+      if (_scrollController.position.maxScrollExtent ==
+          _scrollController.position.pixels) {
+        debugPrint('maxxed');
+        Future.delayed(const Duration(milliseconds: 500), () {
+          itemPerPage = itemPerPage + 10;
+          setState(() {});
+        });
+
+      }
+    });
+
+    getCurrency().then((value){
+      setState(() {
+        currencyUnit = value.toString();
+      });
+    });
     if(widget.isEnglish == true)
     {
       setState(() {
@@ -262,6 +282,12 @@ class OrdersFragmentState extends State<OrdersFragment>
     }
   }
 
+  ScrollController _scrollController = ScrollController();
+  int itemPerPage = 10;
+  bool endOfResult = false;
+  bool noResult = false;
+  bool noFind = false;
+
   @override
   Widget build(BuildContext context) {
     // CollectionReference daily_exps = ;
@@ -298,11 +324,446 @@ class OrdersFragmentState extends State<OrdersFragment>
                           color: Colors.white,
                         child: StreamBuilder<List<SaleOrder>>(
                             stream: objectbox.getOrders(),
-                            builder: (context, snapshot) => ListView.builder(
-                                shrinkWrap: true,
-                                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                                itemCount: snapshot.hasData ? snapshot.data!.length : 0,
-                                itemBuilder: _itemBuilder(snapshot.data ?? []))),
+                            builder: (context, snapshot) {
+                              // List<String> dailyOrders = ['sub1', 'sub2', 'sub3'];
+                              if(snapshot.data?.isNotEmpty ?? false) {
+                                List<SaleOrder> saleOrdersAll = snapshot.data ?? [];
+                                noFind = false;
+                                List<SaleOrder> saleOrders = [];
+                                for(int i = 0; i < itemPerPage; i++) {
+                                  saleOrders.add(saleOrdersAll[i]);
+                                  if(i >= saleOrdersAll.length-1) {
+                                    break;
+                                  }
+                                }
+                                if(saleOrders.length>= saleOrdersAll.length) {
+                                  endOfResult = true;
+                                } else {
+                                  endOfResult = false;
+                                }
+
+                                Map<String, List<SaleOrder>> orderMap = {};
+                                debugPrint('lengthing 01 ' + saleOrders.length.toString());
+
+                                for(int i = 0; i < saleOrders.length; i++) {
+                                  // debugPrint('lengthing 01.5 ' + (saleOrders[i].date.day).toString());
+                                  if(i==0) {
+                                    orderMap[(saleOrders[i].date.day).toString()] = [saleOrders[i]];
+
+                                  } else {
+                                    if(orderMap[(saleOrders[i].date.day).toString()] == null) {
+                                      orderMap[(saleOrders[i].date.day).toString()] = [saleOrders[i]];
+                                    } else {
+                                      orderMap[(saleOrders[i].date.day).toString()]!.add(saleOrders[i]);
+                                    }
+                                    // orderMap.update((saleOrders[i].date.millisecondsSinceEpoch).toString(), (list) {
+                                    //   list[3] = 'd';
+                                    //   return list;
+                                    // });
+                                  }
+                                }
+                                // debugPrint('lengthing 02 ' + orderMap['19']!.length.toString() + ' ' + orderMap.toString());
+
+
+                                var sections = List<ExampleSection>.empty(growable: true);
+                                for(int i = 0; i < orderMap.length; i++) {
+                                  debugPrint('printing service ' + orderMap.entries.elementAt(i).toString());
+                                  // List<SaleOrder> dailyOrders = [];
+                                  var section = ExampleSection()
+                                    ..header = orderMap.entries.elementAt(i).key
+                                  // ..items = List.generate(int.parse(document['length']), (index) => document.id)
+                                  //   ..items = listCreation(document.id, document['data'], document).cast<String>()
+
+                                  //   ..items = document['daily_order'].cast<String>()
+                                    ..items = orderMap.entries.elementAt(i).value
+                                  // ..items = dailyOrders.cast<String>()
+                                  // ..items = orderItems(document.id)
+                                    ..expanded = true;
+                                  sections.add(section);
+                                }
+
+
+
+                                sectionList3 = sections;
+                                return CustomScrollView(
+                                  controller: _scrollController,
+                                  slivers: [
+                                    // if (widget.header != null) widget.header!,
+                                    SliverAppBar(
+                                      elevation: 0,
+                                      backgroundColor: Colors.white,
+
+                                      // Provide a standard title.
+
+                                      // Allows the user to reveal the app bar if they begin scrolling
+                                      // back up the list of items.
+                                      floating: true,
+                                      bottom: PreferredSize(                       // Add this code
+                                        preferredSize: Size.fromHeight(-2.0),      // Add this code
+                                        child: Container(),                           // Add this code
+                                      ),
+                                      flexibleSpace: headerAppBar(),
+                                      // Display a placeholder widget to visualize the shrinking size.
+                                      // Make the initial height of the SliverAppBar larger than normal.
+                                      expandedHeight: 20,
+                                    ),
+                                    SliverExpandableList(
+                                      builder: SliverExpandableChildDelegate(
+                                        sectionList: sectionList3,
+                                        headerBuilder: _buildHeader,
+                                        itemBuilder: (context, sectionIndex, itemIndex, index) {
+                                          SaleOrder item = sectionList3[sectionIndex].items[itemIndex];
+                                          int length = sectionList3[sectionIndex].items.length;
+
+                                          if(itemIndex == length-1) {
+                                            return GestureDetector(
+                                              onTap: () async {
+                                                widget._closeDrawerBtn();
+                                                // await Navigator.push(
+                                                //   context,
+                                                //   MaterialPageRoute(
+                                                //       builder: (context) => OrderInfoSub(isEnglish: widget.isEnglish,fromSearch: false, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, closeCartBtn: widget._closeCartBtn, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), openCartBtn: widget._openCartBtn,)),
+                                                // );
+                                                widget._openDrawerBtn();
+                                              },
+                                              child: Stack(
+                                                alignment: Alignment.center,
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 0.0, right: 0.0),
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        color: AppTheme.lightBgColor,
+                                                      ),
+                                                      child: Column(
+                                                        children: [
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 12.0, bottom: 14.0),
+                                                            child: Column(
+                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              children: [
+                                                                Padding(
+                                                                  padding: const EdgeInsets.only(left: 1.0),
+                                                                  child: Column(
+                                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                    children: [
+                                                                      Row(
+                                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                                        children: [
+                                                                          Text('#' + item.toString(),
+                                                                            textScaleFactor: 1, style: TextStyle(
+                                                                                fontSize: 16,
+                                                                                fontWeight: FontWeight.w500
+                                                                            ),
+                                                                          ),
+                                                                          SizedBox(width: 8),
+                                                                          Padding(
+                                                                            padding:  EdgeInsets.only(bottom: 1.0),
+                                                                            child: Icon(Icons.access_time, size: 15, color: Colors.grey,),
+                                                                          ),
+                                                                          SizedBox(width: 4),
+                                                                          Padding(
+                                                                            padding: EdgeInsets.only(bottom:  (Platform.isAndroid) ? 2.0 : 0.0),
+                                                                            child: Text(item.toString(),
+                                                                              textScaleFactor: 1, style: TextStyle(
+                                                                                fontSize: 14,
+                                                                                fontWeight: FontWeight.w500,
+                                                                                color: Colors.grey,
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                      SizedBox(
+                                                                        height: 6,
+                                                                      ),
+                                                                      Padding(
+                                                                        padding: const EdgeInsets.only(right: 25.0),
+                                                                        child: Row(
+                                                                          children: [
+                                                                            Expanded(
+                                                                              child: Text(item.toString(), textScaleFactor: 1, style: TextStyle(
+                                                                                  fontSize: 15,
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                  color: Colors.black,
+                                                                                  overflow: TextOverflow.ellipsis
+                                                                              ),
+                                                                                maxLines: 1,
+                                                                                strutStyle: StrutStyle(
+                                                                                  height: 1.3,
+                                                                                  // fontSize:,
+                                                                                  forceStrutHeight: true,
+                                                                                ),
+
+                                                                              ),
+                                                                            ),
+
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.only(left: 8.0),
+                                                                              child: Text('$currencyUnit ', textScaleFactor: 1, style: TextStyle(
+                                                                                fontSize: 15,
+                                                                                fontWeight: FontWeight.w500,
+                                                                              )),
+                                                                            ),
+
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 8,
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(left: 15.0),
+                                                            child: Container(
+                                                              decoration: BoxDecoration(
+                                                                  border: Border(
+                                                                    bottom: BorderSide(
+                                                                        color: AppTheme.skBorderColor2,
+                                                                        width: 1.0),
+                                                                  )
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(right: 15.0, bottom: 5),
+                                                    child: Align(
+                                                      alignment: Alignment.centerRight,
+                                                      child: Row(
+                                                        mainAxisAlignment: MainAxisAlignment.end,
+                                                        children: [
+                                                          // Text('$currencyUnit ' + double.parse(item.split('^')[2]).toStringAsFixed(2), style: TextStyle(
+                                                          //   fontSize: 15,
+                                                          //   fontWeight: FontWeight.w500,
+                                                          // )),
+                                                          SizedBox(width: 10),
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(bottom: 2.0),
+                                                            child: Icon(
+                                                              Icons
+                                                                  .arrow_forward_ios_rounded,
+                                                              size: 16,
+                                                              color: Colors
+                                                                  .blueGrey
+                                                                  .withOpacity(
+                                                                  0.8),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            );
+                                          }
+                                          return GestureDetector(
+                                            onTap: () async {
+                                              widget._closeDrawerBtn();
+                                              // await Navigator.push(
+                                              //   context,
+                                              //   MaterialPageRoute(
+                                              //       builder: (context) => OrderInfoSub(isEnglish: widget.isEnglish,fromSearch: false, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, closeCartBtn: widget._closeCartBtn, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), openCartBtn: widget._openCartBtn,)),
+                                              // );
+                                              widget._openDrawerBtn();
+                                            },
+                                            child: Stack(
+                                              alignment: Alignment.center,
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.only(left: 0.0, right: 0.0),
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      color: AppTheme.lightBgColor,
+                                                    ),
+                                                    child: Column(
+                                                      children: [
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 12.0, bottom: 14.0),
+                                                          child: Column(
+                                                            mainAxisAlignment: MainAxisAlignment.start,
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            children: [
+                                                              Padding(
+                                                                padding: const EdgeInsets.only(left: 1.0),
+                                                                child: Column(
+                                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                                  children: [
+                                                                    Row(
+                                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                                      children: [
+                                                                        Text('#' + item.toString(),
+                                                                          textScaleFactor: 1, style: TextStyle(
+                                                                              fontSize: 16,
+                                                                              fontWeight: FontWeight.w500
+                                                                          ),
+                                                                        ),
+                                                                        SizedBox(width: 8),
+                                                                        Padding(
+                                                                          padding:  EdgeInsets.only(bottom: 1.0),
+                                                                          child: Icon(Icons.access_time, size: 15, color: Colors.grey,),
+                                                                        ),
+                                                                        SizedBox(width: 4),
+                                                                        Padding(
+                                                                          padding: EdgeInsets.only(bottom:  (Platform.isAndroid) ? 2.0 : 0.0),
+                                                                          child: Text(item.toString(),
+                                                                            textScaleFactor: 1, style: TextStyle(
+                                                                              fontSize: 14,
+                                                                              fontWeight: FontWeight.w500,
+                                                                              color: Colors.grey,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height: 6,
+                                                                    ),
+                                                                    Padding(
+                                                                      padding: const EdgeInsets.only(right: 25.0),
+                                                                      child: Row(
+                                                                        children: [
+                                                                          Expanded(
+                                                                            child: Text(item.toString(), textScaleFactor: 1, style: TextStyle(
+                                                                                fontSize: 15,
+                                                                                fontWeight: FontWeight.w500,
+                                                                                color: Colors.black,
+                                                                                overflow: TextOverflow.ellipsis
+                                                                            ),
+                                                                              maxLines: 1,
+                                                                              strutStyle: StrutStyle(
+                                                                                height: 1.3,
+                                                                                // fontSize:,
+                                                                                forceStrutHeight: true,
+                                                                              ),
+
+                                                                            ),
+                                                                          ),
+
+                                                                          Padding(
+                                                                            padding: const EdgeInsets.only(left: 8.0),
+                                                                            child: Text('$currencyUnit ', textScaleFactor: 1, style: TextStyle(
+                                                                              fontSize: 15,
+                                                                              fontWeight: FontWeight.w500,
+                                                                            )),
+                                                                          ),
+
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                height: 8,
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(left: 15.0),
+                                                          child: Container(
+                                                            decoration: BoxDecoration(
+                                                                border: Border(
+                                                                  bottom: BorderSide(
+                                                                      color: AppTheme.skBorderColor2,
+                                                                      width: 1.0),
+                                                                )
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(right: 15.0, bottom: 5),
+                                                  child: Align(
+                                                    alignment: Alignment.centerRight,
+                                                    child: Row(
+                                                      mainAxisAlignment: MainAxisAlignment.end,
+                                                      children: [
+                                                        // Text('$currencyUnit ' + double.parse(item.split('^')[2]).toStringAsFixed(2), style: TextStyle(
+                                                        //   fontSize: 15,
+                                                        //   fontWeight: FontWeight.w500,
+                                                        // )),
+                                                        SizedBox(width: 10),
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(bottom: 2.0),
+                                                          child: Icon(
+                                                            Icons
+                                                                .arrow_forward_ios_rounded,
+                                                            size: 16,
+                                                            color: Colors
+                                                                .blueGrey
+                                                                .withOpacity(
+                                                                0.8),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          );
+
+                                          // return Container(
+                                          //   child: Text(item)
+                                          // );
+                                        },
+                                      ),
+                                    ),
+                                    bottomBox()
+                                  ],
+                                );
+                              }
+                              noFind = true;
+                              return CustomScrollView(
+                                controller: _scrollController,
+                                slivers: [
+                                  // if (widget.header != null) widget.header!,
+                                  SliverAppBar(
+                                    elevation: 0,
+                                    backgroundColor: Colors.white,
+
+                                    // Provide a standard title.
+
+                                    // Allows the user to reveal the app bar if they begin scrolling
+                                    // back up the list of items.
+                                    floating: true,
+                                    bottom: PreferredSize(                       // Add this code
+                                      preferredSize: Size.fromHeight(-2.0),      // Add this code
+                                      child: Container(),                           // Add this code
+                                    ),
+                                    flexibleSpace: headerAppBar(),
+                                    // Display a placeholder widget to visualize the shrinking size.
+                                    // Make the initial height of the SliverAppBar larger than normal.
+                                    expandedHeight: 20,
+                                  ),
+                                  bottomBox()
+                                ],
+                              );
+                              // return ListView.builder(
+                              //     shrinkWrap: true,
+                              //     padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                              //     itemCount: snapshot.hasData ? snapshot.data!.length : 0,
+                              //     itemBuilder: _itemBuilder(snapshot.data ?? [])
+                              // );
+                            }
+                        ),
                       ),
                     ),
                   ),
@@ -1237,7 +1698,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                       Text(
                         // "TODAY",
                         // checkTest(section.header),
-                        covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
+                        section.header,
                         textScaleFactor: 1, style: TextStyle(
                           height: 0.8,
                           fontSize: 14,
@@ -1652,6 +2113,287 @@ class OrdersFragmentState extends State<OrdersFragment>
               ],
             ),
           );
+
+  headerAppBar() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 0.0),
+      child: Container(
+        height: 32,
+        width: MediaQuery.of(context).size.width,
+        // color: Colors.yellow,
+        child: Row(
+          children: [
+            Row(
+              children: [
+                FlatButton(
+                  padding: EdgeInsets.only(left: 10, right: 10),
+                  color: AppTheme.secButtonColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                    side: BorderSide(
+                      color: AppTheme.skBorderColor2,
+                    ),
+                  ),
+                  onPressed: () {
+                    // widget._callback();
+                    _showDatePicker(OneContext().context);
+                  },
+                  child: Container(
+                    child: Row(
+                      // mainAxisAlignment: Main,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 3.0),
+                          child: Icon(
+                            Icons.calendar_view_day_rounded,
+                            size: 18,
+                          ),
+                        ),
+                        Text(
+                          selectMonthCast(), textScaleFactor: 1,
+                          // '(7D)',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(width: 12),
+                Container(
+                  color: Colors.grey.withOpacity(0.2),
+                  width: 1.5,
+                  height: 30,
+                )
+              ],
+            ),
+            Expanded(
+              child: ListView(
+                controller: cateScCtler,
+                scrollDirection: Axis.horizontal,
+                children: [
+                  SizedBox(
+                    width: 4,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                    child: FlatButton(
+                      minWidth: 0,
+                      padding: EdgeInsets.only(left: 12, right: 12),
+                      color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                        side: BorderSide(
+                          color: AppTheme.skBorderColor2,
+                        ),
+                      ),
+                      onPressed: () async {
+                        _animateToIndex(0);
+                        setState(() {
+                          cateScIndex = 0;
+                          itemPerPage = 10;
+                        });
+                        // Delay to make sure the frames are rendered properly
+                        // await Future.delayed(const Duration(milliseconds: 300));
+                        SchedulerBinding.instance?.addPostFrameCallback((_) {
+                          _scrollController.jumpTo(0);
+                        });
+                      },
+                      child: Container(
+                        child: Text(
+                          'textSetAll', textScaleFactor: 1,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4.0, right: 6.0),
+                    child: FlatButton(
+                      minWidth: 0,
+                      padding: EdgeInsets.only(left: 12, right: 12),
+                      color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                        side: BorderSide(
+                          color: AppTheme.skBorderColor2,
+                        ),
+                      ),
+                      onPressed: () {
+                        _animateToIndex(5.4);
+                        setState(() {
+                          cateScIndex = 1;
+                          itemPerPage = 10;
+                        });
+                        SchedulerBinding.instance?.addPostFrameCallback((_) {
+                          _scrollController.jumpTo(0);
+                        });
+                      },
+                      child: Container(
+                        child: Text(
+                          'textSetTUnpaid', textScaleFactor: 1,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4.0, right: 6.0),
+                    child: FlatButton(
+                      minWidth: 0,
+                      padding: EdgeInsets.only(left: 12, right: 12),
+                      color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                        side: BorderSide(
+                          color: AppTheme.skBorderColor2,
+                        ),
+                      ),
+                      onPressed: () {
+                        _animateToIndex(16.4);
+                        setState(() {
+                          cateScIndex = 2;
+                          itemPerPage = 10;
+                        });
+                        SchedulerBinding.instance?.addPostFrameCallback((_) {
+                          _scrollController.jumpTo(0);
+                        });
+                      },
+                      child: Container(
+                        child: Text(
+                          'textSetTRefunds', textScaleFactor: 1,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                    child: FlatButton(
+                      minWidth: 0,
+                      padding: EdgeInsets.only(left: 12, right: 12),
+                      color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                        side: BorderSide(
+                          color: AppTheme.skBorderColor2,
+                        ),
+                      ),
+                      onPressed: () {
+                        _animateToIndex(20);
+                        setState(() {
+                          cateScIndex = 3;
+                          itemPerPage = 10;
+                        });
+                        SchedulerBinding.instance?.addPostFrameCallback((_) {
+                          _scrollController.jumpTo(0);
+                        });
+                      },
+                      child: Container(
+                        child: Text(
+                          'textSetTPaid', textScaleFactor: 1,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 11,
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
+
+      ),
+    );
+  }
+
+  String selectMonthCast() {
+    debugPrint("TTT " + today.year.toString().length.toString());
+    // if(_sliding==0) {
+    // today.year.toString().substring(today.year.toString().length-2, today.year.toString().length
+    if(today.month == 9) {
+      return 'Sep, ' + today.year.toString();
+    } else if(today.month == 1) {
+      return 'Jan, ' + today.year.toString();
+    } else if(today.month == 2) {
+      return 'Feb, ' + today.year.toString();
+    } else if(today.month == 3) {
+      return 'Mar, ' + today.year.toString();
+    } else if(today.month == 4) {
+      return 'Apr, ' + today.year.toString();
+    } else if(today.month == 5) {
+      return 'May, ' + today.year.toString();
+    } else if(today.month == 6) {
+      return 'Jun, ' + today.year.toString();
+    } else if(today.month == 7) {
+      return 'Jul, ' + today.year.toString();
+    } else if(today.month == 8) {
+      return 'Aug, ' + today.year.toString();
+    } else if(today.month == 10) {
+      return 'Oct, ' + today.year.toString();
+    } else if(today.month == 11) {
+      return 'Nov, ' + today.year.toString();
+    } else if(today.month == 12) {
+      return 'Dec, ' + today.year.toString();
+    } else {
+      return '';
+    }
+
+  }
+
+  bottomBox() {
+    if(noFind) {
+      return SliverToBoxAdapter(child: Padding(
+        padding: const EdgeInsets.only(top: 10.0, bottom: 12.0),
+        child: Center(child: Text('No filter found', textScaleFactor: 1, strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)),
+      ));
+    } else if (endOfResult) {
+      return SliverToBoxAdapter(child: Padding(
+        padding: const EdgeInsets.only(top: 10.0, bottom: 12.0),
+        child: Center(child: Text('End of results', textScaleFactor: 1, strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)),
+      ));
+    } else {
+      return SliverAppBar(
+        toolbarHeight: 38,
+        elevation: 0,
+        backgroundColor: Colors.white,
+        // Provide a standard title.
+        // Allows the user to reveal the app bar if they begin scrolling
+        // back up the list of items.
+        floating: true,
+        flexibleSpace: Container(
+          child: LinearProgressIndicator(color: Colors.transparent, valueColor: new AlwaysStoppedAnimation<Color>(AppTheme.themeColor), backgroundColor: Colors.transparent,),
+        ),
+      );
+    }
+  }
+
+  getCurrency() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('currency');
+  }
 // List<String> orderItems(String id) {}
 }
 
@@ -1685,18 +2427,18 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 ///
 ///Section model must implements ExpandableListSection<T>, each section has
 ///expand state, sublist. "T" is the model of each item in the sublist.
-class ExampleSection implements ExpandableListSection<String> {
+class ExampleSection implements ExpandableListSection<SaleOrder> {
   //store expand state.
   late bool expanded;
 
   //return item model list.
-  late List<String> items;
+  late List<SaleOrder> items;
 
   //example header, optional
   late String header;
 
   @override
-  List<String> getItems() {
+  List<SaleOrder> getItems() {
     return items;
   }
 

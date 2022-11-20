@@ -2,14 +2,19 @@ import 'dart:developer';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:countup/countup.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smartkyat_pos/app_theme.dart';
 import 'package:smartkyat_pos/fragments/order_data_table.dart';
 import 'package:smartkyat_pos/fragments/widgets_bloc/bloc_day_overview.dart' as BlocDayOverviewImp;
+import 'package:smartkyat_pos/fragments/widgets_bloc/bloc_day_overview_off.dart';
+import 'package:smartkyat_pos/fragments/widgets_bloc/bloc_week_overview_off.dart';
 import 'package:smartkyat_pos/fragments/widgets_bloc/bloc_year_overview.dart' as BlocYearOverviewImp;
 import 'package:flutter/src/material/colors.dart' as Colors;
 import 'package:smartkyat_pos/models/order.dart';
@@ -452,8 +457,18 @@ class OverviewPageState extends State<OverviewPage>
 
   }
 
+  double tSale = 0;
+  double tRef = 0;
+  double tLoss = 0;
+  double tSaleAmount = 0;
+  double tBuyAmount = 0;
+  double tDiscount = 0;
+
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width > 900
+        ? MediaQuery.of(context).size.width * (2 / 3.5)
+        : MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -571,17 +586,945 @@ class OverviewPageState extends State<OverviewPage>
                     alignment: Alignment.centerLeft,
                     child: Padding(
                       padding: const EdgeInsets.only(top: 81.0),
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: 0.0, left: 0.0, right: 0.0),
+                      child: CustomScrollView(
+                        slivers: [
+                          SliverAppBar(
+                              elevation: 0,
+                              backgroundColor: Colors.Colors.white,
 
-                        child: StreamBuilder<List<SaleOrder>>(
-                            stream: objectbox.getOrders(),
-                            builder: (context, snapshot) => ListView.builder(
-                                shrinkWrap: true,
-                                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                                itemCount: snapshot.hasData ? snapshot.data!.length : 0,
-                                itemBuilder: _itemBuilder(snapshot.data ?? []))),
+                              // Provide a standard title.
+
+                              // Allows the user to reveal the app bar if they begin scrolling
+                              // back up the list of items.
+                              floating: true,
+                              bottom: PreferredSize(                       // Add this code
+                                preferredSize: Size.fromHeight(-2.0),      // Add this code
+                                child: Container(),                           // Add this code
+                              ),
+                              flexibleSpace: headerAppBar(),
+                              // Display a placeholder widget to visualize the shrinking size.
+                              // Make the initial height of the SliverAppBar larger than normal.
+                              expandedHeight: 20,
+                              automaticallyImplyLeading: false
+                          ),
+                          SliverList(
+                            // Use a delegate to build items as they're scrolled on screen.
+                            delegate: SliverChildBuilderDelegate(
+                              // The builder function returns a ListTile with a title that
+                              // displays the index of the current item.
+                                  (context, index) {
+                                if(cateScIndex == 0) {
+                                  return BlocDayOverviewOff();
+                                  // return Container(
+                                  //   // height: MediaQuery.of(context).size.height-353,
+                                  //   width: width,
+                                  //   color: Colors.Colors.white,
+                                  //   child: Padding(
+                                  //     padding: const EdgeInsets.only(left: 0.0, right: 0.0,),
+                                  //     child: Column(
+                                  //       crossAxisAlignment: CrossAxisAlignment.start,
+                                  //       mainAxisAlignment: MainAxisAlignment.start,
+                                  //       children: [
+                                  //         SizedBox(height: 10,),
+                                  //         Container(
+                                  //           decoration: BoxDecoration(
+                                  //             borderRadius: BorderRadius.all(
+                                  //               Radius.circular(10.0),
+                                  //             ),
+                                  //           ),
+                                  //           child:  Column(
+                                  //             mainAxisAlignment: MainAxisAlignment.start,
+                                  //             crossAxisAlignment: CrossAxisAlignment.start,
+                                  //             children: [
+                                  //               Padding(
+                                  //                 padding: const EdgeInsets.only(top: 0.0, bottom: 4.0, left: 15.0, right: 15.0),
+                                  //                 child: Text('textSetSaleSummary', textScaleFactor: 1,
+                                  //                   style: TextStyle(
+                                  //                     height: 0.9,
+                                  //                     letterSpacing: 2,
+                                  //                     fontWeight: FontWeight.bold,
+                                  //                     fontSize: 14,color: Colors.Colors.grey,
+                                  //                   ),),
+                                  //               ),
+                                  //               Row(
+                                  //                 crossAxisAlignment: CrossAxisAlignment.start,
+                                  //                 mainAxisAlignment: MainAxisAlignment.start,
+                                  //                 children: [
+                                  //                   Container(
+                                  //                     width: width/2,
+                                  //                     child: Padding(
+                                  //                       padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 9, bottom: 14),
+                                  //                       child: Column(
+                                  //                         crossAxisAlignment: CrossAxisAlignment.start,
+                                  //                         children: [
+                                  //                           Row(
+                                  //                             children: [
+                                  //                               animatedPrice(
+                                  //                                   doubleRetri(NumberFormat.compactCurrency(
+                                  //                                     decimalDigits: 2,
+                                  //                                     symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
+                                  //                                   ).format(100)),
+                                  //                                   GoogleFonts.lato(
+                                  //                                       textStyle: TextStyle(
+                                  //                                           letterSpacing: 1,
+                                  //                                           fontSize: 26,
+                                  //                                           fontWeight: FontWeight.w500,
+                                  //                                           color: Colors.Colors.black
+                                  //                                       )
+                                  //                                   ),
+                                  //                                   2
+                                  //                               ),
+                                  //                               Text(
+                                  //                                 lastSRetri(NumberFormat.compactCurrency(
+                                  //                                   decimalDigits: 2,
+                                  //                                   symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
+                                  //                                 ).format(100))
+                                  //                                 ,
+                                  //                                 textScaleFactor: 1, textAlign: TextAlign.left,
+                                  //                                 style: GoogleFonts.lato(
+                                  //                                     textStyle: TextStyle(
+                                  //                                         letterSpacing: 1,
+                                  //                                         fontSize: 26,
+                                  //                                         fontWeight: FontWeight.w500,
+                                  //                                         color: Colors.Colors.black
+                                  //                                     )
+                                  //                                 ),
+                                  //                               )
+                                  //                             ],
+                                  //                           ),
+                                  //                           Text(
+                                  //                             'textSetNetSales ($currencyUnit)',strutStyle: StrutStyle(
+                                  //                               forceStrutHeight: true,
+                                  //                               height: 1.2
+                                  //                           ), textScaleFactor: 1,
+                                  //                             style: TextStyle(
+                                  //                                 fontSize: 13, height: 1.2,
+                                  //                                 fontWeight: FontWeight.w500,
+                                  //                                 color: Colors.Colors.black.withOpacity(0.6)),
+                                  //                           ),
+                                  //                         ],
+                                  //                       ),
+                                  //                     ),
+                                  //                   ),
+                                  //                   Container(
+                                  //                     width: width/2,
+                                  //                     child: Padding(
+                                  //                       padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 9, bottom: 14),
+                                  //                       child: Column(
+                                  //                         crossAxisAlignment: CrossAxisAlignment.start,
+                                  //                         children: [
+                                  //                           Row(
+                                  //                             children: [
+                                  //                               animatedPrice(
+                                  //                                   doubleRetri(NumberFormat.compactCurrency(
+                                  //                                     decimalDigits: 2,
+                                  //                                     symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
+                                  //                                   ).format(100)),
+                                  //                                   GoogleFonts.lato(
+                                  //                                       textStyle: TextStyle(
+                                  //                                           letterSpacing: 1,
+                                  //                                           fontSize: 26,
+                                  //                                           fontWeight: FontWeight.w500,
+                                  //                                           color: Colors.Colors.black
+                                  //                                       )
+                                  //                                   ),
+                                  //                                   2
+                                  //                               ),
+                                  //                               Text(
+                                  //                                 lastSRetri(NumberFormat.compactCurrency(
+                                  //                                   decimalDigits: 2,
+                                  //                                   symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
+                                  //                                 ).format(100))
+                                  //                                 ,
+                                  //                                 textScaleFactor: 1, textAlign: TextAlign.left,
+                                  //                                 style: GoogleFonts.lato(
+                                  //                                     textStyle: TextStyle(
+                                  //                                         letterSpacing: 1,
+                                  //                                         fontSize: 26,
+                                  //                                         fontWeight: FontWeight.w500,
+                                  //                                         color: Colors.Colors.black
+                                  //                                     )
+                                  //                                 ),
+                                  //                               )
+                                  //                             ],
+                                  //                           ),
+                                  //                           Text(
+                                  //                             'textSetProfit ($currencyUnit)',strutStyle: StrutStyle(
+                                  //                               forceStrutHeight: true,
+                                  //                               height: 1.2
+                                  //                           ), textScaleFactor: 1,
+                                  //                             style: TextStyle(
+                                  //                                 fontSize: 13, height: 1.2,
+                                  //                                 fontWeight: FontWeight.w500,
+                                  //                                 color: Colors.Colors.black.withOpacity(0.6)),
+                                  //                           ),
+                                  //                         ],
+                                  //                       ),
+                                  //                     ),
+                                  //                   ),
+                                  //                 ],
+                                  //               ),
+                                  //               Padding(
+                                  //                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                  //                 child: Container(
+                                  //                   width: width,
+                                  //                   decoration: BoxDecoration(
+                                  //                       border: Border(
+                                  //                           bottom: BorderSide(
+                                  //                               color: Colors.Colors.grey
+                                  //                                   .withOpacity(
+                                  //                                   0.3),
+                                  //                               width: 1.0)
+                                  //                       )),
+                                  //                 ),
+                                  //               ),
+                                  //               Row(
+                                  //                 crossAxisAlignment: CrossAxisAlignment.start,
+                                  //                 mainAxisAlignment: MainAxisAlignment.start,
+                                  //                 children: [
+                                  //                   Container(
+                                  //                     width: width/2,
+                                  //                     child: Padding(
+                                  //                       padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 9, bottom: 14),
+                                  //                       child: Column(
+                                  //                         crossAxisAlignment: CrossAxisAlignment.start,
+                                  //                         children: [
+                                  //                           Row(
+                                  //                             children: [
+                                  //                               animatedPrice(
+                                  //                                   doubleRetri(NumberFormat.compactCurrency(
+                                  //                                     decimalDigits: 2,
+                                  //                                     symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
+                                  //                                   ).format(100)),
+                                  //                                   GoogleFonts.lato(
+                                  //                                       textStyle: TextStyle(
+                                  //                                           letterSpacing: 1,
+                                  //                                           fontSize: 26,
+                                  //                                           fontWeight: FontWeight.w500,
+                                  //                                           color: Colors.Colors.black
+                                  //                                       )
+                                  //                                   ),
+                                  //                                   2
+                                  //                               ),
+                                  //                               Text(
+                                  //                                 lastSRetri(NumberFormat.compactCurrency(
+                                  //                                   decimalDigits: 2,
+                                  //                                   symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
+                                  //                                 ).format(100))
+                                  //                                 ,
+                                  //                                 textScaleFactor: 1, textAlign: TextAlign.left,
+                                  //                                 style: GoogleFonts.lato(
+                                  //                                     textStyle: TextStyle(
+                                  //                                         letterSpacing: 1,
+                                  //                                         fontSize: 26,
+                                  //                                         fontWeight: FontWeight.w500,
+                                  //                                         color: Colors.Colors.black
+                                  //                                     )
+                                  //                                 ),
+                                  //                               )
+                                  //                             ],
+                                  //                           ),
+                                  //                           Text(
+                                  //                             'textSetStockCosts (' + currencyUnit +')',strutStyle: StrutStyle(
+                                  //                               forceStrutHeight: true,
+                                  //                               height: 1.2
+                                  //                           ), textScaleFactor: 1,
+                                  //                             style: TextStyle(
+                                  //                                 fontSize: 13, height: 1.2,
+                                  //                                 fontWeight: FontWeight.w500,
+                                  //                                 color: Colors.Colors.black.withOpacity(0.6)),
+                                  //                           ),
+                                  //                         ],
+                                  //                       ),
+                                  //                     ),
+                                  //                   ),
+                                  //                   Container(
+                                  //                     width: width/2,
+                                  //                     child: Padding(
+                                  //                       padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 9, bottom: 14),
+                                  //                       child: Column(
+                                  //                         crossAxisAlignment: CrossAxisAlignment.start,
+                                  //                         children: [
+                                  //                           Row(
+                                  //                             children: [
+                                  //                               animatedPrice(
+                                  //                                   doubleRetri(NumberFormat.compactCurrency(
+                                  //                                     decimalDigits: 2,
+                                  //                                     symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
+                                  //                                   ).format(100)),
+                                  //                                   GoogleFonts.lato(
+                                  //                                       textStyle: TextStyle(
+                                  //                                           letterSpacing: 1,
+                                  //                                           fontSize: 26,
+                                  //                                           fontWeight: FontWeight.w500,
+                                  //                                           color: Colors.Colors.black
+                                  //                                       )
+                                  //                                   ),
+                                  //                                   2
+                                  //                               ),
+                                  //                               Text(
+                                  //                                 lastSRetri(NumberFormat.compactCurrency(
+                                  //                                   decimalDigits: 2,
+                                  //                                   symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
+                                  //                                 ).format(100))
+                                  //                                 ,
+                                  //                                 textScaleFactor: 1, textAlign: TextAlign.left,
+                                  //                                 style: GoogleFonts.lato(
+                                  //                                     textStyle: TextStyle(
+                                  //                                         letterSpacing: 1,
+                                  //                                         fontSize: 26,
+                                  //                                         fontWeight: FontWeight.w500,
+                                  //                                         color: Colors.Colors.black
+                                  //                                     )
+                                  //                                 ),
+                                  //                               )
+                                  //                             ],
+                                  //                           ),
+                                  //                           Text(
+                                  //                             'textSetUnpaid ($currencyUnit)',strutStyle: StrutStyle(
+                                  //                               forceStrutHeight: true,
+                                  //                               height: 1.2
+                                  //                           ), textScaleFactor: 1,
+                                  //                             style: TextStyle(
+                                  //                                 fontSize: 13, height: 1.2,
+                                  //                                 fontWeight: FontWeight.w500,
+                                  //                                 color: Colors.Colors.black.withOpacity(0.6)),
+                                  //                           ),
+                                  //                         ],
+                                  //                       ),
+                                  //                     ),
+                                  //                   ),
+                                  //                 ],
+                                  //               ),
+                                  //               Padding(
+                                  //                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                  //                 child: Container(
+                                  //                   width: width,
+                                  //                   decoration: BoxDecoration(
+                                  //                       border: Border(
+                                  //                           bottom: BorderSide(
+                                  //                               color: Colors.Colors.grey
+                                  //                                   .withOpacity(
+                                  //                                   0.3),
+                                  //                               width: 1.0)
+                                  //                       )),
+                                  //                 ),
+                                  //               ),
+                                  //               Row(
+                                  //                 crossAxisAlignment: CrossAxisAlignment.start,
+                                  //                 mainAxisAlignment: MainAxisAlignment.start,
+                                  //                 children: [
+                                  //                   Container(
+                                  //                     width: width/2,
+                                  //                     child: Padding(
+                                  //                       padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 9, bottom: 14),
+                                  //                       child: Column(
+                                  //                         crossAxisAlignment: CrossAxisAlignment.start,
+                                  //                         children: [
+                                  //                           Row(
+                                  //                             children: [
+                                  //                               animatedPrice(
+                                  //                                   doubleRetri(NumberFormat.compactCurrency(
+                                  //                                     decimalDigits: 2,
+                                  //                                     symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
+                                  //                                   ).format(100)),
+                                  //                                   GoogleFonts.lato(
+                                  //                                       textStyle: TextStyle(
+                                  //                                           letterSpacing: 1,
+                                  //                                           fontSize: 26,
+                                  //                                           fontWeight: FontWeight.w500,
+                                  //                                           color: Colors.Colors.black
+                                  //                                       )
+                                  //                                   ),
+                                  //                                   2
+                                  //                               ),
+                                  //                               Text(
+                                  //                                 lastSRetri(NumberFormat.compactCurrency(
+                                  //                                   decimalDigits: 2,
+                                  //                                   symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
+                                  //                                 ).format(100))
+                                  //                                 ,
+                                  //                                 textScaleFactor: 1, textAlign: TextAlign.left,
+                                  //                                 style: GoogleFonts.lato(
+                                  //                                     textStyle: TextStyle(
+                                  //                                         letterSpacing: 1,
+                                  //                                         fontSize: 26,
+                                  //                                         fontWeight: FontWeight.w500,
+                                  //                                         color: Colors.Colors.black
+                                  //                                     )
+                                  //                                 ),
+                                  //                               )
+                                  //                             ],
+                                  //                           ),
+                                  //                           Text(
+                                  //                             'textSetRef ($currencyUnit)',strutStyle: StrutStyle(
+                                  //                               forceStrutHeight: true,
+                                  //                               height: 1.2
+                                  //                           ), textScaleFactor: 1,
+                                  //                             style: TextStyle(
+                                  //                                 fontSize: 13, height: 1.2,
+                                  //                                 fontWeight: FontWeight.w500,
+                                  //                                 color: Colors.Colors.black.withOpacity(0.6)),
+                                  //                           ),
+                                  //                         ],
+                                  //                       ),
+                                  //                     ),
+                                  //                   ),
+                                  //                   Container(
+                                  //                     width: width/2,
+                                  //                     child: Padding(
+                                  //                       padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 9, bottom: 14),
+                                  //                       child: Column(
+                                  //                         crossAxisAlignment: CrossAxisAlignment.start,
+                                  //                         children: [
+                                  //                           Row(
+                                  //                             children: [
+                                  //                               animatedPrice(
+                                  //                                   doubleRetri(NumberFormat.compactCurrency(
+                                  //                                     decimalDigits: 2,
+                                  //                                     symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
+                                  //                                   ).format(100)),
+                                  //                                   GoogleFonts.lato(
+                                  //                                       textStyle: TextStyle(
+                                  //                                           letterSpacing: 1,
+                                  //                                           fontSize: 26,
+                                  //                                           fontWeight: FontWeight.w500,
+                                  //                                           color: Colors.Colors.black
+                                  //                                       )
+                                  //                                   ),
+                                  //                                   2
+                                  //                               ),
+                                  //                               Text(
+                                  //                                 lastSRetri(NumberFormat.compactCurrency(
+                                  //                                   decimalDigits: 2,
+                                  //                                   symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
+                                  //                                 ).format(100))
+                                  //                                 ,
+                                  //                                 textScaleFactor: 1, textAlign: TextAlign.left,
+                                  //                                 style: GoogleFonts.lato(
+                                  //                                     textStyle: TextStyle(
+                                  //                                         letterSpacing: 1,
+                                  //                                         fontSize: 26,
+                                  //                                         fontWeight: FontWeight.w500,
+                                  //                                         color: Colors.Colors.black
+                                  //                                     )
+                                  //                                 ),
+                                  //                               )
+                                  //                             ],
+                                  //                           ),
+                                  //                           Text(
+                                  //                             'textSetLoss ($currencyUnit)',strutStyle: StrutStyle(
+                                  //                               forceStrutHeight: true,
+                                  //                               height: 1.2
+                                  //                           ), textScaleFactor: 1,
+                                  //                             style: TextStyle(
+                                  //                                 fontSize: 13, height: 1.2,
+                                  //                                 fontWeight: FontWeight.w500,
+                                  //                                 color: Colors.Colors.black.withOpacity(0.6)),
+                                  //                           ),
+                                  //                         ],
+                                  //                       ),
+                                  //                     ),
+                                  //                   ),
+                                  //                 ],
+                                  //               ),
+                                  //               // Padding(
+                                  //               //   padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                  //               //   child: Container(
+                                  //               //     width: width,
+                                  //               //     decoration: BoxDecoration(
+                                  //               //         border: Border(
+                                  //               //             bottom: BorderSide(
+                                  //               //                 color: Colors.Colors.grey
+                                  //               //                     .withOpacity(
+                                  //               //                     0.3),
+                                  //               //                 width: 1.0)
+                                  //               //         )),
+                                  //               //   ),
+                                  //               // ),
+                                  //               // Row(
+                                  //               //   children: [
+                                  //               //     Container(
+                                  //               //       width: width/2,
+                                  //               //       child: Padding(
+                                  //               //         padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 9, bottom: 14),
+                                  //               //         child: Column(
+                                  //               //           crossAxisAlignment: CrossAxisAlignment.start,
+                                  //               //           children: [
+                                  //               //             Row(
+                                  //               //               children: [
+                                  //               //                 Text(
+                                  //               //                   '45',
+                                  //               //                   textScaleFactor: 1, textAlign: TextAlign.left,
+                                  //               //                   style: GoogleFonts.lato(
+                                  //               //                       textStyle: TextStyle(
+                                  //               //                           letterSpacing: 1,
+                                  //               //                           fontSize: 26,
+                                  //               //                           fontWeight: FontWeight.w500,
+                                  //               //                           color: Colors.Colors.black
+                                  //               //                       )
+                                  //               //                   ),
+                                  //               //                 ),
+                                  //               //                 Padding(
+                                  //               //                   padding: const EdgeInsets.only(left: 5.0, top: 13.0),
+                                  //               //                   child: Text(
+                                  //               //                     'M',strutStyle: StrutStyle(
+                                  //               //                       forceStrutHeight: true,
+                                  //               //                       height: 1.2
+                                  //               //                   ),
+                                  //               //                     style: TextStyle(
+                                  //               //                         fontSize: 27, height: 1.2,
+                                  //               //                         fontWeight: FontWeight.w500,
+                                  //               //                         color: Colors.Colors.black),
+                                  //               //                   ),
+                                  //               //                 )
+                                  //               //               ],
+                                  //               //             ),
+                                  //               //             Text(
+                                  //               //               'Loss amount (MMK)',strutStyle: StrutStyle(
+                                  //               //                 forceStrutHeight: true,
+                                  //               //                 height: 1.2
+                                  //               //             ),
+                                  //               //               style: TextStyle(
+                                  //               //                   fontSize: 13, height: 1.2,
+                                  //               //                   fontWeight: FontWeight.w500,
+                                  //               //                   color: Colors.Colors.black.withOpacity(0.6)),
+                                  //               //             ),
+                                  //               //           ],
+                                  //               //         ),
+                                  //               //       ),
+                                  //               //     ),
+                                  //               //
+                                  //               //   ],
+                                  //               // ),
+                                  //               Padding(
+                                  //                 padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 20.0, top: 4),
+                                  //                 child: ButtonTheme(
+                                  //                   minWidth: width,
+                                  //                   splashColor: Colors.Colors.transparent,
+                                  //                   height: 50,
+                                  //                   child: FlatButton(
+                                  //                     color: AppTheme.buttonColor2,
+                                  //                     shape: RoundedRectangleBorder(
+                                  //                       borderRadius:
+                                  //                       BorderRadius.circular(10.0),
+                                  //                       side: BorderSide(
+                                  //                         color: AppTheme.buttonColor2,
+                                  //                       ),
+                                  //                     ),
+                                  //                     onPressed: () async {
+                                  //                       closeDrawerFrom();
+                                  //                       // await Navigator.push(
+                                  //                       //   context,
+                                  //                       //   MaterialPageRoute(
+                                  //                       //       builder: (
+                                  //                       //           context) =>
+                                  //                       //           HomeFragment(
+                                  //                       //             shopId: widget.shopId, tab: cateScIndex, openDrawerBtn: widget._openDrawer, closeDrawerBtn: widget._closeDrawer, isEnglish: widget.isEnglish,
+                                  //                       //           )),
+                                  //                       // );
+                                  //                       openDrawerFrom();
+                                  //                     },
+                                  //                     child: Padding(
+                                  //                       padding: const EdgeInsets.only(
+                                  //                           left: 5.0,
+                                  //                           right: 5.0,
+                                  //                           bottom: 2.0),
+                                  //                       child: Container(
+                                  //                         child: Text(
+                                  //                             'textSetMore', textScaleFactor: 1,
+                                  //                             textAlign: TextAlign.center,
+                                  //                             style: TextStyle(
+                                  //                                 fontSize: 18,
+                                  //                                 fontWeight: FontWeight.w500,
+                                  //                                 letterSpacing:-0.1
+                                  //                             ),
+                                  //                             strutStyle: StrutStyle(
+                                  //                               height: 1.4,
+                                  //                               forceStrutHeight: true,
+                                  //                             )
+                                  //                         ),
+                                  //                       ),
+                                  //                     ),
+                                  //                   ),
+                                  //                 ),
+                                  //               ),
+                                  //               Container(
+                                  //                 width: width,
+                                  //                 decoration: BoxDecoration(
+                                  //                     border: Border(
+                                  //                         bottom: BorderSide(
+                                  //                             color: Colors.Colors.grey
+                                  //                                 .withOpacity(
+                                  //                                 0.3),
+                                  //                             width: 1.0)
+                                  //                     )),
+                                  //               ),
+                                  //               Padding(
+                                  //                 padding: const EdgeInsets.only(top: 20.0, left: 15.0, right: 15.0, bottom: 10.0),
+                                  //                 child: Text('textSetProdSale', textScaleFactor: 1,
+                                  //                   style: TextStyle(
+                                  //                     height: 0.9,
+                                  //                     letterSpacing: 2,
+                                  //                     fontWeight: FontWeight.bold,
+                                  //                     fontSize: 14,color: Colors.Colors.grey,
+                                  //                   ),),
+                                  //               ),
+                                  //               Column(
+                                  //                 children: [
+                                  //                   Column(
+                                  //                     children: [
+                                  //                       Padding(
+                                  //                         padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                  //                         child: Container(
+                                  //                           height: 55,
+                                  //                           child: Row(
+                                  //                             children: [
+                                  //                               Text('textSetTSales', textScaleFactor: 1, style:
+                                  //                               TextStyle(
+                                  //                                 fontSize: 16,
+                                  //                                 fontWeight: FontWeight.w500, color: Colors.Colors.black,
+                                  //                               ),),
+                                  //                               Spacer(),
+                                  //                               animatedPrice(
+                                  //                                   100,
+                                  //                                   TextStyle(
+                                  //                                     fontSize: 16,
+                                  //                                     fontWeight: FontWeight.w500, color: Colors.Colors.black,
+                                  //                                   ),
+                                  //                                   0
+                                  //                               ),
+                                  //                               Text((widget.isEnglish? ' types': ' မျိုး'), textScaleFactor: 1, style:
+                                  //                               TextStyle(
+                                  //                                 fontSize: 16,
+                                  //                                 fontWeight: FontWeight.w500, color: Colors.Colors.black,
+                                  //                               ),
+                                  //                               ),
+                                  //                             ],
+                                  //                           ),
+                                  //                         ),
+                                  //                       ),
+                                  //                       Padding(
+                                  //                         padding: const EdgeInsets.only(left: 15.0),
+                                  //                         child: Container(
+                                  //                           decoration: BoxDecoration(
+                                  //                               border: Border(
+                                  //                                   bottom: BorderSide(
+                                  //                                       color: Colors.Colors.grey
+                                  //                                           .withOpacity(0.2),
+                                  //                                       width: 1.0))),
+                                  //                         ),
+                                  //                       ),
+                                  //                     ],
+                                  //                   ),
+                                  //
+                                  //
+                                  //                   Column(
+                                  //                     children: [
+                                  //                       Padding(
+                                  //                         padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                  //                         child: Container(
+                                  //                           height: 55,
+                                  //                           child: Row(
+                                  //                             children: [
+                                  //                               Text('textSetTLoss', textScaleFactor: 1, style:
+                                  //                               TextStyle(
+                                  //                                 fontSize: 16,
+                                  //                                 fontWeight: FontWeight.w500, color: Colors.Colors.black,
+                                  //                               ),),
+                                  //                               Spacer(),
+                                  //                               animatedPrice(
+                                  //                                   100,
+                                  //                                   TextStyle(
+                                  //                                     fontSize: 16,
+                                  //                                     fontWeight: FontWeight.w500, color: Colors.Colors.black,
+                                  //                                   ),
+                                  //                                   0
+                                  //                               ),
+                                  //                               Text((widget.isEnglish? ' types': ' မျိုး'), textScaleFactor: 1, style:
+                                  //                               TextStyle(
+                                  //                                 fontSize: 16,
+                                  //                                 fontWeight: FontWeight.w500, color: Colors.Colors.black,
+                                  //                               ),),
+                                  //                             ],
+                                  //                           ),
+                                  //                         ),
+                                  //                       ),
+                                  //                       Padding(
+                                  //                         padding: const EdgeInsets.only(left: 15.0),
+                                  //                         child: Container(
+                                  //                           decoration: BoxDecoration(
+                                  //                               border: Border(
+                                  //                                   bottom: BorderSide(
+                                  //                                       color: Colors.Colors.grey
+                                  //                                           .withOpacity(0.2),
+                                  //                                       width: 1.0))),
+                                  //                         ),
+                                  //                       ),
+                                  //                     ],
+                                  //                   ),
+                                  //                   Column(
+                                  //                     children: [
+                                  //                       Padding(
+                                  //                         padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                  //                         child: Container(
+                                  //                           height: 55,
+                                  //                           child: Row(
+                                  //                             children: [
+                                  //                               Text('textSetTRef', textScaleFactor: 1, style:
+                                  //                               TextStyle(
+                                  //                                 fontSize: 16,
+                                  //                                 fontWeight: FontWeight.w500, color: Colors.Colors.black,
+                                  //                               ),),
+                                  //                               Spacer(),
+                                  //                               animatedPrice(
+                                  //                                   100,
+                                  //                                   TextStyle(
+                                  //                                     fontSize: 16,
+                                  //                                     fontWeight: FontWeight.w500, color: Colors.Colors.black,
+                                  //                                   ),
+                                  //                                   0
+                                  //                               ),
+                                  //                               Text((widget.isEnglish? ' types': ' မျိုး'), textScaleFactor: 1, style:
+                                  //                               TextStyle(
+                                  //                                 fontSize: 16,
+                                  //                                 fontWeight: FontWeight.w500, color: Colors.Colors.black,
+                                  //                               ),),
+                                  //                             ],
+                                  //                           ),
+                                  //                         ),
+                                  //                       ),
+                                  //                       Padding(
+                                  //                         padding: const EdgeInsets.only(left: 15.0),
+                                  //                         child: Container(
+                                  //                           decoration: BoxDecoration(
+                                  //                               border: Border(
+                                  //                                   bottom: BorderSide(
+                                  //                                       color: Colors.Colors.grey
+                                  //                                           .withOpacity(0.2),
+                                  //                                       width: 1.0))),
+                                  //                         ),
+                                  //                       ),
+                                  //                     ],
+                                  //                   ),
+                                  //                   Column(
+                                  //                     children: [
+                                  //                       Padding(
+                                  //                         padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                  //                         child: Container(
+                                  //                           height: 55,
+                                  //                           child: Row(
+                                  //                             children: [
+                                  //                               Text('textSetSaleAmt', textScaleFactor: 1, style:
+                                  //                               TextStyle(
+                                  //                                 fontSize: 16,
+                                  //                                 fontWeight: FontWeight.w500, color: Colors.Colors.black,
+                                  //                               ),),
+                                  //                               Spacer(),
+                                  //                               animatedPrice(
+                                  //                                   100,
+                                  //                                   TextStyle(
+                                  //                                     fontSize: 16,
+                                  //                                     fontWeight: FontWeight.w500, color: Colors.Colors.black,
+                                  //                                   ),
+                                  //                                   2
+                                  //                               ),
+                                  //                               Text(' ' +currencyUnit, textScaleFactor: 1, style:
+                                  //                               TextStyle(
+                                  //                                 fontSize: 16,
+                                  //                                 fontWeight: FontWeight.w500, color: Colors.Colors.black,
+                                  //                               ),),
+                                  //                             ],
+                                  //                           ),
+                                  //                         ),
+                                  //                       ),
+                                  //                       Padding(
+                                  //                         padding: const EdgeInsets.only(left: 15.0),
+                                  //                         child: Container(
+                                  //                           decoration: BoxDecoration(
+                                  //                               border: Border(
+                                  //                                   bottom: BorderSide(
+                                  //                                       color: Colors.Colors.grey
+                                  //                                           .withOpacity(0.2),
+                                  //                                       width: 1.0))),
+                                  //                         ),
+                                  //                       ),
+                                  //                     ],
+                                  //                   ),
+                                  //                   Column(
+                                  //                     children: [
+                                  //                       Padding(
+                                  //                         padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                  //                         child: Container(
+                                  //                           height: 55,
+                                  //                           child: Row(
+                                  //                             children: [
+                                  //                               Text('textSetBuyAmt', textScaleFactor: 1, style:
+                                  //                               TextStyle(
+                                  //                                 fontSize: 16,
+                                  //                                 fontWeight: FontWeight.w500, color: Colors.Colors.black,
+                                  //                               ),),
+                                  //                               Spacer(),
+                                  //                               animatedPrice(
+                                  //                                   100,
+                                  //                                   TextStyle(
+                                  //                                     fontSize: 16,
+                                  //                                     fontWeight: FontWeight.w500, color: Colors.Colors.black,
+                                  //                                   ),
+                                  //                                   2
+                                  //                               ),
+                                  //                               Text(' ' +currencyUnit, textScaleFactor: 1, style:
+                                  //                               TextStyle(
+                                  //                                 fontSize: 16,
+                                  //                                 fontWeight: FontWeight.w500, color: Colors.Colors.black,
+                                  //                               ),),
+                                  //                             ],
+                                  //                           ),
+                                  //                         ),
+                                  //                       ),
+                                  //                       Padding(
+                                  //                         padding: const EdgeInsets.only(left: 15.0),
+                                  //                         child: Container(
+                                  //                           decoration: BoxDecoration(
+                                  //                               border: Border(
+                                  //                                   bottom: BorderSide(
+                                  //                                       color: Colors.Colors.grey
+                                  //                                           .withOpacity(0.2),
+                                  //                                       width: 1.0))),
+                                  //                         ),
+                                  //                       ),
+                                  //                     ],
+                                  //                   ),
+                                  //                   Column(
+                                  //                     children: [
+                                  //                       Padding(
+                                  //                         padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                  //                         child: Container(
+                                  //                           height: 55,
+                                  //                           child: Row(
+                                  //                             children: [
+                                  //                               Text('textSetDiscount', textScaleFactor: 1, style:
+                                  //                               TextStyle(
+                                  //                                 fontSize: 16,
+                                  //                                 fontWeight: FontWeight.w500, color: Colors.Colors.black,
+                                  //                               ),),
+                                  //                               Spacer(),
+                                  //                               animatedPrice(
+                                  //                                   100,
+                                  //                                   TextStyle(
+                                  //                                     fontSize: 16,
+                                  //                                     fontWeight: FontWeight.w500, color: Colors.Colors.black,
+                                  //                                   ),
+                                  //                                   2
+                                  //                               ),
+                                  //                               Text(' ' +currencyUnit, textScaleFactor: 1, style:
+                                  //                               TextStyle(
+                                  //                                 fontSize: 16,
+                                  //                                 fontWeight: FontWeight.w500, color: Colors.Colors.black,
+                                  //                               ),),
+                                  //                             ],
+                                  //                           ),
+                                  //                         ),
+                                  //                       ),
+                                  //                     ],
+                                  //                   ),
+                                  //                   // Column(
+                                  //                   //   children: [
+                                  //                   //     Padding(
+                                  //                   //       padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                  //                   //       child: Container(
+                                  //                   //         height: 55,
+                                  //                   //         child: Row(
+                                  //                   //           children: [
+                                  //                   //             Text('Total products', textScaleFactor: 1, style:
+                                  //                   //             TextStyle(
+                                  //                   //               fontSize: 16,
+                                  //                   //               fontWeight: FontWeight.w500, color: Colors.Colors.black,
+                                  //                   //             ),),
+                                  //                   //             Spacer(),
+                                  //                   //             Text('7,3454', textScaleFactor: 1, style:
+                                  //                   //             TextStyle(
+                                  //                   //               fontSize: 16,
+                                  //                   //               fontWeight: FontWeight.w500, color: Colors.Colors.black,
+                                  //                   //             ),),
+                                  //                   //           ],
+                                  //                   //         ),
+                                  //                   //       ),
+                                  //                   //     ),
+                                  //                   //   ],
+                                  //                   // ),
+                                  //                 ],
+                                  //               ),
+                                  //               Padding(
+                                  //                 padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 16.0, top: 10),
+                                  //                 child: ButtonTheme(
+                                  //                   minWidth: width,
+                                  //                   splashColor: Colors.Colors.transparent,
+                                  //                   height: 50,
+                                  //                   child: FlatButton(
+                                  //                     color: AppTheme.buttonColor2,
+                                  //                     shape: RoundedRectangleBorder(
+                                  //                       borderRadius:
+                                  //                       BorderRadius.circular(10.0),
+                                  //                       side: BorderSide(
+                                  //                         color: AppTheme.buttonColor2,
+                                  //                       ),
+                                  //                     ),
+                                  //                     onPressed: () async {
+                                  //                       closeDrawerFrom();
+                                  //                       // await Navigator.push(
+                                  //                       //   context,
+                                  //                       //   MaterialPageRoute(
+                                  //                       //       builder: (
+                                  //                       //           context) =>
+                                  //                       //           ProdSaleSumHome(
+                                  //                       //             shopId: widget.shopId,  tab: cateScIndex,openDrawerBtn: widget._openDrawer, closeDrawerBtn: widget._closeDrawer, isEnglish: widget.isEnglish,
+                                  //                       //           )),
+                                  //                       // );
+                                  //                       openDrawerFrom();
+                                  //                     },
+                                  //                     child: Padding(
+                                  //                       padding: const EdgeInsets.only(
+                                  //                           left: 5.0,
+                                  //                           right: 5.0,
+                                  //                           bottom: 2.0),
+                                  //                       child: Container(
+                                  //                         child: Text(
+                                  //                             'textSetMore', textScaleFactor: 1,
+                                  //                             textAlign: TextAlign.center,
+                                  //                             style: TextStyle(
+                                  //                                 fontSize: 18,
+                                  //                                 fontWeight: FontWeight.w500,
+                                  //                                 letterSpacing:-0.1
+                                  //                             ),
+                                  //                             strutStyle: StrutStyle(
+                                  //                               height: 1.4,
+                                  //                               forceStrutHeight: true,
+                                  //                             )
+                                  //                         ),
+                                  //                       ),
+                                  //                     ),
+                                  //                   ),
+                                  //                 ),
+                                  //               ),
+                                  //
+                                  //
+                                  //             ],
+                                  //           ),
+                                  //         ),
+                                  //       ],
+                                  //     ),
+                                  //   ),
+                                  // );
+                                } else if(cateScIndex == 1) {
+                                  return BlocWeekOverviewOff();
+                                }
+                              },
+                              // Builds 1000 ListTiles
+                              childCount: 1,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -765,4 +1708,67 @@ class OverviewPageState extends State<OverviewPage>
           ],
         ),
       );
+
+  int segmentedControlGroupValue = 0;
+  Map<int, Widget> myTabs = const <int, Widget>{
+    0: Text("Today", textScaleFactor: 1),
+    1: Text("Month", textScaleFactor: 1),
+    2: Text("Year", textScaleFactor: 1)
+  };
+
+  headerAppBar() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 0.0, right: 15.0),
+      child: Container(
+        height: 32,
+        width: MediaQuery.of(context).size.width,
+        // color: Colors.yellow,
+        child: CupertinoSlidingSegmentedControl(
+            groupValue: segmentedControlGroupValue,
+            children: myTabs,
+            onValueChanged: (i) {
+              setState(() {
+                cateScIndex = int.parse(i.toString());
+                _sliding = int.parse(i.toString());
+                segmentedControlGroupValue = int.parse(i.toString());
+                // widget._selectedIntVal(i);
+              });
+
+              print('catescindex ' + i.toString());
+            }),
+
+      ),
+    );
+  }
+
+  doubleRetri(String format) {
+    if(format[format.length-1]!= 'K' && format[format.length-1]!= 'M' && format[format.length-1]!= 'B') {
+      return double.parse(format);
+    } else {
+      return double.parse(format.substring(0, format.length-1));
+    }
+    // return format[format.length]
+  }
+
+  lastSRetri(String format) {
+    if(format[format.length-1]!= 'K' && format[format.length-1]!= 'M' && format[format.length-1]!= 'B') {
+      return '';
+    } else {
+      return format[format.length-1];
+    }
+  }
+
+  animatedPrice(double price, style, precision) {
+    double temp = 0;
+    double total =  price;
+    return Countup(
+      precision: precision,
+      begin: temp,
+      end: total,
+      curve: Curves.easeInOut,
+      duration: Duration(milliseconds: 500),
+      separator: ',',
+      style: style, textScaleFactor: 1,
+    );
+  }
 }
