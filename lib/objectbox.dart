@@ -94,6 +94,46 @@ class ObjectBox {
     });
   }
 
+  Stream<List<SaleOrder>> getOverview(String type, DateTime date) {
+    if(type == 'week') {
+      int start = date.millisecondsSinceEpoch;
+      int end = date.subtract(Duration(minutes: 10)).millisecondsSinceEpoch;
+      // Timestamp myTimeStamp = Timestamp.fromDate(date);
+      // Query for all notes, sorted by their date.
+      // https://docs.objectbox.io/queries
+      final builder = saleorderBox.query(SaleOrder_.date.between(start, end));
+      // final builder = saleorderBox.query();
+      // Query<Product> query = productBox.query().build();
+      // double sumSum = query.property(Product.im).sum() + query.property(Product_.im).sum();
+      // Build and watch the query,
+      // set triggerImmediately to emit the query immediately on listen.
+      return builder
+          .watch(triggerImmediately: true)
+      // Map it to a list of notes to be used by a StreamBuilder.
+          .map((query) {
+        return query.find();
+      });
+    } else {
+      int start = date.millisecondsSinceEpoch;
+      int end = date.subtract(Duration(minutes: 10)).millisecondsSinceEpoch;
+      // Timestamp myTimeStamp = Timestamp.fromDate(date);
+      // Query for all notes, sorted by their date.
+      // https://docs.objectbox.io/queries
+      // final builder = saleorderBox.query(SaleOrder_.date.between(start, end));
+      final builder = saleorderBox.query();
+      // Query<Product> query = productBox.query().build();
+      // double sumSum = query.property(Product.im).sum() + query.property(Product_.im).sum();
+      // Build and watch the query,
+      // set triggerImmediately to emit the query immediately on listen.
+      return builder
+          .watch(triggerImmediately: true)
+      // Map it to a list of notes to be used by a StreamBuilder.
+          .map((query) {
+        return query.find();
+      });
+    }
+  }
+
   /// Add a note within a transaction.
   ///
   /// To avoid frame drops, run ObjectBox operations that take longer than a
@@ -294,6 +334,82 @@ class ObjectBox {
         ordProdBox.putMany(prods);
         productBox.putMany(orgProds);
       });
+      return true;
+    } catch (e) {
+      return false;
+    }
+
+  }
+
+  bool addSaleOrder2() {
+
+    // SaleOrder saleOrder = SaleOrder(0, debt, deviceId, discount, refund, total, text);
+    // List<SaleOrder> saleOrders = [];
+    // for(int i = 0; i < 1; i++) {
+    //   saleOrders.add(SaleOrder(0, 100, 1, 50, true, 100000, 'text'));
+    // }
+    // // store.runInTransaction(TxMode.write, () {
+    // //   saleorderBox.put(saleOrder);
+    // // });
+    // // store.box().putMany([saleOrder]);
+    // try {
+    //   saleorderBox.putMany(saleOrders);
+    //   return true;
+    // } catch (e) {
+    //   return false;
+    // }
+
+    List<SaleOrder> saleOrders = [];
+    for(int i = 0; i < 1; i++) {
+      saleOrders.add(SaleOrder(0, 100, 1, 50, true, 100000, 'text'));
+    }
+    // store.runInTransaction(TxMode.write, () {
+    //   saleorderBox.put(saleOrder);
+    // });
+    // store.box().putMany([saleOrder]);
+    try {
+      // store.runInTransaction(TxMode.write, () {
+      //   saleorderBox.put(SaleOrder(0, 100, 1, 50, true, 100000, 'text'));
+      // });
+      saleorderBox.putMany(saleOrders);
+      return true;
+    } catch (e) {
+      return false;
+    }
+
+  }
+
+  bool addSaleOrder3() {
+
+    // SaleOrder saleOrder = SaleOrder(0, debt, deviceId, discount, refund, total, text);
+    // List<SaleOrder> saleOrders = [];
+    // for(int i = 0; i < 1; i++) {
+    //   saleOrders.add(SaleOrder(0, 100, 1, 50, true, 100000, 'text'));
+    // }
+    // // store.runInTransaction(TxMode.write, () {
+    // //   saleorderBox.put(saleOrder);
+    // // });
+    // // store.box().putMany([saleOrder]);
+    // try {
+    //   saleorderBox.putMany(saleOrders);
+    //   return true;
+    // } catch (e) {
+    //   return false;
+    // }
+
+    List<OrdProd> ordProds = [];
+    for(int i = 0; i < 1000; i++) {
+      ordProds.add((OrdProd(2, 'name', 'barll', 10, 1000, 1000, 10, 0, '')));
+    }
+    // store.runInTransaction(TxMode.write, () {
+    //   saleorderBox.put(saleOrder);
+    // });
+    // store.box().putMany([saleOrder]);
+    try {
+      // store.runInTransaction(TxMode.write, () {
+      //   saleorderBox.put(SaleOrder(0, 100, 1, 50, true, 100000, 'text'));
+      // });
+      ordProdBox.putMany(ordProds);
       return true;
     } catch (e) {
       return false;
