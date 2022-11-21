@@ -12210,32 +12210,68 @@ class HomePageOffState extends State<HomePageOff>
 
                                                                           debugPrint('clever ' + str);
                                                                           ordProds.add(OrdProd(pid, name, barll, quantity, sell, buy, refquant, 0,unitText));
-                                                                          prodMap[pid] = quantity;
+                                                                          prodMap[pid.toString() + '-' + barll] = quantity;
                                                                           intProds.add(pid);
+                                                                          // debugPrint('barll checker 0' + barll);
+                                                                          Map<String, Product> prodCheck = {};
                                                                           if(prodList.length-1 == i) {
                                                                             List<Product> prods = await objectbox.getProdByIds(intProds);
-                                                                            debugPrint('prodMods eve0 ' + prods[0].na);
-                                                                            List<Product> prodMods = [];
-                                                                            for(int pro = 0; pro < prods.length; pro++) {
-                                                                              prods[pro].im = prods[pro].im - prodMap[prods[pro].id];
-                                                                              if(pro == prods.length-1) {
-                                                                                // debugPrint('prodMods eve ' + prodMods[0].im.toString());
-                                                                                debugPrint('prodMods evee ' + prods[0].im.toString());
-                                                                                bool orderAdded = objectbox.addSaleOrder(prods, ordProds, 0, debt, 0, discountAmount, reFilter, double.parse(ttlPrice), disText);
-                                                                                debugPrint('adding sale order ' + orderAdded.toString());
-                                                                                if(orderAdded) {
-                                                                                  Future.delayed(const Duration(milliseconds: 1500), () {
-                                                                                    mystate(() {
-                                                                                      setState(() {
-                                                                                        orderCreating = false;
-                                                                                        disableTouch = false;
-                                                                                        //    saleCartDrag = false;
-                                                                                      });
-                                                                                    });
-                                                                                    _controller.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
-                                                                                  });
+                                                                            if(prods == []) {
+                                                                              debugPrint('order add error');
+                                                                            } else {
+                                                                              debugPrint('prodMods eve0 ' + prods[0].na);
+                                                                              List<Product> prodMods = [];
+                                                                              for(int pro = 0; pro < prods.length; pro++) {
+                                                                                String barll2 = prodList[pro].split('^')[3];
+                                                                                debugPrint('barll checker ' + barll2);
+                                                                                if(barll2 == 'unit_name') {
+                                                                                  if(prodCheck[prods[pro].id.toString()] != null) {
+                                                                                    prods[pro] = prodCheck[prods[pro].id.toString()] ?? Product(
+                                                                                        false, 1000,1000,1000,1000,1000, '', 1000,1000,1000,'','','','',1000,1000,1000,1000,1000,100,100,100,''
+                                                                                    );
+                                                                                  }
+                                                                                  prods[pro].im = prods[pro].im - prodMap[prods[pro].id.toString() + '-' + barll2];
+                                                                                  prodCheck[prods[pro].id.toString()] = prods[pro];
+                                                                                  debugPrint('producter 0 ' + prods[pro].im.toString());
+                                                                                } else if(barll2 == 'sub1_name') {
+                                                                                  if(prodCheck[prods[pro].id.toString()] != null) {
+                                                                                    prods[pro] = prodCheck[prods[pro].id.toString()] ?? Product(
+                                                                                        false, 1000,1000,1000,1000,1000, '', 1000,1000,1000,'','','','',1000,1000,1000,1000,1000,100,100,100,''
+                                                                                    );
+                                                                                  }
+                                                                                  prods[pro] = sub1ExecutionOff(prods[pro], prodMap[prods[pro].id.toString() + '-' + barll2]);
+                                                                                  prodCheck[prods[pro].id.toString()] = prods[pro];
+                                                                                  debugPrint('producter 1 ' + prods[pro].im.toString());
                                                                                 } else {
-                                                                                  debugPrint('order add error');
+                                                                                  if(prodCheck[prods[pro].id.toString()] != null) {
+                                                                                    prods[pro] = prodCheck[prods[pro].id.toString()] ?? Product(
+                                                                                        false, 1000,1000,1000,1000,1000, '', 1000,1000,1000,'','','','',1000,1000,1000,1000,1000,100,100,100,''
+                                                                                    );
+                                                                                  }
+                                                                                  prods[pro] = sub2ExecutionOff(prods[pro], prodMap[prods[pro].id.toString() + '-' + barll2]);
+                                                                                  prodCheck[prods[pro].id.toString()] = prods[pro];
+                                                                                  debugPrint('producter 1 ' + prods[pro].im.toString());
+                                                                                }
+
+                                                                                if(pro == prods.length-1) {
+                                                                                  // debugPrint('prodMods eve ' + prodMods[0].im.toString());
+                                                                                  debugPrint('prodMods evee ' + prods[0].im.toString());
+                                                                                  bool orderAdded = objectbox.addSaleOrder(prods, ordProds, 0, debt, 0, discountAmount, reFilter, double.parse(ttlPrice), disText);
+                                                                                  debugPrint('adding sale order ' + orderAdded.toString());
+                                                                                  if(orderAdded) {
+                                                                                    Future.delayed(const Duration(milliseconds: 1500), () {
+                                                                                      mystate(() {
+                                                                                        setState(() {
+                                                                                          orderCreating = false;
+                                                                                          disableTouch = false;
+                                                                                          //    saleCartDrag = false;
+                                                                                        });
+                                                                                      });
+                                                                                      _controller.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
+                                                                                    });
+                                                                                  } else {
+                                                                                    debugPrint('order add error');
+                                                                                  }
                                                                                 }
                                                                               }
                                                                             }
@@ -14625,6 +14661,40 @@ class HomePageOffState extends State<HomePageOff>
       batch = decStockFromInv(batch, id, 'i1', subStock);
     }
     return batch;
+  }
+
+  sub1ExecutionOff(Product prod, double num) {
+    //var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(id).get();
+    if(prod.i1 > num) {
+      prod.i1 = prod.i1 - num;
+    } else {
+      prod.im = prod.im - ((num - prod.i1)/prod.c1).ceil();
+      double subStock = prod.i1;
+      prod.i1 = prod.i1 + (((num - prod.i1.round()) % prod.c1) == 0? 0: (prod.c1 - (num - prod.i1.round()) % prod.c1));
+      debugPrint('1001 --> ' + prod.i1.toString());
+      prod.i1 = prod.i1 - subStock;
+      // batch = decStockFromInv(batch, id, 'im', ((double.parse(num)  - double.parse(subStock))/double.parse(subLink)).ceil());
+      // batch = incStockFromInv(batch, id, 'i1', ((double.parse(num)- double.parse(subStock).round()) % double.parse(subLink)) == 0? 0: (double.parse(subLink) - (double.parse(num)-double.parse(subStock).round()) % double.parse(subLink)));
+      // batch = decStockFromInv(batch, id, 'i1', subStock);
+    }
+    return prod;
+  }
+
+  sub2ExecutionOff(Product prod, double num) {
+    //var docSnapshot10 = await FirebaseFirestore.instance.collection('shops').doc(shopId).collection('products').doc(id).get();
+    if(prod.i2 > num) {
+      prod.i2 = prod.i2 - num;
+    } else {
+      double subStock = prod.i2;
+      // prod.i2 = prod.i2 + (((num - prod.i1.round()) % prod.c1) == 0? 0: (prod.c1 - (num - prod.i1.round()) % prod.c1));
+      prod.i2 = prod.i2 + (((num - prod.i2.round()) % prod.c2) == 0? 0: (prod.c2 - (num - prod.i2.round()) % prod.c2));
+      prod.i2 = prod.i2 - subStock;
+      prod = sub1ExecutionOff(prod, ((num  - subStock)/prod.c2).ceil().toDouble());
+      // batch = decStockFromInv(batch, id, 'im', ((double.parse(num)  - double.parse(subStock))/double.parse(subLink)).ceil());
+      // batch = incStockFromInv(batch, id, 'i1', ((double.parse(num)- double.parse(subStock).round()) % double.parse(subLink)) == 0? 0: (double.parse(subLink) - (double.parse(num)-double.parse(subStock).round()) % double.parse(subLink)));
+      // batch = decStockFromInv(batch, id, 'i1', subStock);
+    }
+    return prod;
   }
 
   sub2Execution(WriteBatch batch, subStock, subLink, id, num) {
