@@ -115,6 +115,10 @@ class OrdersFragmentState extends State<OrdersFragment>
   int _sliding = 0;
 
   String textSetSearch = 'Search';
+  String textSetAll = 'All';
+  String textSetTUnpaid = 'Unpaids';
+  String textSetTRefunds = 'Refunds';
+  String textSetTPaid = 'Paids';
 
   bool searchOpening = false;
 
@@ -179,18 +183,22 @@ class OrdersFragmentState extends State<OrdersFragment>
         currencyUnit = value.toString();
       });
     });
-    if(widget.isEnglish == true)
-    {
+    if(widget.isEnglish == true ) {
       setState(() {
-        textSetSearch = 'Search';
-
+        textSetAll = 'All';
+        textSetTUnpaid = 'Unpaids';
+        textSetTRefunds = 'Refunds';
+        textSetTPaid = 'Paids';
       });
     }
-    else {
+    else  {
       setState(() {
-        textSetSearch = 'ရှာဖွေရန်';
-
+        textSetAll = 'အားလုံး';
+        textSetTUnpaid = 'မရှင်းသေး';
+        textSetTRefunds = 'ပြန်ပေး';
+        textSetTPaid = 'ရှင်းပြီး';
       });
+
     }
 
 
@@ -381,9 +389,6 @@ class OrdersFragmentState extends State<OrdersFragment>
                                     ..expanded = true;
                                   sections.add(section);
                                 }
-
-
-
                                 sectionList3 = sections;
                                 return CustomScrollView(
                                   controller: _scrollController,
@@ -418,121 +423,261 @@ class OrdersFragmentState extends State<OrdersFragment>
                                           if(itemIndex == length-1) {
                                             return GestureDetector(
                                               onTap: () async {
-                                                widget._closeDrawerBtn();
-                                                // await Navigator.push(
-                                                //   context,
-                                                //   MaterialPageRoute(
-                                                //       builder: (context) => OrderInfoSub(isEnglish: widget.isEnglish,fromSearch: false, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, closeCartBtn: widget._closeCartBtn, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), openCartBtn: widget._openCartBtn,)),
-                                                // );
-                                                widget._openDrawerBtn();
+                                                //widget._closeDrawerBtn();
+                                                await Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) => OrderInfoSub(isEnglish: widget.isEnglish, fromSearch: false, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, data:
+                                                      (
+                                                          saleOrders[index].date.toString() + '^' +
+                                                              saleOrders[index].id.toString() + '^' +
+                                                              saleOrders[index].total.toString() + '^' +
+                                                              saleOrders[index].cid.toString() + '&' + '^' +
+                                                              'F' + '^' +
+                                                              saleOrders[index].debt.toString() + '^' +
+                                                              '0.0'
+                                                          // saleOrders[index].discount.toString() + '-p'
+                                                      ),
+                                                        toggleCoinCallback: () {}, shopId: widget.shopId.toString(),)),
+                                                );
+                                              //  widget._openDrawerBtn();
                                               },
                                               child: Stack(
                                                 alignment: Alignment.center,
+
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 0.0, right: 0.0),
                                                     child: Container(
                                                       decoration: BoxDecoration(
-                                                        color: AppTheme.lightBgColor,
-                                                      ),
-                                                      child: Column(
-                                                        children: [
-                                                          Padding(
-                                                            padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 12.0, bottom: 14.0),
-                                                            child: Column(
-                                                              mainAxisAlignment: MainAxisAlignment.start,
-                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                              children: [
-                                                                Padding(
-                                                                  padding: const EdgeInsets.only(left: 1.0),
-                                                                  child: Column(
+                                                          color: AppTheme.lightBgColor,
+                                                          border: Border(
+                                                            bottom: BorderSide(
+                                                                color: AppTheme.skBorderColor2,
+                                                                width: 1.0),
+                                                          )),
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 12.0, bottom: 14.0),
+                                                        child: Column(
+                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(left: 1.0),
+                                                              child: Column(
+                                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                children: [
+                                                                  Row(
                                                                     mainAxisAlignment: MainAxisAlignment.start,
-                                                                    crossAxisAlignment: CrossAxisAlignment.start,
                                                                     children: [
-                                                                      Row(
-                                                                        mainAxisAlignment: MainAxisAlignment.start,
-                                                                        children: [
-                                                                          Text('#' + item.toString(),
-                                                                            textScaleFactor: 1, style: TextStyle(
-                                                                                fontSize: 16,
-                                                                                fontWeight: FontWeight.w500
-                                                                            ),
-                                                                          ),
-                                                                          SizedBox(width: 8),
-                                                                          Padding(
-                                                                            padding:  EdgeInsets.only(bottom: 1.0),
-                                                                            child: Icon(Icons.access_time, size: 15, color: Colors.grey,),
-                                                                          ),
-                                                                          SizedBox(width: 4),
-                                                                          Padding(
-                                                                            padding: EdgeInsets.only(bottom:  (Platform.isAndroid) ? 2.0 : 0.0),
-                                                                            child: Text(item.toString(),
-                                                                              textScaleFactor: 1, style: TextStyle(
-                                                                                fontSize: 14,
-                                                                                fontWeight: FontWeight.w500,
-                                                                                color: Colors.grey,
-                                                                              ),
-                                                                            ),
-                                                                          ),
-                                                                        ],
+                                                                      Text('#' + item.deviceId.toString() + '-'  + item.id.toString(), textScaleFactor: 1,
+                                                                        style: TextStyle(
+                                                                            fontSize: 16,
+                                                                            fontWeight: FontWeight.w500
+                                                                        ),
                                                                       ),
-                                                                      SizedBox(
-                                                                        height: 6,
-                                                                      ),
+                                                                      SizedBox(width: 8),
                                                                       Padding(
-                                                                        padding: const EdgeInsets.only(right: 25.0),
-                                                                        child: Row(
-                                                                          children: [
-                                                                            Expanded(
-                                                                              child: Text(item.toString(), textScaleFactor: 1, style: TextStyle(
-                                                                                  fontSize: 15,
-                                                                                  fontWeight: FontWeight.w500,
-                                                                                  color: Colors.black,
-                                                                                  overflow: TextOverflow.ellipsis
-                                                                              ),
-                                                                                maxLines: 1,
-                                                                                strutStyle: StrutStyle(
-                                                                                  height: 1.3,
-                                                                                  // fontSize:,
-                                                                                  forceStrutHeight: true,
-                                                                                ),
-
-                                                                              ),
-                                                                            ),
-
-                                                                            Padding(
-                                                                              padding: const EdgeInsets.only(left: 8.0),
-                                                                              child: Text('$currencyUnit ', textScaleFactor: 1, style: TextStyle(
-                                                                                fontSize: 15,
-                                                                                fontWeight: FontWeight.w500,
-                                                                              )),
-                                                                            ),
-
-                                                                          ],
+                                                                        padding: const EdgeInsets.only(bottom: 1.0),
+                                                                        child: Icon(Icons.access_time, size: 15, color: Colors.grey,),
+                                                                      ),
+                                                                      SizedBox(width: 4),
+                                                                      Padding(
+                                                                        padding: EdgeInsets.only(bottom:  (Platform.isAndroid) ? 2.0 : 0.0),
+                                                                        child: Text(convertToHour(item.date.hour.toString()) + ':' + item.date.minute.toString() +' ' + convertToAMPM(item.date.hour.toString()),
+                                                                          textScaleFactor: 1, style: TextStyle(
+                                                                            fontSize: 14,
+                                                                            fontWeight: FontWeight.w500,
+                                                                            color: Colors.grey,
+                                                                          ),
                                                                         ),
                                                                       ),
                                                                     ],
                                                                   ),
-                                                                ),
-                                                                SizedBox(
-                                                                  height: 8,
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          Padding(
-                                                            padding: const EdgeInsets.only(left: 15.0),
-                                                            child: Container(
-                                                              decoration: BoxDecoration(
-                                                                  border: Border(
-                                                                    bottom: BorderSide(
-                                                                        color: AppTheme.skBorderColor2,
-                                                                        width: 1.0),
-                                                                  )
+                                                                  // Padding(
+                                                                  //   padding: const EdgeInsets.only(top: 8.0, bottom: 3.0),
+                                                                  //   child: Text('MMK ' + double.parse(item.split('^')[2]).toStringAsFixed(2)),
+                                                                  // ),
+                                                                  SizedBox(
+                                                                    height: 6,
+                                                                  ),
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(right: 25.0),
+                                                                    child: Row(
+                                                                      children: [
+                                                                        Expanded(
+                                                                          child: Text((item.cid.toString() =='No customer'? (widget.isEnglish? 'Walk-in customer': 'အမည်မသိ ဖောက်သည်'): item.cid.toString()),  textScaleFactor: 1,style: TextStyle(
+                                                                              fontSize: 15,
+                                                                              fontWeight: FontWeight.w500,
+                                                                              color: item.cid.toString() =='No customer'? Colors.grey: Colors.black,
+                                                                              overflow: TextOverflow.ellipsis
+                                                                          ),
+                                                                            maxLines: 1,
+                                                                            strutStyle: StrutStyle(
+                                                                              height: 1.3,
+                                                                              // fontSize:,
+                                                                              forceStrutHeight: true,
+                                                                            ),
+
+                                                                          ),
+                                                                        ),
+
+                                                                        Padding(
+                                                                          padding: const EdgeInsets.only(left: 8.0),
+                                                                          child: Text('$currencyUnit ' + double.parse(item.total.toString()).toStringAsFixed(2), textScaleFactor: 1, style: TextStyle(
+                                                                            fontSize: 15,
+                                                                            fontWeight: FontWeight.w500,
+                                                                          )),
+                                                                        ),
+
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ],
                                                               ),
                                                             ),
-                                                          ),
-                                                        ],
+                                                            SizedBox(
+                                                              height: 8,
+                                                            ),
+                                                            Row(
+                                                              children: [
+                                                                if(item.debt.toString() == '0.0')
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(left: 0.0),
+                                                                    child: Container(
+                                                                      height: 21,
+                                                                      decoration: BoxDecoration(
+                                                                        borderRadius: BorderRadius.circular(20.0),
+                                                                        color: AppTheme.badgeBgSuccess,
+                                                                      ),
+                                                                      child: Padding(
+                                                                        padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
+                                                                        child: Text(widget.isEnglish? 'Paid': 'ရှင်းပြီး',
+                                                                          textScaleFactor: 1, strutStyle: StrutStyle(
+                                                                            height: 1.25,
+                                                                            // fontSize:,
+                                                                            forceStrutHeight: true,
+                                                                          ),
+                                                                          style: TextStyle(
+                                                                              fontSize: widget.isEnglish? 13: 12,
+                                                                              fontWeight: FontWeight.w500,
+                                                                              color: Colors.white
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+
+                                                                if(item.debt.toString() != '0.0' && double.parse(item.total.toString()) > double.parse(item.debt.toString()))
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(left: 0.0),
+                                                                    child: Container(
+                                                                      height: 21,
+                                                                      decoration: BoxDecoration(
+                                                                        borderRadius: BorderRadius.circular(20.0),
+                                                                        color: AppTheme.badgeFgDangerLight,
+                                                                      ),
+                                                                      child: Padding(
+                                                                        padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
+                                                                        child: Text(widget.isEnglish? 'Partially paid': 'တချို့တဝက် ရှင်းပြီး',
+                                                                          textScaleFactor: 1, strutStyle: StrutStyle(
+                                                                            height: 1.25,
+                                                                            // fontSize:,
+                                                                            forceStrutHeight: true,
+                                                                          ),
+                                                                          style: TextStyle(
+                                                                              fontSize: widget.isEnglish? 13: 12,
+                                                                              fontWeight: FontWeight.w500,
+                                                                              color: AppTheme.badgeFgDanger
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                if(item.debt.toString() != '0.0'  && double.parse(item.total.toString()) == double.parse(item.debt.toString()))
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(left: 0.0),
+                                                                    child: Container(
+                                                                      height: 21,
+                                                                      decoration: BoxDecoration(
+                                                                        borderRadius: BorderRadius.circular(20.0),
+                                                                        color: AppTheme.badgeFgDanger,
+                                                                      ),
+                                                                      child: Padding(
+                                                                        padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
+                                                                        child: Text(widget.isEnglish? 'Unpaid': 'မရှင်းသေး',
+                                                                          textScaleFactor: 1, strutStyle: StrutStyle(
+                                                                            height: 1.25,
+                                                                            // fontSize:,
+                                                                            forceStrutHeight: true,
+                                                                          ),
+                                                                          style: TextStyle(
+                                                                              fontSize: widget.isEnglish? 13: 12,
+                                                                              fontWeight: FontWeight.w500,
+                                                                              color: Colors.white
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                if(item.refund.toString() == 'T')
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(left: 6.0),
+                                                                    child: Container(
+                                                                      height: 21,
+                                                                      decoration: BoxDecoration(
+                                                                        borderRadius: BorderRadius.circular(20.0),
+                                                                        color: AppTheme.badgeBgSecond,
+                                                                      ),
+                                                                      child: Padding(
+                                                                        padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
+                                                                        child: Text(widget.isEnglish? 'Refunded': 'ပြန်ပေး',
+                                                                          textScaleFactor: 1, strutStyle: StrutStyle(
+                                                                            height: 1.25,
+                                                                            // fontSize:,
+                                                                            forceStrutHeight: true,
+                                                                          ),
+                                                                          style: TextStyle(
+                                                                              fontSize: widget.isEnglish? 13: 12,
+                                                                              fontWeight: FontWeight.w500,
+                                                                              color: Colors.white
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+
+                                                                if(item.refund.toString() == 'P')
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(left: 6.0),
+                                                                    child: Container(
+                                                                      height: 21,
+                                                                      decoration: BoxDecoration(
+                                                                        borderRadius: BorderRadius.circular(20.0),
+                                                                        color: AppTheme.badgeBgSecondLight,
+                                                                      ),
+                                                                      child: Padding(
+                                                                        padding: const EdgeInsets.only(top: 0.0, left: 12.0, right: 12.0),
+                                                                        child: Text(widget.isEnglish? 'Partially refunded': 'တချို့တဝက် ပြန်ပေး',
+                                                                          textScaleFactor: 1, strutStyle: StrutStyle(
+                                                                            height: 1.25,
+                                                                            // fontSize:,
+                                                                            forceStrutHeight: true,
+                                                                          ),
+                                                                          style: TextStyle(
+                                                                              fontSize: widget.isEnglish? 13: 12,
+                                                                              fontWeight: FontWeight.w500,
+                                                                              color: AppTheme.badgeBgSecond
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                              ],
+                                                            )
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
@@ -544,8 +689,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                         mainAxisAlignment: MainAxisAlignment.end,
                                                         children: [
                                                           // Text('$currencyUnit ' + double.parse(item.split('^')[2]).toStringAsFixed(2), style: TextStyle(
-                                                          //   fontSize: 15,
-                                                          //   fontWeight: FontWeight.w500,
+                                                          //   fontSize: 15,fontWeight: FontWeight.w500,
                                                           // )),
                                                           SizedBox(width: 10),
                                                           Padding(
@@ -570,121 +714,261 @@ class OrdersFragmentState extends State<OrdersFragment>
                                           }
                                           return GestureDetector(
                                             onTap: () async {
-                                              widget._closeDrawerBtn();
-                                              // await Navigator.push(
-                                              //   context,
-                                              //   MaterialPageRoute(
-                                              //       builder: (context) => OrderInfoSub(isEnglish: widget.isEnglish,fromSearch: false, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, closeCartBtn: widget._closeCartBtn, data: item, toggleCoinCallback: () {}, shopId: widget.shopId.toString(), openCartBtn: widget._openCartBtn,)),
-                                              // );
-                                              widget._openDrawerBtn();
+                                             // widget._closeDrawerBtn();
+                                              await Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>OrderInfoSub(isEnglish: widget.isEnglish, fromSearch: false, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, data:
+                                                    (
+                                                        saleOrders[index].date.toString() + '^' +
+                                                            saleOrders[index].id.toString() + '^' +
+                                                            saleOrders[index].total.toString() + '^' +
+                                                            saleOrders[index].cid.toString() + '&' + '^' +
+                                                            'F' + '^' +
+                                                            saleOrders[index].debt.toString() + '^' +
+                                                            '0.0'
+                                                        // saleOrders[index].discount.toString() + '-p'
+                                                    ),
+                                                      toggleCoinCallback: () {}, shopId: widget.shopId.toString(),)),
+                                              );
+                                            //  widget._openDrawerBtn();
                                             },
-                                            child: Stack(
+                                            child:  Stack(
                                               alignment: Alignment.center,
+
                                               children: [
                                                 Padding(
                                                   padding: const EdgeInsets.only(left: 0.0, right: 0.0),
                                                   child: Container(
                                                     decoration: BoxDecoration(
-                                                      color: AppTheme.lightBgColor,
-                                                    ),
-                                                    child: Column(
-                                                      children: [
-                                                        Padding(
-                                                          padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 12.0, bottom: 14.0),
-                                                          child: Column(
-                                                            mainAxisAlignment: MainAxisAlignment.start,
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            children: [
-                                                              Padding(
-                                                                padding: const EdgeInsets.only(left: 1.0),
-                                                                child: Column(
+                                                        color: AppTheme.lightBgColor,
+                                                        border: Border(
+                                                          bottom: BorderSide(
+                                                              color: AppTheme.skBorderColor2,
+                                                              width: 1.0),
+                                                        )),
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 12.0, bottom: 14.0),
+                                                      child: Column(
+                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(left: 1.0),
+                                                            child: Column(
+                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              children: [
+                                                                Row(
                                                                   mainAxisAlignment: MainAxisAlignment.start,
-                                                                  crossAxisAlignment: CrossAxisAlignment.start,
                                                                   children: [
-                                                                    Row(
-                                                                      mainAxisAlignment: MainAxisAlignment.start,
-                                                                      children: [
-                                                                        Text('#' + item.toString(),
-                                                                          textScaleFactor: 1, style: TextStyle(
-                                                                              fontSize: 16,
-                                                                              fontWeight: FontWeight.w500
-                                                                          ),
-                                                                        ),
-                                                                        SizedBox(width: 8),
-                                                                        Padding(
-                                                                          padding:  EdgeInsets.only(bottom: 1.0),
-                                                                          child: Icon(Icons.access_time, size: 15, color: Colors.grey,),
-                                                                        ),
-                                                                        SizedBox(width: 4),
-                                                                        Padding(
-                                                                          padding: EdgeInsets.only(bottom:  (Platform.isAndroid) ? 2.0 : 0.0),
-                                                                          child: Text(item.toString(),
-                                                                            textScaleFactor: 1, style: TextStyle(
-                                                                              fontSize: 14,
-                                                                              fontWeight: FontWeight.w500,
-                                                                              color: Colors.grey,
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ],
+                                                                    Text('#' + item.deviceId.toString() + '-'  + item.id.toString(), textScaleFactor: 1,
+                                                                      style: TextStyle(
+                                                                          fontSize: 16,
+                                                                          fontWeight: FontWeight.w500
+                                                                      ),
                                                                     ),
-                                                                    SizedBox(
-                                                                      height: 6,
-                                                                    ),
+                                                                    SizedBox(width: 8),
                                                                     Padding(
-                                                                      padding: const EdgeInsets.only(right: 25.0),
-                                                                      child: Row(
-                                                                        children: [
-                                                                          Expanded(
-                                                                            child: Text(item.toString(), textScaleFactor: 1, style: TextStyle(
-                                                                                fontSize: 15,
-                                                                                fontWeight: FontWeight.w500,
-                                                                                color: Colors.black,
-                                                                                overflow: TextOverflow.ellipsis
-                                                                            ),
-                                                                              maxLines: 1,
-                                                                              strutStyle: StrutStyle(
-                                                                                height: 1.3,
-                                                                                // fontSize:,
-                                                                                forceStrutHeight: true,
-                                                                              ),
-
-                                                                            ),
-                                                                          ),
-
-                                                                          Padding(
-                                                                            padding: const EdgeInsets.only(left: 8.0),
-                                                                            child: Text('$currencyUnit ', textScaleFactor: 1, style: TextStyle(
-                                                                              fontSize: 15,
-                                                                              fontWeight: FontWeight.w500,
-                                                                            )),
-                                                                          ),
-
-                                                                        ],
+                                                                      padding: const EdgeInsets.only(bottom: 1.0),
+                                                                      child: Icon(Icons.access_time, size: 15, color: Colors.grey,),
+                                                                    ),
+                                                                    SizedBox(width: 4),
+                                                                    Padding(
+                                                                      padding: EdgeInsets.only(bottom:  (Platform.isAndroid) ? 2.0 : 0.0),
+                                                                      child: Text(convertToHour(item.date.hour.toString()) + ':' + item.date.minute.toString() +' ' + convertToAMPM(item.date.hour.toString()),
+                                                                        textScaleFactor: 1, style: TextStyle(
+                                                                          fontSize: 14,
+                                                                          fontWeight: FontWeight.w500,
+                                                                          color: Colors.grey,
+                                                                        ),
                                                                       ),
                                                                     ),
                                                                   ],
                                                                 ),
-                                                              ),
-                                                              SizedBox(
-                                                                height: 8,
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        Padding(
-                                                          padding: const EdgeInsets.only(left: 15.0),
-                                                          child: Container(
-                                                            decoration: BoxDecoration(
-                                                                border: Border(
-                                                                  bottom: BorderSide(
-                                                                      color: AppTheme.skBorderColor2,
-                                                                      width: 1.0),
-                                                                )
+                                                                // Padding(
+                                                                //   padding: const EdgeInsets.only(top: 8.0, bottom: 3.0),
+                                                                //   child: Text('MMK ' + double.parse(item.split('^')[2]).toStringAsFixed(2)),
+                                                                // ),
+                                                                SizedBox(
+                                                                  height: 6,
+                                                                ),
+                                                                Padding(
+                                                                  padding: const EdgeInsets.only(right: 25.0),
+                                                                  child: Row(
+                                                                    children: [
+                                                                      Expanded(
+                                                                        child: Text((item.cid.toString() =='No customer'? (widget.isEnglish? 'Walk-in customer': 'အမည်မသိ ဖောက်သည်'): item.cid.toString()),  textScaleFactor: 1,style: TextStyle(
+                                                                            fontSize: 15,
+                                                                            fontWeight: FontWeight.w500,
+                                                                            color: item.cid.toString() =='No customer'? Colors.grey: Colors.black,
+                                                                            overflow: TextOverflow.ellipsis
+                                                                        ),
+                                                                          maxLines: 1,
+                                                                          strutStyle: StrutStyle(
+                                                                            height: 1.3,
+                                                                            // fontSize:,
+                                                                            forceStrutHeight: true,
+                                                                          ),
+
+                                                                        ),
+                                                                      ),
+
+                                                                      Padding(
+                                                                        padding: const EdgeInsets.only(left: 8.0),
+                                                                        child: Text('$currencyUnit ' + double.parse(item.total.toString()).toStringAsFixed(2), textScaleFactor: 1, style: TextStyle(
+                                                                          fontSize: 15,
+                                                                          fontWeight: FontWeight.w500,
+                                                                        )),
+                                                                      ),
+
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ],
                                                             ),
                                                           ),
-                                                        ),
-                                                      ],
+                                                          SizedBox(
+                                                            height: 8,
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              if(item.debt.toString() == '0.0')
+                                                                Padding(
+                                                                  padding: const EdgeInsets.only(left: 0.0),
+                                                                  child: Container(
+                                                                    height: 21,
+                                                                    decoration: BoxDecoration(
+                                                                      borderRadius: BorderRadius.circular(20.0),
+                                                                      color: AppTheme.badgeBgSuccess,
+                                                                    ),
+                                                                    child: Padding(
+                                                                      padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
+                                                                      child: Text(widget.isEnglish? 'Paid': 'ရှင်းပြီး',
+                                                                        textScaleFactor: 1, strutStyle: StrutStyle(
+                                                                          height: 1.25,
+                                                                          // fontSize:,
+                                                                          forceStrutHeight: true,
+                                                                        ),
+                                                                        style: TextStyle(
+                                                                            fontSize: widget.isEnglish? 13: 12,
+                                                                            fontWeight: FontWeight.w500,
+                                                                            color: Colors.white
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+
+                                                              if(item.debt.toString() != '0.0' && double.parse(item.total.toString()) > double.parse(item.debt.toString()))
+                                                                Padding(
+                                                                  padding: const EdgeInsets.only(left: 0.0),
+                                                                  child: Container(
+                                                                    height: 21,
+                                                                    decoration: BoxDecoration(
+                                                                      borderRadius: BorderRadius.circular(20.0),
+                                                                      color: AppTheme.badgeFgDangerLight,
+                                                                    ),
+                                                                    child: Padding(
+                                                                      padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
+                                                                      child: Text(widget.isEnglish? 'Partially paid': 'တချို့တဝက် ရှင်းပြီး',
+                                                                        textScaleFactor: 1, strutStyle: StrutStyle(
+                                                                          height: 1.25,
+                                                                          // fontSize:,
+                                                                          forceStrutHeight: true,
+                                                                        ),
+                                                                        style: TextStyle(
+                                                                            fontSize: widget.isEnglish? 13: 12,
+                                                                            fontWeight: FontWeight.w500,
+                                                                            color: AppTheme.badgeFgDanger
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              if(item.debt.toString() != '0.0'  && double.parse(item.total.toString()) == double.parse(item.debt.toString()))
+                                                                Padding(
+                                                                  padding: const EdgeInsets.only(left: 0.0),
+                                                                  child: Container(
+                                                                    height: 21,
+                                                                    decoration: BoxDecoration(
+                                                                      borderRadius: BorderRadius.circular(20.0),
+                                                                      color: AppTheme.badgeFgDanger,
+                                                                    ),
+                                                                    child: Padding(
+                                                                      padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
+                                                                      child: Text(widget.isEnglish? 'Unpaid': 'မရှင်းသေး',
+                                                                        textScaleFactor: 1, strutStyle: StrutStyle(
+                                                                          height: 1.25,
+                                                                          // fontSize:,
+                                                                          forceStrutHeight: true,
+                                                                        ),
+                                                                        style: TextStyle(
+                                                                            fontSize: widget.isEnglish? 13: 12,
+                                                                            fontWeight: FontWeight.w500,
+                                                                            color: Colors.white
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              if(item.refund.toString() == 'T')
+                                                                Padding(
+                                                                  padding: const EdgeInsets.only(left: 6.0),
+                                                                  child: Container(
+                                                                    height: 21,
+                                                                    decoration: BoxDecoration(
+                                                                      borderRadius: BorderRadius.circular(20.0),
+                                                                      color: AppTheme.badgeBgSecond,
+                                                                    ),
+                                                                    child: Padding(
+                                                                      padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
+                                                                      child: Text(widget.isEnglish? 'Refunded': 'ပြန်ပေး',
+                                                                        textScaleFactor: 1, strutStyle: StrutStyle(
+                                                                          height: 1.25,
+                                                                          // fontSize:,
+                                                                          forceStrutHeight: true,
+                                                                        ),
+                                                                        style: TextStyle(
+                                                                            fontSize: widget.isEnglish? 13: 12,
+                                                                            fontWeight: FontWeight.w500,
+                                                                            color: Colors.white
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+
+                                                              if(item.refund.toString() == 'P')
+                                                                Padding(
+                                                                  padding: const EdgeInsets.only(left: 6.0),
+                                                                  child: Container(
+                                                                    height: 21,
+                                                                    decoration: BoxDecoration(
+                                                                      borderRadius: BorderRadius.circular(20.0),
+                                                                      color: AppTheme.badgeBgSecondLight,
+                                                                    ),
+                                                                    child: Padding(
+                                                                      padding: const EdgeInsets.only(top: 0.0, left: 12.0, right: 12.0),
+                                                                      child: Text(widget.isEnglish? 'Partially refunded': 'တချို့တဝက် ပြန်ပေး',
+                                                                        textScaleFactor: 1, strutStyle: StrutStyle(
+                                                                          height: 1.25,
+                                                                          // fontSize:,
+                                                                          forceStrutHeight: true,
+                                                                        ),
+                                                                        style: TextStyle(
+                                                                            fontSize: widget.isEnglish? 13: 12,
+                                                                            fontWeight: FontWeight.w500,
+                                                                            color: AppTheme.badgeBgSecond
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                            ],
+                                                          )
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
@@ -696,8 +980,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                                                       mainAxisAlignment: MainAxisAlignment.end,
                                                       children: [
                                                         // Text('$currencyUnit ' + double.parse(item.split('^')[2]).toStringAsFixed(2), style: TextStyle(
-                                                        //   fontSize: 15,
-                                                        //   fontWeight: FontWeight.w500,
+                                                        //   fontSize: 15,fontWeight: FontWeight.w500,
                                                         // )),
                                                         SizedBox(width: 10),
                                                         Padding(
@@ -731,37 +1014,21 @@ class OrdersFragmentState extends State<OrdersFragment>
                                 );
                               }
                               noFind = true;
-                              return CustomScrollView(
-                                controller: _scrollController,
-                                slivers: [
-                                  // if (widget.header != null) widget.header!,
-                                  SliverAppBar(
-                                    elevation: 0,
-                                    backgroundColor: Colors.white,
-
-                                    // Provide a standard title.
-
-                                    // Allows the user to reveal the app bar if they begin scrolling
-                                    // back up the list of items.
-                                    floating: true,
-                                    bottom: PreferredSize(                       // Add this code
-                                      preferredSize: Size.fromHeight(-2.0),      // Add this code
-                                      child: Container(),                           // Add this code
-                                    ),
-                                    flexibleSpace: headerAppBar(),
-                                    // Display a placeholder widget to visualize the shrinking size.
-                                    // Make the initial height of the SliverAppBar larger than normal.
-                                    expandedHeight: 20,
-                                  ),
-                                  bottomBox()
-                                ],
+                              return Align(
+                                alignment: Alignment.topCenter,
+                                child: Column(
+                                  children: [
+                                    headerAppBar(),
+                                    Expanded(
+                                      child: Container(
+                                        // color: AppTheme.lightBgColor,
+                                        color: Colors.white,
+                                        child: Center(child: Text('No data found for selected month', textScaleFactor: 1, style: TextStyle(fontSize: 15),)),
+                                      ),
+                                    )
+                                  ],
+                                ),
                               );
-                              // return ListView.builder(
-                              //     shrinkWrap: true,
-                              //     padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                              //     itemCount: snapshot.hasData ? snapshot.data!.length : 0,
-                              //     itemBuilder: _itemBuilder(snapshot.data ?? [])
-                              // );
                             }
                         ),
                       ),
@@ -1346,7 +1613,7 @@ class OrdersFragmentState extends State<OrdersFragment>
   }
 
   convertToAMPM(String input){
-    switch (input.substring(8,10)) {
+    switch (input) {
       case '00':
         return 'AM';
         break;
@@ -1423,7 +1690,7 @@ class OrdersFragmentState extends State<OrdersFragment>
   }
 
   convertToHour(String input){
-    switch (input.substring(8,10)) {
+    switch (input) {
       case '00':
         return '12';
         break;
@@ -1500,7 +1767,7 @@ class OrdersFragmentState extends State<OrdersFragment>
   }
 
   convertToDate(String input) {
-    switch (input.substring(4,6)) {
+    switch (input) {
       case '01':
         return 'JANUARY';
         break;
@@ -1668,8 +1935,11 @@ class OrdersFragmentState extends State<OrdersFragment>
     // list.sort(alphabetic('name'));
   }
 
+
   Widget _buildHeader(BuildContext context, int sectionIndex, int index) {
     ExampleSection section = sectionList3[sectionIndex];
+
+    SaleOrder item = sectionList3[sectionIndex].items[index];
     // debugPrint('section check '+ sectionList3[sectionIndex].items.length.toString());
     if(sectionList3[sectionIndex].items.length == 0) {
       return Container();
@@ -1698,7 +1968,8 @@ class OrdersFragmentState extends State<OrdersFragment>
                       Text(
                         // "TODAY",
                         // checkTest(section.header),
-                        section.header,
+                        covertToDayNum(item.date.day.toString()) + ' ' + convertToDate(item.date.month.toString()),
+                        // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
                         textScaleFactor: 1, style: TextStyle(
                           height: 0.8,
                           fontSize: 14,
@@ -2204,7 +2475,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                       },
                       child: Container(
                         child: Text(
-                          'textSetAll', textScaleFactor: 1,
+                          textSetAll, textScaleFactor: 1,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 14,
@@ -2238,7 +2509,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                       },
                       child: Container(
                         child: Text(
-                          'textSetTUnpaid', textScaleFactor: 1,
+                          textSetTUnpaid, textScaleFactor: 1,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 14,
@@ -2272,7 +2543,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                       },
                       child: Container(
                         child: Text(
-                          'textSetTRefunds', textScaleFactor: 1,
+                          textSetTRefunds, textScaleFactor: 1,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 14,
@@ -2306,7 +2577,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                       },
                       child: Container(
                         child: Text(
-                          'textSetTPaid', textScaleFactor: 1,
+                          textSetTPaid, textScaleFactor: 1,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 14,
