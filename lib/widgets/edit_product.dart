@@ -12,6 +12,7 @@ import 'package:smartkyat_pos/constants/picker_method.dart';
 import 'package:smartkyat_pos/fragments/subs/language_settings.dart';
 import 'package:smartkyat_pos/pages2/home_page5.dart';
 import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
+import 'package:smartkyat_pos/widgets/custom_flat_button.dart';
 import 'package:smartkyat_pos/widgets/qr_edit.dart';
 import 'package:smartkyat_pos/widgets2/method_list_view.dart';
 import 'package:smartkyat_pos/widgets2/selected_assets_list_view.dart';
@@ -935,7 +936,7 @@ class _EditProductState extends State<EditProduct> {
                                   ButtonTheme(
                                     splashColor: Colors.transparent,
                                     height: 50,
-                                    child: FlatButton(
+                                    child: CustomFlatButton(
                                       color: AppTheme.buttonColor2,
                                       shape: RoundedRectangleBorder(
                                         borderRadius:
@@ -992,7 +993,7 @@ class _EditProductState extends State<EditProduct> {
                                   minWidth: MediaQuery.of(context).size.width,
                                   splashColor: Colors.transparent,
                                   height: 50,
-                                  child: FlatButton(
+                                  child: CustomFlatButton(
                                     color: AppTheme.themeColor,
                                     shape: RoundedRectangleBorder(
                                       borderRadius:

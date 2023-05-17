@@ -46,7 +46,7 @@
 //           Container(
 //             margin: EdgeInsets.all(10),
 //             width: double.infinity,
-//             child: FlatButton(
+//             child: CustomFlatButton(
 //               color: Colors.blue,
 //               onPressed: () {
 //                 Navigator.of(context).push(MaterialPageRoute(

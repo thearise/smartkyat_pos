@@ -15,6 +15,7 @@ import 'package:one_context/one_context.dart';
 import 'package:provider/provider.dart';
 import 'package:smartkyat_pos/app_theme.dart';
 import 'package:smartkyat_pos/fragments/subs/order_info.dart';
+import 'package:smartkyat_pos/widgets/custom_flat_button.dart';
 import 'package:sticky_and_expandable_list/sticky_and_expandable_list.dart';
 
 import 'bloc/pagination_cubit.dart';
@@ -549,108 +550,6 @@ class _BlocFirestoreState extends State<BlocFirestore> {
       debugPrint('section p p lr 0 ' + sections[0].items.length.toString());
 
     }
-    // loadedState.documentSnapshots.map((document) async {
-    //
-    //   // List<String> dailyOrders = document['daily_order'].cast<String>();
-    //   List<String> dailyOrders = [];
-    //   for(String str in document['daily_order']) {
-    //     if(cateScIndex == 2) {
-    //       if(str.split('^')[4] == 'P' || str.split('^')[4] == 'T') {
-    //         dailyOrders.add(str);
-    //       }
-    //     } else if(cateScIndex == 1) {
-    //       if(str.split('^')[5] != '0.0') {
-    //         dailyOrders.add(str);
-    //       }
-    //     } else if(cateScIndex == 3) {
-    //       if(str.split('^')[5] == '0.0') {
-    //         dailyOrders.add(str);
-    //       }
-    //     } else if(cateScIndex == 0) {
-    //       if(dailyOrders.length >= itemPerPage) {
-    //         break;
-    //       }
-    //       dailyOrders.add(str);
-    //     }
-    //
-    //   }
-    //   if(docInc>0) {
-    //     Map<String,dynamic> dataLow = loadedState.documentSnapshots[docInc-1].data()! as Map< String, dynamic>;
-    //     List<String> dataLowDailyOrder = [];
-    //     for(String str in dataLow['daily_order']) {
-    //       if(cateScIndex == 2) {
-    //         if(str.split('^')[4] == 'P' || str.split('^')[4] == 'T') {
-    //           dataLowDailyOrder.add(str);
-    //         }
-    //       } else if(cateScIndex == 1) {
-    //         if(str.split('^')[5] != '0.0') {
-    //           dataLowDailyOrder.add(str);
-    //         }
-    //       } else if(cateScIndex == 3) {
-    //         if(str.split('^')[5] == '0.0') {
-    //           dataLowDailyOrder.add(str);
-    //         }
-    //       } else if(cateScIndex == 0) {
-    //         dataLowDailyOrder.add(str);
-    //       }
-    //
-    //     }
-    //
-    //
-    //     debugPrint('DATA LOW ' + dataLow['date'].toDate().toString());
-    //     if( document['date'].toDate().year.toString() + document['date'].toDate().month.toString() + document['date'].toDate().day.toString()
-    //         ==
-    //         dataLow['date'].toDate().year.toString() + dataLow['date'].toDate().month.toString() + dataLow['date'].toDate().day.toString()
-    //     ) {
-    //       var section = ExampleSection()
-    //         ..header = document['date'].toDate().year.toString() + zeroToTen(document['date'].toDate().month.toString()) + zeroToTen(document['date'].toDate().day.toString())
-    //       // ..items = List.generate(int.parse(document['length']), (index) => document.id)
-    //       //   ..items = listCreation(document.id, document['data'], document).cast<String>()
-    //
-    //       //   ..items = document['daily_order'].cast<String>()
-    //
-    //
-    //       // ..items = sortList(changeData(dataLow['daily_order'].cast<String>(), snapshot2)) + sortList(changeData(document['daily_order'].cast<String>(), snapshot2))
-    //         ..items = sortList(changeDataNew(dataLowDailyOrder.cast<String>()) + changeDataNew(dailyOrders.cast<String>()))
-    //       // ..items = orderItems(document.id)
-    //         ..expanded = true;
-    //       // sections.add(section);
-    //       sections[sections.length-1] = section;
-    //     } else {
-    //       // debugPrint('herre ' + document.id);
-    //       var section = ExampleSection()
-    //         ..header = document['date'].toDate().year.toString() + zeroToTen(document['date'].toDate().month.toString()) + zeroToTen(document['date'].toDate().day.toString())
-    //       // ..items = List.generate(int.parse(document['length']), (index) => document.id)
-    //       //   ..items = listCreation(document.id, document['data'], document).cast<String>()
-    //
-    //       //   ..items = document['daily_order'].cast<String>()
-    //
-    //
-    //         ..items = sortList(changeDataNew(dailyOrders.cast<String>()))
-    //       // ..items = orderItems(document.id)
-    //         ..expanded = true;
-    //       sections.add(section);
-    //     }
-    //   } else {
-    //     // debugPrint('herre ' + document.id);
-    //     var section = ExampleSection()
-    //       ..header = document['date'].toDate().year.toString() + zeroToTen(document['date'].toDate().month.toString()) + zeroToTen(document['date'].toDate().day.toString())
-    //     // ..items = List.generate(int.parse(document['length']), (index) => document.id)
-    //     //   ..items = listCreation(document.id, document['data'], document).cast<String>()
-    //
-    //     //   ..items = document['daily_order'].cast<String>()
-    //
-    //
-    //       ..items = sortList(changeDataNew(dailyOrders.cast<String>()))
-    //     // ..items = orderItems(document.id)
-    //       ..expanded = true;
-    //     sections.add(section);
-    //   }
-    //
-    //
-    //
-    //   docInc++;
-    // }).toList();
     sectionList3 = sections;
 
     debugPrint('loaded in bloc_firestore ');
@@ -1787,7 +1686,7 @@ class _BlocFirestoreState extends State<BlocFirestore> {
           children: [
             Row(
               children: [
-                FlatButton(
+                CustomFlatButton(
                   padding: EdgeInsets.only(left: 10, right: 10),
                   color: AppTheme.secButtonColor,
                   shape: RoundedRectangleBorder(
@@ -1842,8 +1741,8 @@ class _BlocFirestoreState extends State<BlocFirestore> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                    child: FlatButton(
-                      minWidth: 0,
+                    child: CustomFlatButton(
+                      // minWidth: 0,
                       padding: EdgeInsets.only(left: 12, right: 12),
                       color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
                       shape: RoundedRectangleBorder(
@@ -1878,8 +1777,8 @@ class _BlocFirestoreState extends State<BlocFirestore> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                    child: FlatButton(
-                      minWidth: 0,
+                    child: CustomFlatButton(
+                      // minWidth: 0,
                       padding: EdgeInsets.only(left: 12, right: 12),
                       color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
                       shape: RoundedRectangleBorder(
@@ -1912,8 +1811,8 @@ class _BlocFirestoreState extends State<BlocFirestore> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                    child: FlatButton(
-                      minWidth: 0,
+                    child: CustomFlatButton(
+                      // minWidth: 0,
                       padding: EdgeInsets.only(left: 12, right: 12),
                       color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.white,
                       shape: RoundedRectangleBorder(
@@ -1946,8 +1845,8 @@ class _BlocFirestoreState extends State<BlocFirestore> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                    child: FlatButton(
-                      minWidth: 0,
+                    child: CustomFlatButton(
+                      // minWidth: 0,
                       padding: EdgeInsets.only(left: 12, right: 12),
                       color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,
                       shape: RoundedRectangleBorder(

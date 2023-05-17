@@ -12,6 +12,7 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
+import 'package:smartkyat_pos/widgets/custom_flat_button.dart';
 import 'package:smartkyat_pos/widgets_small/top80_app_bar.dart';
 
 import '../../app_theme.dart';
@@ -878,7 +879,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                           minWidth: MediaQuery.of(context).size.width,
                                           splashColor: Colors.transparent,
                                           height: 50,
-                                          child: FlatButton(
+                                          child: CustomFlatButton(
                                             color: AppTheme.skThemeColor,
                                             shape: RoundedRectangleBorder(
                                               borderRadius:

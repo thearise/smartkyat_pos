@@ -15,6 +15,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 import 'package:smartkyat_pos/fragments/subs/add_staff_sub.dart';
 import 'package:smartkyat_pos/pages2/home_page5.dart';
+import 'package:smartkyat_pos/widgets/custom_flat_button.dart';
 
 import '../../app_theme.dart';
 import '../app_theme.dart';
@@ -725,7 +726,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                                               // minWidth: 30,
                                                                               splashColor: Colors.transparent,
                                                                               // height: 35,
-                                                                              child: FlatButton(
+                                                                              child: CustomFlatButton(
                                                                                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                                                                                 color: AppTheme.buttonColor2,
                                                                                 shape: RoundedRectangleBorder(
@@ -920,7 +921,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
                                                                             // minWidth: 30,
                                                                             splashColor: Colors.transparent,
                                                                             // height: 35,
-                                                                            child: FlatButton(
+                                                                            child: CustomFlatButton(
                                                                               padding: const EdgeInsets.symmetric(horizontal: 10.0),
                                                                               color: AppTheme.buttonColor2,
                                                                               shape: RoundedRectangleBorder(
@@ -1303,7 +1304,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
             minWidth: MediaQuery.of(context).size.width,
             splashColor: Colors.transparent,
             height: 50,
-            child: FlatButton(
+            child: CustomFlatButton(
               color: AppTheme.buttonColor2,
               shape: RoundedRectangleBorder(
                 borderRadius:
@@ -1363,7 +1364,7 @@ class _StaffSettingsSubState extends State<StaffSettingsSub>  with TickerProvide
             minWidth: MediaQuery.of(context).size.width,
             splashColor: Colors.transparent,
             height: 50,
-            child: FlatButton(
+            child: CustomFlatButton(
               color: AppTheme.buttonColor2,
               shape: RoundedRectangleBorder(
                 borderRadius:

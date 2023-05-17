@@ -328,7 +328,7 @@
 // // //                                                     minWidth: MediaQuery.of(context).size.width,
 // // //                                                     splashColor: Colors.transparent,
 // // //                                                     height: 50,
-// // //                                                     child: FlatButton(
+// // //                                                     child: CustomFlatButton(
 // // //                                                       color: AppTheme.themeColor,
 // // //                                                       shape: RoundedRectangleBorder(
 // // //                                                         borderRadius:
@@ -596,7 +596,7 @@
 // // //                                                                   // minWidth: MediaQuery.of(context).size.width/3 - 22.5,
 // // //                                                                   splashColor: Colors.transparent,
 // // //                                                                   height: 50,
-// // //                                                                   child: FlatButton(
+// // //                                                                   child: CustomFlatButton(
 // // //                                                                     color: AppTheme.buttonColor2,
 // // //                                                                     shape: RoundedRectangleBorder(
 // // //                                                                       borderRadius:
@@ -634,7 +634,7 @@
 // // //                                                                     // minWidth: (MediaQuery.of(context).size.width * 2/3.1) - 22.5,
 // // //                                                                     splashColor: Colors.transparent,
 // // //                                                                     height: 50,
-// // //                                                                     child: FlatButton(
+// // //                                                                     child: CustomFlatButton(
 // // //                                                                       color: AppTheme.themeColor,
 // // //                                                                       shape: RoundedRectangleBorder(
 // // //                                                                         borderRadius:
@@ -1116,7 +1116,7 @@
 // // //                                         minWidth: MediaQuery.of(context).size.width,
 // // //                                         splashColor: Colors.transparent,
 // // //                                         height: 50,
-// // //                                         child: FlatButton(
+// // //                                         child: CustomFlatButton(
 // // //                                           color: AppTheme.themeColor,
 // // //                                           shape: RoundedRectangleBorder(
 // // //                                             borderRadius:
@@ -1249,7 +1249,7 @@
 // // //                                     //         minWidth: 35,
 // // //                                     //         splashColor: Colors.transparent,
 // // //                                     //         height: 30,
-// // //                                     //         child: FlatButton(
+// // //                                     //         child: CustomFlatButton(
 // // //                                     //           color: AppTheme.themeColor,
 // // //                                     //           shape: RoundedRectangleBorder(
 // // //                                     //             borderRadius:
@@ -1611,7 +1611,7 @@
 // //                                                   minWidth: MediaQuery.of(context).size.width,
 // //                                                   splashColor: Colors.transparent,
 // //                                                   height: 50,
-// //                                                   child: FlatButton(
+// //                                                   child: CustomFlatButton(
 // //                                                     color: AppTheme.themeColor,
 // //                                                     shape: RoundedRectangleBorder(
 // //                                                       borderRadius:
@@ -1802,7 +1802,7 @@
 //                                 minWidth: 35,
 //                                 splashColor: Colors.transparent,
 //                                 height: 30,
-//                                 child: FlatButton(
+//                                 child: CustomFlatButton(
 //                                   color: AppTheme.themeColor,
 //                                   shape: RoundedRectangleBorder(
 //                                     borderRadius:
@@ -1852,7 +1852,7 @@
 //                       //             minWidth: 35,
 //                       //             splashColor: Colors.transparent,
 //                       //             height: 30,
-//                       //             child: FlatButton(
+//                       //             child: CustomFlatButton(
 //                       //               color: AppTheme.themeColor,
 //                       //               shape: RoundedRectangleBorder(
 //                       //                 borderRadius:
@@ -1900,7 +1900,7 @@
 //                       //             minWidth: 35,
 //                       //             splashColor: Colors.transparent,
 //                       //             height: 30,
-//                       //             child: FlatButton(
+//                       //             child: CustomFlatButton(
 //                       //               color: AppTheme.themeColor,
 //                       //               shape: RoundedRectangleBorder(
 //                       //                 borderRadius:
@@ -1955,7 +1955,7 @@
 //                       //             minWidth: 35,
 //                       //             splashColor: Colors.transparent,
 //                       //             height: 30,
-//                       //             child: FlatButton(
+//                       //             child: CustomFlatButton(
 //                       //               color: AppTheme.themeColor,
 //                       //               shape: RoundedRectangleBorder(
 //                       //                 borderRadius:
@@ -2002,7 +2002,7 @@
 //                       //             minWidth: 35,
 //                       //             splashColor: Colors.transparent,
 //                       //             height: 30,
-//                       //             child: FlatButton(
+//                       //             child: CustomFlatButton(
 //                       //               color: AppTheme.themeColor,
 //                       //               shape: RoundedRectangleBorder(
 //                       //                 borderRadius:

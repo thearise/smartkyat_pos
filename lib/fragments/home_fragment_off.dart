@@ -472,7 +472,7 @@ class OverviewPageState extends State<OverviewPage>
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        brightness: Brightness.light,
+        // brightness: Brightness.light,
         toolbarHeight: 0,
         backgroundColor: Colors.Colors.white,
         elevation: 0,
@@ -1103,7 +1103,7 @@ class OverviewPageState extends State<OverviewPage>
                                   //                   minWidth: width,
                                   //                   splashColor: Colors.Colors.transparent,
                                   //                   height: 50,
-                                  //                   child: FlatButton(
+                                  //                   child: CustomFlatButton(
                                   //                     color: AppTheme.buttonColor2,
                                   //                     shape: RoundedRectangleBorder(
                                   //                       borderRadius:
@@ -1461,7 +1461,7 @@ class OverviewPageState extends State<OverviewPage>
                                   //                   minWidth: width,
                                   //                   splashColor: Colors.Colors.transparent,
                                   //                   height: 50,
-                                  //                   child: FlatButton(
+                                  //                   child: CustomFlatButton(
                                   //                     color: AppTheme.buttonColor2,
                                   //                     shape: RoundedRectangleBorder(
                                   //                       borderRadius:
@@ -1669,7 +1669,7 @@ class OverviewPageState extends State<OverviewPage>
 
   GestureDetector Function(BuildContext, int) _itemBuilder(List<SaleOrder> saleOrders) =>
           (BuildContext context, int index) => GestureDetector(
-        onTap: () => objectbox.noteBox.remove(saleOrders[index].id),
+        // onTap: () => objectbox.noteBox.remove(saleOrders[index].id),
         child: Row(
           children: <Widget>[
             Expanded(

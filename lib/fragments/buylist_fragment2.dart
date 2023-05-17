@@ -253,7 +253,7 @@ class BuyListFragment2State extends State<BuyListFragment2>
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        brightness: Brightness.light,
+        // brightness: Brightness.light,
         toolbarHeight: 0,
         backgroundColor: Colors.white,
         elevation: 0,

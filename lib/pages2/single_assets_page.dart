@@ -15,6 +15,7 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fragments/loss_fragment.dart';
 import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
+import 'package:smartkyat_pos/widgets/custom_flat_button.dart';
 import 'package:smartkyat_pos/widgets2/method_list_view.dart';
 import 'package:smartkyat_pos/widgets2/selected_assets_list_view.dart';
 import 'package:http/http.dart' as http;
@@ -1496,7 +1497,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                   ButtonTheme(
                                     splashColor: Colors.transparent,
                                     height: 50,
-                                    child: FlatButton(
+                                    child: CustomFlatButton(
                                       color: AppTheme.buttonColor2,
                                       shape: RoundedRectangleBorder(
                                         borderRadius:
@@ -1547,7 +1548,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                   child: ButtonTheme(
                                     splashColor: Colors.transparent,
                                     height: 50,
-                                    child: FlatButton(
+                                    child: CustomFlatButton(
                                       color: AppTheme.themeColor,
                                       shape: RoundedRectangleBorder(
                                         borderRadius:

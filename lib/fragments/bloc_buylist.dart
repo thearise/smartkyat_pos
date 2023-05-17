@@ -12,6 +12,7 @@ import 'package:one_context/one_context.dart';
 import 'package:provider/provider.dart';
 import 'package:smartkyat_pos/app_theme.dart';
 import 'package:smartkyat_pos/fragments/subs/buy_list_info.dart';
+import 'package:smartkyat_pos/widgets/custom_flat_button.dart';
 import 'package:sticky_and_expandable_list/sticky_and_expandable_list.dart';
 
 import 'bloc/pagination_cubit.dart';
@@ -1780,7 +1781,7 @@ class _BlocBuyListState extends State<BlocBuyList> {
           children: [
             Row(
               children: [
-                FlatButton(
+                CustomFlatButton(
                   padding: EdgeInsets.only(left: 10, right: 10),
                   color: AppTheme.secButtonColor,
                   shape: RoundedRectangleBorder(
@@ -1835,8 +1836,8 @@ class _BlocBuyListState extends State<BlocBuyList> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                    child: FlatButton(
-                      minWidth: 0,
+                    child: CustomFlatButton(
+                      // minWidth: 0,
                       padding: EdgeInsets.only(left: 12, right: 12),
                       color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
                       shape: RoundedRectangleBorder(
@@ -1871,8 +1872,8 @@ class _BlocBuyListState extends State<BlocBuyList> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                    child: FlatButton(
-                      minWidth: 0,
+                    child: CustomFlatButton(
+                      // minWidth: 0,
                       padding: EdgeInsets.only(left: 12, right: 12),
                       color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
                       shape: RoundedRectangleBorder(
@@ -1905,8 +1906,8 @@ class _BlocBuyListState extends State<BlocBuyList> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                    child: FlatButton(
-                      minWidth: 0,
+                    child: CustomFlatButton(
+                      // minWidth: 0,
                       padding: EdgeInsets.only(left: 12, right: 12),
                       color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.white,
                       shape: RoundedRectangleBorder(
@@ -1939,8 +1940,8 @@ class _BlocBuyListState extends State<BlocBuyList> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                    child: FlatButton(
-                      minWidth: 0,
+                    child: CustomFlatButton(
+                      // minWidth: 0,
                       padding: EdgeInsets.only(left: 12, right: 12),
                       color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,
                       shape: RoundedRectangleBorder(

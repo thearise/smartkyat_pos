@@ -13,6 +13,7 @@ import 'package:smartkyat_pos/fragments/subs/change_password.dart';
 import 'package:smartkyat_pos/fragments/subs/language_settings.dart';
 import 'package:smartkyat_pos/fragments/subs/print_settings_sub.dart';
 import 'package:smartkyat_pos/pages2/home_page5.dart';
+import 'package:smartkyat_pos/widgets/custom_flat_button.dart';
 
 import '../app_theme.dart';
 import 'subs/shop_setting_sub.dart';
@@ -690,7 +691,7 @@ class SettingsFragmentState extends State <SettingsFragment>  with TickerProvide
                             minWidth: MediaQuery.of(context).size.width,
                             splashColor: Colors.transparent,
                             height: 50,
-                            child: FlatButton(
+                            child: CustomFlatButton(
                               color: AppTheme.buttonColor2,
                               shape: RoundedRectangleBorder(
                                 borderRadius:

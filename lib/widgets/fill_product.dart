@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/customers_fragment2.dart';
 import 'package:smartkyat_pos/pages2/home_page5.dart';
+import 'package:smartkyat_pos/widgets/custom_flat_button.dart';
 
 import '../app_theme.dart';
 
@@ -486,7 +487,7 @@ class _FillProductState extends State<FillProduct> {
                           //     minWidth: MediaQuery.of(context).size.width,
                           //     splashColor: Colors.transparent,
                           //     height: 50,
-                          //     child: FlatButton(
+                          //     child: CustomFlatButton(
                           //       color: AppTheme.themeColor,
                           //       shape: RoundedRectangleBorder(
                           //         borderRadius:
@@ -556,7 +557,7 @@ class _FillProductState extends State<FillProduct> {
                         minWidth: MediaQuery.of(context).size.width,
                         splashColor: Colors.transparent,
                         height: 50,
-                        child: FlatButton(
+                        child: CustomFlatButton(
                           color: AppTheme.themeColor,
                           shape: RoundedRectangleBorder(
                             borderRadius:

@@ -1776,7 +1776,7 @@ class HomeFragmentState extends State<HomeFragment>
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        brightness: Brightness.light,
+        // brightness: Brightness.light,
         toolbarHeight: 0,
         backgroundColor: Colors.Colors.white,
         elevation: 0,

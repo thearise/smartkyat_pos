@@ -6,6 +6,7 @@ import 'package:flash/flash.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smartkyat_pos/widgets/custom_flat_button.dart';
 import '../../app_theme.dart';
 
 
@@ -627,7 +628,7 @@ Widget build(BuildContext context) {
                               //     minWidth: MediaQuery.of(context).size.width,
                               //     splashColor: Colors.transparent,
                               //     height: 50,
-                              //     child: FlatButton(
+                              //     child: CustomFlatButton(
                               //       color: AppTheme.themeColor,
                               //       shape: RoundedRectangleBorder(
                               //         borderRadius:
@@ -703,7 +704,7 @@ Widget build(BuildContext context) {
                                   minWidth: MediaQuery.of(context).size.width,
                                   splashColor: Colors.transparent,
                                   height: 50,
-                                  child: FlatButton(
+                                  child: CustomFlatButton(
                                     color: AppTheme.themeColor,
                                     shape: RoundedRectangleBorder(
                                       borderRadius:

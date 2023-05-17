@@ -92,7 +92,7 @@
 //     //         minWidth: MediaQuery.of(context).size.width,
 //     //         splashColor: Colors.transparent,
 //     //         height: 50,
-//     //         child: FlatButton(
+//     //         child: CustomFlatButton(
 //     //           color: AppTheme.themeColor,
 //     //           shape: RoundedRectangleBorder(
 //     //             borderRadius:
@@ -457,7 +457,7 @@
 //                                   //minWidth: 50,
 //                                   splashColor: AppTheme.buttonColor2,
 //                                   height: 50,
-//                                   child: FlatButton(
+//                                   child: CustomFlatButton(
 //                                     color: AppTheme.buttonColor2,
 //                                     shape: RoundedRectangleBorder(
 //                                       borderRadius: BorderRadius.circular(7.0),
@@ -598,7 +598,7 @@
 //                 //         minWidth: MediaQuery.of(context).size.width,
 //                 //         splashColor: Colors.transparent,
 //                 //         height: 50,
-//                 //         child: FlatButton(
+//                 //         child: CustomFlatButton(
 //                 //           color: AppTheme.themeColor,
 //                 //           shape: RoundedRectangleBorder(
 //                 //             borderRadius:
@@ -706,7 +706,7 @@
 //                       minWidth: MediaQuery.of(context).size.width,
 //                       splashColor: Colors.transparent,
 //                       height: 50,
-//                       child: FlatButton(
+//                       child: CustomFlatButton(
 //                         color: AppTheme.themeColor,
 //                         shape: RoundedRectangleBorder(
 //                           borderRadius:

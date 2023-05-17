@@ -16,7 +16,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:charset_converter/charset_converter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity/connectivity.dart';
-import 'package:device_info/device_info.dart';
+// import 'package:device_info/device_info.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:dropdown_below/dropdown_below.dart';
 import 'package:esc_pos_utils/esc_pos_utils.dart';
@@ -66,6 +66,7 @@ import 'package:smartkyat_pos/src/screens/loading.dart';
 import 'package:smartkyat_pos/widgets/add_new_customer_off.dart';
 import 'package:smartkyat_pos/widgets/add_new_merchant_off.dart';
 import 'package:smartkyat_pos/widgets/barcode_search.dart';
+import 'package:smartkyat_pos/widgets/custom_flat_button.dart';
 import 'package:smartkyat_pos/widgets/end_of_pro_service.dart';
 import 'package:smartkyat_pos/widgets/paywall_widget.dart';
 import '../app_theme.dart';
@@ -83,7 +84,7 @@ import 'package:pdf_render/pdf_render_widgets.dart';
 // import 'package:printing/printing.dart';
 import 'package:pdf_render/pdf_render.dart';
 import 'package:image/image.dart' as imglib;
-import 'package:native_pdf_renderer/native_pdf_renderer.dart' as nativePDF;
+// import 'package:native_pdf_renderer/native_pdf_renderer.dart' as nativePDF;
 import 'package:esc_pos_utils_plus/esc_pos_utils.dart' as posUtils;
 
 import 'first_launch_page.dart';
@@ -288,16 +289,16 @@ class HomePageOffState extends State<HomePageOff>
   GlobalKey<SearchFragmentState> searchGlobalKey = GlobalKey();
   // GlobalKey<TransparentState> tranGlobalKey = GlobalKey();
 
-  Future<String?> _getId() async {
-    var deviceInfo = DeviceInfoPlugin();
-    if (Platform.isIOS) { // import 'dart:io'
-      var iosDeviceInfo = await deviceInfo.iosInfo;
-      return iosDeviceInfo.identifierForVendor; // unique ID on iOS
-    } else {
-      var androidDeviceInfo = await deviceInfo.androidInfo;
-      return androidDeviceInfo.androidId; // unique ID on Android
-    }
-  }
+  // Future<String?> _getId() async {
+  //   var deviceInfo = DeviceInfoPlugin();
+  //   if (Platform.isIOS) { // import 'dart:io'
+  //     var iosDeviceInfo = await deviceInfo.iosInfo;
+  //     return iosDeviceInfo.identifierForVendor; // unique ID on iOS
+  //   } else {
+  //     var androidDeviceInfo = await deviceInfo.androidInfo;
+  //     return androidDeviceInfo.id; // unique ID on Android
+  //   }
+  // }
 
   // List dropdownItemList = [];
   //
@@ -3526,7 +3527,7 @@ class HomePageOffState extends State<HomePageOff>
                                                                                 ),
                                                                               ),
                                                                               SizedBox(height: 10),
-                                                                              // FlatButton(
+                                                                              // CustomFlatButton(
                                                                               //
                                                                               // child: new Text("Call now", style: TextStyle(
                                                                               //   fontWeight: FontWeight.w500,
@@ -3653,7 +3654,7 @@ class HomePageOffState extends State<HomePageOff>
                                                                                 ),
                                                                               ),
                                                                               SizedBox(height: 10),
-                                                                              // FlatButton(
+                                                                              // CustomFlatButton(
                                                                               //
                                                                               // child: new Text("Call now", style: TextStyle(
                                                                               //   fontWeight: FontWeight.w500,
@@ -3780,7 +3781,7 @@ class HomePageOffState extends State<HomePageOff>
                                                                                 ),
                                                                               ),
                                                                               SizedBox(height: 10),
-                                                                              // FlatButton(
+                                                                              // CustomFlatButton(
                                                                               //
                                                                               // child: new Text("Call now", style: TextStyle(
                                                                               //   fontWeight: FontWeight.w500,
@@ -3887,7 +3888,7 @@ class HomePageOffState extends State<HomePageOff>
                                                               ),
                                                             ),
                                                             SizedBox(height: 10),
-                                                            // FlatButton(
+                                                            // CustomFlatButton(
                                                             //
                                                             // child: new Text("Call now", style: TextStyle(
                                                             //   fontWeight: FontWeight.w500,
@@ -5426,7 +5427,7 @@ class HomePageOffState extends State<HomePageOff>
                                             minWidth: 35,
                                             splashColor: Colors.transparent,
                                             height: 35,
-                                            child: FlatButton(
+                                            child: CustomFlatButton(
                                               color: AppTheme.buttonColor2,
                                               shape: RoundedRectangleBorder(
                                                 borderRadius:
@@ -6557,7 +6558,7 @@ class HomePageOffState extends State<HomePageOff>
                                                                                   //minWidth: 50,
                                                                                   splashColor: AppTheme.buttonColor2,
                                                                                   height: 50,
-                                                                                  child: FlatButton(
+                                                                                  child: CustomFlatButton(
                                                                                     color: AppTheme.buttonColor2,
                                                                                     shape: RoundedRectangleBorder(
                                                                                       borderRadius: BorderRadius.circular(7.0),
@@ -9168,10 +9169,10 @@ class HomePageOffState extends State<HomePageOff>
                                                     //SizedBox(width:15),
                                                     GestureDetector(
                                                       onTap: () async {
-                                                        List<Product> prods = objectbox.getProdByIds([1]);
-                                                        for(Product p in prods) {
-                                                          debugPrint('producter ' + p.na);
-                                                        }
+                                                        // List<Product> prods = objectbox.getProdByIds([1]);
+                                                        // for(Product p in prods) {
+                                                        //   debugPrint('producter ' + p.na);
+                                                        // }
                                                       },
                                                       child: Padding(
                                                           padding: const EdgeInsets.only(
@@ -11994,7 +11995,7 @@ class HomePageOffState extends State<HomePageOff>
                                                                       //minWidth: 50,
                                                                       splashColor: AppTheme.buttonColor2,
                                                                       height: 50,
-                                                                      child: FlatButton(
+                                                                      child: CustomFlatButton(
                                                                         color: AppTheme.buttonColor2,
                                                                         shape: RoundedRectangleBorder(
                                                                           borderRadius: BorderRadius.circular(7.0),
@@ -12193,6 +12194,7 @@ class HomePageOffState extends State<HomePageOff>
                                                                           });
                                                                         });
                                                                         debugPrint('order creating');
+                                                                        ttlPrice = TtlProdListPrice();
                                                                         List<OrdProd> ordProds = [];
                                                                         List<int> intProds = [];
                                                                         List<Product> orgProds = [];
@@ -12215,66 +12217,66 @@ class HomePageOffState extends State<HomePageOff>
                                                                           // debugPrint('barll checker 0' + barll);
                                                                           Map<String, Product> prodCheck = {};
                                                                           if(prodList.length-1 == i) {
-                                                                            List<Product> prods = await objectbox.getProdByIds(intProds);
-                                                                            if(prods == []) {
-                                                                              debugPrint('order add error');
-                                                                            } else {
-                                                                              debugPrint('prodMods eve0 ' + prods[0].na);
-                                                                              List<Product> prodMods = [];
-                                                                              for(int pro = 0; pro < prods.length; pro++) {
-                                                                                String barll2 = prodList[pro].split('^')[3];
-                                                                                debugPrint('barll checker ' + barll2);
-                                                                                if(barll2 == 'unit_name') {
-                                                                                  if(prodCheck[prods[pro].id.toString()] != null) {
-                                                                                    prods[pro] = prodCheck[prods[pro].id.toString()] ?? Product(
-                                                                                        false, 1000,1000,1000,1000,1000, '', 1000,1000,1000,'','','','',1000,1000,1000,1000,1000,100,100,100,''
-                                                                                    );
-                                                                                  }
-                                                                                  prods[pro].im = prods[pro].im - prodMap[prods[pro].id.toString() + '-' + barll2];
-                                                                                  prodCheck[prods[pro].id.toString()] = prods[pro];
-                                                                                  debugPrint('producter 0 ' + prods[pro].im.toString());
-                                                                                } else if(barll2 == 'sub1_name') {
-                                                                                  if(prodCheck[prods[pro].id.toString()] != null) {
-                                                                                    prods[pro] = prodCheck[prods[pro].id.toString()] ?? Product(
-                                                                                        false, 1000,1000,1000,1000,1000, '', 1000,1000,1000,'','','','',1000,1000,1000,1000,1000,100,100,100,''
-                                                                                    );
-                                                                                  }
-                                                                                  prods[pro] = sub1ExecutionOff(prods[pro], prodMap[prods[pro].id.toString() + '-' + barll2]);
-                                                                                  prodCheck[prods[pro].id.toString()] = prods[pro];
-                                                                                  debugPrint('producter 1 ' + prods[pro].im.toString());
-                                                                                } else {
-                                                                                  if(prodCheck[prods[pro].id.toString()] != null) {
-                                                                                    prods[pro] = prodCheck[prods[pro].id.toString()] ?? Product(
-                                                                                        false, 1000,1000,1000,1000,1000, '', 1000,1000,1000,'','','','',1000,1000,1000,1000,1000,100,100,100,''
-                                                                                    );
-                                                                                  }
-                                                                                  prods[pro] = sub2ExecutionOff(prods[pro], prodMap[prods[pro].id.toString() + '-' + barll2]);
-                                                                                  prodCheck[prods[pro].id.toString()] = prods[pro];
-                                                                                  debugPrint('producter 1 ' + prods[pro].im.toString());
-                                                                                }
-
-                                                                                if(pro == prods.length-1) {
-                                                                                  // debugPrint('prodMods eve ' + prodMods[0].im.toString());
-                                                                                  debugPrint('prodMods evee ' + prods[0].im.toString());
-                                                                                  bool orderAdded = objectbox.addSaleOrder(prods, ordProds, 0, debt, 0, discountAmount, reFilter, double.parse(ttlPrice), disText);
-                                                                                  debugPrint('adding sale order ' + orderAdded.toString());
-                                                                                  if(orderAdded) {
-                                                                                    Future.delayed(const Duration(milliseconds: 1500), () {
-                                                                                      mystate(() {
-                                                                                        setState(() {
-                                                                                          orderCreating = false;
-                                                                                          disableTouch = false;
-                                                                                          //    saleCartDrag = false;
-                                                                                        });
-                                                                                      });
-                                                                                      _controller.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
-                                                                                    });
-                                                                                  } else {
-                                                                                    debugPrint('order add error');
-                                                                                  }
-                                                                                }
-                                                                              }
-                                                                            }
+                                                                            // List<Product> prods = await objectbox.getProdByIds(intProds);
+                                                                            // if(prods == []) {
+                                                                            //   debugPrint('order add error');
+                                                                            // } else {
+                                                                            //   debugPrint('prodMods eve0 ' + prods[0].na);
+                                                                            //   List<Product> prodMods = [];
+                                                                            //   for(int pro = 0; pro < prods.length; pro++) {
+                                                                            //     String barll2 = prodList[pro].split('^')[3];
+                                                                            //     debugPrint('barll checker ' + barll2);
+                                                                            //     if(barll2 == 'unit_name') {
+                                                                            //       if(prodCheck[prods[pro].id.toString()] != null) {
+                                                                            //         prods[pro] = prodCheck[prods[pro].id.toString()] ?? Product(
+                                                                            //             false, 1000,1000,1000,1000,1000, '', 1000,1000,1000,'','','','',1000,1000,1000,1000,1000,100,100,100,''
+                                                                            //         );
+                                                                            //       }
+                                                                            //       prods[pro].im = prods[pro].im - prodMap[prods[pro].id.toString() + '-' + barll2];
+                                                                            //       prodCheck[prods[pro].id.toString()] = prods[pro];
+                                                                            //       debugPrint('producter 0 ' + prods[pro].im.toString());
+                                                                            //     } else if(barll2 == 'sub1_name') {
+                                                                            //       if(prodCheck[prods[pro].id.toString()] != null) {
+                                                                            //         prods[pro] = prodCheck[prods[pro].id.toString()] ?? Product(
+                                                                            //             false, 1000,1000,1000,1000,1000, '', 1000,1000,1000,'','','','',1000,1000,1000,1000,1000,100,100,100,''
+                                                                            //         );
+                                                                            //       }
+                                                                            //       prods[pro] = sub1ExecutionOff(prods[pro], prodMap[prods[pro].id.toString() + '-' + barll2]);
+                                                                            //       prodCheck[prods[pro].id.toString()] = prods[pro];
+                                                                            //       debugPrint('producter 1 ' + prods[pro].im.toString());
+                                                                            //     } else {
+                                                                            //       if(prodCheck[prods[pro].id.toString()] != null) {
+                                                                            //         prods[pro] = prodCheck[prods[pro].id.toString()] ?? Product(
+                                                                            //             false, 1000,1000,1000,1000,1000, '', 1000,1000,1000,'','','','',1000,1000,1000,1000,1000,100,100,100,''
+                                                                            //         );
+                                                                            //       }
+                                                                            //       prods[pro] = sub2ExecutionOff(prods[pro], prodMap[prods[pro].id.toString() + '-' + barll2]);
+                                                                            //       prodCheck[prods[pro].id.toString()] = prods[pro];
+                                                                            //       debugPrint('producter 1 ' + prods[pro].im.toString());
+                                                                            //     }
+                                                                            //
+                                                                            //     if(pro == prods.length-1) {
+                                                                            //       // debugPrint('prodMods eve ' + prodMods[0].im.toString());
+                                                                            //       debugPrint('prodMods evee ' + prods[0].im.toString());
+                                                                            //       bool orderAdded = objectbox.addSaleOrder(prods, ordProds, 0, debt, 0, discountAmount, reFilter, double.parse(ttlPrice), disText);
+                                                                            //       debugPrint('adding sale order ' + orderAdded.toString());
+                                                                            //       if(orderAdded) {
+                                                                            //         Future.delayed(const Duration(milliseconds: 1500), () {
+                                                                            //           mystate(() {
+                                                                            //             setState(() {
+                                                                            //               orderCreating = false;
+                                                                            //               disableTouch = false;
+                                                                            //               //    saleCartDrag = false;
+                                                                            //             });
+                                                                            //           });
+                                                                            //           _controller.animateTo(0, duration: Duration(milliseconds: 0), curve: Curves.ease);
+                                                                            //         });
+                                                                            //       } else {
+                                                                            //         debugPrint('order add error');
+                                                                            //       }
+                                                                            //     }
+                                                                            //   }
+                                                                            // }
                                                                           }
                                                                         }
                                                                       },

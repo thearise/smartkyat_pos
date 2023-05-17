@@ -13,6 +13,7 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 import 'package:smartkyat_pos/pages2/home_page5.dart';
+import 'package:smartkyat_pos/widgets/custom_flat_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../app_theme.dart';
@@ -695,7 +696,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
                               minWidth: MediaQuery.of(context).size.width,
                               splashColor: Colors.transparent,
                               height: 50,
-                              child: FlatButton(
+                              child: CustomFlatButton(
                                 color: AppTheme.themeColor,
                                 shape: RoundedRectangleBorder(
                                   borderRadius:
@@ -854,7 +855,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
                             minWidth: MediaQuery.of(context).size.width,
                             splashColor: Colors.transparent,
                             height: 50,
-                            child: FlatButton(
+                            child: CustomFlatButton(
                               color: AppTheme.buttonColor2,
                               shape: RoundedRectangleBorder(
                                 borderRadius:
@@ -1040,7 +1041,7 @@ class PrintSettingsSubState extends State<PrintSettingsSub>  with TickerProvider
       return iosDeviceInfo.identifierForVendor; // unique ID on iOS
     } else {
       var androidDeviceInfo = await deviceInfo.androidInfo;
-      return androidDeviceInfo.androidId; // unique ID on Android
+      return androidDeviceInfo.id; // unique ID on Android
     }
   }
 

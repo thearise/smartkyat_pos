@@ -268,7 +268,7 @@ class OrdersFragmentState extends State<OrdersFragment>
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        brightness: Brightness.light,
+        // brightness: Brightness.light,
         toolbarHeight: 0,
         backgroundColor: Colors.white,
         elevation: 0,
@@ -504,7 +504,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                 //       //                 ),
                 //       //                 Padding(
                 //       //                   padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                //       //                   child: FlatButton(
+                //       //                   child: CustomFlatButton(
                 //       //                     minWidth: 0,
                 //       //                     padding: EdgeInsets.only(left: 12, right: 12),
                 //       //                     color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
@@ -534,7 +534,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                 //       //                 ),
                 //       //                 Padding(
                 //       //                   padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                //       //                   child: FlatButton(
+                //       //                   child: CustomFlatButton(
                 //       //                     minWidth: 0,
                 //       //                     padding: EdgeInsets.only(left: 12, right: 12),
                 //       //                     color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
@@ -565,7 +565,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                 //       //                 ),
                 //       //                 Padding(
                 //       //                   padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                //       //                   child: FlatButton(
+                //       //                   child: CustomFlatButton(
                 //       //                     minWidth: 0,
                 //       //                     padding: EdgeInsets.only(left: 12, right: 12),
                 //       //                     color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.white,
@@ -595,7 +595,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                 //       //                 ),
                 //       //                 // Padding(
                 //       //                 //   padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                //       //                 //   child: FlatButton(
+                //       //                 //   child: CustomFlatButton(
                 //       //                 //     minWidth: 0,
                 //       //                 //     padding: EdgeInsets.only(left: 12, right: 12),
                 //       //                 //     color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,
@@ -657,7 +657,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                 //               children: [
                 //                 Row(
                 //                   children: [
-                //                     FlatButton(
+                //                     CustomFlatButton(
                 //                       padding: EdgeInsets.only(left: 10, right: 10),
                 //                       color: AppTheme.secButtonColor,
                 //                       shape: RoundedRectangleBorder(
@@ -711,7 +711,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                 //                       ),
                 //                       Padding(
                 //                         padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                //                         child: FlatButton(
+                //                         child: CustomFlatButton(
                 //                           minWidth: 0,
                 //                           padding: EdgeInsets.only(left: 12, right: 12),
                 //                           color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
@@ -741,7 +741,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                 //                       ),
                 //                       Padding(
                 //                         padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                //                         child: FlatButton(
+                //                         child: CustomFlatButton(
                 //                           minWidth: 0,
                 //                           padding: EdgeInsets.only(left: 12, right: 12),
                 //                           color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
@@ -771,7 +771,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                 //                       ),
                 //                       Padding(
                 //                         padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                //                         child: FlatButton(
+                //                         child: CustomFlatButton(
                 //                           minWidth: 0,
                 //                           padding: EdgeInsets.only(left: 12, right: 12),
                 //                           color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.white,
@@ -801,7 +801,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                 //                       ),
                 //                       Padding(
                 //                         padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                //                         child: FlatButton(
+                //                         child: CustomFlatButton(
                 //                           minWidth: 0,
                 //                           padding: EdgeInsets.only(left: 12, right: 12),
                 //                           color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,

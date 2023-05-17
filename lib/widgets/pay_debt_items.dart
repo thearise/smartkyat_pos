@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smartkyat_pos/widgets/custom_flat_button.dart';
 import 'package:smartkyat_pos/widgets_small/top80_app_bar.dart';
 
 import '../app_theme.dart';
@@ -268,7 +269,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                                     //minWidth: 50,
                                     splashColor: AppTheme.buttonColor2,
                                     height: 50,
-                                    child: FlatButton(
+                                    child: CustomFlatButton(
                                       color: AppTheme.buttonColor2,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(7.0),
@@ -397,7 +398,7 @@ class _PayDebtItemsState extends State<PayDebtItems> {
                             minWidth: MediaQuery.of(context).size.width,
                             splashColor: Colors.transparent,
                             height: 50,
-                            child: FlatButton(
+                            child: CustomFlatButton(
                               color: AppTheme.themeColor,
                               shape: RoundedRectangleBorder(
                                 borderRadius:

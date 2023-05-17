@@ -16,6 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 import 'package:smartkyat_pos/fragments/subs/buy_list_refund2.dart';
+import 'package:smartkyat_pos/widgets/custom_flat_button.dart';
 import 'package:smartkyat_pos/widgets/pay_debt_buylist.dart';
 import 'package:smartkyat_pos/widgets/pay_debt_items.dart';
 import 'package:intl/intl.dart';
@@ -310,7 +311,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                   SizedBox(width: 15),
                                                   widget.data.split('^')[4] != 'T' ? ButtonTheme(
                                                     minWidth: 133,
-                                                    child: FlatButton(
+                                                    child: CustomFlatButton(
                                                       color: AppTheme.buttonColor2,
                                                       shape: RoundedRectangleBorder(
                                                         borderRadius:
@@ -437,7 +438,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                   widget.data.split('^')[4] != 'T' ? SizedBox(width: 12) : Container(),
                                                   debt.toString() != '0.0' ? ButtonTheme(
                                                     minWidth: 133,
-                                                    child: FlatButton(
+                                                    child: CustomFlatButton(
                                                       color: AppTheme.buttonColor2,
                                                       shape: RoundedRectangleBorder(
                                                         borderRadius:
@@ -523,7 +524,7 @@ class _BuyListInfoState extends State<BuyListInfo>
                                                   debt.toString() != '0.0' ? SizedBox(width: 12) : Container(),
                                                   ButtonTheme(
                                                     minWidth: 133,
-                                                    child: FlatButton(
+                                                    child: CustomFlatButton(
                                                       color: AppTheme.buttonColor2,
                                                       shape: RoundedRectangleBorder(
                                                         borderRadius:

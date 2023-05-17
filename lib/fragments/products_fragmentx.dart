@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fraction/fraction.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
@@ -18,6 +17,7 @@ import 'package:smartkyat_pos/pages2/multi_assets_page.dart';
 import 'package:smartkyat_pos/pages2/single_assets_page.dart';
 import 'package:smartkyat_pos/widgets/add_new_category_button.dart';
 import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
+import 'package:smartkyat_pos/widgets/custom_flat_button.dart';
 import 'package:smartkyat_pos/widgets/fill_product.dart';
 import 'package:smartkyat_pos/widgets/product_details_view2.dart';
 import 'package:smartkyat_pos/widgets/version_detatils_view.dart';
@@ -572,7 +572,7 @@ class ProductsFragmentState extends State<ProductsFragment>
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        brightness: Brightness.light,
+        // brightness: Brightness.light,
         toolbarHeight: 0,
         backgroundColor: Colors.white,
         elevation: 0,
@@ -648,7 +648,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                                           children: [
                                             Row(
                                               children: [
-                                                FlatButton(
+                                                CustomFlatButton(
                                                   padding: EdgeInsets.only(left: 10, right: 10),
                                                   color: AppTheme.secButtonColor,
                                                   shape: RoundedRectangleBorder(
@@ -715,8 +715,8 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                   ),
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                                                    child: FlatButton(
-                                                      minWidth: 0,
+                                                    child: CustomFlatButton(
+                                                      // minWidth: 0,
                                                       padding: EdgeInsets.only(left: 12, right: 12),
                                                       color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
                                                       shape: RoundedRectangleBorder(
@@ -745,8 +745,8 @@ class ProductsFragmentState extends State<ProductsFragment>
                                                   ),
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                                                    child: FlatButton(
-                                                      minWidth: 0,
+                                                    child: CustomFlatButton(
+                                                      // minWidth: 0,
                                                       padding: EdgeInsets.only(left: 12, right: 12),
                                                       color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
                                                       shape: RoundedRectangleBorder(
@@ -1001,7 +1001,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                 //               children: [
                 //                 Row(
                 //                   children: [
-                //                     FlatButton(
+                //                     CustomFlatButton(
                 //                       padding: EdgeInsets.only(left: 10, right: 10),
                 //                       color: AppTheme.secButtonColor,
                 //                       shape: RoundedRectangleBorder(
@@ -1054,7 +1054,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                 //                       ),
                 //                       Padding(
                 //                         padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                //                         child: FlatButton(
+                //                         child: CustomFlatButton(
                 //                           minWidth: 0,
                 //                           padding: EdgeInsets.only(left: 12, right: 12),
                 //                           color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
@@ -1084,7 +1084,7 @@ class ProductsFragmentState extends State<ProductsFragment>
                 //                       ),
                 //                       Padding(
                 //                         padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                //                         child: FlatButton(
+                //                         child: CustomFlatButton(
                 //                           minWidth: 0,
                 //                           padding: EdgeInsets.only(left: 12, right: 12),
                 //                           color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,

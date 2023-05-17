@@ -10,15 +10,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_picker.dart';
+import 'package:flutterflow_paginate_firestore/bloc/pagination_cubit.dart';
+import 'package:flutterflow_paginate_firestore/bloc/pagination_listeners.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:one_context/one_context.dart';
-import 'package:paginate_firestore/bloc/pagination_cubit.dart';
-import 'package:paginate_firestore/bloc/pagination_listeners.dart';
 import 'package:provider/provider.dart';
 import 'package:smartkyat_pos/app_theme.dart';
 import 'package:smartkyat_pos/fragments/bloc_home_month_loss.dart';
 import 'package:smartkyat_pos/fragments/prod_sale_sum_home.dart';
+import 'package:smartkyat_pos/widgets/custom_flat_button.dart';
 import 'package:sticky_and_expandable_list/sticky_and_expandable_list.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -915,7 +916,7 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
                                   minWidth: width,
                                   splashColor: Colors.transparent,
                                   height: 50,
-                                  child: FlatButton(
+                                  child: CustomFlatButton(
                                     color: AppTheme.buttonColor2,
                                     shape: RoundedRectangleBorder(
                                       borderRadius:
@@ -1371,7 +1372,7 @@ class _BlocYearOverviewState extends State<BlocYearOverview> {
                                   minWidth: width,
                                   splashColor: Colors.transparent,
                                   height: 50,
-                                  child: FlatButton(
+                                  child: CustomFlatButton(
                                     color: AppTheme.buttonColor2,
                                     shape: RoundedRectangleBorder(
                                       borderRadius:

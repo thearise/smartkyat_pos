@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:smartkyat_pos/widgets/custom_flat_button.dart';
 
 import '../app_theme.dart';
 
@@ -72,9 +73,9 @@ class _QRViewExampleState extends State<QRViewExample> {
                     minWidth: 35,
                     splashColor: Colors.transparent,
                     height: 35,
-                    child: FlatButton(
-                      height: 35,
-                      minWidth: 35,
+                    child: CustomFlatButton(
+                      // height: 35,
+                      // minWidth: 35,
                       padding: const EdgeInsets.all(0),
                       color: AppTheme.buttonColor2,
                       shape: RoundedRectangleBorder(
@@ -115,9 +116,9 @@ class _QRViewExampleState extends State<QRViewExample> {
                     minWidth: 35,
                     splashColor: Colors.transparent,
                     height: 35,
-                    child: FlatButton(
-                      height: 35,
-                      minWidth: 35,
+                    child: CustomFlatButton(
+                      // height: 35,
+                      // minWidth: 35,
                       padding: const EdgeInsets.all(0),
                       color: AppTheme.buttonColor2,
                       shape: RoundedRectangleBorder(
@@ -224,7 +225,7 @@ class _QRViewExampleState extends State<QRViewExample> {
           //     minWidth: 35,
           //     splashColor: Colors.transparent,
           //     height: 35,
-          //     child: FlatButton(
+          //     child: CustomFlatButton(
           //       height: 35,
           //       minWidth: 35,
           //       padding: const EdgeInsets.all(0),
@@ -320,7 +321,7 @@ class _QRViewExampleState extends State<QRViewExample> {
                       minWidth: MediaQuery.of(context).size.width,
                       splashColor: Colors.transparent,
                       height: 50,
-                      child: FlatButton(
+                      child: CustomFlatButton(
                         color: AppTheme.buttonColor2,
                         shape: RoundedRectangleBorder(
                           borderRadius:

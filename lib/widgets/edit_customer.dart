@@ -3,6 +3,7 @@ import 'package:flash/flash.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:smartkyat_pos/widgets/custom_flat_button.dart';
 
 import '../app_theme.dart';
 
@@ -404,7 +405,7 @@ class _EditCustomerState extends State<EditCustomer> {
                             //         .width,
                             //     splashColor: Colors.transparent,
                             //     height: 50,
-                            //     child: FlatButton(
+                            //     child: CustomFlatButton(
                             //       color: AppTheme.themeColor,
                             //       shape: RoundedRectangleBorder(
                             //         borderRadius:
@@ -480,7 +481,7 @@ class _EditCustomerState extends State<EditCustomer> {
                             .width,
                         splashColor: Colors.transparent,
                         height: 50,
-                        child: FlatButton(
+                        child: CustomFlatButton(
                           color: AppTheme.themeColor,
                           shape: RoundedRectangleBorder(
                             borderRadius:

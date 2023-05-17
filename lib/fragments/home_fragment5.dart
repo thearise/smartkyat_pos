@@ -1895,7 +1895,7 @@
 //                                             children: [
 //                                               Row(
 //                                                 children: [
-//                                                   FlatButton(
+//                                                   CustomFlatButton(
 //                                                     padding: EdgeInsets.only(left: 10, right: 10),
 //                                                     color: AppTheme.secButtonColor,
 //                                                     shape: RoundedRectangleBorder(
@@ -1949,7 +1949,7 @@
 //                                                     ),
 //                                                     Padding(
 //                                                       padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-//                                                       child: FlatButton(
+//                                                       child: CustomFlatButton(
 //                                                         minWidth: 0,
 //                                                         padding: EdgeInsets.only(left: 12, right: 12),
 //                                                         color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.Colors.white,
@@ -1980,7 +1980,7 @@
 //                                                     ),
 //                                                     Padding(
 //                                                       padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-//                                                       child: FlatButton(
+//                                                       child: CustomFlatButton(
 //                                                         minWidth: 0,
 //                                                         padding: EdgeInsets.only(left: 12, right: 12),
 //                                                         color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.Colors.white,
@@ -2011,7 +2011,7 @@
 //                                                     ),
 //                                                     Padding(
 //                                                       padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-//                                                       child: FlatButton(
+//                                                       child: CustomFlatButton(
 //                                                         minWidth: 0,
 //                                                         padding: EdgeInsets.only(left: 12, right: 12),
 //                                                         color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.Colors.white,
@@ -2042,7 +2042,7 @@
 //                                                     ),
 //                                                     Padding(
 //                                                       padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-//                                                       child: FlatButton(
+//                                                       child: CustomFlatButton(
 //                                                         minWidth: 0,
 //                                                         padding: EdgeInsets.only(left: 12, right: 12),
 //                                                         color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.Colors.white,

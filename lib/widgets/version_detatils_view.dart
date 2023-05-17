@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fraction/fraction.dart';
+import 'package:smartkyat_pos/widgets/custom_flat_button.dart';
 import 'package:smartkyat_pos/widgets/product_details_view2.dart';
 
 import '../app_theme.dart';
@@ -243,7 +244,7 @@ class _VersionDetailsViewState extends State<VersionDetailsView> {
                                   //minWidth: 50,
                                   splashColor: Colors.transparent,
                                   height: 120,
-                                  child: FlatButton(
+                                  child: CustomFlatButton(
                                     color: AppTheme.skThemeColor,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(7.0),

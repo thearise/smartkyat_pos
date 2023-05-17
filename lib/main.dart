@@ -23,11 +23,11 @@ import 'package:timezone/data/latest.dart' as tz;
 final themeMode = ValueNotifier(2);
 
 PackageInfo? packageInfo;
-late ObjectBox objectbox;
+// late ObjectBox objectbox;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  objectbox = await ObjectBox.create();
+  // objectbox = await ObjectBox.create();
   PurchaseApi.init();
   NotificationService().initNotification();
   tz.initializeTimeZones();

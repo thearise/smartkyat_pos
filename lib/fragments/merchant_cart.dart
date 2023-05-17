@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
+import 'package:smartkyat_pos/widgets/custom_flat_button.dart';
 
 import '../app_theme.dart';
 
@@ -1776,7 +1777,7 @@ class MerchantCartState extends State<MerchantCart>
                             //minWidth: 50,
                             splashColor: AppTheme.buttonColor2,
                             height: 50,
-                            child: FlatButton(
+                            child: CustomFlatButton(
                               color: AppTheme.buttonColor2,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(7.0),

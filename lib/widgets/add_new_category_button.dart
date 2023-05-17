@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smartkyat_pos/widgets/custom_flat_button.dart';
 
 import '../app_theme.dart';
 
@@ -13,7 +14,7 @@ class AddNewCategory extends StatelessWidget {
         splashColor: Colors.transparent,
         minWidth: MediaQuery.of(context).size.width,
         height: 56,
-        child: FlatButton(
+        child: CustomFlatButton(
           color: AppTheme.skThemeColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(7.0),

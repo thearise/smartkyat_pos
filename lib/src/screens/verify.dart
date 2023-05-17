@@ -11,6 +11,7 @@ import 'package:smartkyat_pos/fragments/add_new_shop_fragment.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 import 'package:smartkyat_pos/fragments/welcome_fragment.dart';
 import 'package:smartkyat_pos/pages2/home_page5.dart';
+import 'package:smartkyat_pos/widgets/custom_flat_button.dart';
 
 import '../../app_theme.dart';
 // import 'package:smartkyat_pos/src/screens/home.dart';
@@ -159,7 +160,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                         minWidth: MediaQuery.of(context).size.width,
                         splashColor: Colors.transparent,
                         height: 50,
-                        child: FlatButton(
+                        child: CustomFlatButton(
                           color: AppTheme.buttonColor2,
                           shape: RoundedRectangleBorder(
                             borderRadius:
@@ -286,16 +287,16 @@ class _VerifyScreenState extends State<VerifyScreen> {
     }
   }
 
-  Future<String?> _getId() async {
-    var deviceInfo = DeviceInfoPlugin();
-    if (Platform.isIOS) { // import 'dart:io'
-      var iosDeviceInfo = await deviceInfo.iosInfo;
-      return iosDeviceInfo.identifierForVendor; // unique ID on iOS
-    } else {
-      var androidDeviceInfo = await deviceInfo.androidInfo;
-      return androidDeviceInfo.androidId; // unique ID on Android
-    }
-  }
+  // Future<String?> _getId() async {
+  //   var deviceInfo = DeviceInfoPlugin();
+  //   if (Platform.isIOS) { // import 'dart:io'
+  //     var iosDeviceInfo = await deviceInfo.iosInfo;
+  //     return iosDeviceInfo.identifierForVendor; // unique ID on iOS
+  //   } else {
+  //     var androidDeviceInfo = await deviceInfo.androidInfo;
+  //     return androidDeviceInfo.id; // unique ID on Android
+  //   }
+  // }
 
   getLangId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

@@ -171,7 +171,7 @@ class _PaywallWidgetState extends State<PaywallWidget> {
                 ),
               ),
               SizedBox(height: 10),
-              // FlatButton(
+              // CustomFlatButton(
               //
               // child: new Text("Call now", style: TextStyle(
               //   fontWeight: FontWeight.w500,
@@ -262,7 +262,7 @@ class _PaywallWidgetState extends State<PaywallWidget> {
     //             minWidth: 50,
     //             splashColor: Colors.transparent,
     //             height: 35,
-    //             child: FlatButton(
+    //             child: CustomFlatButton(
     //               color: Colors.transparent,
     //               shape: RoundedRectangleBorder(
     //                 borderRadius:
@@ -325,7 +325,7 @@ class _PaywallWidgetState extends State<PaywallWidget> {
     //                 minWidth: 50,
     //                 splashColor: Colors.transparent,
     //                 height: 35,
-    //                 child: FlatButton(
+    //                 child: CustomFlatButton(
     //                   color: AppTheme.buttonColor2,
     //                   shape: RoundedRectangleBorder(
     //                     borderRadius:

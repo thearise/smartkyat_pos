@@ -17,7 +17,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:charset_converter/charset_converter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity/connectivity.dart';
-import 'package:device_info/device_info.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:dropdown_below/dropdown_below.dart';
 import 'package:esc_pos_utils/esc_pos_utils.dart';
@@ -70,6 +69,7 @@ import 'package:smartkyat_pos/widgets/paywall_widget.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import '../app_theme.dart';
 import '../fragments/search_fragment3.dart';
+import '../widgets/custom_flat_button.dart';
 import 'TabItem.dart';
 import 'package:url_launcher/link.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -82,7 +82,7 @@ import 'package:pdf_render/pdf_render_widgets.dart';
 // import 'package:printing/printing.dart';
 import 'package:pdf_render/pdf_render.dart';
 import 'package:image/image.dart' as imglib;
-import 'package:native_pdf_renderer/native_pdf_renderer.dart' as nativePDF;
+// import 'package:native_pdf_renderer/native_pdf_renderer.dart' as nativePDF;
 import 'package:esc_pos_utils_plus/esc_pos_utils.dart' as posUtils;
 
 import 'first_launch_page.dart';
@@ -266,16 +266,16 @@ class HomePageState extends State<HomePage>
   GlobalKey<SearchFragmentState> searchGlobalKey = GlobalKey();
   GlobalKey<TransparentState> tranGlobalKey = GlobalKey();
 
-  Future<String?> _getId() async {
-    var deviceInfo = DeviceInfoPlugin();
-    if (Platform.isIOS) { // import 'dart:io'
-      var iosDeviceInfo = await deviceInfo.iosInfo;
-      return iosDeviceInfo.identifierForVendor; // unique ID on iOS
-    } else {
-      var androidDeviceInfo = await deviceInfo.androidInfo;
-      return androidDeviceInfo.androidId; // unique ID on Android
-    }
-  }
+  // Future<String?> _getId() async {
+  //   var deviceInfo = DeviceInfoPlugin();
+  //   if (Platform.isIOS) { // import 'dart:io'
+  //     var iosDeviceInfo = await deviceInfo.iosInfo;
+  //     return iosDeviceInfo.identifierForVendor; // unique ID on iOS
+  //   } else {
+  //     var androidDeviceInfo = await deviceInfo.androidInfo;
+  //     return androidDeviceInfo.id; // unique ID on Android
+  //   }
+  // }
 
   // List dropdownItemList = [];
   //
@@ -3541,7 +3541,7 @@ class HomePageState extends State<HomePage>
                                                                                 ),
                                                                               ),
                                                                               SizedBox(height: 10),
-                                                                              // FlatButton(
+                                                                              // CustomFlatButton(
                                                                               //
                                                                               // child: new Text("Call now", style: TextStyle(
                                                                               //   fontWeight: FontWeight.w500,
@@ -3668,7 +3668,7 @@ class HomePageState extends State<HomePage>
                                                                                 ),
                                                                               ),
                                                                               SizedBox(height: 10),
-                                                                              // FlatButton(
+                                                                              // CustomFlatButton(
                                                                               //
                                                                               // child: new Text("Call now", style: TextStyle(
                                                                               //   fontWeight: FontWeight.w500,
@@ -3795,7 +3795,7 @@ class HomePageState extends State<HomePage>
                                                                                 ),
                                                                               ),
                                                                               SizedBox(height: 10),
-                                                                              // FlatButton(
+                                                                              // CustomFlatButton(
                                                                               //
                                                                               // child: new Text("Call now", style: TextStyle(
                                                                               //   fontWeight: FontWeight.w500,
@@ -3902,7 +3902,7 @@ class HomePageState extends State<HomePage>
                                                               ),
                                                             ),
                                                             SizedBox(height: 10),
-                                                            // FlatButton(
+                                                            // CustomFlatButton(
                                                             //
                                                             // child: new Text("Call now", style: TextStyle(
                                                             //   fontWeight: FontWeight.w500,
@@ -5549,7 +5549,7 @@ class HomePageState extends State<HomePage>
                                                           minWidth: 35,
                                                           splashColor: Colors.transparent,
                                                           height: 35,
-                                                          child: FlatButton(
+                                                          child: CustomFlatButton(
                                                             color: AppTheme.buttonColor2,
                                                             shape: RoundedRectangleBorder(
                                                               borderRadius:
@@ -5735,7 +5735,7 @@ class HomePageState extends State<HomePage>
                                           ):
                                           WillPopScope(
                                             onWillPop: () async {
-                                              final isFirstRouteInCurrentTab = !await tabs[currentTab].key.currentState!.maybePop();
+                                              final isFirstRouteInCurrentTab = await tabs[currentTab].key.currentState!.maybePop();
                                               if (isFirstRouteInCurrentTab) {
                                                 // if not on the 'main' tab
                                                 if (currentTab != 0) {
@@ -6685,7 +6685,7 @@ class HomePageState extends State<HomePage>
                                                                                                 //minWidth: 50,
                                                                                                 splashColor: AppTheme.buttonColor2,
                                                                                                 height: 50,
-                                                                                                child: FlatButton(
+                                                                                                child: CustomFlatButton(
                                                                                                   color: AppTheme.buttonColor2,
                                                                                                   shape: RoundedRectangleBorder(
                                                                                                     borderRadius: BorderRadius.circular(7.0),
@@ -9525,7 +9525,7 @@ class HomePageState extends State<HomePage>
                                 minWidth: MediaQuery.of(context).size.width,
                                 splashColor: Colors.transparent,
                                 height: 50,
-                                child: FlatButton(
+                                child: CustomFlatButton(
                                   color: AppTheme.buttonColor2,
                                   shape: RoundedRectangleBorder(
                                     borderRadius:
@@ -12299,7 +12299,7 @@ class HomePageState extends State<HomePage>
                                                                         //minWidth: 50,
                                                                         splashColor: AppTheme.buttonColor2,
                                                                         height: 50,
-                                                                        child: FlatButton(
+                                                                        child: CustomFlatButton(
                                                                           color: AppTheme.buttonColor2,
                                                                           shape: RoundedRectangleBorder(
                                                                             borderRadius: BorderRadius.circular(7.0),
@@ -14704,9 +14704,6 @@ class HomePageState extends State<HomePage>
     }
 
     debugPrint(success ? "Save to album success" : "Save to album failed");
-    // setState(() {
-    //   _result = success ? "Save to album success" : "Save to album failed";
-    // });
   }
 
   TtlProdListBuyPrice() {

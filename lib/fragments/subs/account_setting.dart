@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../app_theme.dart';
+import '../../widgets/custom_flat_button.dart';
 import 'change_password.dart';
 
 class AccountSetting extends StatefulWidget {
@@ -528,7 +529,7 @@ class _AccountSettingState extends State<AccountSetting> {
                                               .width,
                                           splashColor: Colors.transparent,
                                           height: 50,
-                                          child: FlatButton(
+                                          child: CustomFlatButton(
                                             color: AppTheme.themeColor,
                                             shape: RoundedRectangleBorder(
                                               borderRadius:

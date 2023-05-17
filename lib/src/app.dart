@@ -12,7 +12,7 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Login App',
       theme: ThemeData(  
-        accentColor: Colors.orange,
+        // accentColor: Colors.orange,
         // primarySwatch: Colors.blue
       ),
       home: LoginScreen(),

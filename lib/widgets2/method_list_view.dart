@@ -8,6 +8,7 @@ import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:smartkyat_pos/fragments/products_fragment2.dart';
+import 'package:smartkyat_pos/widgets/custom_flat_button.dart';
 
 import '../app_theme.dart';
 import '../constants/picker_method.dart';
@@ -38,7 +39,7 @@ class MethodListView extends StatelessWidget {
             splashColor: Colors.transparent,
             minWidth: MediaQuery.of(context).size.width,
             height: 50,
-            child: FlatButton(
+            child: CustomFlatButton(
               color: AppTheme.secButtonColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0),

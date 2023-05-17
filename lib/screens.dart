@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'widgets/custom_flat_button.dart';
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -26,7 +28,7 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: FlatButton(
+      child: CustomFlatButton(
         child: Text("Push other Settings"),
         onPressed: () {
           Navigator.of(context).push(
@@ -50,7 +52,7 @@ class NewPage extends StatelessWidget {
         ),
       ),
       body: Container(
-        child: FlatButton(
+        child: CustomFlatButton(
           child: Text("Push new Screen"),
           onPressed: () {
             Navigator.of(context).push(

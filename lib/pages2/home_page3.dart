@@ -242,7 +242,7 @@
 //       return iosDeviceInfo.identifierForVendor; // unique ID on iOS
 //     } else {
 //       var androidDeviceInfo = await deviceInfo.androidInfo;
-//       return androidDeviceInfo.androidId; // unique ID on Android
+//       return androidDeviceInfo.id; // unique ID on Android
 //     }
 //   }
 //
@@ -2452,7 +2452,7 @@
 //                                                         minWidth: 35,
 //                                                         splashColor: Colors.transparent,
 //                                                         height: 35,
-//                                                         child: FlatButton(
+//                                                         child: CustomFlatButton(
 //                                                           color: AppTheme.buttonColor2,
 //                                                           shape: RoundedRectangleBorder(
 //                                                             borderRadius:
@@ -3715,7 +3715,7 @@
 //                                                                                                   //minWidth: 50,
 //                                                                                                   splashColor: AppTheme.buttonColor2,
 //                                                                                                   height: 50,
-//                                                                                                   child: FlatButton(
+//                                                                                                   child: CustomFlatButton(
 //                                                                                                     color: AppTheme.buttonColor2,
 //                                                                                                     shape: RoundedRectangleBorder(
 //                                                                                                       borderRadius: BorderRadius.circular(7.0),
@@ -8632,7 +8632,7 @@
 //                                                                   //minWidth: 50,
 //                                                                   splashColor: AppTheme.buttonColor2,
 //                                                                   height: 50,
-//                                                                   child: FlatButton(
+//                                                                   child: CustomFlatButton(
 //                                                                     color: AppTheme.buttonColor2,
 //                                                                     shape: RoundedRectangleBorder(
 //                                                                       borderRadius: BorderRadius.circular(7.0),

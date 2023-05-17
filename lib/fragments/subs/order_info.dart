@@ -16,6 +16,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
+import 'package:smartkyat_pos/widgets/custom_flat_button.dart';
 import 'package:smartkyat_pos/widgets/pay_debt_items.dart';
 import 'package:intl/intl.dart';
 import 'package:smartkyat_pos/widgets/print_receipt_route.dart';
@@ -318,7 +319,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                   SizedBox(width: 15),
                                                   widget.data.split('^')[4] != 'T' ? ButtonTheme(
                                                     minWidth: 133,
-                                                    child: FlatButton(
+                                                    child: CustomFlatButton(
                                                       color: AppTheme.buttonColor2,
                                                       shape: RoundedRectangleBorder(
                                                         borderRadius:
@@ -427,7 +428,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                   widget.data.split('^')[4] != 'T' ? SizedBox(width: 12) : Container(),
                                                   debt.toString() != '0.0' ? ButtonTheme(
                                                     minWidth: 133,
-                                                    child: FlatButton(
+                                                    child: CustomFlatButton(
                                                         color: AppTheme.buttonColor2,
                                                         shape: RoundedRectangleBorder(
                                                           borderRadius:
@@ -526,7 +527,7 @@ class _OrderInfoSubState extends State<OrderInfoSub>
                                                   debt.toString() != '0.0' ? SizedBox(width: 12) : Container(),
                                                   ButtonTheme(
                                                     minWidth: 133,
-                                                    child: FlatButton(
+                                                    child: CustomFlatButton(
                                                       color: AppTheme.buttonColor2,
                                                       shape: RoundedRectangleBorder(
                                                         borderRadius:

@@ -10,6 +10,7 @@ import 'package:fraction/fraction.dart';
 import 'package:intl/intl.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
+import 'package:smartkyat_pos/widgets/custom_flat_button.dart';
 
 import '../../app_theme.dart';
 
@@ -686,7 +687,7 @@ class _BuyListRefundState extends State<BuyListRefund>
                                           minWidth: MediaQuery.of(context).size.width,
                                           splashColor: Colors.transparent,
                                           height: 50,
-                                          child: FlatButton(
+                                          child: CustomFlatButton(
                                             color: AppTheme.skThemeColor,
                                             shape: RoundedRectangleBorder(
                                               borderRadius:

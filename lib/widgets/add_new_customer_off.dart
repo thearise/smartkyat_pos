@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fragments/customers_fragment_off.dart';
 import 'package:smartkyat_pos/main.dart';
 import 'package:smartkyat_pos/pages2/home_page5.dart';
+import 'package:smartkyat_pos/widgets/custom_flat_button.dart';
 
 import '../app_theme.dart';
 
@@ -399,7 +400,7 @@ class _AddCustomerState extends State<AddCustomer> {
                                   minWidth: MediaQuery.of(context).size.width,
                                   splashColor: Colors.transparent,
                                   height: 50,
-                                  child: FlatButton(
+                                  child: CustomFlatButton(
                                     color: AppTheme.themeColor,
                                     shape: RoundedRectangleBorder(
                                       borderRadius:
@@ -419,7 +420,7 @@ class _AddCustomerState extends State<AddCustomer> {
                                         });
                                         openOverAllSubLoading();
                                         Future.delayed(const Duration(milliseconds: 1000), () {
-                                          objectbox.addCustomer(false, merchFieldsValue[1], 0, 0, merchFieldsValue[0], 0, merchFieldsValue[2], 0,  "text");
+                                          // objectbox.addCustomer(false, merchFieldsValue[1], 0, 0, merchFieldsValue[0], 0, merchFieldsValue[2], 0,  "text");
                                           setState(() {
                                             cusCreating = false;
                                             widget.endCusLoadingState();

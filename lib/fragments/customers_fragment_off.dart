@@ -14,6 +14,7 @@ import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/subs/customer_info_off.dart';
 import 'package:smartkyat_pos/main.dart';
 import 'package:smartkyat_pos/models/customer_model.dart';
+import 'package:smartkyat_pos/widgets/custom_flat_button.dart';
 
 import '../app_theme.dart';
 
@@ -258,7 +259,7 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        brightness: Brightness.light,
+        // brightness: Brightness.light,
         toolbarHeight: 0,
         backgroundColor: Colors.white,
         elevation: 0,
@@ -270,763 +271,763 @@ class CustomersFragmentState extends State<CustomersFragment> with TickerProvide
         },
         child: Container(
           color: Colors.white,
-          child: SafeArea(
-            top: true,
-            bottom: true,
-            child: Stack(
-              children: [
-                if(!searchOpening)
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 81.0),
-                      // padding: const EdgeInsets.only(top: 137.0),
-                      child: StreamBuilder<List<CustomerModel>>(
-                          stream: objectbox.getCustomers(),
-                          builder: (context, snapshot) {
-                            if (snapshot.data?.isNotEmpty ?? false) {
-                              List<CustomerModel> prods = snapshot.data ?? [];
-                              resProds = {};
-                              // prods = snapshot.data ?? [];
-                              debugPrint('prods length' + itemPerPage.toString() + ' ' + prods.length.toString());
-                              if(itemPerPage >= prods.length) {
-                                endOfResult = true;
-                              }
-                              if(cateScIndex == 0) {
-                                if(i0Clicked) {
-                                  prods.sort((a, b) => a.na.compareTo(b.na));
-                                } else {
-                                  prods.sort((a, b) => b.na.compareTo(a.na));
-                                  // prods = sortMapByNaR(prods);
-                                }
-                              } else if(cateScIndex == 1) {
-                                if(i1Clicked) {
-                                  prods.sort((a, b) => a.da.compareTo(b.da));
-                                } else {
-                                  prods.sort((a, b) => b.da.compareTo(a.da));
-                                }
-                              }
-
-                              if(prods != null && prods.length > 0) {
-                                debugPrint('llll ' + prods.length.toString() + ' ' + itemPerPage.toString());
-                                for(int i = 0; i < itemPerPage; i++) {
-                                  if (i >= prods.length) {
-                                    break;
-                                  }
-                                  // var eachMap = prods.entries.elementAt(i);
-                                  resProds[prods[i].id] = prods[i];
-                                }
-                              }
-
-                              return CustomScrollView(
-                                controller: _scrollController,
-                                slivers: [
-                                  SliverAppBar(
-                                    elevation: 0,
-                                    backgroundColor: Colors.white,
-                                    // Provide a standard title.
-                                    // Allows the user to reveal the app bar if they begin scrolling
-                                    // back up the list of items.
-                                    floating: true,
-                                    flexibleSpace: Padding(
-                                      padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 12.0),
-                                      child: Container(
-                                        height: 32,
-                                        width: MediaQuery.of(context).size.width,
-                                        // color: Colors.yellow,
-                                        child: Row(
-                                          children: [
-                                            Row(
-                                              children: [
-                                                FlatButton(
-                                                  padding: EdgeInsets.only(left: 10, right: 10),
-                                                  color: AppTheme.secButtonColor,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(8.0),
-                                                    side: BorderSide(
-                                                      color: AppTheme.skBorderColor2,
-                                                    ),
-                                                  ),
-                                                  onPressed: () async {
-                                                    widget.addCust();
-                                                  },
-                                                  child: Container(
-                                                    child: Row(
-                                                      // mainAxisAlignment: Main,
-                                                      children: [
-                                                        Padding(
-                                                          padding: const EdgeInsets.only(right: 6.0),
-                                                          child: Icon(
-                                                            SmartKyat_POS.add_plus,
-                                                            size: 17,
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          textSetNewCus, textScaleFactor: 1,
-                                                          textAlign: TextAlign.center,
-                                                          style: TextStyle(
-                                                              fontSize: 14,
-                                                              fontWeight: FontWeight.w500,
-                                                              color: Colors.black),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(width: 12),
-                                                Container(
-                                                  color: Colors.grey.withOpacity(0.2),
-                                                  width: 1.5,
-                                                  height: 30,
-                                                )
-                                              ],
-                                            ),
-                                            Expanded(
-                                              child: ListView(
-                                                controller: cateScCtler,
-                                                scrollDirection: Axis.horizontal,
-                                                children: [
-                                                  SizedBox(
-                                                    width: 4,
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                                                    child: FlatButton(
-                                                      minWidth: 0,
-                                                      padding: EdgeInsets.only(left: 12, right: 12),
-                                                      color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(20.0),
-                                                        side: BorderSide(
-                                                          color: AppTheme.skBorderColor2,
-                                                        ),
-                                                      ),
-                                                      onPressed: () {
-                                                        _animateToIndex(0);
-                                                        setState(() {
-                                                          if(cateScIndex != 0) {
-                                                            i0Clicked = true;
-                                                          } else {
-                                                            if(i0Clicked) {
-                                                              i0Clicked = false;
-                                                            } else {
-                                                              i0Clicked = true;
-                                                            }
-                                                          }
-
-                                                          cateScIndex = 0;
-                                                          itemPerPage = 10;
-                                                          endOfResult = false;
-                                                        });
-                                                      },
-                                                      child: Container(
-                                                        child: Text(
-                                                          textSetAll, textScaleFactor: 1,
-                                                          textAlign: TextAlign.center,
-                                                          style: TextStyle(
-                                                              fontSize: 14,
-                                                              fontWeight: FontWeight.w500,
-                                                              color: Colors.black),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                                                    child: FlatButton(
-                                                      minWidth: 0,
-                                                      padding: EdgeInsets.only(left: 12, right: 12),
-                                                      color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(20.0),
-                                                        side: BorderSide(
-                                                          color: AppTheme.skBorderColor2,
-                                                        ),
-                                                      ),
-                                                      onPressed: () {
-                                                        _animateToIndex(5.4);
-                                                        setState(() {
-                                                          if(cateScIndex != 1) {
-                                                            i1Clicked = true;
-                                                          } else {
-                                                            if(i1Clicked) {
-                                                              i1Clicked = false;
-                                                            } else {
-                                                              i1Clicked = true;
-                                                            }
-                                                          }
-
-                                                          cateScIndex = 1;
-                                                          itemPerPage = 10;
-                                                          endOfResult = false;
-                                                        });
-                                                      },
-                                                      child: Container(
-                                                        child: Text(
-                                                          textSetUnpaids, textScaleFactor: 1,
-                                                          textAlign: TextAlign.center,
-                                                          style: TextStyle(
-                                                              fontSize: 14,
-                                                              fontWeight: FontWeight.w500,
-                                                              color: Colors.black),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 11,
-                                                  )
-                                                ],
-                                              ),
-                                            )
-                                          ],
-                                        ),
-
-                                      ),
-                                    ),),
-                                  SliverList(
-                                    // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                    //   childAspectRatio: 3.588,
-                                    //   crossAxisCount: 1,
-                                    // ),
-                                    delegate: SliverChildBuilderDelegate(
-                                          (context, index) {
-                                        var prodMap = resProds.entries.elementAt(index);
-                                        // debugPrint('Prod map ' + prodMap.key.toString());
-                                        var prodVal = prodMap.value;
-                                        var prodKey = prodMap.key;
-
-                                        return GestureDetector(
-                                          onTap: () async {
-                                            closeDrawerFrom();
-                                            await Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (
-                                                      context) =>
-                                                      CustomerInfoSubs(isEnglish: widget.isEnglish, fromSearch: false,
-                                                        id: prodKey.toString(), custName: prodVal.na, custAddress:  prodVal.ad,
-                                                        toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
-                                            );
-                                            openDrawerFrom();
-                                          },
-                                          child: Padding(
-                                            padding:
-                                            EdgeInsets.only(left: 15.0,
-                                                top: 15.0),
-                                            child: Container(
-                                              width: MediaQuery
-                                                  .of(context)
-                                                  .size
-                                                  .width,
-                                              decoration: BoxDecoration(
-                                                  border: Border(
-                                                      bottom: index == resProds.length-1 ?
-                                                      BorderSide(
-                                                          color: Colors
-                                                              .transparent,
-                                                          width: 1.0)
-                                                          :
-
-                                                      BorderSide(
-                                                          color: Colors
-                                                              .grey
-                                                              .withOpacity(
-                                                              0.3),
-                                                          width: 1.0)
-                                                  )),
-                                              child: Column(
-                                                children: [
-                                                  // Hero(
-                                                  //   tag: 'imageHero',
-                                                  //   child: Image.network(
-                                                  //     'https://picsum.photos/250?image=9',
-                                                  //   ),
-                                                  // ),
-                                                  Padding(
-                                                    padding: const EdgeInsets
-                                                        .only(
-                                                        bottom: 18.0),
-                                                    child: ListTile(
-                                                      title: Text(
-                                                        prodVal.na.toString(),textScaleFactor: 1,
-                                                        maxLines: 1,
-                                                        style: TextStyle(
-                                                            fontSize: 18,
-                                                            fontWeight:
-                                                            FontWeight
-                                                                .w500,
-                                                            height: 1.1,
-                                                            overflow: TextOverflow.ellipsis
-                                                        ),
-                                                        strutStyle: StrutStyle(
-                                                          height: 1.3,
-                                                          // fontSize:,
-                                                          forceStrutHeight: true,
-                                                        ),
-                                                      ),
-                                                      subtitle: Padding(
-                                                        padding: const EdgeInsets
-                                                            .only(
-                                                            top: 8.0),
-                                                        child: Column(
-                                                          crossAxisAlignment: CrossAxisAlignment
-                                                              .start,
-                                                          children: [
-                                                            Text(
-                                                              prodVal.ad, textScaleFactor: 1,
-                                                              style: TextStyle(
-                                                                  fontSize: 14,
-                                                                  fontWeight: FontWeight
-                                                                      .w500,
-                                                                  color: Colors
-                                                                      .grey,
-                                                                  height: 1.1,
-                                                                  overflow: TextOverflow.ellipsis
-                                                              ),
-                                                              maxLines: 1,
-                                                              strutStyle: StrutStyle(
-                                                                height: 1.2,
-                                                                // fontSize:,
-                                                                forceStrutHeight: true,
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                              height: 5,),
-                                                            Text(
-                                                              prodVal.ph.toString(),textScaleFactor: 1,
-                                                              style: TextStyle(
-                                                                  fontSize: 14,
-                                                                  fontWeight: FontWeight
-                                                                      .w500,
-                                                                  color: Colors
-                                                                      .grey,
-                                                                  height: 1.1,
-                                                                  overflow: TextOverflow.ellipsis
-                                                              ),
-                                                              maxLines: 1,
-                                                              strutStyle: StrutStyle(
-                                                                height: 1,
-                                                                // fontSize:,
-                                                                forceStrutHeight: true,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      trailing: Container(
-                                                        child: Row(
-                                                          mainAxisSize: MainAxisSize.min,
-                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: [
-                                                            prodVal.de > 0? Container(
-                                                              height: 21,
-                                                              decoration: BoxDecoration(
-                                                                borderRadius: BorderRadius.circular(20.0),
-                                                                color: AppTheme.badgeFgDanger,
-                                                              ),
-                                                              child: Padding(
-                                                                padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
-                                                                child: Text(prodVal.de.round().toString() + ' unpaid',
-                                                                  textScaleFactor: 1, style: TextStyle(
-                                                                      fontSize: 13,
-                                                                      fontWeight: FontWeight.w500,
-                                                                      color: Colors.white
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ): Container(height: 21,),
-
-                                                            SizedBox(
-                                                                width: 12),
-                                                            Padding(
-                                                              padding: const EdgeInsets.only(top: 2.0),
-                                                              child: Icon(
-                                                                Icons
-                                                                    .arrow_forward_ios_rounded,
-                                                                size: 16,
-                                                                color: Colors
-                                                                    .blueGrey
-                                                                    .withOpacity(
-                                                                    0.8),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      contentPadding: const EdgeInsets
-                                                          .only(
-                                                          left: 0.0, right: 15) ,
-                                                    ),
-                                                  )
-
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        );
-
-                                      },
-                                      childCount: resProds == null? 0: resProds.length,
-                                    ),
-                                    // itemExtent: 114.5,
-                                  ),
-                                  SliverAppBar(
-                                    toolbarHeight: 30,
-                                    elevation: 0,
-                                    backgroundColor: Colors.white,
-                                    // Provide a standard title.
-                                    // Allows the user to reveal the app bar if they begin scrolling
-                                    // back up the list of items.
-                                    floating: true,
-                                    flexibleSpace: !endOfResult?
-                                    Container(
-                                      child: LinearProgressIndicator(color: Colors.transparent, valueColor: new AlwaysStoppedAnimation<Color>(AppTheme.themeColor), backgroundColor: Colors.transparent,),
-                                    ):
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                            child: Text(
-                                              resProds.length == 0? '': 'End of results',
-                                              textScaleFactor: 1, strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              );
-                            } else {
-                              return  CustomScrollView(
-                                controller: _scrollController,
-                                slivers: [
-                                  SliverAppBar(
-                                    elevation: 0,
-                                    backgroundColor: Colors.white,
-                                    // Provide a standard title.
-                                    // Allows the user to reveal the app bar if they begin scrolling
-                                    // back up the list of items.
-                                    floating: true,
-                                    flexibleSpace: Padding(
-                                      padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 12.0),
-                                      child: Container(
-                                        height: 32,
-                                        width: MediaQuery.of(context).size.width,
-                                        // color: Colors.yellow,
-                                        child: Row(
-                                          children: [
-                                            Row(
-                                              children: [
-                                                FlatButton(
-                                                  padding: EdgeInsets.only(left: 10, right: 10),
-                                                  color: AppTheme.secButtonColor,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(8.0),
-                                                    side: BorderSide(
-                                                      color: AppTheme.skBorderColor2,
-                                                    ),
-                                                  ),
-                                                  onPressed: () async {
-                                                    widget.addCust();
-                                                  },
-                                                  child: Container(
-                                                    child: Row(
-                                                      // mainAxisAlignment: Main,
-                                                      children: [
-                                                        Padding(
-                                                          padding: const EdgeInsets.only(right: 6.0),
-                                                          child: Icon(
-                                                            SmartKyat_POS.add_plus,
-                                                            size: 17,
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          textSetNewCus, textScaleFactor: 1,
-                                                          textAlign: TextAlign.center,
-                                                          style: TextStyle(
-                                                              fontSize: 14,
-                                                              fontWeight: FontWeight.w500,
-                                                              color: Colors.black),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(width: 12),
-                                                Container(
-                                                  color: Colors.grey.withOpacity(0.2),
-                                                  width: 1.5,
-                                                  height: 30,
-                                                )
-                                              ],
-                                            ),
-                                            Expanded(
-                                              child: ListView(
-                                                controller: cateScCtler,
-                                                scrollDirection: Axis.horizontal,
-                                                children: [
-                                                  SizedBox(
-                                                    width: 4,
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                                                    child: FlatButton(
-                                                      minWidth: 0,
-                                                      padding: EdgeInsets.only(left: 12, right: 12),
-                                                      color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(20.0),
-                                                        side: BorderSide(
-                                                          color: AppTheme.skBorderColor2,
-                                                        ),
-                                                      ),
-                                                      onPressed: () {
-                                                        _animateToIndex(0);
-                                                        setState(() {
-                                                          if(cateScIndex != 0) {
-                                                            i0Clicked = true;
-                                                          } else {
-                                                            if(i0Clicked) {
-                                                              i0Clicked = false;
-                                                            } else {
-                                                              i0Clicked = true;
-                                                            }
-                                                          }
-
-                                                          cateScIndex = 0;
-                                                          itemPerPage = 10;
-                                                          endOfResult = false;
-                                                        });
-                                                      },
-                                                      child: Container(
-                                                        child: Text(
-                                                          textSetAll, textScaleFactor: 1,
-                                                          textAlign: TextAlign.center,
-                                                          style: TextStyle(
-                                                              fontSize: 14,
-                                                              fontWeight: FontWeight.w500,
-                                                              color: Colors.black),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                                                    child: FlatButton(
-                                                      minWidth: 0,
-                                                      padding: EdgeInsets.only(left: 12, right: 12),
-                                                      color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(20.0),
-                                                        side: BorderSide(
-                                                          color: AppTheme.skBorderColor2,
-                                                        ),
-                                                      ),
-                                                      onPressed: () {
-                                                        _animateToIndex(5.4);
-                                                        setState(() {
-                                                          if(cateScIndex != 1) {
-                                                            i1Clicked = true;
-                                                          } else {
-                                                            if(i1Clicked) {
-                                                              i1Clicked = false;
-                                                            } else {
-                                                              i1Clicked = true;
-                                                            }
-                                                          }
-
-                                                          cateScIndex = 1;
-                                                          itemPerPage = 10;
-                                                          endOfResult = false;
-                                                        });
-                                                      },
-                                                      child: Container(
-                                                        child: Text(
-                                                          textSetUnpaids, textScaleFactor: 1,
-                                                          textAlign: TextAlign.center,
-                                                          style: TextStyle(
-                                                              fontSize: 14,
-                                                              fontWeight: FontWeight.w500,
-                                                              color: Colors.black),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 11,
-                                                  )
-                                                ],
-                                              ),
-                                            )
-                                          ],
-                                        ),
-
-                                      ),
-                                    ),),
-                                  resProds.length == 0? SliverFillRemaining(
-                                    child: Center(
-                                      child: Text('No customer found', textScaleFactor: 1, style: TextStyle(fontSize: 15),),
-                                    ), ) : Container()
-                                ],
-                              );
-                            }
-                          }
-                      ),
-                    ),
-                  ),
-                if(searchOpeningR)
-                  Container(
-                    height: MediaQuery.of(context).size.height,
-                    color: Colors.white,
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 30.0),
-                        child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                            child: CupertinoActivityIndicator(radius: 15,)),
-                      ),
-                    ),
-                  ),
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border(
-                          bottom: BorderSide(
-                              color: AppTheme.skBorderColor2,
-                              width: 1.0),
-                        )
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          top: 15.0, left: 15.0, right: 15.0, bottom: 15),
-                      child: GestureDetector(
-                        onTap: () {
-                          widget._searchBtn();
-                          // FocusScope.of(context).requestFocus(nodeFirst);
-                          // setState(() {
-                          //   loadingSearch = true;
-                          // });
-                          // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: loadingSearch? Colors.blue: Colors.transparent,
-                              style: BorderStyle.solid,
-                              width: 1.0,
-                            ),
-                            color: AppTheme.secButtonColor,
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          height: 50,
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 10.0, bottom: 11.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-
-                                    // if(loadingSearch) {
-                                    //   _searchController.clear();
-                                    //   FocusScope.of(context).unfocus();
-                                    //   setState(() {
-                                    //     loadingSearch = false;
-                                    //   });
-                                    // } else {
-                                    //   FocusScope.of(context).requestFocus(nodeFirst);
-                                    //   setState(() {
-                                    //     loadingSearch = true;
-                                    //   });
-                                    //   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-                                    // }
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 12.0),
-                                    child: Container(
-                                      child: Stack(
-                                        children: [
-                                          !loadingSearch? Padding(
-                                            padding: const EdgeInsets.only(left: 5.0),
-                                            child: Icon(
-                                              SmartKyat_POS.search,
-                                              size: 17,
-                                            ),
-                                          ): Padding(
-                                            padding: const EdgeInsets.only(left: 2, bottom: 1.0),
-                                            child: Icon(
-                                              Icons.close_rounded,
-                                              size: 24,
-                                            ),
-                                          )
-
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                // Expanded(
-                                //   child: Padding(
-                                //     padding: EdgeInsets.only(
-                                //         left: !loadingSearch? 8.0: 4,
-                                //         right: 8.0,
-                                //         top: 0.5),
-                                //     child: Text('Search'),
-                                //   ),
-                                // ),
-                                Expanded(
-                                  child: Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 13,
-                                          bottom: 1.5),
-                                      child: Text(
-                                        textSetSearch, textScaleFactor: 1,
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.black.withOpacity(0.55)
-                                        ),
-                                        strutStyle: StrutStyle(
-                                            forceStrutHeight: true,
-                                            height: textSetSearch == 'Search'? 1.6: 1.3
-                                        ),
-                                      )
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    widget._barcodeBtn();
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                      right: 15.0,
-                                    ),
-                                    // child: Icon(
-                                    //   SmartKyat_POS.barcode,
-                                    //   color: Colors.Colors.black,
-                                    //   size: 25,
-                                    // ),
-                                    child: Container(
-                                        child: Image.asset('assets/system/barcode.png', height: 28,)
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                //overAllSearch()
-
-              ],
-            ),
-          ),
+          // child: SafeArea(
+          //   top: true,
+          //   bottom: true,
+          //   child: Stack(
+          //     children: [
+          //       if(!searchOpening)
+          //         Align(
+          //           alignment: Alignment.centerLeft,
+          //           child: Padding(
+          //             padding: const EdgeInsets.only(top: 81.0),
+          //             // padding: const EdgeInsets.only(top: 137.0),
+          //             child: StreamBuilder<List<CustomerModel>>(
+          //                 stream: objectbox.getCustomers(),
+          //                 builder: (context, snapshot) {
+          //                   if (snapshot.data?.isNotEmpty ?? false) {
+          //                     List<CustomerModel> prods = snapshot.data ?? [];
+          //                     resProds = {};
+          //                     // prods = snapshot.data ?? [];
+          //                     debugPrint('prods length' + itemPerPage.toString() + ' ' + prods.length.toString());
+          //                     if(itemPerPage >= prods.length) {
+          //                       endOfResult = true;
+          //                     }
+          //                     if(cateScIndex == 0) {
+          //                       if(i0Clicked) {
+          //                         prods.sort((a, b) => a.na.compareTo(b.na));
+          //                       } else {
+          //                         prods.sort((a, b) => b.na.compareTo(a.na));
+          //                         // prods = sortMapByNaR(prods);
+          //                       }
+          //                     } else if(cateScIndex == 1) {
+          //                       if(i1Clicked) {
+          //                         prods.sort((a, b) => a.da.compareTo(b.da));
+          //                       } else {
+          //                         prods.sort((a, b) => b.da.compareTo(a.da));
+          //                       }
+          //                     }
+          //
+          //                     if(prods != null && prods.length > 0) {
+          //                       debugPrint('llll ' + prods.length.toString() + ' ' + itemPerPage.toString());
+          //                       for(int i = 0; i < itemPerPage; i++) {
+          //                         if (i >= prods.length) {
+          //                           break;
+          //                         }
+          //                         // var eachMap = prods.entries.elementAt(i);
+          //                         resProds[prods[i].id] = prods[i];
+          //                       }
+          //                     }
+          //
+          //                     return CustomScrollView(
+          //                       controller: _scrollController,
+          //                       slivers: [
+          //                         SliverAppBar(
+          //                           elevation: 0,
+          //                           backgroundColor: Colors.white,
+          //                           // Provide a standard title.
+          //                           // Allows the user to reveal the app bar if they begin scrolling
+          //                           // back up the list of items.
+          //                           floating: true,
+          //                           flexibleSpace: Padding(
+          //                             padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 12.0),
+          //                             child: Container(
+          //                               height: 32,
+          //                               width: MediaQuery.of(context).size.width,
+          //                               // color: Colors.yellow,
+          //                               child: Row(
+          //                                 children: [
+          //                                   Row(
+          //                                     children: [
+          //                                       CustomFlatButton(
+          //                                         padding: EdgeInsets.only(left: 10, right: 10),
+          //                                         color: AppTheme.secButtonColor,
+          //                                         shape: RoundedRectangleBorder(
+          //                                           borderRadius: BorderRadius.circular(8.0),
+          //                                           side: BorderSide(
+          //                                             color: AppTheme.skBorderColor2,
+          //                                           ),
+          //                                         ),
+          //                                         onPressed: () async {
+          //                                           widget.addCust();
+          //                                         },
+          //                                         child: Container(
+          //                                           child: Row(
+          //                                             // mainAxisAlignment: Main,
+          //                                             children: [
+          //                                               Padding(
+          //                                                 padding: const EdgeInsets.only(right: 6.0),
+          //                                                 child: Icon(
+          //                                                   SmartKyat_POS.add_plus,
+          //                                                   size: 17,
+          //                                                 ),
+          //                                               ),
+          //                                               Text(
+          //                                                 textSetNewCus, textScaleFactor: 1,
+          //                                                 textAlign: TextAlign.center,
+          //                                                 style: TextStyle(
+          //                                                     fontSize: 14,
+          //                                                     fontWeight: FontWeight.w500,
+          //                                                     color: Colors.black),
+          //                                               ),
+          //                                             ],
+          //                                           ),
+          //                                         ),
+          //                                       ),
+          //                                       SizedBox(width: 12),
+          //                                       Container(
+          //                                         color: Colors.grey.withOpacity(0.2),
+          //                                         width: 1.5,
+          //                                         height: 30,
+          //                                       )
+          //                                     ],
+          //                                   ),
+          //                                   Expanded(
+          //                                     child: ListView(
+          //                                       controller: cateScCtler,
+          //                                       scrollDirection: Axis.horizontal,
+          //                                       children: [
+          //                                         SizedBox(
+          //                                           width: 4,
+          //                                         ),
+          //                                         Padding(
+          //                                           padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+          //                                           child: CustomFlatButton(
+          //                                             // minWidth: 0,
+          //                                             padding: EdgeInsets.only(left: 12, right: 12),
+          //                                             color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
+          //                                             shape: RoundedRectangleBorder(
+          //                                               borderRadius: BorderRadius.circular(20.0),
+          //                                               side: BorderSide(
+          //                                                 color: AppTheme.skBorderColor2,
+          //                                               ),
+          //                                             ),
+          //                                             onPressed: () {
+          //                                               _animateToIndex(0);
+          //                                               setState(() {
+          //                                                 if(cateScIndex != 0) {
+          //                                                   i0Clicked = true;
+          //                                                 } else {
+          //                                                   if(i0Clicked) {
+          //                                                     i0Clicked = false;
+          //                                                   } else {
+          //                                                     i0Clicked = true;
+          //                                                   }
+          //                                                 }
+          //
+          //                                                 cateScIndex = 0;
+          //                                                 itemPerPage = 10;
+          //                                                 endOfResult = false;
+          //                                               });
+          //                                             },
+          //                                             child: Container(
+          //                                               child: Text(
+          //                                                 textSetAll, textScaleFactor: 1,
+          //                                                 textAlign: TextAlign.center,
+          //                                                 style: TextStyle(
+          //                                                     fontSize: 14,
+          //                                                     fontWeight: FontWeight.w500,
+          //                                                     color: Colors.black),
+          //                                               ),
+          //                                             ),
+          //                                           ),
+          //                                         ),
+          //                                         Padding(
+          //                                           padding: const EdgeInsets.only(left: 4.0, right: 6.0),
+          //                                           child: CustomFlatButton(
+          //                                             // minWidth: 0,
+          //                                             padding: EdgeInsets.only(left: 12, right: 12),
+          //                                             color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
+          //                                             shape: RoundedRectangleBorder(
+          //                                               borderRadius: BorderRadius.circular(20.0),
+          //                                               side: BorderSide(
+          //                                                 color: AppTheme.skBorderColor2,
+          //                                               ),
+          //                                             ),
+          //                                             onPressed: () {
+          //                                               _animateToIndex(5.4);
+          //                                               setState(() {
+          //                                                 if(cateScIndex != 1) {
+          //                                                   i1Clicked = true;
+          //                                                 } else {
+          //                                                   if(i1Clicked) {
+          //                                                     i1Clicked = false;
+          //                                                   } else {
+          //                                                     i1Clicked = true;
+          //                                                   }
+          //                                                 }
+          //
+          //                                                 cateScIndex = 1;
+          //                                                 itemPerPage = 10;
+          //                                                 endOfResult = false;
+          //                                               });
+          //                                             },
+          //                                             child: Container(
+          //                                               child: Text(
+          //                                                 textSetUnpaids, textScaleFactor: 1,
+          //                                                 textAlign: TextAlign.center,
+          //                                                 style: TextStyle(
+          //                                                     fontSize: 14,
+          //                                                     fontWeight: FontWeight.w500,
+          //                                                     color: Colors.black),
+          //                                               ),
+          //                                             ),
+          //                                           ),
+          //                                         ),
+          //                                         SizedBox(
+          //                                           width: 11,
+          //                                         )
+          //                                       ],
+          //                                     ),
+          //                                   )
+          //                                 ],
+          //                               ),
+          //
+          //                             ),
+          //                           ),),
+          //                         SliverList(
+          //                           // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          //                           //   childAspectRatio: 3.588,
+          //                           //   crossAxisCount: 1,
+          //                           // ),
+          //                           delegate: SliverChildBuilderDelegate(
+          //                                 (context, index) {
+          //                               var prodMap = resProds.entries.elementAt(index);
+          //                               // debugPrint('Prod map ' + prodMap.key.toString());
+          //                               var prodVal = prodMap.value;
+          //                               var prodKey = prodMap.key;
+          //
+          //                               return GestureDetector(
+          //                                 onTap: () async {
+          //                                   closeDrawerFrom();
+          //                                   await Navigator.push(
+          //                                     context,
+          //                                     MaterialPageRoute(
+          //                                         builder: (
+          //                                             context) =>
+          //                                             CustomerInfoSubs(isEnglish: widget.isEnglish, fromSearch: false,
+          //                                               id: prodKey.toString(), custName: prodVal.na, custAddress:  prodVal.ad,
+          //                                               toggleCoinCallback: addCustomer2Cart1, shopId: widget.shopId.toString(), closeCartBtn: closeCartFrom, openCartBtn: openCartFrom, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev,)),
+          //                                   );
+          //                                   openDrawerFrom();
+          //                                 },
+          //                                 child: Padding(
+          //                                   padding:
+          //                                   EdgeInsets.only(left: 15.0,
+          //                                       top: 15.0),
+          //                                   child: Container(
+          //                                     width: MediaQuery
+          //                                         .of(context)
+          //                                         .size
+          //                                         .width,
+          //                                     decoration: BoxDecoration(
+          //                                         border: Border(
+          //                                             bottom: index == resProds.length-1 ?
+          //                                             BorderSide(
+          //                                                 color: Colors
+          //                                                     .transparent,
+          //                                                 width: 1.0)
+          //                                                 :
+          //
+          //                                             BorderSide(
+          //                                                 color: Colors
+          //                                                     .grey
+          //                                                     .withOpacity(
+          //                                                     0.3),
+          //                                                 width: 1.0)
+          //                                         )),
+          //                                     child: Column(
+          //                                       children: [
+          //                                         // Hero(
+          //                                         //   tag: 'imageHero',
+          //                                         //   child: Image.network(
+          //                                         //     'https://picsum.photos/250?image=9',
+          //                                         //   ),
+          //                                         // ),
+          //                                         Padding(
+          //                                           padding: const EdgeInsets
+          //                                               .only(
+          //                                               bottom: 18.0),
+          //                                           child: ListTile(
+          //                                             title: Text(
+          //                                               prodVal.na.toString(),textScaleFactor: 1,
+          //                                               maxLines: 1,
+          //                                               style: TextStyle(
+          //                                                   fontSize: 18,
+          //                                                   fontWeight:
+          //                                                   FontWeight
+          //                                                       .w500,
+          //                                                   height: 1.1,
+          //                                                   overflow: TextOverflow.ellipsis
+          //                                               ),
+          //                                               strutStyle: StrutStyle(
+          //                                                 height: 1.3,
+          //                                                 // fontSize:,
+          //                                                 forceStrutHeight: true,
+          //                                               ),
+          //                                             ),
+          //                                             subtitle: Padding(
+          //                                               padding: const EdgeInsets
+          //                                                   .only(
+          //                                                   top: 8.0),
+          //                                               child: Column(
+          //                                                 crossAxisAlignment: CrossAxisAlignment
+          //                                                     .start,
+          //                                                 children: [
+          //                                                   Text(
+          //                                                     prodVal.ad, textScaleFactor: 1,
+          //                                                     style: TextStyle(
+          //                                                         fontSize: 14,
+          //                                                         fontWeight: FontWeight
+          //                                                             .w500,
+          //                                                         color: Colors
+          //                                                             .grey,
+          //                                                         height: 1.1,
+          //                                                         overflow: TextOverflow.ellipsis
+          //                                                     ),
+          //                                                     maxLines: 1,
+          //                                                     strutStyle: StrutStyle(
+          //                                                       height: 1.2,
+          //                                                       // fontSize:,
+          //                                                       forceStrutHeight: true,
+          //                                                     ),
+          //                                                   ),
+          //                                                   SizedBox(
+          //                                                     height: 5,),
+          //                                                   Text(
+          //                                                     prodVal.ph.toString(),textScaleFactor: 1,
+          //                                                     style: TextStyle(
+          //                                                         fontSize: 14,
+          //                                                         fontWeight: FontWeight
+          //                                                             .w500,
+          //                                                         color: Colors
+          //                                                             .grey,
+          //                                                         height: 1.1,
+          //                                                         overflow: TextOverflow.ellipsis
+          //                                                     ),
+          //                                                     maxLines: 1,
+          //                                                     strutStyle: StrutStyle(
+          //                                                       height: 1,
+          //                                                       // fontSize:,
+          //                                                       forceStrutHeight: true,
+          //                                                     ),
+          //                                                   ),
+          //                                                 ],
+          //                                               ),
+          //                                             ),
+          //                                             trailing: Container(
+          //                                               child: Row(
+          //                                                 mainAxisSize: MainAxisSize.min,
+          //                                                 mainAxisAlignment: MainAxisAlignment.start,
+          //                                                 crossAxisAlignment: CrossAxisAlignment.start,
+          //                                                 children: [
+          //                                                   prodVal.de > 0? Container(
+          //                                                     height: 21,
+          //                                                     decoration: BoxDecoration(
+          //                                                       borderRadius: BorderRadius.circular(20.0),
+          //                                                       color: AppTheme.badgeFgDanger,
+          //                                                     ),
+          //                                                     child: Padding(
+          //                                                       padding: const EdgeInsets.only(top: 2, left: 12.0, right: 12.0),
+          //                                                       child: Text(prodVal.de.round().toString() + ' unpaid',
+          //                                                         textScaleFactor: 1, style: TextStyle(
+          //                                                             fontSize: 13,
+          //                                                             fontWeight: FontWeight.w500,
+          //                                                             color: Colors.white
+          //                                                         ),
+          //                                                       ),
+          //                                                     ),
+          //                                                   ): Container(height: 21,),
+          //
+          //                                                   SizedBox(
+          //                                                       width: 12),
+          //                                                   Padding(
+          //                                                     padding: const EdgeInsets.only(top: 2.0),
+          //                                                     child: Icon(
+          //                                                       Icons
+          //                                                           .arrow_forward_ios_rounded,
+          //                                                       size: 16,
+          //                                                       color: Colors
+          //                                                           .blueGrey
+          //                                                           .withOpacity(
+          //                                                           0.8),
+          //                                                     ),
+          //                                                   ),
+          //                                                 ],
+          //                                               ),
+          //                                             ),
+          //                                             contentPadding: const EdgeInsets
+          //                                                 .only(
+          //                                                 left: 0.0, right: 15) ,
+          //                                           ),
+          //                                         )
+          //
+          //                                       ],
+          //                                     ),
+          //                                   ),
+          //                                 ),
+          //                               );
+          //
+          //                             },
+          //                             childCount: resProds == null? 0: resProds.length,
+          //                           ),
+          //                           // itemExtent: 114.5,
+          //                         ),
+          //                         SliverAppBar(
+          //                           toolbarHeight: 30,
+          //                           elevation: 0,
+          //                           backgroundColor: Colors.white,
+          //                           // Provide a standard title.
+          //                           // Allows the user to reveal the app bar if they begin scrolling
+          //                           // back up the list of items.
+          //                           floating: true,
+          //                           flexibleSpace: !endOfResult?
+          //                           Container(
+          //                             child: LinearProgressIndicator(color: Colors.transparent, valueColor: new AlwaysStoppedAnimation<Color>(AppTheme.themeColor), backgroundColor: Colors.transparent,),
+          //                           ):
+          //                           Row(
+          //                             mainAxisAlignment: MainAxisAlignment.center,
+          //                             children: [
+          //                               Container(
+          //                                   child: Text(
+          //                                     resProds.length == 0? '': 'End of results',
+          //                                     textScaleFactor: 1, strutStyle: StrutStyle(forceStrutHeight: true, height: 1.2),)
+          //                               ),
+          //                             ],
+          //                           ),
+          //                         ),
+          //                       ],
+          //                     );
+          //                   } else {
+          //                     return  CustomScrollView(
+          //                       controller: _scrollController,
+          //                       slivers: [
+          //                         SliverAppBar(
+          //                           elevation: 0,
+          //                           backgroundColor: Colors.white,
+          //                           // Provide a standard title.
+          //                           // Allows the user to reveal the app bar if they begin scrolling
+          //                           // back up the list of items.
+          //                           floating: true,
+          //                           flexibleSpace: Padding(
+          //                             padding: const EdgeInsets.only(left: 15.0, top: 12.0, bottom: 12.0),
+          //                             child: Container(
+          //                               height: 32,
+          //                               width: MediaQuery.of(context).size.width,
+          //                               // color: Colors.yellow,
+          //                               child: Row(
+          //                                 children: [
+          //                                   Row(
+          //                                     children: [
+          //                                       CustomFlatButton(
+          //                                         padding: EdgeInsets.only(left: 10, right: 10),
+          //                                         color: AppTheme.secButtonColor,
+          //                                         shape: RoundedRectangleBorder(
+          //                                           borderRadius: BorderRadius.circular(8.0),
+          //                                           side: BorderSide(
+          //                                             color: AppTheme.skBorderColor2,
+          //                                           ),
+          //                                         ),
+          //                                         onPressed: () async {
+          //                                           widget.addCust();
+          //                                         },
+          //                                         child: Container(
+          //                                           child: Row(
+          //                                             // mainAxisAlignment: Main,
+          //                                             children: [
+          //                                               Padding(
+          //                                                 padding: const EdgeInsets.only(right: 6.0),
+          //                                                 child: Icon(
+          //                                                   SmartKyat_POS.add_plus,
+          //                                                   size: 17,
+          //                                                 ),
+          //                                               ),
+          //                                               Text(
+          //                                                 textSetNewCus, textScaleFactor: 1,
+          //                                                 textAlign: TextAlign.center,
+          //                                                 style: TextStyle(
+          //                                                     fontSize: 14,
+          //                                                     fontWeight: FontWeight.w500,
+          //                                                     color: Colors.black),
+          //                                               ),
+          //                                             ],
+          //                                           ),
+          //                                         ),
+          //                                       ),
+          //                                       SizedBox(width: 12),
+          //                                       Container(
+          //                                         color: Colors.grey.withOpacity(0.2),
+          //                                         width: 1.5,
+          //                                         height: 30,
+          //                                       )
+          //                                     ],
+          //                                   ),
+          //                                   Expanded(
+          //                                     child: ListView(
+          //                                       controller: cateScCtler,
+          //                                       scrollDirection: Axis.horizontal,
+          //                                       children: [
+          //                                         SizedBox(
+          //                                           width: 4,
+          //                                         ),
+          //                                         Padding(
+          //                                           padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+          //                                           child: CustomFlatButton(
+          //                                             // minWidth: 0,
+          //                                             padding: EdgeInsets.only(left: 12, right: 12),
+          //                                             color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
+          //                                             shape: RoundedRectangleBorder(
+          //                                               borderRadius: BorderRadius.circular(20.0),
+          //                                               side: BorderSide(
+          //                                                 color: AppTheme.skBorderColor2,
+          //                                               ),
+          //                                             ),
+          //                                             onPressed: () {
+          //                                               _animateToIndex(0);
+          //                                               setState(() {
+          //                                                 if(cateScIndex != 0) {
+          //                                                   i0Clicked = true;
+          //                                                 } else {
+          //                                                   if(i0Clicked) {
+          //                                                     i0Clicked = false;
+          //                                                   } else {
+          //                                                     i0Clicked = true;
+          //                                                   }
+          //                                                 }
+          //
+          //                                                 cateScIndex = 0;
+          //                                                 itemPerPage = 10;
+          //                                                 endOfResult = false;
+          //                                               });
+          //                                             },
+          //                                             child: Container(
+          //                                               child: Text(
+          //                                                 textSetAll, textScaleFactor: 1,
+          //                                                 textAlign: TextAlign.center,
+          //                                                 style: TextStyle(
+          //                                                     fontSize: 14,
+          //                                                     fontWeight: FontWeight.w500,
+          //                                                     color: Colors.black),
+          //                                               ),
+          //                                             ),
+          //                                           ),
+          //                                         ),
+          //                                         Padding(
+          //                                           padding: const EdgeInsets.only(left: 4.0, right: 6.0),
+          //                                           child: CustomFlatButton(
+          //                                             // minWidth: 0,
+          //                                             padding: EdgeInsets.only(left: 12, right: 12),
+          //                                             color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
+          //                                             shape: RoundedRectangleBorder(
+          //                                               borderRadius: BorderRadius.circular(20.0),
+          //                                               side: BorderSide(
+          //                                                 color: AppTheme.skBorderColor2,
+          //                                               ),
+          //                                             ),
+          //                                             onPressed: () {
+          //                                               _animateToIndex(5.4);
+          //                                               setState(() {
+          //                                                 if(cateScIndex != 1) {
+          //                                                   i1Clicked = true;
+          //                                                 } else {
+          //                                                   if(i1Clicked) {
+          //                                                     i1Clicked = false;
+          //                                                   } else {
+          //                                                     i1Clicked = true;
+          //                                                   }
+          //                                                 }
+          //
+          //                                                 cateScIndex = 1;
+          //                                                 itemPerPage = 10;
+          //                                                 endOfResult = false;
+          //                                               });
+          //                                             },
+          //                                             child: Container(
+          //                                               child: Text(
+          //                                                 textSetUnpaids, textScaleFactor: 1,
+          //                                                 textAlign: TextAlign.center,
+          //                                                 style: TextStyle(
+          //                                                     fontSize: 14,
+          //                                                     fontWeight: FontWeight.w500,
+          //                                                     color: Colors.black),
+          //                                               ),
+          //                                             ),
+          //                                           ),
+          //                                         ),
+          //                                         SizedBox(
+          //                                           width: 11,
+          //                                         )
+          //                                       ],
+          //                                     ),
+          //                                   )
+          //                                 ],
+          //                               ),
+          //
+          //                             ),
+          //                           ),),
+          //                         resProds.length == 0? SliverFillRemaining(
+          //                           child: Center(
+          //                             child: Text('No customer found', textScaleFactor: 1, style: TextStyle(fontSize: 15),),
+          //                           ), ) : Container()
+          //                       ],
+          //                     );
+          //                   }
+          //                 }
+          //             ),
+          //           ),
+          //         ),
+          //       if(searchOpeningR)
+          //         Container(
+          //           height: MediaQuery.of(context).size.height,
+          //           color: Colors.white,
+          //           child: Center(
+          //             child: Padding(
+          //               padding: const EdgeInsets.only(top: 30.0),
+          //               child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+          //                   child: CupertinoActivityIndicator(radius: 15,)),
+          //             ),
+          //           ),
+          //         ),
+          //       Align(
+          //         alignment: Alignment.topCenter,
+          //         child: Container(
+          //           decoration: BoxDecoration(
+          //               color: Colors.white,
+          //               border: Border(
+          //                 bottom: BorderSide(
+          //                     color: AppTheme.skBorderColor2,
+          //                     width: 1.0),
+          //               )
+          //           ),
+          //           child: Padding(
+          //             padding: const EdgeInsets.only(
+          //                 top: 15.0, left: 15.0, right: 15.0, bottom: 15),
+          //             child: GestureDetector(
+          //               onTap: () {
+          //                 widget._searchBtn();
+          //                 // FocusScope.of(context).requestFocus(nodeFirst);
+          //                 // setState(() {
+          //                 //   loadingSearch = true;
+          //                 // });
+          //                 // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+          //               },
+          //               child: Container(
+          //                 decoration: BoxDecoration(
+          //                   border: Border.all(
+          //                     color: loadingSearch? Colors.blue: Colors.transparent,
+          //                     style: BorderStyle.solid,
+          //                     width: 1.0,
+          //                   ),
+          //                   color: AppTheme.secButtonColor,
+          //                   borderRadius: BorderRadius.circular(10.0),
+          //                 ),
+          //                 height: 50,
+          //                 child: Padding(
+          //                   padding: const EdgeInsets.only(
+          //                       top: 10.0, bottom: 11.0),
+          //                   child: Row(
+          //                     mainAxisAlignment: MainAxisAlignment.center,
+          //                     children: [
+          //                       GestureDetector(
+          //                         onTap: () {
+          //
+          //                           // if(loadingSearch) {
+          //                           //   _searchController.clear();
+          //                           //   FocusScope.of(context).unfocus();
+          //                           //   setState(() {
+          //                           //     loadingSearch = false;
+          //                           //   });
+          //                           // } else {
+          //                           //   FocusScope.of(context).requestFocus(nodeFirst);
+          //                           //   setState(() {
+          //                           //     loadingSearch = true;
+          //                           //   });
+          //                           //   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+          //                           // }
+          //                         },
+          //                         child: Padding(
+          //                           padding: const EdgeInsets.only(left: 12.0),
+          //                           child: Container(
+          //                             child: Stack(
+          //                               children: [
+          //                                 !loadingSearch? Padding(
+          //                                   padding: const EdgeInsets.only(left: 5.0),
+          //                                   child: Icon(
+          //                                     SmartKyat_POS.search,
+          //                                     size: 17,
+          //                                   ),
+          //                                 ): Padding(
+          //                                   padding: const EdgeInsets.only(left: 2, bottom: 1.0),
+          //                                   child: Icon(
+          //                                     Icons.close_rounded,
+          //                                     size: 24,
+          //                                   ),
+          //                                 )
+          //
+          //                               ],
+          //                             ),
+          //                           ),
+          //                         ),
+          //                       ),
+          //                       // Expanded(
+          //                       //   child: Padding(
+          //                       //     padding: EdgeInsets.only(
+          //                       //         left: !loadingSearch? 8.0: 4,
+          //                       //         right: 8.0,
+          //                       //         top: 0.5),
+          //                       //     child: Text('Search'),
+          //                       //   ),
+          //                       // ),
+          //                       Expanded(
+          //                         child: Padding(
+          //                             padding: EdgeInsets.only(
+          //                                 left: 13,
+          //                                 bottom: 1.5),
+          //                             child: Text(
+          //                               textSetSearch, textScaleFactor: 1,
+          //                               style: TextStyle(
+          //                                   fontSize: 18,
+          //                                   fontWeight: FontWeight.w500,
+          //                                   color: Colors.black.withOpacity(0.55)
+          //                               ),
+          //                               strutStyle: StrutStyle(
+          //                                   forceStrutHeight: true,
+          //                                   height: textSetSearch == 'Search'? 1.6: 1.3
+          //                               ),
+          //                             )
+          //                         ),
+          //                       ),
+          //                       GestureDetector(
+          //                         onTap: () {
+          //                           widget._barcodeBtn();
+          //                         },
+          //                         child: Padding(
+          //                           padding: const EdgeInsets.only(
+          //                             right: 15.0,
+          //                           ),
+          //                           // child: Icon(
+          //                           //   SmartKyat_POS.barcode,
+          //                           //   color: Colors.Colors.black,
+          //                           //   size: 25,
+          //                           // ),
+          //                           child: Container(
+          //                               child: Image.asset('assets/system/barcode.png', height: 28,)
+          //                           ),
+          //                         ),
+          //                       )
+          //                     ],
+          //                   ),
+          //                 ),
+          //               ),
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //       //overAllSearch()
+          //
+          //     ],
+          //   ),
+          // ),
         ),
       ),
     );

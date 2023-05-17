@@ -2,13 +2,14 @@ import 'dart:io';
 
 import 'package:blue_print_pos/models/blue_device.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterflow_paginate_firestore/paginate_firestore.dart';
 import 'package:intl/intl.dart';
-import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fragments/subs/buy_list_info.dart';
 import 'package:smartkyat_pos/fragments/subs/order_info.dart';
+import 'package:smartkyat_pos/widgets/custom_flat_button.dart';
 
 import '../../app_theme.dart';
 
@@ -135,8 +136,8 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                                      child: FlatButton(
-                                        minWidth: 0,
+                                      child: CustomFlatButton(
+                                        // minWidth: 0,
                                         padding: EdgeInsets.only(left: 12, right: 12),
                                         color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
                                         shape: RoundedRectangleBorder(
@@ -165,8 +166,8 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                                      child: FlatButton(
-                                        minWidth: 0,
+                                      child: CustomFlatButton(
+                                        // minWidth: 0,
                                         padding: EdgeInsets.only(left: 12, right: 12),
                                         color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
                                         shape: RoundedRectangleBorder(
@@ -196,8 +197,8 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                                      child: FlatButton(
-                                        minWidth: 0,
+                                      child: CustomFlatButton(
+                                        // minWidth: 0,
                                         padding: EdgeInsets.only(left: 12, right: 12),
                                         color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.white,
                                         shape: RoundedRectangleBorder(
@@ -226,7 +227,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                                     ),
                                     // Padding(
                                     //   padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                                    //   child: FlatButton(
+                                    //   child: CustomFlatButton(
                                     //     minWidth: 0,
                                     //     padding: EdgeInsets.only(left: 12, right: 12),
                                     //     color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,
@@ -303,8 +304,8 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                                  child: FlatButton(
-                                    minWidth: 0,
+                                  child: CustomFlatButton(
+                                    // minWidth: 0,
                                     padding: EdgeInsets.only(left: 12, right: 12),
                                     color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
                                     shape: RoundedRectangleBorder(
@@ -333,8 +334,8 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                                  child: FlatButton(
-                                    minWidth: 0,
+                                  child: CustomFlatButton(
+                                    // minWidth: 0,
                                     padding: EdgeInsets.only(left: 12, right: 12),
                                     color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
                                     shape: RoundedRectangleBorder(
@@ -364,8 +365,8 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                                  child: FlatButton(
-                                    minWidth: 0,
+                                  child: CustomFlatButton(
+                                    // minWidth: 0,
                                     padding: EdgeInsets.only(left: 12, right: 12),
                                     color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.white,
                                     shape: RoundedRectangleBorder(
@@ -394,7 +395,7 @@ class _MerchantOrdersInfoSubsState extends State<MerchantOrdersInfoSubs> {
                                 ),
                                 // Padding(
                                 //   padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                                //   child: FlatButton(
+                                //   child: CustomFlatButton(
                                 //     minWidth: 0,
                                 //     padding: EdgeInsets.only(left: 12, right: 12),
                                 //     color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,

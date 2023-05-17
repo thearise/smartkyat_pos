@@ -25,6 +25,7 @@ import 'package:smartkyat_pos/pages2/homepage_off.dart';
 import 'package:smartkyat_pos/src/app.dart';
 import 'package:smartkyat_pos/src/screens/login.dart';
 import 'package:smartkyat_pos/src/screens/verify.dart';
+import 'package:smartkyat_pos/widgets/custom_flat_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../app_theme.dart';
@@ -671,7 +672,7 @@ class _BlocWeekOverviewOffState extends State<BlocWeekOverviewOff>
                       minWidth: width,
                       splashColor: Colors.transparent,
                       height: 50,
-                      child: FlatButton(
+                      child: CustomFlatButton(
                         color: AppTheme.buttonColor2,
                         shape: RoundedRectangleBorder(
                           borderRadius:
@@ -1029,7 +1030,7 @@ class _BlocWeekOverviewOffState extends State<BlocWeekOverviewOff>
                       minWidth: width,
                       splashColor: Colors.transparent,
                       height: 50,
-                      child: FlatButton(
+                      child: CustomFlatButton(
                         color: AppTheme.buttonColor2,
                         shape: RoundedRectangleBorder(
                           borderRadius:
@@ -1442,7 +1443,7 @@ class _BlocWeekOverviewOffState extends State<BlocWeekOverviewOff>
       return iosDeviceInfo.identifierForVendor; // unique ID on iOS
     } else {
       var androidDeviceInfo = await deviceInfo.androidInfo;
-      return androidDeviceInfo.androidId; // unique ID on Android
+      return androidDeviceInfo.id; // unique ID on Android
     }
   }
 

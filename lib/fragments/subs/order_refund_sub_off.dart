@@ -15,6 +15,7 @@ import 'package:smartkyat_pos/fragments/choose_store_fragment.dart';
 import 'package:smartkyat_pos/main.dart';
 import 'package:smartkyat_pos/models/order.dart';
 import 'package:smartkyat_pos/models/ordprod.dart';
+import 'package:smartkyat_pos/widgets/custom_flat_button.dart';
 import 'package:smartkyat_pos/widgets_small/top80_app_bar.dart';
 
 import '../../app_theme.dart';
@@ -159,949 +160,949 @@ class _OrderRefundsSubState extends State<OrderRefundsSub>
 
                   // orderDateId(widget.data)
                   if (widget.docId != null && widget.docId != '')
-                    StreamBuilder<SaleOrder?>(
-                        stream: objectbox.getOrder(int.parse(widget.docId)),
-                        builder: (BuildContext context, snapshot) {
-                          if(snapshot.data!=null) {
-                            SaleOrder saleOrder = snapshot.data ?? SaleOrder(
-                                0,0,0,0,false,0,''
-                            );
-                            // var output5 = snapshot2.data!.data();
-                            // debugPrint(output1?['subs'].toString());
-                            // List prodList = output5?['subs'];
-                            List<OrdProd> prodListObj = saleOrder.ordProds;
-                            List<String> prodList = [];
-                            for (int i=0; i < prodListObj.length; i++) {
-                              prodList.add(
-                                  prodListObj[i].id.toString() + '^' +
-                                      prodListObj[i].name + '^' +
-                                      prodListObj[i].text.toString() + '^' +
-                                      prodListObj[i].quantity.toString() + '^' +
-                                      prodListObj[i].sale.toString() + '^' +
-                                      prodListObj[i].uname.toString() + '^' +
-                                      prodListObj[i].buy.toString() + '^' +
-                                      prodListObj[i].refquant.toString() + '^'
-                              );
-                              debugPrint('offline sub prodlist ' + prodListObj[i].uname + ' --> ' + prodListObj[i].text);
-                            }
-
-                            List prodListBefore = widget.data2;
-                            prodListView = [];
-                            prodListView.add(prodList[0]);
-
-                            double ttlQtity = double.parse(prodList[0].split('^')[3]);
-                            double ttlRefun = double.parse(prodList[0].split('^')[3]);
-                            for (int j=1;j< prodList.length; j++) {
-                              int k = prodListView.length-1;
-                              if(prodList[j].split('^')[0] == prodListView[k].split('^')[0] && prodList[j].split('^')[5] == prodListView[k].split('^')[5]) {
-                                ttlQtity += double.parse(prodList[j].split('^')[3]);
-                                ttlRefun += double.parse(prodList[j].split('^')[7]);
-                                prodListView[k] = prodListView[k].split('^')[0] + '^' + prodListView[k].split('^')[1] + '^' + prodListView[k].split('^')[2] + '^' + ttlQtity.toString() + '^' +
-                                    prodListView[k].split('^')[4] + '^' + prodListView[k].split('^')[5] + '^' + prodListView[k].split('^')[6] + '^' + (int.parse(prodListView[k].split('^')[7])+int.parse(prodList[j].split('^')[7])).toString() + '^' +
-                                    prodListView[k].split('^')[8] ;
-                              } else {
-                                prodListView.add(prodList[j]);
-                                ttlQtity = double.parse(prodList[j].split('^')[3]);
-                                ttlRefun += double.parse(prodList[j].split('^')[7]);
-                              }
-                            }
-
-                            if (!initAttempt) {
-                              for (int i = 0; i < prodListView.length; i++) {
-                                // refundItems[i] = int.parse(prodList[i].split('^')[5]);
-                                refundItems
-                                    .add(double.parse(prodListView[i].split('^')[7]));
-                                deffItems
-                                    .add(double.parse(prodListView[i].split('^')[7]));
-                              }
-                              initAttempt = true;
-                            }
-
-                            return Expanded(
-                              child: Column(
-                                children: [
-                                  Expanded(
-                                    child: ListView(
-                                      padding: const EdgeInsets.all(0.0),
-                                      children: [
-                                        for (int i = 0; i < prodListView.length; i++)
-                                          Container(
-                                            color: Colors.white,
-                                            child: Stack(
-                                              children: [
-                                                Container(
-                                                  color: Colors.white,
-                                                  child: Column(
-                                                    children: [
-                                                      SizedBox(
-                                                          height: 10.5),
-                                                      ListTile(
-                                                        leading: ClipRRect(
-                                                          borderRadius:
-                                                          BorderRadius
-                                                              .circular(
-                                                              5.0),
-                                                          child: Image
-                                                              .asset(
-                                                              'assets/system/default-product.png',
-                                                              height: 58,
-                                                              width: 58),),
-                                                        title: Tooltip(
-                                                          message: prodListView[i]
-                                                              .split(
-                                                              '^')[1],
-                                                          // preferOri: PreferOrientation.up,
-                                                          // isShow: false,
-                                                          child: Text(
-                                                            prodListView[i]
-                                                                .split(
-                                                                '^')[1],
-                                                            maxLines: 1,  textScaleFactor: 1,
-                                                            style:
-                                                            TextStyle(
-                                                              fontWeight: FontWeight
-                                                                  .w500,
-                                                              fontSize: 16,
-                                                              height: 1.3,
-                                                              overflow: TextOverflow
-                                                                  .ellipsis,),
-                                                          ),
-                                                        ),
-                                                        subtitle: Padding(
-                                                            padding: const EdgeInsets
-                                                                .only(
-                                                                top: 4.0),
-                                                            child: Row(
-                                                              children: [
-                                                                if (prodListView[i]
-                                                                    .split(
-                                                                    '^')[5] ==
-                                                                    'unit_name') Icon(
-                                                                  SmartKyat_POS
-                                                                      .prodm,
-                                                                  size: 17,
-                                                                  color: Colors
-                                                                      .grey,)
-                                                                else
-                                                                  if(prodListView[i]
-                                                                      .split(
-                                                                      '^')[5] ==
-                                                                      'sub1_name')Icon(
-                                                                    SmartKyat_POS
-                                                                        .prods1,
-                                                                    size: 17,
-                                                                    color: Colors
-                                                                        .grey,)
-                                                                  else
-                                                                    Icon(
-                                                                      SmartKyat_POS
-                                                                          .prods2,
-                                                                      size: 17,
-                                                                      color: Colors
-                                                                          .grey,),
-                                                                Text(
-                                                                    ' ' +
-                                                                        prodListView[i]
-                                                                            .split(
-                                                                            '^')[2] +
-                                                                        ' ',  textScaleFactor: 1,
-                                                                    style: TextStyle(
-                                                                        fontSize: 12.5,
-                                                                        fontWeight: FontWeight
-                                                                            .w500,
-                                                                        color: Colors
-                                                                            .grey,
-                                                                        height: 0.9
-                                                                    )),
-                                                              ],
-                                                            )
-
-
-                                                        ),
-                                                        trailing: Container(
-
-                                                          child: Row(
-                                                            mainAxisSize: MainAxisSize
-                                                                .min,
-                                                            children: [
-                                                              GestureDetector(
-                                                                onTap: () {
-                                                                  if (prodListView[i].split('^')[7] == '0' ||
-                                                                      double.parse(prodListView[i].split('^')[7]) < refundItems[i]) {
-                                                                    setState(() {
-                                                                      if (refundItems[i] <= 0) {} else {
-                                                                        refundItems[i] = refundItems[i] - 1;
-                                                                        quantityCtrlList[i].text = refundItems[i].round().toString();
-                                                                        quantityCtrlList[i]
-                                                                            .selection =
-                                                                            TextSelection
-                                                                                .fromPosition(
-                                                                                TextPosition(
-                                                                                    offset: quantityCtrlList[i]
-                                                                                        .text
-                                                                                        .length));
-                                                                      }
-                                                                    });
-                                                                  }
-                                                                  // debugPrint(
-                                                                  //     'dataRMM' +
-                                                                  //         widget
-                                                                  //             .data
-                                                                  //             .toString());
-                                                                },
-                                                                child: Container(
-                                                                  width: 42,
-                                                                  height: 42,
-                                                                  decoration: BoxDecoration(
-                                                                      borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                          10.0),
-                                                                      color: AppTheme
-                                                                          .buttonColor2),
-                                                                  child: Container(
-                                                                      child: Icon(
-                                                                        Icons
-                                                                            .remove,
-                                                                        size: 20,
-                                                                      )
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              SizedBox(
-                                                                  width: 10),
-                                                              Padding(
-                                                                padding: const EdgeInsets
-                                                                    .only(
-                                                                    top: 0.5),
-                                                                child: Container(
-                                                                  width: 55,
-                                                                  height: 42,
-                                                                  child: TextField(
-                                                                    textAlign: TextAlign
-                                                                        .center,
-                                                                    style: TextStyle(
-                                                                      height: 0.95,
-                                                                      fontSize: 15 / scaleFactor,
-                                                                    ),
-                                                                    decoration: InputDecoration(
-                                                                      enabledBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                                          borderSide: const BorderSide(
-                                                                              color: AppTheme
-                                                                                  .skBorderColor,
-                                                                              width: 2.0),
-                                                                          borderRadius: BorderRadius
-                                                                              .all(
-                                                                              Radius
-                                                                                  .circular(
-                                                                                  10.0))),
-
-                                                                      focusedBorder: const OutlineInputBorder(
-// width: 0.0 produces a thin "hairline" border
-                                                                          borderSide: const BorderSide(
-                                                                              color: AppTheme
-                                                                                  .themeColor,
-                                                                              width: 2.0),
-                                                                          borderRadius: BorderRadius
-                                                                              .all(
-                                                                              Radius
-                                                                                  .circular(
-                                                                                  10.0))),
-                                                                      contentPadding: EdgeInsets
-                                                                          .only(
-                                                                          bottom: 0,
-                                                                          right: 10.0,
-                                                                          left: 10.0),
-                                                                      floatingLabelBehavior: FloatingLabelBehavior
-                                                                          .auto,
-                                                                      //filled: true,
-                                                                      border: OutlineInputBorder(
-                                                                        borderRadius: BorderRadius
-                                                                            .circular(
-                                                                            10),
-                                                                      ),
-                                                                    ),
-                                                                    keyboardType: TextInputType
-                                                                        .numberWithOptions(
-                                                                        decimal: false),
-                                                                    inputFormatters: <
-                                                                        TextInputFormatter>[
-                                                                      FilteringTextInputFormatter
-                                                                          .allow(
-                                                                          RegExp(
-                                                                              _getNum())),
-                                                                    ],
-                                                                    onChanged: (
-                                                                        value) {
-                                                                      setState(() {
-                                                                        if ((double
-                                                                            .parse(
-                                                                            value)) <=
-                                                                            double
-                                                                                .parse(
-                                                                                prodListView[i]
-                                                                                    .split(
-                                                                                    '^')[3])) {
-                                                                          refundItems[i] =
-                                                                              double
-                                                                                  .parse(
-                                                                                  value);
-                                                                          quantityCtrlList[i]
-                                                                              .text =
-                                                                              refundItems[i]
-                                                                                  .round()
-                                                                                  .toString();
-                                                                          quantityCtrlList[i]
-                                                                              .selection =
-                                                                              TextSelection
-                                                                                  .fromPosition(
-                                                                                  TextPosition(
-                                                                                      offset: quantityCtrlList[i]
-                                                                                          .text
-                                                                                          .length));
-                                                                        } else {
-                                                                          refundItems[i] =
-                                                                          refundItems[i];
-                                                                          quantityCtrlList[i]
-                                                                              .text =
-                                                                              refundItems[i]
-                                                                                  .round()
-                                                                                  .toString();
-                                                                          quantityCtrlList[i]
-                                                                              .selection =
-                                                                              TextSelection
-                                                                                  .fromPosition(
-                                                                                  TextPosition(
-                                                                                      offset: quantityCtrlList[i]
-                                                                                          .text
-                                                                                          .length));
-                                                                        }
-                                                                      });
-                                                                    },
-                                                                    controller: quantityCtrlList[i],
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              // Text(refundItems[i].toString(), style: TextStyle(
-                                                              //   fontSize: 14,
-                                                              //   fontWeight: FontWeight.w500,
-                                                              // ),),
-                                                              SizedBox(
-                                                                  width: 10),
-                                                              GestureDetector(
-                                                                onTap: () {
-                                                                  setState(() {
-                                                                    if ((refundItems[i]) >=
-                                                                        double
-                                                                            .parse(
-                                                                            prodListView[i]
-                                                                                .split(
-                                                                                '^')[3])) {} else {
-                                                                      refundItems[i] =
-                                                                          refundItems[i] +
-                                                                              1;
-
-                                                                      quantityCtrlList[i]
-                                                                          .text =
-                                                                          refundItems[i]
-                                                                              .round()
-                                                                              .toString();
-                                                                      quantityCtrlList[i]
-                                                                          .selection =
-                                                                          TextSelection
-                                                                              .fromPosition(
-                                                                              TextPosition(
-                                                                                  offset: quantityCtrlList[i]
-                                                                                      .text
-                                                                                      .length));
-                                                                    }
-                                                                  });
-                                                                },
-                                                                child: Container(
-                                                                  width: 42,
-                                                                  height: 42,
-                                                                  decoration: BoxDecoration(
-                                                                      borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                          10.0),
-                                                                      color: AppTheme
-                                                                          .themeColor),
-                                                                  child: Container(
-                                                                      child: Icon(
-                                                                        Icons
-                                                                            .add,
-                                                                        size: 20,
-                                                                      )
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding: const EdgeInsets
-                                                            .only(
-                                                            left: 15.0),
-                                                        child: Container(
-                                                          height: 12,
-                                                          decoration: BoxDecoration(
-                                                              border: Border(
-                                                                bottom:
-                                                                BorderSide(
-                                                                    color: AppTheme
-                                                                        .skBorderColor2,
-                                                                    width: 1.0),
-                                                              )),),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                Positioned(
-                                                  top: 10,
-                                                  left: 50,
-                                                  child: Container(
-                                                    height: 20,
-                                                    width: 30,
-                                                    alignment: Alignment
-                                                        .center,
-                                                    decoration: BoxDecoration(
-                                                        color: AppTheme
-                                                            .skBorderColor2,
-                                                        borderRadius:
-                                                        BorderRadius
-                                                            .circular(
-                                                            10.0),
-                                                        border: Border
-                                                            .all(
-                                                          color: Colors
-                                                              .white,
-                                                          width: 2,
-                                                        )),
-                                                    child: Text(double
-                                                        .parse(
-                                                        prodListView[i]
-                                                            .split(
-                                                            '^')[3])
-                                                        .round()
-                                                        .toString(),  textScaleFactor: 1,
-                                                        style: TextStyle(
-                                                          fontSize: 11,
-                                                          fontWeight: FontWeight
-                                                              .w500,
-                                                        )),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ListTile(
-                                          title: Text(
-                                            textSetTtlRefund, textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 17,
-                                                fontWeight: FontWeight.w500
-                                            ),
-                                          ),
-                                          subtitle: totalItems() == 1? Text(totalItems().round().toString() + ' item',
-                                              textScaleFactor: 1, style: TextStyle(
-                                                fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-                                              )) : Text(totalItems().toString() + ' items',
-                                              textScaleFactor: 1, style: TextStyle(
-                                                fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-                                              )),
-                                          trailing: Text('$currencyUnit '+
-                                              totalPriceView().toStringAsFixed(2).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                            textScaleFactor: 1, style: TextStyle(
-                                                fontSize: 17,
-                                                fontWeight:
-                                                FontWeight
-                                                    .w500),
-                                          ),
-                                        ),
-                                        ListTile(
-                                          title: Text(
-                                            textSetTtlRefundAmount,  textScaleFactor: 1,
-                                            style: TextStyle(
-                                                fontSize: 17,
-                                                fontWeight:
-                                                FontWeight
-                                                    .w500),
-                                          ),
-                                          subtitle: totalItems() == 1? Text(totalItems().round().toString() + ' item',
-                                              textScaleFactor: 1, style: TextStyle(
-                                                fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-                                              )) : Text(totalItems().toString() + ' items',  textScaleFactor: 1,
-                                              style: TextStyle(
-                                                fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
-                                              )),
-                                          trailing: Text('$currencyUnit '+
-                                              totalRefund().toStringAsFixed(2).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
-                                            textScaleFactor: 1, style: TextStyle(
-                                                fontSize: 17,
-                                                fontWeight:
-                                                FontWeight
-                                                    .w500),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Align(
-                                    alignment: Alignment.bottomCenter,
-                                    child: Padding(
-                                      // padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.width > 900 ? homeBotPadding + 20: homeBotPadding),
-                                      padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.width > 900 ? 0 + 20: homeBotPadding),
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0, bottom: 15.0),
-                                        child:  ButtonTheme(
-                                          minWidth: MediaQuery.of(context).size.width,
-                                          splashColor: Colors.transparent,
-                                          height: 50,
-                                          child: FlatButton(
-                                            color: AppTheme.skThemeColor,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                              BorderRadius.circular(10.0),
-                                              side: BorderSide(
-                                                color: AppTheme.skThemeColor,
-                                              ),
-                                            ),
-                                            onPressed: ()  async {
-                                              WriteBatch batch = FirebaseFirestore.instance.batch();
-                                              DateTime now = DateTime.now();
-                                              if (calHourFromTZ(now).toString() != "390") {
-                                                await showOkAlertDialog(
-                                                  context: context,
-                                                  title:  'Unsupported TimeZone!',
-                                                  message:
-                                                  'Currently, only Myanmar TimeZone (UTC +6:30) is supported.',
-                                                  okLabel: 'OK',
-                                                );
-                                              }
-                                              else {
-                                                setState(() {
-                                                  loadingState = true;
-                                                  disableTouch = true;
-                                                });
-                                                openOverAllSubLoading();
-                                                double total = 0;
-                                                double total2 = 0;
-                                                bool refund = false;
-                                                var monthId = '';
-                                                bool monthExist = false;
-                                                var yearId = '';
-                                                bool yearExist = false;
-
-                                                List<String> ref2Cust = [];
-                                                List<String> ref2Shop = [];
-                                                for (int i = 0; i < refundItems.length; i++) {
-                                                  prodListView[i] = prodListView[i].split('^')[0] + '^' + prodListView[i].split('^')[1] + '^' + prodListView[i].split('^')[2] + '^' +
-                                                      prodListView[i].split('^')[3] + '^' + prodListView[i].split('^')[4] + '^' + prodListView[i].split('^')[5] + '^' +
-                                                      prodListView[i].split('^')[6] +
-                                                      '^' +
-                                                      refundItems[i].toString() +
-                                                      '^' +
-                                                      prodListView[i].split('^')[8];
-                                                  total += (double.parse(prodListView[i]
-                                                      .split('^')[3]) -
-                                                      refundItems[i]) *
-                                                      double.parse(prodListView[i].split('^')[4]);
-
-                                                  total2 += (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[6]);
-
-                                                  if (refundItems[i] > 0) {
-                                                    refund = true;
-                                                  }
-
-                                                  // debugPrint('unit _name' + prodListView[i]);
-                                                  //debugPrint('unit ' + deffItems[i].toString() + ' ' + refundItems[i].toString() + (deffItems[i] - refundItems[i]).toString());
-
-                                                  ref2Cust = [];
-                                                  ref2Shop = [];
-                                                  for(int i=0; i < deffItems.length; i++) {
-                                                    if(deffItems[i] - refundItems[i] < 0) {
-                                                      //  debugPrint('ref to shop ' + prodListView[i].split('^')[3] + ' ' + prodListView[i].split('^')[5]);
-                                                      ref2Shop.add(prodListView[i].split('^')[0] + '^' + prodListView[i].split('^')[1] + '^' + (deffItems[i] - refundItems[i]).abs().toString() + '^' + prodListView[i].split('^')[5]);
-                                                    } else if(deffItems[i] - refundItems[i] > 0) {
-                                                      //   debugPrint('ref to cust ' + prodListView[i].split('^')[3] + ' ' + prodListView[i].split('^')[5]);
-                                                    }
-                                                  }
-                                                }
-
-                                                // debugPrint('che ' + ref2Shop.toString());
-                                                // debugPrint('che2 ' + prodListView.toString());
-                                                //
-                                                // debugPrint('prodList 5  1 ' + total.toString() + ' ' + prodList.toString());
-
-                                                if(widget.data.split('^')[6] != '0.0') {
-                                                  if(widget.data.split('^')[6].split('-')[1] == 'p') {
-                                                    total = total - (total * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100));
-                                                  } else {
-                                                    total = total - (total * (double.parse(widget.data.split('^')[6].split('-')[0])/widget.realPrice));
-                                                  }
-                                                }
-                                                // debugPrint('result__ 3' + total.toString());
-                                                // debugPrint('prodListBef 1 ' + prodListBefore.toString());
-
-                                                for(int i=0; i < prodListView.length; i++) {
-                                                  // int.parse(ref2Shop[i].split('^')[2])
-                                                  double value = double.parse(prodListView[i].split('^')[7]);
-                                                  String prodId = prodListView[i].split('^')[0];
-                                                  String prodTp = prodListView[i].split('^')[5];
-
-                                                  // debugPrint(prodId + ' ' + prodTp);
-
-                                                  for(int j=0; j< prodList.length; j++) {
-                                                    //  debugPrint('debuug ' + i.toString() + ' ' + j.toString() + ' ' + value.toString());
-                                                    double refund = 0;
-
-                                                    if(prodId == prodList[j].split('^')[0] && prodTp == prodList[j].split('^')[5] && value <= double.parse(prodList[j].split('^')[3])) {
-                                                      refund = value - double.parse(prodList[j].split('^')[7]);
-                                                      //  debugPrint('refun ' + refund.toString() + ' ' + value.toString() + ' ' + prodList[j].split('^')[7]);
-                                                      prodList[j] = prodList[j].split('^')[0] + '^' + prodList[j].split('^')[1] + '^' + prodList[j].split('^')[2] + '^' + prodList[j].split('^')[3] + '^' + prodList[j].split('^')[4] + '^' + prodList[j].split('^')[5] + '^' + prodList[j].split('^')[6] + '^' +
-                                                          value.toString() + '^' + prodList[j].split('^')[8];
-                                                      break;
-                                                    } else if (prodId == prodList[j].split('^')[0] && prodTp == prodList[j].split('^')[5] && value > int.parse(prodList[j].split('^')[3])) {
-                                                      refund = value - int.parse(prodList[j].split('^')[7]);
-                                                      //   debugPrint('refun ' + refund.toString() + ' ' + value.toString() + ' ' + prodList[j].split('^')[7]);
-                                                      prodList[j] = prodList[j].split('^')[0] + '^' + prodList[j].split('^')[1] + '^' + prodList[j].split('^')[2] + '^' + prodList[j].split('^')[3] + '^' + prodList[j].split('^')[4] + '^' + prodList[j].split('^')[5] + '^' + prodList[j].split('^')[6] + '^' +
-                                                          prodList[j].split('^')[3] + '^' + prodList[j].split('^')[8];
-                                                      value = value - int.parse(prodList[j].split('^')[3]);
-                                                    }
-                                                  }
-                                                }
-
-                                                // debugPrint('prodList 5  2 ' + total.toString() + ' ' + prodList.toString());
-                                                // debugPrint('prodListBef 2 ' + prodListBefore.toString());
-                                                List prodRets = prodList;
-                                                DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodSaleData').doc(widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8));
-                                                DocumentReference prodsMonthly = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodMthData').doc(widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6));
-                                                DocumentReference prodsYearly = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodYearData').doc(widget.data.split('^')[0].substring(0,4));
-                                                bool refCondition = false;
-                                                for(int i=0; i < prodList.length; i++) {
-                                                  double refNum = double.parse(prodList[i].split('^')[7]) - double.parse(prodListBefore[i].split('^')[7]);
-                                                  if(refNum > 0) {
-                                                    refCondition = true;
-                                                    FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr')
-                                                        .get()
-                                                        .then((DocumentSnapshot documentSnapshot) async {
-                                                      if (documentSnapshot.exists) {
-                                                        documentSnapshot['prods'].forEach((key, value) async {
-                                                          if(key.toString() ==  prodList[i].split('^')[0].toString()) {
-                                                            double chgDiscount = 0;
-                                                            double ttlNewPrice = 0;
-
-                                                            ttlNewPrice = (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[4]);
-
-                                                            if(widget.data.split('^')[6] != '0.0') {
-                                                              if(widget.data.split('^')[6].split('-')[1] == 'p') {
-                                                                chgDiscount =  (ttlNewPrice * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100));
-                                                              } else {
-                                                                chgDiscount = (ttlNewPrice * (double.parse(widget.data.split('^')[6].split('-')[0])/widget.realPrice));
-                                                              }
-                                                            }
-
-                                                            batch = await updateProduct(batch, prodList[i].split('^')[0], prodList[i].split('^')[5], refNum);
-
-                                                            batch.set(
-                                                                prodsArr,
-                                                                {
-                                                                  'prods': {
-                                                                    prodList[i].split('^')[0].toString(): {
-                                                                      changeUnitName2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - double.parse(refNum.toString())),
-                                                                      changeSaleUnit2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[4])),
-                                                                      changeBuyUnit2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[6])),
-                                                                      changeRefName2Stock(prodList[i].split('^')[5]): FieldValue.increment(double.parse(refNum.toString())),
-                                                                      changeDisName2Stock(prodList[i].split('^')[5]): FieldValue.increment(0 - chgDiscount),
-
-                                                                    }
-                                                                  }
-                                                                },SetOptions(merge: true)
-                                                            );
-
-                                                            batch.set(
-                                                                prodsMonthly,
-                                                                {
-                                                                  'prods': {
-                                                                    prodList[i].split('^')[0].toString(): {
-                                                                      changeUnitName2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - double.parse(refNum.toString())),
-                                                                      changeSaleUnit2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[4])),
-                                                                      changeBuyUnit2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[6])),
-                                                                      changeRefName2Stock(prodList[i].split('^')[5]): FieldValue.increment(double.parse(refNum.toString())),
-                                                                      changeDisName2Stock(prodList[i].split('^')[5]): FieldValue.increment(0 - chgDiscount),
-                                                                    }
-                                                                  }
-                                                                },SetOptions(merge: true)
-                                                            );
-
-                                                            batch.set(
-                                                                prodsYearly,
-                                                                {
-                                                                  'prods': {
-                                                                    prodList[i].split('^')[0].toString(): {
-                                                                      changeUnitName2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - double.parse(refNum.toString())),
-                                                                      changeSaleUnit2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[4])),
-                                                                      changeBuyUnit2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[6])),
-                                                                      changeRefName2Stock(prodList[i].split('^')[5]): FieldValue.increment(double.parse(refNum.toString())),
-                                                                      changeDisName2Stock(prodList[i].split('^')[5]): FieldValue.increment(0 - chgDiscount),
-                                                                    }
-                                                                  }
-                                                                },SetOptions(merge: true)
-                                                            );
-                                                          }
-                                                        });
-
-
-                                                      }
-                                                    });
-                                                    // var docSnapshot = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId)
-                                                    //     .collection('products').doc(prodList[i].split('^')[0]).get();
-                                                    // if (docSnapshot.exists) {
-
-                                                    // }
-                                                  }
-                                                }
-
-                                                double debt = double.parse(widget.data.split('^')[5]);
-                                                String refundAmount = 'F';
-                                                bool reFilter = false;
-                                                bool deFilter = false;
-                                                double paidAmount = 0 ;
-                                                paidAmount = (double.parse(widget.data.split('^')[2]) - double.parse(widget.data.split('^')[5]));
-
-                                                if(paidAmount != 0 && total !=0 && total > paidAmount) {
-                                                  debt = double.parse(widget.data.split('^')[5]) - (double.parse(widget.data.split('^')[2]) - total);
-                                                  print('paid shi tl' + total.toString() + ' '+paidAmount.toString());
-                                                } else if(paidAmount != 0 && total !=0 && total <= paidAmount) {
-                                                  debt = 0 ;
-                                                }
-                                                else {
-                                                  debt = total;
-                                                }
-
-                                                double ttlR = 0.0;
-                                                double ttlQ = 0.0;
-                                                for (int i = 0; i < prodList.length; i++) {
-                                                  ttlR += double.parse(prodList[i].split('^')[7]);
-                                                  ttlQ += double.parse(prodList[i].split('^')[3]);
-                                                }
-
-                                                //    debugPrint('totalTest ' + ttlR.toString() + ' ' +ttlQ.toString());
-                                                if (ttlR.toString()  != '0' &&  ttlR == ttlQ) {
-                                                  refundAmount = 'T';
-                                                  reFilter = true;
-                                                }
-                                                if (ttlR.toString()  != '0'  &&  ttlR != ttlQ) {
-                                                  refundAmount = 'P';
-                                                  reFilter = true;
-                                                }
-                                                int totalRefunds = 0;
-                                                double chgDebts = 0;
-                                                int ttlDebts = 0;
-                                                double chgTotal = 0;
-                                                double chgCapital = 0;
-
-                                                // debugPrint('leesin ' +widget.data.split('^')[4].toString());
-
-
-                                                if (double.parse(widget.data.split('^')[5]) != debt) {
-                                                  chgDebts = double.parse(widget.data.split('^')[5]) - debt;
-                                                } else {
-                                                  chgDebts = 0;
-                                                }
-
-                                                if (double.parse(widget.data.split('^')[5]) != debt && debt == 0) {
-                                                  ttlDebts = 1;
-                                                } else {
-                                                  ttlDebts = 0;
-                                                }
-
-                                                if (debt == 0) {
-                                                  deFilter = false;
-                                                } else {
-                                                  deFilter = true;
-                                                }
-                                                debugPrint('deFilter' + widget.data.split('^')[5].toString() +' ' + debt.toString() + ' ' + chgDebts.toString());
-
-                                                if(widget.data.split('^')[4] == 'F') {
-                                                  totalRefunds = 1;
-                                                } else {
-                                                  totalRefunds = 0;
-                                                }
-
-                                                if (double.parse(widget.data.split('^')[2]) != total) {
-                                                  chgTotal = double.parse(widget.data.split('^')[2]) - total;
-                                                  chgCapital =  total2;
-                                                } else {
-                                                  chgTotal = 0;
-                                                  chgCapital = 0;
-                                                }
-
-                                                batch = await updateMonthlyData1(batch, widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6), widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'cash_cust', widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'debt_cust', widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'capital', chgTotal, chgDebts, chgCapital);
-                                                batch = await updateYearlyData1(batch, widget.data.split('^')[0].substring(0,4), widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'cash_cust',  widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'debt_cust',   widget.data.split('^')[0].substring(0,4) +  widget.data.split('^')[0].substring(4,6)  + 'capital', chgTotal, chgDebts, chgCapital);
-
-
-                                                if(widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) != now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString())) {
-                                                  batch = await updateMonthlyData2(batch,
-                                                      now.year.toString() +
-                                                          zeroToTen(now.month.toString()),
-                                                      now.year.toString() +
-                                                          zeroToTen(now.month.toString()) +
-                                                          zeroToTen(now.day.toString()) + 'refu_cust',
-                                                      chgTotal);
-                                                  batch = await updateYearlyData2(batch, now.year.toString(), now.year.toString() +  zeroToTen(now.month.toString())  + 'refu_cust', chgTotal);
-
-                                                }
-
-                                                String data = widget.data;
-
-                                                String noCustomer = '';
-                                                if(data.split('^')[3].split('&')[0] == 'No customer') {
-                                                  noCustomer = 'name';
-                                                } else {noCustomer = data.split('^')[3].split('&')[0];}
-
-                                                String dataRm = data.split('^')[0] +
-                                                    '^' +
-                                                    data.split('^')[1] +
-                                                    '^' +
-                                                    data.split('^')[2] +
-                                                    '^' +
-                                                    data.split('^')[3].split('&')[1] + '<>' + noCustomer +
-                                                    '^' +
-                                                    data.split('^')[4] + '^' + data.split('^')[5] + '^' + data.split('^')[6];
-
-                                                data = data.split('^')[0] +
-                                                    '^' +
-                                                    data.split('^')[1] +
-                                                    '^' +
-                                                    total.toString() +
-                                                    '^' +
-                                                    data.split('^')[3].split('&')[1] + '<>' + noCustomer +
-                                                    '^' +
-                                                    refundAmount + '^' + debt.toString() + '^' + data.split('^')[6];
-
-                                                batch = await updateDailyOrder(batch, widget.documentId, dataRm, data);
-                                                //
-                                                // debugPrint('text' + widget.docId + prodList.toString() +total.toString() +refundAmount.toString() + debt.toString()+ reFilter.toString()+ deFilter.toString());
-                                                batch = await updateOrderDetail(batch, widget.docId, prodList, total, refundAmount, debt, reFilter, deFilter);
-                                                //
-
-                                                FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('cusArr')
-                                                    .get()
-                                                    .then((DocumentSnapshot documentSnapshot) async {
-                                                  if (documentSnapshot.exists) {
-                                                    documentSnapshot['cus'].forEach((key, value) async {
-                                                      debugPrint('custom ' +  widget.data.split('^')[3].split('&')[0].toString());
-                                                      if(key.toString() ==  widget.data.split('^')[3].split('&')[1].toString()) {
-                                                        batch = await updateRefund(batch, widget.data.split('^')[3].split('&')[1], totalRefunds, ttlDebts, chgDebts);
-                                                      }
-                                                    });
-                                                  }
-                                                  if( widget.data.split('^')[3].split('&')[1] == 'name') {
-                                                    batch = await updateRefund(batch, widget.data.split('^')[3].split('&')[1], totalRefunds, ttlDebts, chgDebts);
-                                                  }
-
-                                                  try{
-
-                                                    print('refNum ' + refCondition.toString());
-                                                    if(refCondition) {
-                                                      batch.commit();
-                                                      Future.delayed(
-                                                          const Duration(
-                                                              milliseconds: 2000), () {
-                                                        setState(() {
-                                                          loadingState = false;
-                                                          disableTouch = false;
-                                                        });
-                                                        closeOverAllSubLoading();
-                                                        Navigator.of(context)
-                                                            .popUntil((route) =>
-                                                        route.isFirst);
-                                                        smartKyatFlash(
-                                                            '$currencyUnit' +
-                                                                totalRefund()
-                                                                    .toString() +
-                                                                'is successfully refunded to #' +
-                                                                widget.data
-                                                                    .split(
-                                                                    '^')[1]
-                                                                    .toString(),
-                                                            's');
-                                                      });
-                                                    } else {
-                                                      Future.delayed(
-                                                          const Duration(
-                                                              milliseconds: 2000), () {
-                                                        setState(() {
-                                                          loadingState = false;
-                                                          disableTouch = false;
-                                                        });
-                                                        closeOverAllSubLoading();
-                                                        // Navigator.of(context)
-                                                        //     .popUntil((route) =>
-                                                        // route.isFirst);
-                                                        smartKyatFlash(
-                                                            'To make a refund, please select an item first.',
-                                                            'w');
-                                                      });
-                                                    }
-                                                  }
-                                                  catch(error) {
-                                                    smartKyatFlash('An error occurred while creating order. Please try again later.', 'e');
-                                                    setState(() {
-                                                      loadingState = false;
-                                                      disableTouch = false;
-                                                    });
-                                                    closeOverAllSubLoading();
-                                                  }
-                                                });
-                                              }
-                                            },
-                                            child:  loadingState == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                                child: CupertinoActivityIndicator(radius: 10,)) : Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 8.0,
-                                                  right: 8.0,
-                                                  bottom: 2.0),
-                                              child: Container(
-                                                child: Text(
-                                                  textSetRefundBtn,  textScaleFactor: 1,
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      fontSize: 18,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: Colors.black),
-                                                  strutStyle: StrutStyle(
-                                                    height: 1.3,
-                                                    // fontSize:,
-                                                    forceStrutHeight: true,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          }
-
-                          return Expanded(
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.only(bottom: 15.0),
-                                child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
-                                    child: CupertinoActivityIndicator(radius: 15,)),
-                              ),
-                            ),
-                          );
-                        }),
+//                     StreamBuilder<SaleOrder?>(
+//                         stream: objectbox.getOrder(int.parse(widget.docId)),
+//                         builder: (BuildContext context, snapshot) {
+//                           if(snapshot.data!=null) {
+//                             SaleOrder saleOrder = snapshot.data ?? SaleOrder(
+//                                 0,0,0,0,false,0,''
+//                             );
+//                             // var output5 = snapshot2.data!.data();
+//                             // debugPrint(output1?['subs'].toString());
+//                             // List prodList = output5?['subs'];
+//                             List<OrdProd> prodListObj = saleOrder.ordProds;
+//                             List<String> prodList = [];
+//                             for (int i=0; i < prodListObj.length; i++) {
+//                               prodList.add(
+//                                   prodListObj[i].id.toString() + '^' +
+//                                       prodListObj[i].name + '^' +
+//                                       prodListObj[i].text.toString() + '^' +
+//                                       prodListObj[i].quantity.toString() + '^' +
+//                                       prodListObj[i].sale.toString() + '^' +
+//                                       prodListObj[i].uname.toString() + '^' +
+//                                       prodListObj[i].buy.toString() + '^' +
+//                                       prodListObj[i].refquant.toString() + '^'
+//                               );
+//                               debugPrint('offline sub prodlist ' + prodListObj[i].uname + ' --> ' + prodListObj[i].text);
+//                             }
+//
+//                             List prodListBefore = widget.data2;
+//                             prodListView = [];
+//                             prodListView.add(prodList[0]);
+//
+//                             double ttlQtity = double.parse(prodList[0].split('^')[3]);
+//                             double ttlRefun = double.parse(prodList[0].split('^')[3]);
+//                             for (int j=1;j< prodList.length; j++) {
+//                               int k = prodListView.length-1;
+//                               if(prodList[j].split('^')[0] == prodListView[k].split('^')[0] && prodList[j].split('^')[5] == prodListView[k].split('^')[5]) {
+//                                 ttlQtity += double.parse(prodList[j].split('^')[3]);
+//                                 ttlRefun += double.parse(prodList[j].split('^')[7]);
+//                                 prodListView[k] = prodListView[k].split('^')[0] + '^' + prodListView[k].split('^')[1] + '^' + prodListView[k].split('^')[2] + '^' + ttlQtity.toString() + '^' +
+//                                     prodListView[k].split('^')[4] + '^' + prodListView[k].split('^')[5] + '^' + prodListView[k].split('^')[6] + '^' + (int.parse(prodListView[k].split('^')[7])+int.parse(prodList[j].split('^')[7])).toString() + '^' +
+//                                     prodListView[k].split('^')[8] ;
+//                               } else {
+//                                 prodListView.add(prodList[j]);
+//                                 ttlQtity = double.parse(prodList[j].split('^')[3]);
+//                                 ttlRefun += double.parse(prodList[j].split('^')[7]);
+//                               }
+//                             }
+//
+//                             if (!initAttempt) {
+//                               for (int i = 0; i < prodListView.length; i++) {
+//                                 // refundItems[i] = int.parse(prodList[i].split('^')[5]);
+//                                 refundItems
+//                                     .add(double.parse(prodListView[i].split('^')[7]));
+//                                 deffItems
+//                                     .add(double.parse(prodListView[i].split('^')[7]));
+//                               }
+//                               initAttempt = true;
+//                             }
+//
+//                             return Expanded(
+//                               child: Column(
+//                                 children: [
+//                                   Expanded(
+//                                     child: ListView(
+//                                       padding: const EdgeInsets.all(0.0),
+//                                       children: [
+//                                         for (int i = 0; i < prodListView.length; i++)
+//                                           Container(
+//                                             color: Colors.white,
+//                                             child: Stack(
+//                                               children: [
+//                                                 Container(
+//                                                   color: Colors.white,
+//                                                   child: Column(
+//                                                     children: [
+//                                                       SizedBox(
+//                                                           height: 10.5),
+//                                                       ListTile(
+//                                                         leading: ClipRRect(
+//                                                           borderRadius:
+//                                                           BorderRadius
+//                                                               .circular(
+//                                                               5.0),
+//                                                           child: Image
+//                                                               .asset(
+//                                                               'assets/system/default-product.png',
+//                                                               height: 58,
+//                                                               width: 58),),
+//                                                         title: Tooltip(
+//                                                           message: prodListView[i]
+//                                                               .split(
+//                                                               '^')[1],
+//                                                           // preferOri: PreferOrientation.up,
+//                                                           // isShow: false,
+//                                                           child: Text(
+//                                                             prodListView[i]
+//                                                                 .split(
+//                                                                 '^')[1],
+//                                                             maxLines: 1,  textScaleFactor: 1,
+//                                                             style:
+//                                                             TextStyle(
+//                                                               fontWeight: FontWeight
+//                                                                   .w500,
+//                                                               fontSize: 16,
+//                                                               height: 1.3,
+//                                                               overflow: TextOverflow
+//                                                                   .ellipsis,),
+//                                                           ),
+//                                                         ),
+//                                                         subtitle: Padding(
+//                                                             padding: const EdgeInsets
+//                                                                 .only(
+//                                                                 top: 4.0),
+//                                                             child: Row(
+//                                                               children: [
+//                                                                 if (prodListView[i]
+//                                                                     .split(
+//                                                                     '^')[5] ==
+//                                                                     'unit_name') Icon(
+//                                                                   SmartKyat_POS
+//                                                                       .prodm,
+//                                                                   size: 17,
+//                                                                   color: Colors
+//                                                                       .grey,)
+//                                                                 else
+//                                                                   if(prodListView[i]
+//                                                                       .split(
+//                                                                       '^')[5] ==
+//                                                                       'sub1_name')Icon(
+//                                                                     SmartKyat_POS
+//                                                                         .prods1,
+//                                                                     size: 17,
+//                                                                     color: Colors
+//                                                                         .grey,)
+//                                                                   else
+//                                                                     Icon(
+//                                                                       SmartKyat_POS
+//                                                                           .prods2,
+//                                                                       size: 17,
+//                                                                       color: Colors
+//                                                                           .grey,),
+//                                                                 Text(
+//                                                                     ' ' +
+//                                                                         prodListView[i]
+//                                                                             .split(
+//                                                                             '^')[2] +
+//                                                                         ' ',  textScaleFactor: 1,
+//                                                                     style: TextStyle(
+//                                                                         fontSize: 12.5,
+//                                                                         fontWeight: FontWeight
+//                                                                             .w500,
+//                                                                         color: Colors
+//                                                                             .grey,
+//                                                                         height: 0.9
+//                                                                     )),
+//                                                               ],
+//                                                             )
+//
+//
+//                                                         ),
+//                                                         trailing: Container(
+//
+//                                                           child: Row(
+//                                                             mainAxisSize: MainAxisSize
+//                                                                 .min,
+//                                                             children: [
+//                                                               GestureDetector(
+//                                                                 onTap: () {
+//                                                                   if (prodListView[i].split('^')[7] == '0' ||
+//                                                                       double.parse(prodListView[i].split('^')[7]) < refundItems[i]) {
+//                                                                     setState(() {
+//                                                                       if (refundItems[i] <= 0) {} else {
+//                                                                         refundItems[i] = refundItems[i] - 1;
+//                                                                         quantityCtrlList[i].text = refundItems[i].round().toString();
+//                                                                         quantityCtrlList[i]
+//                                                                             .selection =
+//                                                                             TextSelection
+//                                                                                 .fromPosition(
+//                                                                                 TextPosition(
+//                                                                                     offset: quantityCtrlList[i]
+//                                                                                         .text
+//                                                                                         .length));
+//                                                                       }
+//                                                                     });
+//                                                                   }
+//                                                                   // debugPrint(
+//                                                                   //     'dataRMM' +
+//                                                                   //         widget
+//                                                                   //             .data
+//                                                                   //             .toString());
+//                                                                 },
+//                                                                 child: Container(
+//                                                                   width: 42,
+//                                                                   height: 42,
+//                                                                   decoration: BoxDecoration(
+//                                                                       borderRadius:
+//                                                                       BorderRadius
+//                                                                           .circular(
+//                                                                           10.0),
+//                                                                       color: AppTheme
+//                                                                           .buttonColor2),
+//                                                                   child: Container(
+//                                                                       child: Icon(
+//                                                                         Icons
+//                                                                             .remove,
+//                                                                         size: 20,
+//                                                                       )
+//                                                                   ),
+//                                                                 ),
+//                                                               ),
+//                                                               SizedBox(
+//                                                                   width: 10),
+//                                                               Padding(
+//                                                                 padding: const EdgeInsets
+//                                                                     .only(
+//                                                                     top: 0.5),
+//                                                                 child: Container(
+//                                                                   width: 55,
+//                                                                   height: 42,
+//                                                                   child: TextField(
+//                                                                     textAlign: TextAlign
+//                                                                         .center,
+//                                                                     style: TextStyle(
+//                                                                       height: 0.95,
+//                                                                       fontSize: 15 / scaleFactor,
+//                                                                     ),
+//                                                                     decoration: InputDecoration(
+//                                                                       enabledBorder: const OutlineInputBorder(
+// // width: 0.0 produces a thin "hairline" border
+//                                                                           borderSide: const BorderSide(
+//                                                                               color: AppTheme
+//                                                                                   .skBorderColor,
+//                                                                               width: 2.0),
+//                                                                           borderRadius: BorderRadius
+//                                                                               .all(
+//                                                                               Radius
+//                                                                                   .circular(
+//                                                                                   10.0))),
+//
+//                                                                       focusedBorder: const OutlineInputBorder(
+// // width: 0.0 produces a thin "hairline" border
+//                                                                           borderSide: const BorderSide(
+//                                                                               color: AppTheme
+//                                                                                   .themeColor,
+//                                                                               width: 2.0),
+//                                                                           borderRadius: BorderRadius
+//                                                                               .all(
+//                                                                               Radius
+//                                                                                   .circular(
+//                                                                                   10.0))),
+//                                                                       contentPadding: EdgeInsets
+//                                                                           .only(
+//                                                                           bottom: 0,
+//                                                                           right: 10.0,
+//                                                                           left: 10.0),
+//                                                                       floatingLabelBehavior: FloatingLabelBehavior
+//                                                                           .auto,
+//                                                                       //filled: true,
+//                                                                       border: OutlineInputBorder(
+//                                                                         borderRadius: BorderRadius
+//                                                                             .circular(
+//                                                                             10),
+//                                                                       ),
+//                                                                     ),
+//                                                                     keyboardType: TextInputType
+//                                                                         .numberWithOptions(
+//                                                                         decimal: false),
+//                                                                     inputFormatters: <
+//                                                                         TextInputFormatter>[
+//                                                                       FilteringTextInputFormatter
+//                                                                           .allow(
+//                                                                           RegExp(
+//                                                                               _getNum())),
+//                                                                     ],
+//                                                                     onChanged: (
+//                                                                         value) {
+//                                                                       setState(() {
+//                                                                         if ((double
+//                                                                             .parse(
+//                                                                             value)) <=
+//                                                                             double
+//                                                                                 .parse(
+//                                                                                 prodListView[i]
+//                                                                                     .split(
+//                                                                                     '^')[3])) {
+//                                                                           refundItems[i] =
+//                                                                               double
+//                                                                                   .parse(
+//                                                                                   value);
+//                                                                           quantityCtrlList[i]
+//                                                                               .text =
+//                                                                               refundItems[i]
+//                                                                                   .round()
+//                                                                                   .toString();
+//                                                                           quantityCtrlList[i]
+//                                                                               .selection =
+//                                                                               TextSelection
+//                                                                                   .fromPosition(
+//                                                                                   TextPosition(
+//                                                                                       offset: quantityCtrlList[i]
+//                                                                                           .text
+//                                                                                           .length));
+//                                                                         } else {
+//                                                                           refundItems[i] =
+//                                                                           refundItems[i];
+//                                                                           quantityCtrlList[i]
+//                                                                               .text =
+//                                                                               refundItems[i]
+//                                                                                   .round()
+//                                                                                   .toString();
+//                                                                           quantityCtrlList[i]
+//                                                                               .selection =
+//                                                                               TextSelection
+//                                                                                   .fromPosition(
+//                                                                                   TextPosition(
+//                                                                                       offset: quantityCtrlList[i]
+//                                                                                           .text
+//                                                                                           .length));
+//                                                                         }
+//                                                                       });
+//                                                                     },
+//                                                                     controller: quantityCtrlList[i],
+//                                                                   ),
+//                                                                 ),
+//                                                               ),
+//                                                               // Text(refundItems[i].toString(), style: TextStyle(
+//                                                               //   fontSize: 14,
+//                                                               //   fontWeight: FontWeight.w500,
+//                                                               // ),),
+//                                                               SizedBox(
+//                                                                   width: 10),
+//                                                               GestureDetector(
+//                                                                 onTap: () {
+//                                                                   setState(() {
+//                                                                     if ((refundItems[i]) >=
+//                                                                         double
+//                                                                             .parse(
+//                                                                             prodListView[i]
+//                                                                                 .split(
+//                                                                                 '^')[3])) {} else {
+//                                                                       refundItems[i] =
+//                                                                           refundItems[i] +
+//                                                                               1;
+//
+//                                                                       quantityCtrlList[i]
+//                                                                           .text =
+//                                                                           refundItems[i]
+//                                                                               .round()
+//                                                                               .toString();
+//                                                                       quantityCtrlList[i]
+//                                                                           .selection =
+//                                                                           TextSelection
+//                                                                               .fromPosition(
+//                                                                               TextPosition(
+//                                                                                   offset: quantityCtrlList[i]
+//                                                                                       .text
+//                                                                                       .length));
+//                                                                     }
+//                                                                   });
+//                                                                 },
+//                                                                 child: Container(
+//                                                                   width: 42,
+//                                                                   height: 42,
+//                                                                   decoration: BoxDecoration(
+//                                                                       borderRadius:
+//                                                                       BorderRadius
+//                                                                           .circular(
+//                                                                           10.0),
+//                                                                       color: AppTheme
+//                                                                           .themeColor),
+//                                                                   child: Container(
+//                                                                       child: Icon(
+//                                                                         Icons
+//                                                                             .add,
+//                                                                         size: 20,
+//                                                                       )
+//                                                                   ),
+//                                                                 ),
+//                                                               ),
+//                                                             ],
+//                                                           ),
+//                                                         ),
+//                                                       ),
+//                                                       Padding(
+//                                                         padding: const EdgeInsets
+//                                                             .only(
+//                                                             left: 15.0),
+//                                                         child: Container(
+//                                                           height: 12,
+//                                                           decoration: BoxDecoration(
+//                                                               border: Border(
+//                                                                 bottom:
+//                                                                 BorderSide(
+//                                                                     color: AppTheme
+//                                                                         .skBorderColor2,
+//                                                                     width: 1.0),
+//                                                               )),),
+//                                                       ),
+//                                                     ],
+//                                                   ),
+//                                                 ),
+//                                                 Positioned(
+//                                                   top: 10,
+//                                                   left: 50,
+//                                                   child: Container(
+//                                                     height: 20,
+//                                                     width: 30,
+//                                                     alignment: Alignment
+//                                                         .center,
+//                                                     decoration: BoxDecoration(
+//                                                         color: AppTheme
+//                                                             .skBorderColor2,
+//                                                         borderRadius:
+//                                                         BorderRadius
+//                                                             .circular(
+//                                                             10.0),
+//                                                         border: Border
+//                                                             .all(
+//                                                           color: Colors
+//                                                               .white,
+//                                                           width: 2,
+//                                                         )),
+//                                                     child: Text(double
+//                                                         .parse(
+//                                                         prodListView[i]
+//                                                             .split(
+//                                                             '^')[3])
+//                                                         .round()
+//                                                         .toString(),  textScaleFactor: 1,
+//                                                         style: TextStyle(
+//                                                           fontSize: 11,
+//                                                           fontWeight: FontWeight
+//                                                               .w500,
+//                                                         )),
+//                                                   ),
+//                                                 ),
+//                                               ],
+//                                             ),
+//                                           ),
+//                                         ListTile(
+//                                           title: Text(
+//                                             textSetTtlRefund, textScaleFactor: 1,
+//                                             style: TextStyle(
+//                                                 fontSize: 17,
+//                                                 fontWeight: FontWeight.w500
+//                                             ),
+//                                           ),
+//                                           subtitle: totalItems() == 1? Text(totalItems().round().toString() + ' item',
+//                                               textScaleFactor: 1, style: TextStyle(
+//                                                 fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+//                                               )) : Text(totalItems().toString() + ' items',
+//                                               textScaleFactor: 1, style: TextStyle(
+//                                                 fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+//                                               )),
+//                                           trailing: Text('$currencyUnit '+
+//                                               totalPriceView().toStringAsFixed(2).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+//                                             textScaleFactor: 1, style: TextStyle(
+//                                                 fontSize: 17,
+//                                                 fontWeight:
+//                                                 FontWeight
+//                                                     .w500),
+//                                           ),
+//                                         ),
+//                                         ListTile(
+//                                           title: Text(
+//                                             textSetTtlRefundAmount,  textScaleFactor: 1,
+//                                             style: TextStyle(
+//                                                 fontSize: 17,
+//                                                 fontWeight:
+//                                                 FontWeight
+//                                                     .w500),
+//                                           ),
+//                                           subtitle: totalItems() == 1? Text(totalItems().round().toString() + ' item',
+//                                               textScaleFactor: 1, style: TextStyle(
+//                                                 fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+//                                               )) : Text(totalItems().toString() + ' items',  textScaleFactor: 1,
+//                                               style: TextStyle(
+//                                                 fontSize: 12.5, fontWeight: FontWeight.w500, color: Colors.grey,
+//                                               )),
+//                                           trailing: Text('$currencyUnit '+
+//                                               totalRefund().toStringAsFixed(2).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},'),
+//                                             textScaleFactor: 1, style: TextStyle(
+//                                                 fontSize: 17,
+//                                                 fontWeight:
+//                                                 FontWeight
+//                                                     .w500),
+//                                           ),
+//                                         ),
+//                                       ],
+//                                     ),
+//                                   ),
+//                                   Align(
+//                                     alignment: Alignment.bottomCenter,
+//                                     child: Padding(
+//                                       // padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.width > 900 ? homeBotPadding + 20: homeBotPadding),
+//                                       padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.width > 900 ? 0 + 20: homeBotPadding),
+//                                       child: Padding(
+//                                         padding: const EdgeInsets.only(top: 15.0, right: 15.0, left:15.0, bottom: 15.0),
+//                                         child:  ButtonTheme(
+//                                           minWidth: MediaQuery.of(context).size.width,
+//                                           splashColor: Colors.transparent,
+//                                           height: 50,
+//                                           child: CustomFlatButton(
+//                                             color: AppTheme.skThemeColor,
+//                                             shape: RoundedRectangleBorder(
+//                                               borderRadius:
+//                                               BorderRadius.circular(10.0),
+//                                               side: BorderSide(
+//                                                 color: AppTheme.skThemeColor,
+//                                               ),
+//                                             ),
+//                                             onPressed: ()  async {
+//                                               WriteBatch batch = FirebaseFirestore.instance.batch();
+//                                               DateTime now = DateTime.now();
+//                                               if (calHourFromTZ(now).toString() != "390") {
+//                                                 await showOkAlertDialog(
+//                                                   context: context,
+//                                                   title:  'Unsupported TimeZone!',
+//                                                   message:
+//                                                   'Currently, only Myanmar TimeZone (UTC +6:30) is supported.',
+//                                                   okLabel: 'OK',
+//                                                 );
+//                                               }
+//                                               else {
+//                                                 setState(() {
+//                                                   loadingState = true;
+//                                                   disableTouch = true;
+//                                                 });
+//                                                 openOverAllSubLoading();
+//                                                 double total = 0;
+//                                                 double total2 = 0;
+//                                                 bool refund = false;
+//                                                 var monthId = '';
+//                                                 bool monthExist = false;
+//                                                 var yearId = '';
+//                                                 bool yearExist = false;
+//
+//                                                 List<String> ref2Cust = [];
+//                                                 List<String> ref2Shop = [];
+//                                                 for (int i = 0; i < refundItems.length; i++) {
+//                                                   prodListView[i] = prodListView[i].split('^')[0] + '^' + prodListView[i].split('^')[1] + '^' + prodListView[i].split('^')[2] + '^' +
+//                                                       prodListView[i].split('^')[3] + '^' + prodListView[i].split('^')[4] + '^' + prodListView[i].split('^')[5] + '^' +
+//                                                       prodListView[i].split('^')[6] +
+//                                                       '^' +
+//                                                       refundItems[i].toString() +
+//                                                       '^' +
+//                                                       prodListView[i].split('^')[8];
+//                                                   total += (double.parse(prodListView[i]
+//                                                       .split('^')[3]) -
+//                                                       refundItems[i]) *
+//                                                       double.parse(prodListView[i].split('^')[4]);
+//
+//                                                   total2 += (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[6]);
+//
+//                                                   if (refundItems[i] > 0) {
+//                                                     refund = true;
+//                                                   }
+//
+//                                                   // debugPrint('unit _name' + prodListView[i]);
+//                                                   //debugPrint('unit ' + deffItems[i].toString() + ' ' + refundItems[i].toString() + (deffItems[i] - refundItems[i]).toString());
+//
+//                                                   ref2Cust = [];
+//                                                   ref2Shop = [];
+//                                                   for(int i=0; i < deffItems.length; i++) {
+//                                                     if(deffItems[i] - refundItems[i] < 0) {
+//                                                       //  debugPrint('ref to shop ' + prodListView[i].split('^')[3] + ' ' + prodListView[i].split('^')[5]);
+//                                                       ref2Shop.add(prodListView[i].split('^')[0] + '^' + prodListView[i].split('^')[1] + '^' + (deffItems[i] - refundItems[i]).abs().toString() + '^' + prodListView[i].split('^')[5]);
+//                                                     } else if(deffItems[i] - refundItems[i] > 0) {
+//                                                       //   debugPrint('ref to cust ' + prodListView[i].split('^')[3] + ' ' + prodListView[i].split('^')[5]);
+//                                                     }
+//                                                   }
+//                                                 }
+//
+//                                                 // debugPrint('che ' + ref2Shop.toString());
+//                                                 // debugPrint('che2 ' + prodListView.toString());
+//                                                 //
+//                                                 // debugPrint('prodList 5  1 ' + total.toString() + ' ' + prodList.toString());
+//
+//                                                 if(widget.data.split('^')[6] != '0.0') {
+//                                                   if(widget.data.split('^')[6].split('-')[1] == 'p') {
+//                                                     total = total - (total * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100));
+//                                                   } else {
+//                                                     total = total - (total * (double.parse(widget.data.split('^')[6].split('-')[0])/widget.realPrice));
+//                                                   }
+//                                                 }
+//                                                 // debugPrint('result__ 3' + total.toString());
+//                                                 // debugPrint('prodListBef 1 ' + prodListBefore.toString());
+//
+//                                                 for(int i=0; i < prodListView.length; i++) {
+//                                                   // int.parse(ref2Shop[i].split('^')[2])
+//                                                   double value = double.parse(prodListView[i].split('^')[7]);
+//                                                   String prodId = prodListView[i].split('^')[0];
+//                                                   String prodTp = prodListView[i].split('^')[5];
+//
+//                                                   // debugPrint(prodId + ' ' + prodTp);
+//
+//                                                   for(int j=0; j< prodList.length; j++) {
+//                                                     //  debugPrint('debuug ' + i.toString() + ' ' + j.toString() + ' ' + value.toString());
+//                                                     double refund = 0;
+//
+//                                                     if(prodId == prodList[j].split('^')[0] && prodTp == prodList[j].split('^')[5] && value <= double.parse(prodList[j].split('^')[3])) {
+//                                                       refund = value - double.parse(prodList[j].split('^')[7]);
+//                                                       //  debugPrint('refun ' + refund.toString() + ' ' + value.toString() + ' ' + prodList[j].split('^')[7]);
+//                                                       prodList[j] = prodList[j].split('^')[0] + '^' + prodList[j].split('^')[1] + '^' + prodList[j].split('^')[2] + '^' + prodList[j].split('^')[3] + '^' + prodList[j].split('^')[4] + '^' + prodList[j].split('^')[5] + '^' + prodList[j].split('^')[6] + '^' +
+//                                                           value.toString() + '^' + prodList[j].split('^')[8];
+//                                                       break;
+//                                                     } else if (prodId == prodList[j].split('^')[0] && prodTp == prodList[j].split('^')[5] && value > int.parse(prodList[j].split('^')[3])) {
+//                                                       refund = value - int.parse(prodList[j].split('^')[7]);
+//                                                       //   debugPrint('refun ' + refund.toString() + ' ' + value.toString() + ' ' + prodList[j].split('^')[7]);
+//                                                       prodList[j] = prodList[j].split('^')[0] + '^' + prodList[j].split('^')[1] + '^' + prodList[j].split('^')[2] + '^' + prodList[j].split('^')[3] + '^' + prodList[j].split('^')[4] + '^' + prodList[j].split('^')[5] + '^' + prodList[j].split('^')[6] + '^' +
+//                                                           prodList[j].split('^')[3] + '^' + prodList[j].split('^')[8];
+//                                                       value = value - int.parse(prodList[j].split('^')[3]);
+//                                                     }
+//                                                   }
+//                                                 }
+//
+//                                                 // debugPrint('prodList 5  2 ' + total.toString() + ' ' + prodList.toString());
+//                                                 // debugPrint('prodListBef 2 ' + prodListBefore.toString());
+//                                                 List prodRets = prodList;
+//                                                 DocumentReference prodsArr = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodSaleData').doc(widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8));
+//                                                 DocumentReference prodsMonthly = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodMthData').doc(widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6));
+//                                                 DocumentReference prodsYearly = FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('prodYearData').doc(widget.data.split('^')[0].substring(0,4));
+//                                                 bool refCondition = false;
+//                                                 for(int i=0; i < prodList.length; i++) {
+//                                                   double refNum = double.parse(prodList[i].split('^')[7]) - double.parse(prodListBefore[i].split('^')[7]);
+//                                                   if(refNum > 0) {
+//                                                     refCondition = true;
+//                                                     FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('prodsArr')
+//                                                         .get()
+//                                                         .then((DocumentSnapshot documentSnapshot) async {
+//                                                       if (documentSnapshot.exists) {
+//                                                         documentSnapshot['prods'].forEach((key, value) async {
+//                                                           if(key.toString() ==  prodList[i].split('^')[0].toString()) {
+//                                                             double chgDiscount = 0;
+//                                                             double ttlNewPrice = 0;
+//
+//                                                             ttlNewPrice = (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[4]);
+//
+//                                                             if(widget.data.split('^')[6] != '0.0') {
+//                                                               if(widget.data.split('^')[6].split('-')[1] == 'p') {
+//                                                                 chgDiscount =  (ttlNewPrice * (double.parse(widget.data.split('^')[6].split('-')[0]) / 100));
+//                                                               } else {
+//                                                                 chgDiscount = (ttlNewPrice * (double.parse(widget.data.split('^')[6].split('-')[0])/widget.realPrice));
+//                                                               }
+//                                                             }
+//
+//                                                             batch = await updateProduct(batch, prodList[i].split('^')[0], prodList[i].split('^')[5], refNum);
+//
+//                                                             batch.set(
+//                                                                 prodsArr,
+//                                                                 {
+//                                                                   'prods': {
+//                                                                     prodList[i].split('^')[0].toString(): {
+//                                                                       changeUnitName2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - double.parse(refNum.toString())),
+//                                                                       changeSaleUnit2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[4])),
+//                                                                       changeBuyUnit2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[6])),
+//                                                                       changeRefName2Stock(prodList[i].split('^')[5]): FieldValue.increment(double.parse(refNum.toString())),
+//                                                                       changeDisName2Stock(prodList[i].split('^')[5]): FieldValue.increment(0 - chgDiscount),
+//
+//                                                                     }
+//                                                                   }
+//                                                                 },SetOptions(merge: true)
+//                                                             );
+//
+//                                                             batch.set(
+//                                                                 prodsMonthly,
+//                                                                 {
+//                                                                   'prods': {
+//                                                                     prodList[i].split('^')[0].toString(): {
+//                                                                       changeUnitName2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - double.parse(refNum.toString())),
+//                                                                       changeSaleUnit2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[4])),
+//                                                                       changeBuyUnit2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[6])),
+//                                                                       changeRefName2Stock(prodList[i].split('^')[5]): FieldValue.increment(double.parse(refNum.toString())),
+//                                                                       changeDisName2Stock(prodList[i].split('^')[5]): FieldValue.increment(0 - chgDiscount),
+//                                                                     }
+//                                                                   }
+//                                                                 },SetOptions(merge: true)
+//                                                             );
+//
+//                                                             batch.set(
+//                                                                 prodsYearly,
+//                                                                 {
+//                                                                   'prods': {
+//                                                                     prodList[i].split('^')[0].toString(): {
+//                                                                       changeUnitName2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - double.parse(refNum.toString())),
+//                                                                       changeSaleUnit2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[4])),
+//                                                                       changeBuyUnit2Stock(prodList[i].split('^')[5]): FieldValue.increment( 0 - (refundItems[i] - double.parse(widget.data2[i].split('^')[7])) * double.parse(prodListView[i].split('^')[6])),
+//                                                                       changeRefName2Stock(prodList[i].split('^')[5]): FieldValue.increment(double.parse(refNum.toString())),
+//                                                                       changeDisName2Stock(prodList[i].split('^')[5]): FieldValue.increment(0 - chgDiscount),
+//                                                                     }
+//                                                                   }
+//                                                                 },SetOptions(merge: true)
+//                                                             );
+//                                                           }
+//                                                         });
+//
+//
+//                                                       }
+//                                                     });
+//                                                     // var docSnapshot = await FirebaseFirestore.instance.collection('shops').doc(widget.shopId)
+//                                                     //     .collection('products').doc(prodList[i].split('^')[0]).get();
+//                                                     // if (docSnapshot.exists) {
+//
+//                                                     // }
+//                                                   }
+//                                                 }
+//
+//                                                 double debt = double.parse(widget.data.split('^')[5]);
+//                                                 String refundAmount = 'F';
+//                                                 bool reFilter = false;
+//                                                 bool deFilter = false;
+//                                                 double paidAmount = 0 ;
+//                                                 paidAmount = (double.parse(widget.data.split('^')[2]) - double.parse(widget.data.split('^')[5]));
+//
+//                                                 if(paidAmount != 0 && total !=0 && total > paidAmount) {
+//                                                   debt = double.parse(widget.data.split('^')[5]) - (double.parse(widget.data.split('^')[2]) - total);
+//                                                   print('paid shi tl' + total.toString() + ' '+paidAmount.toString());
+//                                                 } else if(paidAmount != 0 && total !=0 && total <= paidAmount) {
+//                                                   debt = 0 ;
+//                                                 }
+//                                                 else {
+//                                                   debt = total;
+//                                                 }
+//
+//                                                 double ttlR = 0.0;
+//                                                 double ttlQ = 0.0;
+//                                                 for (int i = 0; i < prodList.length; i++) {
+//                                                   ttlR += double.parse(prodList[i].split('^')[7]);
+//                                                   ttlQ += double.parse(prodList[i].split('^')[3]);
+//                                                 }
+//
+//                                                 //    debugPrint('totalTest ' + ttlR.toString() + ' ' +ttlQ.toString());
+//                                                 if (ttlR.toString()  != '0' &&  ttlR == ttlQ) {
+//                                                   refundAmount = 'T';
+//                                                   reFilter = true;
+//                                                 }
+//                                                 if (ttlR.toString()  != '0'  &&  ttlR != ttlQ) {
+//                                                   refundAmount = 'P';
+//                                                   reFilter = true;
+//                                                 }
+//                                                 int totalRefunds = 0;
+//                                                 double chgDebts = 0;
+//                                                 int ttlDebts = 0;
+//                                                 double chgTotal = 0;
+//                                                 double chgCapital = 0;
+//
+//                                                 // debugPrint('leesin ' +widget.data.split('^')[4].toString());
+//
+//
+//                                                 if (double.parse(widget.data.split('^')[5]) != debt) {
+//                                                   chgDebts = double.parse(widget.data.split('^')[5]) - debt;
+//                                                 } else {
+//                                                   chgDebts = 0;
+//                                                 }
+//
+//                                                 if (double.parse(widget.data.split('^')[5]) != debt && debt == 0) {
+//                                                   ttlDebts = 1;
+//                                                 } else {
+//                                                   ttlDebts = 0;
+//                                                 }
+//
+//                                                 if (debt == 0) {
+//                                                   deFilter = false;
+//                                                 } else {
+//                                                   deFilter = true;
+//                                                 }
+//                                                 debugPrint('deFilter' + widget.data.split('^')[5].toString() +' ' + debt.toString() + ' ' + chgDebts.toString());
+//
+//                                                 if(widget.data.split('^')[4] == 'F') {
+//                                                   totalRefunds = 1;
+//                                                 } else {
+//                                                   totalRefunds = 0;
+//                                                 }
+//
+//                                                 if (double.parse(widget.data.split('^')[2]) != total) {
+//                                                   chgTotal = double.parse(widget.data.split('^')[2]) - total;
+//                                                   chgCapital =  total2;
+//                                                 } else {
+//                                                   chgTotal = 0;
+//                                                   chgCapital = 0;
+//                                                 }
+//
+//                                                 batch = await updateMonthlyData1(batch, widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6), widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'cash_cust', widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'debt_cust', widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) + 'capital', chgTotal, chgDebts, chgCapital);
+//                                                 batch = await updateYearlyData1(batch, widget.data.split('^')[0].substring(0,4), widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'cash_cust',  widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6)  + 'debt_cust',   widget.data.split('^')[0].substring(0,4) +  widget.data.split('^')[0].substring(4,6)  + 'capital', chgTotal, chgDebts, chgCapital);
+//
+//
+//                                                 if(widget.data.split('^')[0].substring(0,4) +   widget.data.split('^')[0].substring(4,6) +  widget.data.split('^')[0].substring(6,8) != now.year.toString() +  zeroToTen(now.month.toString()) + zeroToTen(now.day.toString())) {
+//                                                   batch = await updateMonthlyData2(batch,
+//                                                       now.year.toString() +
+//                                                           zeroToTen(now.month.toString()),
+//                                                       now.year.toString() +
+//                                                           zeroToTen(now.month.toString()) +
+//                                                           zeroToTen(now.day.toString()) + 'refu_cust',
+//                                                       chgTotal);
+//                                                   batch = await updateYearlyData2(batch, now.year.toString(), now.year.toString() +  zeroToTen(now.month.toString())  + 'refu_cust', chgTotal);
+//
+//                                                 }
+//
+//                                                 String data = widget.data;
+//
+//                                                 String noCustomer = '';
+//                                                 if(data.split('^')[3].split('&')[0] == 'No customer') {
+//                                                   noCustomer = 'name';
+//                                                 } else {noCustomer = data.split('^')[3].split('&')[0];}
+//
+//                                                 String dataRm = data.split('^')[0] +
+//                                                     '^' +
+//                                                     data.split('^')[1] +
+//                                                     '^' +
+//                                                     data.split('^')[2] +
+//                                                     '^' +
+//                                                     data.split('^')[3].split('&')[1] + '<>' + noCustomer +
+//                                                     '^' +
+//                                                     data.split('^')[4] + '^' + data.split('^')[5] + '^' + data.split('^')[6];
+//
+//                                                 data = data.split('^')[0] +
+//                                                     '^' +
+//                                                     data.split('^')[1] +
+//                                                     '^' +
+//                                                     total.toString() +
+//                                                     '^' +
+//                                                     data.split('^')[3].split('&')[1] + '<>' + noCustomer +
+//                                                     '^' +
+//                                                     refundAmount + '^' + debt.toString() + '^' + data.split('^')[6];
+//
+//                                                 batch = await updateDailyOrder(batch, widget.documentId, dataRm, data);
+//                                                 //
+//                                                 // debugPrint('text' + widget.docId + prodList.toString() +total.toString() +refundAmount.toString() + debt.toString()+ reFilter.toString()+ deFilter.toString());
+//                                                 batch = await updateOrderDetail(batch, widget.docId, prodList, total, refundAmount, debt, reFilter, deFilter);
+//                                                 //
+//
+//                                                 FirebaseFirestore.instance.collection('shops').doc(widget.shopId).collection('collArr').doc('cusArr')
+//                                                     .get()
+//                                                     .then((DocumentSnapshot documentSnapshot) async {
+//                                                   if (documentSnapshot.exists) {
+//                                                     documentSnapshot['cus'].forEach((key, value) async {
+//                                                       debugPrint('custom ' +  widget.data.split('^')[3].split('&')[0].toString());
+//                                                       if(key.toString() ==  widget.data.split('^')[3].split('&')[1].toString()) {
+//                                                         batch = await updateRefund(batch, widget.data.split('^')[3].split('&')[1], totalRefunds, ttlDebts, chgDebts);
+//                                                       }
+//                                                     });
+//                                                   }
+//                                                   if( widget.data.split('^')[3].split('&')[1] == 'name') {
+//                                                     batch = await updateRefund(batch, widget.data.split('^')[3].split('&')[1], totalRefunds, ttlDebts, chgDebts);
+//                                                   }
+//
+//                                                   try{
+//
+//                                                     print('refNum ' + refCondition.toString());
+//                                                     if(refCondition) {
+//                                                       batch.commit();
+//                                                       Future.delayed(
+//                                                           const Duration(
+//                                                               milliseconds: 2000), () {
+//                                                         setState(() {
+//                                                           loadingState = false;
+//                                                           disableTouch = false;
+//                                                         });
+//                                                         closeOverAllSubLoading();
+//                                                         Navigator.of(context)
+//                                                             .popUntil((route) =>
+//                                                         route.isFirst);
+//                                                         smartKyatFlash(
+//                                                             '$currencyUnit' +
+//                                                                 totalRefund()
+//                                                                     .toString() +
+//                                                                 'is successfully refunded to #' +
+//                                                                 widget.data
+//                                                                     .split(
+//                                                                     '^')[1]
+//                                                                     .toString(),
+//                                                             's');
+//                                                       });
+//                                                     } else {
+//                                                       Future.delayed(
+//                                                           const Duration(
+//                                                               milliseconds: 2000), () {
+//                                                         setState(() {
+//                                                           loadingState = false;
+//                                                           disableTouch = false;
+//                                                         });
+//                                                         closeOverAllSubLoading();
+//                                                         // Navigator.of(context)
+//                                                         //     .popUntil((route) =>
+//                                                         // route.isFirst);
+//                                                         smartKyatFlash(
+//                                                             'To make a refund, please select an item first.',
+//                                                             'w');
+//                                                       });
+//                                                     }
+//                                                   }
+//                                                   catch(error) {
+//                                                     smartKyatFlash('An error occurred while creating order. Please try again later.', 'e');
+//                                                     setState(() {
+//                                                       loadingState = false;
+//                                                       disableTouch = false;
+//                                                     });
+//                                                     closeOverAllSubLoading();
+//                                                   }
+//                                                 });
+//                                               }
+//                                             },
+//                                             child:  loadingState == true ? Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+//                                                 child: CupertinoActivityIndicator(radius: 10,)) : Padding(
+//                                               padding: const EdgeInsets.only(
+//                                                   left: 8.0,
+//                                                   right: 8.0,
+//                                                   bottom: 2.0),
+//                                               child: Container(
+//                                                 child: Text(
+//                                                   textSetRefundBtn,  textScaleFactor: 1,
+//                                                   textAlign: TextAlign.center,
+//                                                   style: TextStyle(
+//                                                       fontSize: 18,
+//                                                       fontWeight: FontWeight.w500,
+//                                                       color: Colors.black),
+//                                                   strutStyle: StrutStyle(
+//                                                     height: 1.3,
+//                                                     // fontSize:,
+//                                                     forceStrutHeight: true,
+//                                                   ),
+//                                                 ),
+//                                               ),
+//                                             ),
+//                                           ),
+//                                         ),
+//                                       ),
+//                                     ),
+//                                   ),
+//                                 ],
+//                               ),
+//                             );
+//                           }
+//
+//                           return Expanded(
+//                             child: Center(
+//                               child: Padding(
+//                                 padding: const EdgeInsets.only(bottom: 15.0),
+//                                 child: Theme(data: ThemeData(cupertinoOverrideTheme: CupertinoThemeData(brightness: Brightness.light)),
+//                                     child: CupertinoActivityIndicator(radius: 15,)),
+//                               ),
+//                             ),
+//                           );
+//                         }),
                   Container(
                     color: Colors.white,
                     // height: MediaQuery.of(context).viewInsets.bottom,

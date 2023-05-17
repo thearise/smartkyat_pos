@@ -613,7 +613,7 @@
 //                                                           //minWidth: 50,
 //                                                           splashColor: Colors.transparent,
 //                                                           height: 100,
-//                                                           child: FlatButton(
+//                                                           child: CustomFlatButton(
 //                                                             color: Colors.white.withOpacity(0.78),
 //                                                             shape: RoundedRectangleBorder(
 //                                                               borderRadius: BorderRadius.circular(7.0),
@@ -698,7 +698,7 @@
 //                                                     //minWidth: 50,
 //                                                     splashColor: Colors.transparent,
 //                                                     height: 100,
-//                                                     child: FlatButton(
+//                                                     child: CustomFlatButton(
 //                                                       color: AppTheme.buttonColor2,
 //                                                       shape: RoundedRectangleBorder(
 //                                                         borderRadius: BorderRadius.circular(7.0),
@@ -819,7 +819,7 @@
 //                                                       minWidth: 130,
 //                                                       splashColor: Colors.transparent,
 //                                                       height: 100,
-//                                                       child: FlatButton(
+//                                                       child: CustomFlatButton(
 //                                                         color: AppTheme.clearColor,
 //                                                         shape: RoundedRectangleBorder(
 //                                                           borderRadius: BorderRadius.circular(7.0),
@@ -968,7 +968,7 @@
 //                                                   children: [
 //                                                     (role == 'admin' || role == 'owner')? Row(
 //                                                       children: [
-//                                                         FlatButton(
+//                                                         CustomFlatButton(
 //                                                           padding: EdgeInsets.only(left: 0, right: 0),
 //                                                           color: AppTheme.secButtonColor,
 //                                                           shape: RoundedRectangleBorder(
@@ -1024,7 +1024,7 @@
 //                                                         scrollDirection: Axis.horizontal,
 //                                                         children: [
 //                                                           (role == 'admin' || role == 'owner')? SizedBox(width: 10): Container(),
-//                                                           FlatButton(
+//                                                           CustomFlatButton(
 //                                                             minWidth: 0,
 //                                                             padding: EdgeInsets.only(left: 8, right: 12),
 //                                                             color: _sliding == 0 ? AppTheme.secButtonColor:Colors.white,
@@ -1055,7 +1055,7 @@
 //                                                             ),
 //                                                           ),
 //                                                           sub1Name != '' ? SizedBox(width: 10): Container(),
-//                                                           sub1Name != '' ? FlatButton(
+//                                                           sub1Name != '' ? CustomFlatButton(
 //                                                             minWidth: 0,
 //                                                             padding: EdgeInsets.only(left: 8, right: 12),
 //                                                             color: _sliding == 1 ? AppTheme.secButtonColor:Colors.white,
@@ -1086,7 +1086,7 @@
 //                                                             ),
 //                                                           ) : Container(),
 //                                                           sub2Name != '' ? SizedBox(width: 10): Container(),
-//                                                           sub2Name != '' ? FlatButton(
+//                                                           sub2Name != '' ? CustomFlatButton(
 //                                                             minWidth: 0,
 //                                                             padding: EdgeInsets.only(left: 8, right: 12),
 //                                                             color: _sliding == 2 ? AppTheme.secButtonColor:Colors.white,
@@ -2021,7 +2021,7 @@
 //                                                       ),
 //                                                       trailing: Container(
 //                                                         height: 33,
-//                                                         child: FlatButton(
+//                                                         child: CustomFlatButton(
 //                                                           padding: EdgeInsets.only(left: 0, right: 0),
 //                                                           color: AppTheme.badgeBgDanger2,
 //                                                           shape: RoundedRectangleBorder(

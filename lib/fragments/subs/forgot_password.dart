@@ -10,6 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:one_context/one_context.dart';
+import 'package:smartkyat_pos/widgets/custom_flat_button.dart';
 
 import '../../app_theme.dart';
 
@@ -166,7 +167,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           minWidth: MediaQuery.of(context).size.width,
                           splashColor: Colors.transparent,
                           height: 50,
-                          child: FlatButton(
+                          child: CustomFlatButton(
                                 color: AppTheme.themeColor,
                                 shape: RoundedRectangleBorder(
                                   borderRadius:
@@ -216,7 +217,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           minWidth: MediaQuery.of(context).size.width,
                           splashColor: Colors.transparent,
                           height: 50,
-                          child: FlatButton(
+                          child: CustomFlatButton(
                                 color: AppTheme.themeColor,
                                 shape: RoundedRectangleBorder(
                                   borderRadius:
@@ -275,7 +276,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                             minWidth: 35,
                             splashColor: Colors.transparent,
                             height: 30,
-                            child: FlatButton(
+                            child: CustomFlatButton(
                               color: AppTheme.themeColor,
                               shape: RoundedRectangleBorder(
                                 borderRadius:

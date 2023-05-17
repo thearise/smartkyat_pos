@@ -119,7 +119,7 @@ class ProdSaleSumHomeState extends State<ProdSaleSumHome>
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        brightness: Brightness.light,
+        // brightness: Brightness.light,
         toolbarHeight: 0,
         backgroundColor: Colors.Colors.white,
         elevation: 0,

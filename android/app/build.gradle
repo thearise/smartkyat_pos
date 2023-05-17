@@ -34,7 +34,9 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    compileSdkVersion 31
+//    compileSdkVersion 33
+    compileSdkVersion flutter.compileSdkVersion
+    ndkVersion flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -51,12 +53,12 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        configurations.all {
-            resolutionStrategy { force 'androidx.core:core:1.6.0' }
-        }
+//        configurations.all {
+//            resolutionStrategy { force 'androidx.core:core:1.6.0' }
+//        }
         applicationId "com.ethereals.smartkyat_pos"
         minSdkVersion 21
-        targetSdkVersion 31
+        targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true

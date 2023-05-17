@@ -13,6 +13,7 @@ import 'package:flutter/services.dart';
 import 'package:one_context/one_context.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/pages2/home_page5.dart';
+import 'package:smartkyat_pos/widgets/custom_flat_button.dart';
 
 import '../app_theme.dart';
 
@@ -604,7 +605,7 @@ class _AddNewShopState extends State<AddNewShop> {
                               minWidth: (MediaQuery.of(context).size.width),
                               splashColor: Colors.transparent,
                               height: 53,
-                              child: FlatButton(
+                              child: CustomFlatButton(
                                 color: AppTheme.themeColor,
                                 shape: RoundedRectangleBorder(
                                   borderRadius:
@@ -910,7 +911,7 @@ class _AddNewShopState extends State<AddNewShop> {
       return iosDeviceInfo.identifierForVendor; // unique ID on iOS
     } else {
       var androidDeviceInfo = await deviceInfo.androidInfo;
-      return androidDeviceInfo.androidId; // unique ID on Android
+      return androidDeviceInfo.id; // unique ID on Android
     }
   }
 
@@ -2386,7 +2387,7 @@ class _AddNewShopState extends State<AddNewShop> {
         debugPrint('onClose');
         // _timezone.clear();
       },
-    ).show(context);
+    );
 
     // FocusScope.of(context).unfocus();
 

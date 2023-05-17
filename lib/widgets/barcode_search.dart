@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/welcome_fragment.dart';
+import 'package:smartkyat_pos/widgets/custom_flat_button.dart';
 
 import '../app_theme.dart';
 import 'barcode_search_result.dart';
@@ -73,9 +74,9 @@ class _QRSearchExampleState extends State<QRSearchExample> {
                   minWidth: 35,
                   splashColor: Colors.transparent,
                   height: 35,
-                  child: FlatButton(
-                    height: 35,
-                    minWidth: 35,
+                  child: CustomFlatButton(
+                    // height: 35,
+                    // minWidth: 35,
                     padding: const EdgeInsets.all(0),
                     color: AppTheme.buttonColor2,
                     shape: RoundedRectangleBorder(
@@ -116,9 +117,9 @@ class _QRSearchExampleState extends State<QRSearchExample> {
                   minWidth: 35,
                   splashColor: Colors.transparent,
                   height: 35,
-                  child: FlatButton(
-                    height: 35,
-                    minWidth: 35,
+                  child: CustomFlatButton(
+                    // height: 35,
+                    // minWidth: 35,
                     padding: const EdgeInsets.all(0),
                     color: AppTheme.buttonColor2,
                     shape: RoundedRectangleBorder(

@@ -1168,7 +1168,7 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
 //                               minWidth: MediaQuery.of(context).size.width,
 //                               splashColor: Colors.transparent,
 //                               height: 50,
-//                               child: FlatButton(
+//                               child: CustomFlatButton(
 //                                 color: AppTheme.themeColor,
 //                                 shape: RoundedRectangleBorder(
 //                                   borderRadius:
@@ -1321,7 +1321,7 @@ class ChangeCurrencyState extends State<ChangeCurrency>  with TickerProviderStat
 //                             minWidth: MediaQuery.of(context).size.width,
 //                             splashColor: Colors.transparent,
 //                             height: 50,
-//                             child: FlatButton(
+//                             child: CustomFlatButton(
 //                               color: AppTheme.buttonColor2,
 //                               shape: RoundedRectangleBorder(
 //                                 borderRadius:

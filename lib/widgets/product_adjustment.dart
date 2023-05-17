@@ -672,7 +672,7 @@
 //                         minWidth: MediaQuery.of(context).size.width,
 //                         splashColor: Colors.transparent,
 //                         height: 50,
-//                         child: FlatButton(
+//                         child: CustomFlatButton(
 //                           color: AppTheme.themeColor,
 //                           shape: RoundedRectangleBorder(
 //                             borderRadius:

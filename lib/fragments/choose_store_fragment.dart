@@ -4,7 +4,8 @@ import 'dart:io';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity/connectivity.dart';
-import 'package:device_info/device_info.dart';
+import 'package:device_info_plus/device_info_plus.dart';
+// import 'package:device_info/device_info.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash/flash.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,6 +20,7 @@ import 'package:smartkyat_pos/fragments/welcome_fragment.dart';
 import 'package:smartkyat_pos/pages2/first_launch_page.dart';
 import 'package:smartkyat_pos/pages2/home_page5.dart';
 import 'package:smartkyat_pos/src/screens/loading.dart';
+import 'package:smartkyat_pos/widgets/custom_flat_button.dart';
 import 'package:smartkyat_pos/widgets/paywall_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -742,7 +744,7 @@ class chooseStoreState extends State<chooseStore> {
                                                       // minWidth: MediaQuery.of(context).size.width/3 - 22.5,
                                                       splashColor: Colors.transparent,
                                                       height: 50,
-                                                      child: FlatButton(
+                                                      child: CustomFlatButton(
                                                         color: AppTheme.buttonColor2,
                                                         shape: RoundedRectangleBorder(
                                                           borderRadius:
@@ -789,7 +791,7 @@ class chooseStoreState extends State<chooseStore> {
                                                         // minWidth: MediaQuery.of(context).size.width/3 - 22.5,
                                                         splashColor: Colors.transparent,
                                                         height: 50,
-                                                        child: FlatButton(
+                                                        child: CustomFlatButton(
                                                           color: AppTheme.buttonColor2,
                                                           shape: RoundedRectangleBorder(
                                                             borderRadius:
@@ -839,7 +841,7 @@ class chooseStoreState extends State<chooseStore> {
                                                         // minWidth: (MediaQuery.of(context).size.width * 2/3.1) - 22.5,
                                                         splashColor: Colors.transparent,
                                                         height: 50,
-                                                        child: FlatButton(
+                                                        child: CustomFlatButton(
                                                           color: AppTheme.themeColor,
                                                           shape: RoundedRectangleBorder(
                                                             borderRadius:
@@ -1494,7 +1496,7 @@ class chooseStoreState extends State<chooseStore> {
                                                     // minWidth: MediaQuery.of(context).size.width/3 - 22.5,
                                                     splashColor: Colors.transparent,
                                                     height: 50,
-                                                    child: FlatButton(
+                                                    child: CustomFlatButton(
                                                       color: AppTheme.buttonColor2,
                                                       shape: RoundedRectangleBorder(
                                                         borderRadius:
@@ -1540,7 +1542,7 @@ class chooseStoreState extends State<chooseStore> {
                                                       // minWidth: MediaQuery.of(context).size.width/3 - 22.5,
                                                       splashColor: Colors.transparent,
                                                       height: 50,
-                                                      child: FlatButton(
+                                                      child: CustomFlatButton(
                                                         color: AppTheme.buttonColor2,
                                                         shape: RoundedRectangleBorder(
                                                           borderRadius:
@@ -1589,7 +1591,7 @@ class chooseStoreState extends State<chooseStore> {
                                                       // minWidth: (MediaQuery.of(context).size.width * 2/3.1) - 22.5,
                                                       splashColor: Colors.transparent,
                                                       height: 50,
-                                                      child: FlatButton(
+                                                      child: CustomFlatButton(
                                                         color: AppTheme.themeColor,
                                                         shape: RoundedRectangleBorder(
                                                           borderRadius:
@@ -1792,7 +1794,7 @@ class chooseStoreState extends State<chooseStore> {
       return iosDeviceInfo.identifierForVendor; // unique ID on iOS
     } else {
       var androidDeviceInfo = await deviceInfo.androidInfo;
-      return androidDeviceInfo.androidId; // unique ID on Android
+      return androidDeviceInfo.id; // unique ID on Android
     }
   }
 
@@ -2322,7 +2324,7 @@ class chooseStoreState extends State<chooseStore> {
                                                                               ),
                                                                             ),
                                                                             SizedBox(height: 10),
-                                                                            // FlatButton(
+                                                                            // CustomFlatButton(
                                                                             //
                                                                             // child: new Text("Call now", style: TextStyle(
                                                                             //   fontWeight: FontWeight.w500,
@@ -2449,7 +2451,7 @@ class chooseStoreState extends State<chooseStore> {
                                                                               ),
                                                                             ),
                                                                             SizedBox(height: 10),
-                                                                            // FlatButton(
+                                                                            // CustomFlatButton(
                                                                             //
                                                                             // child: new Text("Call now", style: TextStyle(
                                                                             //   fontWeight: FontWeight.w500,
@@ -2576,7 +2578,7 @@ class chooseStoreState extends State<chooseStore> {
                                                                               ),
                                                                             ),
                                                                             SizedBox(height: 10),
-                                                                            // FlatButton(
+                                                                            // CustomFlatButton(
                                                                             //
                                                                             // child: new Text("Call now", style: TextStyle(
                                                                             //   fontWeight: FontWeight.w500,
@@ -2683,7 +2685,7 @@ class chooseStoreState extends State<chooseStore> {
                                                             ),
                                                           ),
                                                           SizedBox(height: 10),
-                                                          // FlatButton(
+                                                          // CustomFlatButton(
                                                           //
                                                           // child: new Text("Call now", style: TextStyle(
                                                           //   fontWeight: FontWeight.w500,

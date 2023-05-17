@@ -16,6 +16,7 @@ import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
 import 'package:smartkyat_pos/fragments/loss_fragment.dart';
 import 'package:smartkyat_pos/fragments/subs/language_settings.dart';
 import 'package:smartkyat_pos/pages2/home_page5.dart';
+import 'package:smartkyat_pos/widgets/custom_flat_button.dart';
 import 'package:smartkyat_pos/widgets/edit_product.dart';
 import '../app_theme.dart';
 import 'fill_product.dart';
@@ -669,9 +670,9 @@ class ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                 ButtonTheme(
                                                   minWidth: 133,
                                                   height: 100,
-                                                  child: FlatButton(
+                                                  child: CustomFlatButton(
                                                     // focusColor: Colors.black,
-                                                    splashColor: Colors.black.withOpacity(0.2),
+                                                    // splashColor: Colors.black.withOpacity(0.2),
                                                     // splashColor: Colors.red,
                                                     // highlightColor: Colors.green,
                                                     // focusColor: Colors.red,
@@ -778,7 +779,7 @@ class ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                             //minWidth: 50,
                                             splashColor: Colors.transparent,
                                             height: 100,
-                                            child: FlatButton(
+                                            child: CustomFlatButton(
                                               color: AppTheme.buttonColor2,
                                               shape: RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.circular(7.0),
@@ -903,7 +904,7 @@ class ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                               minWidth: 130,
                                               splashColor: Colors.transparent,
                                               height: 100,
-                                              child: FlatButton(
+                                              child: CustomFlatButton(
                                                 color: AppTheme.clearColor,
                                                 shape: RoundedRectangleBorder(
                                                   borderRadius: BorderRadius.circular(7.0),
@@ -1052,7 +1053,7 @@ class ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                           children: [
                                             (role == 'admin' || role == 'owner')? Row(
                                               children: [
-                                                FlatButton(
+                                                CustomFlatButton(
                                                   padding: EdgeInsets.only(left: 0, right: 0),
                                                   color: AppTheme.secButtonColor,
                                                   shape: RoundedRectangleBorder(
@@ -1107,8 +1108,8 @@ class ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                 scrollDirection: Axis.horizontal,
                                                 children: [
                                                   (role == 'admin' || role == 'owner')? SizedBox(width: 10): Container(),
-                                                  FlatButton(
-                                                    minWidth: 0,
+                                                  CustomFlatButton(
+                                                    // minWidth: 0,
                                                     padding: EdgeInsets.only(left: 8, right: 12),
                                                     color: _sliding == 0 ? AppTheme.secButtonColor:Colors.white,
                                                     shape: RoundedRectangleBorder(
@@ -1138,8 +1139,8 @@ class ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                     ),
                                                   ),
                                                   sub1Name != '' ? SizedBox(width: 10): Container(),
-                                                  sub1Name != '' ? FlatButton(
-                                                    minWidth: 0,
+                                                  sub1Name != '' ? CustomFlatButton(
+                                                    // minWidth: 0,
                                                     padding: EdgeInsets.only(left: 8, right: 12),
                                                     color: _sliding == 1 ? AppTheme.secButtonColor:Colors.white,
                                                     shape: RoundedRectangleBorder(
@@ -1169,8 +1170,8 @@ class ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                     ),
                                                   ) : Container(),
                                                   sub2Name != '' ? SizedBox(width: 10): Container(),
-                                                  sub2Name != '' ? FlatButton(
-                                                    minWidth: 0,
+                                                  sub2Name != '' ? CustomFlatButton(
+                                                    // minWidth: 0,
                                                     padding: EdgeInsets.only(left: 8, right: 12),
                                                     color: _sliding == 2 ? AppTheme.secButtonColor:Colors.white,
                                                     shape: RoundedRectangleBorder(
@@ -1979,7 +1980,7 @@ class ProductDetailsViewState2 extends State<ProductDetailsView2>  with
                                                   ),
                                                   trailing: Container(
                                                     height: 33,
-                                                    child: FlatButton(
+                                                    child: CustomFlatButton(
                                                       padding: EdgeInsets.only(left: 0, right: 0),
                                                       color: AppTheme.badgeBgDanger2,
                                                       shape: RoundedRectangleBorder(

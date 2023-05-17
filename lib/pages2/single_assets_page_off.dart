@@ -16,6 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fragments/loss_fragment.dart';
 import 'package:smartkyat_pos/main.dart';
 import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
+import 'package:smartkyat_pos/widgets/custom_flat_button.dart';
 import 'package:smartkyat_pos/widgets2/method_list_view.dart';
 import 'package:smartkyat_pos/widgets2/selected_assets_list_view.dart';
 import 'package:http/http.dart' as http;
@@ -1500,7 +1501,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                   ButtonTheme(
                                     splashColor: Colors.transparent,
                                     height: 50,
-                                    child: FlatButton(
+                                    child: CustomFlatButton(
                                       color: AppTheme.buttonColor2,
                                       shape: RoundedRectangleBorder(
                                         borderRadius:
@@ -1551,7 +1552,7 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
                                   child: ButtonTheme(
                                     splashColor: Colors.transparent,
                                     height: 50,
-                                    child: FlatButton(
+                                    child: CustomFlatButton(
                                       color: AppTheme.themeColor,
                                       shape: RoundedRectangleBorder(
                                         borderRadius:
@@ -1684,31 +1685,31 @@ class _SingleAssetPageState extends State<SingleAssetPage> {
 //sub3Total = (sub3Stock * double.parse(sub3_buy)).toString();
                                             }
                                             debugPrint('adding off prod');
-                                            objectbox.addProduct(
-                                              false,
-                                                sub1_buy,
-                                                sub2_buy,
-                                                double.parse(prodFieldsValue[4].toString()),
-                                                subUnitFieldValue[0].toString() == ''? 0:double.parse(subUnitFieldValue[0].toString()),
-                                                subUnitFieldValue[4].toString() == ''? 0:double.parse(subUnitFieldValue[4].toString()),
-                                                prodFieldsValue[1],
-                                                sub1Stock,
-                                                sub2Stock,
-                                                mainStock,
-                                                subUnitFieldValue[1],
-                                                subUnitFieldValue[5],
-                                                prodFieldsValue[0],
-                                                prodFieldsValue[3],
-                                                sub1Sell,
-                                                sub2Sell,
-                                                double.parse(subExist.toString()),
-                                                double.parse(prodFieldsValue[5].toString()),
-                                                0,
-                                                0,
-                                                0,
-                                                0,
-                                                "text"
-                                            );
+                                            // objectbox.addProduct(
+                                            //   false,
+                                            //     sub1_buy,
+                                            //     sub2_buy,
+                                            //     double.parse(prodFieldsValue[4].toString()),
+                                            //     subUnitFieldValue[0].toString() == ''? 0:double.parse(subUnitFieldValue[0].toString()),
+                                            //     subUnitFieldValue[4].toString() == ''? 0:double.parse(subUnitFieldValue[4].toString()),
+                                            //     prodFieldsValue[1],
+                                            //     sub1Stock,
+                                            //     sub2Stock,
+                                            //     mainStock,
+                                            //     subUnitFieldValue[1],
+                                            //     subUnitFieldValue[5],
+                                            //     prodFieldsValue[0],
+                                            //     prodFieldsValue[3],
+                                            //     sub1Sell,
+                                            //     sub2Sell,
+                                            //     double.parse(subExist.toString()),
+                                            //     double.parse(prodFieldsValue[5].toString()),
+                                            //     0,
+                                            //     0,
+                                            //     0,
+                                            //     0,
+                                            //     "text"
+                                            // );
                                             debugPrint('doning off prod');
                                             setState(() {
                                               prodAdding = false;

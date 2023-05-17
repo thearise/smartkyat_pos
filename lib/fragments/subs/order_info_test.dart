@@ -420,7 +420,7 @@
 //                                                 SizedBox(width: 15),
 //                                                 ButtonTheme(
 //                                                   minWidth: 133,
-//                                                   child: FlatButton(
+//                                                   child: CustomFlatButton(
 //                                                     color: AppTheme.buttonColor2,
 //                                                     shape: RoundedRectangleBorder(
 //                                                       borderRadius:
@@ -520,7 +520,7 @@
 //                                                 SizedBox(width: 12),
 //                                                 debt.toString() != '0.0' ? ButtonTheme(
 //                                                   minWidth: 133,
-//                                                   child: FlatButton(
+//                                                   child: CustomFlatButton(
 //                                                     color: AppTheme.buttonColor2,
 //                                                     shape: RoundedRectangleBorder(
 //                                                       borderRadius:
@@ -579,7 +579,7 @@
 //                                                 debt.toString() != '0.0' ? SizedBox(width: 12) : Container(),
 //                                                 ButtonTheme(
 //                                                   minWidth: 133,
-//                                                   child: FlatButton(
+//                                                   child: CustomFlatButton(
 //                                                     color: AppTheme.buttonColor2,
 //                                                     shape: RoundedRectangleBorder(
 //                                                       borderRadius:
@@ -667,7 +667,7 @@
 //                                                 SizedBox(width: 15),
 //                                                 ButtonTheme(
 //                                                   minWidth: 133,
-//                                                   child: FlatButton(
+//                                                   child: CustomFlatButton(
 //                                                     color: AppTheme.buttonColor2,
 //                                                     shape: RoundedRectangleBorder(
 //                                                       borderRadius:
@@ -711,7 +711,7 @@
 //                                                 SizedBox(width: 12),
 //                                                 debt.toString() != '0.0' ? ButtonTheme(
 //                                                   minWidth: 133,
-//                                                   child: FlatButton(
+//                                                   child: CustomFlatButton(
 //                                                     color: AppTheme.buttonColor2,
 //                                                     shape: RoundedRectangleBorder(
 //                                                       borderRadius:
@@ -764,7 +764,7 @@
 //                                                 debt.toString() != '0.0' ? SizedBox(width: 12) : Container(),
 //                                                 ButtonTheme(
 //                                                   minWidth: 133,
-//                                                   child: FlatButton(
+//                                                   child: CustomFlatButton(
 //                                                     color: AppTheme.buttonColor2,
 //                                                     shape: RoundedRectangleBorder(
 //                                                       borderRadius:

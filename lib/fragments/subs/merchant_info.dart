@@ -10,6 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartkyat_pos/fonts_dart/smart_kyat__p_o_s_icons.dart';
+import 'package:smartkyat_pos/widgets/custom_flat_button.dart';
 import 'package:smartkyat_pos/widgets/edit_merchant.dart';
 import 'package:smartkyat_pos/widgets/product_details_view2.dart';
 
@@ -297,7 +298,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                           //minWidth: 50,
                                           splashColor: Colors.transparent,
                                           height: 100,
-                                          child: FlatButton(
+                                          child: CustomFlatButton(
                                             color: Colors.white.withOpacity(0.78),
                                             shape: RoundedRectangleBorder(
                                               borderRadius: BorderRadius.circular(7.0),
@@ -357,7 +358,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                     //minWidth: 50,
                                     splashColor: Colors.transparent,
                                     height: 100,
-                                    child: FlatButton(
+                                    child: CustomFlatButton(
                                       color: AppTheme.buttonColor2,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(7.0),
@@ -444,7 +445,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                     padding: const EdgeInsets.only(right: 0.0),
                                     child: Row(
                                       children: [
-                                        FlatButton(
+                                        CustomFlatButton(
                                           padding: EdgeInsets.only(
                                               left: 0, right: 0),
                                           color: AppTheme.secButtonColor,
@@ -510,8 +511,8 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                       scrollDirection: Axis.horizontal,
                                       children: [
                                         SizedBox(width: 10),
-                                        FlatButton(
-                                          minWidth: 0,
+                                        CustomFlatButton(
+                                          // minWidth: 0,
                                           padding: EdgeInsets.only(
                                               left: 8, right: 12),
                                           color: _sliding == 0 ? AppTheme
@@ -538,8 +539,8 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                           ),
                                         ),
                                         SizedBox(width: 10),
-                                         FlatButton(
-                                          minWidth: 0,
+                                         CustomFlatButton(
+                                          // minWidth: 0,
                                           padding: EdgeInsets.only(
                                               left: 8, right: 12),
                                           color: _sliding == 1 ? AppTheme
@@ -989,7 +990,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                         ),
                                         trailing: Container(
                                           height: 33,
-                                          child: FlatButton(
+                                          child: CustomFlatButton(
                                             padding: EdgeInsets.only(
                                                 left: 0, right: 0),
                                             color: AppTheme.badgeBgDanger2,
@@ -1193,7 +1194,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                             //     //minWidth: 50,
                                             //     splashColor: Colors.transparent,
                                             //     height: 100,
-                                            //     child: FlatButton(
+                                            //     child: CustomFlatButton(
                                             //       color: AppTheme.buttonColor2,
                                             //       shape: RoundedRectangleBorder(
                                             //         borderRadius: BorderRadius.circular(
@@ -1252,7 +1253,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                               //minWidth: 50,
                                               splashColor: Colors.transparent,
                                               height: 100,
-                                              child: FlatButton(
+                                              child: CustomFlatButton(
                                                 color: AppTheme.buttonColor2,
                                                 shape: RoundedRectangleBorder(
                                                   borderRadius: BorderRadius.circular(7.0),
@@ -1339,7 +1340,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                             //   padding: const EdgeInsets.only(right: 10.0),
                                             //   child: Row(
                                             //     children: [
-                                            //       FlatButton(
+                                            //       CustomFlatButton(
                                             //         padding: EdgeInsets.only(
                                             //             left: 0, right: 0),
                                             //         color: AppTheme.secButtonColor,
@@ -1403,8 +1404,8 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                 scrollDirection: Axis.horizontal,
                                                 children: [
                                                   //SizedBox(width: 10),
-                                                  FlatButton(
-                                                    minWidth: 0,
+                                                  CustomFlatButton(
+                                                    // minWidth: 0,
                                                     padding: EdgeInsets.only(
                                                         left: 8, right: 12),
                                                     color: _sliding == 0 ? AppTheme
@@ -1431,8 +1432,8 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                                     ),
                                                   ),
                                                   SizedBox(width: 10),
-                                                  FlatButton(
-                                                    minWidth: 0,
+                                                  CustomFlatButton(
+                                                    // minWidth: 0,
                                                     padding: EdgeInsets.only(
                                                         left: 8, right: 12),
                                                     color: _sliding == 1 ? AppTheme
@@ -1883,7 +1884,7 @@ class _MerchantInfoSubsState extends State<MerchantInfoSubs>  with
                                     //               ),
                                     //               trailing: Container(
                                     //                 height: 33,
-                                    //                 child: FlatButton(
+                                    //                 child: CustomFlatButton(
                                     //                   padding: EdgeInsets.only(
                                     //                       left: 0, right: 0),
                                     //                   color: AppTheme.badgeBgDanger2,

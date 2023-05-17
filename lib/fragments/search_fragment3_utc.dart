@@ -29,6 +29,7 @@ import 'package:smartkyat_pos/widgets/barcode_scanner.dart';
 import 'package:smartkyat_pos/fragments/orders_fragment.dart';
 import 'package:smartkyat_pos/fragments/subs/buy_list_info.dart';
 import 'package:smartkyat_pos/fragments/subs/order_info.dart';
+import 'package:smartkyat_pos/widgets/custom_flat_button.dart';
 import 'package:smartkyat_pos/widgets/product_details_view2.dart';
 import 'package:sticky_and_expandable_list/sticky_and_expandable_list.dart';
 
@@ -606,7 +607,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
   //                           ),
   //                           Padding(
   //                             padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-  //                             child: FlatButton(
+  //                             child: CustomFlatButton(
   //                               minWidth: 0,
   //                               padding: EdgeInsets.only(left: 12, right: 12),
   //                               color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
@@ -634,7 +635,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
   //                           ),
   //                           Padding(
   //                             padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-  //                             child: FlatButton(
+  //                             child: CustomFlatButton(
   //                               minWidth: 0,
   //                               padding: EdgeInsets.only(left: 12, right: 12),
   //                               color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
@@ -662,7 +663,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
   //                           ),
   //                           Padding(
   //                             padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-  //                             child: FlatButton(
+  //                             child: CustomFlatButton(
   //                               minWidth: 0,
   //                               padding: EdgeInsets.only(left: 12, right: 12),
   //                               color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.white,
@@ -690,7 +691,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
   //                           ),
   //                           Padding(
   //                             padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-  //                             child: FlatButton(
+  //                             child: CustomFlatButton(
   //                               minWidth: 0,
   //                               padding: EdgeInsets.only(left: 12, right: 12),
   //                               color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,
@@ -718,7 +719,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
   //                           ),
   //                           Padding(
   //                             padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-  //                             child: FlatButton(
+  //                             child: CustomFlatButton(
   //                               minWidth: 0,
   //                               padding: EdgeInsets.only(left: 12, right: 12),
   //                               color: cateScIndex == 4 ? AppTheme.secButtonColor:Colors.white,
@@ -777,7 +778,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
   //                               ),
   //                               Padding(
   //                                 padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-  //                                 child: FlatButton(
+  //                                 child: CustomFlatButton(
   //                                   minWidth: 0,
   //                                   padding: EdgeInsets.only(left: 12, right: 12),
   //                                   color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
@@ -805,7 +806,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
   //                               ),
   //                               Padding(
   //                                 padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-  //                                 child: FlatButton(
+  //                                 child: CustomFlatButton(
   //                                   minWidth: 0,
   //                                   padding: EdgeInsets.only(left: 12, right: 12),
   //                                   color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
@@ -833,7 +834,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
   //                               ),
   //                               Padding(
   //                                 padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-  //                                 child: FlatButton(
+  //                                 child: CustomFlatButton(
   //                                   minWidth: 0,
   //                                   padding: EdgeInsets.only(left: 12, right: 12),
   //                                   color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.white,
@@ -861,7 +862,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
   //                               ),
   //                               Padding(
   //                                 padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-  //                                 child: FlatButton(
+  //                                 child: CustomFlatButton(
   //                                   minWidth: 0,
   //                                   padding: EdgeInsets.only(left: 12, right: 12),
   //                                   color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,
@@ -889,7 +890,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
   //                               ),
   //                               Padding(
   //                                 padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-  //                                 child: FlatButton(
+  //                                 child: CustomFlatButton(
   //                                   minWidth: 0,
   //                                   padding: EdgeInsets.only(left: 12, right: 12),
   //                                   color: cateScIndex == 4 ? AppTheme.secButtonColor:Colors.white,
@@ -2831,7 +2832,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
           //                           ),
           //                           Padding(
           //                             padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-          //                             child: FlatButton(
+          //                             child: CustomFlatButton(
           //                               minWidth: 0,
           //                               padding: EdgeInsets.only(left: 12, right: 12),
           //                               color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
@@ -2871,7 +2872,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
           //                           ),
           //                           Padding(
           //                             padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-          //                             child: FlatButton(
+          //                             child: CustomFlatButton(
           //                               minWidth: 0,
           //                               padding: EdgeInsets.only(left: 12, right: 12),
           //                               color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
@@ -2912,7 +2913,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
           //                           ),
           //                           Padding(
           //                             padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-          //                             child: FlatButton(
+          //                             child: CustomFlatButton(
           //                               minWidth: 0,
           //                               padding: EdgeInsets.only(left: 12, right: 12),
           //                               color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.white,
@@ -2952,7 +2953,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
           //                           ),
           //                           Padding(
           //                             padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-          //                             child: FlatButton(
+          //                             child: CustomFlatButton(
           //                               minWidth: 0,
           //                               padding: EdgeInsets.only(left: 12, right: 12),
           //                               color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,
@@ -2980,7 +2981,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
           //                           ),
           //                           Padding(
           //                             padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-          //                             child: FlatButton(
+          //                             child: CustomFlatButton(
           //                               minWidth: 0,
           //                               padding: EdgeInsets.only(left: 12, right: 12),
           //                               color: cateScIndex == 4 ? AppTheme.secButtonColor:Colors.white,
@@ -3312,7 +3313,7 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        brightness: Brightness.light,
+        // brightness: Brightness.light,
         toolbarHeight: 0,
         backgroundColor: Colors.white,
         elevation: 0,
@@ -3812,8 +3813,8 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                          child: FlatButton(
-                            minWidth: 0,
+                          child: CustomFlatButton(
+                            // minWidth: 0,
                             padding: EdgeInsets.only(left: 12, right: 12),
                             color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
                             shape: RoundedRectangleBorder(
@@ -3854,8 +3855,8 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                          child: FlatButton(
-                            minWidth: 0,
+                          child: CustomFlatButton(
+                            // minWidth: 0,
                             padding: EdgeInsets.only(left: 12, right: 12),
                             color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
                             shape: RoundedRectangleBorder(
@@ -3897,8 +3898,8 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                          child: FlatButton(
-                            minWidth: 0,
+                          child: CustomFlatButton(
+                            // minWidth: 0,
                             padding: EdgeInsets.only(left: 12, right: 12),
                             color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.white,
                             shape: RoundedRectangleBorder(
@@ -3939,8 +3940,8 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                          child: FlatButton(
-                            minWidth: 0,
+                          child: CustomFlatButton(
+                            // minWidth: 0,
                             padding: EdgeInsets.only(left: 12, right: 12),
                             color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,
                             shape: RoundedRectangleBorder(
@@ -3969,8 +3970,8 @@ class SearchFragmentState extends State<SearchFragment> with TickerProviderState
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                          child: FlatButton(
-                            minWidth: 0,
+                          child: CustomFlatButton(
+                            // minWidth: 0,
                             padding: EdgeInsets.only(left: 12, right: 12),
                             color: cateScIndex == 4 ? AppTheme.secButtonColor:Colors.white,
                             shape: RoundedRectangleBorder(

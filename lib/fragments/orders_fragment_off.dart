@@ -20,6 +20,7 @@ import 'package:smartkyat_pos/fragments/subs/order_info_offline.dart';
 import 'package:smartkyat_pos/main.dart';
 import 'package:smartkyat_pos/models/order.dart';
 import 'package:smartkyat_pos/pages2/home_page5.dart';
+import 'package:smartkyat_pos/widgets/custom_flat_button.dart';
 import 'package:smartkyat_pos/widgets/product_details_view2.dart';
 import 'package:sticky_and_expandable_list/sticky_and_expandable_list.dart';
 import 'package:intl/intl.dart';
@@ -304,7 +305,7 @@ class OrdersFragmentState extends State<OrdersFragment>
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        brightness: Brightness.light,
+        // brightness: Brightness.light,
         toolbarHeight: 0,
         backgroundColor: Colors.white,
         elevation: 0,
@@ -320,720 +321,722 @@ class OrdersFragmentState extends State<OrdersFragment>
             bottom: true,
             child: Stack(
               children: [
-                if(!searchOpening)
-                  Align(
-                    alignment: Alignment.center,
-                    child: Padding(
-                      // padding: const EdgeInsets.only(top: 138.0),
-                      padding: const EdgeInsets.only(top: 81.0),
-                      child: Container(
-                          height: MediaQuery.of(context).size.height-MediaQuery.of(context).padding.top-MediaQuery.of(context).padding.bottom,
-                          width: MediaQuery.of(context).size.width,
-                          color: Colors.white,
-                        child: StreamBuilder<List<SaleOrder>>(
-                            stream: objectbox.getOrders(),
-                            builder: (context, snapshot) {
-                              // List<String> dailyOrders = ['sub1', 'sub2', 'sub3'];
-                              if(snapshot.data?.isNotEmpty ?? false) {
-                                List<SaleOrder> saleOrdersAll = snapshot.data ?? [];
-                                noFind = false;
-                                List<SaleOrder> saleOrders = [];
-                                for(int i = 0; i < itemPerPage; i++) {
-                                  saleOrders.add(saleOrdersAll[i]);
-                                  if(i >= saleOrdersAll.length-1) {
-                                    break;
-                                  }
-                                }
-                                if(saleOrders.length>= saleOrdersAll.length) {
-                                  endOfResult = true;
-                                } else {
-                                  endOfResult = false;
-                                }
-
-                                Map<String, List<SaleOrder>> orderMap = {};
-                                debugPrint('lengthing 01 ' + saleOrders.length.toString());
-
-                                for(int i = 0; i < saleOrders.length; i++) {
-                                  // debugPrint('lengthing 01.5 ' + (saleOrders[i].date.day).toString());
-                                  if(i==0) {
-                                    orderMap[(saleOrders[i].date.day).toString()] = [saleOrders[i]];
-
-                                  } else {
-                                    if(orderMap[(saleOrders[i].date.day).toString()] == null) {
-                                      orderMap[(saleOrders[i].date.day).toString()] = [saleOrders[i]];
-                                    } else {
-                                      orderMap[(saleOrders[i].date.day).toString()]!.add(saleOrders[i]);
-                                    }
-                                    // orderMap.update((saleOrders[i].date.millisecondsSinceEpoch).toString(), (list) {
-                                    //   list[3] = 'd';
-                                    //   return list;
-                                    // });
-                                  }
-                                }
-                                // debugPrint('lengthing 02 ' + orderMap['19']!.length.toString() + ' ' + orderMap.toString());
-
-
-                                var sections = List<ExampleSection>.empty(growable: true);
-                                for(int i = 0; i < orderMap.length; i++) {
-                                  debugPrint('printing service ' + orderMap.entries.elementAt(i).toString());
-                                  // List<SaleOrder> dailyOrders = [];
-                                  var section = ExampleSection()
-                                    ..header = orderMap.entries.elementAt(i).key
-                                  // ..items = List.generate(int.parse(document['length']), (index) => document.id)
-                                  //   ..items = listCreation(document.id, document['data'], document).cast<String>()
-
-                                  //   ..items = document['daily_order'].cast<String>()
-                                    ..items = orderMap.entries.elementAt(i).value
-                                  // ..items = dailyOrders.cast<String>()
-                                  // ..items = orderItems(document.id)
-                                    ..expanded = true;
-                                  sections.add(section);
-                                }
-                                sectionList3 = sections;
-                                return CustomScrollView(
-                                  controller: _scrollController,
-                                  slivers: [
-                                    // if (widget.header != null) widget.header!,
-                                    SliverAppBar(
-                                      elevation: 0,
-                                      backgroundColor: Colors.white,
-
-                                      // Provide a standard title.
-
-                                      // Allows the user to reveal the app bar if they begin scrolling
-                                      // back up the list of items.
-                                      floating: true,
-                                      bottom: PreferredSize(                       // Add this code
-                                        preferredSize: Size.fromHeight(-2.0),      // Add this code
-                                        child: Container(),                           // Add this code
-                                      ),
-                                      flexibleSpace: headerAppBar(),
-                                      // Display a placeholder widget to visualize the shrinking size.
-                                      // Make the initial height of the SliverAppBar larger than normal.
-                                      expandedHeight: 20,
-                                    ),
-                                    SliverExpandableList(
-                                      builder: SliverExpandableChildDelegate(
-                                        sectionList: sectionList3,
-                                        headerBuilder: _buildHeader,
-                                        itemBuilder: (context, sectionIndex, itemIndex, index) {
-                                          SaleOrder item = sectionList3[sectionIndex].items[itemIndex];
-                                          int length = sectionList3[sectionIndex].items.length;
-
-                                          if(itemIndex == length-1) {
-                                            return GestureDetector(
-                                              onTap: () async {
-                                                //widget._closeDrawerBtn();
-                                                await Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) => OrderInfoSub(isEnglish: widget.isEnglish, fromSearch: false, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, data:
-                                                      (
-                                                          saleOrders[index].date.toString() + '^' +
-                                                              saleOrders[index].id.toString() + '^' +
-                                                              saleOrders[index].total.toString() + '^' +
-                                                              saleOrders[index].cid.toString() + '&' + '^' +
-                                                              'F' + '^' +
-                                                              saleOrders[index].debt.toString() + '^' +
-                                                              '0.0'
-                                                          // saleOrders[index].discount.toString() + '-p'
-                                                      ),
-                                                        toggleCoinCallback: () {}, shopId: widget.shopId.toString(),)),
-                                                );
-                                              //  widget._openDrawerBtn();
-                                              },
-                                              child: Stack(
-                                                alignment: Alignment.center,
-
-                                                children: [
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(left: 0.0, right: 0.0),
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                          color: AppTheme.lightBgColor,
-                                                          border: Border(
-                                                            bottom: BorderSide(
-                                                                color: AppTheme.skBorderColor2,
-                                                                width: 1.0),
-                                                          )),
-                                                      child: Padding(
-                                                        padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 12.0, bottom: 14.0),
-                                                        child: Column(
-                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: [
-                                                            Padding(
-                                                              padding: const EdgeInsets.only(left: 1.0),
-                                                              child: Column(
-                                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                children: [
-                                                                  Row(
-                                                                    mainAxisAlignment: MainAxisAlignment.start,
-                                                                    children: [
-                                                                      Text('#' + item.deviceId.toString() + '-'  + item.id.toString(), textScaleFactor: 1,
-                                                                        style: TextStyle(
-                                                                            fontSize: 16,
-                                                                            fontWeight: FontWeight.w500
-                                                                        ),
-                                                                      ),
-                                                                      SizedBox(width: 8),
-                                                                      Padding(
-                                                                        padding: const EdgeInsets.only(bottom: 1.0),
-                                                                        child: Icon(Icons.access_time, size: 15, color: Colors.grey,),
-                                                                      ),
-                                                                      SizedBox(width: 4),
-                                                                      Padding(
-                                                                        padding: EdgeInsets.only(bottom:  (Platform.isAndroid) ? 2.0 : 0.0),
-                                                                        child: Text(convertToHour(item.date.hour.toString()) + ':' + item.date.minute.toString() +' ' + convertToAMPM(item.date.hour.toString()),
-                                                                          textScaleFactor: 1, style: TextStyle(
-                                                                            fontSize: 14,
-                                                                            fontWeight: FontWeight.w500,
-                                                                            color: Colors.grey,
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                  // Padding(
-                                                                  //   padding: const EdgeInsets.only(top: 8.0, bottom: 3.0),
-                                                                  //   child: Text('MMK ' + double.parse(item.split('^')[2]).toStringAsFixed(2)),
-                                                                  // ),
-                                                                  SizedBox(
-                                                                    height: 6,
-                                                                  ),
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.only(right: 25.0),
-                                                                    child: Row(
-                                                                      children: [
-                                                                        Expanded(
-                                                                          child: Text((item.cid.toString() =='No customer'? (widget.isEnglish? 'Walk-in customer': 'အမည်မသိ ဖောက်သည်'): item.cid.toString()),  textScaleFactor: 1,style: TextStyle(
-                                                                              fontSize: 15,
-                                                                              fontWeight: FontWeight.w500,
-                                                                              color: item.cid.toString() =='No customer'? Colors.grey: Colors.black,
-                                                                              overflow: TextOverflow.ellipsis
-                                                                          ),
-                                                                            maxLines: 1,
-                                                                            strutStyle: StrutStyle(
-                                                                              height: 1.3,
-                                                                              // fontSize:,
-                                                                              forceStrutHeight: true,
-                                                                            ),
-
-                                                                          ),
-                                                                        ),
-
-                                                                        Padding(
-                                                                          padding: const EdgeInsets.only(left: 8.0),
-                                                                          child: Text('$currencyUnit ' + double.parse(item.total.toString()).toStringAsFixed(2), textScaleFactor: 1, style: TextStyle(
-                                                                            fontSize: 15,
-                                                                            fontWeight: FontWeight.w500,
-                                                                          )),
-                                                                        ),
-
-                                                                      ],
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                              height: 8,
-                                                            ),
-                                                            Row(
-                                                              children: [
-                                                                if(item.debt.toString() == '0.0')
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.only(left: 0.0),
-                                                                    child: Container(
-                                                                      height: 21,
-                                                                      decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.circular(20.0),
-                                                                        color: AppTheme.badgeBgSuccess,
-                                                                      ),
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
-                                                                        child: Text(widget.isEnglish? 'Paid': 'ရှင်းပြီး',
-                                                                          textScaleFactor: 1, strutStyle: StrutStyle(
-                                                                            height: 1.25,
-                                                                            // fontSize:,
-                                                                            forceStrutHeight: true,
-                                                                          ),
-                                                                          style: TextStyle(
-                                                                              fontSize: widget.isEnglish? 13: 12,
-                                                                              fontWeight: FontWeight.w500,
-                                                                              color: Colors.white
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-
-                                                                if(item.debt.toString() != '0.0' && double.parse(item.total.toString()) > double.parse(item.debt.toString()))
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.only(left: 0.0),
-                                                                    child: Container(
-                                                                      height: 21,
-                                                                      decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.circular(20.0),
-                                                                        color: AppTheme.badgeFgDangerLight,
-                                                                      ),
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
-                                                                        child: Text(widget.isEnglish? 'Partially paid': 'တချို့တဝက် ရှင်းပြီး',
-                                                                          textScaleFactor: 1, strutStyle: StrutStyle(
-                                                                            height: 1.25,
-                                                                            // fontSize:,
-                                                                            forceStrutHeight: true,
-                                                                          ),
-                                                                          style: TextStyle(
-                                                                              fontSize: widget.isEnglish? 13: 12,
-                                                                              fontWeight: FontWeight.w500,
-                                                                              color: AppTheme.badgeFgDanger
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                if(item.debt.toString() != '0.0'  && double.parse(item.total.toString()) == double.parse(item.debt.toString()))
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.only(left: 0.0),
-                                                                    child: Container(
-                                                                      height: 21,
-                                                                      decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.circular(20.0),
-                                                                        color: AppTheme.badgeFgDanger,
-                                                                      ),
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
-                                                                        child: Text(widget.isEnglish? 'Unpaid': 'မရှင်းသေး',
-                                                                          textScaleFactor: 1, strutStyle: StrutStyle(
-                                                                            height: 1.25,
-                                                                            // fontSize:,
-                                                                            forceStrutHeight: true,
-                                                                          ),
-                                                                          style: TextStyle(
-                                                                              fontSize: widget.isEnglish? 13: 12,
-                                                                              fontWeight: FontWeight.w500,
-                                                                              color: Colors.white
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                if(item.refund.toString() == 'T')
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.only(left: 6.0),
-                                                                    child: Container(
-                                                                      height: 21,
-                                                                      decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.circular(20.0),
-                                                                        color: AppTheme.badgeBgSecond,
-                                                                      ),
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
-                                                                        child: Text(widget.isEnglish? 'Refunded': 'ပြန်ပေး',
-                                                                          textScaleFactor: 1, strutStyle: StrutStyle(
-                                                                            height: 1.25,
-                                                                            // fontSize:,
-                                                                            forceStrutHeight: true,
-                                                                          ),
-                                                                          style: TextStyle(
-                                                                              fontSize: widget.isEnglish? 13: 12,
-                                                                              fontWeight: FontWeight.w500,
-                                                                              color: Colors.white
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-
-                                                                if(item.refund.toString() == 'P')
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.only(left: 6.0),
-                                                                    child: Container(
-                                                                      height: 21,
-                                                                      decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.circular(20.0),
-                                                                        color: AppTheme.badgeBgSecondLight,
-                                                                      ),
-                                                                      child: Padding(
-                                                                        padding: const EdgeInsets.only(top: 0.0, left: 12.0, right: 12.0),
-                                                                        child: Text(widget.isEnglish? 'Partially refunded': 'တချို့တဝက် ပြန်ပေး',
-                                                                          textScaleFactor: 1, strutStyle: StrutStyle(
-                                                                            height: 1.25,
-                                                                            // fontSize:,
-                                                                            forceStrutHeight: true,
-                                                                          ),
-                                                                          style: TextStyle(
-                                                                              fontSize: widget.isEnglish? 13: 12,
-                                                                              fontWeight: FontWeight.w500,
-                                                                              color: AppTheme.badgeBgSecond
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                              ],
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(right: 15.0, bottom: 5),
-                                                    child: Align(
-                                                      alignment: Alignment.centerRight,
-                                                      child: Row(
-                                                        mainAxisAlignment: MainAxisAlignment.end,
-                                                        children: [
-                                                          // Text('$currencyUnit ' + double.parse(item.split('^')[2]).toStringAsFixed(2), style: TextStyle(
-                                                          //   fontSize: 15,fontWeight: FontWeight.w500,
-                                                          // )),
-                                                          SizedBox(width: 10),
-                                                          Padding(
-                                                            padding: const EdgeInsets.only(bottom: 2.0),
-                                                            child: Icon(
-                                                              Icons
-                                                                  .arrow_forward_ios_rounded,
-                                                              size: 16,
-                                                              color: Colors
-                                                                  .blueGrey
-                                                                  .withOpacity(
-                                                                  0.8),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            );
-                                          }
-                                          return GestureDetector(
-                                            onTap: () async {
-                                             // widget._closeDrawerBtn();
-                                              await Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>OrderInfoSub(isEnglish: widget.isEnglish, fromSearch: false, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, data:
-                                                    (
-                                                        saleOrders[index].date.toString() + '^' +
-                                                            saleOrders[index].id.toString() + '^' +
-                                                            saleOrders[index].total.toString() + '^' +
-                                                            saleOrders[index].cid.toString() + '&' + '^' +
-                                                            'F' + '^' +
-                                                            saleOrders[index].debt.toString() + '^' +
-                                                            '0.0'
-                                                        // saleOrders[index].discount.toString() + '-p'
-                                                    ),
-                                                      toggleCoinCallback: () {}, shopId: widget.shopId.toString(),)),
-                                              );
-                                            //  widget._openDrawerBtn();
-                                            },
-                                            child:  Stack(
-                                              alignment: Alignment.center,
-
-                                              children: [
-                                                Padding(
-                                                  padding: const EdgeInsets.only(left: 0.0, right: 0.0),
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                        color: AppTheme.lightBgColor,
-                                                        border: Border(
-                                                          bottom: BorderSide(
-                                                              color: AppTheme.skBorderColor2,
-                                                              width: 1.0),
-                                                        )),
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 12.0, bottom: 14.0),
-                                                      child: Column(
-                                                        mainAxisAlignment: MainAxisAlignment.start,
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                          Padding(
-                                                            padding: const EdgeInsets.only(left: 1.0),
-                                                            child: Column(
-                                                              mainAxisAlignment: MainAxisAlignment.start,
-                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                              children: [
-                                                                Row(
-                                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                                  children: [
-                                                                    Text('#' + item.deviceId.toString() + '-'  + item.id.toString(), textScaleFactor: 1,
-                                                                      style: TextStyle(
-                                                                          fontSize: 16,
-                                                                          fontWeight: FontWeight.w500
-                                                                      ),
-                                                                    ),
-                                                                    SizedBox(width: 8),
-                                                                    Padding(
-                                                                      padding: const EdgeInsets.only(bottom: 1.0),
-                                                                      child: Icon(Icons.access_time, size: 15, color: Colors.grey,),
-                                                                    ),
-                                                                    SizedBox(width: 4),
-                                                                    Padding(
-                                                                      padding: EdgeInsets.only(bottom:  (Platform.isAndroid) ? 2.0 : 0.0),
-                                                                      child: Text(convertToHour(item.date.hour.toString()) + ':' + item.date.minute.toString() +' ' + convertToAMPM(item.date.hour.toString()),
-                                                                        textScaleFactor: 1, style: TextStyle(
-                                                                          fontSize: 14,
-                                                                          fontWeight: FontWeight.w500,
-                                                                          color: Colors.grey,
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                                // Padding(
-                                                                //   padding: const EdgeInsets.only(top: 8.0, bottom: 3.0),
-                                                                //   child: Text('MMK ' + double.parse(item.split('^')[2]).toStringAsFixed(2)),
-                                                                // ),
-                                                                SizedBox(
-                                                                  height: 6,
-                                                                ),
-                                                                Padding(
-                                                                  padding: const EdgeInsets.only(right: 25.0),
-                                                                  child: Row(
-                                                                    children: [
-                                                                      Expanded(
-                                                                        child: Text((item.cid.toString() =='No customer'? (widget.isEnglish? 'Walk-in customer': 'အမည်မသိ ဖောက်သည်'): item.cid.toString()),  textScaleFactor: 1,style: TextStyle(
-                                                                            fontSize: 15,
-                                                                            fontWeight: FontWeight.w500,
-                                                                            color: item.cid.toString() =='No customer'? Colors.grey: Colors.black,
-                                                                            overflow: TextOverflow.ellipsis
-                                                                        ),
-                                                                          maxLines: 1,
-                                                                          strutStyle: StrutStyle(
-                                                                            height: 1.3,
-                                                                            // fontSize:,
-                                                                            forceStrutHeight: true,
-                                                                          ),
-
-                                                                        ),
-                                                                      ),
-
-                                                                      Padding(
-                                                                        padding: const EdgeInsets.only(left: 8.0),
-                                                                        child: Text('$currencyUnit ' + double.parse(item.total.toString()).toStringAsFixed(2), textScaleFactor: 1, style: TextStyle(
-                                                                          fontSize: 15,
-                                                                          fontWeight: FontWeight.w500,
-                                                                        )),
-                                                                      ),
-
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            height: 8,
-                                                          ),
-                                                          Row(
-                                                            children: [
-                                                              if(item.debt.toString() == '0.0')
-                                                                Padding(
-                                                                  padding: const EdgeInsets.only(left: 0.0),
-                                                                  child: Container(
-                                                                    height: 21,
-                                                                    decoration: BoxDecoration(
-                                                                      borderRadius: BorderRadius.circular(20.0),
-                                                                      color: AppTheme.badgeBgSuccess,
-                                                                    ),
-                                                                    child: Padding(
-                                                                      padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
-                                                                      child: Text(widget.isEnglish? 'Paid': 'ရှင်းပြီး',
-                                                                        textScaleFactor: 1, strutStyle: StrutStyle(
-                                                                          height: 1.25,
-                                                                          // fontSize:,
-                                                                          forceStrutHeight: true,
-                                                                        ),
-                                                                        style: TextStyle(
-                                                                            fontSize: widget.isEnglish? 13: 12,
-                                                                            fontWeight: FontWeight.w500,
-                                                                            color: Colors.white
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-
-                                                              if(item.debt.toString() != '0.0' && double.parse(item.total.toString()) > double.parse(item.debt.toString()))
-                                                                Padding(
-                                                                  padding: const EdgeInsets.only(left: 0.0),
-                                                                  child: Container(
-                                                                    height: 21,
-                                                                    decoration: BoxDecoration(
-                                                                      borderRadius: BorderRadius.circular(20.0),
-                                                                      color: AppTheme.badgeFgDangerLight,
-                                                                    ),
-                                                                    child: Padding(
-                                                                      padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
-                                                                      child: Text(widget.isEnglish? 'Partially paid': 'တချို့တဝက် ရှင်းပြီး',
-                                                                        textScaleFactor: 1, strutStyle: StrutStyle(
-                                                                          height: 1.25,
-                                                                          // fontSize:,
-                                                                          forceStrutHeight: true,
-                                                                        ),
-                                                                        style: TextStyle(
-                                                                            fontSize: widget.isEnglish? 13: 12,
-                                                                            fontWeight: FontWeight.w500,
-                                                                            color: AppTheme.badgeFgDanger
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              if(item.debt.toString() != '0.0'  && double.parse(item.total.toString()) == double.parse(item.debt.toString()))
-                                                                Padding(
-                                                                  padding: const EdgeInsets.only(left: 0.0),
-                                                                  child: Container(
-                                                                    height: 21,
-                                                                    decoration: BoxDecoration(
-                                                                      borderRadius: BorderRadius.circular(20.0),
-                                                                      color: AppTheme.badgeFgDanger,
-                                                                    ),
-                                                                    child: Padding(
-                                                                      padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
-                                                                      child: Text(widget.isEnglish? 'Unpaid': 'မရှင်းသေး',
-                                                                        textScaleFactor: 1, strutStyle: StrutStyle(
-                                                                          height: 1.25,
-                                                                          // fontSize:,
-                                                                          forceStrutHeight: true,
-                                                                        ),
-                                                                        style: TextStyle(
-                                                                            fontSize: widget.isEnglish? 13: 12,
-                                                                            fontWeight: FontWeight.w500,
-                                                                            color: Colors.white
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              if(item.refund.toString() == 'T')
-                                                                Padding(
-                                                                  padding: const EdgeInsets.only(left: 6.0),
-                                                                  child: Container(
-                                                                    height: 21,
-                                                                    decoration: BoxDecoration(
-                                                                      borderRadius: BorderRadius.circular(20.0),
-                                                                      color: AppTheme.badgeBgSecond,
-                                                                    ),
-                                                                    child: Padding(
-                                                                      padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
-                                                                      child: Text(widget.isEnglish? 'Refunded': 'ပြန်ပေး',
-                                                                        textScaleFactor: 1, strutStyle: StrutStyle(
-                                                                          height: 1.25,
-                                                                          // fontSize:,
-                                                                          forceStrutHeight: true,
-                                                                        ),
-                                                                        style: TextStyle(
-                                                                            fontSize: widget.isEnglish? 13: 12,
-                                                                            fontWeight: FontWeight.w500,
-                                                                            color: Colors.white
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-
-                                                              if(item.refund.toString() == 'P')
-                                                                Padding(
-                                                                  padding: const EdgeInsets.only(left: 6.0),
-                                                                  child: Container(
-                                                                    height: 21,
-                                                                    decoration: BoxDecoration(
-                                                                      borderRadius: BorderRadius.circular(20.0),
-                                                                      color: AppTheme.badgeBgSecondLight,
-                                                                    ),
-                                                                    child: Padding(
-                                                                      padding: const EdgeInsets.only(top: 0.0, left: 12.0, right: 12.0),
-                                                                      child: Text(widget.isEnglish? 'Partially refunded': 'တချို့တဝက် ပြန်ပေး',
-                                                                        textScaleFactor: 1, strutStyle: StrutStyle(
-                                                                          height: 1.25,
-                                                                          // fontSize:,
-                                                                          forceStrutHeight: true,
-                                                                        ),
-                                                                        style: TextStyle(
-                                                                            fontSize: widget.isEnglish? 13: 12,
-                                                                            fontWeight: FontWeight.w500,
-                                                                            color: AppTheme.badgeBgSecond
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                            ],
-                                                          )
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.only(right: 15.0, bottom: 5),
-                                                  child: Align(
-                                                    alignment: Alignment.centerRight,
-                                                    child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.end,
-                                                      children: [
-                                                        // Text('$currencyUnit ' + double.parse(item.split('^')[2]).toStringAsFixed(2), style: TextStyle(
-                                                        //   fontSize: 15,fontWeight: FontWeight.w500,
-                                                        // )),
-                                                        SizedBox(width: 10),
-                                                        Padding(
-                                                          padding: const EdgeInsets.only(bottom: 2.0),
-                                                          child: Icon(
-                                                            Icons
-                                                                .arrow_forward_ios_rounded,
-                                                            size: 16,
-                                                            color: Colors
-                                                                .blueGrey
-                                                                .withOpacity(
-                                                                0.8),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          );
-
-                                          // return Container(
-                                          //   child: Text(item)
-                                          // );
-                                        },
-                                      ),
-                                    ),
-                                    bottomBox()
-                                  ],
-                                );
-                              }
-                              noFind = true;
-                              return Align(
-                                alignment: Alignment.topCenter,
-                                child: Column(
-                                  children: [
-                                    headerAppBar(),
-                                    Expanded(
-                                      child: Container(
-                                        // color: AppTheme.lightBgColor,
-                                        color: Colors.white,
-                                        child: Center(child: Text('No data found for selected month', textScaleFactor: 1, style: TextStyle(fontSize: 15),)),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              );
-                            }
-                        ),
-                      ),
-                    ),
-                  ),
+                // if(!searchOpening)
+                //   Align(
+                //     alignment: Alignment.center,
+                //     child: Padding(
+                //       // padding: const EdgeInsets.only(top: 138.0),
+                //       padding: const EdgeInsets.only(top: 81.0),
+                //       child: Container(
+                //           height: MediaQuery.of(context).size.height-MediaQuery.of(context).padding.top-MediaQuery.of(context).padding.bottom,
+                //           width: MediaQuery.of(context).size.width,
+                //           color: Colors.white,
+                //         child: StreamBuilder<List<SaleOrder>>(
+                //             stream: objectbox.getOrders(),
+                //             builder: (context, snapshot) {
+                //               // List<String> dailyOrders = ['sub1', 'sub2', 'sub3'];
+                //               if(snapshot.data?.isNotEmpty ?? false) {
+                //                 List<SaleOrder> saleOrdersAll = snapshot.data ?? [];
+                //                 noFind = false;
+                //                 List<SaleOrder> saleOrders = [];
+                //                 for(int i = 0; i < itemPerPage; i++) {
+                //                   saleOrders.add(saleOrdersAll[i]);
+                //                   if(i >= saleOrdersAll.length-1) {
+                //                     break;
+                //                   }
+                //                 }
+                //                 if(saleOrders.length>= saleOrdersAll.length) {
+                //                   endOfResult = true;
+                //                 } else {
+                //                   endOfResult = false;
+                //                 }
+                //
+                //                 Map<String, List<SaleOrder>> orderMap = {};
+                //                 debugPrint('lengthing 01 ' + saleOrders.length.toString());
+                //
+                //                 for(int i = 0; i < saleOrders.length; i++) {
+                //                   // debugPrint('lengthing 01.5 ' + (saleOrders[i].date.day).toString());
+                //                   if(i==0) {
+                //                     orderMap[(saleOrders[i].date.day).toString()] = [saleOrders[i]];
+                //
+                //                   } else {
+                //                     if(orderMap[(saleOrders[i].date.day).toString()] == null) {
+                //                       orderMap[(saleOrders[i].date.day).toString()] = [saleOrders[i]];
+                //                     } else {
+                //                       orderMap[(saleOrders[i].date.day).toString()]!.add(saleOrders[i]);
+                //                     }
+                //                     // orderMap.update((saleOrders[i].date.millisecondsSinceEpoch).toString(), (list) {
+                //                     //   list[3] = 'd';
+                //                     //   return list;
+                //                     // });
+                //                   }
+                //                 }
+                //                 // debugPrint('lengthing 02 ' + orderMap['19']!.length.toString() + ' ' + orderMap.toString());
+                //
+                //
+                //                 var sections = List<ExampleSection>.empty(growable: true);
+                //                 for(int i = 0; i < orderMap.length; i++) {
+                //                   debugPrint('printing service ' + orderMap.entries.elementAt(i).toString());
+                //                   // List<SaleOrder> dailyOrders = [];
+                //                   var section = ExampleSection()
+                //                     ..header = orderMap.entries.elementAt(i).key
+                //                   // ..items = List.generate(int.parse(document['length']), (index) => document.id)
+                //                   //   ..items = listCreation(document.id, document['data'], document).cast<String>()
+                //
+                //                   //   ..items = document['daily_order'].cast<String>()
+                //                     ..items = orderMap.entries.elementAt(i).value
+                //                   // ..items = dailyOrders.cast<String>()
+                //                   // ..items = orderItems(document.id)
+                //                     ..expanded = true;
+                //                   sections.add(section);
+                //                 }
+                //                 sectionList3 = sections;
+                //                 return CustomScrollView(
+                //                   controller: _scrollController,
+                //                   slivers: [
+                //                     // if (widget.header != null) widget.header!,
+                //                     SliverAppBar(
+                //                       elevation: 0,
+                //                       backgroundColor: Colors.white,
+                //
+                //                       // Provide a standard title.
+                //
+                //                       // Allows the user to reveal the app bar if they begin scrolling
+                //                       // back up the list of items.
+                //                       floating: true,
+                //                       bottom: PreferredSize(                       // Add this code
+                //                         preferredSize: Size.fromHeight(-2.0),      // Add this code
+                //                         child: Container(),                           // Add this code
+                //                       ),
+                //                       flexibleSpace: headerAppBar(),
+                //                       // Display a placeholder widget to visualize the shrinking size.
+                //                       // Make the initial height of the SliverAppBar larger than normal.
+                //                       expandedHeight: 20,
+                //                     ),
+                //                     SliverExpandableList(
+                //                       builder: SliverExpandableChildDelegate(
+                //                         sectionList: sectionList3,
+                //                         headerBuilder: _buildHeader,
+                //                         itemBuilder: (context, sectionIndex, itemIndex, index) {
+                //                           SaleOrder item = sectionList3[sectionIndex].items[itemIndex];
+                //                           int length = sectionList3[sectionIndex].items.length;
+                //
+                //                           if(itemIndex == length-1) {
+                //                             return GestureDetector(
+                //                               onTap: () async {
+                //                                 //widget._closeDrawerBtn();
+                //                                 await Navigator.push(
+                //                                   context,
+                //                                   MaterialPageRoute(
+                //                                       builder: (context) => OrderInfoSub(isEnglish: widget.isEnglish, fromSearch: false, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, data:
+                //                                       (
+                //                                           saleOrders[index].date.toString() + '^' +
+                //                                               saleOrders[index].id.toString() + '^' +
+                //                                               saleOrders[index].total.toString() + '^' +
+                //                                               saleOrders[index].cid.toString() + '&' + '^' +
+                //                                               'F' + '^' +
+                //                                               saleOrders[index].debt.toString() + '^' +
+                //                                               '0.0'
+                //                                           // saleOrders[index].discount.toString() + '-p'
+                //                                       ),
+                //                                         toggleCoinCallback: () {}, shopId: widget.shopId.toString(),)),
+                //                                 );
+                //                               //  widget._openDrawerBtn();
+                //                               },
+                //                               child: Stack(
+                //                                 alignment: Alignment.center,
+                //
+                //                                 children: [
+                //                                   Padding(
+                //                                     padding: const EdgeInsets.only(left: 0.0, right: 0.0),
+                //                                     child: Container(
+                //                                       decoration: BoxDecoration(
+                //                                           color: AppTheme.lightBgColor,
+                //                                           border: Border(
+                //                                             bottom: BorderSide(
+                //                                                 color: AppTheme.skBorderColor2,
+                //                                                 width: 1.0),
+                //                                           )),
+                //                                       child: Padding(
+                //                                         padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 12.0, bottom: 14.0),
+                //                                         child: Column(
+                //                                           mainAxisAlignment: MainAxisAlignment.start,
+                //                                           crossAxisAlignment: CrossAxisAlignment.start,
+                //                                           children: [
+                //                                             Padding(
+                //                                               padding: const EdgeInsets.only(left: 1.0),
+                //                                               child: Column(
+                //                                                 mainAxisAlignment: MainAxisAlignment.start,
+                //                                                 crossAxisAlignment: CrossAxisAlignment.start,
+                //                                                 children: [
+                //                                                   Row(
+                //                                                     mainAxisAlignment: MainAxisAlignment.start,
+                //                                                     children: [
+                //                                                       Text('#' + item.deviceId.toString() + '-'  + item.id.toString(), textScaleFactor: 1,
+                //                                                         style: TextStyle(
+                //                                                             fontSize: 16,
+                //                                                             fontWeight: FontWeight.w500
+                //                                                         ),
+                //                                                       ),
+                //                                                       SizedBox(width: 8),
+                //                                                       Padding(
+                //                                                         padding: const EdgeInsets.only(bottom: 1.0),
+                //                                                         child: Icon(Icons.access_time, size: 15, color: Colors.grey,),
+                //                                                       ),
+                //                                                       SizedBox(width: 4),
+                //                                                       Padding(
+                //                                                         padding: EdgeInsets.only(bottom:  (Platform.isAndroid) ? 2.0 : 0.0),
+                //                                                         child: Text(
+                //                                                           item.date.hour.toString() + ':' + item.date.minute.toString() + ':' + item.date.second.toString() + ' ' + convertToAMPM(zeroToTen(item.date.hour.toString())).toString(),
+                //                                                           textScaleFactor: 1, style: TextStyle(
+                //                                                             fontSize: 14,
+                //                                                             fontWeight: FontWeight.w500,
+                //                                                             color: Colors.grey,
+                //                                                           ),
+                //                                                         ),
+                //                                                       ),
+                //                                                     ],
+                //                                                   ),
+                //                                                   // Padding(
+                //                                                   //   padding: const EdgeInsets.only(top: 8.0, bottom: 3.0),
+                //                                                   //   child: Text('MMK ' + double.parse(item.split('^')[2]).toStringAsFixed(2)),
+                //                                                   // ),
+                //                                                   SizedBox(
+                //                                                     height: 6,
+                //                                                   ),
+                //                                                   Padding(
+                //                                                     padding: const EdgeInsets.only(right: 25.0),
+                //                                                     child: Row(
+                //                                                       children: [
+                //                                                         Expanded(
+                //                                                           child: Text((item.cid.toString() =='No customer'? (widget.isEnglish? 'Walk-in customer': 'အမည်မသိ ဖောက်သည်'): item.cid.toString()),  textScaleFactor: 1,style: TextStyle(
+                //                                                               fontSize: 15,
+                //                                                               fontWeight: FontWeight.w500,
+                //                                                               color: item.cid.toString() =='No customer'? Colors.grey: Colors.black,
+                //                                                               overflow: TextOverflow.ellipsis
+                //                                                           ),
+                //                                                             maxLines: 1,
+                //                                                             strutStyle: StrutStyle(
+                //                                                               height: 1.3,
+                //                                                               // fontSize:,
+                //                                                               forceStrutHeight: true,
+                //                                                             ),
+                //
+                //                                                           ),
+                //                                                         ),
+                //
+                //                                                         Padding(
+                //                                                           padding: const EdgeInsets.only(left: 8.0),
+                //                                                           child: Text('$currencyUnit ' + double.parse(item.total.toString()).toStringAsFixed(2), textScaleFactor: 1, style: TextStyle(
+                //                                                             fontSize: 15,
+                //                                                             fontWeight: FontWeight.w500,
+                //                                                           )),
+                //                                                         ),
+                //
+                //                                                       ],
+                //                                                     ),
+                //                                                   ),
+                //                                                 ],
+                //                                               ),
+                //                                             ),
+                //                                             SizedBox(
+                //                                               height: 8,
+                //                                             ),
+                //                                             Row(
+                //                                               children: [
+                //                                                 if(item.debt.toString() == '0.0')
+                //                                                   Padding(
+                //                                                     padding: const EdgeInsets.only(left: 0.0),
+                //                                                     child: Container(
+                //                                                       height: 21,
+                //                                                       decoration: BoxDecoration(
+                //                                                         borderRadius: BorderRadius.circular(20.0),
+                //                                                         color: AppTheme.badgeBgSuccess,
+                //                                                       ),
+                //                                                       child: Padding(
+                //                                                         padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
+                //                                                         child: Text(widget.isEnglish? 'Paid': 'ရှင်းပြီး',
+                //                                                           textScaleFactor: 1, strutStyle: StrutStyle(
+                //                                                             height: 1.25,
+                //                                                             // fontSize:,
+                //                                                             forceStrutHeight: true,
+                //                                                           ),
+                //                                                           style: TextStyle(
+                //                                                               fontSize: widget.isEnglish? 13: 12,
+                //                                                               fontWeight: FontWeight.w500,
+                //                                                               color: Colors.white
+                //                                                           ),
+                //                                                         ),
+                //                                                       ),
+                //                                                     ),
+                //                                                   ),
+                //
+                //                                                 if(item.debt.toString() != '0.0' && double.parse(item.total.toString()) > double.parse(item.debt.toString()))
+                //                                                   Padding(
+                //                                                     padding: const EdgeInsets.only(left: 0.0),
+                //                                                     child: Container(
+                //                                                       height: 21,
+                //                                                       decoration: BoxDecoration(
+                //                                                         borderRadius: BorderRadius.circular(20.0),
+                //                                                         color: AppTheme.badgeFgDangerLight,
+                //                                                       ),
+                //                                                       child: Padding(
+                //                                                         padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
+                //                                                         child: Text(widget.isEnglish? 'Partially paid': 'တချို့တဝက် ရှင်းပြီး',
+                //                                                           textScaleFactor: 1, strutStyle: StrutStyle(
+                //                                                             height: 1.25,
+                //                                                             // fontSize:,
+                //                                                             forceStrutHeight: true,
+                //                                                           ),
+                //                                                           style: TextStyle(
+                //                                                               fontSize: widget.isEnglish? 13: 12,
+                //                                                               fontWeight: FontWeight.w500,
+                //                                                               color: AppTheme.badgeFgDanger
+                //                                                           ),
+                //                                                         ),
+                //                                                       ),
+                //                                                     ),
+                //                                                   ),
+                //                                                 if(item.debt.toString() != '0.0'  && double.parse(item.total.toString()) == double.parse(item.debt.toString()))
+                //                                                   Padding(
+                //                                                     padding: const EdgeInsets.only(left: 0.0),
+                //                                                     child: Container(
+                //                                                       height: 21,
+                //                                                       decoration: BoxDecoration(
+                //                                                         borderRadius: BorderRadius.circular(20.0),
+                //                                                         color: AppTheme.badgeFgDanger,
+                //                                                       ),
+                //                                                       child: Padding(
+                //                                                         padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
+                //                                                         child: Text(widget.isEnglish? 'Unpaid': 'မရှင်းသေး',
+                //                                                           textScaleFactor: 1, strutStyle: StrutStyle(
+                //                                                             height: 1.25,
+                //                                                             // fontSize:,
+                //                                                             forceStrutHeight: true,
+                //                                                           ),
+                //                                                           style: TextStyle(
+                //                                                               fontSize: widget.isEnglish? 13: 12,
+                //                                                               fontWeight: FontWeight.w500,
+                //                                                               color: Colors.white
+                //                                                           ),
+                //                                                         ),
+                //                                                       ),
+                //                                                     ),
+                //                                                   ),
+                //                                                 if(item.refund.toString() == 'T')
+                //                                                   Padding(
+                //                                                     padding: const EdgeInsets.only(left: 6.0),
+                //                                                     child: Container(
+                //                                                       height: 21,
+                //                                                       decoration: BoxDecoration(
+                //                                                         borderRadius: BorderRadius.circular(20.0),
+                //                                                         color: AppTheme.badgeBgSecond,
+                //                                                       ),
+                //                                                       child: Padding(
+                //                                                         padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
+                //                                                         child: Text(widget.isEnglish? 'Refunded': 'ပြန်ပေး',
+                //                                                           textScaleFactor: 1, strutStyle: StrutStyle(
+                //                                                             height: 1.25,
+                //                                                             // fontSize:,
+                //                                                             forceStrutHeight: true,
+                //                                                           ),
+                //                                                           style: TextStyle(
+                //                                                               fontSize: widget.isEnglish? 13: 12,
+                //                                                               fontWeight: FontWeight.w500,
+                //                                                               color: Colors.white
+                //                                                           ),
+                //                                                         ),
+                //                                                       ),
+                //                                                     ),
+                //                                                   ),
+                //
+                //                                                 if(item.refund.toString() == 'P')
+                //                                                   Padding(
+                //                                                     padding: const EdgeInsets.only(left: 6.0),
+                //                                                     child: Container(
+                //                                                       height: 21,
+                //                                                       decoration: BoxDecoration(
+                //                                                         borderRadius: BorderRadius.circular(20.0),
+                //                                                         color: AppTheme.badgeBgSecondLight,
+                //                                                       ),
+                //                                                       child: Padding(
+                //                                                         padding: const EdgeInsets.only(top: 0.0, left: 12.0, right: 12.0),
+                //                                                         child: Text(widget.isEnglish? 'Partially refunded': 'တချို့တဝက် ပြန်ပေး',
+                //                                                           textScaleFactor: 1, strutStyle: StrutStyle(
+                //                                                             height: 1.25,
+                //                                                             // fontSize:,
+                //                                                             forceStrutHeight: true,
+                //                                                           ),
+                //                                                           style: TextStyle(
+                //                                                               fontSize: widget.isEnglish? 13: 12,
+                //                                                               fontWeight: FontWeight.w500,
+                //                                                               color: AppTheme.badgeBgSecond
+                //                                                           ),
+                //                                                         ),
+                //                                                       ),
+                //                                                     ),
+                //                                                   ),
+                //                                               ],
+                //                                             )
+                //                                           ],
+                //                                         ),
+                //                                       ),
+                //                                     ),
+                //                                   ),
+                //                                   Padding(
+                //                                     padding: const EdgeInsets.only(right: 15.0, bottom: 5),
+                //                                     child: Align(
+                //                                       alignment: Alignment.centerRight,
+                //                                       child: Row(
+                //                                         mainAxisAlignment: MainAxisAlignment.end,
+                //                                         children: [
+                //                                           // Text('$currencyUnit ' + double.parse(item.split('^')[2]).toStringAsFixed(2), style: TextStyle(
+                //                                           //   fontSize: 15,fontWeight: FontWeight.w500,
+                //                                           // )),
+                //                                           SizedBox(width: 10),
+                //                                           Padding(
+                //                                             padding: const EdgeInsets.only(bottom: 2.0),
+                //                                             child: Icon(
+                //                                               Icons
+                //                                                   .arrow_forward_ios_rounded,
+                //                                               size: 16,
+                //                                               color: Colors
+                //                                                   .blueGrey
+                //                                                   .withOpacity(
+                //                                                   0.8),
+                //                                             ),
+                //                                           ),
+                //                                         ],
+                //                                       ),
+                //                                     ),
+                //                                   )
+                //                                 ],
+                //                               ),
+                //                             );
+                //                           }
+                //                           return GestureDetector(
+                //                             onTap: () async {
+                //                              // widget._closeDrawerBtn();
+                //                               await Navigator.push(
+                //                                 context,
+                //                                 MaterialPageRoute(
+                //                                     builder: (context) =>OrderInfoSub(isEnglish: widget.isEnglish, fromSearch: false, printFromOrders: printFromOrdersFun, selectedDev: widget.selectedDev, data:
+                //                                     (
+                //                                         saleOrders[index].date.toString() + '^' +
+                //                                             saleOrders[index].id.toString() + '^' +
+                //                                             saleOrders[index].total.toString() + '^' +
+                //                                             saleOrders[index].cid.toString() + '&' + '^' +
+                //                                             'F' + '^' +
+                //                                             saleOrders[index].debt.toString() + '^' +
+                //                                             '0.0'
+                //                                         // saleOrders[index].discount.toString() + '-p'
+                //                                     ),
+                //                                       toggleCoinCallback: () {}, shopId: widget.shopId.toString(),)),
+                //                               );
+                //                             //  widget._openDrawerBtn();
+                //                             },
+                //                             child:  Stack(
+                //                               alignment: Alignment.center,
+                //
+                //                               children: [
+                //                                 Padding(
+                //                                   padding: const EdgeInsets.only(left: 0.0, right: 0.0),
+                //                                   child: Container(
+                //                                     decoration: BoxDecoration(
+                //                                         color: AppTheme.lightBgColor,
+                //                                         border: Border(
+                //                                           bottom: BorderSide(
+                //                                               color: AppTheme.skBorderColor2,
+                //                                               width: 1.0),
+                //                                         )),
+                //                                     child: Padding(
+                //                                       padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 12.0, bottom: 14.0),
+                //                                       child: Column(
+                //                                         mainAxisAlignment: MainAxisAlignment.start,
+                //                                         crossAxisAlignment: CrossAxisAlignment.start,
+                //                                         children: [
+                //                                           Padding(
+                //                                             padding: const EdgeInsets.only(left: 1.0),
+                //                                             child: Column(
+                //                                               mainAxisAlignment: MainAxisAlignment.start,
+                //                                               crossAxisAlignment: CrossAxisAlignment.start,
+                //                                               children: [
+                //                                                 Row(
+                //                                                   mainAxisAlignment: MainAxisAlignment.start,
+                //                                                   children: [
+                //                                                     Text('#' + item.deviceId.toString() + '-'  + item.id.toString(), textScaleFactor: 1,
+                //                                                       style: TextStyle(
+                //                                                           fontSize: 16,
+                //                                                           fontWeight: FontWeight.w500
+                //                                                       ),
+                //                                                     ),
+                //                                                     SizedBox(width: 8),
+                //                                                     Padding(
+                //                                                       padding: const EdgeInsets.only(bottom: 1.0),
+                //                                                       child: Icon(Icons.access_time, size: 15, color: Colors.grey,),
+                //                                                     ),
+                //                                                     SizedBox(width: 4),
+                //                                                     Padding(
+                //                                                       padding: EdgeInsets.only(bottom:  (Platform.isAndroid) ? 2.0 : 0.0),
+                //                                                       child: Text(
+                //                                                         item.date.hour.toString() + ':' + item.date.minute.toString() + ':' + item.date.second.toString() + ' ' + convertToAMPM(zeroToTen(item.date.hour.toString())).toString(),
+                //                                                         textScaleFactor: 1, style: TextStyle(
+                //                                                           fontSize: 14,
+                //                                                           fontWeight: FontWeight.w500,
+                //                                                           color: Colors.grey,
+                //                                                         ),
+                //                                                       ),
+                //                                                     ),
+                //                                                   ],
+                //                                                 ),
+                //                                                 // Padding(
+                //                                                 //   padding: const EdgeInsets.only(top: 8.0, bottom: 3.0),
+                //                                                 //   child: Text('MMK ' + double.parse(item.split('^')[2]).toStringAsFixed(2)),
+                //                                                 // ),
+                //                                                 SizedBox(
+                //                                                   height: 6,
+                //                                                 ),
+                //                                                 Padding(
+                //                                                   padding: const EdgeInsets.only(right: 25.0),
+                //                                                   child: Row(
+                //                                                     children: [
+                //                                                       Expanded(
+                //                                                         child: Text((item.cid.toString() =='No customer'? (widget.isEnglish? 'Walk-in customer': 'အမည်မသိ ဖောက်သည်'): item.cid.toString()),  textScaleFactor: 1,style: TextStyle(
+                //                                                             fontSize: 15,
+                //                                                             fontWeight: FontWeight.w500,
+                //                                                             color: item.cid.toString() =='No customer'? Colors.grey: Colors.black,
+                //                                                             overflow: TextOverflow.ellipsis
+                //                                                         ),
+                //                                                           maxLines: 1,
+                //                                                           strutStyle: StrutStyle(
+                //                                                             height: 1.3,
+                //                                                             // fontSize:,
+                //                                                             forceStrutHeight: true,
+                //                                                           ),
+                //
+                //                                                         ),
+                //                                                       ),
+                //
+                //                                                       Padding(
+                //                                                         padding: const EdgeInsets.only(left: 8.0),
+                //                                                         child: Text('$currencyUnit ' + double.parse(item.total.toString()).toStringAsFixed(2), textScaleFactor: 1, style: TextStyle(
+                //                                                           fontSize: 15,
+                //                                                           fontWeight: FontWeight.w500,
+                //                                                         )),
+                //                                                       ),
+                //
+                //                                                     ],
+                //                                                   ),
+                //                                                 ),
+                //                                               ],
+                //                                             ),
+                //                                           ),
+                //                                           SizedBox(
+                //                                             height: 8,
+                //                                           ),
+                //                                           Row(
+                //                                             children: [
+                //                                               if(item.debt.toString() == '0.0')
+                //                                                 Padding(
+                //                                                   padding: const EdgeInsets.only(left: 0.0),
+                //                                                   child: Container(
+                //                                                     height: 21,
+                //                                                     decoration: BoxDecoration(
+                //                                                       borderRadius: BorderRadius.circular(20.0),
+                //                                                       color: AppTheme.badgeBgSuccess,
+                //                                                     ),
+                //                                                     child: Padding(
+                //                                                       padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
+                //                                                       child: Text(widget.isEnglish? 'Paid': 'ရှင်းပြီး',
+                //                                                         textScaleFactor: 1, strutStyle: StrutStyle(
+                //                                                           height: 1.25,
+                //                                                           // fontSize:,
+                //                                                           forceStrutHeight: true,
+                //                                                         ),
+                //                                                         style: TextStyle(
+                //                                                             fontSize: widget.isEnglish? 13: 12,
+                //                                                             fontWeight: FontWeight.w500,
+                //                                                             color: Colors.white
+                //                                                         ),
+                //                                                       ),
+                //                                                     ),
+                //                                                   ),
+                //                                                 ),
+                //
+                //                                               if(item.debt.toString() != '0.0' && double.parse(item.total.toString()) > double.parse(item.debt.toString()))
+                //                                                 Padding(
+                //                                                   padding: const EdgeInsets.only(left: 0.0),
+                //                                                   child: Container(
+                //                                                     height: 21,
+                //                                                     decoration: BoxDecoration(
+                //                                                       borderRadius: BorderRadius.circular(20.0),
+                //                                                       color: AppTheme.badgeFgDangerLight,
+                //                                                     ),
+                //                                                     child: Padding(
+                //                                                       padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
+                //                                                       child: Text(widget.isEnglish? 'Partially paid': 'တချို့တဝက် ရှင်းပြီး',
+                //                                                         textScaleFactor: 1, strutStyle: StrutStyle(
+                //                                                           height: 1.25,
+                //                                                           // fontSize:,
+                //                                                           forceStrutHeight: true,
+                //                                                         ),
+                //                                                         style: TextStyle(
+                //                                                             fontSize: widget.isEnglish? 13: 12,
+                //                                                             fontWeight: FontWeight.w500,
+                //                                                             color: AppTheme.badgeFgDanger
+                //                                                         ),
+                //                                                       ),
+                //                                                     ),
+                //                                                   ),
+                //                                                 ),
+                //                                               if(item.debt.toString() != '0.0'  && double.parse(item.total.toString()) == double.parse(item.debt.toString()))
+                //                                                 Padding(
+                //                                                   padding: const EdgeInsets.only(left: 0.0),
+                //                                                   child: Container(
+                //                                                     height: 21,
+                //                                                     decoration: BoxDecoration(
+                //                                                       borderRadius: BorderRadius.circular(20.0),
+                //                                                       color: AppTheme.badgeFgDanger,
+                //                                                     ),
+                //                                                     child: Padding(
+                //                                                       padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
+                //                                                       child: Text(widget.isEnglish? 'Unpaid': 'မရှင်းသေး',
+                //                                                         textScaleFactor: 1, strutStyle: StrutStyle(
+                //                                                           height: 1.25,
+                //                                                           // fontSize:,
+                //                                                           forceStrutHeight: true,
+                //                                                         ),
+                //                                                         style: TextStyle(
+                //                                                             fontSize: widget.isEnglish? 13: 12,
+                //                                                             fontWeight: FontWeight.w500,
+                //                                                             color: Colors.white
+                //                                                         ),
+                //                                                       ),
+                //                                                     ),
+                //                                                   ),
+                //                                                 ),
+                //                                               if(item.refund.toString() == 'T')
+                //                                                 Padding(
+                //                                                   padding: const EdgeInsets.only(left: 6.0),
+                //                                                   child: Container(
+                //                                                     height: 21,
+                //                                                     decoration: BoxDecoration(
+                //                                                       borderRadius: BorderRadius.circular(20.0),
+                //                                                       color: AppTheme.badgeBgSecond,
+                //                                                     ),
+                //                                                     child: Padding(
+                //                                                       padding: const EdgeInsets.only(top: 0, left: 12.0, right: 12.0),
+                //                                                       child: Text(widget.isEnglish? 'Refunded': 'ပြန်ပေး',
+                //                                                         textScaleFactor: 1, strutStyle: StrutStyle(
+                //                                                           height: 1.25,
+                //                                                           // fontSize:,
+                //                                                           forceStrutHeight: true,
+                //                                                         ),
+                //                                                         style: TextStyle(
+                //                                                             fontSize: widget.isEnglish? 13: 12,
+                //                                                             fontWeight: FontWeight.w500,
+                //                                                             color: Colors.white
+                //                                                         ),
+                //                                                       ),
+                //                                                     ),
+                //                                                   ),
+                //                                                 ),
+                //
+                //                                               if(item.refund.toString() == 'P')
+                //                                                 Padding(
+                //                                                   padding: const EdgeInsets.only(left: 6.0),
+                //                                                   child: Container(
+                //                                                     height: 21,
+                //                                                     decoration: BoxDecoration(
+                //                                                       borderRadius: BorderRadius.circular(20.0),
+                //                                                       color: AppTheme.badgeBgSecondLight,
+                //                                                     ),
+                //                                                     child: Padding(
+                //                                                       padding: const EdgeInsets.only(top: 0.0, left: 12.0, right: 12.0),
+                //                                                       child: Text(widget.isEnglish? 'Partially refunded': 'တချို့တဝက် ပြန်ပေး',
+                //                                                         textScaleFactor: 1, strutStyle: StrutStyle(
+                //                                                           height: 1.25,
+                //                                                           // fontSize:,
+                //                                                           forceStrutHeight: true,
+                //                                                         ),
+                //                                                         style: TextStyle(
+                //                                                             fontSize: widget.isEnglish? 13: 12,
+                //                                                             fontWeight: FontWeight.w500,
+                //                                                             color: AppTheme.badgeBgSecond
+                //                                                         ),
+                //                                                       ),
+                //                                                     ),
+                //                                                   ),
+                //                                                 ),
+                //                                             ],
+                //                                           )
+                //                                         ],
+                //                                       ),
+                //                                     ),
+                //                                   ),
+                //                                 ),
+                //                                 Padding(
+                //                                   padding: const EdgeInsets.only(right: 15.0, bottom: 5),
+                //                                   child: Align(
+                //                                     alignment: Alignment.centerRight,
+                //                                     child: Row(
+                //                                       mainAxisAlignment: MainAxisAlignment.end,
+                //                                       children: [
+                //                                         // Text('$currencyUnit ' + double.parse(item.split('^')[2]).toStringAsFixed(2), style: TextStyle(
+                //                                         //   fontSize: 15,fontWeight: FontWeight.w500,
+                //                                         // )),
+                //                                         SizedBox(width: 10),
+                //                                         Padding(
+                //                                           padding: const EdgeInsets.only(bottom: 2.0),
+                //                                           child: Icon(
+                //                                             Icons
+                //                                                 .arrow_forward_ios_rounded,
+                //                                             size: 16,
+                //                                             color: Colors
+                //                                                 .blueGrey
+                //                                                 .withOpacity(
+                //                                                 0.8),
+                //                                           ),
+                //                                         ),
+                //                                       ],
+                //                                     ),
+                //                                   ),
+                //                                 )
+                //                               ],
+                //                             ),
+                //                           );
+                //
+                //                           // return Container(
+                //                           //   child: Text(item)
+                //                           // );
+                //                         },
+                //                       ),
+                //                     ),
+                //                     bottomBox()
+                //                   ],
+                //                 );
+                //               }
+                //               noFind = true;
+                //               return Align(
+                //                 alignment: Alignment.topCenter,
+                //                 child: Column(
+                //                   children: [
+                //                     headerAppBar(),
+                //                     Expanded(
+                //                       child: Container(
+                //                         // color: AppTheme.lightBgColor,
+                //                         color: Colors.white,
+                //                         child: Center(child: Text('No data found for selected month', textScaleFactor: 1, style: TextStyle(fontSize: 15),)),
+                //                       ),
+                //                     )
+                //                   ],
+                //                 ),
+                //               );
+                //             }
+                //         ),
+                //       ),
+                //     ),
+                //   ),
                 // if(searchOpeningR)
                 //   Container(
                 //     height: MediaQuery.of(context).size.height,
@@ -1201,7 +1204,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                 //       //                 ),
                 //       //                 Padding(
                 //       //                   padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                //       //                   child: FlatButton(
+                //       //                   child: CustomFlatButton(
                 //       //                     minWidth: 0,
                 //       //                     padding: EdgeInsets.only(left: 12, right: 12),
                 //       //                     color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
@@ -1231,7 +1234,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                 //       //                 ),
                 //       //                 Padding(
                 //       //                   padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                //       //                   child: FlatButton(
+                //       //                   child: CustomFlatButton(
                 //       //                     minWidth: 0,
                 //       //                     padding: EdgeInsets.only(left: 12, right: 12),
                 //       //                     color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
@@ -1262,7 +1265,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                 //       //                 ),
                 //       //                 Padding(
                 //       //                   padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                //       //                   child: FlatButton(
+                //       //                   child: CustomFlatButton(
                 //       //                     minWidth: 0,
                 //       //                     padding: EdgeInsets.only(left: 12, right: 12),
                 //       //                     color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.white,
@@ -1292,7 +1295,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                 //       //                 ),
                 //       //                 // Padding(
                 //       //                 //   padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                //       //                 //   child: FlatButton(
+                //       //                 //   child: CustomFlatButton(
                 //       //                 //     minWidth: 0,
                 //       //                 //     padding: EdgeInsets.only(left: 12, right: 12),
                 //       //                 //     color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,
@@ -1354,7 +1357,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                 //               children: [
                 //                 Row(
                 //                   children: [
-                //                     FlatButton(
+                //                     CustomFlatButton(
                 //                       padding: EdgeInsets.only(left: 10, right: 10),
                 //                       color: AppTheme.secButtonColor,
                 //                       shape: RoundedRectangleBorder(
@@ -1408,7 +1411,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                 //                       ),
                 //                       Padding(
                 //                         padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                //                         child: FlatButton(
+                //                         child: CustomFlatButton(
                 //                           minWidth: 0,
                 //                           padding: EdgeInsets.only(left: 12, right: 12),
                 //                           color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
@@ -1438,7 +1441,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                 //                       ),
                 //                       Padding(
                 //                         padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                //                         child: FlatButton(
+                //                         child: CustomFlatButton(
                 //                           minWidth: 0,
                 //                           padding: EdgeInsets.only(left: 12, right: 12),
                 //                           color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
@@ -1468,7 +1471,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                 //                       ),
                 //                       Padding(
                 //                         padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                //                         child: FlatButton(
+                //                         child: CustomFlatButton(
                 //                           minWidth: 0,
                 //                           padding: EdgeInsets.only(left: 12, right: 12),
                 //                           color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.white,
@@ -1498,7 +1501,7 @@ class OrdersFragmentState extends State<OrdersFragment>
                 //                       ),
                 //                       Padding(
                 //                         padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                //                         child: FlatButton(
+                //                         child: CustomFlatButton(
                 //                           minWidth: 0,
                 //                           padding: EdgeInsets.only(left: 12, right: 12),
                 //                           color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,
@@ -1939,8 +1942,9 @@ class OrdersFragmentState extends State<OrdersFragment>
   Widget _buildHeader(BuildContext context, int sectionIndex, int index) {
     ExampleSection section = sectionList3[sectionIndex];
 
-    SaleOrder item = sectionList3[sectionIndex].items[index];
-    // debugPrint('section check '+ sectionList3[sectionIndex].items.length.toString());
+    SaleOrder item = sectionList3[sectionIndex].items[0];
+    debugPrint('section checking now '+ sectionList3[sectionIndex].items.length.toString());
+
     if(sectionList3[sectionIndex].items.length == 0) {
       return Container();
     }
@@ -1966,9 +1970,9 @@ class OrdersFragmentState extends State<OrdersFragment>
                   child: Row(
                     children: [
                       Text(
-                        // "TODAY",
+                        item.date.toString(),
                         // checkTest(section.header),
-                        covertToDayNum(item.date.day.toString()) + ' ' + convertToDate(item.date.month.toString()),
+                        // item.date == null? '': (covertToDayNum(item.date.day.toString()) + ' ' + convertToDate(item.date.month.toString())),
                         // covertToDayNum(section.header.substring(6,8)) + ' ' + convertToDate(section.header.toUpperCase()),
                         textScaleFactor: 1, style: TextStyle(
                           height: 0.8,
@@ -2396,7 +2400,7 @@ class OrdersFragmentState extends State<OrdersFragment>
           children: [
             Row(
               children: [
-                FlatButton(
+                CustomFlatButton(
                   padding: EdgeInsets.only(left: 10, right: 10),
                   color: AppTheme.secButtonColor,
                   shape: RoundedRectangleBorder(
@@ -2451,8 +2455,8 @@ class OrdersFragmentState extends State<OrdersFragment>
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                    child: FlatButton(
-                      minWidth: 0,
+                    child: CustomFlatButton(
+                      // minWidth: 0,
                       padding: EdgeInsets.only(left: 12, right: 12),
                       color: cateScIndex == 0 ? AppTheme.secButtonColor:Colors.white,
                       shape: RoundedRectangleBorder(
@@ -2487,8 +2491,8 @@ class OrdersFragmentState extends State<OrdersFragment>
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                    child: FlatButton(
-                      minWidth: 0,
+                    child: CustomFlatButton(
+                      // minWidth: 0,
                       padding: EdgeInsets.only(left: 12, right: 12),
                       color: cateScIndex == 1 ? AppTheme.secButtonColor:Colors.white,
                       shape: RoundedRectangleBorder(
@@ -2521,8 +2525,8 @@ class OrdersFragmentState extends State<OrdersFragment>
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 4.0, right: 6.0),
-                    child: FlatButton(
-                      minWidth: 0,
+                    child: CustomFlatButton(
+                      // minWidth: 0,
                       padding: EdgeInsets.only(left: 12, right: 12),
                       color: cateScIndex == 2 ? AppTheme.secButtonColor:Colors.white,
                       shape: RoundedRectangleBorder(
@@ -2555,8 +2559,8 @@ class OrdersFragmentState extends State<OrdersFragment>
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                    child: FlatButton(
-                      minWidth: 0,
+                    child: CustomFlatButton(
+                      // minWidth: 0,
                       padding: EdgeInsets.only(left: 12, right: 12),
                       color: cateScIndex == 3 ? AppTheme.secButtonColor:Colors.white,
                       shape: RoundedRectangleBorder(
